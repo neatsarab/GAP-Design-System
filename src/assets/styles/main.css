@@ -1,0 +1,186 @@
+/* ── Google Fonts: Sarabun ── */
+@import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap');
+
+/* ── Global Font: Sarabun ── */
+*,
+*::before,
+*::after {
+  font-family: 'Sarabun', sans-serif !important;
+}
+
+.v-application,
+.v-application * {
+  font-family: 'Sarabun', sans-serif !important;
+}
+
+/* ── Smooth transitions ── */
+.v-card,
+.v-btn,
+.v-chip,
+.v-list-item {
+  transition: all 0.18s ease !important;
+}
+
+/* ── Vuexy-style card shadow (no border) ── */
+.v-card {
+  box-shadow: 0 2px 6px 0 rgba(67, 89, 113, 0.12) !important;
+  border: none !important;
+}
+
+.v-theme--gapDark .v-card {
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.4) !important;
+}
+
+/* ── App Bar backdrop blur (Vuexy frosted glass) ── */
+.v-app-bar {
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+}
+
+/* ── Navigation drawer ── */
+.v-navigation-drawer .v-list-item--active {
+  font-weight: 600 !important;
+}
+
+/* ── Sidebar white theme ── */
+.v-navigation-drawer .v-list-item--active .v-list-item-title {
+  font-weight: 600 !important;
+  color: #357E4E !important;
+}
+
+/* ── Sidebar category label ── */
+.sidebar-group-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.55;
+  padding: 12px 12px 4px;
+  line-height: 1;
+}
+
+/* ── Table ── */
+.v-data-table .v-data-table__th {
+  font-weight: 600 !important;
+  font-size: 0.72rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.06em !important;
+  color: rgba(var(--v-theme-on-surface), 0.55) !important;
+  white-space: nowrap !important;
+}
+
+.v-data-table tbody tr:hover td {
+  background: rgba(var(--v-theme-primary), 0.04) !important;
+}
+
+.v-table tbody tr:hover td {
+  background: rgba(var(--v-theme-on-surface), 0.07) !important;
+}
+
+/* ── Expansion panel title hover ── */
+.v-expansion-panel-title:hover > .v-expansion-panel-title__overlay {
+  opacity: 0.10 !important;
+}
+
+/* ── Switch track: เพิ่มความชัดตอน OFF ── */
+.v-switch .v-switch__track {
+  opacity: 1 !important;
+}
+
+/* ── Radio / Checkbox / Switch: ตอนยังไม่ถูกเลือก / OFF ── */
+/* v-radio: single root element — selector ตรงได้เลย */
+.v-radio:not(.v-selection-control--dirty) .v-icon {
+  opacity: 0.28 !important;
+}
+/* v-checkbox: outer = v-input, inner = v-selection-control */
+.v-checkbox .v-selection-control:not(.v-selection-control--dirty) .v-icon {
+  opacity: 0.28 !important;
+}
+.v-checkbox .v-selection-control.v-selection-control--dirty .v-icon {
+  opacity: 1 !important;
+}
+
+.v-switch .v-selection-control:not(.v-selection-control--dirty) .v-switch__track {
+  opacity: 0.45 !important;
+}
+.v-switch .v-selection-control:not(.v-selection-control--dirty) .v-switch__thumb {
+  opacity: 0.75 !important;
+}
+.v-switch .v-selection-control.v-selection-control--dirty .v-switch__track,
+.v-switch .v-selection-control.v-selection-control--dirty .v-switch__thumb {
+  opacity: 1 !important;
+}
+
+/* ── Chip pill shape ── */
+.v-chip {
+  font-weight: 500 !important;
+}
+
+/* ── Stat card icon box ── */
+.stat-icon-box {
+  width: 46px;
+  height: 46px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* ── Page header ── */
+.page-header {
+  margin-bottom: 1.5rem;
+}
+
+/* ── Input field icons — ปรับขนาดให้สมส่วนกับ font 16px ── */
+.v-field__prepend-inner .v-icon,
+.v-field__append-inner .v-icon {
+  font-size: 18px !important;
+}
+
+/* ── Input field outline: อ่อนลงเมื่อ inactive ── */
+/* Vuetify default border-opacity = 0.38 → ปรับให้อ่อนลง */
+.v-field--variant-outlined .v-field__outline {
+  --v-field-border-opacity: 0.18;
+  transition: opacity 0.2s ease;
+}
+
+/* Focus: คืนความชัดเต็ม */
+.v-field--variant-outlined.v-field--focused .v-field__outline {
+  --v-field-border-opacity: 1;
+}
+
+/* Hover: outline เข้มขึ้นเล็กน้อย */
+.v-field--variant-outlined:not(.v-field--focused):hover .v-field__outline {
+  --v-field-border-opacity: 0.35;
+}
+
+/* Error state: คงความชัดเต็ม */
+.v-field--variant-outlined.v-field--error .v-field__outline {
+  --v-field-border-opacity: 1 !important;
+}
+
+/* Disabled state: จางมาก */
+.v-field--variant-outlined.v-field--disabled .v-field__outline {
+  --v-field-border-opacity: 0.1;
+}
+
+/* ── Field label above input ── */
+.field-label {
+  display: block;
+  font-size: 1rem;       /* 16px per Figma */
+  font-weight: 400;
+  line-height: 1.5;
+  color: #616161;
+  margin-bottom: 6px;
+}
+.field-label .req {
+  color: #FF5252;
+  margin-left: 2px;
+}
+
+/* ── Scrollbar thin ── */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(var(--v-theme-primary), 0.3); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(var(--v-theme-primary), 0.55); }
