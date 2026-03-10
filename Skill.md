@@ -1,6 +1,28 @@
 # ระบบรับรองแหล่งผลิต GAP พืช (Web Application)
 
-## Tech Stack & Architecture
+## สารบัญ (Table of Contents)
+
+1. [Tech Stack & Architecture](#1-tech-stack--architecture)
+2. [โครงสร้างโปรเจกต์ (Project Structure)](#2-โครงสร้างโปรเจกต์-project-structure)
+3. [Roles & Permissions](#3-roles--permissions)
+4. [Authentication — SSO Flow](#4-authentication--sso-flow)
+5. [Router Configuration](#5-router-configuration)
+6. [Portal Page — หน้าเมนูระบบกลาพร้ง](#6-portal-page--หน้าเมนูระบบกลาง)
+7. [Application Step Form (v-stepper)](#7-application-step-form-v-stepper)
+8. [Dashboard](#8-dashboard)
+9. [Application State Flow](#9-application-state-flow)
+10. [Inspection Module](#10-inspection-module)
+11. [Certificate Module](#11-certificate-module)
+12. [Application Store (Pinia)](#12-application-store-pinia)
+13. [Sidebar Navigation](#13-sidebar-navigation)
+14. [Vuetify Theme Configuration](#14-vuetify-theme-configuration)
+15. [API Endpoints Summary](#15-api-endpoints-summary)
+16. [Environment Variables](#16-environment-variables)
+17. [Deployment & DevOps Notes](#17-deployment--devops-notes)
+
+---
+
+## 1. Tech Stack & Architecture
 
 |Layer             |Technology                                |
 |------------------|------------------------------------------|
@@ -169,30 +191,30 @@ export function usePermission() {
 ## 3. Authentication — SSO Flow
 
 ### 3.1 Flow Diagram
-
-```
-┌──────────┐   1. Click Login    ┌──────────────┐
-│  Login   │ ──────────────────► │  SSO Server  │
-│  Page    │                     │ (OAuth 2.0)  │
-└──────────┘                     └──────┬───────┘
-                                        │ 2. User authenticates
-                                        ▼
-┌──────────────────┐  3. Redirect   ┌──────────────┐
-│ SsoCallbackPage  │ ◄──────────── │  SSO Server  │
-│ /auth/callback   │   ?code=xxx   └──────────────┘
-└────────┬─────────┘
-         │ 4. Exchange code → access_token
-         ▼
-┌──────────────────┐  5. Fetch user profile + role
-│   auth.store     │ ──► API /auth/me
-│   setSession()   │
-└────────┬─────────┘
-         │ 6. Redirect to Dashboard
-         ▼
-┌──────────────────┐
-│  DashboardPage   │
-└──────────────────┘
-```
+┌─────────────────────────────────────────────────┐
+│                 Landing / Login Page             │
+│   [เข้าสู่ระบบด้วย SSO]   [สมัครสมาชิก]           │
+└────────────┬────────────────────┬───────────────┘
+             │                    │
+      Login  │                    │ Register
+             ▼                    ▼
+   ┌──────────────────┐  ┌─────────────────────┐
+   │   SSO Login Flow │  │  SSO Register Flow  │
+   │ (OAuth 2.0 Code) │  │ (ลงทะเบียนผู้ใช้ใหม่) │
+   └────────┬─────────┘  └──────────┬──────────┘
+            │                       │
+            │  access_token         │  access_token
+            ▼                       ▼
+   ┌──────────────────────────────────────────┐
+   │           /auth/callback                 │
+   │  Exchange code → token → fetch profile  │
+   └────────────────────┬─────────────────────┘
+                        │
+                        ▼
+   ┌──────────────────────────────────────────┐
+   │         Portal Page  (/portal)           │
+   │  แสดงเมนูระบบตามสิทธิ์ (Role-based)        │
+   └──────────────────────────────────────────┘
 
 ### 3.2 Auth Store (Pinia)
 
@@ -416,9 +438,362 @@ export default router
 
 -----
 
-## 5. Application Step Form (v-stepper)
+## 5. Portal Page — หน้าเมนูระบบกลางgi
 
-### 5.1 หน้า Step Form หลัก
+### 5.1 ภาพรวม Portal
+
+หลังจาก Login สำเร็จ ผู้ใช้จะถูก redirect มาที่หน้า Portal (/portal) ซึ่งทำหน้าที่เป็น Single Entry Point สำหรับทุกระบบภายใต้กรมวิชาการเกษตร โดยแสดงเฉพาะระบบที่ผู้ใช้มีสิทธิ์เข้าถึงตาม Role ที่ได้รับ
+
+Portal Layout:
+┌──────────────────────จัด───────────────────────────────────────────┐
+│  🌿 ระบบรับรองมาตรฐานพืช (Header)              [User] [Logout]  │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│   ยินดีต้อนรับ, [ชื่อผู้ใช้]  |  บทบาท: [Role]                   │
+│                                                                  │
+│  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐        │
+│  │  GAP     │  │  DOA     │  │ จดทะเบียน│  │  Health  │        │
+│  │ Cert.   │  │ Factory  │  │ ส่งออก   │  │ Cert. 1  │        │
+│  └──────────┘  └──────────┘  └──────────┘  └──────────┘        │
+│                                                                  │
+│  ┌──────────┐  ┌──────────┐  ┌──────────┐                       │
+│  │  Health  │  │   EL     │  │  Admin   │                       │
+│  │ Cert. 2  │  │ System   │  │ Backend  │                       │
+│  └──────────┘  └──────────┘  └──────────┘                       │
+│                                                                  │
+└─────────────────────────────────────────────────────────────────┘
+
+### 5.2 System Registry — นิยามระบบทั้งหมด
+
+// utils/portal-systems.ts
+export interface PortalSystem {
+  id: string
+  title: string
+  titleEn: string
+  description: string
+  icon: string
+  color: string
+  routeName: string         // ชื่อ route หรือ external URL
+  external?: boolean        // true = เปิด tab ใหม่ (microservice อื่น)
+  externalUrl?: string
+  requiredRoles: string[]   // [] = ทุก role เข้าได้
+  badge?: string            // ข้อความ badge เช่น "ใหม่", "Beta"
+}
+
+export const PORTAL_SYSTEMS: PortalSystem[] = [
+  {
+    id: 'gap',
+    title: 'ระบบการรับรองมาตรฐาน GAP',
+    titleEn: 'GAP Certification System',
+    description: 'ยื่นคำขอรับรอง ตรวจประเมินแปลง และออกใบรับรองมาตรฐาน GAP พืช',
+    icon: 'mdi-leaf-circle',
+    color: 'success',
+    routeName: 'Dashboard',
+    requiredRoles: [], // ทุก role
+  },
+  {
+    id: 'doa-factory',
+    title: 'ระบบการขึ้นทะเบียนโรงงานผลิตสินค้าพืช DOA',
+    titleEn: 'DOA Factory & Certification Body Registration',
+    description: 'ขึ้นทะเบียนโรงงานผลิตสินค้าพืช DOA และหน่วยรับรองโรงงาน (Certification Body: CB)',
+    icon: 'mdi-factory',
+    color: 'primary',
+    routeName: 'DoaFactoryDashboard',
+    requiredRoles: ['FARMER', 'GROUP_ADMIN', 'OFFICER', 'ADMIN'],
+  },
+  {
+    id: 'export-register',
+    title: 'ระบบจดทะเบียนผู้ส่งออก',
+    titleEn: 'Exporter Registration System',
+    description: 'จดทะเบียนผู้ส่งออกสินค้าเกษตร และต่ออายุใบทะเบียน',
+    icon: 'mdi-truck-delivery',
+    color: 'orange',
+    routeName: 'ExporterDashboard',
+    requiredRoles: ['FARMER', 'GROUP_ADMIN', 'OFFICER', 'ADMIN'],
+  },
+  {
+    id: 'health-cert-controlled',
+    title: 'ระบบ Health Certificate',
+    titleEn: 'Health Certificate — Controlled Plants',
+    description: 'ออก Health Certificate ตามประกาศพืชควบคุมเฉพาะ',
+    icon: 'mdi-file-certificate',
+    color: 'teal',
+    routeName: 'HealthCertControlledDashboard',
+    requiredRoles: ['FARMER', 'GROUP_ADMIN', 'OFFICER', 'ADMIN'],
+    badge: 'พืชควบคุม',
+  },
+  {
+    id: 'health-cert-processed',
+    title: 'ระบบ Health Certificate สินค้าเกษตรแปรรูปด้านพืช',
+    titleEn: 'Health Certificate — Processed Agricultural Products',
+    description: 'ออก Health Certificate สำหรับสินค้าเกษตรแปรรูปด้านพืช',
+    icon: 'mdi-file-certificate-outline',
+    color: 'cyan',
+    routeName: 'HealthCertProcessedDashboard',
+    requiredRoles: ['FARMER', 'GROUP_ADMIN', 'OFFICER', 'ADMIN'],
+    badge: 'สินค้าแปรรูป',
+  },
+  {
+    id: 'establishment-list',
+    title: 'ระบบการควบคุมพิเศษ Establishment List (EL)',
+    titleEn: 'Establishment List Management System',
+    description: 'บริหารจัดการบัญชีรายชื่อโรงคัดบรรจุสินค้าเกษตรเพื่อการส่งออก',
+    icon: 'mdi-format-list-checks',
+    color: 'indigo',
+    routeName: 'EstablishmentListDashboard',
+    requiredRoles: ['OFFICER', 'INSPECTOR', 'ADMIN'],
+  },
+  {
+    id: 'admin-backend',
+    title: 'ระบบบริหารจัดการผู้ดูแลระบบ (Backend)',
+    titleEn: 'Admin & Open API Management',
+    description: 'บริหารจัดการผู้ใช้งาน สิทธิ์ระบบ และจัดการ Open API',
+    icon: 'mdi-shield-crown',
+    color: 'deep-purple',
+    routeName: 'AdminPortal',
+    requiredRoles: ['ADMIN'],
+    badge: 'Admin',
+  },
+]
+
+### 5.3 Portal Permission Composable
+
+// composables/usePortalPermission.ts
+import { computed } from 'vue'
+import { useAuthStore } from '@/stores/auth.store'
+import { PORTAL_SYSTEMS, type PortalSystem } from '@/utils/portal-systems'
+
+export function usePortalPermission() {
+  const auth = useAuthStore()
+
+  const accessibleSystems = computed<PortalSystem[]>(() =>
+    PORTAL_SYSTEMS.filter(sys => {
+      if (sys.requiredRoles.length === 0) return true
+      return sys.requiredRoles.includes(auth.user?.role ?? '')
+    })
+  )
+
+  const hasAccessTo = (systemId: string) =>
+    accessibleSystems.value.some(s => s.id === systemId)
+
+  return { accessibleSystems, hasAccessTo }
+}
+
+### 5.4 Portal Page Component
+
+<!-- views/portal/PortalPage.vue -->
+<template>
+  <v-app :theme="'gapTheme'">
+
+    <!-- App Bar -->
+    <v-app-bar flat color="primary" elevation="2">
+      <v-app-bar-title>
+        <div class="d-flex align-center">
+          <v-icon size="28" color="white" class="mr-2">mdi-leaf</v-icon>
+          <span class="text-white font-weight-bold">ระบบรับรองมาตรฐานพืช</span>
+          <span class="text-white text-caption ml-2 opacity-70">กรมวิชาการเกษตร</span>
+        </div>
+      </v-app-bar-title>
+      <template v-slot:append>
+        <AppNotificationBell />
+        <v-menu>
+          <template v-slot:activator="{ props }">
+            <v-btn v-bind="props" variant="text" class="text-white ml-1">
+              <v-avatar color="white" size="32" class="mr-2">
+                <span class="text-primary font-weight-bold text-body-2">
+                  {{ auth.user?.fullName?.charAt(0) }}
+                </span>
+              </v-avatar>
+              {{ auth.user?.fullName }}
+              <v-icon end>mdi-chevron-down</v-icon>
+            </v-btn>
+          </template>
+          <v-list min-width="220">
+            <v-list-item
+              prepend-icon="mdi-account-circle"
+              :title="auth.user?.fullName"
+              :subtitle="roleLabel"
+            />
+            <v-divider />
+            <v-list-item
+              prepend-icon="mdi-account-edit"
+              title="แก้ไขโปรไฟล์"
+              @click="router.push({ name: 'UserProfile' })"
+            />
+            <v-list-item
+              prepend-icon="mdi-logout"
+              title="ออกจากระบบ"
+              @click="auth.logout()"
+              base-color="error"
+            />
+          </v-list>
+        </v-menu>
+      </template>
+    </v-app-bar>
+
+    <v-main class="portal-bg">
+      <v-container class="py-8" max-width="1200">
+
+        <!-- Welcome Banner -->
+        <v-card color="primary" variant="tonal" class="mb-8" rounded="xl">
+          <v-card-text class="d-flex align-center pa-6">
+            <div>
+              <h2 class="text-h5 font-weight-bold">
+                ยินดีต้อนรับ, {{ auth.user?.fullName }} 👋
+              </h2>
+              <p class="text-body-2 mt-1 text-medium-emphasis">
+                บทบาท: <v-chip size="small" color="primary" class="ml-1">{{ roleLabel }}</v-chip>
+                &nbsp;|&nbsp; สิทธิ์เข้าถึง {{ accessibleSystems.length }} ระบบ
+              </p>
+            </div>
+            <v-spacer />
+            <v-icon size="80" color="primary" class="opacity-20">mdi-leaf-circle</v-icon>
+          </v-card-text>
+        </v-card>
+
+        <!-- Systems Grid -->
+        <h2 class="text-h6 font-weight-bold mb-4">
+          <v-icon start color="primary">mdi-apps</v-icon>
+          ระบบที่คุณสามารถเข้าใช้งาน
+        </h2>
+
+        <v-row>
+          <v-col
+            v-for="system in accessibleSystems"
+            :key="system.id"
+            cols="12" sm="6" md="4" lg="3"
+          >
+            <v-card
+              rounded="xl"
+              elevation="2"
+              class="system-card h-100"
+              hover
+              @click="navigateTo(system)"
+            >
+              <v-card-text class="pa-6">
+                <!-- Badge -->
+                <div class="d-flex justify-space-between align-start mb-4">
+                  <v-avatar :color="system.color" size="56" rounded="lg">
+                    <v-icon size="30" color="white">{{ system.icon }}</v-icon>
+                  </v-avatar>
+                  <v-chip
+                    v-if="system.badge"
+                    :color="system.color"
+                    size="x-small"
+                    label
+                  >
+                    {{ system.badge }}
+                  </v-chip>
+                </div>
+
+                <!-- Title -->
+                <h3 class="text-subtitle-1 font-weight-bold mb-2 system-title">
+                  {{ system.title }}
+                </h3>
+                <p class="text-caption text-medium-emphasis">
+                  {{ system.description }}
+                </p>
+              </v-card-text>
+
+              <v-card-actions class="pa-4 pt-0">
+                <v-btn
+                  :color="system.color"
+                  variant="tonal"
+                  size="small"
+                  rounded="lg"
+                  block
+                >
+                  <v-icon start size="16">mdi-arrow-right-circle</v-icon>
+                  เข้าใช้งาน
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-col>
+        </v-row>
+
+        <!-- No access message -->
+        <v-card
+          v-if="accessibleSystems.length === 0"
+          variant="outlined"
+          rounded="xl"
+          class="mt-4"
+        >
+          <v-card-text class="text-center pa-12">
+            <v-icon size="64" color="grey-lighten-1">mdi-lock-outline</v-icon>
+            <p class="text-h6 mt-4 text-medium-emphasis">ยังไม่มีสิทธิ์เข้าใช้งานระบบ</p>
+            <p class="text-body-2 text-medium-emphasis">กรุณาติดต่อผู้ดูแลระบบเพื่อขอสิทธิ์</p>
+          </v-card-text>
+        </v-card>
+
+      </v-container>
+    </v-main>
+  </v-app>
+</template>
+
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/auth.store'
+import { usePortalPermission } from '@/composables/usePortalPermission'
+import { type PortalSystem } from '@/utils/portal-systems'
+import AppNotificationBell from '@/components/common/AppNotificationBell.vue'
+
+const auth = useAuthStore()
+const router = useRouter()
+const { accessibleSystems } = usePortalPermission()
+
+const roleLabels: Record<string, string> = {
+  FARMER:      'เกษตรกร',
+  GROUP_ADMIN: 'หัวหน้ากลุ่มเกษตรกร',
+  OFFICER:     'เจ้าหน้าที่',
+  INSPECTOR:   'ผู้ตรวจประเมิน',
+  ADMIN:       'ผู้ดูแลระบบ',
+}
+
+const roleLabel = computed(() => roleLabels[auth.user?.role ?? ''] ?? auth.user?.role)
+
+function navigateTo(system: PortalSystem) {
+  if (system.external && system.externalUrl) {
+    window.open(system.externalUrl, '_blank')
+  } else {
+    router.push({ name: system.routeName })
+  }
+}
+</script>
+
+<style scoped>
+.portal-bg {
+  background: linear-gradient(160deg, #F1F8E9 0%, #E8F5E9 40%, #E0F7FA 100%);
+  min-height: 100vh;
+}
+
+.system-card {
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.system-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12) !important;
+}
+
+.system-title {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-height: 1.4;
+  min-height: 2.8em;
+}
+</style>
+
+```
+
+-----
+
+
+## 6. Application Step Form (v-stepper)
+
+### 6.1 หน้า Step Form หลัก
 
 ```vue
 <!-- views/application/ApplicationFormPage.vue -->
@@ -568,7 +943,7 @@ async function submitApplication() {
 </script>
 ```
 
-### 5.2 Step 1 — ข้อมูลผู้ขอ (ตัวอย่าง Component)
+### 6.2 Step 1 — ข้อมูลผู้ขอ (ตัวอย่าง Component)
 
 ```vue
 <!-- components/application/StepApplicantInfo.vue -->
@@ -637,7 +1012,7 @@ defineExpose({ validate })
 </script>
 ```
 
-### 5.3 Step 2 — แปลงปลูก (Dynamic Plot List)
+### 6.3 Step 2 — แปลงปลูก (Dynamic Plot List)
 
 ```vue
 <!-- components/application/StepPlotInfo.vue -->
@@ -740,9 +1115,9 @@ defineExpose({ validate })
 
 -----
 
-## 6. Dashboard
+## 7. Dashboard
 
-### 6.1 Dashboard Layout
+### 7.1 Dashboard Layout
 
 ```vue
 <!-- views/dashboard/DashboardPage.vue -->
@@ -850,7 +1225,7 @@ const tableHeaders = [
 </script>
 ```
 
-### 6.2 Status Chip Component
+### 7.2 Status Chip Component
 
 ```vue
 <!-- components/common/AppStatusChip.vue -->
@@ -888,7 +1263,7 @@ const statusLabel = computed(() => current.value.label)
 
 -----
 
-## 7. Application State Flow
+## 8. Application State Flow
 
 ```
                     ┌────────┐
@@ -933,9 +1308,9 @@ const statusLabel = computed(() => current.value.label)
 
 -----
 
-## 8. Inspection Module
+## 9. Inspection Module
 
-### 8.1 GAP Checklist Component
+### 9.1 GAP Checklist Component
 
 ```vue
 <!-- components/inspection/GapChecklist.vue -->
@@ -1012,7 +1387,7 @@ const checklist = defineModel<CheckCategory[]>({ required: true })
 </script>
 ```
 
-### 8.2 GAP Checklist Data (ตัวอย่าง)
+### 9.2 GAP Checklist Data (ตัวอย่าง)
 
 ```typescript
 // utils/gap-checklist-template.ts
@@ -1079,7 +1454,7 @@ export const GAP_CHECKLIST_TEMPLATE = [
 ]
 ```
 
-### 8.3 Photo Upload for Inspection
+### 9.3 Photo Upload for Inspection
 
 ```vue
 <!-- components/inspection/InspectionPhotoUpload.vue -->
@@ -1156,9 +1531,9 @@ function removePhoto(index: number) {
 
 -----
 
-## 9. Certificate Module
+## 10. Certificate Module
 
-### 9.1 Certificate List (v-data-table)
+### 10.1 Certificate List (v-data-table)
 
 ```vue
 <!-- views/certificate/CertificateListPage.vue -->
@@ -1260,7 +1635,7 @@ async function downloadPdf(id: string) {
 </script>
 ```
 
-### 9.2 Certificate PDF Generation
+### 10.2 Certificate PDF Generation
 
 ```typescript
 // utils/pdf-generator.ts
@@ -1336,7 +1711,7 @@ export function generateCertificatePdf(data: CertData): jsPDF {
 }
 ```
 
-### 9.3 Certificate Store
+### 10.3 Certificate Store
 
 ```typescript
 // stores/certificate.store.ts
@@ -1373,7 +1748,7 @@ export const useCertificateStore = defineStore('certificate', () => {
 
 -----
 
-## 10. Application Store (Pinia)
+## 11. Application Store (Pinia)
 
 ```typescript
 // stores/application.store.ts
@@ -1437,7 +1812,7 @@ export const useApplicationStore = defineStore('application', () => {
 
 -----
 
-## 11. Sidebar Navigation
+## 12. Sidebar Navigation
 
 ```vue
 <!-- layouts/DefaultLayout.vue (partial — navigation items) -->
@@ -1515,7 +1890,7 @@ const filteredMenuItems = computed(() =>
 
 -----
 
-## 12. Vuetify Theme Configuration
+## 13. Vuetify Theme Configuration
 
 ```typescript
 // plugins/vuetify.ts
@@ -1558,7 +1933,7 @@ export default createVuetify({
 
 -----
 
-## 13. API Endpoints Summary
+## 14. API Endpoints Summary
 
 |Method |Endpoint                  |Description                         |Roles                    |
 |-------|--------------------------|------------------------------------|-------------------------|
@@ -1585,7 +1960,7 @@ export default createVuetify({
 
 -----
 
-## 14. Environment Variables
+## 15. Environment Variables
 
 ```env
 # .env
@@ -1598,7 +1973,7 @@ VITE_APP_TITLE=ระบบรับรองแหล่งผลิต GAP พ
 
 -----
 
-## 15. Deployment & DevOps Notes
+## 16. Deployment & DevOps Notes
 
 |Concern     |Recommendation                      |
 |------------|------------------------------------|

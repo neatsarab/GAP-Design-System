@@ -138,6 +138,11 @@
   font-size: 18px !important;
 }
 
+/* ── File input prepend icon (renders outside field in .v-input__prepend) ── */
+.v-file-input .v-input__prepend .v-icon {
+  font-size: 18px !important;
+}
+
 /* ── Input field outline: อ่อนลงเมื่อ inactive ── */
 /* Vuetify default border-opacity = 0.38 → ปรับให้อ่อนลง */
 .v-field--variant-outlined .v-field__outline {
