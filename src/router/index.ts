@@ -11,6 +11,22 @@ const router = createRouter({
       meta: { title: 'ระบบรับรองแหล่งผลิต GAP พืช' },
     },
 
+    // ── Login ─────────────────────────────────────────
+    {
+      path: '/login',
+      name: 'Login',
+      component: () => import('@/views/LoginPage.vue'),
+      meta: { title: 'เข้าสู่ระบบ' },
+    },
+
+    // ── Government Portal ─────────────────────────────
+    {
+      path: '/portal',
+      name: 'GovPortal',
+      component: () => import('@/views/GovPortalPage.vue'),
+      meta: { title: 'ระบบบริการออนไลน์ กรมวิชาการเกษตร' },
+    },
+
     // ── Design System ─────────────────────────────────
     {
       path: '/design-system',
@@ -69,12 +85,6 @@ const router = createRouter({
           name: 'ApplicationDetail',
           component: () => import('@/views/app/ApplicationDetailPage.vue'),
           meta: { title: 'รายละเอียดคำขอ' },
-        },
-        {
-          path: 'reports',
-          name: 'Reports',
-          component: () => import('@/views/app/ReportsPage.vue'),
-          meta: { title: 'รายงาน' },
         },
         {
           path: 'settings',

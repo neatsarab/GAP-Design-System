@@ -27,7 +27,7 @@
           <v-card
             class="portal-card h-100"
             hover
-            @click="router.push('/app/dashboard')"
+            @click="router.push('/login')"
           >
             <v-card-text class="pa-8 text-center d-flex flex-column align-center">
               <div class="portal-icon-box bg-primary mb-5">
@@ -42,7 +42,7 @@
                 <v-chip size="x-small" variant="tonal" color="info" prepend-icon="fas fa-clock">ติดตามสถานะ</v-chip>
                 <v-chip size="x-small" variant="tonal" color="success" prepend-icon="fas fa-certificate">ใบรับรอง</v-chip>
               </div>
-              <v-btn color="primary" variant="elevated" prepend-icon="fas fa-arrow-right" size="large" rounded="lg" block>
+              <v-btn color="primary" variant="elevated" prepend-icon="fas fa-right-to-bracket" size="large" rounded="lg" block>
                 เข้าสู่ระบบ
               </v-btn>
             </v-card-text>

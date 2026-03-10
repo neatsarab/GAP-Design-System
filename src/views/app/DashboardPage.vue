@@ -78,7 +78,7 @@
 
     <!-- Quick actions -->
     <v-row class="mt-2">
-      <v-col v-for="action in quickActions" :key="action.title" cols="12" sm="6" md="3">
+      <v-col v-for="action in quickActions" :key="action.title" cols="12" sm="6" md="4">
         <v-card hover class="quick-action-card" @click="router.push(action.to)">
           <v-card-text class="d-flex align-center ga-3 pa-4">
             <div class="action-icon-box" :style="`background:rgba(var(--v-theme-${action.color}),0.12)`">
@@ -144,7 +144,6 @@ const totalApps = computed(() => statusDistribution.reduce((s, i) => s + i.count
 const quickActions = [
   { title: 'ยื่นคำขอใหม่',   desc: 'สร้างคำขอรับรอง GAP',       icon: 'fas fa-file-pen',      color: 'primary',   to: '/app/applications/new' },
   { title: 'รายการคำขอ',     desc: 'ดูและจัดการคำขอทั้งหมด',    icon: 'fas fa-file-lines',    color: 'info',      to: '/app/applications' },
-  { title: 'รายงานสรุป',     desc: 'ดาวน์โหลดรายงานประจำเดือน', icon: 'fas fa-chart-bar',     color: 'success',   to: '/app/reports' },
   { title: 'ตั้งค่าระบบ',     desc: 'จัดการผู้ใช้และสิทธิ์',     icon: 'fas fa-gear',          color: 'secondary', to: '/app/settings' },
 ]
 </script>

@@ -35,7 +35,7 @@
             <v-icon icon="fas fa-user" size="16" color="white" />
           </v-avatar>
           <div class="flex-grow-1 overflow-hidden">
-            <div class="text-truncate text-body-2 font-weight-medium text-primary">Admin GAP</div>
+            <div class="text-truncate text-body-2 font-weight-medium text-primary">นิธิพร เทิบจันทึก</div>
             <div class="text-caption text-medium-emphasis">เลขทะเบียน : 19903004</div>
           </div>
           <v-icon icon="fas fa-chevron-down" size="12" color="primary" />

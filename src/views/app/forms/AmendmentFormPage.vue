@@ -50,11 +50,11 @@
                 <v-text-field v-model="form.certNo" placeholder="เช่น GAP-C-2567-0089"
                   prepend-inner-icon="fas fa-certificate" :rules="[rules.required]" hide-details="auto" />
               </v-col>
-              <v-col cols="12" sm="6">
+              <!-- <v-col cols="12" sm="6">
                 <div class="field-label">เลขที่คำขอเดิม <span class="req">*</span></div>
                 <v-text-field v-model="form.originalAppNo" placeholder="เช่น GAP-2567-001"
                   prepend-inner-icon="fas fa-file-lines" :rules="[rules.required]" hide-details="auto" />
-              </v-col>
+              </v-col> -->
 
               <v-col cols="12" class="mt-2">
                 <div class="field-label">ประเภทคำขอ <span class="req">*</span></div>
@@ -79,7 +79,7 @@
               </v-col>
 
               <!-- ข้อมูลผู้ยื่น -->
-              <v-col cols="12" class="mt-2"><v-divider /><div class="text-caption text-medium-emphasis mt-3 mb-2">ข้อมูลผู้ยื่นคำขอ</div></v-col>
+              <!-- <v-col cols="12" class="mt-2"><v-divider /><div class="text-caption text-medium-emphasis mt-3 mb-2">ข้อมูลผู้ยื่นคำขอ</div></v-col>
               <v-col cols="12" sm="2">
                 <div class="field-label">คำนำหน้า</div>
                 <v-select v-model="form.namePrefix" :items="['นาย','นาง','นางสาว']" hide-details="auto" />
@@ -102,7 +102,7 @@
                 <div class="field-label">เบอร์โทรศัพท์ <span class="req">*</span></div>
                 <v-text-field v-model="form.phone" prepend-inner-icon="fas fa-phone"
                   :rules="[rules.required, rules.phone]" hide-details="auto" />
-              </v-col>
+              </v-col> -->
             </v-row>
           </v-card-text>
         </v-card>
@@ -210,7 +210,7 @@
               <v-col cols="12" sm="6">
                 <v-list density="compact" lines="two">
                   <v-list-item subtitle="เลขที่ใบรับรองเดิม"><v-list-item-title class="text-primary font-weight-bold">{{ form.certNo || '-' }}</v-list-item-title></v-list-item>
-                  <v-list-item subtitle="เลขที่คำขอเดิม"><v-list-item-title>{{ form.originalAppNo || '-' }}</v-list-item-title></v-list-item>
+                  <!-- <v-list-item subtitle="เลขที่คำขอเดิม"><v-list-item-title>{{ form.originalAppNo || '-' }}</v-list-item-title></v-list-item> -->
                   <v-list-item subtitle="ประเภทคำขอ">
                     <v-list-item-title>
                       <v-chip size="small" :color="form.requestType === 'amend' ? 'warning' : 'error'" variant="tonal">

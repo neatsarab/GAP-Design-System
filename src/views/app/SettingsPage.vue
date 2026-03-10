@@ -16,7 +16,7 @@
             <v-avatar color="primary" size="72" class="mb-3">
               <v-icon icon="fas fa-user" size="36" color="white" />
             </v-avatar>
-            <div class="text-body-1 font-weight-bold">Admin GAP</div>
+            <div class="text-body-1 font-weight-bold">นิธิพร เทิบจันทึก</div>
             <div class="text-caption text-medium-emphasis mb-4">เลขทะเบียน : 19903004</div>
             <v-chip size="small" color="primary" variant="tonal" prepend-icon="fas fa-shield-halved">ผู้ดูแลระบบ</v-chip>
           </v-card-text>
@@ -42,11 +42,6 @@
               </template>
             </v-list-item>
             <v-divider />
-            <v-list-item prepend-icon="fas fa-language" title="ภาษา" subtitle="ภาษาของระบบ">
-              <template #append>
-                <v-chip size="small" color="primary" variant="tonal">ภาษาไทย</v-chip>
-              </template>
-            </v-list-item>
             <v-divider />
             <v-list-item prepend-icon="fas fa-shield-halved" title="ความปลอดภัย" subtitle="เปลี่ยนรหัสผ่าน / 2FA">
               <template #append>

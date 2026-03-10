@@ -45,12 +45,12 @@
               hide-details clearable
             />
           </v-col>
-          <v-col cols="auto" class="ml-auto">
+          <!-- <v-col cols="auto" class="ml-auto">
             <v-btn-toggle v-model="viewMode" color="primary" density="compact" rounded="lg" mandatory>
               <v-btn value="table" icon="fas fa-table-list" size="small" />
               <v-btn value="card"  icon="fas fa-grip"       size="small" />
             </v-btn-toggle>
-          </v-col>
+          </v-col> -->
         </v-row>
       </v-card-text>
     </v-card>

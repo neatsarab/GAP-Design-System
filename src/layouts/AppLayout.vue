@@ -25,7 +25,7 @@
             <v-icon icon="fas fa-user" size="16" color="white" />
           </v-avatar>
           <div class="flex-grow-1 overflow-hidden">
-            <div class="text-truncate text-body-2 font-weight-medium text-primary">Admin GAP</div>
+            <div class="text-truncate text-body-2 font-weight-medium text-primary">นิธิพร เทิบจันทึก</div>
             <div class="text-caption text-medium-emphasis">เลขทะเบียน : 19903004</div>
           </div>
         </div>
@@ -50,17 +50,10 @@
         </template>
       </v-list>
 
-      <!-- Bottom: Design System link -->
+      <!-- Bottom: Logout -->
       <template v-slot:append>
         <v-divider />
         <v-list density="compact" nav class="px-2 py-2">
-          <v-list-item
-            prepend-icon="fas fa-palette"
-            title="Design System"
-            to="/design-system"
-            active-color="secondary"
-            rounded="lg"
-          />
           <v-list-item
             prepend-icon="fas fa-right-from-bracket"
             title="ออกจากระบบ"
@@ -103,7 +96,7 @@
 
         <!-- User -->
         <v-chip variant="outlined" color="primary" class="user-chip mr-2" prepend-icon="fas fa-user">
-          Admin GAP
+          นิธิพร เทิบจันทึก
           <v-icon icon="fas fa-chevron-down" size="12" class="ml-1" />
         </v-chip>
       </div>
@@ -151,7 +144,6 @@ const navGroups = [
     label: 'ระบบ',
     divider: false,
     items: [
-      { title: 'รายงาน',       icon: 'fas fa-chart-bar',     to: '/app/reports' },
       { title: 'ตั้งค่า',       icon: 'fas fa-gear',          to: '/app/settings' },
     ],
   },
@@ -161,7 +153,6 @@ const routeTitleMap: Record<string, string> = {
   '/app/dashboard':          'แดชบอร์ด',
   '/app/applications':       'รายการคำขอ',
   '/app/applications/new':   'ยื่นคำขอใหม่',
-  '/app/reports':            'รายงาน',
   '/app/settings':           'ตั้งค่า',
 }
 

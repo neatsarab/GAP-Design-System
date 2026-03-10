@@ -52,7 +52,7 @@
           <div
             class="text-truncate font-weight-medium"
             :style="`font-size:14px;color:${isDark ? '#4CAF6E' : '#357E4E'}`"
-          >Admin GAP</div>
+          >นิธิพร เทิบจันทึก</div>
           <div :style="`font-size:11px;color:${isDark ? '#616161' : '#757575'}`">เลขทะเบียน : 19903004</div>
         </div>
         <v-icon icon="fas fa-chevron-down" size="12" color="primary" />
