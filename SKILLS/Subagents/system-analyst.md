@@ -42,7 +42,7 @@ DRAFT → SUBMITTED → DOC_REVIEW → INSPECTION_SCHEDULED → INSPECTING → A
 ```
 
 ### Role & Permission Matrix
-| Feature | Farmer | Group Admin | Officer | Inspector | Admin |
+| Feature | Farmer | Group Admin | staff | Inspector | Admin |
 |---------|:------:|:-----------:|:-------:|:---------:|:-----:|
 | ยื่นคำขอรายเดี่ยว | ✅ | ✅ | ❌ | ❌ | ❌ |
 | ยื่นคำขอรายกลุ่ม | ❌ | ✅ | ❌ | ❌ | ❌ |
@@ -64,13 +64,13 @@ DRAFT → SUBMITTED → DOC_REVIEW → INSPECTION_SCHEDULED → INSPECTING → A
 | `GET` | `/applications` | รายการคำขอ | All |
 | `POST` | `/applications` | สร้างคำขอใหม่ | Farmer, GroupAdmin |
 | `PUT` | `/applications/:id` | แก้ไขคำขอ | Farmer, GroupAdmin |
-| `PATCH` | `/applications/:id/status` | เปลี่ยนสถานะ | Officer, Admin |
-| `GET` | `/inspections` | รายการตรวจ | Officer, Inspector, Admin |
-| `POST` | `/inspections` | นัดตรวจ | Officer, Admin |
+| `PATCH` | `/applications/:id/status` | เปลี่ยนสถานะ | staff, Admin |
+| `GET` | `/inspections` | รายการตรวจ | staff, Inspector, Admin |
+| `POST` | `/inspections` | นัดตรวจ | staff, Admin |
 | `PUT` | `/inspections/:id` | บันทึกผลตรวจ | Inspector, Admin |
 | `POST` | `/inspections/:id/photos` | อัปโหลดรูปตรวจ | Inspector |
 | `GET` | `/certificates` | รายการใบรับรอง | All |
-| `POST` | `/certificates` | ออกใบรับรอง | Officer, Admin |
+| `POST` | `/certificates` | ออกใบรับรอง | staff, Admin |
 | `GET` | `/certificates/:id/pdf` | ดาวน์โหลด PDF | All |
 
 ---

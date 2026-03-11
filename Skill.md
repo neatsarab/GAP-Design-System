@@ -134,13 +134,13 @@ src/
 |---------------|-------------|------------------------------|
 |**Farmer**     |`FARMER`     |เกษตรกรผู้ยื่นคำขอ GAP             |
 |**Group Admin**|`GROUP_ADMIN`|หัวหน้ากลุ่มเกษตรกร จัดการคำขอรายกลุ่ม|
-|**Officer**    |`OFFICER`    |เจ้าหน้าที่ตรวจเอกสาร / อนุมัติ      |
+|**staff**    |`staff`    |เจ้าหน้าที่ตรวจเอกสาร / อนุมัติ      |
 |**Inspector**  |`INSPECTOR`  |ผู้ตรวจประเมินแปลง               |
 |**Admin**      |`ADMIN`      |ผู้ดูแลระบบ                      |
 
 ### 2.2 Permission Matrix
 
-|Feature          |Farmer|Group Admin|Officer|Inspector|Admin|
+|Feature          |Farmer|Group Admin|staff|Inspector|Admin|
 |-----------------|:----:|:---------:|:-----:|:-------:|:---:|
 |ยื่นคำขอรายเดี่ยว     |✅     |✅          |❌      |❌        |❌    |
 |ยื่นคำขอรายกลุ่ม      |❌     |✅          |❌      |❌        |❌    |
@@ -172,11 +172,11 @@ export function usePermission() {
       'application:create':     ['FARMER', 'GROUP_ADMIN'],
       'application:create-group': ['GROUP_ADMIN'],
       'application:edit-own':   ['FARMER', 'GROUP_ADMIN'],
-      'document:review':        ['OFFICER', 'ADMIN'],
-      'inspection:schedule':    ['OFFICER', 'INSPECTOR', 'ADMIN'],
+      'document:review':        ['staff', 'ADMIN'],
+      'inspection:schedule':    ['staff', 'INSPECTOR', 'ADMIN'],
       'inspection:record':      ['INSPECTOR', 'ADMIN'],
-      'application:approve':    ['OFFICER', 'ADMIN'],
-      'certificate:issue':      ['OFFICER', 'ADMIN'],
+      'application:approve':    ['staff', 'ADMIN'],
+      'certificate:issue':      ['staff', 'ADMIN'],
       'user:manage':            ['ADMIN'],
     }
     return (permissions[action] || []).includes(auth.user?.role)
@@ -227,7 +227,7 @@ import axios from '@/plugins/axios'
 interface User {
   id: string
   fullName: string
-  role: 'FARMER' | 'GROUP_ADMIN' | 'OFFICER' | 'INSPECTOR' | 'ADMIN'
+  role: 'FARMER' | 'GROUP_ADMIN' | 'staff' | 'INSPECTOR' | 'ADMIN'
   email: string
   avatar?: string
 }
@@ -369,7 +369,7 @@ const routes = [
     path: '/inspections',
     name: 'InspectionSchedule',
     component: () => import('@/views/inspection/InspectionSchedulePage.vue'),
-    meta: { requiresAuth: true, roles: ['OFFICER', 'INSPECTOR', 'ADMIN'] },
+    meta: { requiresAuth: true, roles: ['staff', 'INSPECTOR', 'ADMIN'] },
   },
   {
     path: '/inspections/:id/checklist',
@@ -381,7 +381,7 @@ const routes = [
     path: '/inspections/:id/result',
     name: 'InspectionResult',
     component: () => import('@/views/inspection/InspectionResultPage.vue'),
-    meta: { requiresAuth: true, roles: ['OFFICER', 'INSPECTOR', 'ADMIN'] },
+    meta: { requiresAuth: true, roles: ['staff', 'INSPECTOR', 'ADMIN'] },
   },
 
   // ── Certificate (ใบรับรอง) ──
@@ -499,7 +499,7 @@ export const PORTAL_SYSTEMS: PortalSystem[] = [
     icon: 'mdi-factory',
     color: 'primary',
     routeName: 'DoaFactoryDashboard',
-    requiredRoles: ['FARMER', 'GROUP_ADMIN', 'OFFICER', 'ADMIN'],
+    requiredRoles: ['FARMER', 'GROUP_ADMIN', 'staff', 'ADMIN'],
   },
   {
     id: 'export-register',
@@ -509,7 +509,7 @@ export const PORTAL_SYSTEMS: PortalSystem[] = [
     icon: 'mdi-truck-delivery',
     color: 'orange',
     routeName: 'ExporterDashboard',
-    requiredRoles: ['FARMER', 'GROUP_ADMIN', 'OFFICER', 'ADMIN'],
+    requiredRoles: ['FARMER', 'GROUP_ADMIN', 'staff', 'ADMIN'],
   },
   {
     id: 'health-cert-controlled',
@@ -519,7 +519,7 @@ export const PORTAL_SYSTEMS: PortalSystem[] = [
     icon: 'mdi-file-certificate',
     color: 'teal',
     routeName: 'HealthCertControlledDashboard',
-    requiredRoles: ['FARMER', 'GROUP_ADMIN', 'OFFICER', 'ADMIN'],
+    requiredRoles: ['FARMER', 'GROUP_ADMIN', 'staff', 'ADMIN'],
     badge: 'พืชควบคุม',
   },
   {
@@ -530,7 +530,7 @@ export const PORTAL_SYSTEMS: PortalSystem[] = [
     icon: 'mdi-file-certificate-outline',
     color: 'cyan',
     routeName: 'HealthCertProcessedDashboard',
-    requiredRoles: ['FARMER', 'GROUP_ADMIN', 'OFFICER', 'ADMIN'],
+    requiredRoles: ['FARMER', 'GROUP_ADMIN', 'staff', 'ADMIN'],
     badge: 'สินค้าแปรรูป',
   },
   {
@@ -541,7 +541,7 @@ export const PORTAL_SYSTEMS: PortalSystem[] = [
     icon: 'mdi-format-list-checks',
     color: 'indigo',
     routeName: 'EstablishmentListDashboard',
-    requiredRoles: ['OFFICER', 'INSPECTOR', 'ADMIN'],
+    requiredRoles: ['staff', 'INSPECTOR', 'ADMIN'],
   },
   {
     id: 'admin-backend',
@@ -745,7 +745,7 @@ const { accessibleSystems } = usePortalPermission()
 const roleLabels: Record<string, string> = {
   FARMER:      'เกษตรกร',
   GROUP_ADMIN: 'หัวหน้ากลุ่มเกษตรกร',
-  OFFICER:     'เจ้าหน้าที่',
+  staff:     'เจ้าหน้าที่',
   INSPECTOR:   'ผู้ตรวจประเมิน',
   ADMIN:       'ผู้ดูแลระบบ',
 }
@@ -1876,7 +1876,7 @@ const menuItems = [
   { title: 'Dashboard',        icon: 'mdi-view-dashboard',    to: '/',                roles: ['ALL'] },
   { title: 'คำขอ GAP',         icon: 'mdi-file-document-edit', to: '/applications',   roles: ['ALL'] },
   { title: 'ยื่นคำขอใหม่',       icon: 'mdi-plus-circle',       to: '/applications/new', roles: ['FARMER', 'GROUP_ADMIN'] },
-  { title: 'ตรวจประเมิน',       icon: 'mdi-clipboard-check',   to: '/inspections',     roles: ['OFFICER', 'INSPECTOR', 'ADMIN'] },
+  { title: 'ตรวจประเมิน',       icon: 'mdi-clipboard-check',   to: '/inspections',     roles: ['staff', 'INSPECTOR', 'ADMIN'] },
   { title: 'ใบรับรอง',          icon: 'mdi-certificate',        to: '/certificates',    roles: ['ALL'] },
   { title: 'จัดการผู้ใช้',        icon: 'mdi-account-cog',       to: '/admin/users',     roles: ['ADMIN'] },
   { title: 'ตั้งค่าระบบ',        icon: 'mdi-cog',               to: '/admin/settings',  roles: ['ADMIN'] },
@@ -1944,14 +1944,14 @@ export default createVuetify({
 |`POST` |`/applications`           |Create new application              |Farmer, GroupAdmin       |
 |`GET`  |`/applications/:id`       |Get application detail              |All                      |
 |`PUT`  |`/applications/:id`       |Update application                  |Farmer, GroupAdmin       |
-|`PATCH`|`/applications/:id/status`|Update status                       |Officer, Admin           |
-|`GET`  |`/inspections`            |List inspections                    |Officer, Inspector, Admin|
-|`POST` |`/inspections`            |Schedule inspection                 |Officer, Admin           |
+|`PATCH`|`/applications/:id/status`|Update status                       |staff, Admin           |
+|`GET`  |`/inspections`            |List inspections                    |staff, Inspector, Admin|
+|`POST` |`/inspections`            |Schedule inspection                 |staff, Admin           |
 |`PUT`  |`/inspections/:id`        |Record inspection result            |Inspector, Admin         |
 |`POST` |`/inspections/:id/photos` |Upload inspection photos            |Inspector                |
 |`GET`  |`/certificates`           |List certificates                   |All                      |
 |`GET`  |`/certificates/:id`       |Get certificate detail              |All                      |
-|`POST` |`/certificates`           |Issue certificate                   |Officer, Admin           |
+|`POST` |`/certificates`           |Issue certificate                   |staff, Admin           |
 |`GET`  |`/certificates/:id/pdf`   |Download certificate PDF            |All                      |
 |`GET`  |`/users`                  |List users                          |Admin                    |
 |`POST` |`/users`                  |Create user                         |Admin                    |

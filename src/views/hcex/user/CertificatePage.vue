@@ -1,0 +1,220 @@
+<template>
+  <div>
+    <div class="d-flex align-center justify-space-between mb-5 flex-wrap ga-3">
+      <div>
+        <h1 class="text-h5 font-weight-bold mb-1">ใบรับรองสินค้าแปรรูปด้านพืช</h1>
+        <p class="text-body-2 text-medium-emphasis mb-0">
+          รายการใบรับรองสุขอนามัย (Health Certificate) สินค้าแปรรูปด้านพืชทั้งหมด
+        </p>
+      </div>
+      <v-btn
+        color="warning"
+        prepend-icon="fas fa-file-pen"
+        @click="router.push('/hcex/user/applications/new')"
+      >
+        ขอใบรับรองใหม่
+      </v-btn>
+    </div>
+
+    <!-- Stats -->
+    <v-row class="mb-5">
+      <v-col v-for="s in certStats" :key="s.label" cols="6" sm="3">
+        <v-card>
+          <v-card-text class="pa-4 d-flex align-center ga-3">
+            <div class="stat-icon" :style="`background:rgba(var(--v-theme-${s.color}),0.12)`">
+              <v-icon :icon="s.icon" :color="s.color" size="20" />
+            </div>
+            <div>
+              <div class="text-h5 font-weight-bold" :class="`text-${s.color}`">{{ s.value }}</div>
+              <div class="text-caption text-medium-emphasis">{{ s.label }}</div>
+            </div>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
+
+    <!-- Filter & Search -->
+    <v-card class="mb-4">
+      <v-card-text class="pa-4">
+        <v-row dense align="center">
+          <v-col cols="12" sm="5">
+            <v-text-field
+              v-model="search"
+              label="ค้นหาเลขใบรับรอง / ผู้รับสินค้า"
+              prepend-inner-icon="fas fa-search"
+              clearable
+              hide-details
+            />
+          </v-col>
+          <v-col cols="12" sm="6">
+            <v-chip-group v-model="filterTab" mandatory>
+              <v-chip value="all" color="default" variant="tonal" filter size="small">
+                <v-icon start icon="fas fa-list" size="12" />ทั้งหมด
+              </v-chip>
+              <v-chip value="active" color="success" variant="tonal" filter size="small">
+                <v-icon start icon="fas fa-circle-check" size="12" />มีผล
+              </v-chip>
+              <v-chip value="expiring" color="warning" variant="tonal" filter size="small">
+                <v-icon start icon="fas fa-clock" size="12" />ใกล้หมดอายุ
+              </v-chip>
+              <v-chip value="expired" color="error" variant="tonal" filter size="small">
+                <v-icon start icon="fas fa-circle-xmark" size="12" />หมดอายุ
+              </v-chip>
+            </v-chip-group>
+          </v-col>
+        </v-row>
+      </v-card-text>
+    </v-card>
+
+    <!-- Table -->
+    <v-card>
+      <v-data-table
+        :headers="headers"
+        :items="filteredCerts"
+        :search="search"
+        hover
+      >
+        <template #item.certNo="{ item }">
+          <span class="text-body-2 font-weight-bold text-warning">{{ item.certNo }}</span>
+        </template>
+
+        <template #item.certType="{ item }">
+          <v-chip size="x-small" color="warning" variant="tonal">{{ item.certType }}</v-chip>
+        </template>
+
+        <template #item.certStatus="{ item }">
+          <v-chip
+            size="small"
+            :color="statusColor(item.certStatus)"
+            variant="tonal"
+            :prepend-icon="statusIcon(item.certStatus)"
+          >
+            {{ statusLabel(item.certStatus) }}
+          </v-chip>
+        </template>
+
+        <template #item.expiry="{ item }">
+          <span
+            :class="
+              item.certStatus === 'expiring'
+                ? 'text-warning font-weight-medium'
+                : item.certStatus === 'expired'
+                  ? 'text-error'
+                  : ''
+            "
+          >
+            {{ item.expiry }}
+          </span>
+        </template>
+
+        <template #item.actions="{ item }">
+          <div class="d-flex ga-1">
+            <v-btn
+              size="small"
+              variant="tonal"
+              :color="statusColor(item.certStatus)"
+              prepend-icon="fas fa-download"
+              :disabled="item.certStatus === 'expired'"
+            >
+              PDF
+            </v-btn>
+            <v-btn
+              v-if="item.certStatus !== 'expired'"
+              size="small"
+              variant="outlined"
+              color="warning"
+              icon="fas fa-share"
+            />
+            <v-btn
+              v-if="item.certStatus === 'expiring' || item.certStatus === 'expired'"
+              size="small"
+              variant="tonal"
+              color="warning"
+              icon="fas fa-rotate"
+              @click="router.push('/hcex/user/applications/new')"
+            />
+          </div>
+        </template>
+      </v-data-table>
+    </v-card>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { ref, computed } from "vue";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
+const filterTab = ref("all");
+const search = ref("");
+
+const certStats = [
+  { label: "ใบรับรองมีผล",  icon: "fas fa-circle-check",  color: "success", value: 3 },
+  { label: "ใกล้หมดอายุ",   icon: "fas fa-clock",          color: "warning", value: 1 },
+  { label: "หมดอายุแล้ว",   icon: "fas fa-circle-xmark",   color: "error",   value: 1 },
+  { label: "ทั้งหมด",        icon: "fas fa-industry",       color: "warning", value: 5 },
+];
+
+interface Cert {
+  certNo: string;
+  requestNo: string;
+  certType: string;
+  consignee: string;
+  destination: string;
+  issuedAt: string;
+  expiry: string;
+  certStatus: "active" | "expiring" | "expired";
+}
+
+const certs: Cert[] = [
+  { certNo: "THHCEX-2568-00008", requestNo: "HCEX-2568-00008", certType: "กมพ.1",   consignee: "Seoul Food Distribution", destination: "เกาหลีใต้", issuedAt: "15 ม.ค. 68", expiry: "15 ม.ค. 69", certStatus: "active"   },
+  { certNo: "THHCEX-2568-00005", requestNo: "HCEX-2568-00005", certType: "กมพ.1-3", consignee: "SG Fresh Market Pte.",     destination: "สิงคโปร์",  issuedAt: "5 ม.ค. 68",  expiry: "5 ม.ค. 69",  certStatus: "active"   },
+  { certNo: "THHCEX-2568-00003", requestNo: "HCEX-2568-00003", certType: "กมพ.1-2", consignee: "HK Agri Import Ltd.",      destination: "ฮ่องกง",    issuedAt: "28 ธ.ค. 67", expiry: "28 ธ.ค. 68", certStatus: "expiring" },
+  { certNo: "THHCEX-2567-00045", requestNo: "HCEX-2567-00045", certType: "กมพ.1",   consignee: "Japan Foods Co., Ltd.",    destination: "ญี่ปุ่น",   issuedAt: "10 ม.ค. 67", expiry: "10 ม.ค. 68", certStatus: "expired"  },
+  { certNo: "THHCEX-2568-00002", requestNo: "HCEX-2568-00002", certType: "กมพ.1-1", consignee: "Beijing Trading Corp.",    destination: "จีน",       issuedAt: "20 ธ.ค. 67", expiry: "20 ธ.ค. 68", certStatus: "active"   },
+];
+
+const filteredCerts = computed(() => {
+  if (filterTab.value === "all") return certs;
+  return certs.filter((c) => c.certStatus === filterTab.value);
+});
+
+const headers = [
+  { title: "เลขใบรับรอง",    key: "certNo",      width: 190 },
+  { title: "ประเภทคำขอ",     key: "certType",    width: 120 },
+  { title: "ผู้รับสินค้า",    key: "consignee",   width: 200 },
+  { title: "ประเทศปลายทาง",  key: "destination", width: 130 },
+  { title: "วันที่ออก",       key: "issuedAt",    width: 120 },
+  { title: "วันหมดอายุ",     key: "expiry",      width: 120 },
+  { title: "สถานะ",           key: "certStatus",  width: 150 },
+  { title: "",                key: "actions",     width: 150, sortable: false },
+];
+
+function statusColor(s: string) {
+  return (
+    { active: "success", expiring: "warning", expired: "error" }[s] ?? "grey"
+  );
+}
+function statusIcon(s: string) {
+  return (
+    { active: "fas fa-circle-check", expiring: "fas fa-clock", expired: "fas fa-circle-xmark" }[s] ?? "fas fa-circle"
+  );
+}
+function statusLabel(s: string) {
+  return (
+    { active: "มีผล", expiring: "ใกล้หมดอายุ", expired: "หมดอายุ" }[s] ?? s
+  );
+}
+</script>
+
+<style scoped>
+.stat-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+</style>

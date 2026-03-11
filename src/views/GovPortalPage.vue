@@ -1,6 +1,5 @@
 <template>
   <div class="portal-root" :class="{ 'is-dark': themeStore.isDark }">
-
     <!-- ══════════════════════════════════════════
          TOP NAV BAR
     ══════════════════════════════════════════ -->
@@ -12,8 +11,18 @@
             <v-icon icon="fas fa-leaf" size="20" color="white" />
           </div>
           <div>
-            <div class="text-body-2 font-weight-bold text-white" style="line-height:1.2">กรมวิชาการเกษตร</div>
-            <div class="text-caption" style="color:rgba(255,255,255,0.6);line-height:1.2">Department of Agriculture</div>
+            <div
+              class="text-body-2 font-weight-bold text-white"
+              style="line-height: 1.2"
+            >
+              กรมวิชาการเกษตร
+            </div>
+            <div
+              class="text-caption"
+              style="color: rgba(255, 255, 255, 0.6); line-height: 1.2"
+            >
+              Department of Agriculture
+            </div>
           </div>
         </div>
 
@@ -23,18 +32,26 @@
         <div class="d-flex align-center ga-2">
           <!-- Clock -->
           <div class="topbar-time d-none d-sm-flex align-center ga-2">
-            <v-icon icon="fas fa-calendar" size="13" style="color:rgba(255,255,255,0.6)" />
-            <span class="text-caption" style="color:rgba(255,255,255,0.75)">{{ currentDate }}</span>
+            <v-icon
+              icon="fas fa-calendar"
+              size="13"
+              style="color: rgba(255, 255, 255, 0.6)"
+            />
+            <span
+              class="text-caption"
+              style="color: rgba(255, 255, 255, 0.75)"
+              >{{ currentDate }}</span
+            >
           </div>
 
-          <v-divider vertical class="mx-1" style="opacity:0.2;height:40px" />
+          <v-divider vertical class="mx-1" style="opacity: 0.2; height: 40px" />
 
           <!-- Mode toggle -->
           <div class="mode-toggle-group d-flex align-center">
             <button
               class="mode-btn"
-              :class="{ 'mode-btn--active': mode === 'officer' }"
-              @click="mode = 'officer'"
+              :class="{ 'mode-btn--active': mode === 'staff' }"
+              @click="mode = 'staff'"
             >
               <v-icon icon="fas fa-user-tie" size="12" class="mr-1" />
               เจ้าหน้าที่
@@ -49,19 +66,22 @@
             </button>
           </div>
 
-          <v-divider vertical class="mx-1" style="opacity:0.2;height:40px" />
+          <v-divider vertical class="mx-1" style="opacity: 0.2; height: 40px" />
 
           <!-- Dark mode toggle -->
           <v-btn
             icon
             variant="text"
             size="small"
-            style="color:rgba(255,255,255,0.8)"
+            style="color: rgba(255, 255, 255, 0.8)"
             @click="themeStore.toggle()"
           >
-            <v-icon :icon="themeStore.isDark ? 'fas fa-sun' : 'fas fa-moon'" size="16" />
+            <v-icon
+              :icon="themeStore.isDark ? 'fas fa-sun' : 'fas fa-moon'"
+              size="16"
+            />
             <v-tooltip activator="parent" location="bottom">
-              {{ themeStore.isDark ? 'โหมดสว่าง' : 'โหมดมืด' }}
+              {{ themeStore.isDark ? "โหมดสว่าง" : "โหมดมืด" }}
             </v-tooltip>
           </v-btn>
 
@@ -70,12 +90,14 @@
             icon
             variant="text"
             size="small"
-            style="color:rgba(255,255,255,0.8)"
+            style="color: rgba(255, 255, 255, 0.8)"
             class="position-relative"
           >
             <v-icon icon="fas fa-bell" size="16" />
             <span class="notif-dot" />
-            <v-tooltip activator="parent" location="bottom">แจ้งเตือน (2)</v-tooltip>
+            <v-tooltip activator="parent" location="bottom"
+              >แจ้งเตือน (2)</v-tooltip
+            >
           </v-btn>
 
           <!-- User menu -->
@@ -86,10 +108,28 @@
                   <span class="text-caption font-weight-bold">นส</span>
                 </div>
                 <div class="d-none d-sm-block">
-                  <div class="text-caption font-weight-semibold text-white" style="line-height:1.2">{{ user.name }}</div>
-                  <div class="text-caption" style="color:rgba(255,255,255,0.55);line-height:1.2;font-size:10px">{{ user.role }}</div>
+                  <div
+                    class="text-caption font-weight-semibold text-white"
+                    style="line-height: 1.2"
+                  >
+                    {{ user.name }}
+                  </div>
+                  <div
+                    class="text-caption"
+                    style="
+                      color: rgba(255, 255, 255, 0.55);
+                      line-height: 1.2;
+                      font-size: 10px;
+                    "
+                  >
+                    {{ user.role }}
+                  </div>
                 </div>
-                <v-icon icon="fas fa-chevron-down" size="10" style="color:rgba(255,255,255,0.5)" />
+                <v-icon
+                  icon="fas fa-chevron-down"
+                  size="10"
+                  style="color: rgba(255, 255, 255, 0.5)"
+                />
               </div>
             </template>
 
@@ -100,15 +140,27 @@
                     <span class="text-body-2 font-weight-bold">นส</span>
                   </div>
                   <div>
-                    <div class="text-body-2 font-weight-bold">{{ user.name }}</div>
-                    <div class="text-caption text-medium-emphasis">{{ user.email }}</div>
+                    <div class="text-body-2 font-weight-bold">
+                      {{ user.name }}
+                    </div>
+                    <div class="text-caption text-medium-emphasis">
+                      {{ user.email }}
+                    </div>
                   </div>
                 </div>
                 <v-divider class="mb-2" />
               </v-card-text>
               <v-list density="compact" nav class="pt-0 pb-2">
-                <v-list-item prepend-icon="fas fa-user" title="ข้อมูลส่วนตัว" rounded="lg" />
-                <v-list-item prepend-icon="fas fa-key" title="เปลี่ยนรหัสผ่าน" rounded="lg" />
+                <v-list-item
+                  prepend-icon="fas fa-user"
+                  title="ข้อมูลส่วนตัว"
+                  rounded="lg"
+                />
+                <v-list-item
+                  prepend-icon="fas fa-key"
+                  title="เปลี่ยนรหัสผ่าน"
+                  rounded="lg"
+                />
                 <v-divider class="my-1" />
                 <v-list-item
                   prepend-icon="fas fa-right-from-bracket"
@@ -129,18 +181,36 @@
     ══════════════════════════════════════════ -->
     <div class="portal-hero">
       <div class="portal-hero-inner">
-        <div class="d-flex flex-column flex-sm-row align-start align-sm-center justify-space-between ga-6">
-
+        <div
+          class="d-flex flex-column flex-sm-row align-start align-sm-center justify-space-between ga-6"
+        >
           <!-- Greeting -->
           <div>
-            <p class="text-body-2 mb-1" style="color:rgba(255,255,255,0.65)">ยินดีต้อนรับ</p>
-            <h1 class="text-h5 font-weight-bold text-white mb-1">{{ user.name }}</h1>
+            <p
+              class="text-body-2 mb-1"
+              style="color: rgba(255, 255, 255, 0.65)"
+            >
+              ยินดีต้อนรับ
+            </p>
+            <h1 class="text-h5 font-weight-bold text-white mb-1">
+              {{ user.name }}
+            </h1>
             <div class="d-flex align-center ga-2 flex-wrap">
-              <v-chip size="x-small" color="white" variant="outlined" style="color:rgba(255,255,255,0.85)">
+              <v-chip
+                size="x-small"
+                color="white"
+                variant="outlined"
+                style="color: rgba(255, 255, 255, 0.85)"
+              >
                 <v-icon start icon="fas fa-shield-halved" size="10" />
                 {{ user.role }}
               </v-chip>
-              <v-chip size="x-small" color="white" variant="outlined" style="color:rgba(255,255,255,0.85)">
+              <v-chip
+                size="x-small"
+                color="white"
+                variant="outlined"
+                style="color: rgba(255, 255, 255, 0.85)"
+              >
                 <v-icon start icon="fas fa-building" size="10" />
                 {{ user.dept }}
               </v-chip>
@@ -155,18 +225,32 @@
               class="hero-stat-card"
             >
               <div class="d-flex align-center ga-2 mb-1">
-                <v-icon :icon="stat.icon" size="14" style="color:rgba(255,255,255,0.7)" />
-                <span class="text-caption" style="color:rgba(255,255,255,0.65)">{{ stat.label }}</span>
+                <v-icon
+                  :icon="stat.icon"
+                  size="14"
+                  style="color: rgba(255, 255, 255, 0.7)"
+                />
+                <span
+                  class="text-caption"
+                  style="color: rgba(255, 255, 255, 0.65)"
+                  >{{ stat.label }}</span
+                >
               </div>
               <div class="d-flex align-center ga-2">
-                <span class="text-h6 font-weight-bold text-white">{{ stat.value }}</span>
-                <v-chip v-if="stat.badge" size="x-small" :color="stat.badgeColor" variant="flat">
+                <span class="text-h6 font-weight-bold text-white">{{
+                  stat.value
+                }}</span>
+                <v-chip
+                  v-if="stat.badge"
+                  size="x-small"
+                  :color="stat.badgeColor"
+                  variant="flat"
+                >
                   {{ stat.badge }}
                 </v-chip>
               </div>
             </div>
           </div>
-
         </div>
       </div>
     </div>
@@ -176,7 +260,6 @@
     ══════════════════════════════════════════ -->
     <div class="portal-body">
       <div class="portal-body-inner">
-
         <!-- ── Announcement Banner ─── -->
         <v-alert
           class="mb-6"
@@ -188,7 +271,9 @@
           closable
         >
           <span class="text-body-2 font-weight-medium">ประกาศ:</span>
-          <span class="text-body-2 ml-1">ระบบจะปิดปรับปรุงในวันที่ 15 มีนาคม 2568 เวลา 00:00–06:00 น.</span>
+          <span class="text-body-2 ml-1"
+            >ระบบจะปิดปรับปรุงในวันที่ 15 มีนาคม 2568 เวลา 00:00–06:00 น.</span
+          >
         </v-alert>
 
         <!-- ── Active Systems ───────── -->
@@ -196,7 +281,9 @@
           <div class="d-flex align-center ga-3">
             <div class="section-label-dot bg-success" />
             <span class="text-body-1 font-weight-bold">ระบบพร้อมให้บริการ</span>
-            <v-chip size="x-small" color="success" variant="tonal">{{ activeSystems.length }} ระบบ</v-chip>
+            <v-chip size="x-small" color="success" variant="tonal"
+              >{{ activeSystems.length }} ระบบ</v-chip
+            >
           </div>
         </div>
 
@@ -204,28 +291,51 @@
           <v-col
             v-for="system in activeSystems"
             :key="system.id"
-            cols="12" sm="6" md="4"
+            cols="12"
+            sm="6"
+            md="4"
           >
             <v-card
               class="sys-card sys-card--active h-100"
               @click="router.push(system.route)"
             >
               <!-- Top accent bar -->
-              <div class="sys-card-accent" :style="{ background: `rgb(var(--v-theme-${system.color}))` }" />
+              <div
+                class="sys-card-accent"
+                :style="{ background: `rgb(var(--v-theme-${system.color}))` }"
+              />
 
               <v-card-text class="pa-5 d-flex flex-column">
                 <div class="d-flex justify-space-between align-start mb-4">
-                  <div class="sys-icon-box" :style="{ background: `rgba(var(--v-theme-${system.color}), 0.1)` }">
-                    <v-icon :icon="system.icon" :color="system.color" size="24" />
+                  <div
+                    class="sys-icon-box"
+                    :style="{
+                      background: `rgba(var(--v-theme-${system.color}), 0.1)`,
+                    }"
+                  >
+                    <v-icon
+                      :icon="system.icon"
+                      :color="system.color"
+                      size="24"
+                    />
                   </div>
-                  <v-chip size="x-small" :color="system.color" variant="tonal" prepend-icon="fas fa-circle">
+                  <v-chip
+                    size="x-small"
+                    :color="system.color"
+                    variant="tonal"
+                    prepend-icon="fas fa-circle"
+                  >
                     พร้อมใช้งาน
                   </v-chip>
                 </div>
 
-                <div class="sys-id-label text-caption text-medium-emphasis mb-1">ระบบที่ {{ system.id }}</div>
-                <h3 class="text-body-1 font-weight-bold mb-2">{{ system.name }}</h3>
-                <p class="text-body-2 text-medium-emphasis mb-4 flex-grow-1">{{ system.desc }}</p>
+                <!-- <div class="sys-id-label text-caption text-medium-emphasis mb-1">ระบบที่ {{ system.id }}</div> -->
+                <h3 class="text-body-1 font-weight-bold mb-2">
+                  {{ system.name }}
+                </h3>
+                <p class="text-body-2 text-medium-emphasis mb-4 flex-grow-1">
+                  {{ system.desc }}
+                </p>
 
                 <!-- Tags -->
                 <div class="d-flex flex-wrap ga-1 mb-4">
@@ -235,7 +345,8 @@
                     size="x-small"
                     variant="tonal"
                     :color="system.color"
-                  >{{ tag }}</v-chip>
+                    >{{ tag }}</v-chip
+                  >
                 </div>
 
                 <v-btn
@@ -257,43 +368,71 @@
         <!-- ── Coming Soon Systems ──── -->
         <div class="section-label mt-8 mb-4">
           <div class="d-flex align-center ga-3">
-            <div class="section-label-dot" style="background:rgba(var(--v-theme-on-surface),0.2)" />
-            <span class="text-body-1 font-weight-bold text-medium-emphasis">ไม่มีสิทธิการเข้าถึง</span>
-            <v-chip size="x-small" color="grey" variant="tonal">{{ inactiveSystems.length }} ระบบ</v-chip>
+            <div
+              class="section-label-dot"
+              style="background: rgba(var(--v-theme-on-surface), 0.2)"
+            />
+            <span class="text-body-1 font-weight-bold text-medium-emphasis"
+              >ไม่มีสิทธิการเข้าถึง</span
+            >
+            <v-chip size="x-small" color="grey" variant="tonal"
+              >{{ inactiveSystems.length }} ระบบ</v-chip
+            >
           </div>
-          <p class="text-caption text-medium-emphasis mt-1 ml-4">หากต้องการใช้งาน ให้ท่านยื่นคำขอการใช้งานก่อน</p>
+          <p class="text-caption text-medium-emphasis mt-1 ml-4">
+            หากต้องการใช้งาน ให้ท่านยื่นคำขอการใช้งานก่อน
+          </p>
         </div>
 
         <v-row>
           <v-col
             v-for="system in inactiveSystems"
             :key="system.id"
-            cols="12" sm="6" md="4"
+            cols="12"
+            sm="6"
+            md="4"
           >
             <v-card class="sys-card sys-card--disabled h-100">
               <v-card-text class="pa-5 d-flex flex-column">
                 <div class="d-flex justify-space-between align-start mb-4">
-                  <div class="sys-icon-box" style="background:rgba(var(--v-border-color),0.08)">
-                    <v-icon :icon="system.icon" color="medium-emphasis" size="22" />
+                  <div
+                    class="sys-icon-box"
+                    style="background: rgba(var(--v-border-color), 0.08)"
+                  >
+                    <v-icon
+                      :icon="system.icon"
+                      color="medium-emphasis"
+                      size="22"
+                    />
                   </div>
-                  <v-chip size="x-small" color="grey" variant="outlined" prepend-icon="fas fa-hourglass-half">
+                  <v-chip
+                    size="x-small"
+                    color="grey"
+                    variant="outlined"
+                    prepend-icon="fas fa-ban"
+                  >
                     ไม่มีสิทธิการเข้าถึง
                   </v-chip>
                 </div>
 
-                <div class="sys-id-label text-caption text-medium-emphasis mb-1">ระบบที่ {{ system.id }}</div>
-                <h3 class="text-body-2 font-weight-bold text-medium-emphasis mb-2">{{ system.name }}</h3>
-                <p class="text-caption text-disabled mb-4 flex-grow-1">{{ system.desc }}</p>
+                <!-- <div class="sys-id-label text-caption text-medium-emphasis mb-1">ระบบที่ {{ system.id }}</div> -->
+                <h3
+                  class="text-body-2 font-weight-bold text-medium-emphasis mb-2"
+                >
+                  {{ system.name }}
+                </h3>
+                <p class="text-caption text-disabled mb-4 flex-grow-1">
+                  {{ system.desc }}
+                </p>
 
                 <div class="coming-soon-bar">
                   <v-icon icon="fas fa-clock" size="12" class="mr-1" />
-                  <span class="text-caption">เปิดให้บริการ {{ system.eta }}</span>
+                  <span class="text-caption">กรุณายื่นคำขอการใช้งานก่อน</span>
                 </div>
               </v-card-text>
             </v-card>
           </v-col>
         </v-row>
-
       </div>
     </div>
 
@@ -301,136 +440,179 @@
          FOOTER
     ══════════════════════════════════════════ -->
     <div class="portal-footer">
-      <div class="portal-body-inner d-flex flex-column flex-sm-row align-center justify-space-between ga-2">
+      <div
+        class="portal-body-inner d-flex flex-column flex-sm-row align-center justify-space-between ga-2"
+      >
         <p class="text-caption text-medium-emphasis mb-0">
-          © 2568 กรมวิชาการเกษตร · Department of Agriculture · กระทรวงเกษตรและสหกรณ์
+          © 2568 กรมวิชาการเกษตร · Department of Agriculture ·
+          กระทรวงเกษตรและสหกรณ์
         </p>
         <div class="d-flex ga-3">
-          <a class="text-caption text-medium-emphasis portal-footer-link" href="#">นโยบายความเป็นส่วนตัว</a>
-          <a class="text-caption text-medium-emphasis portal-footer-link" href="#">ติดต่อสอบถาม</a>
-          <a class="text-caption text-medium-emphasis portal-footer-link" href="#">v1.0.0</a>
+          <a
+            class="text-caption text-medium-emphasis portal-footer-link"
+            href="#"
+            >นโยบายความเป็นส่วนตัว</a
+          >
+          <a
+            class="text-caption text-medium-emphasis portal-footer-link"
+            href="#"
+            >ติดต่อสอบถาม</a
+          >
+          <a
+            class="text-caption text-medium-emphasis portal-footer-link"
+            href="#"
+            >v1.0.0</a
+          >
         </div>
       </div>
     </div>
-
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
-import { useRouter } from 'vue-router'
-import { useThemeStore } from '@/stores/theme.store'
+import { ref, computed } from "vue";
+import { useRouter } from "vue-router";
+import { useThemeStore } from "@/stores/theme.store";
 
-const router = useRouter()
-const themeStore = useThemeStore()
+const router = useRouter();
+const themeStore = useThemeStore();
 
-const mode = ref<'officer' | 'user'>('officer')
+const mode = ref<"staff" | "user">("staff");
 
 const heroStats = [
-  { label: 'คำขอที่รอดำเนินการ', value: '3', icon: 'fas fa-file-pen', badge: 'ใหม่', badgeColor: 'warning' },
-  { label: 'ใบรับรองที่มีผล', value: '12', icon: 'fas fa-certificate', badge: null, badgeColor: '' },
-  { label: 'ใบรับรองใกล้หมดอายุ', value: '1', icon: 'fas fa-triangle-exclamation', badge: 'แจ้งเตือน', badgeColor: 'error' },
-]
+  {
+    label: "คำขอที่รอดำเนินการ",
+    value: "3",
+    icon: "fas fa-file-pen",
+    badge: "ใหม่",
+    badgeColor: "warning",
+  },
+  {
+    label: "ใบรับรองที่มีผล",
+    value: "12",
+    icon: "fas fa-certificate",
+    badge: null,
+    badgeColor: "",
+  },
+  {
+    label: "ใบรับรองใกล้หมดอายุ",
+    value: "1",
+    icon: "fas fa-triangle-exclamation",
+    badge: "แจ้งเตือน",
+    badgeColor: "error",
+  },
+];
 
 const user = {
-  name: 'นิธิพร เทิบจันทึก',
-  role: 'เจ้าหน้าที่วิชาการเกษตร',
-  dept: 'กองพัฒนาระบบและรับรองมาตรฐานสินค้าพืช',
-  email: 'nitiporn@doa.go.th',
-}
+  name: "นิธิพร เทิบจันทึก",
+  role: "เจ้าหน้าที่วิชาการเกษตร",
+  dept: "กองพัฒนาระบบและรับรองมาตรฐานสินค้าพืช",
+  email: "nitiporn@doa.go.th",
+};
 
 const currentDate = computed(() =>
-  new Date().toLocaleDateString('th-TH', { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' })
-)
-
+  new Date().toLocaleDateString("th-TH", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    weekday: "long",
+  }),
+);
 
 interface SystemItem {
-  id: number
-  name: string
-  desc: string
-  icon: string
-  color: string
-  active: boolean
-  route: string
-  tags?: string[]
-  eta?: string
+  id: number;
+  name: string;
+  desc: string;
+  icon: string;
+  color: string;
+  active: boolean;
+  route: string;
+  tags?: string[];
+  eta?: string;
 }
 
 const systems = computed<SystemItem[]>(() => [
   {
     id: 1,
-    name: 'ระบบการรับรองมาตรฐาน GAP พืช',
-    desc: 'ยื่นคำขอรับรองแหล่งผลิต ติดตามสถานะ และจัดการใบรับรอง GAP พืชครบวงจร',
-    icon: 'fas fa-seedling',
-    color: 'primary',
+    name: "ระบบการรับรองมาตรฐาน GAP พืช",
+    desc: "ยื่นคำขอรับรองแหล่งผลิต ติดตามสถานะ และจัดการใบรับรอง GAP พืชครบวงจร",
+    icon: "fas fa-seedling",
+    color: "primary",
     active: true,
-    route: mode.value === 'officer' ? '/officer/dashboard' : '/app/dashboard',
-    tags: mode.value === 'officer' ? ['จัดการคำขอ', 'ตรวจแปลง', 'ออกใบรับรอง'] : ['ยื่นคำขอ', 'ติดตามสถานะ', 'ใบรับรอง'],
+    route:
+      mode.value === "staff" ? "/gap/staff/dashboard" : "/gap/user/dashboard",
+    tags:
+      mode.value === "staff"
+        ? ["จัดการคำขอ", "ตรวจแปลง", "ออกใบรับรอง"]
+        : ["ยื่นคำขอ", "ติดตามสถานะ", "ใบรับรอง"],
   },
   {
     id: 2,
-    name: 'ระบบรับรองมาตรฐานเกษตรอินทรีย์ (ORG)',
-    desc: 'ยื่นคำขอรับรองและต่ออายุมาตรฐานเกษตรอินทรีย์ ติดตามสถานะการรับรอง',
-    icon: 'fas fa-leaf',
-    color: 'success',
+    name: "ระบบรับรองมาตรฐานเกษตรอินทรีย์ (ORG)",
+    desc: "ยื่นคำขอรับรองและต่ออายุมาตรฐานเกษตรอินทรีย์ ติดตามสถานะการรับรอง",
+    icon: "fas fa-leaf",
+    color: "success",
     active: false,
-    route: '#',
-    eta: 'ไตรมาส 1/2569',
+    route: "#",
+    eta: "ไตรมาส 1/2569",
   },
   {
     id: 3,
-    name: 'ระบบออกใบรับรองสุขอนามัยพืช (HC)',
-    desc: 'ออกใบรับรองสุขอนามัยพืช (Phytosanitary Certificate) สำหรับสินค้าส่งออก',
-    icon: 'fas fa-file-shield',
-    color: 'info',
-    active: false,
-    route: '#',
-    eta: 'ไตรมาส 2/2569',
+    name: "ระบบออกใบรับรองสุขอนามัยพืช (HC) ตามประกาศพืชควบคุมเฉพาะ",
+    desc: "ออกใบรับรองสุขอนามัย (Health Certificate) ตามประกาศพืชควบคุมเฉพาะ",
+    icon: "fas fa-file-shield",
+    color: "info",
+    active: true,
+    route: mode.value === "staff" ? "/hc/staff" : "/hc/user",
+    tags:
+      mode.value === "staff"
+        ? ["ตรวจสอบคำขอ", "ตรวจ Lab", "ลงนาม"]
+        : ["ขอใบรับรอง", "ติดตามสถานะ", "ดาวน์โหลด"],
   },
   {
     id: 4,
-    name: 'ระบบนำเข้าผลิตภัณฑ์ HC',
-    desc: 'ยื่นคำขอนำเข้าผลิตภัณฑ์พืชและเอกสารสุขอนามัยพืชนำเข้า',
-    icon: 'fas fa-truck-ramp-box',
-    color: 'warning',
+    name: "ระบบนำเข้าผลิตภัณฑ์ HC",
+    desc: "ยื่นคำขอนำเข้าผลิตภัณฑ์พืชและเอกสารสุขอนามัยพืชนำเข้า",
+    icon: "fas fa-truck-ramp-box",
+    color: "warning",
     active: false,
-    route: '#',
-    eta: 'ไตรมาส 2/2569',
+    route: "#",
+    eta: "ไตรมาส 2/2569",
   },
   {
     id: 5,
-    name: 'ระบบจดทะเบียนผู้ส่งออก',
-    desc: 'ขึ้นทะเบียน ต่ออายุ และจัดการใบอนุญาตผู้ส่งออกสินค้าเกษตร',
-    icon: 'fas fa-ship',
-    color: 'secondary',
+    name: "ระบบจดทะเบียนผู้ส่งออก",
+    desc: "ขึ้นทะเบียน ต่ออายุ และจัดการใบอนุญาตผู้ส่งออกสินค้าเกษตร",
+    icon: "fas fa-ship",
+    color: "secondary",
     active: false,
-    route: '#',
-    eta: 'ไตรมาส 3/2569',
+    route: "#",
+    eta: "ไตรมาส 3/2569",
   },
   {
     id: 6,
-    name: 'ระบบ DOA & CB',
-    desc: 'ระบบรับรองความสามารถห้องปฏิบัติการ (CB) และบริการตรวจสอบกรมวิชาการเกษตร',
-    icon: 'fas fa-flask-vial',
-    color: 'error',
+    name: "ระบบ DOA & CB",
+    desc: "ระบบรับรองความสามารถห้องปฏิบัติการ (CB) และบริการตรวจสอบกรมวิชาการเกษตร",
+    icon: "fas fa-flask-vial",
+    color: "error",
     active: false,
-    route: '#',
-    eta: 'ไตรมาส 3/2569',
+    route: "#",
+    eta: "ไตรมาส 3/2569",
   },
   {
     id: 7,
-    name: 'ระบบบริหารจัดการ (Backend Admin)',
-    desc: 'สำหรับผู้ดูแลระบบ — จัดการข้อมูลผู้ใช้ สิทธิ์การเข้าถึง และการตั้งค่าระบบ',
-    icon: 'fas fa-screwdriver-wrench',
-    color: 'primary',
+    name: "ระบบบริหารจัดการ (Backend Admin)",
+    desc: "สำหรับผู้ดูแลระบบ — จัดการข้อมูลผู้ใช้ สิทธิ์การเข้าถึง และการตั้งค่าระบบ",
+    icon: "fas fa-screwdriver-wrench",
+    color: "primary",
     active: false,
-    route: '#',
-    eta: 'ไตรมาส 4/2569',
+    route: "#",
+    eta: "ไตรมาส 4/2569",
   },
-])
+]);
 
-const activeSystems = computed(() => systems.value.filter(s => s.active))
-const inactiveSystems = computed(() => systems.value.filter(s => !s.active))
+const activeSystems = computed(() => systems.value.filter((s) => s.active));
+const inactiveSystems = computed(() => systems.value.filter((s) => !s.active));
 </script>
 
 <style scoped>
@@ -484,7 +666,9 @@ const inactiveSystems = computed(() => systems.value.filter(s => !s.active))
   cursor: pointer;
   transition: background 0.15s;
 }
-.user-pill:hover { background: rgba(255, 255, 255, 0.1); }
+.user-pill:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
 
 .user-avatar-sm {
   width: 28px;
@@ -525,7 +709,8 @@ const inactiveSystems = computed(() => systems.value.filter(s => !s.active))
 /* ─── Hero ─── */
 .portal-hero {
   /* Light: primary (#4CAF6E) → rgba ที่ 70% ให้ gradient เขียวเข้ม→เขียวอ่อน */
-  background: linear-gradient(135deg,
+  background: linear-gradient(
+    135deg,
     rgb(var(--v-theme-primary)) 0%,
     rgba(var(--v-theme-primary), 0.65) 100%
   );
@@ -538,19 +723,29 @@ const inactiveSystems = computed(() => systems.value.filter(s => !s.active))
    ใช้ dark overlay ทับ gradient เขียว → ได้โทนเขียวเข้มที่อ่านออก */
 .is-dark .portal-hero {
   background:
-    linear-gradient(rgba(0,0,0,0.62), rgba(0,0,0,0.70)),
-    linear-gradient(135deg, rgb(var(--v-theme-primary)) 0%, rgba(var(--v-theme-primary), 0.55) 100%);
-
-    
+    linear-gradient(rgba(0, 0, 0, 0.62), rgba(0, 0, 0, 0.7)),
+    linear-gradient(
+      135deg,
+      rgb(var(--v-theme-primary)) 0%,
+      rgba(var(--v-theme-primary), 0.55) 100%
+    );
 }
 
 .portal-hero::after {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse at 90% 50%, rgba(255,255,255,0.10) 0%, transparent 60%),
-    radial-gradient(ellipse at 10% 80%, rgba(255,255,255,0.06) 0%, transparent 50%);
+    radial-gradient(
+      ellipse at 90% 50%,
+      rgba(255, 255, 255, 0.1) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse at 10% 80%,
+      rgba(255, 255, 255, 0.06) 0%,
+      transparent 50%
+    );
   pointer-events: none;
 }
 
@@ -593,7 +788,9 @@ const inactiveSystems = computed(() => systems.value.filter(s => !s.active))
 .sys-card {
   border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04) !important;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
   position: relative;
   overflow: hidden;
 }
@@ -681,7 +878,9 @@ const inactiveSystems = computed(() => systems.value.filter(s => !s.active))
   font-size: 11px;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.18s, color 0.18s;
+  transition:
+    background 0.18s,
+    color 0.18s;
   white-space: nowrap;
 }
 .mode-btn:hover {

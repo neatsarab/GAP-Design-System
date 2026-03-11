@@ -1,5 +1,5 @@
 <template>
-  <div class="login-root">
+  <div class="login-root" :class="{ 'is-dark': themeStore.isDark }">
 
     <!-- Left panel — branding -->
     <div class="login-left d-none d-md-flex">
@@ -54,6 +54,18 @@
           </div>
         </div>
 
+        <!-- Theme toggle -->
+        <div class="d-flex justify-end mb-4">
+          <v-btn
+            variant="tonal"
+            size="small"
+            :prepend-icon="themeStore.isDark ? 'fas fa-sun' : 'fas fa-moon'"
+            @click="themeStore.toggle()"
+          >
+            {{ themeStore.isDark ? 'โหมดสว่าง' : 'โหมดมืด' }}
+          </v-btn>
+        </div>
+
         <!-- Heading -->
         <div class="mb-7">
           <h2 class="text-h5 font-weight-bold mb-1">เข้าสู่ระบบ</h2>
@@ -63,7 +75,7 @@
         </div>
 
         <!-- SSO Primary (from all.md — SSO is main auth) -->
-        <v-btn
+        <!-- <v-btn
           color="primary"
           size="large"
           block
@@ -74,7 +86,7 @@
           @click="doSsoLogin"
         >
           เข้าสู่ระบบด้วย SSO กรมวิชาการเกษตร
-        </v-btn>
+        </v-btn> -->
         <!-- <v-btn
           variant="outlined"
           color="primary"
@@ -89,11 +101,11 @@
         </v-btn> -->
 
         <!-- Divider -->
-        <div class="d-flex align-center ga-3 mb-6">
+        <!-- <div class="d-flex align-center ga-3 mb-6">
           <v-divider />
           <span class="text-caption text-medium-emphasis text-no-wrap">หรือเข้าสู่ระบบด้วยรหัสผ่าน</span>
           <v-divider />
-        </div>
+        </div> -->
 
         <!-- Username / Password form -->
         <v-form ref="formRef" @submit.prevent="doLogin">
@@ -139,13 +151,22 @@
             rounded="lg"
             :loading="loading"
             prepend-icon="fas fa-right-to-bracket"
+          @click="doSsoLogin"
           >
             เข้าสู่ระบบ
           </v-btn>
         </v-form>
 
+        <!-- Register -->
+        <div class="register-row mt-6">
+          <span class="text-body-2 text-medium-emphasis">ยังไม่มีบัญชี?</span>
+          <v-btn variant="text" size="small" color="primary" class="ml-1 pa-0" @click="router.push('/register')">
+            สมัครสมาชิก
+          </v-btn>
+        </div>
+
         <!-- Footer -->
-        <div class="d-flex align-center justify-space-between mt-8">
+        <div class="d-flex align-center justify-space-between mt-5">
           <v-btn variant="text" size="small" color="medium-emphasis"
             prepend-icon="fas fa-arrow-left" @click="router.push('/')">
             กลับหน้าหลัก
@@ -162,8 +183,10 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { useThemeStore } from '@/stores/theme.store'
 
-const router = useRouter()
+const router     = useRouter()
+const themeStore = useThemeStore()
 
 const username     = ref('')
 const password     = ref('')
@@ -220,9 +243,9 @@ function doSsoLogin() {
   width: 420px;
   flex-shrink: 0;
   position: relative;
-  background: linear-gradient(160deg,
+  background: linear-gradient(135deg,
     rgb(var(--v-theme-primary)) 0%,
-    color-mix(in srgb, rgb(var(--v-theme-primary)) 55%, rgb(var(--v-theme-secondary))) 100%
+    rgba(var(--v-theme-primary), 0.65) 100%
   );
   flex-direction: column;
   overflow: hidden;
@@ -236,6 +259,12 @@ function doSsoLogin() {
     radial-gradient(ellipse at 80% 20%, rgba(255,255,255,0.07) 0%, transparent 55%),
     radial-gradient(ellipse at 10% 80%, rgba(255,255,255,0.05) 0%, transparent 50%);
   pointer-events: none;
+}
+
+.is-dark .login-left {
+  background:
+    linear-gradient(rgba(0,0,0,0.62), rgba(0,0,0,0.70)),
+    linear-gradient(135deg, rgb(var(--v-theme-primary)) 0%, rgba(var(--v-theme-primary), 0.55) 100%);
 }
 
 .login-left-inner {
@@ -322,4 +351,12 @@ function doSsoLogin() {
 }
 
 .req { color: rgb(var(--v-theme-error)); }
+
+.register-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 0;
+  border-top: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
+}
 </style>

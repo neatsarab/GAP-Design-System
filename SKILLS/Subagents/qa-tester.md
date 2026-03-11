@@ -46,7 +46,7 @@
 | 7 | INSPECTOR เข้า `/admin/users` | Redirect ไป Dashboard |
 | 8 | GROUP_ADMIN เข้า `/applications/group/new` | เข้าได้ |
 | 9 | FARMER เข้า `/applications/group/new` | Redirect ไป Dashboard |
-| 10 | OFFICER เข้า `/applications/new` | Redirect ไป Dashboard |
+| 10 | staff เข้า `/applications/new` | Redirect ไป Dashboard |
 
 ### Application Form (Step Form)
 | # | Test Case | Expected |

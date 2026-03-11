@@ -168,6 +168,6 @@ defaults: {
 ## UX Guidelines สำหรับผู้ใช้ระบบ GAP
 
 1. **Farmer** — ใช้ภาษาไทยเข้าใจง่าย, ฟอร์มไม่ซับซ้อน, มี hint/placeholder ชัดเจน
-2. **Officer/Inspector** — เน้น Data Table ที่ค้นหาและกรองได้รวดเร็ว
+2. **staff/Inspector** — เน้น Data Table ที่ค้นหาและกรองได้รวดเร็ว
 3. **Admin** — แสดง Dashboard Summary Cards สรุปภาพรวมระบบ
 4. **ทุก Role** — Navigation Drawer บ่งบอก Role ชัดเจน, แสดงเฉพาะเมนูที่มีสิทธิ์

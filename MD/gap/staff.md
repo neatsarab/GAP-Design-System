@@ -7,7 +7,7 @@
 # 1. โครงสร้างหน้าจอหลัก
 
 หน้าจอประกอบด้วย 3 ส่วนหลัก
-GAP Officer System
+GAP staff System
 │
 ├─ Sidebar Navigation
 ├─ Request List / Search
@@ -215,7 +215,7 @@ Information Architecture นี้อธิบาย **โครงสร้า�
 ---
 
 # 9.1 โครงสร้างระบบหลัก
-GAP Officer System
+GAP staff System
 │
 ├─ Dashboard
 │
@@ -349,7 +349,7 @@ Entities
 
 # 9.5 ภาพรวม Architecture ของเมนู
 
-Officer Interface
+staff Interface
 │
 ├─ Navigation
 │ ├─ Dashboard

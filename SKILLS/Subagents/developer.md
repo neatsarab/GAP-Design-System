@@ -94,7 +94,7 @@ const rules = {
 
 ## สิ่งที่ต้องรู้ก่อนเขียนโค้ด
 
-1. **Roles** — `FARMER`, `GROUP_ADMIN`, `OFFICER`, `INSPECTOR`, `ADMIN`
+1. **Roles** — `FARMER`, `GROUP_ADMIN`, `staff`, `INSPECTOR`, `ADMIN`
 2. **Status Flow** — `DRAFT → SUBMITTED → DOC_REVIEW → INSPECTION_SCHEDULED → INSPECTING → APPROVED → CERT_ISSUED → CERT_EXPIRED`
 3. **Vuetify Theme** — สีหลัก `primary: colors.green.darken3` (`green-darken-3`) เขียวเกษตร — ดูสีทั้งหมดที่ `SKILLS/colors.md`
 4. **SSO Auth** — Login ผ่าน OAuth 2.0, token เก็บใน Pinia + localStorage (persist: true)

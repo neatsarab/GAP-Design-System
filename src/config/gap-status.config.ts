@@ -17,8 +17,8 @@ import type { GapStatus, GapStatusDefinition, GapRole } from '@/types/gap-status
 // ══════════════════════════════════════════════════════════════════════════════
 
 /** Role shorthand สำหรับความกระชับ */
-const ALL_ROLES: GapRole[] = ['FARMER', 'OFFICER', 'INSPECTOR', 'SUPERVISOR', 'ADMIN']
-const STAFF_ROLES: GapRole[] = ['OFFICER', 'INSPECTOR', 'SUPERVISOR', 'ADMIN']
+const ALL_ROLES: GapRole[] = ['FARMER', 'staff', 'INSPECTOR', 'SUPERVISOR', 'ADMIN']
+const STAFF_ROLES: GapRole[] = ['staff', 'INSPECTOR', 'SUPERVISOR', 'ADMIN']
 
 /**
  * GAP_STATUS_MAP — ตาราง mapping สมบูรณ์ทุกสถานะ
@@ -63,7 +63,7 @@ export const GAP_STATUS_MAP: Record<GapStatus, GapStatusDefinition> = {
     order:         2,
     isTerminal:    false,
     canTransitionTo: ['DOC_REVIEW', 'REJECTED', 'CANCELLED'],
-    transitionBy:  ['OFFICER', 'ADMIN'],
+    transitionBy:  ['staff', 'ADMIN'],
   },
 
   // ────────────────────────────────────────────────────────────────────────────
@@ -81,7 +81,7 @@ export const GAP_STATUS_MAP: Record<GapStatus, GapStatusDefinition> = {
     order:         3,
     isTerminal:    false,
     canTransitionTo: ['INSPECTION_SCHEDULED', 'REJECTED', 'CANCELLED'],
-    transitionBy:  ['OFFICER', 'SUPERVISOR', 'ADMIN'],
+    transitionBy:  ['staff', 'SUPERVISOR', 'ADMIN'],
   },
 
   // ────────────────────────────────────────────────────────────────────────────
@@ -99,7 +99,7 @@ export const GAP_STATUS_MAP: Record<GapStatus, GapStatusDefinition> = {
     order:         4,
     isTerminal:    false,
     canTransitionTo: ['INSPECTING', 'REJECTED', 'CANCELLED'],
-    transitionBy:  ['INSPECTOR', 'OFFICER', 'ADMIN'],
+    transitionBy:  ['INSPECTOR', 'staff', 'ADMIN'],
   },
 
   // ────────────────────────────────────────────────────────────────────────────
@@ -245,7 +245,7 @@ export const TRANSITION_RULES: GapTransitionRule[] = [
       'แนบเอกสารประกอบครบตามที่ระบบกำหนด',
       'เกษตรกรยืนยันความถูกต้องของข้อมูล',
     ],
-    notes: 'หลังยื่น ระบบส่ง notification ถึง OFFICER ที่รับผิดชอบ',
+    notes: 'หลังยื่น ระบบส่ง notification ถึง staff ที่รับผิดชอบ',
   },
 
   // ── DRAFT → CANCELLED ──────────────────────────────────────────────────────
@@ -263,7 +263,7 @@ export const TRANSITION_RULES: GapTransitionRule[] = [
   {
     from: 'SUBMITTED',
     to:   'DOC_REVIEW',
-    by:   ['OFFICER', 'ADMIN'],
+    by:   ['staff', 'ADMIN'],
     conditions: [
       'เจ้าหน้าที่รับคำขอเข้าสู่คิวตรวจสอบแล้ว',
       'ระบบบันทึกวันที่รับคำขอ (received_date)',
@@ -275,7 +275,7 @@ export const TRANSITION_RULES: GapTransitionRule[] = [
   {
     from: 'SUBMITTED',
     to:   'REJECTED',
-    by:   ['OFFICER', 'SUPERVISOR', 'ADMIN'],
+    by:   ['staff', 'SUPERVISOR', 'ADMIN'],
     conditions: [
       'เอกสารไม่ครบหรือไม่ถูกต้องอย่างชัดเจน',
       'ระบุเหตุผลการปฏิเสธ (rejection_reason)',
@@ -287,7 +287,7 @@ export const TRANSITION_RULES: GapTransitionRule[] = [
   {
     from: 'SUBMITTED',
     to:   'CANCELLED',
-    by:   ['FARMER', 'OFFICER', 'ADMIN'],
+    by:   ['FARMER', 'staff', 'ADMIN'],
     conditions: [
       'ยืนยันการยกเลิก',
       'บันทึกเหตุผลการยกเลิก',
@@ -298,7 +298,7 @@ export const TRANSITION_RULES: GapTransitionRule[] = [
   {
     from: 'DOC_REVIEW',
     to:   'INSPECTION_SCHEDULED',
-    by:   ['OFFICER', 'SUPERVISOR', 'ADMIN'],
+    by:   ['staff', 'SUPERVISOR', 'ADMIN'],
     conditions: [
       'เอกสารทุกรายการครบถ้วนและถูกต้อง',
       'กำหนดวัน-เวลานัดหมายตรวจประเมิน (inspection_date)',
@@ -312,7 +312,7 @@ export const TRANSITION_RULES: GapTransitionRule[] = [
   {
     from: 'DOC_REVIEW',
     to:   'REJECTED',
-    by:   ['OFFICER', 'SUPERVISOR', 'ADMIN'],
+    by:   ['staff', 'SUPERVISOR', 'ADMIN'],
     conditions: [
       'เอกสารไม่ผ่านการตรวจสอบ',
       'ระบุรายการเอกสารที่ไม่ถูกต้อง / ขาดหาย',
@@ -324,7 +324,7 @@ export const TRANSITION_RULES: GapTransitionRule[] = [
   {
     from: 'DOC_REVIEW',
     to:   'CANCELLED',
-    by:   ['OFFICER', 'SUPERVISOR', 'ADMIN'],
+    by:   ['staff', 'SUPERVISOR', 'ADMIN'],
     conditions: [
       'ยืนยันการยกเลิก',
       'บันทึกเหตุผล',
@@ -335,7 +335,7 @@ export const TRANSITION_RULES: GapTransitionRule[] = [
   {
     from: 'INSPECTION_SCHEDULED',
     to:   'INSPECTING',
-    by:   ['INSPECTOR', 'OFFICER', 'ADMIN'],
+    by:   ['INSPECTOR', 'staff', 'ADMIN'],
     conditions: [
       'ถึงวันที่นัดหมายตรวจประเมินแล้ว',
       'ผู้ตรวจประเมินเช็กอิน / ยืนยันการเริ่มตรวจ',
@@ -347,7 +347,7 @@ export const TRANSITION_RULES: GapTransitionRule[] = [
   {
     from: 'INSPECTION_SCHEDULED',
     to:   'REJECTED',
-    by:   ['OFFICER', 'SUPERVISOR', 'ADMIN'],
+    by:   ['staff', 'SUPERVISOR', 'ADMIN'],
     conditions: [
       'เกษตรกรไม่มาตามนัดโดยไม่แจ้ง (เกิน 2 ครั้ง)',
       'บันทึกเหตุผล',
@@ -358,7 +358,7 @@ export const TRANSITION_RULES: GapTransitionRule[] = [
   {
     from: 'INSPECTION_SCHEDULED',
     to:   'CANCELLED',
-    by:   ['FARMER', 'OFFICER', 'ADMIN'],
+    by:   ['FARMER', 'staff', 'ADMIN'],
     conditions: [
       'ยืนยันการยกเลิก',
       'บันทึกเหตุผลและวันที่',
