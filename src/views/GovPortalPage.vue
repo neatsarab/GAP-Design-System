@@ -1,5 +1,5 @@
 <template>
-  <div class="portal-root">
+  <div class="portal-root" :class="{ 'is-dark': themeStore.isDark }">
 
     <!-- ══════════════════════════════════════════
          TOP NAV BAR
@@ -27,7 +27,43 @@
             <span class="text-caption" style="color:rgba(255,255,255,0.75)">{{ currentDate }}</span>
           </div>
 
-          <v-divider vertical class="mx-1" style="opacity:0.2;height:20px" />
+          <v-divider vertical class="mx-1" style="opacity:0.2;height:40px" />
+
+          <!-- Mode toggle -->
+          <div class="mode-toggle-group d-flex align-center">
+            <button
+              class="mode-btn"
+              :class="{ 'mode-btn--active': mode === 'officer' }"
+              @click="mode = 'officer'"
+            >
+              <v-icon icon="fas fa-user-tie" size="12" class="mr-1" />
+              เจ้าหน้าที่
+            </button>
+            <button
+              class="mode-btn"
+              :class="{ 'mode-btn--active': mode === 'user' }"
+              @click="mode = 'user'"
+            >
+              <v-icon icon="fas fa-user" size="12" class="mr-1" />
+              ผู้ใช้งาน
+            </button>
+          </div>
+
+          <v-divider vertical class="mx-1" style="opacity:0.2;height:40px" />
+
+          <!-- Dark mode toggle -->
+          <v-btn
+            icon
+            variant="text"
+            size="small"
+            style="color:rgba(255,255,255,0.8)"
+            @click="themeStore.toggle()"
+          >
+            <v-icon :icon="themeStore.isDark ? 'fas fa-sun' : 'fas fa-moon'" size="16" />
+            <v-tooltip activator="parent" location="bottom">
+              {{ themeStore.isDark ? 'โหมดสว่าง' : 'โหมดมืด' }}
+            </v-tooltip>
+          </v-btn>
 
           <!-- Notification bell -->
           <v-btn
@@ -222,10 +258,10 @@
         <div class="section-label mt-8 mb-4">
           <div class="d-flex align-center ga-3">
             <div class="section-label-dot" style="background:rgba(var(--v-theme-on-surface),0.2)" />
-            <span class="text-body-1 font-weight-bold text-medium-emphasis">กำลังพัฒนา</span>
+            <span class="text-body-1 font-weight-bold text-medium-emphasis">ไม่มีสิทธิการเข้าถึง</span>
             <v-chip size="x-small" color="grey" variant="tonal">{{ inactiveSystems.length }} ระบบ</v-chip>
           </div>
-          <p class="text-caption text-medium-emphasis mt-1 ml-4">ระบบด้านล่างอยู่ระหว่างการพัฒนา คาดว่าจะพร้อมภายในปีงบประมาณ 2569</p>
+          <p class="text-caption text-medium-emphasis mt-1 ml-4">หากต้องการใช้งาน ให้ท่านยื่นคำขอการใช้งานก่อน</p>
         </div>
 
         <v-row>
@@ -241,7 +277,7 @@
                     <v-icon :icon="system.icon" color="medium-emphasis" size="22" />
                   </div>
                   <v-chip size="x-small" color="grey" variant="outlined" prepend-icon="fas fa-hourglass-half">
-                    กำลังพัฒนา
+                    ไม่มีสิทธิการเข้าถึง
                   </v-chip>
                 </div>
 
@@ -281,27 +317,32 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
+import { useThemeStore } from '@/stores/theme.store'
 
 const router = useRouter()
+const themeStore = useThemeStore()
 
-const user = {
-  name: 'นางสาว เนตรสาร ทดสอบ',
-  role: 'เจ้าหน้าที่วิชาการเกษตร',
-  dept: 'กองพัฒนาระบบและรับรองมาตรฐานสินค้าพืช',
-  email: 'neatsara@doa.go.th',
-}
-
-const currentDate = computed(() =>
-  new Date().toLocaleDateString('th-TH', { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' })
-)
+const mode = ref<'officer' | 'user'>('officer')
 
 const heroStats = [
   { label: 'คำขอที่รอดำเนินการ', value: '3', icon: 'fas fa-file-pen', badge: 'ใหม่', badgeColor: 'warning' },
   { label: 'ใบรับรองที่มีผล', value: '12', icon: 'fas fa-certificate', badge: null, badgeColor: '' },
   { label: 'ใบรับรองใกล้หมดอายุ', value: '1', icon: 'fas fa-triangle-exclamation', badge: 'แจ้งเตือน', badgeColor: 'error' },
 ]
+
+const user = {
+  name: 'นิธิพร เทิบจันทึก',
+  role: 'เจ้าหน้าที่วิชาการเกษตร',
+  dept: 'กองพัฒนาระบบและรับรองมาตรฐานสินค้าพืช',
+  email: 'nitiporn@doa.go.th',
+}
+
+const currentDate = computed(() =>
+  new Date().toLocaleDateString('th-TH', { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' })
+)
+
 
 interface SystemItem {
   id: number
@@ -315,7 +356,7 @@ interface SystemItem {
   eta?: string
 }
 
-const systems: SystemItem[] = [
+const systems = computed<SystemItem[]>(() => [
   {
     id: 1,
     name: 'ระบบการรับรองมาตรฐาน GAP พืช',
@@ -323,8 +364,8 @@ const systems: SystemItem[] = [
     icon: 'fas fa-seedling',
     color: 'primary',
     active: true,
-    route: '/app/dashboard',
-    tags: ['ยื่นคำขอ', 'ติดตามสถานะ', 'ใบรับรอง'],
+    route: mode.value === 'officer' ? '/officer/dashboard' : '/app/dashboard',
+    tags: mode.value === 'officer' ? ['จัดการคำขอ', 'ตรวจแปลง', 'ออกใบรับรอง'] : ['ยื่นคำขอ', 'ติดตามสถานะ', 'ใบรับรอง'],
   },
   {
     id: 2,
@@ -386,10 +427,10 @@ const systems: SystemItem[] = [
     route: '#',
     eta: 'ไตรมาส 4/2569',
   },
-]
+])
 
-const activeSystems = computed(() => systems.filter(s => s.active))
-const inactiveSystems = computed(() => systems.filter(s => !s.active))
+const activeSystems = computed(() => systems.value.filter(s => s.active))
+const inactiveSystems = computed(() => systems.value.filter(s => !s.active))
 </script>
 
 <style scoped>
@@ -409,6 +450,10 @@ const inactiveSystems = computed(() => systems.filter(s => !s.active))
   background: rgb(var(--v-theme-primary));
   backdrop-filter: blur(12px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+/* Dark: primary = #A5D6A7 (เขียวอ่อนมาก) — ใช้ opacity ต่ำบน dark bg ให้ได้โทนเขียวเข้ม */
+.is-dark .portal-topbar {
+  background: rgba(var(--v-theme-primary), 0.18);
 }
 
 .portal-topbar-inner {
@@ -474,18 +519,29 @@ const inactiveSystems = computed(() => systems.filter(s => !s.active))
   height: 7px;
   border-radius: 50%;
   background: rgb(var(--v-theme-error));
-  border: 1.5px solid rgb(var(--v-theme-primary));
+  border: 1.5px solid transparent;
 }
 
 /* ─── Hero ─── */
 .portal-hero {
+  /* Light: primary (#4CAF6E) → rgba ที่ 70% ให้ gradient เขียวเข้ม→เขียวอ่อน */
   background: linear-gradient(135deg,
     rgb(var(--v-theme-primary)) 0%,
-    color-mix(in srgb, rgb(var(--v-theme-primary)) 60%, rgb(var(--v-theme-secondary))) 100%
+    rgba(var(--v-theme-primary), 0.65) 100%
   );
   padding: 36px 24px 48px;
   position: relative;
   overflow: hidden;
+}
+
+/* Dark: primary = #A5D6A7 (เขียวอ่อน) ต้องการ bg เข้มพอสำหรับ text ขาว
+   ใช้ dark overlay ทับ gradient เขียว → ได้โทนเขียวเข้มที่อ่านออก */
+.is-dark .portal-hero {
+  background:
+    linear-gradient(rgba(0,0,0,0.62), rgba(0,0,0,0.70)),
+    linear-gradient(135deg, rgb(var(--v-theme-primary)) 0%, rgba(var(--v-theme-primary), 0.55) 100%);
+
+    
 }
 
 .portal-hero::after {
@@ -493,8 +549,8 @@ const inactiveSystems = computed(() => systems.filter(s => !s.active))
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse at 90% 50%, rgba(255,255,255,0.06) 0%, transparent 60%),
-    radial-gradient(ellipse at 10% 80%, rgba(255,255,255,0.04) 0%, transparent 50%);
+    radial-gradient(ellipse at 90% 50%, rgba(255,255,255,0.10) 0%, transparent 60%),
+    radial-gradient(ellipse at 10% 80%, rgba(255,255,255,0.06) 0%, transparent 50%);
   pointer-events: none;
 }
 
@@ -506,8 +562,8 @@ const inactiveSystems = computed(() => systems.filter(s => !s.active))
 }
 
 .hero-stat-card {
-  background: rgba(255, 255, 255, 0.12);
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   border-radius: 14px;
   padding: 14px 18px;
   min-width: 140px;
@@ -604,5 +660,36 @@ const inactiveSystems = computed(() => systems.filter(s => !s.active))
 }
 .portal-footer-link:hover {
   color: rgb(var(--v-theme-primary)) !important;
+}
+
+/* ─── Mode Toggle ─── */
+.mode-toggle-group {
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 20px;
+  padding: 3px;
+  gap: 2px;
+}
+.mode-btn {
+  display: flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 16px;
+  border: none;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s;
+  white-space: nowrap;
+}
+.mode-btn:hover {
+  color: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.1);
+}
+.mode-btn--active {
+  background: rgba(255, 255, 255, 0.22) !important;
+  color: white !important;
 }
 </style>

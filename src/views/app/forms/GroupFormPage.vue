@@ -155,7 +155,7 @@
               </v-row>
             </div>
 
-            <v-btn v-if="members.length > 0" block variant="dashed" color="info"
+            <v-btn v-if="members.length > 0" block variant="tonal" color="info"
               prepend-icon="fas fa-plus" class="mt-2" @click="addMember">
               เพิ่มสมาชิก
             </v-btn>

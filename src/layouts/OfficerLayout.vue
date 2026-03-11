@@ -7,11 +7,11 @@
       <v-list-item nav class="py-4 px-4">
         <template v-slot:prepend>
           <div class="logo-icon-box rounded-lg mr-3">
-            <v-icon icon="fas fa-leaf" color="primary" size="20" />
+            <v-icon icon="fas fa-seedling" color="primary" size="20" />
           </div>
         </template>
-        <v-list-item-title class="text-body-2 font-weight-bold">GAP พืช</v-list-item-title>
-        <v-list-item-subtitle class="text-caption">กรมวิชาการเกษตร</v-list-item-subtitle>
+        <v-list-item-title class="text-body-2 font-weight-bold">ระบบ GAP พืช</v-list-item-title>
+        <v-list-item-subtitle class="text-caption" style="color:rgb(var(--v-theme-primary));opacity:0.8">ฝั่งเจ้าหน้าที่</v-list-item-subtitle>
         <template v-slot:append>
           <v-btn :icon="rail ? 'fas fa-chevron-right' : 'fas fa-chevron-left'"
             variant="text" color="on-surface-variant" size="small" @click="rail = !rail" />
@@ -22,11 +22,11 @@
       <div v-if="!rail" class="px-4 mb-2">
         <div class="user-card rounded-lg pa-3 d-flex align-center ga-2">
           <v-avatar color="primary" size="32">
-            <v-icon icon="fas fa-user" size="16" color="white" />
+            <v-icon icon="fas fa-user-tie" size="16" color="white" />
           </v-avatar>
           <div class="flex-grow-1 overflow-hidden">
             <div class="text-truncate text-body-2 font-weight-medium text-primary">นิธิพร เทิบจันทึก</div>
-            <div class="text-caption text-medium-emphasis">เลขทะเบียน : 19903004</div>
+            <div class="text-caption text-medium-emphasis">เจ้าหน้าที่วิชาการเกษตร</div>
           </div>
         </div>
       </div>
@@ -50,10 +50,16 @@
         </template>
       </v-list>
 
-      <!-- Bottom: Logout -->
+      <!-- Bottom -->
       <template v-slot:append>
         <v-divider />
         <v-list density="compact" nav class="px-2 py-2">
+          <v-list-item
+            prepend-icon="fas fa-arrow-left"
+            title="กลับหน้า Portal"
+            rounded="lg"
+            @click="router.push('/portal')"
+          />
           <v-list-item
             prepend-icon="fas fa-right-from-bracket"
             title="ออกจากระบบ"
@@ -68,36 +74,26 @@
     <!-- ── App Bar ── -->
     <v-app-bar flat height="64" class="app-bar">
       <v-btn icon="fas fa-bars" variant="text" size="small" class="ml-2" @click="rail = !rail" />
-
-      <!-- Breadcrumb -->
       <v-breadcrumbs :items="breadcrumbs" density="compact" class="ml-1 d-none d-sm-flex">
         <template #divider>
           <v-icon icon="fas fa-chevron-right" size="10" />
         </template>
       </v-breadcrumbs>
-
       <v-spacer />
-
       <div class="d-flex align-center ga-1 mr-3">
-        <!-- Theme -->
         <v-tooltip :text="isDark ? 'Light Mode' : 'Dark Mode'" location="bottom">
           <template v-slot:activator="{ props }">
             <v-btn v-bind="props" :icon="isDark ? 'fas fa-sun' : 'fas fa-moon'"
               variant="text" size="small" @click="toggleTheme" />
           </template>
         </v-tooltip>
-
-        <!-- Notifications -->
-        <v-btn variant="text" size="small" icon class="mr-1">
-          <v-badge color="error" content="3" floating>
+        <v-btn variant="text" size="small" icon class="mr-1" @click="router.push('/officer/notifications')">
+          <v-badge color="error" content="5" floating>
             <v-icon icon="fas fa-bell" size="20" color="primary" />
           </v-badge>
         </v-btn>
-
-        <!-- User -->
-        <v-chip variant="outlined" color="primary" class="user-chip mr-2" prepend-icon="fas fa-user">
+        <v-chip variant="outlined" color="primary" class="user-chip mr-2" prepend-icon="fas fa-user-tie">
           นิธิพร เทิบจันทึก
-          <v-icon icon="fas fa-chevron-down" size="12" class="ml-1" />
         </v-chip>
       </div>
     </v-app-bar>
@@ -110,17 +106,11 @@
             <v-icon icon="fas fa-right-from-bracket" size="28" color="error" />
           </div>
           <h3 class="text-h6 font-weight-bold mb-2">ออกจากระบบ</h3>
-          <p class="text-body-2 text-medium-emphasis mb-0">
-            คุณต้องการออกจากระบบใช่หรือไม่?
-          </p>
+          <p class="text-body-2 text-medium-emphasis mb-0">คุณต้องการออกจากระบบใช่หรือไม่?</p>
         </v-card-text>
         <v-card-actions class="px-6 pb-5 ga-2">
-          <v-btn variant="tonal" color="grey" rounded="lg" block @click="logoutDialog = false">
-            ยกเลิก
-          </v-btn>
-          <v-btn color="error" rounded="lg" block @click="doLogout">
-            ออกจากระบบ
-          </v-btn>
+          <v-btn variant="tonal" color="grey" rounded="lg" block @click="logoutDialog = false">ยกเลิก</v-btn>
+          <v-btn color="error" rounded="lg" block @click="doLogout">ออกจากระบบ</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -144,9 +134,9 @@ const isDark     = computed(() => themeStore.isDark)
 function toggleTheme() { themeStore.toggle() }
 
 const router       = useRouter()
+const route        = useRoute()
 const drawer       = ref(true)
 const rail         = ref(false)
-const route        = useRoute()
 const logoutDialog = ref(false)
 
 function doLogout() {
@@ -159,38 +149,60 @@ const navGroups = [
     label: 'ภาพรวม',
     divider: true,
     items: [
-      { title: 'แดชบอร์ด',    icon: 'fas fa-gauge',         to: '/app/dashboard' },
+      { title: 'แดชบอร์ด', icon: 'fas fa-gauge', to: '/officer/dashboard' },
     ],
   },
   {
-    label: 'คำขอ GAP',
+    label: 'คำขอรับรองแบบเดี่ยว',
     divider: true,
     items: [
-      { title: 'ยื่นคำขอใหม่', icon: 'fas fa-file-pen',      to: '/app/applications/new' },
-      { title: 'รายการคำขอ',  icon: 'fas fa-file-lines',    to: '/app/applications' },
+      { title: 'รายการคำขอ',        icon: 'fas fa-file-lines',    to: '/officer/applications' },
+      { title: 'ยื่นคำขอรับรอง',     icon: 'fas fa-file-pen',      to: '/officer/applications/new' },
+      { title: 'นัดตรวจแปลง',       icon: 'fas fa-calendar-check', to: '/officer/schedule' },
+      { title: 'ผลการตรวจแปลง',    icon: 'fas fa-clipboard-check', to: '/officer/inspection-results' },
+      { title: 'เสนอแปลงต่อ CC',    icon: 'fas fa-paper-plane',   to: '/officer/propose-cc' },
+      { title: 'บันทึกผลจาก CC',    icon: 'fas fa-gavel',          to: '/officer/cc-results' },
     ],
   },
   {
-    label: 'ระบบ',
+    label: 'คำขอรับรองแบบกลุ่ม',
+    divider: true,
+    items: [
+      { title: 'รายการคำขอกลุ่ม', icon: 'fas fa-users', to: '/officer/group-applications' },
+    ],
+  },
+  {
+    label: 'ใบรับรอง & รายงาน',
     divider: false,
     items: [
-      { title: 'ตั้งค่า',       icon: 'fas fa-gear',          to: '/app/settings' },
+      { title: 'ข้อมูลใบรับรอง',    icon: 'fas fa-certificate', to: '/officer/certificates' },
+      { title: 'ติดตาม-แจ้งเตือน', icon: 'fas fa-bell',        to: '/officer/notifications' },
+      { title: 'รายงาน',            icon: 'fas fa-chart-bar',   to: '/officer/reports' },
     ],
   },
 ]
 
 const routeTitleMap: Record<string, string> = {
-  '/app/dashboard':          'แดชบอร์ด',
-  '/app/applications':       'รายการคำขอ',
-  '/app/applications/new':   'ยื่นคำขอใหม่',
-  '/app/settings':           'ตั้งค่า',
+  '/officer/dashboard':           'แดชบอร์ด',
+  '/officer/applications':        'รายการคำขอ',
+  '/officer/applications/new':    'ยื่นคำขอรับรอง',
+  '/officer/schedule':            'นัดตรวจแปลง',
+  '/officer/inspection-results':  'ผลการตรวจแปลง',
+  '/officer/propose-cc':          'เสนอแปลงต่อ CC',
+  '/officer/cc-results':          'บันทึกผลจาก CC',
+  '/officer/group-applications':  'รายการคำขอกลุ่ม',
+  '/officer/certificates':        'ข้อมูลใบรับรอง',
+  '/officer/notifications':       'ติดตาม-แจ้งเตือน',
+  '/officer/reports':             'รายงาน',
 }
 
 const breadcrumbs = computed(() => {
-  const title = routeTitleMap[route.path] ?? 'รายละเอียด'
+  const base = route.path.startsWith('/officer/applications/') && route.params.id
+    ? 'รายละเอียดคำขอ'
+    : (routeTitleMap[route.path] ?? 'รายละเอียด')
   return [
-    { title: 'ระบบ GAP', to: '/app/dashboard' },
-    { title },
+    { title: 'ระบบเจ้าหน้าที่ GAP', to: '/officer/dashboard' },
+    { title: base },
   ]
 })
 </script>
@@ -218,14 +230,10 @@ const breadcrumbs = computed(() => {
   background: rgba(var(--v-theme-primary), 0.06);
 }
 .logout-icon-ring {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
+  width: 60px; height: 60px; border-radius: 50%;
   background: rgba(var(--v-theme-error), 0.1);
   border: 1px solid rgba(var(--v-theme-error), 0.2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: flex; align-items: center; justify-content: center;
 }
 .sidebar-group-label {
   font-size: 10px; font-weight: 700;

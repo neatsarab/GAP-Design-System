@@ -35,6 +35,87 @@ const router = createRouter({
       meta: { title: 'Design System' },
     },
 
+    // ── GAP Officer System ────────────────────────────
+    {
+      path: '/officer',
+      component: () => import('@/layouts/OfficerLayout.vue'),
+      children: [
+        { path: '', redirect: '/officer/dashboard' },
+        {
+          path: 'dashboard',
+          name: 'OfficerDashboard',
+          component: () => import('@/views/officer/OfficerDashboardPage.vue'),
+          meta: { title: 'แดชบอร์ดเจ้าหน้าที่' },
+        },
+        {
+          path: 'applications',
+          name: 'OfficerApplicationList',
+          component: () => import('@/views/officer/OfficerApplicationListPage.vue'),
+          meta: { title: 'รายการคำขอ GAP' },
+        },
+        {
+          path: 'applications/new',
+          name: 'OfficerNewApplication',
+          component: () => import('@/views/officer/OfficerNewApplicationPage.vue'),
+          meta: { title: 'ยื่นคำขอรับรอง' },
+        },
+        {
+          path: 'applications/:id',
+          name: 'OfficerApplicationDetail',
+          component: () => import('@/views/officer/OfficerApplicationDetailPage.vue'),
+          meta: { title: 'รายละเอียดคำขอ' },
+        },
+        {
+          path: 'schedule',
+          name: 'OfficerSchedule',
+          component: () => import('@/views/officer/OfficerApplicationListPage.vue'),
+          meta: { title: 'นัดตรวจแปลง', statusFilter: 'scheduling' },
+        },
+        {
+          path: 'inspection-results',
+          name: 'OfficerInspectionResults',
+          component: () => import('@/views/officer/OfficerApplicationListPage.vue'),
+          meta: { title: 'ผลการตรวจแปลง', statusFilter: 'inspected' },
+        },
+        {
+          path: 'propose-cc',
+          name: 'OfficerProposeCC',
+          component: () => import('@/views/officer/OfficerApplicationListPage.vue'),
+          meta: { title: 'เสนอแปลงต่อ CC', statusFilter: 'pending_cc' },
+        },
+        {
+          path: 'cc-results',
+          name: 'OfficerCCResults',
+          component: () => import('@/views/officer/OfficerApplicationListPage.vue'),
+          meta: { title: 'บันทึกผลจาก CC', statusFilter: 'cc_reviewing' },
+        },
+        {
+          path: 'group-applications',
+          name: 'OfficerGroupApplicationList',
+          component: () => import('@/views/officer/OfficerGroupApplicationListPage.vue'),
+          meta: { title: 'รายการคำขอกลุ่ม' },
+        },
+        {
+          path: 'certificates',
+          name: 'OfficerCertificates',
+          component: () => import('@/views/officer/OfficerCertificatePage.vue'),
+          meta: { title: 'ข้อมูลใบรับรอง' },
+        },
+        {
+          path: 'notifications',
+          name: 'OfficerNotifications',
+          component: () => import('@/views/officer/OfficerNotificationPage.vue'),
+          meta: { title: 'ติดตาม-แจ้งเตือน' },
+        },
+        {
+          path: 'reports',
+          name: 'OfficerReports',
+          component: () => import('@/views/officer/OfficerReportPage.vue'),
+          meta: { title: 'รายงาน' },
+        },
+      ],
+    },
+
     // ── GAP System (with AppLayout) ───────────────────
     {
       path: '/app',
