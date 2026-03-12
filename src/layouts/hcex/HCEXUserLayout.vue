@@ -41,7 +41,9 @@
             <v-icon icon="fas fa-building" size="16" color="warning" />
           </v-avatar>
           <div class="flex-grow-1 overflow-hidden">
-            <div class="text-truncate text-body-2 font-weight-medium">
+            <div
+              class="text-truncate text-body-2 font-weight-medium text-warning"
+            >
               บริษัท ไทยฟู้ดโปรเซส จำกัด
             </div>
             <div class="text-caption text-medium-emphasis">
@@ -241,7 +243,7 @@ const navGroups = [
     divider: false,
     items: [
       {
-        title: "ใบรับรองของฉัน",
+        title: "ใบรับรอง",
         icon: "fas fa-industry",
         to: "/hcex/user/certificates",
       },

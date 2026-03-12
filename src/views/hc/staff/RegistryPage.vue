@@ -8,7 +8,7 @@
           ข้อมูลใบรับรองสุขอนามัยพืชที่ออกแล้วทั้งหมด
         </p>
       </div>
-      <v-btn color="info" prepend-icon="fas fa-file-export" variant="tonal">
+      <v-btn color="hc-staff" prepend-icon="fas fa-file-export" variant="tonal">
         ส่งออกข้อมูล
       </v-btn>
     </div>
@@ -65,9 +65,9 @@
 
     <!-- Status Filter -->
     <v-chip-group v-model="filterStatus" class="mb-4" mandatory>
-      <v-chip value="all" color="info" variant="tonal" filter size="small">
+      <v-chip value="all" color="hc-staff" variant="tonal" filter size="small">
         <v-icon start icon="fas fa-list" size="12" /> ทั้งหมด
-        <v-badge :content="allCerts.length" inline color="info" class="ml-1" />
+        <v-badge :content="allCerts.length" inline color="hc-staff" class="ml-1" />
       </v-chip>
       <v-chip
         value="active"
@@ -171,7 +171,7 @@
 
         <template #item.actions="{ item }">
           <div class="d-flex ga-1">
-            <v-btn size="small" variant="text" color="info" icon="fas fa-eye" />
+            <v-btn size="small" variant="text" color="hc-staff" icon="fas fa-eye" />
             <v-btn
               size="small"
               variant="text"
@@ -202,7 +202,7 @@ const stats = [
     label: "ใบรับรองทั้งหมด",
     value: "148",
     icon: "fas fa-file-shield",
-    color: "info",
+    color: "hc-staff",
   },
   {
     label: "มีผล",

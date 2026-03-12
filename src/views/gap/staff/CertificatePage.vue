@@ -6,7 +6,7 @@
         <p class="text-body-2 text-medium-emphasis mb-0">รายการใบรับรองมาตรฐานการปฏิบัติทางการเกษตรที่ดีที่ออกแล้ว</p>
       </div>
       <div class="d-flex ga-2">
-        <v-btn variant="tonal" color="primary" prepend-icon="fas fa-download">ส่งออก Excel</v-btn>
+        <v-btn variant="tonal" color="gap-staff" prepend-icon="fas fa-download">ส่งออก Excel</v-btn>
       </div>
     </div>
 
@@ -57,7 +57,7 @@
         </template>
         <template #item.actions="{ item }">
           <div class="d-flex ga-1">
-            <v-btn size="small" variant="text" color="primary" icon="fas fa-eye" />
+            <v-btn size="small" variant="text" color="gap-staff" icon="fas fa-eye" />
             <v-btn size="small" variant="text" color="success" icon="fas fa-download" />
             <v-btn size="small" variant="text" color="warning" icon="fas fa-print" />
           </div>

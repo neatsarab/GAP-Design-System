@@ -12,7 +12,7 @@
       <v-list-item nav class="py-4 px-4">
         <template v-slot:prepend>
           <div class="logo-icon-box rounded-lg mr-3">
-            <v-icon icon="fas fa-file-shield" color="info" size="20" />
+            <v-icon icon="fas fa-file-shield" color="hc-staff" size="20" />
           </div>
         </template>
         <v-list-item-title class="text-body-2 font-weight-bold"
@@ -20,7 +20,7 @@
         >
         <v-list-item-subtitle
           class="text-caption"
-          style="color: rgb(var(--v-theme-info)); opacity: 0.85"
+          style="color: rgb(var(--v-theme-hc-staff)); opacity: 0.85"
           >ฝั่งเจ้าหน้าที่</v-list-item-subtitle
         >
         <template v-slot:append>
@@ -37,11 +37,13 @@
       <!-- User Card -->
       <div v-if="!rail" class="px-4 mb-2">
         <div class="user-card rounded-lg pa-3 d-flex align-center ga-2">
-          <v-avatar color="info" size="32">
+          <v-avatar color="hc-staff" size="32">
             <v-icon icon="fas fa-user-tie" size="16" color="white" />
           </v-avatar>
           <div class="flex-grow-1 overflow-hidden">
-            <div class="text-truncate text-body-2 font-weight-medium text-info">
+            <div
+              class="text-truncate text-body-2 font-weight-medium text-hc-staff"
+            >
               นิธิพร เทิบจันทึก
             </div>
             <div class="text-caption text-medium-emphasis">เจ้าหน้าที่ HC</div>
@@ -63,7 +65,7 @@
             :prepend-icon="item.icon"
             :title="item.title"
             :to="item.to"
-            active-color="info"
+            active-color="hc-staff"
             rounded="lg"
             class="mb-1"
           />
@@ -115,7 +117,7 @@
         <!-- Notifications -->
         <v-btn variant="text" size="small" icon class="mr-1">
           <v-badge color="error" content="3" floating>
-            <v-icon icon="fas fa-bell" size="20" color="info" />
+            <v-icon icon="fas fa-bell" size="20" color="hc-staff" />
           </v-badge>
         </v-btn>
 
@@ -137,7 +139,7 @@
 
         <v-chip
           variant="outlined"
-          color="info"
+          color="hc-staff"
           class="user-chip mr-2 ml-1"
           prepend-icon="fas fa-user-tie"
         >
@@ -255,16 +257,16 @@ const navGroups = [
 .logo-icon-box {
   width: 36px;
   height: 36px;
-  background: rgba(var(--v-theme-info), 0.12);
-  border: 1px solid rgba(var(--v-theme-info), 0.2);
+  background: rgba(var(--v-theme-hc-staff), 0.12);
+  border: 1px solid rgba(var(--v-theme-hc-staff), 0.2);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
 }
 .user-card {
-  background: rgba(var(--v-theme-info), 0.06);
-  border: 1px solid rgba(var(--v-theme-info), 0.12);
+  background: rgba(var(--v-theme-hc-staff), 0.06);
+  border: 1px solid rgba(var(--v-theme-hc-staff), 0.12);
 }
 .sidebar-group-label {
   font-size: 10px;
@@ -278,7 +280,7 @@ const navGroups = [
 }
 .user-chip {
   font-size: 12px;
-  background: rgba(var(--v-theme-info), 0.06);
+  background: rgba(var(--v-theme-hc-staff), 0.06);
 }
 .logout-icon-ring {
   width: 64px;

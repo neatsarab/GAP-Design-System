@@ -121,7 +121,7 @@
           <v-btn
             size="small"
             variant="tonal"
-            color="info"
+            color="hc-staff"
             prepend-icon="fas fa-eye"
             @click.stop="router.push(`/hc/applications/${item.id}`)"
           >
@@ -183,7 +183,7 @@ const statusTabs = [
   {
     label: "ทั้งหมด",
     value: "all",
-    color: "info",
+    color: "hc-staff",
     icon: "fas fa-list",
     count: 0,
   },

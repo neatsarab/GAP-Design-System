@@ -5,7 +5,8 @@
       <div>
         <h1 class="text-h5 font-weight-bold mb-1">แดชบอร์ด HC สินค้าแปรรูป</h1>
         <p class="text-body-2 text-medium-emphasis mb-0">
-          ภาพรวมคำขอใบรับรองสุขอนามัยสินค้าแปรรูปด้านพืชของคุณ
+          ภาพรวมระบบออกใบรับรองสุขอนามัย (Health Certificate)
+          สินค้าแปรรูปด้านพืช
         </p>
       </div>
       <v-btn
@@ -53,7 +54,11 @@
             class="pa-4 pb-0 d-flex align-center justify-space-between"
           >
             <div class="d-flex align-center ga-2">
-              <v-icon icon="fas fa-clock-rotate-left" color="warning" size="16" />
+              <v-icon
+                icon="fas fa-clock-rotate-left"
+                color="warning"
+                size="16"
+              />
               <span class="text-body-1 font-weight-bold">คำขอล่าสุด</span>
             </div>
             <v-btn
@@ -138,7 +143,9 @@
               color="secondary"
               prepend-icon="fas fa-file-pen"
               class="justify-start"
-              @click="router.push('/hcex/user/applications/new?type=correction')"
+              @click="
+                router.push('/hcex/user/applications/new?type=correction')
+              "
             >
               ยื่นคำขอแก้ไขใบรับรอง
             </v-btn>

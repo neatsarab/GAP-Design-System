@@ -12,7 +12,7 @@
       <v-list-item nav class="py-4 px-4">
         <template v-slot:prepend>
           <div class="logo-icon-box rounded-lg mr-3">
-            <v-icon icon="fas fa-seedling" color="primary" size="20" />
+            <v-icon icon="fas fa-seedling" color="gap-staff" size="20" />
           </div>
         </template>
         <v-list-item-title class="text-body-2 font-weight-bold"
@@ -20,7 +20,7 @@
         >
         <v-list-item-subtitle
           class="text-caption"
-          style="color: rgb(var(--v-theme-primary)); opacity: 0.8"
+          style="color: rgb(var(--v-theme-gap-staff)); opacity: 0.85"
           >ฝั่งเจ้าหน้าที่</v-list-item-subtitle
         >
         <template v-slot:append>
@@ -37,12 +37,12 @@
       <!-- User Card -->
       <div v-if="!rail" class="px-4 mb-2">
         <div class="user-card rounded-lg pa-3 d-flex align-center ga-2">
-          <v-avatar color="primary" size="32">
+          <v-avatar color="gap-staff" size="32">
             <v-icon icon="fas fa-user-tie" size="16" color="white" />
           </v-avatar>
           <div class="flex-grow-1 overflow-hidden">
             <div
-              class="text-truncate text-body-2 font-weight-medium text-primary"
+              class="text-truncate text-body-2 font-weight-medium text-gap-staff"
             >
               นิธิพร เทิบจันทึก
             </div>
@@ -65,7 +65,7 @@
             :prepend-icon="item.icon"
             :title="item.title"
             :to="item.to"
-            active-color="primary"
+            active-color="gap-staff"
             rounded="lg"
             class="mb-1"
           />
@@ -123,7 +123,7 @@
           @click="router.push('/gap/staff/notifications')"
         >
           <v-badge color="error" content="3" floating>
-            <v-icon icon="fas fa-bell" size="20" color="primary" />
+            <v-icon icon="fas fa-bell" size="20" color="gap-staff" />
           </v-badge>
         </v-btn>
 
@@ -145,7 +145,7 @@
 
         <v-chip
           variant="outlined"
-          color="primary"
+          color="gap-staff"
           class="user-chip mr-2 ml-1"
           prepend-icon="fas fa-user-tie"
         >
@@ -324,20 +324,21 @@ const breadcrumbs = computed(() => {
   border-bottom: 1px solid rgba(var(--v-border-color), var(--v-border-opacity)) !important;
 }
 .logo-icon-box {
-  width: 40px;
-  height: 44px;
+  width: 36px;
+  height: 36px;
   flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(var(--v-theme-primary), 0.12);
+  background: rgba(var(--v-theme-gap-staff), 0.12);
+  border: 1px solid rgba(var(--v-theme-gap-staff), 0.2);
 }
 .user-card {
-  background: rgba(var(--v-theme-primary), 0.08);
-  border: 1px solid rgba(var(--v-theme-primary), 0.25);
+  background: rgba(var(--v-theme-gap-staff), 0.08);
+  border: 1px solid rgba(var(--v-theme-gap-staff), 0.25);
 }
 .user-chip {
-  background: rgba(var(--v-theme-primary), 0.06);
+  background: rgba(var(--v-theme-gap-staff), 0.06);
   font-size: 12px;
 }
 .logout-icon-ring {

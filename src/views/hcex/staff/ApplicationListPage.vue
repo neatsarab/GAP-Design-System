@@ -97,7 +97,7 @@
         </template>
 
         <template #item.certType="{ item }">
-          <v-chip size="x-small" color="warning" variant="tonal">
+          <v-chip size="x-small" color="hcex-staff" variant="tonal">
             {{ item.certType }}
           </v-chip>
         </template>
@@ -117,7 +117,7 @@
           <v-btn
             size="small"
             variant="tonal"
-            color="warning"
+            color="hcex-staff"
             prepend-icon="fas fa-eye"
             @click.stop="router.push(`/hcex/staff/applications/${item.id}`)"
           >
@@ -164,14 +164,14 @@ const statusTabs = [
   {
     label: "ทั้งหมด",
     value: "all",
-    color: "warning",
+    color: "hcex-staff",
     icon: "fas fa-list",
     count: 0,
   },
   {
     label: "รอตรวจสอบ",
     value: "under_review",
-    color: "warning",
+    color: "hcex-staff",
     icon: "fas fa-magnifying-glass",
     count: 9,
   },

@@ -13,7 +13,7 @@
           รายละเอียดคำขอ {{ appDetail.requestNo }}
         </h1>
         <div class="d-flex align-center ga-2">
-          <v-chip size="small" color="warning" variant="tonal">{{ appDetail.certType }}</v-chip>
+          <v-chip size="small" color="hcex-staff" variant="tonal">{{ appDetail.certType }}</v-chip>
           <v-chip
             size="small"
             :color="getStatusColor(currentStatus)"
@@ -49,14 +49,14 @@
       </div>
     </v-card>
 
-    <!-- Step 1: ข้อมูลคำขอ -->
+    <!-- Step 1: ตรวจสอบคำขอ -->
     <div v-if="currentWorkflowStep === 0">
       <v-row>
         <v-col cols="12" md="6">
           <!-- ผู้ส่งออก -->
           <v-card class="mb-4">
             <v-card-title class="pa-4 pb-2 text-body-1 font-weight-bold d-flex align-center ga-2">
-              <v-icon icon="fas fa-building" color="warning" size="16" />
+              <v-icon icon="fas fa-building" color="hcex-staff" size="16" />
               ผู้ส่งออก (Exporter)
             </v-card-title>
             <v-card-text class="pa-4 pt-0">
@@ -80,7 +80,7 @@
           <!-- ผู้รับสินค้า -->
           <v-card class="mb-4">
             <v-card-title class="pa-4 pb-2 text-body-1 font-weight-bold d-flex align-center ga-2">
-              <v-icon icon="fas fa-user-tie" color="warning" size="16" />
+              <v-icon icon="fas fa-user-tie" color="hcex-staff" size="16" />
               ผู้รับสินค้า (Consignee)
             </v-card-title>
             <v-card-text class="pa-4 pt-0">
@@ -106,7 +106,7 @@
           <!-- ข้อมูลการขนส่ง -->
           <v-card class="mb-4">
             <v-card-title class="pa-4 pb-2 text-body-1 font-weight-bold d-flex align-center ga-2">
-              <v-icon icon="fas fa-ship" color="warning" size="16" />
+              <v-icon icon="fas fa-ship" color="hcex-staff" size="16" />
               ข้อมูลการขนส่ง
             </v-card-title>
             <v-card-text class="pa-4 pt-0">
@@ -130,7 +130,7 @@
           <!-- ผล Lab ที่เลือก -->
           <v-card class="mb-4">
             <v-card-title class="pa-4 pb-2 text-body-1 font-weight-bold d-flex align-center ga-2">
-              <v-icon icon="fas fa-flask-vial" color="warning" size="16" />
+              <v-icon icon="fas fa-flask-vial" color="hcex-staff" size="16" />
               ผล Lab ที่เลือก
             </v-card-title>
             <v-card-text class="pa-4 pt-0">
@@ -153,7 +153,7 @@
       <!-- รายละเอียดสินค้า -->
       <v-card class="mb-5">
         <v-card-title class="pa-4 pb-2 text-body-1 font-weight-bold d-flex align-center ga-2">
-          <v-icon icon="fas fa-box" color="warning" size="16" />
+          <v-icon icon="fas fa-box" color="hcex-staff" size="16" />
           รายละเอียดสินค้า
         </v-card-title>
         <v-card-text class="pa-4 pt-0">
@@ -181,154 +181,194 @@
       </v-card>
 
       <div class="d-flex ga-3">
-        <v-btn variant="tonal" color="error" prepend-icon="fas fa-rotate-left">
+        <v-btn
+          variant="tonal"
+          color="error"
+          prepend-icon="fas fa-rotate-left"
+          @click="returnDialog = true"
+        >
           ส่งกลับแก้ไข
         </v-btn>
         <v-spacer />
-        <v-btn color="warning" append-icon="fas fa-chevron-right" @click="currentWorkflowStep++">
-          ดำเนินการต่อ
+        <v-btn color="hcex-staff" append-icon="fas fa-chevron-right" @click="currentWorkflowStep++">
+          ผ่านการตรวจสอบ
         </v-btn>
       </div>
     </div>
 
-    <!-- Step 2: พิจารณาออกใบรับรอง -->
+    <!-- Step 2: สร้าง Preview Certificate -->
     <div v-if="currentWorkflowStep === 1">
       <v-card class="mb-4">
         <v-card-title class="pa-4 pb-2 text-body-1 font-weight-bold d-flex align-center ga-2">
-          <v-icon icon="fas fa-gavel" color="warning" size="16" />
-          พิจารณาออกใบรับรอง
+          <v-icon icon="fas fa-file-lines" color="hcex-staff" size="16" />
+          สร้างแบบร่างใบรับรอง (Preview Certificate)
         </v-card-title>
         <v-card-text class="pa-4 pt-0">
-          <div class="field-label mb-2">ผลการพิจารณา <span class="req">*</span></div>
-          <v-radio-group v-model="reviewDecision" class="mb-4">
-            <v-radio value="issue" color="warning">
-              <template #label>
-                <div>
-                  <div class="text-body-2 font-weight-medium">จัดทำใบรับรอง</div>
-                  <div class="text-caption text-medium-emphasis">ดำเนินการออกใบรับรองให้ผู้ประกอบการ</div>
-                </div>
-              </template>
-            </v-radio>
-            <v-radio value="draft_review" color="warning">
-              <template #label>
-                <div>
-                  <div class="text-body-2 font-weight-medium">ส่งพิจารณาแบบร่าง</div>
-                  <div class="text-caption text-medium-emphasis">จัดทำแบบร่างเพื่อส่งให้ผู้มีอำนาจพิจารณา</div>
-                </div>
-              </template>
-            </v-radio>
-            <v-radio value="reject" color="error">
-              <template #label>
-                <div>
-                  <div class="text-body-2 font-weight-medium">ไม่ผ่าน</div>
-                  <div class="text-caption text-medium-emphasis">ปฏิเสธคำขอ</div>
-                </div>
-              </template>
-            </v-radio>
-          </v-radio-group>
-          <div class="field-label mb-2">หมายเหตุ / เหตุผล</div>
-          <v-textarea
-            v-model="reviewNote"
-            placeholder="ระบุหมายเหตุหรือเหตุผลประกอบการพิจารณา"
-            rows="3"
-            hide-details
-          />
+          <v-row dense>
+            <v-col cols="12" sm="6">
+              <div class="field-label mb-2">เลขที่ใบรับรอง (ร่าง)</div>
+              <v-text-field
+                model-value="DRAFT-THHCEX-2568-00012"
+                readonly
+                hide-details
+                variant="outlined"
+                density="comfortable"
+              >
+                <template #append-inner>
+                  <v-chip size="x-small" color="hcex-staff" variant="tonal">ร่าง</v-chip>
+                </template>
+              </v-text-field>
+            </v-col>
+            <v-col cols="12" sm="6">
+              <div class="field-label mb-2">ผู้ส่งออก</div>
+              <v-text-field
+                :model-value="appDetail.exporterName"
+                readonly
+                hide-details
+                variant="outlined"
+                density="comfortable"
+              />
+            </v-col>
+            <v-col cols="12" sm="6">
+              <div class="field-label mb-2">ผู้รับสินค้า</div>
+              <v-text-field
+                :model-value="appDetail.consigneeName"
+                readonly
+                hide-details
+                variant="outlined"
+                density="comfortable"
+              />
+            </v-col>
+            <v-col cols="12" sm="6">
+              <div class="field-label mb-2">ประเทศปลายทาง</div>
+              <v-text-field
+                :model-value="appDetail.destination"
+                readonly
+                hide-details
+                variant="outlined"
+                density="comfortable"
+              />
+            </v-col>
+            <v-col cols="12" sm="6">
+              <div class="field-label mb-2">วันที่ออกใบรับรอง <span class="req">*</span></div>
+              <v-text-field
+                v-model="previewIssueDate"
+                type="date"
+                hide-details
+                variant="outlined"
+                density="comfortable"
+              />
+            </v-col>
+            <v-col cols="12">
+              <div class="field-label mb-2">หมายเหตุ</div>
+              <v-textarea
+                v-model="previewNote"
+                placeholder="หมายเหตุเพิ่มเติม (ถ้ามี)"
+                rows="3"
+                hide-details
+                variant="outlined"
+              />
+            </v-col>
+          </v-row>
         </v-card-text>
       </v-card>
+
       <div class="d-flex ga-3">
         <v-btn variant="tonal" color="grey" prepend-icon="fas fa-chevron-left" @click="currentWorkflowStep--">
           ย้อนกลับ
         </v-btn>
         <v-spacer />
-        <v-btn color="warning" prepend-icon="fas fa-floppy-disk" @click="currentWorkflowStep++">
-          บันทึก
+        <v-btn color="hcex-staff" prepend-icon="fas fa-paper-plane" @click="currentWorkflowStep++">
+          ส่ง Preview ให้ผู้ประกอบการ
         </v-btn>
       </div>
     </div>
 
-    <!-- Step 3: พิจารณาแบบร่าง -->
+    <!-- Step 3: รอผู้ประกอบการยืนยัน -->
     <div v-if="currentWorkflowStep === 2">
       <v-card class="mb-4">
         <v-card-title class="pa-4 pb-2 text-body-1 font-weight-bold d-flex align-center ga-2">
-          <v-icon icon="fas fa-file-lines" color="warning" size="16" />
-          พิจารณาแบบร่างใบรับรอง
+          <v-icon icon="fas fa-hourglass-half" color="hcex-staff" size="16" />
+          รอผู้ประกอบการยืนยัน Preview
         </v-card-title>
         <v-card-text class="pa-4 pt-0">
-          <!-- Draft Certificate Info -->
+          <!-- Waiting State -->
+          <div class="text-center py-4 mb-4">
+            <v-icon icon="fas fa-hourglass-half" color="hcex-staff" size="40" class="mb-3" />
+            <div class="text-body-1 font-weight-bold mb-2">รอผู้ประกอบการยืนยัน Preview</div>
+            <v-chip size="small" color="hcex-staff" variant="tonal" prepend-icon="fas fa-clock">
+              ส่ง Preview แล้ว เมื่อ 10 ม.ค. 68 10:30 น.
+            </v-chip>
+          </div>
+
+          <!-- Preview Summary -->
           <div class="draft-cert-box mb-5">
             <div class="d-flex align-center ga-2 mb-3">
-              <v-icon icon="fas fa-industry" color="warning" size="18" />
-              <span class="text-body-2 font-weight-bold">แบบร่างใบรับรอง</span>
-              <v-chip size="x-small" color="warning" variant="tonal">ร่าง</v-chip>
+              <v-icon icon="fas fa-file-lines" color="hcex-staff" size="16" />
+              <span class="text-body-2 font-weight-bold">สรุป Preview ที่ส่งไป</span>
             </div>
             <div class="info-grid">
               <div class="info-item">
                 <span class="info-label">เลขที่ใบรับรอง (ร่าง)</span>
-                <span class="info-value text-warning font-weight-medium">DRAFT-HCEX-2568-00012</span>
+                <span class="info-value text-warning font-weight-medium">DRAFT-THHCEX-2568-00012</span>
               </div>
               <div class="info-item">
                 <span class="info-label">ผู้ส่งออก</span>
                 <span class="info-value">{{ appDetail.exporterName }}</span>
               </div>
               <div class="info-item">
-                <span class="info-label">ปลายทาง</span>
+                <span class="info-label">ประเทศปลายทาง</span>
                 <span class="info-value">{{ appDetail.destination }}</span>
               </div>
             </div>
           </div>
 
-          <div class="field-label mb-2">ผลการพิจารณาแบบร่าง <span class="req">*</span></div>
-          <v-radio-group v-model="draftDecision" class="mb-4">
-            <v-radio value="approve" color="success">
+          <!-- Status Radio -->
+          <div class="field-label mb-3">สถานะการยืนยันจากผู้ประกอบการ <span class="req">*</span></div>
+          <v-radio-group v-model="operatorConfirmStatus" class="mb-0">
+            <v-radio value="confirmed" color="success">
               <template #label>
-                <span class="text-body-2 font-weight-medium">ผ่าน — ส่งลงนาม</span>
+                <div>
+                  <div class="text-body-2 font-weight-medium">ผู้ประกอบการยืนยันแล้ว</div>
+                  <div class="text-caption text-medium-emphasis">ข้อมูลถูกต้อง พร้อมส่งลงนาม</div>
+                </div>
               </template>
             </v-radio>
-            <v-radio value="more_review" color="warning">
+            <v-radio value="edit_requested" color="hcex-staff">
               <template #label>
-                <span class="text-body-2 font-weight-medium">ส่งตรวจเพิ่มเติม</span>
-              </template>
-            </v-radio>
-            <v-radio value="reject" color="error">
-              <template #label>
-                <span class="text-body-2 font-weight-medium">ไม่ผ่าน</span>
+                <div>
+                  <div class="text-body-2 font-weight-medium">ผู้ประกอบการขอแก้ไข</div>
+                  <div class="text-caption text-medium-emphasis">ต้องกลับไปแก้ไข Preview</div>
+                </div>
               </template>
             </v-radio>
           </v-radio-group>
-
-          <div class="field-label mb-2">เลือกผู้ลงนาม <span class="req">*</span></div>
-          <v-select
-            v-model="selectedSigner"
-            :items="signers"
-            item-title="name"
-            item-value="id"
-            placeholder="เลือกผู้ลงนาม"
-            hide-details
-          />
         </v-card-text>
       </v-card>
+
       <div class="d-flex ga-3">
         <v-btn variant="tonal" color="grey" prepend-icon="fas fa-chevron-left" @click="currentWorkflowStep--">
           ย้อนกลับ
         </v-btn>
         <v-spacer />
-        <v-btn color="warning" prepend-icon="fas fa-floppy-disk" @click="currentWorkflowStep++">
-          บันทึก
+        <v-btn color="hcex-staff" append-icon="fas fa-chevron-right" @click="handleOperatorConfirm">
+          ดำเนินการต่อ
         </v-btn>
       </div>
     </div>
 
-    <!-- Step 4: ลงนาม -->
+    <!-- Step 4: ส่งลงนาม -->
     <div v-if="currentWorkflowStep === 3">
       <v-card class="mb-4">
         <v-card-title class="pa-4 pb-2 text-body-1 font-weight-bold d-flex align-center ga-2">
-          <v-icon icon="fas fa-signature" color="warning" size="16" />
-          ลงนามออกใบรับรอง
+          <v-icon icon="fas fa-signature" color="hcex-staff" size="16" />
+          ส่งให้ผู้มีอำนาจลงนาม
         </v-card-title>
         <v-card-text class="pa-4 pt-0">
+          <!-- Cert Preview -->
           <div class="cert-preview mb-5">
             <div class="cert-preview-header">
-              <v-icon icon="fas fa-industry" color="warning" size="24" class="mb-2" />
+              <v-icon icon="fas fa-industry" color="hcex-staff" size="24" class="mb-2" />
               <div class="text-body-1 font-weight-bold">ใบรับรองสุขอนามัยสินค้าแปรรูปด้านพืช</div>
               <div class="text-caption text-medium-emphasis">Health Certificate for Processed Plant Products</div>
             </div>
@@ -354,51 +394,91 @@
                   <span class="info-label">วันที่ออก</span>
                   <span class="info-value">{{ today }}</span>
                 </div>
-                <div class="info-item">
-                  <span class="info-label">ผู้ลงนาม</span>
-                  <span class="info-value">นางสาวสุมาลี วงศ์ไพร</span>
-                </div>
               </div>
             </div>
           </div>
 
-          <v-alert color="warning" variant="tonal" density="compact" prepend-icon="fas fa-triangle-exclamation" class="mb-4">
-            <span class="text-body-2">กรุณาตรวจสอบข้อมูลในใบรับรองให้ถูกต้องก่อนลงนาม การลงนามถือเป็นการยืนยันข้อมูลทั้งหมด</span>
+          <div class="field-label mb-2">เลือกผู้มีอำนาจลงนาม <span class="req">*</span></div>
+          <v-select
+            v-model="selectedSigner"
+            :items="signers"
+            item-title="name"
+            item-value="id"
+            placeholder="เลือกผู้มีอำนาจลงนาม"
+            hide-details
+            class="mb-2"
+          />
+          <p class="text-caption text-medium-emphasis mb-4">
+            <v-icon icon="fas fa-circle-info" size="12" class="mr-1" />
+            สามารถส่งให้ผู้มีอำนาจลงนามได้สูงสุด 3 คน
+          </p>
+
+          <v-alert color="hcex-staff" variant="tonal" density="compact" prepend-icon="fas fa-triangle-exclamation" class="mb-0">
+            <span class="text-body-2">กรุณาตรวจสอบข้อมูลในใบรับรองให้ถูกต้องก่อนส่งลงนาม</span>
           </v-alert>
         </v-card-text>
       </v-card>
+
       <div class="d-flex ga-3">
         <v-btn variant="tonal" color="grey" prepend-icon="fas fa-chevron-left" @click="currentWorkflowStep--">
           ย้อนกลับ
         </v-btn>
         <v-spacer />
-        <v-btn variant="tonal" color="warning" prepend-icon="fas fa-download">
-          ดาวน์โหลด PDF
-        </v-btn>
-        <v-btn color="warning" prepend-icon="fas fa-signature" @click="signDialog = true">
-          ลงนาม
+        <v-btn color="hcex-staff" prepend-icon="fas fa-paper-plane" @click="signDialog = true">
+          ส่งให้ลงนาม
         </v-btn>
       </div>
     </div>
+
+    <!-- Return Dialog -->
+    <v-dialog v-model="returnDialog" max-width="440" persistent>
+      <v-card rounded="xl">
+        <v-card-title class="pa-5 pb-3 d-flex align-center ga-2">
+          <v-icon icon="fas fa-rotate-left" color="error" size="18" />
+          <span class="text-body-1 font-weight-bold">ส่งกลับแก้ไข</span>
+          <v-spacer />
+          <v-btn icon="fas fa-xmark" variant="text" size="small" @click="returnDialog = false" />
+        </v-card-title>
+        <v-divider />
+        <v-card-text class="pa-5">
+          <div class="field-label mb-2">เหตุผลที่ส่งกลับแก้ไข <span class="req">*</span></div>
+          <v-textarea
+            v-model="returnReason"
+            placeholder="ระบุเหตุผลหรือรายละเอียดที่ต้องแก้ไข"
+            rows="4"
+            hide-details
+          />
+        </v-card-text>
+        <v-card-actions class="px-5 pb-5 ga-2">
+          <v-btn variant="tonal" color="grey" rounded="lg" @click="returnDialog = false">
+            ยกเลิก
+          </v-btn>
+          <v-spacer />
+          <v-btn color="error" rounded="lg" prepend-icon="fas fa-rotate-left" @click="returnDialog = false">
+            ยืนยันส่งกลับ
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
 
     <!-- Sign Confirm Dialog -->
     <v-dialog v-model="signDialog" max-width="380" persistent>
       <v-card rounded="xl">
         <v-card-text class="pa-6 text-center">
           <div class="sign-ring mx-auto mb-4">
-            <v-icon icon="fas fa-signature" size="28" color="warning" />
+            <v-icon icon="fas fa-paper-plane" size="28" color="hcex-staff" />
           </div>
-          <h3 class="text-h6 font-weight-bold mb-2">ยืนยันการลงนาม</h3>
+          <h3 class="text-h6 font-weight-bold mb-2">ยืนยันการส่งลงนาม</h3>
           <p class="text-body-2 text-medium-emphasis mb-0">
-            ยืนยันการลงนามออกใบรับรอง <strong class="text-warning">THHCEX-2568-00012</strong> ใช่หรือไม่?
+            ส่งใบรับรอง <strong class="text-warning">THHCEX-2568-00012</strong> ให้ผู้มีอำนาจลงนามใช่หรือไม่?
           </p>
         </v-card-text>
         <v-card-actions class="px-6 pb-5 ga-2">
           <v-btn variant="tonal" color="grey" rounded="lg" block @click="signDialog = false">
             ยกเลิก
           </v-btn>
-          <v-btn color="warning" rounded="lg" block @click="completeSigning">
-            ยืนยันลงนาม
+          <v-btn color="hcex-staff" rounded="lg" block @click="completeSigning">
+            ยืนยันส่งลงนาม
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -411,17 +491,14 @@
           <div class="success-ring mx-auto mb-5">
             <v-icon icon="fas fa-circle-check" size="40" color="success" />
           </div>
-          <h3 class="text-h6 font-weight-bold mb-2">ออกใบรับรองสำเร็จ!</h3>
+          <h3 class="text-h6 font-weight-bold mb-2">ส่งให้ลงนามสำเร็จ!</h3>
           <p class="text-body-2 font-weight-bold text-warning mb-1">THHCEX-2568-00012</p>
           <p class="text-body-2 text-medium-emphasis mb-0">
-            ใบรับรองได้รับการลงนามและออกให้แก่ผู้ประกอบการแล้ว
+            รอผู้มีอำนาจพิจารณาและลงนาม
           </p>
         </v-card-text>
         <v-card-actions class="px-6 pb-6 d-flex ga-2">
-          <v-btn variant="tonal" color="warning" rounded="lg" block prepend-icon="fas fa-download">
-            ดาวน์โหลด PDF
-          </v-btn>
-          <v-btn color="warning" rounded="lg" block @click="router.push('/hcex/staff/applications')">
+          <v-btn color="hcex-staff" rounded="lg" block @click="router.push('/hcex/staff/applications')">
             กลับรายการ
           </v-btn>
         </v-card-actions>
@@ -436,18 +513,20 @@ import { useRouter } from "vue-router";
 
 const router = useRouter();
 const currentWorkflowStep = ref(0);
-const reviewDecision = ref("issue");
-const reviewNote = ref("");
-const draftDecision = ref("approve");
+const previewIssueDate = ref("");
+const previewNote = ref("");
+const operatorConfirmStatus = ref<string | null>(null);
 const selectedSigner = ref<string | null>(null);
 const signDialog = ref(false);
 const successDialog = ref(false);
+const returnDialog = ref(false);
+const returnReason = ref("");
 
 const workflowSteps = [
-  { key: "info", label: "ข้อมูลคำขอ" },
-  { key: "review", label: "พิจารณาออกใบรับรอง" },
-  { key: "draft", label: "พิจารณาแบบร่าง" },
-  { key: "sign", label: "ลงนาม" },
+  { key: "review", label: "ตรวจสอบคำขอ" },
+  { key: "preview", label: "สร้าง Preview Certificate" },
+  { key: "waiting", label: "รอผู้ประกอบการยืนยัน" },
+  { key: "sign", label: "ส่งลงนาม" },
 ];
 
 const today = computed(() =>
@@ -459,7 +538,7 @@ const today = computed(() =>
 );
 
 const currentStatus = computed(() => {
-  const statusMap = ["under_review", "lab_verification", "pending_signing", "completed"];
+  const statusMap = ["under_review", "preview_draft", "preview_sent", "pending_signing"];
   return statusMap[currentWorkflowStep.value] ?? "under_review";
 });
 
@@ -498,6 +577,14 @@ const signers = [
   { id: "s2", name: "นายวิชัย ดาวเรือง — ผู้เชี่ยวชาญด้านการส่งออก" },
 ];
 
+function handleOperatorConfirm() {
+  if (operatorConfirmStatus.value === "edit_requested") {
+    currentWorkflowStep.value = 1;
+  } else {
+    currentWorkflowStep.value++;
+  }
+}
+
 function completeSigning() {
   signDialog.value = false;
   successDialog.value = true;
@@ -507,8 +594,9 @@ function getStatusColor(s: string) {
   const m: Record<string, string> = {
     submitted: "warning",
     under_review: "warning",
-    lab_verification: "info",
-    pending_signing: "secondary",
+    preview_draft: "info",
+    preview_sent: "secondary",
+    pending_signing: "warning",
     completed: "success",
     rejected: "error",
   };
@@ -518,7 +606,8 @@ function getStatusIcon(s: string) {
   const m: Record<string, string> = {
     submitted: "fas fa-paper-plane",
     under_review: "fas fa-magnifying-glass",
-    lab_verification: "fas fa-flask-vial",
+    preview_draft: "fas fa-file-pen",
+    preview_sent: "fas fa-hourglass-half",
     pending_signing: "fas fa-signature",
     completed: "fas fa-industry",
     rejected: "fas fa-circle-xmark",
@@ -528,8 +617,9 @@ function getStatusIcon(s: string) {
 function getStatusLabel(s: string) {
   const m: Record<string, string> = {
     submitted: "ยื่นแล้ว",
-    under_review: "รอตรวจสอบ",
-    lab_verification: "รอพิจารณา Lab",
+    under_review: "ตรวจสอบคำขอ",
+    preview_draft: "สร้าง Preview",
+    preview_sent: "รอผู้ประกอบการยืนยัน",
     pending_signing: "รอลงนาม",
     completed: "เสร็จสิ้น",
     rejected: "ไม่อนุมัติ",
@@ -570,9 +660,9 @@ function getStatusLabel(s: string) {
   color: white;
 }
 .step-item--active .step-dot {
-  background: rgb(var(--v-theme-warning));
+  background: rgb(var(--v-theme-hcex-staff));
   color: white;
-  box-shadow: 0 0 0 4px rgba(var(--v-theme-warning), 0.2);
+  box-shadow: 0 0 0 4px rgba(var(--v-theme-hcex-staff), 0.2);
 }
 .step-item--pending .step-dot {
   background: rgba(var(--v-theme-on-surface), 0.1);
@@ -586,7 +676,7 @@ function getStatusLabel(s: string) {
   line-height: 1.3;
 }
 .step-item--active .step-label {
-  color: rgb(var(--v-theme-warning));
+  color: rgb(var(--v-theme-hcex-staff));
   font-weight: 600;
 }
 .step-item--done .step-label {
@@ -640,23 +730,23 @@ function getStatusLabel(s: string) {
 
 /* Draft cert box */
 .draft-cert-box {
-  border: 1px dashed rgba(var(--v-theme-warning), 0.4);
+  border: 1px dashed rgba(var(--v-theme-hcex-staff), 0.4);
   border-radius: 12px;
   padding: 16px;
-  background: rgba(var(--v-theme-warning), 0.04);
+  background: rgba(var(--v-theme-hcex-staff), 0.04);
 }
 
 /* Cert Preview */
 .cert-preview {
-  border: 2px solid rgba(var(--v-theme-warning), 0.3);
+  border: 2px solid rgba(var(--v-theme-hcex-staff), 0.3);
   border-radius: 12px;
   overflow: hidden;
 }
 .cert-preview-header {
-  background: rgba(var(--v-theme-warning), 0.1);
+  background: rgba(var(--v-theme-hcex-staff), 0.1);
   padding: 20px;
   text-align: center;
-  border-bottom: 1px solid rgba(var(--v-theme-warning), 0.2);
+  border-bottom: 1px solid rgba(var(--v-theme-hcex-staff), 0.2);
 }
 .cert-preview-body {
   padding: 20px;
@@ -667,7 +757,7 @@ function getStatusLabel(s: string) {
   width: 64px;
   height: 64px;
   border-radius: 50%;
-  background: rgba(var(--v-theme-warning), 0.1);
+  background: rgba(var(--v-theme-hcex-staff), 0.1);
   display: flex;
   align-items: center;
   justify-content: center;

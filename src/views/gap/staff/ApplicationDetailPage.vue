@@ -48,7 +48,7 @@
     <!-- Step Content -->
     <v-card>
       <!-- Step Tabs -->
-      <v-tabs v-model="viewStep" color="primary" density="compact" class="border-b">
+      <v-tabs v-model="viewStep" color="gap-staff" density="compact" class="border-b">
         <v-tab v-for="step in workflowSteps" :key="step.id" :value="step.id" :disabled="app.currentStep < step.id">
           <v-icon :icon="step.icon" size="14" class="mr-2" />
           <span class="d-none d-sm-inline">{{ step.label }}</span>
@@ -62,7 +62,7 @@
         <v-window-item :value="1">
           <v-card-text class="pa-5">
             <div class="step-title mb-5">
-              <v-icon icon="fas fa-user-circle" color="primary" size="20" class="mr-2" />
+              <v-icon icon="fas fa-user-circle" color="gap-staff" size="20" class="mr-2" />
               <span class="text-body-1 font-weight-bold">ข้อมูลผู้ยื่นคำขอ</span>
             </div>
 
@@ -256,7 +256,7 @@
         <v-window-item :value="4">
           <v-card-text class="pa-5">
             <div class="step-title mb-5">
-              <v-icon icon="fas fa-paper-plane" color="primary" size="20" class="mr-2" />
+              <v-icon icon="fas fa-paper-plane" color="gap-staff" size="20" class="mr-2" />
               <span class="text-body-1 font-weight-bold">เสนอแปลงต่อคณะกรรมการพิจารณา (CC)</span>
             </div>
 
@@ -294,7 +294,7 @@
 
             <v-divider class="mb-4" />
             <div v-if="app.currentStep === 4" class="d-flex ga-3">
-              <v-btn color="primary" prepend-icon="fas fa-paper-plane" @click="proposeCC">
+              <v-btn color="gap-staff" prepend-icon="fas fa-paper-plane" @click="proposeCC">
                 เสนอแปลงต่อ CC
               </v-btn>
               <v-btn variant="tonal" color="grey" @click="viewStep = 3">ย้อนกลับ</v-btn>
@@ -350,7 +350,7 @@
 
             <v-divider class="mb-4" />
             <div v-if="app.currentStep === 5" class="d-flex ga-3">
-              <v-btn color="primary" prepend-icon="fas fa-floppy-disk" @click="saveCCResult">
+              <v-btn color="gap-staff" prepend-icon="fas fa-floppy-disk" @click="saveCCResult">
                 บันทึกผลการประชุม CC
               </v-btn>
               <v-btn variant="tonal" color="grey" @click="viewStep = 4">ย้อนกลับ</v-btn>
@@ -410,7 +410,7 @@
               <v-btn color="success" prepend-icon="fas fa-certificate" size="large" @click="issueCert">
                 ออกใบรับรอง GAP
               </v-btn>
-              <v-btn variant="tonal" color="primary" prepend-icon="fas fa-print" @click="printPreview = true">
+              <v-btn variant="tonal" color="gap-staff" prepend-icon="fas fa-print" @click="printPreview = true">
                 พรีวิวใบรับรอง
               </v-btn>
               <v-btn variant="tonal" color="grey" @click="viewStep = 5">ย้อนกลับ</v-btn>
@@ -453,7 +453,7 @@
         <v-card-text class="px-5">
           <div class="cert-paper pa-6">
             <div class="text-center mb-4">
-              <v-icon icon="fas fa-seedling" color="primary" size="36" />
+              <v-icon icon="fas fa-seedling" color="gap-staff" size="36" />
               <div class="text-h6 font-weight-bold mt-2">ใบรับรองมาตรฐาน GAP</div>
               <div class="text-body-2 text-medium-emphasis">กรมวิชาการเกษตร · {{ app.certType }}</div>
             </div>
@@ -473,7 +473,7 @@
         </v-card-text>
         <v-card-actions class="pa-5 ga-2">
           <v-btn variant="tonal" color="grey" block @click="printPreview = false">ปิด</v-btn>
-          <v-btn color="primary" block prepend-icon="fas fa-download">ดาวน์โหลด PDF</v-btn>
+          <v-btn color="gap-staff" block prepend-icon="fas fa-download">ดาวน์โหลด PDF</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -742,8 +742,8 @@ function issueCert() {
   color: white;
 }
 .wf-step--active .wf-step-circle {
-  background: rgb(var(--v-theme-primary));
-  border-color: rgb(var(--v-theme-primary));
+  background: rgb(var(--v-theme-gap-staff));
+  border-color: rgb(var(--v-theme-gap-staff));
   color: white;
 }
 .wf-step--pending .wf-step-circle {
@@ -757,7 +757,7 @@ function issueCert() {
   line-height: 1.3;
 }
 .wf-step--active .wf-step-label {
-  color: rgb(var(--v-theme-primary));
+  color: rgb(var(--v-theme-gap-staff));
   font-weight: 700;
 }
 .wf-connector {

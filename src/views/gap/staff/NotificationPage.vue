@@ -12,7 +12,7 @@
 
     <!-- Filter Tabs -->
     <v-chip-group v-model="activeFilter" class="mb-4" mandatory selected-class="v-chip--selected">
-      <v-chip value="all"     color="primary" variant="tonal" filter size="small">ทั้งหมด ({{ notifications.length }})</v-chip>
+      <v-chip value="all"     color="gap-staff" variant="tonal" filter size="small">ทั้งหมด ({{ notifications.length }})</v-chip>
       <v-chip value="unread"  color="error"   variant="tonal" filter size="small">ยังไม่อ่าน ({{ unreadCount }})</v-chip>
       <v-chip value="action"  color="warning" variant="tonal" filter size="small">ต้องดำเนินการ</v-chip>
     </v-chip-group>
@@ -95,8 +95,8 @@ function markAllRead() {
 
 <style scoped>
 .notif-item { cursor: pointer; transition: background 0.15s; }
-.notif-item:hover { background: rgba(var(--v-theme-primary), 0.04); }
-.notif-item--unread { background: rgba(var(--v-theme-primary), 0.02); }
+.notif-item:hover { background: rgba(var(--v-theme-gap-staff), 0.04); }
+.notif-item--unread { background: rgba(var(--v-theme-gap-staff), 0.02); }
 .notif-icon-box {
   width: 40px; height: 40px; border-radius: 12px; flex-shrink: 0;
   display: flex; align-items: center; justify-content: center;

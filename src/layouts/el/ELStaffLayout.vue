@@ -12,16 +12,16 @@
       <v-list-item nav class="py-4 px-4">
         <template v-slot:prepend>
           <div class="logo-icon-box rounded-lg mr-3">
-            <v-icon icon="fas fa-file-shield" color="info" size="20" />
+            <v-icon icon="fas fa-warehouse" color="el-staff" size="20" />
           </div>
         </template>
         <v-list-item-title class="text-body-2 font-weight-bold"
-          >ระบบ HC</v-list-item-title
+          >ระบบ EL โรงคัดบรรจุ</v-list-item-title
         >
         <v-list-item-subtitle
           class="text-caption"
-          style="color: rgb(var(--v-theme-info)); opacity: 0.85"
-          >สำหรับผู้ประกอบการ</v-list-item-subtitle
+          style="color: rgb(var(--v-theme-el-staff)); opacity: 0.85"
+          >ฝั่งเจ้าหน้าที่</v-list-item-subtitle
         >
         <template v-slot:append>
           <v-btn
@@ -37,15 +37,17 @@
       <!-- User Card -->
       <div v-if="!rail" class="px-4 mb-2">
         <div class="user-card rounded-lg pa-3 d-flex align-center ga-2">
-          <v-avatar color="info" size="32" variant="tonal">
-            <v-icon icon="fas fa-building" size="16" color="info" />
+          <v-avatar color="el-staff" size="32">
+            <v-icon icon="fas fa-user-tie" size="16" color="white" />
           </v-avatar>
           <div class="flex-grow-1 overflow-hidden">
-            <div class="text-truncate text-body-2 font-weight-medium text-info">
-              บริษัท ไทยฟรุ๊ต จำกัด
+            <div
+              class="text-truncate text-body-2 font-weight-medium text-el-staff"
+            >
+              นิธิพร เทิบจันทึก
             </div>
             <div class="text-caption text-medium-emphasis">
-              เลขนิติบุคล : 1100090000001
+              เจ้าหน้าที่ สวพ.
             </div>
           </div>
         </div>
@@ -65,7 +67,7 @@
             :prepend-icon="item.icon"
             :title="item.title"
             :to="item.to"
-            active-color="info"
+            active-color="el-staff"
             rounded="lg"
             class="mb-1"
           />
@@ -116,8 +118,8 @@
       <div class="d-flex align-center ga-1 mr-3">
         <!-- Notifications -->
         <v-btn variant="text" size="small" icon class="mr-1">
-          <v-badge color="error" content="1" floating>
-            <v-icon icon="fas fa-bell" size="20" color="info" />
+          <v-badge color="error" content="3" floating>
+            <v-icon icon="fas fa-bell" size="20" color="el-staff" />
           </v-badge>
         </v-btn>
 
@@ -139,9 +141,9 @@
 
         <v-chip
           variant="outlined"
-          color="info"
+          color="el-staff"
           class="user-chip mr-2 ml-1"
-          prepend-icon="fas fa-user"
+          prepend-icon="fas fa-user-tie"
         >
           นิธิพร เทิบจันทึก
         </v-chip>
@@ -208,7 +210,7 @@ function doLogout() {
 }
 
 const breadcrumbs = computed(() => [
-  { title: "ระบบ HC (ผู้ประกอบการ)", to: "/hc/user" },
+  { title: "ระบบ EL (เจ้าหน้าที่)", to: "/el/staff" },
   { title: route.meta.title as string },
 ]);
 
@@ -217,33 +219,44 @@ const navGroups = [
     label: "ภาพรวม",
     divider: true,
     items: [
-      { title: "แดชบอร์ด", icon: "fas fa-gauge", to: "/hc/user/dashboard" },
+      { title: "แดชบอร์ด", icon: "fas fa-gauge", to: "/el/staff/dashboard" },
     ],
   },
   {
-    label: "คำขอของฉัน",
+    label: "รายการคำขอ EL",
     divider: true,
     items: [
       {
-        title: "ยื่นคำขอใหม่",
-        icon: "fas fa-file-pen",
-        to: "/hc/user/applications/new",
+        title: "รายการคำขอทั้งหมด",
+        icon: "fas fa-file-lines",
+        to: "/el/staff/applications",
       },
       {
-        title: "คำขอทั้งหมด",
-        icon: "fas fa-file-lines",
-        to: "/hc/user/applications",
+        title: "ตรวจติดตาม EL",
+        icon: "fas fa-magnifying-glass-location",
+        to: "/el/staff/monitoring",
       },
     ],
   },
   {
-    label: "ข้อมูลทะเบียน",
+    label: "ทะเบียน",
+    divider: true,
+    items: [
+      {
+        title: "ทะเบียนโรงคัดบรรจุ",
+        icon: "fas fa-warehouse",
+        to: "/el/staff/registry",
+      },
+    ],
+  },
+  {
+    label: "รายงาน",
     divider: false,
     items: [
       {
-        title: "ข้อมูลทะเบียน",
-        icon: "fas fa-file-shield",
-        to: "/hc/user/certificates",
+        title: "รายงานผล",
+        icon: "fas fa-chart-bar",
+        to: "/el/staff/reports",
       },
     ],
   },
@@ -257,16 +270,16 @@ const navGroups = [
 .logo-icon-box {
   width: 36px;
   height: 36px;
-  background: rgba(var(--v-theme-info), 0.12);
-  border: 1px solid rgba(var(--v-theme-info), 0.2);
+  background: rgba(var(--v-theme-el-staff), 0.12);
+  border: 1px solid rgba(var(--v-theme-el-staff), 0.2);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
 }
 .user-card {
-  background: rgba(var(--v-theme-info), 0.06);
-  border: 1px solid rgba(var(--v-theme-info), 0.12);
+  background: rgba(var(--v-theme-el-staff), 0.06);
+  border: 1px solid rgba(var(--v-theme-el-staff), 0.12);
 }
 .sidebar-group-label {
   font-size: 10px;
@@ -280,7 +293,7 @@ const navGroups = [
 }
 .user-chip {
   font-size: 12px;
-  background: rgba(var(--v-theme-info), 0.06);
+  background: rgba(var(--v-theme-el-staff), 0.06);
 }
 .logout-icon-ring {
   width: 64px;

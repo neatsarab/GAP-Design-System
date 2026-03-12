@@ -17,7 +17,7 @@
         <v-card class="mb-4">
           <v-card-text class="pa-6">
             <div class="text-center mb-6">
-              <v-icon icon="fas fa-file-pen" color="primary" size="40" />
+              <v-icon icon="fas fa-file-pen" color="gap-staff" size="40" />
               <h2 class="text-h6 font-weight-bold mt-3 mb-2">เลือกประเภทคำขอ</h2>
               <p class="text-body-2 text-medium-emphasis">เลือกประเภทการยื่นขอรับรองมาตรฐาน GAP</p>
             </div>
@@ -29,7 +29,7 @@
                   @click="router.push('/gap/user/applications/new/individual')"
                 >
                   <v-card-text class="pa-6 text-center">
-                    <v-icon icon="fas fa-user" color="primary" size="32" class="mb-3" />
+                    <v-icon icon="fas fa-user" color="gap-staff" size="32" class="mb-3" />
                     <div class="text-body-1 font-weight-bold mb-2">คำขอแบบเดี่ยว</div>
                     <p class="text-caption text-medium-emphasis mb-0">
                       สำหรับเกษตรกรรายบุคคล หรือนิติบุคคล ยื่นขอรับรองแปลงของตนเอง
@@ -74,7 +74,7 @@ const router = useRouter()
   cursor: pointer; transition: border-color 0.2s, box-shadow 0.2s;
 }
 .type-card:hover {
-  border-color: rgb(var(--v-theme-primary)) !important;
-  box-shadow: 0 4px 16px rgba(var(--v-theme-primary), 0.15) !important;
+  border-color: rgb(var(--v-theme-gap-staff)) !important;
+  box-shadow: 0 4px 16px rgba(var(--v-theme-gap-staff), 0.15) !important;
 }
 </style>

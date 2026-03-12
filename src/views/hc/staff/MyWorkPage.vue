@@ -176,7 +176,7 @@ const roles: Role[] = [
     value: "intake",
     label: "เจ้าหน้าที่รับเรื่อง",
     icon: "fas fa-inbox",
-    color: "info",
+    color: "hc-staff",
     desc: "รับและตรวจสอบความครบถ้วนของคำขอที่ยื่นเข้ามา",
     statuses: ["submitted"],
     actionLabel: "รับเรื่อง",

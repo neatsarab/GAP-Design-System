@@ -54,7 +54,7 @@
         </v-row>
       </v-card-text>
       <v-card-actions class="px-5 pb-5 ga-3">
-        <v-btn color="primary" prepend-icon="fas fa-chart-bar" @click="generateReport">
+        <v-btn color="gap-staff" prepend-icon="fas fa-chart-bar" @click="generateReport">
           สร้างรายงาน
         </v-btn>
         <v-btn variant="tonal" color="grey" @click="selectedReport = null">ยกเลิก</v-btn>
@@ -64,7 +64,7 @@
     <!-- Recent Reports -->
     <div class="mt-6">
       <div class="text-body-1 font-weight-bold mb-3 d-flex align-center ga-2">
-        <v-icon icon="fas fa-clock-rotate-left" color="primary" size="18" />
+        <v-icon icon="fas fa-clock-rotate-left" color="gap-staff" size="18" />
         รายงานล่าสุด
       </div>
       <v-card>
@@ -81,7 +81,7 @@
               <template v-slot:append>
                 <div class="d-flex align-center ga-2">
                   <span class="text-caption text-medium-emphasis">{{ r.generatedAt }}</span>
-                  <v-btn size="small" variant="tonal" color="primary" prepend-icon="fas fa-download" @click="">
+                  <v-btn size="small" variant="tonal" color="gap-staff" prepend-icon="fas fa-download" @click="">
                     ดาวน์โหลด
                   </v-btn>
                 </div>

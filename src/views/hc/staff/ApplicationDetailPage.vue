@@ -19,7 +19,7 @@
         </div>
       </div>
       <div class="d-flex ga-2">
-        <v-btn variant="outlined" color="info" prepend-icon="fas fa-print" size="small">พิมพ์</v-btn>
+        <v-btn variant="outlined" color="hc-staff" prepend-icon="fas fa-print" size="small">พิมพ์</v-btn>
         <v-btn
           v-if="app.status === 'approved'"
           color="success"
@@ -55,7 +55,7 @@
     </v-card>
 
     <!-- Step Content -->
-    <v-tabs v-model="activeStep" color="info" class="mb-4">
+    <v-tabs v-model="activeStep" color="hc-staff" class="mb-4">
       <v-tab v-for="step in workflowSteps" :key="step.key" :value="step.key">
         <v-icon start :icon="step.icon" size="14" />
         {{ step.label }}
@@ -70,7 +70,7 @@
           <v-col cols="12" md="6">
             <v-card class="mb-4">
               <v-card-title class="pa-4 pb-2 text-body-1 font-weight-bold d-flex align-center ga-2">
-                <v-icon icon="fas fa-building" color="info" size="16" />
+                <v-icon icon="fas fa-building" color="hc-staff" size="16" />
                 ข้อมูลผู้ส่งออก
               </v-card-title>
               <v-card-text class="pa-4 pt-0">
@@ -85,7 +85,7 @@
 
             <v-card class="mb-4">
               <v-card-title class="pa-4 pb-2 text-body-1 font-weight-bold d-flex align-center ga-2">
-                <v-icon icon="fas fa-warehouse" color="info" size="16" />
+                <v-icon icon="fas fa-warehouse" color="hc-staff" size="16" />
                 โรงคัดบรรจุ (Packing House)
               </v-card-title>
               <v-card-text class="pa-4 pt-0">
@@ -101,7 +101,7 @@
           <v-col cols="12" md="6">
             <v-card class="mb-4">
               <v-card-title class="pa-4 pb-2 text-body-1 font-weight-bold d-flex align-center ga-2">
-                <v-icon icon="fas fa-user-tie" color="info" size="16" />
+                <v-icon icon="fas fa-user-tie" color="hc-staff" size="16" />
                 ผู้รับสินค้า (Consignee)
               </v-card-title>
               <v-card-text class="pa-4 pt-0">
@@ -115,7 +115,7 @@
 
             <v-card>
               <v-card-title class="pa-4 pb-2 text-body-1 font-weight-bold d-flex align-center ga-2">
-                <v-icon icon="fas fa-box" color="info" size="16" />
+                <v-icon icon="fas fa-box" color="hc-staff" size="16" />
                 รายละเอียดสินค้า
               </v-card-title>
               <v-card-text class="pa-4 pt-0">
@@ -285,7 +285,7 @@
           </v-card-title>
           <v-card-text class="pa-4 pt-0">
             <div v-if="app.status === 'approved'">
-              <v-alert color="info" variant="tonal" prepend-icon="fas fa-circle-info" class="mb-4">
+              <v-alert color="hc-staff" variant="tonal" prepend-icon="fas fa-circle-info" class="mb-4">
                 ตรวจสอบข้อมูลในใบรับรองให้ครบถ้วนก่อนลงนาม เมื่อลงนามแล้วจะไม่สามารถแก้ไขได้
               </v-alert>
               <div class="sign-box mb-5">
@@ -302,7 +302,7 @@
                   <v-text-field value="ผู้อำนวยการกอง" readonly />
                 </v-col>
               </v-row>
-              <v-btn color="info" prepend-icon="fas fa-signature" size="large" @click="updateStatus('completed')">
+              <v-btn color="hc-staff" prepend-icon="fas fa-signature" size="large" @click="updateStatus('completed')">
                 ยืนยันลงนาม — ออกใบรับรอง
               </v-btn>
             </div>
@@ -465,7 +465,7 @@ function getStatusLabel(s: string) {
   flex-shrink: 0;
 }
 .wf-step--done   .wf-dot { background: rgb(var(--v-theme-success)); color: white; }
-.wf-step--active .wf-dot { background: rgb(var(--v-theme-info));    color: white; box-shadow: 0 0 0 4px rgba(var(--v-theme-info),0.2); }
+.wf-step--active .wf-dot { background: rgb(var(--v-theme-hc-staff));    color: white; box-shadow: 0 0 0 4px rgba(var(--v-theme-hc-staff),0.2); }
 .wf-step--pending .wf-dot { background: rgba(var(--v-theme-on-surface),0.1); color: rgba(var(--v-theme-on-surface),0.4); }
 
 .wf-num { font-size: 12px; }
@@ -476,7 +476,7 @@ function getStatusLabel(s: string) {
   color: rgba(var(--v-theme-on-surface), 0.7);
   line-height: 1.3;
 }
-.wf-step--active .wf-label { color: rgb(var(--v-theme-info)); font-weight: 600; }
+.wf-step--active .wf-label { color: rgb(var(--v-theme-hc-staff)); font-weight: 600; }
 .wf-step--done   .wf-label { color: rgb(var(--v-theme-success)); }
 
 .wf-line {

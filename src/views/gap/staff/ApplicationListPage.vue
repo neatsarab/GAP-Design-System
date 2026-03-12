@@ -6,7 +6,7 @@
         <h1 class="text-h5 font-weight-bold mb-1">{{ pageTitle }}</h1>
         <p class="text-body-2 text-medium-emphasis mb-0">จัดการคำขอรับรองมาตรฐาน GAP แบบเดี่ยว</p>
       </div>
-      <v-btn color="primary" prepend-icon="fas fa-file-pen" @click="router.push('/gap/staff/applications/new')">
+      <v-btn color="gap-staff" prepend-icon="fas fa-file-pen" @click="router.push('/gap/staff/applications/new')">
         ยื่นคำขอรับรองใหม่
       </v-btn>
     </div>
@@ -112,7 +112,7 @@
           <v-btn
             size="small"
             variant="tonal"
-            color="primary"
+            color="gap-staff"
             prepend-icon="fas fa-eye"
             @click.stop="router.push(`/staff/applications/${item.id}`)"
           >

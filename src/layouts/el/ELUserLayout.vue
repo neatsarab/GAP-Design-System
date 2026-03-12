@@ -12,15 +12,15 @@
       <v-list-item nav class="py-4 px-4">
         <template v-slot:prepend>
           <div class="logo-icon-box rounded-lg mr-3">
-            <v-icon icon="fas fa-file-shield" color="info" size="20" />
+            <v-icon icon="fas fa-warehouse" color="el-user" size="20" />
           </div>
         </template>
         <v-list-item-title class="text-body-2 font-weight-bold"
-          >ระบบ HC</v-list-item-title
+          >ระบบ EL โรงคัดบรรจุ</v-list-item-title
         >
         <v-list-item-subtitle
           class="text-caption"
-          style="color: rgb(var(--v-theme-info)); opacity: 0.85"
+          style="color: rgb(var(--v-theme-el-user)); opacity: 0.85"
           >สำหรับผู้ประกอบการ</v-list-item-subtitle
         >
         <template v-slot:append>
@@ -37,15 +37,17 @@
       <!-- User Card -->
       <div v-if="!rail" class="px-4 mb-2">
         <div class="user-card rounded-lg pa-3 d-flex align-center ga-2">
-          <v-avatar color="info" size="32" variant="tonal">
-            <v-icon icon="fas fa-building" size="16" color="info" />
+          <v-avatar color="el-user" size="32" variant="tonal">
+            <v-icon icon="fas fa-building" size="16" color="el-user" />
           </v-avatar>
           <div class="flex-grow-1 overflow-hidden">
-            <div class="text-truncate text-body-2 font-weight-medium text-info">
-              บริษัท ไทยฟรุ๊ต จำกัด
+            <div
+              class="text-truncate text-body-2 font-weight-medium text-el-user"
+            >
+              บริษัท ไทยฟรุ๊ตส์ เอ็กซ์พอร์ต จำกัด
             </div>
             <div class="text-caption text-medium-emphasis">
-              เลขนิติบุคล : 1100090000001
+              เลขนิติบุคคล : 1100090000099
             </div>
           </div>
         </div>
@@ -65,7 +67,7 @@
             :prepend-icon="item.icon"
             :title="item.title"
             :to="item.to"
-            active-color="info"
+            active-color="el-user"
             rounded="lg"
             class="mb-1"
           />
@@ -117,7 +119,7 @@
         <!-- Notifications -->
         <v-btn variant="text" size="small" icon class="mr-1">
           <v-badge color="error" content="1" floating>
-            <v-icon icon="fas fa-bell" size="20" color="info" />
+            <v-icon icon="fas fa-bell" size="20" color="el-user" />
           </v-badge>
         </v-btn>
 
@@ -139,7 +141,7 @@
 
         <v-chip
           variant="outlined"
-          color="info"
+          color="el-user"
           class="user-chip mr-2 ml-1"
           prepend-icon="fas fa-user"
         >
@@ -208,7 +210,7 @@ function doLogout() {
 }
 
 const breadcrumbs = computed(() => [
-  { title: "ระบบ HC (ผู้ประกอบการ)", to: "/hc/user" },
+  { title: "ระบบ EL (ผู้ประกอบการ)", to: "/el/user" },
   { title: route.meta.title as string },
 ]);
 
@@ -217,33 +219,33 @@ const navGroups = [
     label: "ภาพรวม",
     divider: true,
     items: [
-      { title: "แดชบอร์ด", icon: "fas fa-gauge", to: "/hc/user/dashboard" },
+      { title: "แดชบอร์ด", icon: "fas fa-gauge", to: "/el/user/dashboard" },
     ],
   },
   {
-    label: "คำขอของฉัน",
+    label: "การยื่นคำขอ",
     divider: true,
     items: [
       {
         title: "ยื่นคำขอใหม่",
         icon: "fas fa-file-pen",
-        to: "/hc/user/applications/new",
+        to: "/el/user/applications/new",
       },
       {
-        title: "คำขอทั้งหมด",
+        title: "รายการคำขอ",
         icon: "fas fa-file-lines",
-        to: "/hc/user/applications",
+        to: "/el/user/applications",
       },
     ],
   },
   {
-    label: "ข้อมูลทะเบียน",
+    label: "ข้อมูล",
     divider: false,
     items: [
       {
-        title: "ข้อมูลทะเบียน",
-        icon: "fas fa-file-shield",
-        to: "/hc/user/certificates",
+        title: "ข้อมูลโรงคัดบรรจุ",
+        icon: "fas fa-warehouse",
+        to: "/el/user/registry",
       },
     ],
   },
@@ -257,16 +259,16 @@ const navGroups = [
 .logo-icon-box {
   width: 36px;
   height: 36px;
-  background: rgba(var(--v-theme-info), 0.12);
-  border: 1px solid rgba(var(--v-theme-info), 0.2);
+  background: rgba(var(--v-theme-el-user), 0.12);
+  border: 1px solid rgba(var(--v-theme-el-user), 0.2);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
 }
 .user-card {
-  background: rgba(var(--v-theme-info), 0.06);
-  border: 1px solid rgba(var(--v-theme-info), 0.12);
+  background: rgba(var(--v-theme-el-user), 0.06);
+  border: 1px solid rgba(var(--v-theme-el-user), 0.12);
 }
 .sidebar-group-label {
   font-size: 10px;
@@ -280,7 +282,7 @@ const navGroups = [
 }
 .user-chip {
   font-size: 12px;
-  background: rgba(var(--v-theme-info), 0.06);
+  background: rgba(var(--v-theme-el-user), 0.06);
 }
 .logout-icon-ring {
   width: 64px;

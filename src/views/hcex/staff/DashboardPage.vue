@@ -5,7 +5,8 @@
       <div>
         <h1 class="text-h5 font-weight-bold mb-1">แดชบอร์ด</h1>
         <p class="text-body-2 text-medium-emphasis mb-0">
-          ภาพรวมระบบออกใบรับรองสุขอนามัยสินค้าแปรรูปด้านพืช (Health Certificate)
+          ภาพรวมระบบออกใบรับรองสุขอนามัย (Health Certificate)
+          สินค้าแปรรูปด้านพืช
         </p>
       </div>
     </div>
@@ -54,12 +55,16 @@
             class="pa-4 pb-0 d-flex align-center justify-space-between"
           >
             <div class="d-flex align-center ga-2">
-              <v-icon icon="fas fa-clock-rotate-left" color="warning" size="16" />
+              <v-icon
+                icon="fas fa-clock-rotate-left"
+                color="hcex-staff"
+                size="16"
+              />
               <span class="text-body-1 font-weight-bold">คำขอล่าสุด</span>
             </div>
             <v-btn
               variant="text"
-              color="warning"
+              color="hcex-staff"
               size="small"
               @click="router.push('/hcex/staff/applications')"
             >
@@ -78,7 +83,9 @@
               "
             >
               <template #item.requestNo="{ item }">
-                <span class="text-body-2 font-weight-medium text-warning">{{ item.requestNo }}</span>
+                <span class="text-body-2 font-weight-medium text-warning">{{
+                  item.requestNo
+                }}</span>
               </template>
               <template #item.status="{ item }">
                 <v-chip
@@ -90,7 +97,7 @@
                 </v-chip>
               </template>
               <template #item.certType="{ item }">
-                <v-chip size="x-small" color="warning" variant="tonal">
+                <v-chip size="x-small" color="hcex-staff" variant="tonal">
                   {{ item.certType }}
                 </v-chip>
               </template>
@@ -104,7 +111,7 @@
         <v-card class="mb-4">
           <v-card-title class="pa-4 pb-2">
             <div class="d-flex align-center ga-2">
-              <v-icon icon="fas fa-list-check" color="warning" size="16" />
+              <v-icon icon="fas fa-list-check" color="hcex-staff" size="16" />
               <span class="text-body-1 font-weight-bold">งานรอดำเนินการ</span>
             </div>
           </v-card-title>
@@ -133,14 +140,14 @@
         <v-card>
           <v-card-title class="pa-4 pb-2">
             <div class="d-flex align-center ga-2">
-              <v-icon icon="fas fa-bolt" color="warning" size="16" />
+              <v-icon icon="fas fa-bolt" color="hcex-staff" size="16" />
               <span class="text-body-1 font-weight-bold">Quick Actions</span>
             </div>
           </v-card-title>
           <v-card-text class="pt-0 pb-3 d-flex flex-column ga-2">
             <v-btn
               variant="tonal"
-              color="warning"
+              color="hcex-staff"
               prepend-icon="fas fa-file-lines"
               class="justify-start"
               @click="router.push('/hcex/staff/applications')"
@@ -173,7 +180,7 @@ const stats = [
     label: "คำขอรอตรวจสอบ",
     value: "9",
     icon: "fas fa-magnifying-glass",
-    color: "warning",
+    color: "hcex-staff",
     trend: null,
     trendColor: "warning",
   },
@@ -208,7 +215,7 @@ const workQueue = [
     label: "คำขอรอตรวจสอบ",
     icon: "fas fa-magnifying-glass",
     to: "/hcex/staff/applications",
-    color: "warning",
+    color: "hcex-staff",
     count: 9,
   },
   {

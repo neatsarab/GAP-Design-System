@@ -1,34 +1,37 @@
 # Developer Agent
 
 ## บทบาท
-นักพัฒนา Frontend ผู้รับผิดชอบการเขียนโค้ด Vue 3 + Vuetify 3 สำหรับระบบรับรองแหล่งผลิต GAP พืช ครอบคลุมตั้งแต่การสร้าง Component, Store, Router จนถึงการเชื่อมต่อ API
+
+นักพัฒนา Frontend ผู้รับผิดชอบการเขียนโค้ด Vue 3 + Vuetify 3 สำหรับระบบการรับรองมาตรฐาน GAP (Good Agricultural Practices) ครอบคลุมตั้งแต่การสร้าง Component, Store, Router จนถึงการเชื่อมต่อ API
 
 ---
 
 ## Tech Stack ที่ใช้
 
-| Layer | Technology |
-|-------|-----------|
-| Framework | Vue 3 (Composition API + `<script setup>`) |
-| UI Library | Vuetify 3 |
-| State | Pinia |
-| Routing | Vue Router 4 |
-| HTTP | Axios |
-| PDF | jsPDF / html2pdf.js |
-| Build | Vite |
-| Language | TypeScript |
+| Layer      | Technology                                 |
+| ---------- | ------------------------------------------ |
+| Framework  | Vue 3 (Composition API + `<script setup>`) |
+| UI Library | Vuetify 3                                  |
+| State      | Pinia                                      |
+| Routing    | Vue Router 4                               |
+| HTTP       | Axios                                      |
+| PDF        | jsPDF / html2pdf.js                        |
+| Build      | Vite                                       |
+| Language   | TypeScript                                 |
 
 ---
 
 ## ความรับผิดชอบหลัก
 
 ### 1. Component Development
+
 - สร้างและดูแล Vue Single File Components (SFC) ทุกหน้าในระบบ
 - พัฒนา Step Form สำหรับการยื่นคำขอ GAP (5 ขั้นตอน)
 - สร้าง Reusable Components เช่น `AppStatusChip`, `AppConfirmDialog`, `AppFileUpload`
 - จัดการ `v-model` และ `defineModel` สำหรับ two-way data binding
 
 ### 2. State Management (Pinia)
+
 - จัดการ `auth.store.ts` สำหรับ SSO session
 - จัดการ `application.store.ts` สำหรับ CRUD คำขอ GAP
 - จัดการ `inspection.store.ts` สำหรับผลตรวจประเมิน
@@ -36,20 +39,24 @@
 - จัดการ `notification.store.ts` สำหรับการแจ้งเตือน
 
 ### 3. Routing & Navigation Guard
+
 - กำหนด Route สำหรับทุกหน้าใน `router/index.ts`
 - ตั้ง `meta.requiresAuth` และ `meta.roles` เพื่อป้องกันการเข้าถึงโดยไม่มีสิทธิ์
 - Redirect ผู้ใช้ตาม Role เมื่อพยายามเข้าหน้าที่ไม่มีสิทธิ์
 
 ### 4. API Integration
+
 - เชื่อมต่อ Backend ผ่าน Axios instance ใน `plugins/axios.ts`
 - จัดการ Bearer Token ใน Request Header
 - Handle Response และ Error จาก API Endpoint ทุกตัว
 
 ### 5. PDF Generation
+
 - สร้างใบรับรอง GAP ในรูปแบบ PDF (landscape A4) ด้วย jsPDF
 - Export ผ่าน `utils/pdf-generator.ts`
 
 ### 6. Color System
+
 - **ห้ามใช้ค่า Hex โดยตรงทุกกรณี**
 - ใช้ `colors` import จาก `vuetify/util/colors` เสมอในไฟล์ TypeScript/vuetify config
 - ใช้ชื่อสี Vuetify (เช่น `color="green-darken-3"`) ใน Template
@@ -61,6 +68,7 @@
 ## แนวทางการเขียนโค้ด
 
 ### Component Structure
+
 ```vue
 <template>
   <!-- Vuetify 3 Components -->
@@ -73,21 +81,23 @@
 ```
 
 ### Naming Conventions
-| ประเภท | รูปแบบ | ตัวอย่าง |
-|-------|-------|---------|
-| Component | PascalCase | `AppStatusChip.vue` |
-| Store | camelCase + `.store.ts` | `auth.store.ts` |
-| Composable | `use` + PascalCase | `usePermission.ts` |
-| View | PascalCase + `Page.vue` | `DashboardPage.vue` |
-| Route name | PascalCase | `ApplicationList` |
+
+| ประเภท     | รูปแบบ                  | ตัวอย่าง            |
+| ---------- | ----------------------- | ------------------- |
+| Component  | PascalCase              | `AppStatusChip.vue` |
+| Store      | camelCase + `.store.ts` | `auth.store.ts`     |
+| Composable | `use` + PascalCase      | `usePermission.ts`  |
+| View       | PascalCase + `Page.vue` | `DashboardPage.vue` |
+| Route name | PascalCase              | `ApplicationList`   |
 
 ### Validation Rules
+
 ```typescript
 const rules = {
-  required: (v: string) => !!v || 'กรุณากรอกข้อมูล',
-  idCard: (v: string) => /^\d{13}$/.test(v) || 'เลขบัตรประชาชนไม่ถูกต้อง',
-  phone: (v: string) => /^0\d{8,9}$/.test(v) || 'เบอร์โทรไม่ถูกต้อง',
-}
+  required: (v: string) => !!v || "กรุณากรอกข้อมูล",
+  idCard: (v: string) => /^\d{13}$/.test(v) || "เลขบัตรประชาชนไม่ถูกต้อง",
+  phone: (v: string) => /^0\d{8,9}$/.test(v) || "เบอร์โทรไม่ถูกต้อง",
+};
 ```
 
 ---

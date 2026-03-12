@@ -5,8 +5,8 @@
       <div>
         <h1 class="text-h5 font-weight-bold mb-1">แดชบอร์ด</h1>
         <p class="text-body-2 text-medium-emphasis mb-0">
-          ภาพรวมระบบออกใบรับรองสุขอนามัย ตามประกาศพืชควบคุมเฉพาะ (Health
-          Certificate)
+          ภาพรวมระบบออกใบรับรองสุขอนามัย (Health Certificate)
+          ตามประกาศพืชควบคุมเฉพาะ
         </p>
       </div>
     </div>
@@ -55,12 +55,12 @@
             class="pa-4 pb-0 d-flex align-center justify-space-between"
           >
             <div class="d-flex align-center ga-2">
-              <v-icon icon="fas fa-clock-rotate-left" color="info" size="16" />
+              <v-icon icon="fas fa-clock-rotate-left" color="hc-staff" size="16" />
               <span class="text-body-1 font-weight-bold">คำขอล่าสุด</span>
             </div>
             <v-btn
               variant="text"
-              color="info"
+              color="hc-staff"
               size="small"
               @click="router.push('/hc/applications')"
             >
@@ -108,7 +108,7 @@
         <v-card class="mb-4">
           <v-card-title class="pa-4 pb-2">
             <div class="d-flex align-center ga-2">
-              <v-icon icon="fas fa-list-check" color="info" size="16" />
+              <v-icon icon="fas fa-list-check" color="hc-staff" size="16" />
               <span class="text-body-1 font-weight-bold">งานรอดำเนินการ</span>
             </div>
           </v-card-title>
@@ -147,7 +147,7 @@ const stats = [
     label: "คำขอทั้งหมด",
     value: "148",
     icon: "fas fa-file-lines",
-    color: "info",
+    color: "hc-staff",
     trend: null,
     trendColor: "",
   },

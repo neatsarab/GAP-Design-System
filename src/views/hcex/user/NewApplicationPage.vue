@@ -45,8 +45,167 @@
       </v-row>
     </div>
 
-    <!-- Form Steps -->
-    <template v-else>
+    <!-- Step 0.5: ตรวจสอบว่ามีผล Lab แล้วหรือยัง -->
+    <div v-else-if="selectedType && hasLab === null" class="mb-6">
+      <div class="d-flex align-center ga-2 mb-5">
+        <v-btn
+          icon="fas fa-arrow-left"
+          variant="text"
+          size="small"
+          @click="selectedType = null"
+        />
+        <div>
+          <div class="text-body-1 font-weight-bold">ตรวจสอบผล Lab</div>
+          <div class="text-body-2 text-medium-emphasis">ประเภทคำขอ: {{ selectedType }}</div>
+        </div>
+      </div>
+
+      <v-card class="mb-5 pa-5" style="border: 2px solid rgba(var(--v-theme-warning), 0.3); border-radius: 16px;">
+        <div class="text-center mb-6">
+          <div class="lab-check-icon mx-auto mb-3">
+            <v-icon icon="fas fa-flask-vial" color="warning" size="32" />
+          </div>
+          <h2 class="text-h6 font-weight-bold mb-2">มีผล Lab ที่ผ่านการพิจารณาแล้วหรือยัง?</h2>
+          <p class="text-body-2 text-medium-emphasis">
+            การยื่นคำขอใบรับรองสุขอนามัยต้องมีผลการทดสอบห้องปฏิบัติการที่ผ่านการพิจารณาของเจ้าหน้าที่แล้ว
+          </p>
+        </div>
+
+        <v-row>
+          <v-col cols="12" sm="6">
+            <v-card
+              class="lab-option-card h-100"
+              style="border: 2px solid rgba(var(--v-theme-success), 0.3); cursor: pointer;"
+              @click="hasLab = true"
+            >
+              <v-card-text class="pa-5 text-center">
+                <div
+                  class="lab-option-icon mx-auto mb-3"
+                  style="background: rgba(var(--v-theme-success), 0.1)"
+                >
+                  <v-icon icon="fas fa-flask-vial" color="success" size="28" />
+                </div>
+                <h3 class="text-body-1 font-weight-bold mb-2">มีผล Lab แล้ว</h3>
+                <p class="text-body-2 text-medium-emphasis mb-4">
+                  มีผลการทดสอบห้องปฏิบัติการที่ผ่านการพิจารณาของเจ้าหน้าที่แล้ว
+                </p>
+                <v-btn color="success" block variant="tonal" size="small">
+                  ดำเนินการต่อ
+                </v-btn>
+              </v-card-text>
+            </v-card>
+          </v-col>
+          <v-col cols="12" sm="6">
+            <v-card
+              class="lab-option-card h-100"
+              style="border: 2px solid rgba(var(--v-theme-warning), 0.3); cursor: pointer;"
+              @click="hasLab = false"
+            >
+              <v-card-text class="pa-5 text-center">
+                <div
+                  class="lab-option-icon mx-auto mb-3"
+                  style="background: rgba(var(--v-theme-warning), 0.1)"
+                >
+                  <v-icon icon="fas fa-vial" color="warning" size="28" />
+                </div>
+                <h3 class="text-body-1 font-weight-bold mb-2">ยังไม่มีผล Lab</h3>
+                <p class="text-body-2 text-medium-emphasis mb-4">
+                  ต้องการยื่นขอผลการทดสอบห้องปฏิบัติการก่อน
+                </p>
+                <v-btn color="warning" block variant="tonal" size="small">
+                  ยื่นขอผล Lab
+                </v-btn>
+              </v-card-text>
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-card>
+    </div>
+
+    <!-- ยื่นขอผล Lab (hasLab === false) -->
+    <div v-else-if="hasLab === false" class="mb-6">
+      <div class="d-flex align-center ga-2 mb-5">
+        <v-btn
+          icon="fas fa-arrow-left"
+          variant="text"
+          size="small"
+          @click="hasLab = null"
+        />
+        <div>
+          <div class="text-body-1 font-weight-bold">ยื่นขอผลการทดสอบ Lab</div>
+          <div class="text-body-2 text-medium-emphasis">กรอกรายละเอียดสินค้าที่ต้องการทดสอบ</div>
+        </div>
+      </div>
+
+      <v-card class="mb-4">
+        <v-card-title class="pa-4 pb-2 text-body-1 font-weight-bold d-flex align-center ga-2">
+          <v-icon icon="fas fa-vial" color="warning" size="16" />
+          ยื่นขอผลการทดสอบ Lab
+        </v-card-title>
+        <v-card-text class="pa-4 pt-0">
+          <v-row dense>
+            <v-col cols="12" sm="6">
+              <div class="field-label mb-2">ชนิดสินค้า <span class="req">*</span></div>
+              <v-text-field
+                v-model="labRequestForm.productType"
+                placeholder="เช่น มันฝรั่งทอดกรอบ"
+                hide-details="auto"
+              />
+            </v-col>
+            <v-col cols="12" sm="6">
+              <div class="field-label mb-2">จำนวนตัวอย่าง <span class="req">*</span></div>
+              <v-text-field
+                v-model="labRequestForm.sampleCount"
+                placeholder="เช่น 5 ตัวอย่าง"
+                hide-details="auto"
+              />
+            </v-col>
+            <v-col cols="12">
+              <div class="field-label mb-2">คำอธิบายสินค้า</div>
+              <v-textarea
+                v-model="labRequestForm.productDesc"
+                placeholder="อธิบายรายละเอียดสินค้าที่ต้องการทดสอบ"
+                rows="2"
+                hide-details
+              />
+            </v-col>
+            <v-col cols="12">
+              <div class="field-label mb-2">หมายเหตุ</div>
+              <v-textarea
+                v-model="labRequestForm.note"
+                placeholder="หมายเหตุเพิ่มเติม (ถ้ามี)"
+                rows="2"
+                hide-details
+              />
+            </v-col>
+          </v-row>
+        </v-card-text>
+      </v-card>
+
+      <div class="d-flex ga-3 mt-4">
+        <v-btn
+          variant="tonal"
+          color="grey"
+          size="large"
+          prepend-icon="fas fa-chevron-left"
+          @click="hasLab = null"
+        >
+          ย้อนกลับ
+        </v-btn>
+        <v-spacer />
+        <v-btn
+          color="warning"
+          size="large"
+          prepend-icon="fas fa-paper-plane"
+          @click="labRequestDialog = true"
+        >
+          ยื่นขอผล Lab
+        </v-btn>
+      </div>
+    </div>
+
+    <!-- Form Steps (hasLab === true) -->
+    <template v-else-if="hasLab === true">
       <!-- Step Indicator -->
       <v-card class="mb-5 pa-4">
         <div class="step-bar">
@@ -387,9 +546,9 @@
             variant="tonal"
             color="grey"
             size="large"
-            @click="selectedType = null"
+            @click="hasLab = null"
           >
-            เปลี่ยนประเภท
+            ย้อนกลับ
           </v-btn>
           <v-spacer />
           <v-btn
@@ -423,6 +582,34 @@
         </div>
       </v-form>
     </template>
+
+    <!-- Lab Request Dialog -->
+    <v-dialog v-model="labRequestDialog" max-width="420" persistent>
+      <v-card rounded="xl">
+        <v-card-text class="pa-8 text-center">
+          <div class="success-ring mx-auto mb-5" style="background: rgba(var(--v-theme-warning), 0.1);">
+            <v-icon icon="fas fa-circle-check" size="40" color="warning" />
+          </div>
+          <h3 class="text-h6 font-weight-bold mb-2">ส่งคำขอผล Lab สำเร็จ!</h3>
+          <p class="text-body-2 font-weight-bold text-warning mb-1">
+            LAB-REQ-2568-{{ Math.floor(Math.random() * 900 + 100) }}
+          </p>
+          <p class="text-body-2 text-medium-emphasis mb-0">
+            เมื่อผล Lab ออกแล้ว ท่านสามารถกลับมายื่นคำขอใบรับรองสุขอนามัยได้
+          </p>
+        </v-card-text>
+        <v-card-actions class="px-6 pb-6">
+          <v-btn
+            color="warning"
+            rounded="lg"
+            block
+            @click="router.push('/hcex/user/dashboard')"
+          >
+            กลับหน้าหลัก
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
 
     <!-- Success Dialog -->
     <v-dialog v-model="successDialog" max-width="420" persistent>
@@ -468,9 +655,11 @@ import { useRouter } from "vue-router";
 const router = useRouter();
 
 const selectedType = ref<string | null>(null);
+const hasLab = ref<boolean | null>(null);
 const currentStep = ref(0);
 const submitting = ref(false);
 const successDialog = ref(false);
+const labRequestDialog = ref(false);
 const newRequestNo = ref("");
 const formRef = ref();
 const selectedLabs = ref<string[]>([]);
@@ -526,6 +715,13 @@ const form = reactive({
   products: [
     { shippingMark: "", description: "", quantity: "", netWeight: "", totalAmount: "" },
   ],
+});
+
+const labRequestForm = reactive({
+  productType: "",
+  productDesc: "",
+  sampleCount: "",
+  note: "",
 });
 
 const shipMethods = ["ทางเรือ", "ทางอากาศ", "ทางบก"];
@@ -702,6 +898,32 @@ async function handleSubmit() {
   width: 60px;
   height: 60px;
   border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Lab Option Card */
+.lab-option-card {
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.lab-option-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.1) !important;
+}
+.lab-option-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.lab-check-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: rgba(var(--v-theme-warning), 0.1);
   display: flex;
   align-items: center;
   justify-content: center;

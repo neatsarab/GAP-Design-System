@@ -5,7 +5,8 @@
       <div>
         <h1 class="text-h5 font-weight-bold mb-1">แดชบอร์ด</h1>
         <p class="text-body-2 text-medium-emphasis mb-0">
-          ภาพรวมคำขอใบรับรองสุขอนามัยพืชของคุณ
+          ภาพรวมระบบออกใบรับรองสุขอนามัย (Health Certificate)
+          ตามประกาศพืชควบคุมเฉพาะ
         </p>
       </div>
       <v-btn

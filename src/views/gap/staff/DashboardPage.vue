@@ -5,13 +5,11 @@
       <div>
         <h1 class="text-h5 font-weight-bold mb-1">แดชบอร์ด</h1>
         <p class="text-body-2 text-medium-emphasis mb-0">
-          <v-icon icon="fas fa-calendar" size="13" class="mr-1" />{{
-            currentDate
-          }}
+          ภาพรวมระบบการรับรองมาตรฐาน GAP (Good Agricultural Practices)
         </p>
       </div>
       <v-btn
-        color="primary"
+        color="gap-staff"
         prepend-icon="fas fa-file-pen"
         @click="router.push('/gap/staff/applications/new')"
       >
@@ -56,7 +54,7 @@
       <v-col cols="12" md="7">
         <v-card>
           <v-card-title class="d-flex align-center ga-2 pa-4 pb-3">
-            <v-icon icon="fas fa-list-check" color="primary" size="18" />
+            <v-icon icon="fas fa-list-check" color="gap-staff" size="18" />
             <span class="text-body-1 font-weight-bold"
               >งานที่ต้องดำเนินการ</span
             >
@@ -107,7 +105,7 @@
           <v-card-actions class="pa-3">
             <v-btn
               variant="text"
-              color="primary"
+              color="gap-staff"
               size="small"
               append-icon="fas fa-arrow-right"
               @click="router.push('/gap/staff/applications')"
@@ -198,7 +196,7 @@ const stats = [
   {
     label: "คำขอทั้งหมด",
     icon: "fas fa-file-lines",
-    color: "primary",
+    color: "gap-staff",
     value: 48,
   },
   {
@@ -294,7 +292,7 @@ const quickActions = [
   {
     label: "เสนอแปลงต่อ CC (3 รายการ)",
     icon: "fas fa-paper-plane",
-    color: "primary",
+    color: "gap-staff",
     count: 3,
     to: "/gap/staff/propose-cc",
   },
@@ -337,7 +335,7 @@ const statusBars = [
   transition: background 0.15s;
 }
 .queue-item:hover {
-  background: rgba(var(--v-theme-primary), 0.04);
+  background: rgba(var(--v-theme-gap-staff), 0.04);
 }
 .queue-icon-box {
   width: 36px;

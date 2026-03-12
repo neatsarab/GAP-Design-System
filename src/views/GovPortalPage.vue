@@ -427,7 +427,7 @@
 
                 <div class="coming-soon-bar">
                   <v-icon icon="fas fa-clock" size="12" class="mr-1" />
-                  <span class="text-caption">กรุณายื่นคำขอการใช้งานก่อน</span>
+                  <span class="text-caption">{{ system.eta }}</span>
                 </div>
               </v-card-text>
             </v-card>
@@ -534,10 +534,10 @@ interface SystemItem {
 const systems = computed<SystemItem[]>(() => [
   {
     id: 1,
-    name: "ระบบการรับรองมาตรฐาน GAP พืช",
-    desc: "ยื่นคำขอรับรองแหล่งผลิต ติดตามสถานะ และจัดการใบรับรอง GAP พืชครบวงจร",
+    name: "ระบบการรับรองมาตรฐาน GAP (Good Agricultural Practices)",
+    desc: "ยื่นคำขอ ตรวจประเมิน และออกใบรับรองมาตรฐาน GAP ให้แก่เกษตรกรหรือผู้ประกอบการ",
     icon: "fas fa-seedling",
-    color: "primary",
+    color: mode.value === "staff" ? "gap-staff" : "primary",
     active: true,
     route:
       mode.value === "staff" ? "/gap/staff/dashboard" : "/gap/user/dashboard",
@@ -548,20 +548,50 @@ const systems = computed<SystemItem[]>(() => [
   },
   {
     id: 2,
-    name: "ระบบรับรองมาตรฐานเกษตรอินทรีย์ (ORG)",
-    desc: "ยื่นคำขอรับรองและต่ออายุมาตรฐานเกษตรอินทรีย์ ติดตามสถานะการรับรอง",
+    name: "ระบบการรับรองมาตรฐาน ORG (Organic Agricultural)",
+    desc: "ยื่นคำขอ ตรวจประเมิน และออกใบรับรองมาตรฐานเกษตรอินทรีย์ให้แก่แหล่งผลิต",
     icon: "fas fa-leaf",
     color: "success",
     active: false,
     route: "#",
-    eta: "ไตรมาส 1/2569",
+    eta: "กรุณายื่นคำขอสิทธิการเข้าถึง",
   },
   {
     id: 3,
-    name: "ระบบออกใบรับรองสุขอนามัยพืช (HC) ตามประกาศพืชควบคุมเฉพาะ",
-    desc: "ออกใบรับรองสุขอนามัย (Health Certificate) ตามประกาศพืชควบคุมเฉพาะ",
-    icon: "fas fa-file-shield",
+    name: "ระบบการขึ้นทะเบียนโรงงานผลิตสินค้าพืช DOA",
+    desc: "ยื่นคำขอ ตรวจสอบ และอนุมัติการขึ้นทะเบียนโรงงานผลิตหรือแปรรูปสินค้าพืชกับกรมวิชาการเกษตร",
+    icon: "fas fa-industry",
     color: "info",
+    active: false,
+    route: "#",
+    eta: "กรุณายื่นคำขอสิทธิการเข้าถึง",
+  },
+  {
+    id: 4,
+    name: "ระบบการขึ้นทะเบียนหน่วยรับรองโรงงานผลิตสินค้าพืช (Certification Body)",
+    desc: "ยื่นคำขอและบริหารจัดการการขึ้นทะเบียนหน่วยรับรองที่ทำหน้าที่ตรวจประเมินโรงงานผลิตสินค้าพืช",
+    icon: "fas fa-certificate",
+    color: "secondary",
+    active: false,
+    route: "#",
+    eta: "กรุณายื่นคำขอสิทธิการเข้าถึง",
+  },
+  {
+    id: 5,
+    name: "ระบบจดทะเบียนผู้ส่งออก",
+    desc: "ยื่นคำขอและขึ้นทะเบียนเป็นผู้ส่งออกสินค้าพืชกับกรมวิชาการเกษตร",
+    icon: "fas fa-ship",
+    color: "secondary",
+    active: false,
+    route: "#",
+    eta: "กรุณายื่นคำขอสิทธิการเข้าถึง",
+  },
+  {
+    id: 6,
+    name: "ระบบออกใบรับรองสุขอนามัยพืช (Health Certificate) ตามประกาศพืชควบคุมเฉพาะ",
+    desc: "ยื่นคำขอ ตรวจสอบ และออกใบรับรองสุขอนามัยพืชสำหรับพืชควบคุมเฉพาะ",
+    icon: "fas fa-virus",
+    color: mode.value === "staff" ? "hc-staff" : "info",
     active: true,
     route: mode.value === "staff" ? "/hc/staff" : "/hc/user",
     tags:
@@ -570,44 +600,28 @@ const systems = computed<SystemItem[]>(() => [
         : ["ขอใบรับรอง", "ติดตามสถานะ", "ดาวน์โหลด"],
   },
   {
-    id: 4,
-    name: "ระบบนำเข้าผลิตภัณฑ์ HC",
-    desc: "ยื่นคำขอนำเข้าผลิตภัณฑ์พืชและเอกสารสุขอนามัยพืชนำเข้า",
-    icon: "fas fa-truck-ramp-box",
-    color: "warning",
-    active: false,
-    route: "#",
-    eta: "ไตรมาส 2/2569",
-  },
-  {
-    id: 5,
-    name: "ระบบจดทะเบียนผู้ส่งออก",
-    desc: "ขึ้นทะเบียน ต่ออายุ และจัดการใบอนุญาตผู้ส่งออกสินค้าเกษตร",
-    icon: "fas fa-ship",
-    color: "secondary",
-    active: false,
-    route: "#",
-    eta: "ไตรมาส 3/2569",
-  },
-  {
-    id: 6,
-    name: "ระบบ DOA & CB",
-    desc: "ระบบรับรองความสามารถห้องปฏิบัติการ (CB) และบริการตรวจสอบกรมวิชาการเกษตร",
-    icon: "fas fa-flask-vial",
-    color: "error",
-    active: false,
-    route: "#",
-    eta: "ไตรมาส 3/2569",
-  },
-  {
     id: 7,
-    name: "ระบบบริหารจัดการ (Backend Admin)",
-    desc: "สำหรับผู้ดูแลระบบ — จัดการข้อมูลผู้ใช้ สิทธิ์การเข้าถึง และการตั้งค่าระบบ",
-    icon: "fas fa-screwdriver-wrench",
-    color: "primary",
-    active: false,
-    route: "#",
-    eta: "ไตรมาส 4/2569",
+    name: "ระบบออกใบรับรองสุขอนามัยพืช (Health Certificate) สินค้าแปรรูปด้านพืช",
+    desc: "ยื่นคำขอและออกใบรับรองสุขอนามัยพืชสำหรับสินค้าแปรรูปด้านพืชเพื่อการส่งออก",
+    icon: "fas fa-file-medical",
+    color: mode.value === "staff" ? "hcex-staff" : "warning",
+    active: true,
+    route:
+      mode.value === "staff" ? "/hcex/staff/dashboard" : "/hcex/user/dashboard",
+    tags:
+      mode.value === "staff"
+        ? ["ตรวจสอบคำขอ", "พิจารณา Lab", "ลงนาม"]
+        : ["ยื่นคำขอ", "เลือกผล Lab", "ดาวน์โหลดใบรับรอง"],
+  },
+  {
+    id: 8,
+    name: "ระบบการควบคุมพิเศษระบบบัญชีรายชื่อโรงคัดบรรจุ (Establishment List)",
+    desc: "บริหารจัดการบัญชีรายชื่อโรงคัดบรรจุที่ได้รับการอนุญาตสำหรับการส่งออกสินค้า",
+    icon: "fas fa-warehouse",
+    color: mode.value === "staff" ? "el-staff" : "el-user",
+    active: true,
+    route: mode.value === "staff" ? "/el/staff/dashboard" : "/el/user/dashboard",
+    tags: mode.value === "staff" ? ["ตรวจเอกสาร", "นัดตรวจแปลง", "รายงานผล"] : ["ยื่นคำขอ", "ติดตามสถานะ", "ใบทะเบียน EL"],
   },
 ]);
 

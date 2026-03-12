@@ -1,16 +1,16 @@
 /* ── Google Fonts: Sarabun ── */
-@import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap");
 
 /* ── Global Font: Sarabun ── */
 *,
 *::before,
 *::after {
-  font-family: 'Sarabun', sans-serif !important;
+  font-family: "Sarabun", sans-serif !important;
 }
 
 .v-application,
 .v-application * {
-  font-family: 'Sarabun', sans-serif !important;
+  font-family: "Sarabun", sans-serif !important;
 }
 
 /* ── Smooth transitions ── */
@@ -45,7 +45,6 @@
 /* ── Sidebar white theme ── */
 .v-navigation-drawer .v-list-item--active .v-list-item-title {
   font-weight: 600 !important;
-  color: #357E4E !important;
 }
 
 /* ── Sidebar category label ── */
@@ -79,7 +78,7 @@
 
 /* ── Expansion panel title hover ── */
 .v-expansion-panel-title:hover > .v-expansion-panel-title__overlay {
-  opacity: 0.10 !important;
+  opacity: 0.1 !important;
 }
 
 /* ── Switch track: เพิ่มความชัดตอน OFF ── */
@@ -100,10 +99,14 @@
   opacity: 1 !important;
 }
 
-.v-switch .v-selection-control:not(.v-selection-control--dirty) .v-switch__track {
+.v-switch
+  .v-selection-control:not(.v-selection-control--dirty)
+  .v-switch__track {
   opacity: 0.45 !important;
 }
-.v-switch .v-selection-control:not(.v-selection-control--dirty) .v-switch__thumb {
+.v-switch
+  .v-selection-control:not(.v-selection-control--dirty)
+  .v-switch__thumb {
   opacity: 0.75 !important;
 }
 .v-switch .v-selection-control.v-selection-control--dirty .v-switch__track,
@@ -173,28 +176,50 @@
 /* ── Field label above input ── */
 .field-label {
   display: block;
-  font-size: 1rem;       /* 16px per Figma */
+  font-size: 1rem; /* 16px per Figma */
   font-weight: 400;
   line-height: 1.5;
   color: #616161;
   margin-bottom: 6px;
 }
 .field-label .req {
-  color: #FF5252;
+  color: #ff5252;
   margin-left: 2px;
 }
 
 /* ── Scrollbar — light mode ── */
-::-webkit-scrollbar { width: 5px; height: 5px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(var(--v-theme-primary), 0.25); border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(var(--v-theme-primary), 0.5); }
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(var(--v-theme-primary), 0.25);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(var(--v-theme-primary), 0.5);
+}
 
 /* ── Scrollbar — dark mode ── */
-.v-theme--gapDark ::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.03); }
-.v-theme--gapDark ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.12); border-radius: 4px; }
-.v-theme--gapDark ::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.25); }
+.v-theme--gapDark ::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.03);
+}
+.v-theme--gapDark ::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 4px;
+}
+.v-theme--gapDark ::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
 
 /* Firefox */
-* { scrollbar-width: thin; scrollbar-color: rgba(var(--v-theme-primary), 0.25) transparent; }
-.v-theme--gapDark * { scrollbar-color: rgba(255, 255, 255, 0.12) transparent; }
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(var(--v-theme-primary), 0.25) transparent;
+}
+.v-theme--gapDark * {
+  scrollbar-color: rgba(255, 255, 255, 0.12) transparent;
+}

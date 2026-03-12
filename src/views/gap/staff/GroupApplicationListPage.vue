@@ -5,7 +5,7 @@
         <h1 class="text-h5 font-weight-bold mb-1">รายการคำขอรับรองแบบกลุ่ม</h1>
         <p class="text-body-2 text-medium-emphasis mb-0">จัดการคำขอรับรองมาตรฐาน GAP สำหรับกลุ่มเกษตรกร</p>
       </div>
-      <v-btn color="primary" prepend-icon="fas fa-users-plus">ยื่นคำขอกลุ่มใหม่</v-btn>
+      <v-btn color="gap-staff" prepend-icon="fas fa-users-plus">ยื่นคำขอกลุ่มใหม่</v-btn>
     </div>
 
     <!-- Search -->
@@ -72,7 +72,7 @@
             </div>
 
             <div class="d-flex ga-2">
-              <v-btn color="primary" variant="tonal" size="small" prepend-icon="fas fa-eye" class="flex-grow-1">
+              <v-btn color="gap-staff" variant="tonal" size="small" prepend-icon="fas fa-eye" class="flex-grow-1">
                 ดูรายละเอียด
               </v-btn>
               <v-btn color="secondary" variant="tonal" size="small" prepend-icon="fas fa-users">

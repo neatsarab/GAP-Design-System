@@ -268,6 +268,64 @@ const router = createRouter({
         },
       ],
     },
+
+    // ── HCEX Staff System ─────────────────────────────
+    {
+      path: "/hcex/staff",
+      component: () => import("@/layouts/hcex/HCEXStaffLayout.vue"),
+      children: [
+        { path: "", redirect: "/hcex/staff/dashboard" },
+        { path: "dashboard", name: "HCEXstaffDashboard", component: () => import("@/views/hcex/staff/DashboardPage.vue"), meta: { title: "แดชบอร์ด HC แปรรูป" } },
+        { path: "applications", name: "HCEXstaffApplicationList", component: () => import("@/views/hcex/staff/ApplicationListPage.vue"), meta: { title: "รายการคำขอ HC แปรรูป" } },
+        { path: "applications/:id", name: "HCEXstaffApplicationDetail", component: () => import("@/views/hcex/staff/ApplicationDetailPage.vue"), meta: { title: "รายละเอียดคำขอ HC แปรรูป" } },
+        { path: "lab-results", name: "HCEXstaffLabResults", component: () => import("@/views/hcex/staff/LabResultsPage.vue"), meta: { title: "ผล Lab HC แปรรูป" } },
+        { path: "signing", name: "HCEXstaffSigning", component: () => import("@/views/hcex/staff/SigningPage.vue"), meta: { title: "ลงนามใบรับรอง HC แปรรูป" } },
+        { path: "registry", name: "HCEXstaffRegistry", component: () => import("@/views/hcex/staff/RegistryPage.vue"), meta: { title: "ทะเบียน HC แปรรูป" } },
+      ],
+    },
+
+    // ── HCEX User System ──────────────────────────────
+    {
+      path: "/hcex/user",
+      component: () => import("@/layouts/hcex/HCEXUserLayout.vue"),
+      children: [
+        { path: "", redirect: "/hcex/user/dashboard" },
+        { path: "dashboard", name: "HCEXUserDashboard", component: () => import("@/views/hcex/user/DashboardPage.vue"), meta: { title: "แดชบอร์ด HC แปรรูป" } },
+        { path: "applications", name: "HCEXUserApplicationList", component: () => import("@/views/hcex/user/ApplicationListPage.vue"), meta: { title: "คำขอ HC แปรรูปของฉัน" } },
+        { path: "applications/new", name: "HCEXUserNewApplication", component: () => import("@/views/hcex/user/NewApplicationPage.vue"), meta: { title: "ยื่นคำขอ HC แปรรูปใหม่" } },
+        { path: "applications/:id", name: "HCEXUserApplicationDetail", component: () => import("@/views/hcex/user/ApplicationDetailPage.vue"), meta: { title: "ติดตามสถานะคำขอ HC แปรรูป" } },
+        { path: "certificates", name: "HCEXUserCertificates", component: () => import("@/views/hcex/user/CertificatePage.vue"), meta: { title: "ใบรับรอง HC แปรรูปของฉัน" } },
+      ],
+    },
+
+    // ── EL User System ────────────────────────────────
+    {
+      path: "/el/user",
+      component: () => import("@/layouts/el/ELUserLayout.vue"),
+      children: [
+        { path: "", redirect: "/el/user/dashboard" },
+        { path: "dashboard", name: "ELUserDashboard", component: () => import("@/views/el/user/DashboardPage.vue"), meta: { title: "แดชบอร์ด EL โรงคัดบรรจุ" } },
+        { path: "applications", name: "ELUserApplicationList", component: () => import("@/views/el/user/ApplicationListPage.vue"), meta: { title: "รายการคำขอ EL" } },
+        { path: "applications/new", name: "ELUserNewApplication", component: () => import("@/views/el/user/NewApplicationPage.vue"), meta: { title: "ยื่นคำขอ EL ใหม่" } },
+        { path: "applications/:id", name: "ELUserApplicationDetail", component: () => import("@/views/el/user/ApplicationDetailPage.vue"), meta: { title: "ติดตามสถานะคำขอ EL" } },
+        { path: "registry", name: "ELUserRegistry", component: () => import("@/views/el/user/ApplicationListPage.vue"), meta: { title: "ข้อมูลโรงคัดบรรจุ" } },
+      ],
+    },
+
+    // ── EL Staff System ───────────────────────────────
+    {
+      path: "/el/staff",
+      component: () => import("@/layouts/el/ELStaffLayout.vue"),
+      children: [
+        { path: "", redirect: "/el/staff/dashboard" },
+        { path: "dashboard", name: "ELStaffDashboard", component: () => import("@/views/el/staff/DashboardPage.vue"), meta: { title: "แดชบอร์ด EL สวพ." } },
+        { path: "applications", name: "ELStaffApplicationList", component: () => import("@/views/el/staff/ApplicationListPage.vue"), meta: { title: "รายการคำขอ EL" } },
+        { path: "applications/:id", name: "ELStaffApplicationDetail", component: () => import("@/views/el/staff/ApplicationDetailPage.vue"), meta: { title: "รายละเอียดคำขอ EL" } },
+        { path: "monitoring", name: "ELStaffMonitoring", component: () => import("@/views/el/staff/ApplicationListPage.vue"), meta: { title: "ตรวจติดตาม EL" } },
+        { path: "registry", name: "ELStaffRegistry", component: () => import("@/views/el/staff/RegistryPage.vue"), meta: { title: "ทะเบียนโรงคัดบรรจุ" } },
+        { path: "reports", name: "ELStaffReports", component: () => import("@/views/el/staff/DashboardPage.vue"), meta: { title: "รายงานผล EL" } },
+      ],
+    },
   ],
   scrollBehavior(to) {
     if (to.hash) {

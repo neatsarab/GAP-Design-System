@@ -32,6 +32,15 @@ const light = {
 
   border:  '#E0E0E0',
   divider: '#EEEEEE',
+
+  // ── System-specific tokens ──────────────────────────
+  'gap-user':    '#4CAF6E',  // GAP User  — green (alias of primary)
+  'gap-staff':   '#2E7D32',  // GAP Staff — deep green
+  'hc-user':     '#1565C0',  // HC User   — blue darken-3
+  'hc-staff':    '#0D47A1',  // HC Staff  — dark blue
+  'hcex-staff':  '#BF360C',  // HCEX Staff — deep orange
+  'el-user':     '#6A1B9A',  // EL User   — purple
+  'el-staff':    '#283593',  // EL Staff  — indigo
 } as const
 
 /** Dark theme palette tokens (เทาดำ ไม่ใช่สีกรม) */
@@ -61,6 +70,15 @@ const dark = {
   // Border / divider tokens (เส้นอ่อน บน dark bg)
   border:  '#333333',                  // border ทั่วไป
   divider: '#2a2a2a',                  // เส้น divider
+
+  // ── System-specific tokens ──────────────────────────
+  'gap-user':    '#A5D6A7',  // GAP User dark  — green lighten2
+  'gap-staff':   '#66BB6A',  // GAP Staff dark — green lighten1
+  'hc-user':     '#90CAF9',  // HC User dark   — blue lighten3
+  'hc-staff':    '#82B1FF',  // HC Staff dark  — blue accent1
+  'hcex-staff':  '#FF8A65',  // HCEX Staff dark — deep orange lighten2
+  'el-user':     '#CE93D8',  // EL User dark   — purple lighten2
+  'el-staff':    '#9FA8DA',  // EL Staff dark  — indigo lighten2
 } as const
 
 // ── Custom Font Awesome iconset for Vuetify ──────────────
@@ -152,6 +170,14 @@ export default createVuetify({
           // custom tokens — เรียกใช้ได้ผ่าน rgb(var(--v-theme-border))
           'border':             light.border,
           'divider':            light.divider,
+          // system tokens
+          'gap-user':           light['gap-user'],
+          'gap-staff':          light['gap-staff'],
+          'hc-user':            light['hc-user'],
+          'hc-staff':           light['hc-staff'],
+          'hcex-staff':         light['hcex-staff'],
+          'el-user':            light['el-user'],
+          'el-staff':           light['el-staff'],
         },
       },
 
@@ -176,6 +202,14 @@ export default createVuetify({
           // custom tokens
           'border':             dark.border,
           'divider':            dark.divider,
+          // system tokens
+          'gap-user':           dark['gap-user'],
+          'gap-staff':          dark['gap-staff'],
+          'hc-user':            dark['hc-user'],
+          'hc-staff':           dark['hc-staff'],
+          'hcex-staff':         dark['hcex-staff'],
+          'el-user':            dark['el-user'],
+          'el-staff':           dark['el-staff'],
         },
       },
 
