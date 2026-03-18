@@ -16,10 +16,10 @@
             <v-text-field v-model="search" label="ค้นหาชื่อกลุ่ม / เลขที่คำขอ" prepend-inner-icon="fas fa-search" clearable hide-details />
           </v-col>
           <v-col cols="6" sm="3">
-            <v-select v-model="filterStatus" label="สถานะ" :items="statusOptions" item-title="label" item-value="value" clearable hide-details />
+            <v-autocomplete v-model="filterStatus" label="สถานะ" :items="statusOptions" item-title="label" item-value="value" clearable hide-details />
           </v-col>
           <v-col cols="6" sm="3">
-            <v-select v-model="filterCert" label="ประเภทใบรับรอง" :items="['มกษ. 9001', 'มกษ. 3502']" clearable hide-details />
+            <v-autocomplete v-model="filterCert" label="ประเภทใบรับรอง" :items="['มกษ. 9001', 'มกษ. 3502']" clearable hide-details />
           </v-col>
         </v-row>
       </v-card-text>

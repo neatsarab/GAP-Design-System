@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="--v-theme-primary: var(--v-theme-gap-user)">
     <!-- ── Sidebar ── -->
     <v-navigation-drawer
       v-model="drawer"
@@ -81,7 +81,7 @@
             prepend-icon="fas fa-arrow-left"
             title="กลับหน้า Portal"
             rounded="lg"
-            @click="router.push('/portal')"
+            @click="router.push('/portal?mode=user')"
           />
           <v-list-item
             prepend-icon="fas fa-right-from-bracket"

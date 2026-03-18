@@ -13,7 +13,9 @@
           {{ app.requestNo }}
         </h1>
         <div class="d-flex align-center ga-2">
-          <v-chip size="small" color="warning" variant="tonal">{{ app.certType }}</v-chip>
+          <v-chip size="small" color="hcex-user" variant="tonal">{{
+            app.certType
+          }}</v-chip>
           <v-chip
             size="small"
             :color="getStatusColor(app.status)"
@@ -40,7 +42,11 @@
           }"
         >
           <div class="step-dot">
-            <v-icon v-if="currentStepIndex > idx" icon="fas fa-check" size="11" />
+            <v-icon
+              v-if="currentStepIndex > idx"
+              icon="fas fa-check"
+              size="11"
+            />
             <span v-else>{{ idx + 1 }}</span>
           </div>
           <span class="step-label text-caption">{{ step.label }}</span>
@@ -54,8 +60,10 @@
       <v-col cols="12" md="6">
         <!-- ผู้ส่งออก -->
         <v-card class="mb-4">
-          <v-card-title class="pa-4 pb-2 text-body-1 font-weight-bold d-flex align-center ga-2">
-            <v-icon icon="fas fa-building" color="warning" size="16" />
+          <v-card-title
+            class="pa-4 pb-2 text-body-1 font-weight-bold d-flex align-center ga-2"
+          >
+            <v-icon icon="fas fa-building" color="hcex-user" size="16" />
             ผู้ส่งออก (Exporter)
           </v-card-title>
           <v-card-text class="pa-4 pt-0">
@@ -78,8 +86,10 @@
 
         <!-- ผู้รับสินค้า -->
         <v-card class="mb-4">
-          <v-card-title class="pa-4 pb-2 text-body-1 font-weight-bold d-flex align-center ga-2">
-            <v-icon icon="fas fa-user-tie" color="warning" size="16" />
+          <v-card-title
+            class="pa-4 pb-2 text-body-1 font-weight-bold d-flex align-center ga-2"
+          >
+            <v-icon icon="fas fa-user-tie" color="hcex-user" size="16" />
             ผู้รับสินค้า (Consignee)
           </v-card-title>
           <v-card-text class="pa-4 pt-0">
@@ -94,7 +104,9 @@
               </div>
               <div class="info-item">
                 <span class="info-label">ประเทศปลายทาง</span>
-                <span class="info-value text-warning font-weight-medium">{{ app.destination }}</span>
+                <span class="info-value text-hcex-user font-weight-medium">{{
+                  app.destination
+                }}</span>
               </div>
             </div>
           </v-card-text>
@@ -104,8 +116,10 @@
       <v-col cols="12" md="6">
         <!-- ข้อมูลการขนส่ง -->
         <v-card class="mb-4">
-          <v-card-title class="pa-4 pb-2 text-body-1 font-weight-bold d-flex align-center ga-2">
-            <v-icon icon="fas fa-ship" color="warning" size="16" />
+          <v-card-title
+            class="pa-4 pb-2 text-body-1 font-weight-bold d-flex align-center ga-2"
+          >
+            <v-icon icon="fas fa-ship" color="hcex-user" size="16" />
             ข้อมูลการขนส่ง
           </v-card-title>
           <v-card-text class="pa-4 pt-0">
@@ -128,8 +142,10 @@
 
         <!-- ผล Lab ที่เลือก -->
         <v-card class="mb-4">
-          <v-card-title class="pa-4 pb-2 text-body-1 font-weight-bold d-flex align-center ga-2">
-            <v-icon icon="fas fa-flask-vial" color="warning" size="16" />
+          <v-card-title
+            class="pa-4 pb-2 text-body-1 font-weight-bold d-flex align-center ga-2"
+          >
+            <v-icon icon="fas fa-flask-vial" color="hcex-user" size="16" />
             ผล Lab ที่เลือก
           </v-card-title>
           <v-card-text class="pa-4 pt-0">
@@ -151,8 +167,10 @@
 
     <!-- รายละเอียดสินค้า -->
     <v-card class="mb-5">
-      <v-card-title class="pa-4 pb-2 text-body-1 font-weight-bold d-flex align-center ga-2">
-        <v-icon icon="fas fa-box" color="warning" size="16" />
+      <v-card-title
+        class="pa-4 pb-2 text-body-1 font-weight-bold d-flex align-center ga-2"
+      >
+        <v-icon icon="fas fa-box" color="hcex-user" size="16" />
         รายละเอียดสินค้า
       </v-card-title>
       <v-card-text class="pa-4 pt-0">
@@ -183,25 +201,33 @@
     <v-card
       v-if="currentStatus === 'preview_review'"
       class="mb-5"
-      style="border: 2px solid rgba(var(--v-theme-warning), 0.4);"
+      style="border: 2px solid rgba(var(--v-theme-hcex-user), 0.4)"
     >
-      <v-card-title class="pa-4 pb-2 text-body-1 font-weight-bold d-flex align-center ga-2">
-        <v-icon icon="fas fa-file-lines" color="warning" size="16" />
+      <v-card-title
+        class="pa-4 pb-2 text-body-1 font-weight-bold d-flex align-center ga-2"
+      >
+        <v-icon icon="fas fa-file-lines" color="hcex-user" size="16" />
         ยืนยัน Preview ใบรับรอง
-        <v-chip size="x-small" color="warning" variant="tonal" class="ml-2">รอการยืนยัน</v-chip>
+        <v-chip size="x-small" color="hcex-user" variant="tonal" class="ml-2"
+          >รอการยืนยัน</v-chip
+        >
       </v-card-title>
       <v-card-text class="pa-4 pt-0">
         <!-- Draft Preview Box -->
         <div class="preview-cert-box mb-4">
           <div class="d-flex align-center ga-2 mb-3">
-            <v-icon icon="fas fa-industry" color="warning" size="16" />
+            <v-icon icon="fas fa-industry" color="hcex-user" size="16" />
             <span class="text-body-2 font-weight-bold">แบบร่างใบรับรอง</span>
-            <v-chip size="x-small" color="warning" variant="tonal">ร่าง</v-chip>
+            <v-chip size="x-small" color="hcex-user" variant="tonal"
+              >ร่าง</v-chip
+            >
           </div>
           <div class="info-grid">
             <div class="info-item">
               <span class="info-label">เลขที่ใบรับรอง (ร่าง)</span>
-              <span class="info-value text-warning font-weight-bold">DRAFT-THHCEX-2568-00012</span>
+              <span class="info-value text-hcex-user font-weight-bold"
+                >DRAFT-THHCEX-2568-00012</span
+              >
             </div>
             <div class="info-item">
               <span class="info-label">ผู้ส่งออก</span>
@@ -223,7 +249,7 @@
         </div>
 
         <v-alert
-          color="warning"
+          color="hcex-user"
           variant="tonal"
           density="compact"
           prepend-icon="fas fa-triangle-exclamation"
@@ -242,7 +268,7 @@
           </v-btn>
           <v-spacer />
           <v-btn
-            color="warning"
+            color="hcex-user"
             prepend-icon="fas fa-circle-check"
             @click="confirmPreviewDialog = true"
           >
@@ -256,24 +282,28 @@
     <v-card
       v-if="currentStatus === 'pending_payment'"
       class="mb-5"
-      style="border: 2px solid rgba(var(--v-theme-warning), 0.4);"
+      style="border: 2px solid rgba(var(--v-theme-hcex-user), 0.4)"
     >
-      <v-card-title class="pa-4 pb-2 text-body-1 font-weight-bold d-flex align-center ga-2">
-        <v-icon icon="fas fa-money-bill-wave" color="warning" size="16" />
+      <v-card-title
+        class="pa-4 pb-2 text-body-1 font-weight-bold d-flex align-center ga-2"
+      >
+        <v-icon icon="fas fa-money-bill-wave" color="hcex-user" size="16" />
         ชำระค่าธรรมเนียม
       </v-card-title>
       <v-card-text class="pa-4 pt-0">
         <div class="info-grid mb-4">
           <div class="info-item">
             <span class="info-label">ค่าธรรมเนียมใบรับรอง</span>
-            <span class="info-value text-warning font-weight-bold">500 บาท</span>
+            <span class="info-value text-hcex-user font-weight-bold"
+              >500 บาท</span
+            >
           </div>
           <div class="info-item">
             <span class="info-label">ช่องทางชำระ</span>
             <span class="info-value">โอนเงินผ่านระบบ KTB</span>
           </div>
         </div>
-        <v-btn color="warning" prepend-icon="fas fa-credit-card">
+        <v-btn color="hcex-user" prepend-icon="fas fa-credit-card">
           ชำระค่าธรรมเนียม
         </v-btn>
       </v-card-text>
@@ -281,8 +311,10 @@
 
     <!-- Timeline -->
     <v-card class="mb-5">
-      <v-card-title class="pa-4 pb-2 text-body-1 font-weight-bold d-flex align-center ga-2">
-        <v-icon icon="fas fa-clock-rotate-left" color="warning" size="16" />
+      <v-card-title
+        class="pa-4 pb-2 text-body-1 font-weight-bold d-flex align-center ga-2"
+      >
+        <v-icon icon="fas fa-clock-rotate-left" color="hcex-user" size="16" />
         ประวัติสถานะ
       </v-card-title>
       <v-card-text class="pa-4 pt-0">
@@ -297,11 +329,20 @@
               <v-icon :icon="entry.icon" size="12" />
             </template>
             <div class="d-flex align-center ga-2 flex-wrap">
-              <span class="text-body-2 font-weight-medium">{{ entry.label }}</span>
-              <v-chip size="x-small" :color="entry.color" variant="tonal">{{ entry.status }}</v-chip>
+              <span class="text-body-2 font-weight-medium">{{
+                entry.label
+              }}</span>
+              <v-chip size="x-small" :color="entry.color" variant="tonal">{{
+                entry.status
+              }}</v-chip>
             </div>
-            <div class="text-caption text-medium-emphasis">{{ entry.date }}</div>
-            <div v-if="entry.note" class="text-caption text-medium-emphasis mt-1">
+            <div class="text-caption text-medium-emphasis">
+              {{ entry.date }}
+            </div>
+            <div
+              v-if="entry.note"
+              class="text-caption text-medium-emphasis mt-1"
+            >
               {{ entry.note }}
             </div>
           </v-timeline-item>
@@ -313,7 +354,7 @@
     <div class="d-flex ga-3 justify-end">
       <v-btn
         v-if="isApprovedOrCompleted"
-        color="warning"
+        color="hcex-user"
         prepend-icon="fas fa-download"
         rounded="lg"
       >
@@ -335,19 +376,27 @@
     <v-dialog v-model="confirmPreviewDialog" max-width="400" persistent>
       <v-card rounded="xl">
         <v-card-text class="pa-6 text-center">
-          <div class="warning-ring mx-auto mb-4">
-            <v-icon icon="fas fa-circle-check" size="28" color="warning" />
+          <div class="hcex-user-ring mx-auto mb-4">
+            <v-icon icon="fas fa-circle-check" size="28" color="hcex-user" />
           </div>
           <h3 class="text-h6 font-weight-bold mb-2">ยืนยัน Preview ใบรับรอง</h3>
           <p class="text-body-2 text-medium-emphasis mb-0">
-            ยืนยันว่าข้อมูลใน Preview ใบรับรอง <strong class="text-warning">DRAFT-THHCEX-2568-00012</strong> ถูกต้องแล้วใช่หรือไม่?
+            ยืนยันว่าข้อมูลใน Preview ใบรับรอง
+            <strong class="text-hcex-user">DRAFT-THHCEX-2568-00012</strong>
+            ถูกต้องแล้วใช่หรือไม่?
           </p>
         </v-card-text>
         <v-card-actions class="px-6 pb-5 ga-2">
-          <v-btn variant="tonal" color="grey" rounded="lg" block @click="confirmPreviewDialog = false">
+          <v-btn
+            variant="tonal"
+            color="grey"
+            rounded="lg"
+            block
+            @click="confirmPreviewDialog = false"
+          >
             ยกเลิก
           </v-btn>
-          <v-btn color="warning" rounded="lg" block @click="doConfirmPreview">
+          <v-btn color="hcex-user" rounded="lg" block @click="doConfirmPreview">
             ยืนยัน
           </v-btn>
         </v-card-actions>
@@ -367,7 +416,12 @@
           </p>
         </v-card-text>
         <v-card-actions class="px-6 pb-6">
-          <v-btn color="warning" rounded="lg" block @click="successPreviewDialog = false">
+          <v-btn
+            color="hcex-user"
+            rounded="lg"
+            block
+            @click="successPreviewDialog = false"
+          >
             ตกลง
           </v-btn>
         </v-card-actions>
@@ -433,7 +487,8 @@ const app: AppDetail = {
   exporterName: "บริษัท ไทยฟู้ดโปรเซส จำกัด",
   exporterAddress: "123 ถ.สุขุมวิท แขวงพระโขนง กทม. 10260",
   consigneeName: "Nippon Foods Trading Co., Ltd.",
-  consigneeAddress: "5-10, Shinjuku 1-chome, Shinjuku-ku, Tokyo 160-0001, Japan",
+  consigneeAddress:
+    "5-10, Shinjuku 1-chome, Shinjuku-ku, Tokyo 160-0001, Japan",
   destination: "ญี่ปุ่น",
   shipDate: "20 ม.ค. 2568",
   shipMethod: "ทางเรือ",
@@ -461,7 +516,7 @@ const app: AppDetail = {
       status: "ยื่นแล้ว",
       date: "10 ม.ค. 2568 09:30",
       note: "ยื่นคำขอผ่านระบบออนไลน์",
-      color: "warning",
+      color: "hcex-user",
       icon: "fas fa-paper-plane",
     },
     {
@@ -485,7 +540,7 @@ const app: AppDetail = {
       status: "รอยืนยัน",
       date: "13 ม.ค. 2568 10:30",
       note: "เจ้าหน้าที่สร้าง Preview ใบรับรองแล้ว รอผู้ประกอบการยืนยัน",
-      color: "warning",
+      color: "hcex-user",
       icon: "fas fa-file-lines",
     },
   ],
@@ -515,18 +570,18 @@ const statusStepMap: Record<string, number> = {
 
 const currentStepIndex = computed(() => statusStepMap[app.status] ?? 0);
 
-const isApprovedOrCompleted = computed(() =>
-  app.status === "approved" || app.status === "completed",
+const isApprovedOrCompleted = computed(
+  () => app.status === "approved" || app.status === "completed",
 );
 
 function getStatusColor(s: string) {
   const m: Record<string, string> = {
     draft: "grey",
-    submitted: "warning",
+    submitted: "hcex-user",
     under_review: "info",
-    preview_review: "warning",
+    preview_review: "hcex-user",
     pending_signing: "secondary",
-    pending_payment: "warning",
+    pending_payment: "hcex-user",
     approved: "success",
     rejected: "error",
     completed: "success",
@@ -594,9 +649,9 @@ function getStatusLabel(s: string) {
   color: white;
 }
 .step-item--active .step-dot {
-  background: rgb(var(--v-theme-warning));
+  background: rgb(var(--v-theme-hcex-user));
   color: white;
-  box-shadow: 0 0 0 4px rgba(var(--v-theme-warning), 0.2);
+  box-shadow: 0 0 0 4px rgba(var(--v-theme-hcex-user), 0.2);
 }
 .step-item--pending .step-dot {
   background: rgba(var(--v-theme-on-surface), 0.1);
@@ -610,7 +665,7 @@ function getStatusLabel(s: string) {
   line-height: 1.3;
 }
 .step-item--active .step-label {
-  color: rgb(var(--v-theme-warning));
+  color: rgb(var(--v-theme-hcex-user));
   font-weight: 600;
 }
 .step-item--done .step-label {
@@ -652,17 +707,17 @@ function getStatusLabel(s: string) {
 }
 
 .preview-cert-box {
-  border: 1px dashed rgba(var(--v-theme-warning), 0.5);
+  border: 1px dashed rgba(var(--v-theme-hcex-user), 0.5);
   border-radius: 12px;
   padding: 16px;
-  background: rgba(var(--v-theme-warning), 0.04);
+  background: rgba(var(--v-theme-hcex-user), 0.04);
 }
 
-.warning-ring {
+.hcex-user-ring {
   width: 64px;
   height: 64px;
   border-radius: 50%;
-  background: rgba(var(--v-theme-warning), 0.1);
+  background: rgba(var(--v-theme-hcex-user), 0.1);
   display: flex;
   align-items: center;
   justify-content: center;

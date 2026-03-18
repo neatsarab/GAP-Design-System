@@ -10,7 +10,7 @@
         </p>
       </div>
       <v-btn
-        color="warning"
+        color="hcex-user"
         prepend-icon="fas fa-file-pen"
         @click="router.push('/hcex/user/applications/new')"
       >
@@ -21,7 +21,7 @@
     <!-- Stat Cards -->
     <v-row class="mb-6">
       <v-col v-for="stat in stats" :key="stat.label" cols="6" sm="3">
-        <v-card class="stat-card h-100">
+        <v-card rounded="xl" elevation="0" class="stat-card h-100">
           <v-card-text class="pa-4">
             <div class="d-flex align-center justify-space-between mb-3">
               <div
@@ -49,21 +49,21 @@
     <v-row>
       <!-- Recent Applications -->
       <v-col cols="12" md="8">
-        <v-card>
+        <v-card rounded="xl" elevation="0" class="stat-card">
           <v-card-title
             class="pa-4 pb-0 d-flex align-center justify-space-between"
           >
             <div class="d-flex align-center ga-2">
               <v-icon
                 icon="fas fa-clock-rotate-left"
-                color="warning"
+                color="hcex-user"
                 size="16"
               />
               <span class="text-body-1 font-weight-bold">คำขอล่าสุด</span>
             </div>
             <v-btn
               variant="text"
-              color="warning"
+              color="hcex-user"
               size="small"
               @click="router.push('/hcex/user/applications')"
             >
@@ -82,9 +82,10 @@
               >
                 <template #title>
                   <div class="d-flex align-center ga-2 mb-1">
-                    <span class="text-body-2 font-weight-medium text-warning">{{
-                      app.requestNo
-                    }}</span>
+                    <span
+                      class="text-body-2 font-weight-medium text-hcex-user"
+                      >{{ app.requestNo }}</span
+                    >
                     <v-chip
                       size="x-small"
                       :color="getStatusColor(app.status)"
@@ -122,16 +123,16 @@
       <!-- Quick Actions + Notice -->
       <v-col cols="12" md="4">
         <!-- Quick Actions -->
-        <v-card class="mb-4">
+        <v-card rounded="xl" elevation="0" class="stat-card mb-4">
           <v-card-title class="pa-4 pb-2">
             <div class="d-flex align-center ga-2">
-              <v-icon icon="fas fa-bolt" color="warning" size="16" />
+              <v-icon icon="fas fa-bolt" color="hcex-user" size="16" />
               <span class="text-body-1 font-weight-bold">ดำเนินการด่วน</span>
             </div>
           </v-card-title>
           <v-card-text class="pt-0 pb-3 d-flex flex-column ga-2">
             <v-btn
-              color="warning"
+              color="hcex-user"
               prepend-icon="fas fa-file-pen"
               class="justify-start"
               @click="router.push('/hcex/user/applications/new')"
@@ -151,7 +152,7 @@
             </v-btn>
             <v-btn
               variant="tonal"
-              color="warning"
+              color="hcex-user"
               prepend-icon="fas fa-industry"
               class="justify-start"
               @click="router.push('/hcex/user/certificates')"
@@ -163,7 +164,7 @@
 
         <!-- Notice -->
         <v-alert
-          color="warning"
+          color="hcex-user"
           variant="tonal"
           rounded="lg"
           density="compact"
@@ -174,7 +175,7 @@
             คำขอ HCEX-2568-00008 รอเลือกผล Lab กรุณาดำเนินการภายใน 7 วัน
           </div>
           <template #append>
-            <v-btn size="small" color="warning" variant="tonal" class="mt-1"
+            <v-btn size="small" color="hcex-user" variant="tonal" class="mt-1"
               >ดำเนินการ</v-btn
             >
           </template>
@@ -193,7 +194,7 @@ const stats = [
     label: "คำขอทั้งหมด",
     value: "6",
     icon: "fas fa-file-lines",
-    color: "warning",
+    color: "hcex-user",
   },
   {
     label: "รอดำเนินการ",
@@ -211,7 +212,7 @@ const stats = [
     label: "ใบรับรองมีผล",
     value: "3",
     icon: "fas fa-industry",
-    color: "warning",
+    color: "hcex-user",
   },
 ];
 
@@ -253,7 +254,7 @@ const recentApps = [
 function getStatusColor(s: string) {
   const m: Record<string, string> = {
     draft: "grey",
-    submitted: "warning",
+    submitted: "hcex-user",
     under_review: "info",
     lab_verification: "secondary",
     approved: "success",

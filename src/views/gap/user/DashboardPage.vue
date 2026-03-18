@@ -9,7 +9,7 @@
         </p>
       </div>
       <v-btn
-        color="primary"
+        color="gap-user"
         prepend-icon="fas fa-file-pen"
         @click="router.push('/gap/user/applications/new')"
       >
@@ -34,11 +34,11 @@
     <v-row>
       <!-- Recent Applications -->
       <v-col cols="12" lg="8">
-        <v-card>
+        <v-card rounded="xl" elevation="0" class="stat-card">
           <div class="d-flex align-center px-5 py-4 border-b">
             <v-icon
               icon="fas fa-clock-rotate-left"
-              color="primary"
+              color="gap-user"
               size="16"
               class="mr-2"
             />
@@ -47,7 +47,7 @@
             <v-btn
               variant="text"
               size="small"
-              color="primary"
+              color="gap-user"
               append-icon="fas fa-arrow-right"
               @click="router.push('/gap/user/applications')"
               >ดูทั้งหมด</v-btn
@@ -68,7 +68,7 @@
                 icon
                 size="x-small"
                 variant="text"
-                color="primary"
+                color="gap-user"
                 @click="router.push(`/app/applications/${item.no}`)"
               >
                 <v-icon icon="fas fa-eye" size="14" />
@@ -80,11 +80,11 @@
 
       <!-- Status Pie -->
       <v-col cols="12" lg="4">
-        <v-card class="h-100">
+        <v-card rounded="xl" elevation="0" class="stat-card h-100">
           <div class="d-flex align-center px-5 py-4 border-b">
             <v-icon
               icon="fas fa-circle-half-stroke"
-              color="primary"
+              color="gap-user"
               size="16"
               class="mr-2"
             />
@@ -124,7 +124,7 @@
         sm="6"
         md="4"
       >
-        <v-card hover class="quick-action-card" @click="router.push(action.to)">
+        <v-card hover rounded="xl" elevation="0" class="stat-card quick-action-card" @click="router.push(action.to)">
           <v-card-text class="d-flex align-center ga-3 pa-4">
             <div
               class="action-icon-box"
@@ -165,7 +165,7 @@ const statCards = [
     label: "คำขอทั้งหมด",
     value: 128,
     icon: "fas fa-copy",
-    iconColor: "primary",
+    iconColor: "gap-user",
     trend: 12.4,
     trendLabel: "vs เดือนที่แล้ว",
   },
@@ -264,7 +264,7 @@ const quickActions = [
     title: "ยื่นคำขอใหม่",
     desc: "สร้างคำขอรับรอง GAP",
     icon: "fas fa-file-pen",
-    color: "primary",
+    color: "gap-user",
     to: "/gap/user/applications/new",
   },
   {
@@ -285,6 +285,7 @@ const quickActions = [
 </script>
 
 <style scoped>
+.stat-card { border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity)); }
 .quick-action-card {
   cursor: pointer;
   transition: transform 0.15s ease;

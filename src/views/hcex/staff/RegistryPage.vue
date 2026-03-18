@@ -24,18 +24,18 @@
           <v-card-text class="pa-4">
             <v-row dense>
               <v-col cols="12" sm="5">
+                <div class="field-label mb-1">ค้นหา <span class="field-label-en">Search</span></div>
                 <v-text-field
                   v-model="exporterSearch"
-                  label="ค้นหาชื่อบริษัท / เลขทะเบียน"
                   prepend-inner-icon="fas fa-search"
                   clearable
                   hide-details
                 />
               </v-col>
               <v-col cols="6" sm="3">
-                <v-select
+                <div class="field-label mb-1">สถานะ <span class="field-label-en">Status</span></div>
+                <v-autocomplete
                   v-model="exporterStatusFilter"
-                  label="สถานะ"
                   :items="registryStatusOptions"
                   item-title="label"
                   item-value="value"
@@ -43,7 +43,7 @@
                   clearable
                 />
               </v-col>
-              <v-col cols="auto" class="d-flex align-self-center">
+              <v-col cols="auto" class="ml-auto d-flex align-self-center">
                 <v-btn
                   variant="tonal"
                   color="grey"
@@ -98,18 +98,18 @@
           <v-card-text class="pa-4">
             <v-row dense>
               <v-col cols="12" sm="5">
+                <div class="field-label mb-1">ค้นหา <span class="field-label-en">Search</span></div>
                 <v-text-field
                   v-model="factorySearch"
-                  label="ค้นหาชื่อโรงงาน / เลขทะเบียน"
                   prepend-inner-icon="fas fa-search"
                   clearable
                   hide-details
                 />
               </v-col>
               <v-col cols="6" sm="3">
-                <v-select
+                <div class="field-label mb-1">สถานะ <span class="field-label-en">Status</span></div>
+                <v-autocomplete
                   v-model="factoryStatusFilter"
-                  label="สถานะ"
                   :items="registryStatusOptions"
                   item-title="label"
                   item-value="value"
@@ -117,7 +117,7 @@
                   clearable
                 />
               </v-col>
-              <v-col cols="auto" class="d-flex align-self-center">
+              <v-col cols="auto" class="ml-auto d-flex align-self-center">
                 <v-btn
                   variant="tonal"
                   color="grey"
@@ -328,4 +328,6 @@ const factoryHeaders = [
 </script>
 
 <style scoped>
+.field-label { font-size: 12px; font-weight: 600; color: rgba(var(--v-theme-on-surface), 0.75); }
+.field-label-en { font-size: 11px; font-weight: 400; color: rgba(var(--v-theme-on-surface), 0.4); margin-left: 4px; }
 </style>

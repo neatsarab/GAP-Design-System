@@ -10,11 +10,16 @@
       />
       <div class="flex-grow-1">
         <div class="d-flex align-center ga-3 flex-wrap">
-          <h1 class="text-h5 font-weight-bold mb-0">{{ appDetail.requestNo }}</h1>
-          <v-chip color="el-staff" size="small" variant="tonal">อยู่ระหว่างตรวจประเมิน</v-chip>
+          <h1 class="text-h5 font-weight-bold mb-0">
+            {{ appDetail.requestNo }}
+          </h1>
+          <v-chip color="el-staff" size="small" variant="tonal"
+            >อยู่ระหว่างตรวจประเมิน</v-chip
+          >
         </div>
         <p class="text-body-2 text-medium-emphasis mb-0 mt-1">
-          {{ appDetail.establishmentName }} · ยื่นเมื่อ {{ appDetail.submittedDate }}
+          {{ appDetail.establishmentName }} · ยื่นเมื่อ
+          {{ appDetail.submittedDate }}
         </p>
       </div>
     </div>
@@ -36,12 +41,20 @@
                   'step-circle--done': currentWorkflowStep > idx,
                 }"
               >
-                <v-icon v-if="currentWorkflowStep > idx" icon="fas fa-check" size="14" />
+                <v-icon
+                  v-if="currentWorkflowStep > idx"
+                  icon="fas fa-check"
+                  size="14"
+                />
                 <span v-else>{{ idx + 1 }}</span>
               </div>
               <span
                 class="text-caption mt-1 text-center"
-                :class="currentWorkflowStep >= idx ? 'text-primary font-weight-medium' : 'text-medium-emphasis'"
+                :class="
+                  currentWorkflowStep >= idx
+                    ? 'text-el-staff font-weight-medium'
+                    : 'text-medium-emphasis'
+                "
                 style="max-width: 80px; line-height: 1.3"
               >
                 {{ step }}
@@ -64,7 +77,12 @@
           <!-- ข้อมูลโรงคัดบรรจุ -->
           <v-card rounded="xl" elevation="0" class="section-card mb-4">
             <v-card-title class="pa-5 pb-3 section-title">
-              <v-icon icon="fas fa-warehouse" color="el-staff" class="mr-2" size="18" />
+              <v-icon
+                icon="fas fa-warehouse"
+                color="el-staff"
+                class="mr-2"
+                size="18"
+              />
               ข้อมูลโรงคัดบรรจุ
             </v-card-title>
             <v-divider />
@@ -72,7 +90,9 @@
               <v-row dense>
                 <v-col cols="12" sm="6">
                   <div class="info-label">ชื่อโรงคัดบรรจุ</div>
-                  <div class="info-value">{{ appDetail.establishmentName }}</div>
+                  <div class="info-value">
+                    {{ appDetail.establishmentName }}
+                  </div>
                 </v-col>
                 <v-col cols="12" sm="6">
                   <div class="info-label">ที่อยู่</div>
@@ -97,7 +117,12 @@
           <!-- ข้อมูลเกษตรกร -->
           <v-card rounded="xl" elevation="0" class="section-card mb-4">
             <v-card-title class="pa-5 pb-3 section-title">
-              <v-icon icon="fas fa-users" color="el-staff" class="mr-2" size="18" />
+              <v-icon
+                icon="fas fa-users"
+                color="el-staff"
+                class="mr-2"
+                size="18"
+              />
               ข้อมูลเกษตรกร ({{ appDetail.farmers.length }} ราย)
             </v-card-title>
             <v-divider />
@@ -124,7 +149,12 @@
           <!-- ข้อมูลแปลง -->
           <v-card rounded="xl" elevation="0" class="section-card mb-4">
             <v-card-title class="pa-5 pb-3 section-title">
-              <v-icon icon="fas fa-seedling" color="el-staff" class="mr-2" size="18" />
+              <v-icon
+                icon="fas fa-seedling"
+                color="el-staff"
+                class="mr-2"
+                size="18"
+              />
               ข้อมูลแปลงเกษตร ({{ appDetail.farms.length }} แปลง)
             </v-card-title>
             <v-divider />
@@ -144,7 +174,9 @@
                   <td>{{ farm.area }}</td>
                   <td>{{ farm.yield }}</td>
                   <td>{{ farm.province }}</td>
-                  <td class="text-caption text-medium-emphasis">{{ farm.coord }}</td>
+                  <td class="text-caption text-medium-emphasis">
+                    {{ farm.coord }}
+                  </td>
                 </tr>
               </tbody>
             </v-table>
@@ -153,7 +185,12 @@
           <!-- Document Checklist -->
           <v-card rounded="xl" elevation="0" class="section-card mb-4">
             <v-card-title class="pa-5 pb-3 section-title">
-              <v-icon icon="fas fa-paperclip" color="el-staff" class="mr-2" size="18" />
+              <v-icon
+                icon="fas fa-paperclip"
+                color="el-staff"
+                class="mr-2"
+                size="18"
+              />
               ตรวจสอบเอกสาร
             </v-card-title>
             <v-divider />
@@ -166,13 +203,19 @@
               >
                 <template #prepend>
                   <v-icon
-                    :icon="doc.present ? 'fas fa-circle-check' : 'fas fa-circle-xmark'"
+                    :icon="
+                      doc.present
+                        ? 'fas fa-circle-check'
+                        : 'fas fa-circle-xmark'
+                    "
                     :color="doc.present ? 'success' : 'error'"
                     size="18"
                     class="mr-2"
                   />
                 </template>
-                <v-list-item-title class="text-body-2">{{ doc.name }}</v-list-item-title>
+                <v-list-item-title class="text-body-2">{{
+                  doc.name
+                }}</v-list-item-title>
                 <template #append>
                   <v-chip
                     :color="doc.present ? 'success' : 'error'"
@@ -190,7 +233,9 @@
         <v-col cols="12" md="4">
           <!-- Action Card -->
           <v-card rounded="xl" elevation="0" class="section-card">
-            <v-card-title class="pa-5 pb-3 section-title">การดำเนินการ</v-card-title>
+            <v-card-title class="pa-5 pb-3 section-title"
+              >การดำเนินการ</v-card-title
+            >
             <v-divider />
             <v-card-text class="pa-5 d-flex flex-column ga-3">
               <v-btn
@@ -224,16 +269,21 @@
         <v-col cols="12" md="7">
           <v-card rounded="xl" elevation="0" class="section-card">
             <v-card-title class="pa-5 pb-3 section-title">
-              <v-icon icon="fas fa-calendar-plus" color="el-staff" class="mr-2" size="18" />
+              <v-icon
+                icon="fas fa-calendar-plus"
+                color="el-staff"
+                class="mr-2"
+                size="18"
+              />
               กำหนดนัดหมาย
             </v-card-title>
             <v-divider />
             <v-card-text class="pa-5">
               <v-row dense>
                 <v-col cols="12" sm="6">
+                  <div class="field-label mb-1">วันที่นัดตรวจ <span class="field-label-en">Inspection Date</span></div>
                   <v-text-field
                     v-model="schedule.date"
-                    label="วันที่นัดตรวจ"
                     type="date"
                     variant="outlined"
                     density="compact"
@@ -241,9 +291,9 @@
                   />
                 </v-col>
                 <v-col cols="12" sm="6">
+                  <div class="field-label mb-1">เวลา <span class="field-label-en">Time</span></div>
                   <v-text-field
                     v-model="schedule.time"
-                    label="เวลา"
                     type="time"
                     variant="outlined"
                     density="compact"
@@ -251,21 +301,21 @@
                   />
                 </v-col>
                 <v-col cols="12">
-                  <v-select
+                  <div class="field-label mb-1">ผู้ตรวจ <span class="field-label-en">Inspector Name</span></div>
+                  <v-autocomplete
                     v-model="schedule.inspector"
                     :items="inspectorOptions"
                     item-title="name"
                     item-value="id"
-                    label="ผู้ตรวจ"
                     variant="outlined"
                     density="compact"
                     rounded="lg"
                   />
                 </v-col>
                 <v-col cols="12">
+                  <div class="field-label mb-1">หมายเหตุ <span class="field-label-en">Remarks</span></div>
                   <v-textarea
                     v-model="schedule.note"
-                    label="หมายเหตุ"
                     variant="outlined"
                     density="compact"
                     rounded="lg"
@@ -279,7 +329,12 @@
         <v-col cols="12" md="5">
           <v-card rounded="xl" elevation="0" class="section-card">
             <v-card-title class="pa-5 pb-3 section-title">
-              <v-icon icon="fas fa-map-location-dot" color="el-staff" class="mr-2" size="18" />
+              <v-icon
+                icon="fas fa-map-location-dot"
+                color="el-staff"
+                class="mr-2"
+                size="18"
+              />
               แปลงที่ต้องตรวจ
             </v-card-title>
             <v-divider />
@@ -291,12 +346,23 @@
                 class="mb-1"
               >
                 <template #prepend>
-                  <v-avatar color="el-staff" variant="tonal" size="30" rounded="lg" class="mr-2">
+                  <v-avatar
+                    color="el-staff"
+                    variant="tonal"
+                    size="30"
+                    rounded="lg"
+                    class="mr-2"
+                  >
                     <v-icon icon="fas fa-seedling" size="12" />
                   </v-avatar>
                 </template>
-                <v-list-item-title class="text-body-2">{{ farm.cropType }}</v-list-item-title>
-                <v-list-item-subtitle class="text-caption">{{ farm.province }} · {{ farm.area }} ไร่</v-list-item-subtitle>
+                <v-list-item-title class="text-body-2">{{
+                  farm.cropType
+                }}</v-list-item-title>
+                <v-list-item-subtitle class="text-caption"
+                  >{{ farm.province }} ·
+                  {{ farm.area }} ไร่</v-list-item-subtitle
+                >
               </v-list-item>
             </v-list>
           </v-card>
@@ -304,10 +370,21 @@
       </v-row>
 
       <div class="d-flex justify-space-between mt-6">
-        <v-btn variant="tonal" color="grey" rounded="lg" prepend-icon="fas fa-arrow-left" @click="currentWorkflowStep--">
+        <v-btn
+          variant="tonal"
+          color="grey"
+          rounded="lg"
+          prepend-icon="fas fa-arrow-left"
+          @click="currentWorkflowStep--"
+        >
           ย้อนกลับ
         </v-btn>
-        <v-btn color="el-staff" rounded="lg" prepend-icon="fas fa-calendar-check" @click="currentWorkflowStep++">
+        <v-btn
+          color="el-staff"
+          rounded="lg"
+          prepend-icon="fas fa-calendar-check"
+          @click="currentWorkflowStep++"
+        >
           บันทึกนัดหมาย
         </v-btn>
       </div>
@@ -315,6 +392,52 @@
 
     <!-- ─── STEP 3: ผลตรวจแปลง ─── -->
     <template v-if="currentWorkflowStep === 2">
+      <!-- ข้อมูลทั่วไปของการตรวจ -->
+      <v-card rounded="xl" elevation="0" class="section-card mb-5">
+        <v-card-title class="pa-5 pb-3 section-title">
+          <v-icon icon="fas fa-circle-info" color="el-staff" class="mr-2" size="18" />
+          ข้อมูลทั่วไปของการตรวจ
+        </v-card-title>
+        <v-divider />
+        <v-card-text class="pa-5">
+          <v-row dense class="mb-4">
+            <v-col cols="12" sm="6">
+              <div class="info-label">ผู้ตรวจ</div>
+              <div class="info-value">
+                {{ inspectorOptions.find((i) => i.id === schedule.inspector)?.name ?? "—" }}
+              </div>
+            </v-col>
+            <v-col cols="12" sm="6">
+              <div class="info-label">วันที่ตรวจ</div>
+              <div class="info-value">{{ schedule.date || "—" }}</div>
+            </v-col>
+          </v-row>
+          <div class="text-body-2 font-weight-medium mb-2">แปลงเกษตรกรที่ตรวจ</div>
+          <v-table density="compact" class="rounded-lg">
+            <thead>
+              <tr>
+                <th>ชื่อเกษตรกร</th>
+                <th>รหัสใบรับรอง</th>
+                <th>ที่ตั้ง</th>
+                <th>จังหวัด</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-if="appDetail.farmers.length === 0">
+                <td colspan="4" class="text-center text-medium-emphasis py-4 text-body-2">ไม่มีข้อมูล</td>
+              </tr>
+              <tr v-for="farmer in appDetail.farmers" :key="farmer.certNo">
+                <td>{{ farmer.name }}</td>
+                <td>{{ farmer.certNo }}</td>
+                <td class="text-medium-emphasis">—</td>
+                <td>{{ farmer.province }}</td>
+              </tr>
+            </tbody>
+          </v-table>
+        </v-card-text>
+      </v-card>
+
+      <!-- CL-02 -->
       <v-card rounded="xl" elevation="0" class="section-card mb-5">
         <v-card-title class="pa-5 pb-3 section-title">
           <v-icon icon="fas fa-clipboard-list" color="el-staff" class="mr-2" size="18" />
@@ -322,11 +445,7 @@
         </v-card-title>
         <v-divider />
         <v-card-text class="pa-5">
-          <div
-            v-for="(item, idx) in inspectionChecklist"
-            :key="idx"
-            class="checklist-row rounded-lg pa-4 mb-3"
-          >
+          <div v-for="(item, idx) in inspectionChecklist" :key="idx" class="checklist-row rounded-lg pa-4 mb-3">
             <div class="d-flex align-center justify-space-between flex-wrap ga-3">
               <div class="flex-grow-1">
                 <div class="text-caption text-medium-emphasis mb-1">{{ idx + 1 }}. {{ item.section }}</div>
@@ -341,6 +460,132 @@
         </v-card-text>
       </v-card>
 
+      <!-- ผลตรวจเชื้อจุลินทรีย์ -->
+      <v-card rounded="xl" elevation="0" class="section-card mb-5">
+        <v-card-title class="pa-5 pb-3 d-flex align-center justify-space-between section-title">
+          <span>
+            <v-icon icon="fas fa-microscope" color="el-staff" class="mr-2" size="18" />
+            ผลตรวจเชื้อจุลินทรีย์
+          </span>
+          <v-btn color="el-staff" variant="tonal" size="small" rounded="lg" prepend-icon="fas fa-plus" @click="openAddTest('micro')">เพิ่ม</v-btn>
+        </v-card-title>
+        <v-divider />
+        <v-table density="compact" class="pa-2">
+          <thead>
+            <tr>
+              <th>เชื้อ</th>
+              <th>ผลตรวจ</th>
+              <th>ผ่าน/ไม่ผ่าน</th>
+              <th>หมายเหตุ</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-if="microResults.length === 0">
+              <td colspan="5" class="text-center text-medium-emphasis py-4 text-body-2">ไม่มีข้อมูล</td>
+            </tr>
+            <tr v-for="(row, idx) in microResults" :key="row.id">
+              <td>{{ row.subject }}</td>
+              <td>{{ row.value }}</td>
+              <td>
+                <v-chip :color="row.pass === 'pass' ? 'success' : 'error'" size="x-small" variant="tonal">
+                  {{ row.pass === "pass" ? "ผ่าน" : "ไม่ผ่าน" }}
+                </v-chip>
+              </td>
+              <td class="text-medium-emphasis">{{ row.remark || "—" }}</td>
+              <td class="text-right" style="min-width:80px">
+                <v-btn icon="fas fa-pen" variant="text" size="x-small" color="el-staff" @click="openEditTest('micro', idx)" />
+                <v-btn icon="fas fa-trash" variant="text" size="x-small" color="error" @click="deleteTest('micro', idx)" />
+              </td>
+            </tr>
+          </tbody>
+        </v-table>
+      </v-card>
+
+      <!-- ผลตรวจสารตกค้าง -->
+      <v-card rounded="xl" elevation="0" class="section-card mb-5">
+        <v-card-title class="pa-5 pb-3 d-flex align-center justify-space-between section-title">
+          <span>
+            <v-icon icon="fas fa-flask" color="el-staff" class="mr-2" size="18" />
+            ผลตรวจสารตกค้าง
+          </span>
+          <v-btn color="el-staff" variant="tonal" size="small" rounded="lg" prepend-icon="fas fa-plus" @click="openAddTest('residue')">เพิ่ม</v-btn>
+        </v-card-title>
+        <v-divider />
+        <v-table density="compact" class="pa-2">
+          <thead>
+            <tr>
+              <th>สาร</th>
+              <th>ผลตรวจ</th>
+              <th>ผ่าน/ไม่ผ่าน</th>
+              <th>หมายเหตุ</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-if="residueResults.length === 0">
+              <td colspan="5" class="text-center text-medium-emphasis py-4 text-body-2">ไม่มีข้อมูล</td>
+            </tr>
+            <tr v-for="(row, idx) in residueResults" :key="row.id">
+              <td>{{ row.subject }}</td>
+              <td>{{ row.value }}</td>
+              <td>
+                <v-chip :color="row.pass === 'pass' ? 'success' : 'error'" size="x-small" variant="tonal">
+                  {{ row.pass === "pass" ? "ผ่าน" : "ไม่ผ่าน" }}
+                </v-chip>
+              </td>
+              <td class="text-medium-emphasis">{{ row.remark || "—" }}</td>
+              <td class="text-right" style="min-width:80px">
+                <v-btn icon="fas fa-pen" variant="text" size="x-small" color="el-staff" @click="openEditTest('residue', idx)" />
+                <v-btn icon="fas fa-trash" variant="text" size="x-small" color="error" @click="deleteTest('residue', idx)" />
+              </td>
+            </tr>
+          </tbody>
+        </v-table>
+      </v-card>
+
+      <!-- ผลตรวจแมลง -->
+      <v-card rounded="xl" elevation="0" class="section-card mb-5">
+        <v-card-title class="pa-5 pb-3 d-flex align-center justify-space-between section-title">
+          <span>
+            <v-icon icon="fas fa-bug" color="el-staff" class="mr-2" size="18" />
+            ผลตรวจแมลง
+          </span>
+          <v-btn color="el-staff" variant="tonal" size="small" rounded="lg" prepend-icon="fas fa-plus" @click="openAddTest('insect')">เพิ่ม</v-btn>
+        </v-card-title>
+        <v-divider />
+        <v-table density="compact" class="pa-2">
+          <thead>
+            <tr>
+              <th>แมลง</th>
+              <th>ผลตรวจ</th>
+              <th>ผ่าน/ไม่ผ่าน</th>
+              <th>หมายเหตุ</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-if="insectResults.length === 0">
+              <td colspan="5" class="text-center text-medium-emphasis py-4 text-body-2">ไม่มีข้อมูล</td>
+            </tr>
+            <tr v-for="(row, idx) in insectResults" :key="row.id">
+              <td>{{ row.subject }}</td>
+              <td>{{ row.value }}</td>
+              <td>
+                <v-chip :color="row.pass === 'pass' ? 'success' : 'error'" size="x-small" variant="tonal">
+                  {{ row.pass === "pass" ? "ผ่าน" : "ไม่ผ่าน" }}
+                </v-chip>
+              </td>
+              <td class="text-medium-emphasis">{{ row.remark || "—" }}</td>
+              <td class="text-right" style="min-width:80px">
+                <v-btn icon="fas fa-pen" variant="text" size="x-small" color="el-staff" @click="openEditTest('insect', idx)" />
+                <v-btn icon="fas fa-trash" variant="text" size="x-small" color="error" @click="deleteTest('insect', idx)" />
+              </td>
+            </tr>
+          </tbody>
+        </v-table>
+      </v-card>
+
       <!-- Summary Decision -->
       <v-card rounded="xl" elevation="0" class="section-card mb-5">
         <v-card-title class="pa-5 pb-3 section-title">ผลการตรวจประเมินโดยรวม</v-card-title>
@@ -353,28 +598,14 @@
           </v-radio-group>
           <v-row dense>
             <v-col cols="12" md="6">
-              <v-textarea
-                v-model="inspectionNote"
-                label="หมายเหตุ"
-                variant="outlined"
-                density="compact"
-                rounded="lg"
-                rows="3"
-              />
+              <div class="field-label mb-1">หมายเหตุ <span class="field-label-en">Remarks</span></div>
+              <v-textarea v-model="inspectionNote" variant="outlined" density="compact" rounded="lg" rows="3" />
             </v-col>
             <v-col cols="12" md="6">
-              <v-textarea
-                v-model="inspectionSuggestion"
-                label="ข้อเสนอแนะ"
-                variant="outlined"
-                density="compact"
-                rounded="lg"
-                rows="3"
-              />
+              <div class="field-label mb-1">ข้อเสนอแนะ <span class="field-label-en">Suggestion</span></div>
+              <v-textarea v-model="inspectionSuggestion" variant="outlined" density="compact" rounded="lg" rows="3" />
             </v-col>
           </v-row>
-
-          <!-- Photo Upload -->
           <div class="upload-area rounded-xl mt-3 d-flex flex-column align-center justify-center pa-5">
             <v-icon icon="fas fa-cloud-arrow-up" color="el-staff" size="28" class="mb-2" />
             <div class="text-body-2 font-weight-medium mb-1">แนบภาพถ่ายการตรวจ</div>
@@ -385,13 +616,57 @@
       </v-card>
 
       <div class="d-flex justify-space-between">
-        <v-btn variant="tonal" color="grey" rounded="lg" prepend-icon="fas fa-arrow-left" @click="currentWorkflowStep--">
-          ย้อนกลับ
-        </v-btn>
-        <v-btn color="el-staff" rounded="lg" prepend-icon="fas fa-floppy-disk" @click="currentWorkflowStep++">
-          บันทึกผลการตรวจ
-        </v-btn>
+        <v-btn variant="tonal" color="grey" rounded="lg" prepend-icon="fas fa-arrow-left" @click="currentWorkflowStep--">ย้อนกลับ</v-btn>
+        <v-btn color="el-staff" rounded="lg" prepend-icon="fas fa-floppy-disk" @click="currentWorkflowStep++">บันทึกผลการตรวจ</v-btn>
       </div>
+
+      <!-- Test Result Dialog -->
+      <v-dialog v-model="testDialog" max-width="500">
+        <v-card rounded="xl">
+          <v-card-title class="pa-5 pb-3 text-body-1 font-weight-bold">
+            {{ testDialogMode === "add" ? "เพิ่มรายการ" : "แก้ไขรายการ" }} — {{ testDialogLabel }}
+          </v-card-title>
+          <v-divider />
+          <v-card-text class="pa-5">
+            <v-row dense>
+              <v-col cols="12">
+                <div class="field-label mb-1">{{ testDialogLabel }} <span class="field-label-en">Item</span></div>
+                <v-autocomplete
+                  v-model="testDialogItem.subject"
+                  :items="testDialogOptions"
+                  variant="outlined"
+                  density="compact"
+                  rounded="lg"
+                />
+              </v-col>
+              <v-col cols="12">
+                <div class="field-label mb-1">ผลตรวจ <span class="field-label-en">Test Result</span></div>
+                <v-text-field v-model="testDialogItem.value" variant="outlined" density="compact" rounded="lg" />
+              </v-col>
+              <v-col cols="12">
+                <div class="field-label mb-1">ผ่าน/ไม่ผ่าน <span class="field-label-en">Pass/Fail</span></div>
+                <v-autocomplete
+                  v-model="testDialogItem.pass"
+                  :items="[{ title: 'ผ่าน', value: 'pass' }, { title: 'ไม่ผ่าน', value: 'fail' }]"
+                  item-title="title"
+                  item-value="value"
+                  variant="outlined"
+                  density="compact"
+                  rounded="lg"
+                />
+              </v-col>
+              <v-col cols="12">
+                <div class="field-label mb-1">หมายเหตุ <span class="field-label-en">Remarks</span></div>
+                <v-text-field v-model="testDialogItem.remark" variant="outlined" density="compact" rounded="lg" />
+              </v-col>
+            </v-row>
+          </v-card-text>
+          <v-card-actions class="px-5 pb-5 ga-2">
+            <v-btn variant="tonal" color="grey" rounded="lg" @click="testDialog = false">ยกเลิก</v-btn>
+            <v-btn color="el-staff" rounded="lg" @click="saveTest">บันทึก</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </template>
 
     <!-- ─── STEP 4: รายงานผล ─── -->
@@ -400,13 +675,17 @@
         <v-col cols="12" md="7">
           <!-- Summary Card -->
           <v-card rounded="xl" elevation="0" class="section-card mb-4">
-            <v-card-title class="pa-5 pb-3 section-title">สรุปผลการตรวจประเมิน</v-card-title>
+            <v-card-title class="pa-5 pb-3 section-title"
+              >สรุปผลการตรวจประเมิน</v-card-title
+            >
             <v-divider />
             <v-card-text class="pa-5">
               <v-row dense>
                 <v-col cols="12" sm="6">
                   <div class="info-label">ผลการตรวจ</div>
-                  <v-chip color="success" variant="tonal" size="small">ผ่านการตรวจประเมิน</v-chip>
+                  <v-chip color="success" variant="tonal" size="small"
+                    >ผ่านการตรวจประเมิน</v-chip
+                  >
                 </v-col>
                 <v-col cols="12" sm="6">
                   <div class="info-label">วันที่ตรวจ</div>
@@ -418,31 +697,47 @@
                 </v-col>
                 <v-col cols="12" sm="6">
                   <div class="info-label">โรงคัดบรรจุ</div>
-                  <div class="info-value">{{ appDetail.establishmentName }}</div>
+                  <div class="info-value">
+                    {{ appDetail.establishmentName }}
+                  </div>
                 </v-col>
               </v-row>
             </v-card-text>
           </v-card>
 
-          <v-alert color="success" variant="tonal" rounded="xl" class="mb-4" prepend-icon="fas fa-circle-check">
+          <v-alert
+            color="success"
+            variant="tonal"
+            rounded="xl"
+            class="mb-4"
+            prepend-icon="fas fa-circle-check"
+          >
             <div class="text-body-2 font-weight-medium">ผ่านการตรวจประเมิน</div>
-            <div class="text-body-2">โรงคัดบรรจุผ่านเกณฑ์การตรวจประเมินทุกหัวข้อ พร้อมเสนอขึ้นทะเบียน EL</div>
+            <div class="text-body-2">
+              โรงคัดบรรจุผ่านเกณฑ์การตรวจประเมินทุกหัวข้อ พร้อมเสนอขึ้นทะเบียน
+              EL
+            </div>
           </v-alert>
 
           <!-- เสนอคณะกรรมการ -->
           <v-card rounded="xl" elevation="0" class="section-card mb-4">
             <v-card-title class="pa-5 pb-3 section-title">
-              <v-icon icon="fas fa-users-gear" color="el-staff" class="mr-2" size="18" />
+              <v-icon
+                icon="fas fa-users-gear"
+                color="el-staff"
+                class="mr-2"
+                size="18"
+              />
               เสนอคณะกรรมการ EL
             </v-card-title>
             <v-divider />
             <v-card-text class="pa-5">
-              <v-select
+              <div class="field-label mb-1">เลือกคณะกรรมการ <span class="field-label-en">Committee Select</span></div>
+              <v-autocomplete
                 v-model="selectedCommittee"
                 :items="committeeOptions"
                 item-title="name"
                 item-value="id"
-                label="เลือกคณะกรรมการ"
                 variant="outlined"
                 density="compact"
                 rounded="lg"
@@ -453,10 +748,21 @@
       </v-row>
 
       <div class="d-flex justify-space-between mt-2">
-        <v-btn variant="tonal" color="grey" rounded="lg" prepend-icon="fas fa-arrow-left" @click="currentWorkflowStep--">
+        <v-btn
+          variant="tonal"
+          color="grey"
+          rounded="lg"
+          prepend-icon="fas fa-arrow-left"
+          @click="currentWorkflowStep--"
+        >
           ย้อนกลับ
         </v-btn>
-        <v-btn color="el-staff" rounded="lg" prepend-icon="fas fa-paper-plane" @click="confirmDialog = true">
+        <v-btn
+          color="el-staff"
+          rounded="lg"
+          prepend-icon="fas fa-paper-plane"
+          @click="confirmDialog = true"
+        >
           ส่งให้คณะกรรมการพิจารณา
         </v-btn>
       </div>
@@ -466,14 +772,19 @@
     <v-dialog v-model="returnDialog" max-width="480">
       <v-card rounded="xl">
         <v-card-title class="pa-5 pb-3 text-body-1 font-weight-bold">
-          <v-icon icon="fas fa-rotate-left" color="error" class="mr-2" size="18" />
+          <v-icon
+            icon="fas fa-rotate-left"
+            color="error"
+            class="mr-2"
+            size="18"
+          />
           ส่งกลับแก้ไข
         </v-card-title>
         <v-divider />
         <v-card-text class="pa-5">
+          <div class="field-label mb-1">เหตุผลในการส่งกลับ <span class="field-label-en">Return Reason</span> <span class="req">*</span></div>
           <v-textarea
             v-model="returnReason"
-            label="เหตุผลในการส่งกลับ *"
             variant="outlined"
             density="compact"
             rounded="lg"
@@ -482,8 +793,16 @@
           />
         </v-card-text>
         <v-card-actions class="px-5 pb-5 ga-2">
-          <v-btn variant="tonal" color="grey" rounded="lg" @click="returnDialog = false">ยกเลิก</v-btn>
-          <v-btn color="error" rounded="lg" @click="returnDialog = false">ยืนยันส่งกลับ</v-btn>
+          <v-btn
+            variant="tonal"
+            color="grey"
+            rounded="lg"
+            @click="returnDialog = false"
+            >ยกเลิก</v-btn
+          >
+          <v-btn color="error" rounded="lg" @click="returnDialog = false"
+            >ยืนยันส่งกลับ</v-btn
+          >
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -501,8 +820,21 @@
           </p>
         </v-card-text>
         <v-card-actions class="px-6 pb-5 ga-2">
-          <v-btn variant="tonal" color="grey" rounded="lg" block @click="confirmDialog = false">ยกเลิก</v-btn>
-          <v-btn color="el-staff" rounded="lg" block @click="doSubmitToCommittee">ยืนยัน</v-btn>
+          <v-btn
+            variant="tonal"
+            color="grey"
+            rounded="lg"
+            block
+            @click="confirmDialog = false"
+            >ยกเลิก</v-btn
+          >
+          <v-btn
+            color="el-staff"
+            rounded="lg"
+            block
+            @click="doSubmitToCommittee"
+            >ยืนยัน</v-btn
+          >
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -520,7 +852,12 @@
           </p>
         </v-card-text>
         <v-card-actions class="px-6 pb-5">
-          <v-btn color="el-staff" rounded="lg" block @click="router.push('/el/staff/applications')">
+          <v-btn
+            color="el-staff"
+            rounded="lg"
+            block
+            @click="router.push('/el/staff/applications')"
+          >
             กลับรายการคำขอ
           </v-btn>
         </v-card-actions>
@@ -530,7 +867,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from "vue";
+import { ref, reactive, computed } from "vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
@@ -544,7 +881,76 @@ const inspectionNote = ref("");
 const inspectionSuggestion = ref("");
 const selectedCommittee = ref<string | null>(null);
 
-const workflowSteps = ["ข้อมูลคำขอ", "นัดตรวจแปลง", "ผลตรวจแปลง", "รายงานผล"];
+// Test result tables
+interface TestResult {
+  id: number;
+  subject: string;
+  value: string;
+  pass: string;
+  remark: string;
+}
+
+const microResults = ref<TestResult[]>([]);
+const residueResults = ref<TestResult[]>([]);
+const insectResults = ref<TestResult[]>([]);
+
+const testDialog = ref(false);
+const testDialogMode = ref<"add" | "edit">("add");
+const testDialogType = ref<"micro" | "residue" | "insect">("micro");
+const testDialogItem = ref({ subject: "", value: "", pass: "pass", remark: "" });
+const testDialogIndex = ref(-1);
+
+const microOptions = ["E. coli", "Salmonella", "Listeria monocytogenes", "Coliform", "Staphylococcus aureus"];
+const residueOptions = ["กลุ่ม Organophosphate", "กลุ่ม Pyrethroid", "กลุ่ม Carbamate", "กลุ่ม Organochlorine", "Dithiocarbamate"];
+const insectOptions = ["เพลี้ยไฟ (Thrips)", "เพลี้ยแป้ง (Mealybug)", "เพลี้ยหอย (Scale)", "หนอน (Larva)", "ไรแดง (Spider mite)"];
+
+const testDialogLabel = computed(() =>
+  testDialogType.value === "micro" ? "เชื้อ" : testDialogType.value === "residue" ? "สาร" : "แมลง"
+);
+const testDialogOptions = computed(() =>
+  testDialogType.value === "micro" ? microOptions : testDialogType.value === "residue" ? residueOptions : insectOptions
+);
+
+let testIdCounter = 1;
+
+function getResultList(type: "micro" | "residue" | "insect") {
+  if (type === "micro") return microResults.value;
+  if (type === "residue") return residueResults.value;
+  return insectResults.value;
+}
+
+function openAddTest(type: "micro" | "residue" | "insect") {
+  testDialogType.value = type;
+  testDialogMode.value = "add";
+  testDialogItem.value = { subject: "", value: "", pass: "pass", remark: "" };
+  testDialogIndex.value = -1;
+  testDialog.value = true;
+}
+
+function openEditTest(type: "micro" | "residue" | "insect", index: number) {
+  testDialogType.value = type;
+  testDialogMode.value = "edit";
+  const item = getResultList(type)[index];
+  testDialogItem.value = { ...item };
+  testDialogIndex.value = index;
+  testDialog.value = true;
+}
+
+function saveTest() {
+  const list = getResultList(testDialogType.value);
+  if (testDialogMode.value === "add") {
+    list.push({ id: testIdCounter++, ...testDialogItem.value });
+  } else {
+    Object.assign(list[testDialogIndex.value], testDialogItem.value);
+  }
+  testDialog.value = false;
+}
+
+function deleteTest(type: "micro" | "residue" | "insect", index: number) {
+  getResultList(type).splice(index, 1);
+}
+
+const workflowSteps = ["ข้อมูลคำขอ", "นัดตรวจแปลง", "ผลตรวจแปลง", "บันทึกผล"];
 
 const appDetail = {
   requestNo: "EL-2568-00002",
@@ -555,16 +961,66 @@ const appDetail = {
   province: "กรุงเทพมหานคร",
   submittedDate: "10 ก.พ. 2568",
   farmers: [
-    { name: "นายสมชาย ใจดี", cropType: "ทุเรียน", certNo: "GAP-2566-00123", province: "จันทบุรี" },
-    { name: "นางสาวสมหญิง รักดี", cropType: "ทุเรียน", certNo: "GAP-2566-00145", province: "ระยอง" },
-    { name: "นายประสิทธิ์ มีสุข", cropType: "ทุเรียน", certNo: "GAP-2566-00167", province: "ชลบุรี" },
+    {
+      name: "นายสมชาย ใจดี",
+      cropType: "ทุเรียน",
+      certNo: "GAP-2566-00123",
+      province: "จันทบุรี",
+    },
+    {
+      name: "นางสาวสมหญิง รักดี",
+      cropType: "ทุเรียน",
+      certNo: "GAP-2566-00145",
+      province: "ระยอง",
+    },
+    {
+      name: "นายประสิทธิ์ มีสุข",
+      cropType: "ทุเรียน",
+      certNo: "GAP-2566-00167",
+      province: "ชลบุรี",
+    },
   ],
   farms: [
-    { id: 1, cropType: "ทุเรียน", area: "15", yield: "30,000", province: "จันทบุรี", coord: "13.0527, 102.0879" },
-    { id: 2, cropType: "ทุเรียน", area: "10", yield: "20,000", province: "ระยอง", coord: "12.6819, 101.2800" },
-    { id: 3, cropType: "ทุเรียน", area: "8", yield: "16,000", province: "ชลบุรี", coord: "13.3611, 100.9847" },
-    { id: 4, cropType: "ทุเรียน", area: "20", yield: "40,000", province: "จันทบุรี", coord: "13.1066, 102.1235" },
-    { id: 5, cropType: "ทุเรียน", area: "12", yield: "24,000", province: "ระยอง", coord: "12.7124, 101.3045" },
+    {
+      id: 1,
+      cropType: "ทุเรียน",
+      area: "15",
+      yield: "30,000",
+      province: "จันทบุรี",
+      coord: "13.0527, 102.0879",
+    },
+    {
+      id: 2,
+      cropType: "ทุเรียน",
+      area: "10",
+      yield: "20,000",
+      province: "ระยอง",
+      coord: "12.6819, 101.2800",
+    },
+    {
+      id: 3,
+      cropType: "ทุเรียน",
+      area: "8",
+      yield: "16,000",
+      province: "ชลบุรี",
+      coord: "13.3611, 100.9847",
+    },
+    {
+      id: 4,
+      cropType: "ทุเรียน",
+      area: "20",
+      yield: "40,000",
+      province: "จันทบุรี",
+      coord: "13.1066, 102.1235",
+    },
+    {
+      id: 5,
+      cropType: "ทุเรียน",
+      area: "12",
+      yield: "24,000",
+      province: "ระยอง",
+      coord: "12.7124, 101.3045",
+    },
   ],
 };
 
@@ -580,12 +1036,36 @@ const documentChecklist = [
 ];
 
 const inspectionChecklist = reactive([
-  { section: "ระบบการตรวจติดตามแปลง", question: "มีการบันทึกการตรวจติดตามแปลงพืช", answer: "" },
-  { section: "การประเมินความเสี่ยง", question: "มีการประเมินความเสี่ยงของพื้นที่เพาะปลูก", answer: "" },
-  { section: "การตรวจสารตกค้าง", question: "มีการสุ่มตรวจสารเคมีตกค้างและจุลินทรีย์", answer: "" },
-  { section: "ระบบทะเบียนเกษตรกร", question: "มีการควบคุมทะเบียนแปลง (AVL)", answer: "" },
-  { section: "การฝึกอบรมเกษตรกร", question: "มีการฝึกอบรมเกษตรกรด้านการใช้สารเคมีและความปลอดภัย", answer: "" },
-  { section: "การควบคุมอื่น ๆ", question: "มีระบบป้องกันการปนเปื้อนในสถานที่คัดแยก", answer: "" },
+  {
+    section: "ระบบการตรวจติดตามแปลง",
+    question: "มีการบันทึกการตรวจติดตามแปลงพืช",
+    answer: "",
+  },
+  {
+    section: "การประเมินความเสี่ยง",
+    question: "มีการประเมินความเสี่ยงของพื้นที่เพาะปลูก",
+    answer: "",
+  },
+  {
+    section: "การตรวจสารตกค้าง",
+    question: "มีการสุ่มตรวจสารเคมีตกค้างและจุลินทรีย์",
+    answer: "",
+  },
+  {
+    section: "ระบบทะเบียนเกษตรกร",
+    question: "มีการควบคุมทะเบียนแปลง (AVL)",
+    answer: "",
+  },
+  {
+    section: "การฝึกอบรมเกษตรกร",
+    question: "มีการฝึกอบรมเกษตรกรด้านการใช้สารเคมีและความปลอดภัย",
+    answer: "",
+  },
+  {
+    section: "การควบคุมอื่น ๆ",
+    question: "มีระบบป้องกันการปนเปื้อนในสถานที่คัดแยก",
+    answer: "",
+  },
 ]);
 
 const schedule = reactive({
@@ -612,6 +1092,9 @@ function doSubmitToCommittee() {
 </script>
 
 <style scoped>
+.field-label { font-size: 12px; font-weight: 600; color: rgba(var(--v-theme-on-surface), 0.75); }
+.field-label-en { font-size: 11px; font-weight: 400; color: rgba(var(--v-theme-on-surface), 0.4); margin-left: 4px; }
+.req { color: rgb(var(--v-theme-error)); margin-left: 2px; }
 .section-card {
   border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
 }

@@ -34,7 +34,10 @@
             :key="step.label"
             class="d-flex align-center flex-grow-1"
           >
-            <div class="d-flex flex-column align-center" style="min-width: 80px">
+            <div
+              class="d-flex flex-column align-center"
+              style="min-width: 80px"
+            >
               <div
                 class="tracker-circle"
                 :class="{
@@ -42,12 +45,20 @@
                   'tracker-circle--active': idx === activeTrackerStep,
                 }"
               >
-                <v-icon v-if="idx < activeTrackerStep" icon="fas fa-check" size="14" />
+                <v-icon
+                  v-if="idx < activeTrackerStep"
+                  icon="fas fa-check"
+                  size="14"
+                />
                 <span v-else>{{ idx + 1 }}</span>
               </div>
               <span
                 class="text-caption text-center mt-2"
-                :class="idx <= activeTrackerStep ? 'font-weight-medium text-primary' : 'text-medium-emphasis'"
+                :class="
+                  idx <= activeTrackerStep
+                    ? 'font-weight-medium text-primary'
+                    : 'text-medium-emphasis'
+                "
                 style="max-width: 80px; line-height: 1.3"
               >
                 {{ step.label }}
@@ -98,12 +109,23 @@
             class="pl-0"
           >
             <template #prepend>
-              <v-icon icon="fas fa-circle-xmark" color="warning" size="14" class="mr-2" />
+              <v-icon
+                icon="fas fa-circle-xmark"
+                color="warning"
+                size="14"
+                class="mr-2"
+              />
             </template>
             {{ item }}
           </v-list-item>
         </v-list>
-        <v-btn color="warning" variant="elevated" rounded="lg" class="mt-4" prepend-icon="fas fa-pen">
+        <v-btn
+          color="warning"
+          variant="elevated"
+          rounded="lg"
+          class="mt-4"
+          prepend-icon="fas fa-pen"
+        >
           แก้ไขคำขอ
         </v-btn>
       </v-card-text>
@@ -115,7 +137,12 @@
         <!-- ข้อมูลโรงคัดบรรจุ -->
         <v-card rounded="xl" elevation="0" class="section-card mb-4">
           <v-card-title class="pa-5 pb-3 section-title">
-            <v-icon icon="fas fa-warehouse" color="el-user" class="mr-2" size="18" />
+            <v-icon
+              icon="fas fa-warehouse"
+              color="el-user"
+              class="mr-2"
+              size="18"
+            />
             ข้อมูลโรงคัดบรรจุ
           </v-card-title>
           <v-divider />
@@ -135,11 +162,15 @@
               </v-col>
               <v-col cols="6" sm="3">
                 <div class="info-label">ใบรับรอง GMP</div>
-                <v-chip color="success" size="x-small" variant="tonal">{{ appDetail.gmpCertNo }}</v-chip>
+                <v-chip color="success" size="x-small" variant="tonal">{{
+                  appDetail.gmpCertNo
+                }}</v-chip>
               </v-col>
               <v-col cols="6" sm="3">
                 <div class="info-label">ใบรับรอง HACCP</div>
-                <v-chip color="success" size="x-small" variant="tonal">{{ appDetail.haccpCertNo }}</v-chip>
+                <v-chip color="success" size="x-small" variant="tonal">{{
+                  appDetail.haccpCertNo
+                }}</v-chip>
               </v-col>
               <v-col cols="6" sm="3">
                 <div class="info-label">จำนวนเกษตรกร</div>
@@ -158,7 +189,12 @@
       <v-col cols="12" md="5">
         <v-card rounded="xl" elevation="0" class="section-card">
           <v-card-title class="pa-5 pb-3 section-title">
-            <v-icon icon="fas fa-clock-rotate-left" color="el-user" class="mr-2" size="18" />
+            <v-icon
+              icon="fas fa-clock-rotate-left"
+              color="el-user"
+              class="mr-2"
+              size="18"
+            />
             ประวัติสถานะ
           </v-card-title>
           <v-divider />
@@ -170,9 +206,15 @@
                 :dot-color="event.color"
                 size="small"
               >
-                <div class="text-body-2 font-weight-medium">{{ event.label }}</div>
-                <div class="text-caption text-medium-emphasis">{{ event.date }}</div>
-                <div v-if="event.note" class="text-caption mt-1">{{ event.note }}</div>
+                <div class="text-body-2 font-weight-medium">
+                  {{ event.label }}
+                </div>
+                <div class="text-caption text-medium-emphasis">
+                  {{ event.date }}
+                </div>
+                <div v-if="event.note" class="text-caption mt-1">
+                  {{ event.note }}
+                </div>
               </v-timeline-item>
             </v-timeline>
           </v-card-text>

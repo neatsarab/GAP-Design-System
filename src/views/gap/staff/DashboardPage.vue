@@ -21,6 +21,8 @@
     <v-row class="mb-6">
       <v-col v-for="stat in stats" :key="stat.label" cols="6" sm="4" md="2">
         <v-card
+          rounded="xl"
+          elevation="0"
           class="stat-card h-100"
           :style="`border-top: 3px solid rgb(var(--v-theme-${stat.color}))`"
         >
@@ -52,7 +54,7 @@
     <v-row>
       <!-- Work Queue -->
       <v-col cols="12" md="7">
-        <v-card>
+        <v-card rounded="xl" elevation="0" class="stat-card">
           <v-card-title class="d-flex align-center ga-2 pa-4 pb-3">
             <v-icon icon="fas fa-list-check" color="gap-staff" size="18" />
             <span class="text-body-1 font-weight-bold"
@@ -119,7 +121,7 @@
       <!-- Right column -->
       <v-col cols="12" md="5">
         <!-- Quick Actions -->
-        <v-card class="mb-4">
+        <v-card rounded="xl" elevation="0" class="stat-card mb-4">
           <v-card-title class="d-flex align-center ga-2 pa-4 pb-3">
             <v-icon icon="fas fa-bolt" color="warning" size="18" />
             <span class="text-body-1 font-weight-bold">ดำเนินการด่วน</span>
@@ -149,7 +151,7 @@
         </v-card>
 
         <!-- Status Summary -->
-        <v-card>
+        <v-card rounded="xl" elevation="0" class="stat-card">
           <v-card-title class="d-flex align-center ga-2 pa-4 pb-3">
             <v-icon icon="fas fa-chart-pie" color="info" size="18" />
             <span class="text-body-1 font-weight-bold">สัดส่วนสถานะคำขอ</span>

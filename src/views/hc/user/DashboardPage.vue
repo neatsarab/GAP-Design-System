@@ -10,7 +10,7 @@
         </p>
       </div>
       <v-btn
-        color="info"
+        color="hc-user"
         prepend-icon="fas fa-file-pen"
         @click="router.push('/hc/user/applications/new')"
       >
@@ -21,7 +21,7 @@
     <!-- Stat Cards -->
     <v-row class="mb-6">
       <v-col v-for="stat in stats" :key="stat.label" cols="6" sm="3">
-        <v-card class="stat-card h-100">
+        <v-card rounded="xl" elevation="0" class="stat-card h-100">
           <v-card-text class="pa-4">
             <div class="d-flex align-center justify-space-between mb-3">
               <div
@@ -49,17 +49,21 @@
     <v-row>
       <!-- Recent Applications -->
       <v-col cols="12" md="8">
-        <v-card>
+        <v-card rounded="xl" elevation="0" class="stat-card">
           <v-card-title
             class="pa-4 pb-0 d-flex align-center justify-space-between"
           >
             <div class="d-flex align-center ga-2">
-              <v-icon icon="fas fa-clock-rotate-left" color="info" size="16" />
+              <v-icon
+                icon="fas fa-clock-rotate-left"
+                color="hc-user"
+                size="16"
+              />
               <span class="text-body-1 font-weight-bold">คำขอล่าสุด</span>
             </div>
             <v-btn
               variant="text"
-              color="info"
+              color="hc-user"
               size="small"
               @click="router.push('/hc/user/applications')"
             >
@@ -78,7 +82,7 @@
               >
                 <template #title>
                   <div class="d-flex align-center ga-2 mb-1">
-                    <span class="text-body-2 font-weight-medium text-info">{{
+                    <span class="text-body-2 font-weight-medium text-hc-user">{{
                       app.requestNo
                     }}</span>
                     <v-chip
@@ -118,16 +122,16 @@
       <!-- Quick Actions + Certificates -->
       <v-col cols="12" md="4">
         <!-- Quick Actions -->
-        <v-card class="mb-4">
+        <v-card rounded="xl" elevation="0" class="stat-card mb-4">
           <v-card-title class="pa-4 pb-2">
             <div class="d-flex align-center ga-2">
-              <v-icon icon="fas fa-bolt" color="info" size="16" />
+              <v-icon icon="fas fa-bolt" color="hc-user" size="16" />
               <span class="text-body-1 font-weight-bold">ดำเนินการด่วน</span>
             </div>
           </v-card-title>
           <v-card-text class="pt-0 pb-3 d-flex flex-column ga-2">
             <v-btn
-              color="info"
+              color="hc-user"
               prepend-icon="fas fa-file-pen"
               class="justify-start"
               @click="router.push('/hc/user/applications/new')"
@@ -145,7 +149,7 @@
             </v-btn>
             <v-btn
               variant="tonal"
-              color="info"
+              color="hc-user"
               prepend-icon="fas fa-file-shield"
               class="justify-start"
               @click="router.push('/hc/user/certificates')"
@@ -187,7 +191,7 @@ const stats = [
     label: "คำขอทั้งหมด",
     value: "8",
     icon: "fas fa-file-lines",
-    color: "info",
+    color: "hc-user",
   },
   {
     label: "อยู่ระหว่างดำเนินการ",
@@ -241,7 +245,7 @@ const recentApps = [
 
 function getStatusColor(s: string) {
   const m: Record<string, string> = {
-    submitted: "info",
+    submitted: "hc-user",
     under_review: "warning",
     testing: "secondary",
     pending_approval: "primary",

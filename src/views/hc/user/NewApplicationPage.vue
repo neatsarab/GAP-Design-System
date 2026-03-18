@@ -17,13 +17,13 @@
       <v-row>
         <v-col cols="12" sm="6">
           <v-card class="type-card h-100" @click="selectedType = 'new'">
-            <div class="type-accent bg-info" />
+            <div class="type-accent bg-hc-user" />
             <v-card-text class="pa-5 text-center">
               <div
                 class="type-icon mx-auto mb-3"
-                style="background: rgba(var(--v-theme-info), 0.1)"
+                style="background: rgba(var(--v-theme-hc-user), 0.1)"
               >
-                <v-icon icon="fas fa-file-shield" color="info" size="28" />
+                <v-icon icon="fas fa-file-shield" color="hc-user" size="28" />
               </div>
               <h3 class="text-body-1 font-weight-bold mb-2">
                 ขอใบรับรองสุขอนามัยพืช
@@ -31,7 +31,7 @@
               <p class="text-body-2 text-medium-emphasis mb-3">
                 สำหรับพืชควบคุมเฉพาะเพื่อการส่งออก
               </p>
-              <v-btn color="info" block size="small">เลือก</v-btn>
+              <v-btn color="hc-user" block size="small">เลือก</v-btn>
             </v-card-text>
           </v-card>
         </v-col>
@@ -87,14 +87,14 @@
           <v-card-title
             class="pa-4 pb-2 text-body-1 font-weight-bold d-flex align-center ga-2"
           >
-            <v-icon icon="fas fa-building" color="info" size="16" />
+            <v-icon icon="fas fa-building" color="hc-user" size="16" />
             ข้อมูลผู้ส่งออก (Exporter)
           </v-card-title>
           <v-card-text class="pa-4 pt-0">
             <v-row dense>
               <v-col cols="12" sm="6">
                 <div class="field-label">
-                  ชื่อผู้ส่งออก <span class="req">*</span>
+                  ชื่อผู้ส่งออก <span class="field-label-en">Exporter Name</span> <span class="req">*</span>
                 </div>
                 <v-text-field
                   v-model="form.exporterName"
@@ -105,7 +105,7 @@
               </v-col>
               <v-col cols="12" sm="6">
                 <div class="field-label">
-                  ที่อยู่ <span class="req">*</span>
+                  ที่อยู่ <span class="field-label-en">Address</span> <span class="req">*</span>
                 </div>
                 <v-text-field
                   v-model="form.exporterAddress"
@@ -116,7 +116,7 @@
               </v-col>
               <v-col cols="12" sm="4">
                 <div class="field-label">
-                  จังหวัด <span class="req">*</span>
+                  จังหวัด <span class="field-label-en">Province</span> <span class="req">*</span>
                 </div>
                 <v-autocomplete
                   v-model="form.exporterProvince"
@@ -127,7 +127,7 @@
                 />
               </v-col>
               <v-col cols="12" sm="4">
-                <div class="field-label">รหัสไปรษณีย์</div>
+                <div class="field-label">รหัสไปรษณีย์ <span class="field-label-en">Postal Code</span></div>
                 <v-text-field
                   v-model="form.exporterZip"
                   placeholder="XXXXX"
@@ -137,7 +137,7 @@
               </v-col>
               <v-col cols="12" sm="4">
                 <div class="field-label">
-                  โทรศัพท์ <span class="req">*</span>
+                  โทรศัพท์ <span class="field-label-en">Phone Number</span> <span class="req">*</span>
                 </div>
                 <v-text-field
                   v-model="form.exporterPhone"
@@ -156,14 +156,14 @@
             <v-card-title
               class="pa-4 pb-2 text-body-1 font-weight-bold d-flex align-center ga-2"
             >
-              <v-icon icon="fas fa-warehouse" color="info" size="16" />
+              <v-icon icon="fas fa-warehouse" color="hc-user" size="16" />
               โรงคัดบรรจุ (Packing House)
             </v-card-title>
             <v-card-text class="pa-4 pt-0">
               <v-row dense>
                 <v-col cols="12" sm="4">
                   <div class="field-label">
-                    รหัสโรงคัดบรรจุ <span class="req">*</span>
+                    รหัสโรงคัดบรรจุ <span class="field-label-en">Packing House Code</span> <span class="req">*</span>
                   </div>
                   <v-autocomplete
                     v-model="form.packingHouseCode"
@@ -177,7 +177,7 @@
                   />
                 </v-col>
                 <v-col cols="12" sm="4">
-                  <div class="field-label">ชื่อโรงคัดบรรจุ</div>
+                  <div class="field-label">ชื่อโรงคัดบรรจุ <span class="field-label-en">Packing House Name</span></div>
                   <v-text-field
                     v-model="form.packingHouseName"
                     readonly
@@ -185,7 +185,7 @@
                   />
                 </v-col>
                 <v-col cols="12" sm="4">
-                  <div class="field-label">จังหวัด</div>
+                  <div class="field-label">จังหวัด <span class="field-label-en">Province</span></div>
                   <v-text-field
                     v-model="form.packingHouseProvince"
                     readonly
@@ -200,14 +200,14 @@
             <v-card-title
               class="pa-4 pb-2 text-body-1 font-weight-bold d-flex align-center ga-2"
             >
-              <v-icon icon="fas fa-user-tie" color="info" size="16" />
+              <v-icon icon="fas fa-user-tie" color="hc-user" size="16" />
               ผู้รับสินค้า (Consignee)
             </v-card-title>
             <v-card-text class="pa-4 pt-0">
               <v-row dense>
                 <v-col cols="12" sm="6">
                   <div class="field-label">
-                    ชื่อผู้รับสินค้า <span class="req">*</span>
+                    ชื่อผู้รับสินค้า <span class="field-label-en">Consignee Name</span> <span class="req">*</span>
                   </div>
                   <v-text-field
                     v-model="form.consigneeName"
@@ -218,7 +218,7 @@
                 </v-col>
                 <v-col cols="12" sm="6">
                   <div class="field-label">
-                    ที่อยู่ <span class="req">*</span>
+                    ที่อยู่ <span class="field-label-en">Address</span> <span class="req">*</span>
                   </div>
                   <v-text-field
                     v-model="form.consigneeAddress"
@@ -229,7 +229,7 @@
                 </v-col>
                 <v-col cols="12" sm="4">
                   <div class="field-label">
-                    ประเทศปลายทาง <span class="req">*</span>
+                    ประเทศปลายทาง <span class="field-label-en">Destination Country</span> <span class="req">*</span>
                   </div>
                   <v-autocomplete
                     v-model="form.destination"
@@ -250,11 +250,11 @@
             class="pa-4 pb-2 text-body-1 font-weight-bold d-flex align-center justify-space-between"
           >
             <div class="d-flex align-center ga-2">
-              <v-icon icon="fas fa-box" color="info" size="16" />
+              <v-icon icon="fas fa-box" color="hc-user" size="16" />
               รายละเอียดสินค้า
             </div>
             <v-btn
-              color="info"
+              color="hc-user"
               size="small"
               variant="tonal"
               prepend-icon="fas fa-plus"
@@ -336,7 +336,7 @@
           <v-card-title
             class="pa-4 pb-2 text-body-1 font-weight-bold d-flex align-center ga-2"
           >
-            <v-icon icon="fas fa-paperclip" color="info" size="16" />
+            <v-icon icon="fas fa-paperclip" color="hc-user" size="16" />
             เอกสารประกอบ
           </v-card-title>
           <v-card-text class="pa-4 pt-0">
@@ -351,7 +351,7 @@
                   <div class="d-flex align-start ga-3">
                     <v-icon
                       icon="fas fa-file-arrow-up"
-                      color="info"
+                      color="hc-user"
                       size="20"
                       class="mt-1 flex-shrink-0"
                     />
@@ -392,7 +392,7 @@
             <v-card-title
               class="pa-4 pb-2 text-body-1 font-weight-bold d-flex align-center ga-2"
             >
-              <v-icon icon="fas fa-clipboard-check" color="info" size="16" />
+              <v-icon icon="fas fa-clipboard-check" color="hc-user" size="16" />
               สรุปข้อมูลคำขอ
             </v-card-title>
             <v-card-text class="pa-4 pt-0">
@@ -498,7 +498,7 @@
           </v-btn>
           <v-btn
             v-if="currentStep < formSteps.length - 1"
-            color="info"
+            color="hc-user"
             size="large"
             append-icon="fas fa-chevron-right"
             type="submit"
@@ -507,7 +507,7 @@
           </v-btn>
           <v-btn
             v-else
-            color="info"
+            color="hc-user"
             size="large"
             prepend-icon="fas fa-paper-plane"
             :loading="submitting"
@@ -527,7 +527,7 @@
             <v-icon icon="fas fa-circle-check" size="40" color="success" />
           </div>
           <h3 class="text-h6 font-weight-bold mb-2">ยื่นคำขอสำเร็จ!</h3>
-          <p class="text-body-2 font-weight-bold text-info mb-1">
+          <p class="text-body-2 font-weight-bold text-hc-user mb-1">
             {{ newRequestNo }}
           </p>
           <p class="text-body-2 text-medium-emphasis mb-0">
@@ -544,7 +544,7 @@
             >ดูรายการคำขอ</v-btn
           >
           <v-btn
-            color="info"
+            color="hc-user"
             rounded="lg"
             block
             @click="router.push(`/hc/user/applications/HC-NEW`)"
@@ -726,9 +726,9 @@ async function handleNext() {
   color: white;
 }
 .step-item--active .step-dot {
-  background: rgb(var(--v-theme-info));
+  background: rgb(var(--v-theme-hc-user));
   color: white;
-  box-shadow: 0 0 0 4px rgba(var(--v-theme-info), 0.2);
+  box-shadow: 0 0 0 4px rgba(var(--v-theme-hc-user), 0.2);
 }
 .step-item--pending .step-dot {
   background: rgba(var(--v-theme-on-surface), 0.1);
@@ -742,7 +742,7 @@ async function handleNext() {
   line-height: 1.3;
 }
 .step-item--active .step-label {
-  color: rgb(var(--v-theme-info));
+  color: rgb(var(--v-theme-hc-user));
   font-weight: 600;
 }
 .step-item--done .step-label {
@@ -798,6 +798,7 @@ async function handleNext() {
   color: rgba(var(--v-theme-on-surface), 0.75);
   margin-bottom: 6px;
 }
+.field-label-en { font-size: 11px; font-weight: 400; color: rgba(var(--v-theme-on-surface), 0.4); margin-left: 4px; }
 .req {
   color: rgb(var(--v-theme-error));
 }

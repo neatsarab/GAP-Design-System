@@ -42,7 +42,11 @@
               </div>
               <span
                 class="text-caption mt-1"
-                :class="currentStep >= idx ? 'text-primary font-weight-medium' : 'text-medium-emphasis'"
+                :class="
+                  currentStep >= idx
+                    ? 'text-el-user font-weight-medium'
+                    : 'text-medium-emphasis'
+                "
               >
                 {{ step }}
               </span>
@@ -62,98 +66,103 @@
       <!-- Section A: ข้อมูลโรงคัดบรรจุ -->
       <v-card rounded="xl" elevation="0" class="mb-5 section-card">
         <v-card-title class="pa-5 pb-3 section-title">
-          <v-icon icon="fas fa-warehouse" color="el-user" class="mr-2" size="18" />
+          <v-icon
+            icon="fas fa-warehouse"
+            color="el-user"
+            class="mr-2"
+            size="18"
+          />
           ก. ข้อมูลโรงคัดบรรจุ
         </v-card-title>
         <v-divider />
         <v-card-text class="pa-5">
           <v-row dense>
             <v-col cols="12" md="6">
+              <div class="field-label mb-1">ชื่อโรงคัดบรรจุ <span class="field-label-en">Establishment Name</span> <span class="req">*</span></div>
               <v-text-field
                 v-model="form.establishmentName"
-                label="ชื่อโรงคัดบรรจุ *"
                 variant="outlined"
                 density="compact"
                 rounded="lg"
               />
             </v-col>
             <v-col cols="12" md="6">
+              <div class="field-label mb-1">ที่อยู่ <span class="field-label-en">Address</span> <span class="req">*</span></div>
               <v-text-field
                 v-model="form.address"
-                label="ที่อยู่ *"
                 variant="outlined"
                 density="compact"
                 rounded="lg"
               />
             </v-col>
             <v-col cols="12" sm="6" md="4">
+              <div class="field-label mb-1">จังหวัด <span class="field-label-en">Province</span> <span class="req">*</span></div>
               <v-text-field
                 v-model="form.province"
-                label="จังหวัด *"
                 variant="outlined"
                 density="compact"
                 rounded="lg"
               />
             </v-col>
             <v-col cols="12" sm="6" md="4">
+              <div class="field-label mb-1">อำเภอ <span class="field-label-en">District</span></div>
               <v-text-field
                 v-model="form.district"
-                label="อำเภอ"
                 variant="outlined"
                 density="compact"
                 rounded="lg"
               />
             </v-col>
             <v-col cols="12" sm="6" md="4">
+              <div class="field-label mb-1">ตำบล <span class="field-label-en">Sub-district</span></div>
               <v-text-field
                 v-model="form.subdistrict"
-                label="ตำบล"
                 variant="outlined"
                 density="compact"
                 rounded="lg"
               />
             </v-col>
             <v-col cols="12" sm="6" md="3">
+              <div class="field-label mb-1">รหัสไปรษณีย์ <span class="field-label-en">Postal Code</span></div>
               <v-text-field
                 v-model="form.postalCode"
-                label="รหัสไปรษณีย์"
                 variant="outlined"
                 density="compact"
                 rounded="lg"
               />
             </v-col>
             <v-col cols="12" sm="6" md="3">
+              <div class="field-label mb-1">โทรศัพท์ <span class="field-label-en">Phone Number</span></div>
               <v-text-field
                 v-model="form.phone"
-                label="โทรศัพท์"
                 variant="outlined"
                 density="compact"
                 rounded="lg"
               />
             </v-col>
             <v-col cols="12" sm="6" md="6">
+              <div class="field-label mb-1">อีเมล <span class="field-label-en">Email</span></div>
               <v-text-field
                 v-model="form.email"
-                label="อีเมล"
                 variant="outlined"
                 density="compact"
                 rounded="lg"
               />
             </v-col>
             <v-col cols="12" md="6">
+              <div class="field-label mb-1">ชนิดพืชที่ดำเนินการ <span class="field-label-en">Crop Type</span> <span class="req">*</span></div>
               <v-text-field
                 v-model="form.cropType"
-                label="ชนิดพืชที่ดำเนินการ *"
                 variant="outlined"
                 density="compact"
                 rounded="lg"
               />
             </v-col>
             <v-col cols="12" md="6">
-              <v-select
+              <div class="field-label mb-1">ระบบการจัดการคุณภาพ <span class="field-label-en">Quality System</span></div>
+              <v-autocomplete
                 v-model="form.qualitySystem"
                 :items="qualitySystemOptions"
-                label="ระบบการจัดการคุณภาพ"
                 variant="outlined"
                 density="compact"
                 rounded="lg"
@@ -165,9 +174,16 @@
 
       <!-- Section B: ข้อมูลเกษตรกร -->
       <v-card rounded="xl" elevation="0" class="mb-5 section-card">
-        <v-card-title class="pa-5 pb-3 section-title d-flex align-center justify-space-between">
+        <v-card-title
+          class="pa-5 pb-3 section-title d-flex align-center justify-space-between"
+        >
           <div>
-            <v-icon icon="fas fa-users" color="el-user" class="mr-2" size="18" />
+            <v-icon
+              icon="fas fa-users"
+              color="el-user"
+              class="mr-2"
+              size="18"
+            />
             ข. ข้อมูลเกษตรกร
           </div>
           <v-btn
@@ -190,48 +206,48 @@
           >
             <v-row dense align="center">
               <v-col cols="12" sm="6" md="2">
-                <v-select
+                <div class="field-label mb-1">ประเภทเกษตรกร <span class="field-label-en">Farmer Type</span></div>
+                <v-autocomplete
                   v-model="farmer.type"
                   :items="farmerTypeOptions"
                   item-title="label"
                   item-value="value"
-                  label="ประเภทเกษตรกร"
                   variant="outlined"
                   density="compact"
                   rounded="lg"
                 />
               </v-col>
               <v-col cols="12" sm="6" md="2">
+                <div class="field-label mb-1">เลขบัตร/นิติบุคคล <span class="field-label-en">ID/Juristic No.</span></div>
                 <v-text-field
                   v-model="farmer.idNo"
-                  label="เลขบัตร/นิติบุคคล"
                   variant="outlined"
                   density="compact"
                   rounded="lg"
                 />
               </v-col>
               <v-col cols="12" sm="6" md="3">
+                <div class="field-label mb-1">ชื่อ <span class="field-label-en">Full Name</span></div>
                 <v-text-field
                   v-model="farmer.name"
-                  label="ชื่อ"
                   variant="outlined"
                   density="compact"
                   rounded="lg"
                 />
               </v-col>
               <v-col cols="12" sm="6" md="2">
+                <div class="field-label mb-1">จังหวัด <span class="field-label-en">Province</span></div>
                 <v-text-field
                   v-model="farmer.province"
-                  label="จังหวัด"
                   variant="outlined"
                   density="compact"
                   rounded="lg"
                 />
               </v-col>
               <v-col cols="12" sm="6" md="2">
+                <div class="field-label mb-1">โทรศัพท์ <span class="field-label-en">Phone Number</span></div>
                 <v-text-field
                   v-model="farmer.phone"
-                  label="โทรศัพท์"
                   variant="outlined"
                   density="compact"
                   rounded="lg"
@@ -254,9 +270,16 @@
 
       <!-- Section C: ข้อมูลแปลงเกษตร -->
       <v-card rounded="xl" elevation="0" class="mb-5 section-card">
-        <v-card-title class="pa-5 pb-3 section-title d-flex align-center justify-space-between">
+        <v-card-title
+          class="pa-5 pb-3 section-title d-flex align-center justify-space-between"
+        >
           <div>
-            <v-icon icon="fas fa-seedling" color="el-user" class="mr-2" size="18" />
+            <v-icon
+              icon="fas fa-seedling"
+              color="el-user"
+              class="mr-2"
+              size="18"
+            />
             ค. ข้อมูลแปลงเกษตร
           </div>
           <v-btn
@@ -279,36 +302,36 @@
           >
             <v-row dense align="center">
               <v-col cols="12" sm="6" md="2">
+                <div class="field-label mb-1">ชื่อเกษตรกร <span class="field-label-en">Full Name</span></div>
                 <v-text-field
                   v-model="farm.farmerName"
-                  label="ชื่อเกษตรกร"
                   variant="outlined"
                   density="compact"
                   rounded="lg"
                 />
               </v-col>
               <v-col cols="12" sm="6" md="2">
+                <div class="field-label mb-1">ชนิดพืช <span class="field-label-en">Crop Type</span></div>
                 <v-text-field
                   v-model="farm.cropType"
-                  label="ชนิดพืช"
                   variant="outlined"
                   density="compact"
                   rounded="lg"
                 />
               </v-col>
               <v-col cols="12" sm="6" md="2">
+                <div class="field-label mb-1">รหัสใบรับรอง GAP <span class="field-label-en">GAP Cert No.</span></div>
                 <v-text-field
                   v-model="farm.gapCertNo"
-                  label="รหัสใบรับรอง GAP"
                   variant="outlined"
                   density="compact"
                   rounded="lg"
                 />
               </v-col>
               <v-col cols="12" sm="4" md="1">
+                <div class="field-label mb-1">พื้นที่ (ไร่) <span class="field-label-en">Area</span></div>
                 <v-text-field
                   v-model="farm.area"
-                  label="พื้นที่ (ไร่)"
                   variant="outlined"
                   density="compact"
                   rounded="lg"
@@ -316,9 +339,9 @@
                 />
               </v-col>
               <v-col cols="12" sm="4" md="1">
+                <div class="field-label mb-1">ผลผลิต (กก./ปี) <span class="field-label-en">Yield</span></div>
                 <v-text-field
                   v-model="farm.yield"
-                  label="ผลผลิต (กก./ปี)"
                   variant="outlined"
                   density="compact"
                   rounded="lg"
@@ -326,27 +349,27 @@
                 />
               </v-col>
               <v-col cols="12" sm="4" md="1">
+                <div class="field-label mb-1">จังหวัด <span class="field-label-en">Province</span></div>
                 <v-text-field
                   v-model="farm.province"
-                  label="จังหวัด"
                   variant="outlined"
                   density="compact"
                   rounded="lg"
                 />
               </v-col>
               <v-col cols="6" md="1">
+                <div class="field-label mb-1">พิกัด X <span class="field-label-en">Coord X</span></div>
                 <v-text-field
                   v-model="farm.coordX"
-                  label="พิกัด X"
                   variant="outlined"
                   density="compact"
                   rounded="lg"
                 />
               </v-col>
               <v-col cols="5" md="1">
+                <div class="field-label mb-1">พิกัด Y <span class="field-label-en">Coord Y</span></div>
                 <v-text-field
                   v-model="farm.coordY"
-                  label="พิกัด Y"
                   variant="outlined"
                   density="compact"
                   rounded="lg"
@@ -370,7 +393,12 @@
       <!-- Section D: เอกสารมาตรฐาน -->
       <v-card rounded="xl" elevation="0" class="mb-5 section-card">
         <v-card-title class="pa-5 pb-3 section-title">
-          <v-icon icon="fas fa-certificate" color="el-user" class="mr-2" size="18" />
+          <v-icon
+            icon="fas fa-certificate"
+            color="el-user"
+            class="mr-2"
+            size="18"
+          />
           ง. เอกสารมาตรฐาน (GMP/HACCP)
         </v-card-title>
         <v-divider />
@@ -378,21 +406,23 @@
           <v-row>
             <v-col cols="12" md="6">
               <v-card rounded="lg" variant="outlined" class="pa-4">
-                <div class="text-body-2 font-weight-bold mb-3 text-primary">ใบรับรอง GMP</div>
+                <div class="text-body-2 font-weight-bold mb-3 text-el-user">
+                  ใบรับรอง GMP
+                </div>
                 <v-row dense>
                   <v-col cols="12">
+                    <div class="field-label mb-1">หมายเลขใบรับรอง <span class="field-label-en">Cert No.</span></div>
                     <v-text-field
                       v-model="form.gmpCertNo"
-                      label="หมายเลขใบรับรอง"
                       variant="outlined"
                       density="compact"
                       rounded="lg"
                     />
                   </v-col>
                   <v-col cols="6">
+                    <div class="field-label mb-1">วันที่ออก <span class="field-label-en">Issue Date</span></div>
                     <v-text-field
                       v-model="form.gmpIssuedDate"
-                      label="วันที่ออก"
                       type="date"
                       variant="outlined"
                       density="compact"
@@ -400,9 +430,9 @@
                     />
                   </v-col>
                   <v-col cols="6">
+                    <div class="field-label mb-1">วันหมดอายุ <span class="field-label-en">Expiry Date</span></div>
                     <v-text-field
                       v-model="form.gmpExpireDate"
-                      label="วันหมดอายุ"
                       type="date"
                       variant="outlined"
                       density="compact"
@@ -414,21 +444,23 @@
             </v-col>
             <v-col cols="12" md="6">
               <v-card rounded="lg" variant="outlined" class="pa-4">
-                <div class="text-body-2 font-weight-bold mb-3 text-primary">ใบรับรอง HACCP</div>
+                <div class="text-body-2 font-weight-bold mb-3 text-el-user">
+                  ใบรับรอง HACCP
+                </div>
                 <v-row dense>
                   <v-col cols="12">
+                    <div class="field-label mb-1">หมายเลขใบรับรอง <span class="field-label-en">Cert No.</span></div>
                     <v-text-field
                       v-model="form.haccpCertNo"
-                      label="หมายเลขใบรับรอง"
                       variant="outlined"
                       density="compact"
                       rounded="lg"
                     />
                   </v-col>
                   <v-col cols="6">
+                    <div class="field-label mb-1">วันที่ออก <span class="field-label-en">Issue Date</span></div>
                     <v-text-field
                       v-model="form.haccpIssuedDate"
-                      label="วันที่ออก"
                       type="date"
                       variant="outlined"
                       density="compact"
@@ -436,9 +468,9 @@
                     />
                   </v-col>
                   <v-col cols="6">
+                    <div class="field-label mb-1">วันหมดอายุ <span class="field-label-en">Expiry Date</span></div>
                     <v-text-field
                       v-model="form.haccpExpireDate"
-                      label="วันหมดอายุ"
                       type="date"
                       variant="outlined"
                       density="compact"
@@ -464,19 +496,33 @@
         >
           <v-card rounded="xl" elevation="0" class="section-card h-100">
             <v-card-title class="pa-5 pb-3 section-title">
-              <v-icon icon="fas fa-folder-open" color="el-user" class="mr-2" size="18" />
+              <v-icon
+                icon="fas fa-folder-open"
+                color="el-user"
+                class="mr-2"
+                size="18"
+              />
               {{ section.title }}
             </v-card-title>
             <v-divider />
             <v-card-text class="pa-5">
-              <p class="text-body-2 text-medium-emphasis mb-4">{{ section.desc }}</p>
+              <p class="text-body-2 text-medium-emphasis mb-4">
+                {{ section.desc }}
+              </p>
               <div
                 v-for="file in section.files"
                 :key="file"
                 class="upload-area rounded-xl mb-3 d-flex flex-column align-center justify-center pa-4"
               >
-                <v-icon icon="fas fa-cloud-arrow-up" color="el-user" size="28" class="mb-2" />
-                <div class="text-body-2 font-weight-medium mb-1">{{ file }}</div>
+                <v-icon
+                  icon="fas fa-cloud-arrow-up"
+                  color="el-user"
+                  size="28"
+                  class="mb-2"
+                />
+                <div class="text-body-2 font-weight-medium mb-1">
+                  {{ file }}
+                </div>
                 <div class="text-caption text-medium-emphasis text-center">
                   คลิกเพื่อเลือกไฟล์ หรือลากไฟล์มาวางที่นี่
                 </div>
@@ -503,7 +549,13 @@
         >
           ย้อนกลับ
         </v-btn>
-        <v-btn v-else variant="text" color="grey" rounded="lg" @click="router.push('/el/user/applications')">
+        <v-btn
+          v-else
+          variant="text"
+          color="grey"
+          rounded="lg"
+          @click="router.push('/el/user/applications')"
+        >
           ยกเลิก
         </v-btn>
 
@@ -547,14 +599,13 @@
             <v-icon icon="fas fa-check" color="success" size="36" />
           </div>
           <h3 class="text-h6 font-weight-bold mb-2">ยื่นคำขอสำเร็จ!</h3>
-          <p class="text-body-2 text-medium-emphasis mb-2">
-            หมายเลขคำขอของคุณ
-          </p>
+          <p class="text-body-2 text-medium-emphasis mb-2">หมายเลขคำขอของคุณ</p>
           <v-chip color="el-user" size="large" variant="tonal" class="mb-4">
             EL-2568-00003
           </v-chip>
           <p class="text-body-2 text-medium-emphasis mb-0">
-            ส่งให้ด่านเกษตรตรวจสอบแล้ว<br />เจ้าหน้าที่จะดำเนินการและติดต่อกลับภายใน 5 วันทำการ
+            ส่งให้ด่านเกษตรตรวจสอบแล้ว<br />เจ้าหน้าที่จะดำเนินการและติดต่อกลับภายใน
+            5 วันทำการ
           </p>
         </v-card-text>
         <v-card-actions class="px-6 pb-5">
@@ -632,17 +683,41 @@ const farmers = ref<Farmer[]>([
 ]);
 
 const farms = ref<Farm[]>([
-  { farmerName: "", cropType: "", gapCertNo: "", area: "", yield: "", province: "", coordX: "", coordY: "" },
+  {
+    farmerName: "",
+    cropType: "",
+    gapCertNo: "",
+    area: "",
+    yield: "",
+    province: "",
+    coordX: "",
+    coordY: "",
+  },
 ]);
 
 function addFarmer() {
-  farmers.value.push({ type: "individual", idNo: "", name: "", province: "", phone: "" });
+  farmers.value.push({
+    type: "individual",
+    idNo: "",
+    name: "",
+    province: "",
+    phone: "",
+  });
 }
 function removeFarmer(idx: number) {
   if (farmers.value.length > 1) farmers.value.splice(idx, 1);
 }
 function addFarm() {
-  farms.value.push({ farmerName: "", cropType: "", gapCertNo: "", area: "", yield: "", province: "", coordX: "", coordY: "" });
+  farms.value.push({
+    farmerName: "",
+    cropType: "",
+    gapCertNo: "",
+    area: "",
+    yield: "",
+    province: "",
+    coordX: "",
+    coordY: "",
+  });
 }
 function removeFarm(idx: number) {
   if (farms.value.length > 1) farms.value.splice(idx, 1);
@@ -691,6 +766,9 @@ function goToApplicationList() {
 </script>
 
 <style scoped>
+.field-label { font-size: 12px; font-weight: 600; color: rgba(var(--v-theme-on-surface), 0.75); }
+.field-label-en { font-size: 11px; font-weight: 400; color: rgba(var(--v-theme-on-surface), 0.4); margin-left: 4px; }
+.req { color: rgb(var(--v-theme-error)); margin-left: 2px; }
 .step-card {
   border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
 }

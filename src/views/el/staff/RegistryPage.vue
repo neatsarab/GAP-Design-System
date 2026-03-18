@@ -38,6 +38,7 @@
       <v-card-text class="pa-4">
         <v-row dense align="center">
           <v-col cols="12" sm="6" md="5">
+            <div class="field-label mb-1">ค้นหา <span class="field-label-en">Search</span></div>
             <v-text-field
               v-model="search"
               placeholder="ค้นหาเลขทะเบียน / ชื่อโรงคัดบรรจุ"
@@ -50,7 +51,8 @@
             />
           </v-col>
           <v-col cols="12" sm="6" md="4">
-            <v-select
+            <div class="field-label mb-1">สถานะ <span class="field-label-en">Status</span></div>
+            <v-autocomplete
               v-model="statusFilter"
               :items="statusOptions"
               item-title="label"
@@ -174,6 +176,8 @@ function statusLabel(status: string): string {
 </script>
 
 <style scoped>
+.field-label { font-size: 12px; font-weight: 600; color: rgba(var(--v-theme-on-surface), 0.75); }
+.field-label-en { font-size: 11px; font-weight: 400; color: rgba(var(--v-theme-on-surface), 0.4); margin-left: 4px; }
 .stat-card {
   border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
 }

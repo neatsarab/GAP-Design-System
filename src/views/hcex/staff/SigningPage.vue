@@ -58,15 +58,15 @@
       <v-card-text class="pa-4">
         <v-row dense>
           <v-col cols="12" sm="5">
+            <div class="field-label mb-1">ค้นหา <span class="field-label-en">Search</span></div>
             <v-text-field
               v-model="search"
-              label="ค้นหาเลขคำขอ / ผู้ประกอบการ"
               prepend-inner-icon="fas fa-search"
               clearable
               hide-details
             />
           </v-col>
-          <v-col cols="auto" class="d-flex align-self-center">
+          <v-col cols="auto" class="ml-auto d-flex align-self-center">
             <v-btn
               variant="tonal"
               color="grey"
@@ -380,6 +380,8 @@ const headers = [
 </script>
 
 <style scoped>
+.field-label { font-size: 12px; font-weight: 600; color: rgba(var(--v-theme-on-surface), 0.75); }
+.field-label-en { font-size: 11px; font-weight: 400; color: rgba(var(--v-theme-on-surface), 0.4); margin-left: 4px; }
 .stat-icon {
   width: 44px;
   height: 44px;

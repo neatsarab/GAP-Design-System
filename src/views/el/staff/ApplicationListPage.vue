@@ -13,6 +13,7 @@
       <v-card-text class="pa-4">
         <v-row dense align="center">
           <v-col cols="12" sm="6" md="4">
+            <div class="field-label mb-1">ค้นหา <span class="field-label-en">Search</span></div>
             <v-text-field
               v-model="search"
               placeholder="ค้นหาเลขคำขอ / ชื่อโรงคัดบรรจุ"
@@ -25,7 +26,8 @@
             />
           </v-col>
           <v-col cols="12" sm="6" md="3">
-            <v-select
+            <div class="field-label mb-1">ชนิดพืช <span class="field-label-en">Crop Type</span></div>
+            <v-autocomplete
               v-model="typeFilter"
               :items="typeOptions"
               item-title="label"
@@ -39,7 +41,8 @@
             />
           </v-col>
           <v-col cols="12" sm="6" md="3">
-            <v-select
+            <div class="field-label mb-1">สถานะ <span class="field-label-en">Status</span></div>
+            <v-autocomplete
               v-model="statusFilter"
               :items="statusOptions"
               item-title="label"
@@ -52,12 +55,12 @@
               clearable
             />
           </v-col>
-          <v-col cols="12" sm="6" md="2">
+          <v-col cols="auto" class="ml-auto d-flex align-self-center">
             <v-btn
               variant="tonal"
               color="grey"
-              rounded="lg"
-              block
+              size="small"
+              prepend-icon="fas fa-rotate-left"
               @click="clearFilters"
             >
               ล้างตัวกรอง
@@ -70,20 +73,34 @@
     <!-- Chip Tabs -->
     <v-chip-group v-model="activeTab" mandatory color="el-staff" class="mb-4">
       <v-chip value="all" variant="tonal" rounded="lg">ทั้งหมด</v-chip>
-      <v-chip value="submitted" variant="tonal" rounded="lg">
+      <v-chip value="submitted" variant="tonal" color="warning" rounded="lg">
         รอตรวจสอบ
         <v-badge color="warning" content="7" inline class="ml-1" />
       </v-chip>
-      <v-chip value="inspection_scheduled" variant="tonal" rounded="lg">
+      <v-chip
+        value="inspection_scheduled"
+        variant="tonal"
+        color="el-staff"
+        rounded="lg"
+      >
         นัดตรวจแล้ว
         <v-badge color="el-staff" content="3" inline class="ml-1" />
       </v-chip>
-      <v-chip value="pending_committee" variant="tonal" rounded="lg">
+      <v-chip
+        value="pending_committee"
+        variant="tonal"
+        color="warning"
+        rounded="lg"
+      >
         รอ กตม.
         <v-badge color="secondary" content="2" inline class="ml-1" />
       </v-chip>
-      <v-chip value="approved" variant="tonal" rounded="lg">อนุมัติ</v-chip>
-      <v-chip value="rejected" variant="tonal" rounded="lg">ไม่ผ่าน</v-chip>
+      <v-chip value="approved" variant="tonal" color="success" rounded="lg"
+        >อนุมัติ</v-chip
+      >
+      <v-chip value="rejected" variant="tonal" color="error" rounded="lg"
+        >ไม่ผ่าน</v-chip
+      >
     </v-chip-group>
 
     <!-- Table -->
@@ -94,10 +111,13 @@
         :search="search"
         rounded="xl"
         hover
-        @click:row="(_, { item }) => router.push(`/el/staff/applications/${item.id}`)"
       >
         <template #item.status="{ item }">
-          <v-chip :color="statusColor(item.status)" size="small" variant="tonal">
+          <v-chip
+            :color="statusColor(item.status)"
+            size="small"
+            variant="tonal"
+          >
             {{ statusLabel(item.status) }}
           </v-chip>
         </template>
@@ -150,22 +170,124 @@ const headers = [
   { title: "โรงคัดบรรจุ", key: "establishmentName", sortable: true },
   { title: "ชนิดพืช", key: "cropType", sortable: true },
   { title: "จังหวัด", key: "province", sortable: true },
+  { title: "GMP/HACCP", key: "gmphaccp", sortable: true },
+  { title: "ผลสอบ", key: "resaulttest", sortable: true },
   { title: "วันที่ยื่น", key: "submittedDate", sortable: true },
   { title: "สถานะ", key: "status", sortable: false },
   { title: "", key: "actions", sortable: false, align: "end" as const },
 ];
 
 const allItems = [
-  { id: "EL-2568-00010", requestNo: "EL-2568-00010", establishmentName: "บ.สยามฟาร์มเอ็กซ์พอร์ต จก.", cropType: "ทุเรียน", province: "จันทบุรี", submittedDate: "11 มี.ค. 2568", status: "submitted" },
-  { id: "EL-2568-00009", requestNo: "EL-2568-00009", establishmentName: "บ.อีสานโปรดิ๊วซ จก.", cropType: "มังคุด", province: "ระยอง", submittedDate: "10 มี.ค. 2568", status: "submitted" },
-  { id: "EL-2568-00008", requestNo: "EL-2568-00008", establishmentName: "บ.เชียงใหม่ฟรุ๊ต จก.", cropType: "ลำไย", province: "เชียงใหม่", submittedDate: "08 มี.ค. 2568", status: "inspection_scheduled" },
-  { id: "EL-2568-00007", requestNo: "EL-2568-00007", establishmentName: "บ.ตะวันออกการเกษตร จก.", cropType: "ทุเรียน", province: "ชลบุรี", submittedDate: "07 มี.ค. 2568", status: "submitted" },
-  { id: "EL-2568-00006", requestNo: "EL-2568-00006", establishmentName: "บ.นครปฐมฟาร์ม จก.", cropType: "ลิ้นจี่", province: "นครปฐม", submittedDate: "05 มี.ค. 2568", status: "under_review" },
-  { id: "EL-2568-00005", requestNo: "EL-2568-00005", establishmentName: "บ.สยามฟาร์ม จก.", cropType: "ทุเรียน", province: "จันทบุรี", submittedDate: "01 มี.ค. 2568", status: "pending_committee" },
-  { id: "EL-2568-00004", requestNo: "EL-2568-00004", establishmentName: "บ.ภาคใต้โปรดิ๊วซ จก.", cropType: "มังคุด", province: "สุราษฎร์ธานี", submittedDate: "25 ก.พ. 2568", status: "pending_committee" },
-  { id: "EL-2568-00003", requestNo: "EL-2568-00003", establishmentName: "บ.เชียงรายฟรุ๊ต จก.", cropType: "ลำไย", province: "เชียงราย", submittedDate: "20 ก.พ. 2568", status: "inspection_scheduled" },
-  { id: "EL-2568-00002", requestNo: "EL-2568-00002", establishmentName: "บ.ไทยฟรุ๊ตส์ เอ็กซ์พอร์ต จก.", cropType: "ทุเรียน", province: "กรุงเทพฯ", submittedDate: "10 ก.พ. 2568", status: "under_review" },
-  { id: "EL-2568-00001", requestNo: "EL-2568-00001", establishmentName: "บ.กรีนฟาร์ม จก.", cropType: "ลิ้นจี่", province: "ลำพูน", submittedDate: "05 ก.พ. 2568", status: "approved" },
+  {
+    id: "EL-2568-00010",
+    requestNo: "EL-2568-00010",
+    establishmentName: "บ.สยามฟาร์มเอ็กซ์พอร์ต จก.",
+    cropType: "ทุเรียน",
+    province: "จันทบุรี",
+    submittedDate: "11 มี.ค. 2568",
+    gmphaccp: "มีผลแล้ว",
+    resaulttest: "ยังไม่มีผล",
+    status: "submitted",
+  },
+  {
+    id: "EL-2568-00009",
+    requestNo: "EL-2568-00009",
+    establishmentName: "บ.อีสานโปรดิ๊วซ จก.",
+    cropType: "มังคุด",
+    province: "ระยอง",
+    submittedDate: "10 มี.ค. 2568",
+    gmphaccp: "มีผลแล้ว",
+    resaulttest: "ยังไม่มีผล",
+    status: "submitted",
+  },
+  {
+    id: "EL-2568-00008",
+    requestNo: "EL-2568-00008",
+    establishmentName: "บ.เชียงใหม่ฟรุ๊ต จก.",
+    cropType: "ลำไย",
+    province: "เชียงใหม่",
+    submittedDate: "08 มี.ค. 2568",
+    gmphaccp: "มีผลแล้ว",
+    resaulttest: "ยังไม่มีผล",
+    status: "inspection_scheduled",
+  },
+  {
+    id: "EL-2568-00007",
+    requestNo: "EL-2568-00007",
+    establishmentName: "บ.ตะวันออกการเกษตร จก.",
+    cropType: "ทุเรียน",
+    province: "ชลบุรี",
+    submittedDate: "07 มี.ค. 2568",
+    gmphaccp: "มีผลแล้ว",
+    resaulttest: "มีผลแล้ว",
+    status: "submitted",
+  },
+  {
+    id: "EL-2568-00006",
+    requestNo: "EL-2568-00006",
+    establishmentName: "บ.นครปฐมฟาร์ม จก.",
+    cropType: "ลิ้นจี่",
+    province: "นครปฐม",
+    submittedDate: "05 มี.ค. 2568",
+    gmphaccp: "ยังไม่มีผล",
+    resaulttest: "มีผลแล้ว",
+    status: "under_review",
+  },
+  {
+    id: "EL-2568-00005",
+    requestNo: "EL-2568-00005",
+    establishmentName: "บ.สยามฟาร์ม จก.",
+    cropType: "ทุเรียน",
+    province: "จันทบุรี",
+    submittedDate: "01 มี.ค. 2568",
+    gmphaccp: "ยังไม่มีผล",
+    resaulttest: "มีผลแล้ว",
+    status: "pending_committee",
+  },
+  {
+    id: "EL-2568-00004",
+    requestNo: "EL-2568-00004",
+    establishmentName: "บ.ภาคใต้โปรดิ๊วซ จก.",
+    cropType: "มังคุด",
+    province: "สุราษฎร์ธานี",
+    submittedDate: "25 ก.พ. 2568",
+    gmphaccp: "ยังไม่มีผล",
+    resaulttest: "มีผลแล้ว",
+    status: "pending_committee",
+  },
+  {
+    id: "EL-2568-00003",
+    requestNo: "EL-2568-00003",
+    establishmentName: "บ.เชียงรายฟรุ๊ต จก.",
+    cropType: "ลำไย",
+    province: "เชียงราย",
+    submittedDate: "20 ก.พ. 2568",
+    gmphaccp: "ยังไม่มีผล",
+    resaulttest: "มีผลแล้ว",
+    status: "inspection_scheduled",
+  },
+  {
+    id: "EL-2568-00002",
+    requestNo: "EL-2568-00002",
+    establishmentName: "บ.ไทยฟรุ๊ตส์ เอ็กซ์พอร์ต จก.",
+    cropType: "ทุเรียน",
+    province: "กรุงเทพฯ",
+    submittedDate: "10 ก.พ. 2568",
+    gmphaccp: "มีผลแล้ว",
+    resaulttest: "มีผลแล้ว",
+    status: "under_review",
+  },
+  {
+    id: "EL-2568-00001",
+    requestNo: "EL-2568-00001",
+    establishmentName: "บ.กรีนฟาร์ม จก.",
+    cropType: "ลิ้นจี่",
+    province: "ลำพูน",
+    submittedDate: "05 ก.พ. 2568",
+    gmphaccp: "มีผลแล้ว",
+    resaulttest: "มีผลแล้ว",
+    status: "approved",
+  },
 ];
 
 const filteredItems = computed(() => {
@@ -192,9 +314,9 @@ function clearFilters() {
 function statusColor(status: string): string {
   const map: Record<string, string> = {
     draft: "grey",
-    submitted: "primary",
+    submitted: "warning",
     under_review: "info",
-    inspection_scheduled: "secondary",
+    inspection_scheduled: "el-staff",
     pending_committee: "warning",
     approved: "success",
     rejected: "error",
@@ -219,6 +341,8 @@ function statusLabel(status: string): string {
 </script>
 
 <style scoped>
+.field-label { font-size: 12px; font-weight: 600; color: rgba(var(--v-theme-on-surface), 0.75); }
+.field-label-en { font-size: 11px; font-weight: 400; color: rgba(var(--v-theme-on-surface), 0.4); margin-left: 4px; }
 .filter-card {
   border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
 }

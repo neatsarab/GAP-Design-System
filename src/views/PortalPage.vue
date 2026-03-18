@@ -1,6 +1,19 @@
 <template>
   <div class="portal-root">
 
+    <!-- Theme toggle — top right -->
+    <div style="position: absolute; top: 16px; right: 16px; z-index: 10">
+      <v-btn
+        variant="tonal"
+        size="small"
+        rounded="lg"
+        :prepend-icon="themeStore.isDark ? 'fas fa-sun' : 'fas fa-moon'"
+        @click="themeStore.toggle()"
+      >
+        {{ themeStore.isDark ? 'Light Mode' : 'Dark Mode' }}
+      </v-btn>
+    </div>
+
     <!-- Background decoration -->
     <div class="portal-bg-pattern" />
 
@@ -89,7 +102,9 @@
 
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
+import { useThemeStore } from '@/stores/theme.store'
 const router = useRouter()
+const themeStore = useThemeStore()
 </script>
 
 <style scoped>

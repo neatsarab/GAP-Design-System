@@ -8,7 +8,7 @@
         </p>
       </div>
       <v-btn
-        color="info"
+        color="hc-user"
         prepend-icon="fas fa-file-pen"
         @click="router.push('/hc/user/applications/new')"
       >
@@ -21,27 +21,27 @@
       <v-card-text class="pa-4">
         <v-row dense>
           <v-col cols="12" sm="5">
+            <div class="field-label mb-1">ค้นหา <span class="field-label-en">Search</span></div>
             <v-text-field
               v-model="search"
-              label="ค้นหาเลขคำขอ / สินค้า"
               prepend-inner-icon="fas fa-search"
               clearable
               hide-details
             />
           </v-col>
           <v-col cols="6" sm="3">
-            <v-select
+            <div class="field-label mb-1">ประเภทคำขอ <span class="field-label-en">Request Type</span></div>
+            <v-autocomplete
               v-model="filterType"
-              label="ประเภทคำขอ"
               :items="typeOptions"
               hide-details
               clearable
             />
           </v-col>
           <v-col cols="6" sm="3">
-            <v-select
+            <div class="field-label mb-1">สถานะ <span class="field-label-en">Status</span></div>
+            <v-autocomplete
               v-model="filterStatus"
-              label="สถานะ"
               :items="statusOptions"
               item-title="label"
               item-value="value"
@@ -49,7 +49,7 @@
               clearable
             />
           </v-col>
-          <v-col cols="auto" class="d-flex align-self-center">
+          <v-col cols="auto" class="ml-auto d-flex align-self-center">
             <v-btn
               variant="tonal"
               color="grey"
@@ -97,14 +97,14 @@
         @click:row="onRowClick"
       >
         <template #item.requestNo="{ item }">
-          <span class="text-body-2 font-weight-medium text-info">{{
+          <span class="text-body-2 font-weight-medium text-hc-user">{{
             item.requestNo
           }}</span>
         </template>
         <template #item.type="{ item }">
           <v-chip
             size="x-small"
-            :color="item.type === 'correction' ? 'secondary' : 'info'"
+            :color="item.type === 'correction' ? 'secondary' : 'hc-user'"
             variant="tonal"
           >
             {{ item.type === "correction" ? "แก้ไขใบรับรอง" : "ขอใบรับรอง" }}
@@ -124,7 +124,7 @@
           <v-btn
             size="small"
             variant="tonal"
-            color="info"
+            color="hc-user"
             prepend-icon="fas fa-eye"
             @click.stop="router.push(`/hc/user/applications/${item.id}`)"
           >
@@ -316,7 +316,7 @@ const headers = [
 
 function getStatusColor(s: string) {
   const m: Record<string, string> = {
-    submitted: "info",
+    submitted: "hc-user",
     under_review: "warning",
     testing: "secondary",
     pending_approval: "primary",
@@ -354,3 +354,8 @@ function getStatusLabel(s: string) {
   return m[s] ?? s;
 }
 </script>
+
+<style scoped>
+.field-label { font-size: 12px; font-weight: 600; color: rgba(var(--v-theme-on-surface), 0.75); }
+.field-label-en { font-size: 11px; font-weight: 400; color: rgba(var(--v-theme-on-surface), 0.4); margin-left: 4px; }
+</style>

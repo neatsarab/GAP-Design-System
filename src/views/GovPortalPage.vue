@@ -46,28 +46,6 @@
 
           <v-divider vertical class="mx-1" style="opacity: 0.2; height: 40px" />
 
-          <!-- Mode toggle -->
-          <div class="mode-toggle-group d-flex align-center">
-            <button
-              class="mode-btn"
-              :class="{ 'mode-btn--active': mode === 'staff' }"
-              @click="mode = 'staff'"
-            >
-              <v-icon icon="fas fa-user-tie" size="12" class="mr-1" />
-              เจ้าหน้าที่
-            </button>
-            <button
-              class="mode-btn"
-              :class="{ 'mode-btn--active': mode === 'user' }"
-              @click="mode = 'user'"
-            >
-              <v-icon icon="fas fa-user" size="12" class="mr-1" />
-              ผู้ใช้งาน
-            </button>
-          </div>
-
-          <v-divider vertical class="mx-1" style="opacity: 0.2; height: 40px" />
-
           <!-- Dark mode toggle -->
           <v-btn
             icon
@@ -196,24 +174,39 @@
               {{ user.name }}
             </h1>
             <div class="d-flex align-center ga-2 flex-wrap">
-              <v-chip
-                size="x-small"
-                color="white"
-                variant="outlined"
-                style="color: rgba(255, 255, 255, 0.85)"
-              >
-                <v-icon start icon="fas fa-shield-halved" size="10" />
-                {{ user.role }}
-              </v-chip>
-              <v-chip
-                size="x-small"
-                color="white"
-                variant="outlined"
-                style="color: rgba(255, 255, 255, 0.85)"
-              >
-                <v-icon start icon="fas fa-building" size="10" />
-                {{ user.dept }}
-              </v-chip>
+              <template v-if="mode === 'user'">
+                <v-chip size="x-small" color="white" variant="outlined">
+                  <v-icon
+                    start
+                    :icon="
+                      entityType === 'juristic'
+                        ? 'fas fa-building'
+                        : 'fas fa-user'
+                    "
+                    size="10"
+                  />
+                  {{ entityType === "juristic" ? "นิติบุคคล" : "บุคคลธรรมดา" }}
+                </v-chip>
+                <v-chip
+                  v-if="entityType === 'juristic' && companyName"
+                  size="x-small"
+                  color="white"
+                  variant="outlined"
+                >
+                  <v-icon start icon="fas fa-briefcase" size="10" />
+                  {{ companyName }}
+                </v-chip>
+              </template>
+              <template v-else>
+                <v-chip size="x-small" color="white" variant="outlined">
+                  <v-icon start icon="fas fa-shield-halved" size="10" />
+                  {{ user.role }}
+                </v-chip>
+                <v-chip size="x-small" color="white" variant="outlined">
+                  <v-icon start icon="fas fa-building" size="10" />
+                  {{ user.dept }}
+                </v-chip>
+              </template>
             </div>
           </div>
 
@@ -330,7 +323,17 @@
                 </div>
 
                 <!-- <div class="sys-id-label text-caption text-medium-emphasis mb-1">ระบบที่ {{ system.id }}</div> -->
-                <h3 class="text-body-1 font-weight-bold mb-2">
+                <h3
+                  class="text-body-1 font-weight-bold mb-2"
+                  style="
+                    min-height: 3em;
+                    display: -webkit-box;
+                    -webkit-line-clamp: 2;
+                    line-clamp: 2;
+                    -webkit-box-orient: vertical;
+                    overflow: hidden;
+                  "
+                >
                   {{ system.name }}
                 </h3>
                 <p class="text-body-2 text-medium-emphasis mb-4 flex-grow-1">
@@ -471,13 +474,25 @@
 
 <script setup lang="ts">
 import { ref, computed } from "vue";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 import { useThemeStore } from "@/stores/theme.store";
 
 const router = useRouter();
+const route = useRoute();
 const themeStore = useThemeStore();
 
-const mode = ref<"staff" | "user">("staff");
+const initialMode =
+  (route.query.mode as string) === "admin"
+    ? "admin"
+    : (route.query.mode as string) === "user"
+      ? "user"
+      : "staff";
+const mode = ref<"staff" | "user" | "admin">(initialMode);
+
+const entityType = computed(
+  () => (route.query.entityType as string) || "personal",
+);
+const companyName = computed(() => (route.query.companyName as string) || "");
 
 const heroStats = [
   {
@@ -537,91 +552,200 @@ const systems = computed<SystemItem[]>(() => [
     name: "ระบบการรับรองมาตรฐาน GAP (Good Agricultural Practices)",
     desc: "ยื่นคำขอ ตรวจประเมิน และออกใบรับรองมาตรฐาน GAP ให้แก่เกษตรกรหรือผู้ประกอบการ",
     icon: "fas fa-seedling",
-    color: mode.value === "staff" ? "gap-staff" : "primary",
+    color:
+      mode.value === "admin"
+        ? "admin"
+        : mode.value === "staff"
+          ? "gap-staff"
+          : "gap-user",
     active: true,
     route:
-      mode.value === "staff" ? "/gap/staff/dashboard" : "/gap/user/dashboard",
+      mode.value === "admin"
+        ? "/gap/admin/dashboard"
+        : mode.value === "staff"
+          ? "/gap/staff/dashboard"
+          : "/gap/user/dashboard",
     tags:
-      mode.value === "staff"
-        ? ["จัดการคำขอ", "ตรวจแปลง", "ออกใบรับรอง"]
-        : ["ยื่นคำขอ", "ติดตามสถานะ", "ใบรับรอง"],
+      mode.value === "admin"
+        ? ["จัดการผู้ใช้", "ตั้งค่าระบบ", "รายงาน"]
+        : mode.value === "staff"
+          ? ["จัดการคำขอ", "ตรวจแปลง", "ออกใบรับรอง"]
+          : ["ยื่นคำขอ", "ติดตามสถานะ", "ใบรับรอง"],
   },
   {
     id: 2,
     name: "ระบบการรับรองมาตรฐาน ORG (Organic Agricultural)",
     desc: "ยื่นคำขอ ตรวจประเมิน และออกใบรับรองมาตรฐานเกษตรอินทรีย์ให้แก่แหล่งผลิต",
     icon: "fas fa-leaf",
-    color: "success",
-    active: false,
-    route: "#",
-    eta: "กรุณายื่นคำขอสิทธิการเข้าถึง",
+    color:
+      mode.value === "admin"
+        ? "admin"
+        : mode.value === "staff"
+          ? "org-staff"
+          : "org-user",
+    active: true,
+    route:
+      mode.value === "admin"
+        ? "/org/admin/dashboard"
+        : mode.value === "staff"
+          ? "/org/staff/dashboard"
+          : "/org/user/dashboard",
+    tags:
+      mode.value === "admin"
+        ? ["จัดการผู้ใช้", "ตั้งค่าระบบ", "รายงาน"]
+        : mode.value === "staff"
+          ? ["ตรวจเอกสาร", "นัดตรวจแปลง", "รายงานผล"]
+          : ["ยื่นคำขอ", "ติดตามสถานะ", "ใบรับรอง ORG"],
   },
   {
     id: 3,
     name: "ระบบการขึ้นทะเบียนโรงงานผลิตสินค้าพืช DOA",
     desc: "ยื่นคำขอ ตรวจสอบ และอนุมัติการขึ้นทะเบียนโรงงานผลิตหรือแปรรูปสินค้าพืชกับกรมวิชาการเกษตร",
     icon: "fas fa-industry",
-    color: "info",
-    active: false,
-    route: "#",
-    eta: "กรุณายื่นคำขอสิทธิการเข้าถึง",
+    color:
+      mode.value === "admin"
+        ? "admin"
+        : mode.value === "staff"
+          ? "doa-staff"
+          : "doa-user",
+    active: true,
+    route:
+      mode.value === "admin"
+        ? "/doa/admin/dashboard"
+        : mode.value === "staff"
+          ? "/doa/staff/dashboard"
+          : "/doa/user/dashboard",
+    tags:
+      mode.value === "admin"
+        ? ["จัดการผู้ใช้", "ตั้งค่าระบบ", "รายงาน"]
+        : mode.value === "staff"
+          ? ["ตรวจเอกสาร", "นัดตรวจโรงงาน", "รายงานผล"]
+          : ["ยื่นคำขอ", "ติดตามสถานะ", "ทะเบียนโรงงาน"],
   },
   {
     id: 4,
     name: "ระบบการขึ้นทะเบียนหน่วยรับรองโรงงานผลิตสินค้าพืช (Certification Body)",
     desc: "ยื่นคำขอและบริหารจัดการการขึ้นทะเบียนหน่วยรับรองที่ทำหน้าที่ตรวจประเมินโรงงานผลิตสินค้าพืช",
     icon: "fas fa-certificate",
-    color: "secondary",
-    active: false,
-    route: "#",
-    eta: "กรุณายื่นคำขอสิทธิการเข้าถึง",
+    color:
+      mode.value === "admin"
+        ? "admin"
+        : mode.value === "staff"
+          ? "cb-staff"
+          : "cb-user",
+    active: true,
+    route:
+      mode.value === "admin"
+        ? "/cb/admin/dashboard"
+        : mode.value === "staff"
+          ? "/cb/staff/dashboard"
+          : "/cb/user/dashboard",
+    tags:
+      mode.value === "admin"
+        ? ["จัดการผู้ใช้", "ตั้งค่าระบบ", "รายงาน"]
+        : mode.value === "staff"
+          ? ["ตรวจเอกสาร", "ตรวจประเมิน CB", "รายงานผล"]
+          : ["ยื่นคำขอขึ้นทะเบียน", "ติดตามสถานะ", "ใบรับรอง CB"],
   },
   {
     id: 5,
     name: "ระบบจดทะเบียนผู้ส่งออก",
     desc: "ยื่นคำขอและขึ้นทะเบียนเป็นผู้ส่งออกสินค้าพืชกับกรมวิชาการเกษตร",
     icon: "fas fa-ship",
-    color: "secondary",
-    active: false,
-    route: "#",
-    eta: "กรุณายื่นคำขอสิทธิการเข้าถึง",
+    color:
+      mode.value === "admin"
+        ? "admin"
+        : mode.value === "staff"
+          ? "export-staff"
+          : "export-user",
+    active: true,
+    route:
+      mode.value === "admin"
+        ? "/export/admin/dashboard"
+        : mode.value === "staff"
+          ? "/export/staff/dashboard"
+          : "/export/user/dashboard",
+    tags:
+      mode.value === "admin"
+        ? ["จัดการผู้ใช้", "ตั้งค่าระบบ", "รายงาน"]
+        : mode.value === "staff"
+          ? ["ตรวจเอกสาร", "ตรวจสอบทะเบียน", "รายงานผล"]
+          : ["จดทะเบียน", "ติดตามสถานะ", "ใบอนุญาตส่งออก"],
   },
   {
     id: 6,
     name: "ระบบออกใบรับรองสุขอนามัยพืช (Health Certificate) ตามประกาศพืชควบคุมเฉพาะ",
     desc: "ยื่นคำขอ ตรวจสอบ และออกใบรับรองสุขอนามัยพืชสำหรับพืชควบคุมเฉพาะ",
     icon: "fas fa-virus",
-    color: mode.value === "staff" ? "hc-staff" : "info",
+    color:
+      mode.value === "admin"
+        ? "admin"
+        : mode.value === "staff"
+          ? "hc-staff"
+          : "hc-user",
     active: true,
-    route: mode.value === "staff" ? "/hc/staff" : "/hc/user",
+    route:
+      mode.value === "admin"
+        ? "/hc/admin/dashboard"
+        : mode.value === "staff"
+          ? "/hc/staff"
+          : "/hc/user",
     tags:
-      mode.value === "staff"
-        ? ["ตรวจสอบคำขอ", "ตรวจ Lab", "ลงนาม"]
-        : ["ขอใบรับรอง", "ติดตามสถานะ", "ดาวน์โหลด"],
+      mode.value === "admin"
+        ? ["จัดการผู้ใช้", "ตั้งค่าระบบ", "รายงาน"]
+        : mode.value === "staff"
+          ? ["ตรวจสอบคำขอ", "ตรวจ Lab", "ลงนาม"]
+          : ["ขอใบรับรอง", "ติดตามสถานะ", "ดาวน์โหลด"],
   },
   {
     id: 7,
     name: "ระบบออกใบรับรองสุขอนามัยพืช (Health Certificate) สินค้าแปรรูปด้านพืช",
     desc: "ยื่นคำขอและออกใบรับรองสุขอนามัยพืชสำหรับสินค้าแปรรูปด้านพืชเพื่อการส่งออก",
     icon: "fas fa-file-medical",
-    color: mode.value === "staff" ? "hcex-staff" : "warning",
+    color:
+      mode.value === "admin"
+        ? "admin"
+        : mode.value === "staff"
+          ? "hcex-staff"
+          : "hcex-user",
     active: true,
     route:
-      mode.value === "staff" ? "/hcex/staff/dashboard" : "/hcex/user/dashboard",
+      mode.value === "admin"
+        ? "/hcex/admin/dashboard"
+        : mode.value === "staff"
+          ? "/hcex/staff/dashboard"
+          : "/hcex/user/dashboard",
     tags:
-      mode.value === "staff"
-        ? ["ตรวจสอบคำขอ", "พิจารณา Lab", "ลงนาม"]
-        : ["ยื่นคำขอ", "เลือกผล Lab", "ดาวน์โหลดใบรับรอง"],
+      mode.value === "admin"
+        ? ["จัดการผู้ใช้", "ตั้งค่าระบบ", "รายงาน"]
+        : mode.value === "staff"
+          ? ["ตรวจสอบคำขอ", "พิจารณา Lab", "ลงนาม"]
+          : ["ยื่นคำขอ", "เลือกผล Lab", "ดาวน์โหลดใบรับรอง"],
   },
   {
     id: 8,
     name: "ระบบการควบคุมพิเศษระบบบัญชีรายชื่อโรงคัดบรรจุ (Establishment List)",
     desc: "บริหารจัดการบัญชีรายชื่อโรงคัดบรรจุที่ได้รับการอนุญาตสำหรับการส่งออกสินค้า",
     icon: "fas fa-warehouse",
-    color: mode.value === "staff" ? "el-staff" : "el-user",
+    color:
+      mode.value === "admin"
+        ? "admin"
+        : mode.value === "staff"
+          ? "el-staff"
+          : "el-user",
     active: true,
-    route: mode.value === "staff" ? "/el/staff/dashboard" : "/el/user/dashboard",
-    tags: mode.value === "staff" ? ["ตรวจเอกสาร", "นัดตรวจแปลง", "รายงานผล"] : ["ยื่นคำขอ", "ติดตามสถานะ", "ใบทะเบียน EL"],
+    route:
+      mode.value === "admin"
+        ? "/el/admin/dashboard"
+        : mode.value === "staff"
+          ? "/el/staff/dashboard"
+          : "/el/user/dashboard",
+    tags:
+      mode.value === "admin"
+        ? ["จัดการผู้ใช้", "ตั้งค่าระบบ", "รายงาน"]
+        : mode.value === "staff"
+          ? ["ตรวจเอกสาร", "นัดตรวจแปลง", "บันทึกผล"]
+          : ["ยื่นคำขอ", "ติดตามสถานะ", "ใบทะเบียน EL"],
   },
 ]);
 

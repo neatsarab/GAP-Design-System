@@ -37,18 +37,18 @@
           <v-card-text class="pa-4">
             <v-row dense>
               <v-col cols="12" sm="4">
+                <div class="field-label mb-1">ค้นหา <span class="field-label-en">Search</span></div>
                 <v-text-field
                   v-model="search"
-                  label="ค้นหาเลขที่ผล Lab / ชนิดสินค้า"
                   prepend-inner-icon="fas fa-search"
                   clearable
                   hide-details
                 />
               </v-col>
               <v-col cols="6" sm="3">
-                <v-select
+                <div class="field-label mb-1">สถานะ <span class="field-label-en">Status</span></div>
+                <v-autocomplete
                   v-model="filterStatus"
-                  label="สถานะ"
                   :items="statusOptions"
                   item-title="label"
                   item-value="value"
@@ -57,14 +57,14 @@
                 />
               </v-col>
               <v-col cols="6" sm="3">
+                <div class="field-label mb-1">วันที่ทดสอบ (จาก) <span class="field-label-en">Test Date From</span></div>
                 <v-text-field
                   v-model="filterDateFrom"
-                  label="วันที่ทดสอบ (จาก)"
                   type="date"
                   hide-details
                 />
               </v-col>
-              <v-col cols="auto" class="d-flex align-self-center">
+              <v-col cols="auto" class="ml-auto d-flex align-self-center">
                 <v-btn
                   variant="tonal"
                   color="grey"
@@ -164,9 +164,9 @@
           <v-card-text class="pa-4">
             <v-row dense>
               <v-col cols="12" sm="4">
+                <div class="field-label mb-1">ค้นหา <span class="field-label-en">Search</span></div>
                 <v-text-field
                   v-model="requestSearch"
-                  label="ค้นหาเลขคำขอ / ผู้ประกอบการ / ชนิดสินค้า"
                   prepend-inner-icon="fas fa-search"
                   clearable
                   hide-details
@@ -266,7 +266,7 @@
           </div>
 
           <!-- Decision -->
-          <div class="field-label mb-2">ผลการพิจารณา <span class="req">*</span></div>
+          <div class="field-label mb-2">ผลการพิจารณา <span class="field-label-en">Review Result</span> <span class="req">*</span></div>
           <v-radio-group v-model="decision" class="mb-4">
             <v-radio value="pass" color="success">
               <template #label>
@@ -286,7 +286,7 @@
             </v-radio>
           </v-radio-group>
 
-          <div class="field-label mb-2">หมายเหตุ</div>
+          <div class="field-label mb-2">หมายเหตุ <span class="field-label-en">Remarks</span></div>
           <v-textarea
             v-model="reviewNote"
             placeholder="ระบุหมายเหตุหรือเหตุผลประกอบการพิจารณา"
@@ -653,6 +653,7 @@ function getRequestStatusIcon(s: string) {
   font-weight: 600;
   color: rgba(var(--v-theme-on-surface), 0.75);
 }
+.field-label-en { font-size: 11px; font-weight: 400; color: rgba(var(--v-theme-on-surface), 0.4); margin-left: 4px; }
 .req {
   color: rgb(var(--v-theme-error));
 }

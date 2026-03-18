@@ -206,7 +206,7 @@
         <v-card-text class="pa-4 pt-0">
           <v-row dense>
             <v-col cols="12" sm="6">
-              <div class="field-label mb-2">เลขที่ใบรับรอง (ร่าง)</div>
+              <div class="field-label mb-2">เลขที่ใบรับรอง (ร่าง) <span class="field-label-en">Draft Cert No.</span></div>
               <v-text-field
                 model-value="DRAFT-THHCEX-2568-00012"
                 readonly
@@ -220,7 +220,7 @@
               </v-text-field>
             </v-col>
             <v-col cols="12" sm="6">
-              <div class="field-label mb-2">ผู้ส่งออก</div>
+              <div class="field-label mb-2">ผู้ส่งออก <span class="field-label-en">Exporter Name</span></div>
               <v-text-field
                 :model-value="appDetail.exporterName"
                 readonly
@@ -230,7 +230,7 @@
               />
             </v-col>
             <v-col cols="12" sm="6">
-              <div class="field-label mb-2">ผู้รับสินค้า</div>
+              <div class="field-label mb-2">ผู้รับสินค้า <span class="field-label-en">Consignee</span></div>
               <v-text-field
                 :model-value="appDetail.consigneeName"
                 readonly
@@ -240,7 +240,7 @@
               />
             </v-col>
             <v-col cols="12" sm="6">
-              <div class="field-label mb-2">ประเทศปลายทาง</div>
+              <div class="field-label mb-2">ประเทศปลายทาง <span class="field-label-en">Destination Country</span></div>
               <v-text-field
                 :model-value="appDetail.destination"
                 readonly
@@ -250,7 +250,7 @@
               />
             </v-col>
             <v-col cols="12" sm="6">
-              <div class="field-label mb-2">วันที่ออกใบรับรอง <span class="req">*</span></div>
+              <div class="field-label mb-2">วันที่ออกใบรับรอง <span class="field-label-en">Issue Date</span> <span class="req">*</span></div>
               <v-text-field
                 v-model="previewIssueDate"
                 type="date"
@@ -260,7 +260,7 @@
               />
             </v-col>
             <v-col cols="12">
-              <div class="field-label mb-2">หมายเหตุ</div>
+              <div class="field-label mb-2">หมายเหตุ <span class="field-label-en">Remarks</span></div>
               <v-textarea
                 v-model="previewNote"
                 placeholder="หมายเหตุเพิ่มเติม (ถ้ามี)"
@@ -324,7 +324,7 @@
           </div>
 
           <!-- Status Radio -->
-          <div class="field-label mb-3">สถานะการยืนยันจากผู้ประกอบการ <span class="req">*</span></div>
+          <div class="field-label mb-3">สถานะการยืนยันจากผู้ประกอบการ <span class="field-label-en">Operator Confirmation Status</span> <span class="req">*</span></div>
           <v-radio-group v-model="operatorConfirmStatus" class="mb-0">
             <v-radio value="confirmed" color="success">
               <template #label>
@@ -398,8 +398,8 @@
             </div>
           </div>
 
-          <div class="field-label mb-2">เลือกผู้มีอำนาจลงนาม <span class="req">*</span></div>
-          <v-select
+          <div class="field-label mb-2">เลือกผู้มีอำนาจลงนาม <span class="field-label-en">Select Signer</span> <span class="req">*</span></div>
+          <v-autocomplete
             v-model="selectedSigner"
             :items="signers"
             item-title="name"
@@ -441,7 +441,7 @@
         </v-card-title>
         <v-divider />
         <v-card-text class="pa-5">
-          <div class="field-label mb-2">เหตุผลที่ส่งกลับแก้ไข <span class="req">*</span></div>
+          <div class="field-label mb-2">เหตุผลที่ส่งกลับแก้ไข <span class="field-label-en">Return Reason</span> <span class="req">*</span></div>
           <v-textarea
             v-model="returnReason"
             placeholder="ระบุเหตุผลหรือรายละเอียดที่ต้องแก้ไข"
@@ -724,6 +724,7 @@ function getStatusLabel(s: string) {
   font-weight: 600;
   color: rgba(var(--v-theme-on-surface), 0.75);
 }
+.field-label-en { font-size: 11px; font-weight: 400; color: rgba(var(--v-theme-on-surface), 0.4); margin-left: 4px; }
 .req {
   color: rgb(var(--v-theme-error));
 }

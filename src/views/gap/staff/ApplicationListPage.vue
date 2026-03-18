@@ -12,48 +12,61 @@
     </div>
 
     <!-- Filters -->
-    <v-card class="mb-4">
+    <v-card rounded="xl" elevation="0" class="filter-card mb-4">
       <v-card-text class="pa-4">
-        <v-row dense>
+        <v-row dense align="center">
           <v-col cols="12" sm="4">
+            <div class="field-label mb-1">ค้นหา <span class="field-label-en">Search</span></div>
             <v-text-field
               v-model="search"
-              label="ค้นหาเลขที่คำขอ / ชื่อผู้ยื่น"
+              placeholder="ค้นหาเลขที่คำขอ / ชื่อผู้ยื่น"
               prepend-inner-icon="fas fa-search"
+              variant="outlined"
+              density="compact"
+              rounded="lg"
               clearable
               hide-details
             />
           </v-col>
           <v-col cols="6" sm="2">
-            <v-select
+            <div class="field-label mb-1">ประเภทคำขอ <span class="field-label-en">Request Type</span></div>
+            <v-autocomplete
               v-model="filterType"
-              label="ประเภทคำขอ"
               :items="typeOptions"
+              variant="outlined"
+              density="compact"
+              rounded="lg"
               hide-details
               clearable
             />
           </v-col>
           <v-col cols="6" sm="2">
-            <v-select
+            <div class="field-label mb-1">ประเภทใบรับรอง <span class="field-label-en">Cert Type</span></div>
+            <v-autocomplete
               v-model="filterCert"
-              label="ประเภทใบรับรอง"
               :items="certOptions"
+              variant="outlined"
+              density="compact"
+              rounded="lg"
               hide-details
               clearable
             />
           </v-col>
           <v-col cols="12" sm="3">
-            <v-select
+            <div class="field-label mb-1">สถานะ <span class="field-label-en">Status</span></div>
+            <v-autocomplete
               v-model="filterStatus"
-              label="สถานะ"
               :items="statusOptions"
               item-title="label"
               item-value="value"
+              variant="outlined"
+              density="compact"
+              rounded="lg"
               hide-details
               clearable
             />
           </v-col>
-          <v-col cols="auto" class="d-flex align-self-center">
+          <v-col cols="auto" class="ml-auto d-flex align-self-end">
             <v-btn variant="tonal" color="grey" size="small" prepend-icon="fas fa-rotate-left" @click="clearFilters">
               ล้างตัวกรอง
             </v-btn>
@@ -79,7 +92,7 @@
     </v-chip-group>
 
     <!-- Table -->
-    <v-card>
+    <v-card rounded="xl" elevation="0" class="table-card">
       <v-data-table
         :headers="headers"
         :items="filteredItems"
@@ -281,3 +294,10 @@ function getStatusLabel(status: string): string {
   return map[status] ?? status
 }
 </script>
+
+<style scoped>
+.filter-card { border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity)); }
+.field-label { font-size: 12px; font-weight: 600; color: rgba(var(--v-theme-on-surface), 0.6); }
+.field-label-en { font-size: 11px; font-weight: 400; color: rgba(var(--v-theme-on-surface), 0.4); margin-left: 4px; }
+.table-card { border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity)); }
+</style>

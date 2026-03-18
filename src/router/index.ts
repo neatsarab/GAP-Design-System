@@ -27,6 +27,22 @@ const router = createRouter({
       meta: { title: "สมัครสมาชิก" },
     },
 
+    // ── Company Selection (operator side, before portal) ──
+    {
+      path: "/select-company",
+      name: "CompanySelection",
+      component: () => import("@/views/CompanySelectionPage.vue"),
+      meta: { title: "เลือกบริษัทที่ต้องการดำเนินการ" },
+    },
+
+    // ── Power of Attorney Management ──────────────────
+    {
+      path: "/poa-management",
+      name: "PowerOfAttorney",
+      component: () => import("@/views/PowerOfAttorneyPage.vue"),
+      meta: { title: "จัดการมอบอำนาจ" },
+    },
+
     // ── Government Portal ─────────────────────────────
     {
       path: "/portal",
@@ -185,6 +201,147 @@ const router = createRouter({
       ],
     },
 
+    // ── ORG User System ───────────────────────────────
+    {
+      path: "/org/user",
+      component: () => import("@/layouts/org/ORGUserLayout.vue"),
+      children: [
+        { path: "", redirect: "/org/user/dashboard" },
+        { path: "dashboard", name: "ORGUserDashboard", component: () => import("@/views/org/user/DashboardPage.vue"), meta: { title: "แดชบอร์ด ORG เกษตรอินทรีย์" } },
+        { path: "applications", name: "ORGUserApplicationList", component: () => import("@/views/org/user/DashboardPage.vue"), meta: { title: "คำขอ ORG ของฉัน" } },
+        { path: "applications/new", name: "ORGUserNewApplication", component: () => import("@/views/org/user/DashboardPage.vue"), meta: { title: "ยื่นคำขอ ORG ใหม่" } },
+        { path: "applications/:id", name: "ORGUserApplicationDetail", component: () => import("@/views/org/user/DashboardPage.vue"), meta: { title: "ติดตามสถานะคำขอ ORG" } },
+      ],
+    },
+
+    // ── ORG Staff System ──────────────────────────────
+    {
+      path: "/org/staff",
+      component: () => import("@/layouts/org/ORGStaffLayout.vue"),
+      children: [
+        { path: "", redirect: "/org/staff/dashboard" },
+        { path: "dashboard", name: "ORGStaffDashboard", component: () => import("@/views/org/staff/DashboardPage.vue"), meta: { title: "แดชบอร์ด ORG (เจ้าหน้าที่)" } },
+        { path: "applications", name: "ORGStaffApplicationList", component: () => import("@/views/org/staff/DashboardPage.vue"), meta: { title: "รายการคำขอ ORG" } },
+        { path: "applications/:id", name: "ORGStaffApplicationDetail", component: () => import("@/views/org/staff/DashboardPage.vue"), meta: { title: "รายละเอียดคำขอ ORG" } },
+        { path: "schedule", name: "ORGStaffSchedule", component: () => import("@/views/org/staff/DashboardPage.vue"), meta: { title: "นัดตรวจแปลง ORG" } },
+      ],
+    },
+
+    // ── DOA User System ───────────────────────────────
+    {
+      path: "/doa/user",
+      component: () => import("@/layouts/doa/DOAUserLayout.vue"),
+      children: [
+        { path: "", redirect: "/doa/user/dashboard" },
+        { path: "dashboard", name: "DOAUserDashboard", component: () => import("@/views/doa/user/DashboardPage.vue"), meta: { title: "แดชบอร์ด DOA โรงงานพืช" } },
+        { path: "applications", name: "DOAUserApplicationList", component: () => import("@/views/doa/user/ApplicationListPage.vue"), meta: { title: "รายการคำขอ DOA" } },
+        { path: "applications/new", name: "DOAUserApplicationType", component: () => import("@/views/doa/user/ApplicationTypePage.vue"), meta: { title: "เลือกประเภทคำขอ DOA" } },
+        { path: "applications/new/:type", name: "DOAUserNewApplication", component: () => import("@/views/doa/user/NewApplicationPage.vue"), meta: { title: "ยื่นคำขอ DOA" } },
+        { path: "applications/:id", name: "DOAUserApplicationDetail", component: () => import("@/views/doa/user/DashboardPage.vue"), meta: { title: "ติดตามสถานะคำขอ DOA" } },
+        { path: "certificates", name: "DOAUserCertificate", component: () => import("@/views/doa/user/CertificatePage.vue"), meta: { title: "ใบรับรอง DOA" } },
+      ],
+    },
+
+    // ── DOA Staff System ──────────────────────────────
+    {
+      path: "/doa/staff",
+      component: () => import("@/layouts/doa/DOAStaffLayout.vue"),
+      children: [
+        { path: "", redirect: "/doa/staff/dashboard" },
+        { path: "dashboard", name: "DOAStaffDashboard", component: () => import("@/views/doa/staff/DashboardPage.vue"), meta: { title: "ข้อมูลภาพรวม DOA" } },
+        { path: "applications", name: "DOAStaffApplicationList", component: () => import("@/views/doa/staff/ApplicationListPage.vue"), meta: { title: "รายการคำขอ DOA" } },
+        { path: "applications/:id", name: "DOAStaffApplicationDetail", component: () => import("@/views/doa/staff/ApplicationDetailPage.vue"), meta: { title: "พิจารณาทะเบียน DOA" } },
+        { path: "review", name: "DOAStaffReviewList", component: () => import("@/views/doa/staff/ReviewListPage.vue"), meta: { title: "พิจารณาทะเบียน DOA" } },
+        { path: "signing", name: "DOAStaffSigningList", component: () => import("@/views/doa/staff/SigningListPage.vue"), meta: { title: "ลงนาม DOA" } },
+        { path: "registration-data", name: "DOAStaffRegistrationData", component: () => import("@/views/doa/staff/RegistrationDataPage.vue"), meta: { title: "ข้อมูลทะเบียน DOA" } },
+        { path: "master/standard-scopes", name: "DOAStaffMasterStandardScopes", component: () => import("@/views/doa/staff/master/MasterStandardScopePage.vue"), meta: { title: "ขอบข่ายมาตรฐาน" } },
+        { path: "master/products", name: "DOAStaffMasterProducts", component: () => import("@/views/doa/staff/master/MasterProductPage.vue"), meta: { title: "ผลิตภัณฑ์" } },
+      ],
+    },
+
+    // ── Admin Login ───────────────────────────────────
+    {
+      path: "/admin/login",
+      name: "AdminLogin",
+      component: () => import("@/views/admin/AdminLoginPage.vue"),
+      meta: { title: "Admin Login" },
+    },
+
+    // ── Admin System ──────────────────────────────────
+    {
+      path: "/admin",
+      component: () => import("@/layouts/admin/AdminLayout.vue"),
+      children: [
+        { path: "", redirect: "/admin/dashboard" },
+        { path: "dashboard", name: "AdminDashboard", component: () => import("@/views/admin/DashboardPage.vue"), meta: { title: "Dashboard" } },
+        { path: "service-status", name: "AdminServiceStatus", component: () => import("@/views/admin/ServiceStatusPage.vue"), meta: { title: "Service Status" } },
+        { path: "api-status", name: "AdminApiStatus", component: () => import("@/views/admin/ApiStatusPage.vue"), meta: { title: "API Status" } },
+        { path: "storage-status", name: "AdminStorageStatus", component: () => import("@/views/admin/StorageStatusPage.vue"), meta: { title: "Storage Status" } },
+        { path: "system-resources", name: "AdminSystemResources", component: () => import("@/views/admin/SystemResourcesPage.vue"), meta: { title: "System Resources" } },
+        { path: "login-logs", name: "AdminLoginLogs", component: () => import("@/views/admin/LoginLogsPage.vue"), meta: { title: "Login Logs" } },
+        { path: "certificate-expiration", name: "AdminCertificateExpiration", component: () => import("@/views/admin/CertificateExpirationPage.vue"), meta: { title: "Certificate Expiration" } },
+        { path: "data-backup", name: "AdminDataBackup", component: () => import("@/views/admin/DataBackupPage.vue"), meta: { title: "Data Backup" } },
+        { path: "open-api", name: "AdminOpenApi", component: () => import("@/views/admin/OpenApiPage.vue"), meta: { title: "Open API Management" } },
+        { path: "access-requests", name: "AdminAccessRequests", component: () => import("@/views/admin/AccessRequestsPage.vue"), meta: { title: "คำขอสมัครใช้งาน" } },
+      ],
+    },
+
+    // ── CB User System ────────────────────────────────
+    {
+      path: "/cb/user",
+      component: () => import("@/layouts/cb/CBUserLayout.vue"),
+      children: [
+        { path: "", redirect: "/cb/user/dashboard" },
+        { path: "dashboard", name: "CBUserDashboard", component: () => import("@/views/cb/user/DashboardPage.vue"), meta: { title: "แดชบอร์ด CB หน่วยรับรอง" } },
+        { path: "applications", name: "CBUserApplicationList", component: () => import("@/views/cb/user/ApplicationListPage.vue"), meta: { title: "รายการคำขอ CB" } },
+        { path: "applications/new", name: "CBUserApplicationType", component: () => import("@/views/cb/user/ApplicationTypePage.vue"), meta: { title: "เลือกประเภทคำขอ CB" } },
+        { path: "applications/new/:type", name: "CBUserNewApplication", component: () => import("@/views/cb/user/NewApplicationPage.vue"), meta: { title: "ยื่นคำขอ CB" } },
+        { path: "applications/:id", name: "CBUserApplicationDetail", component: () => import("@/views/cb/user/DashboardPage.vue"), meta: { title: "ติดตามสถานะคำขอ CB" } },
+        { path: "certificates", name: "CBUserCertificate", component: () => import("@/views/cb/user/CertificatePage.vue"), meta: { title: "ใบรับรอง CB" } },
+      ],
+    },
+
+    // ── CB Staff System ───────────────────────────────
+    {
+      path: "/cb/staff",
+      component: () => import("@/layouts/cb/CBStaffLayout.vue"),
+      children: [
+        { path: "", redirect: "/cb/staff/dashboard" },
+        { path: "dashboard", name: "CBStaffDashboard", component: () => import("@/views/cb/staff/DashboardPage.vue"), meta: { title: "แดชบอร์ด CB (เจ้าหน้าที่)" } },
+        { path: "applications", name: "CBStaffApplicationList", component: () => import("@/views/cb/staff/ApplicationListPage.vue"), meta: { title: "รายการคำขอ CB" } },
+        { path: "applications/:id", name: "CBStaffApplicationDetail", component: () => import("@/views/cb/staff/ApplicationDetailPage.vue"), meta: { title: "พิจารณาทะเบียน CB" } },
+        { path: "registration-data", name: "CBStaffRegistrationData", component: () => import("@/views/cb/staff/RegistrationDataPage.vue"), meta: { title: "ข้อมูลทะเบียน CB" } },
+      ],
+    },
+
+    // ── Export User System ────────────────────────────
+    {
+      path: "/export/user",
+      component: () => import("@/layouts/export/ExportUserLayout.vue"),
+      children: [
+        { path: "", redirect: "/export/user/dashboard" },
+        { path: "dashboard", name: "ExportUserDashboard", component: () => import("@/views/export/user/DashboardPage.vue"), meta: { title: "แดชบอร์ด จดทะเบียนผู้ส่งออก" } },
+        { path: "applications", name: "ExportUserApplicationList", component: () => import("@/views/export/user/ApplicationListPage.vue"), meta: { title: "รายการคำขอผู้ส่งออก" } },
+        { path: "applications/new", name: "ExportUserApplicationType", component: () => import("@/views/export/user/ApplicationTypePage.vue"), meta: { title: "เลือกประเภทคำขอผู้ส่งออก" } },
+        { path: "applications/new/:type", name: "ExportUserNewApplication", component: () => import("@/views/export/user/NewApplicationPage.vue"), meta: { title: "จดทะเบียนผู้ส่งออกใหม่" } },
+        { path: "applications/:id", name: "ExportUserApplicationDetail", component: () => import("@/views/export/user/DashboardPage.vue"), meta: { title: "ติดตามสถานะคำขอผู้ส่งออก" } },
+        { path: "certificates", name: "ExportUserCertificates", component: () => import("@/views/export/user/CertificatePage.vue"), meta: { title: "ใบรับรองผู้ส่งออก" } },
+      ],
+    },
+
+    // ── Export Staff System ───────────────────────────
+    {
+      path: "/export/staff",
+      component: () => import("@/layouts/export/ExportStaffLayout.vue"),
+      children: [
+        { path: "", redirect: "/export/staff/dashboard" },
+        { path: "dashboard", name: "ExportStaffDashboard", component: () => import("@/views/export/staff/DashboardPage.vue"), meta: { title: "แดชบอร์ด ผู้ส่งออก (เจ้าหน้าที่)" } },
+        { path: "applications", name: "ExportStaffApplicationList", component: () => import("@/views/export/staff/ApplicationListPage.vue"), meta: { title: "รายการคำขอผู้ส่งออก" } },
+        { path: "applications/:id", name: "ExportStaffApplicationDetail", component: () => import("@/views/export/staff/ApplicationDetailPage.vue"), meta: { title: "รายละเอียดคำขอผู้ส่งออก" } },
+        { path: "registry", name: "ExportStaffRegistry", component: () => import("@/views/export/staff/DashboardPage.vue"), meta: { title: "ทะเบียนผู้ส่งออก" } },
+      ],
+    },
+
     // ── HC Staff System ───────────────────────────────
     {
       path: "/hc/staff",
@@ -322,6 +479,9 @@ const router = createRouter({
         { path: "applications", name: "ELStaffApplicationList", component: () => import("@/views/el/staff/ApplicationListPage.vue"), meta: { title: "รายการคำขอ EL" } },
         { path: "applications/:id", name: "ELStaffApplicationDetail", component: () => import("@/views/el/staff/ApplicationDetailPage.vue"), meta: { title: "รายละเอียดคำขอ EL" } },
         { path: "monitoring", name: "ELStaffMonitoring", component: () => import("@/views/el/staff/ApplicationListPage.vue"), meta: { title: "ตรวจติดตาม EL" } },
+        { path: "inspection/new", name: "ELStaffInspectionNew", component: () => import("@/views/el/staff/InspectionRecordPage.vue"), meta: { title: "บันทึกผลตรวจ" } },
+        { path: "inspection/:id", name: "ELStaffInspectionEdit", component: () => import("@/views/el/staff/InspectionRecordPage.vue"), meta: { title: "แก้ไขผลตรวจ" } },
+        { path: "inspection/gmp", name: "ELStaffGmpRecord", component: () => import("@/views/el/staff/GmpRecordPage.vue"), meta: { title: "ผลตรวจ GMP/HACCP" } },
         { path: "registry", name: "ELStaffRegistry", component: () => import("@/views/el/staff/RegistryPage.vue"), meta: { title: "ทะเบียนโรงคัดบรรจุ" } },
         { path: "reports", name: "ELStaffReports", component: () => import("@/views/el/staff/DashboardPage.vue"), meta: { title: "รายงานผล EL" } },
       ],

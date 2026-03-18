@@ -35,10 +35,10 @@
             <v-text-field v-model="search" label="ค้นหาเลขที่ใบรับรอง / ชื่อ" prepend-inner-icon="fas fa-search" clearable hide-details />
           </v-col>
           <v-col cols="6" sm="2">
-            <v-select v-model="filterStatus" label="สถานะ" :items="['มีผล', 'ใกล้หมดอายุ', 'หมดอายุ']" clearable hide-details />
+            <v-autocomplete v-model="filterStatus" label="สถานะ" :items="['มีผล', 'ใกล้หมดอายุ', 'หมดอายุ']" clearable hide-details />
           </v-col>
           <v-col cols="6" sm="2">
-            <v-select v-model="filterCert" label="ประเภทใบรับรอง" :items="['มกษ. 9001', 'มกษ. 3502']" clearable hide-details />
+            <v-autocomplete v-model="filterCert" label="ประเภทใบรับรอง" :items="['มกษ. 9001', 'มกษ. 3502']" clearable hide-details />
           </v-col>
         </v-row>
       </v-card-text>

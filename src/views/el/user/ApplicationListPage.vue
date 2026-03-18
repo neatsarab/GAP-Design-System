@@ -23,6 +23,7 @@
       <v-card-text class="pa-4">
         <v-row dense align="center">
           <v-col cols="12" sm="6" md="5">
+            <div class="field-label mb-1">ค้นหา <span class="field-label-en">Search</span></div>
             <v-text-field
               v-model="search"
               placeholder="ค้นหาเลขคำขอ / ชื่อโรงคัดบรรจุ"
@@ -35,7 +36,8 @@
             />
           </v-col>
           <v-col cols="12" sm="6" md="4">
-            <v-select
+            <div class="field-label mb-1">สถานะ <span class="field-label-en">Status</span></div>
+            <v-autocomplete
               v-model="statusFilter"
               :items="statusOptions"
               item-title="label"
@@ -55,12 +57,16 @@
     <!-- Chip-group tabs -->
     <v-chip-group v-model="activeTab" mandatory color="el-user" class="mb-4">
       <v-chip value="all" variant="tonal" rounded="lg">ทั้งหมด</v-chip>
-      <v-chip value="in_progress" variant="tonal" rounded="lg">
+      <v-chip value="in_progress" variant="tonal" color="info" rounded="lg">
         อยู่ระหว่างดำเนินการ
-        <v-badge color="el-user" content="1" inline class="ml-1" />
+        <v-badge color="info" content="1" inline class="ml-1" />
       </v-chip>
-      <v-chip value="approved" variant="tonal" rounded="lg">อนุมัติแล้ว</v-chip>
-      <v-chip value="revision" variant="tonal" rounded="lg">ต้องแก้ไข</v-chip>
+      <v-chip value="approved" variant="tonal" color="success" rounded="lg"
+        >อนุมัติแล้ว</v-chip
+      >
+      <v-chip value="revision" variant="tonal" color="warning" rounded="lg"
+        >ต้องแก้ไข</v-chip
+      >
     </v-chip-group>
 
     <!-- Table -->
@@ -71,7 +77,6 @@
         :search="search"
         rounded="xl"
         hover
-        @click:row="(_, { item }) => router.push(`/el/user/applications/${item.id}`)"
       >
         <template #item.status="{ item }">
           <v-chip
@@ -173,7 +178,9 @@ const allItems = [
 const filteredItems = computed(() => {
   let items = allItems;
   if (activeTab.value === "in_progress") {
-    items = items.filter((i) => ["submitted", "under_review", "inspection_scheduled"].includes(i.status));
+    items = items.filter((i) =>
+      ["submitted", "under_review", "inspection_scheduled"].includes(i.status),
+    );
   } else if (activeTab.value === "approved") {
     items = items.filter((i) => i.status === "approved");
   } else if (activeTab.value === "revision") {
@@ -213,6 +220,8 @@ function statusLabel(status: string): string {
 </script>
 
 <style scoped>
+.field-label { font-size: 12px; font-weight: 600; color: rgba(var(--v-theme-on-surface), 0.75); }
+.field-label-en { font-size: 11px; font-weight: 400; color: rgba(var(--v-theme-on-surface), 0.4); margin-left: 4px; }
 .filter-card {
   border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
 }

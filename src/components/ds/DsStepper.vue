@@ -10,7 +10,7 @@
         <template #step-1>
           <v-row dense>
             <v-col cols="12" sm="4">
-              <v-select label="คำนำหน้า" :items="['นาย','นาง','นางสาว']" v-model="form.prefix" />
+              <v-autocomplete label="คำนำหน้า" :items="['นาย','นาง','นางสาว']" v-model="form.prefix" />
             </v-col>
             <v-col cols="12" sm="4">
               <v-text-field label="ชื่อ" v-model="form.firstName" :rules="[v => !!v || 'กรุณากรอก']" />
@@ -37,7 +37,7 @@
               <v-text-field label="พื้นที่ (ไร่)" v-model="form.area" type="number" />
             </v-col>
             <v-col cols="12" sm="3">
-              <v-select label="จังหวัด" :items="provinces" v-model="form.province" />
+              <v-autocomplete label="จังหวัด" :items="provinces" v-model="form.province" />
             </v-col>
           </v-row>
         </template>

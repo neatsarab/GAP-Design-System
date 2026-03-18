@@ -39,7 +39,7 @@
               <v-text-field label="วันที่นัดตรวจ" type="date" />
             </v-col>
             <v-col cols="12" sm="6">
-              <v-select label="ผู้ตรวจประเมิน" :items="['นาย วิจัย ตรวจดี', 'นาง สุดา ประเมิน']" />
+              <v-autocomplete label="ผู้ตรวจประเมิน" :items="['นาย วิจัย ตรวจดี', 'นาง สุดา ประเมิน']" />
             </v-col>
             <v-col cols="12">
               <v-textarea label="หมายเหตุ" rows="3" />

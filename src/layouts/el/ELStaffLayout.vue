@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="--v-theme-primary: var(--v-theme-el-staff)">
     <!-- ── Sidebar ── -->
     <v-navigation-drawer
       v-model="drawer"
@@ -83,7 +83,7 @@
             prepend-icon="fas fa-arrow-left"
             title="กลับหน้า Portal"
             rounded="lg"
-            @click="router.push('/portal')"
+            @click="router.push('/portal?mode=staff')"
           />
           <v-list-item
             prepend-icon="fas fa-right-from-bracket"
@@ -231,10 +231,16 @@ const navGroups = [
         icon: "fas fa-file-lines",
         to: "/el/staff/applications",
       },
+    ],
+  },
+  {
+    label: "การตรวจประเมิน",
+    divider: true,
+    items: [
       {
-        title: "ตรวจติดตาม EL",
-        icon: "fas fa-magnifying-glass-location",
-        to: "/el/staff/monitoring",
+        title: "บันทึกผลตรวจ GMP",
+        icon: "fas fa-clipboard-check",
+        to: "/el/staff/inspection/new",
       },
     ],
   },
@@ -246,17 +252,6 @@ const navGroups = [
         title: "ทะเบียนโรงคัดบรรจุ",
         icon: "fas fa-warehouse",
         to: "/el/staff/registry",
-      },
-    ],
-  },
-  {
-    label: "รายงาน",
-    divider: false,
-    items: [
-      {
-        title: "รายงานผล",
-        icon: "fas fa-chart-bar",
-        to: "/el/staff/reports",
       },
     ],
   },

@@ -15,30 +15,21 @@
     <div v-if="!selectedType" class="mb-6">
       <div class="text-body-1 font-weight-bold mb-4">เลือกประเภทคำขอ</div>
       <v-row>
-        <v-col
-          v-for="t in certTypes"
-          :key="t.value"
-          cols="12"
-          sm="6"
-          md="4"
-        >
-          <v-card
-            class="type-card h-100"
-            @click="selectedType = t.value"
-          >
-            <div class="type-accent bg-warning" />
+        <v-col v-for="t in certTypes" :key="t.value" cols="12" sm="6" md="4">
+          <v-card class="type-card h-100" @click="selectedType = t.value">
+            <div class="type-accent" :class="`bg-${t.color}`" />
             <v-card-text class="pa-5 text-center">
               <div
                 class="type-icon mx-auto mb-3"
-                style="background: rgba(var(--v-theme-warning), 0.1)"
+                :style="`background: rgba(var(--v-theme-${t.color}), 0.1)`"
               >
-                <v-icon :icon="t.icon" color="warning" size="28" />
+                <v-icon :icon="t.icon" :color="t.color" size="28" />
               </div>
               <h3 class="text-body-1 font-weight-bold mb-2">{{ t.label }}</h3>
               <p class="text-body-2 text-medium-emphasis mb-3">
                 {{ t.desc }}
               </p>
-              <v-btn color="warning" block size="small">เลือก</v-btn>
+              <v-btn :color="t.color" block size="small">เลือก</v-btn>
             </v-card-text>
           </v-card>
         </v-col>
@@ -56,16 +47,26 @@
         />
         <div>
           <div class="text-body-1 font-weight-bold">ตรวจสอบผล Lab</div>
-          <div class="text-body-2 text-medium-emphasis">ประเภทคำขอ: {{ selectedType }}</div>
+          <div class="text-body-2 text-medium-emphasis">
+            ประเภทคำขอ: {{ selectedType }}
+          </div>
         </div>
       </div>
 
-      <v-card class="mb-5 pa-5" style="border: 2px solid rgba(var(--v-theme-warning), 0.3); border-radius: 16px;">
+      <v-card
+        class="mb-5 pa-5"
+        style="
+          border: 2px solid rgba(var(--v-theme-hcex-user), 0.3);
+          border-radius: 16px;
+        "
+      >
         <div class="text-center mb-6">
           <div class="lab-check-icon mx-auto mb-3">
-            <v-icon icon="fas fa-flask-vial" color="warning" size="32" />
+            <v-icon icon="fas fa-flask-vial" color="hcex-user" size="32" />
           </div>
-          <h2 class="text-h6 font-weight-bold mb-2">มีผล Lab ที่ผ่านการพิจารณาแล้วหรือยัง?</h2>
+          <h2 class="text-h6 font-weight-bold mb-2">
+            มีผล Lab ที่ผ่านการพิจารณาแล้วหรือยัง?
+          </h2>
           <p class="text-body-2 text-medium-emphasis">
             การยื่นคำขอใบรับรองสุขอนามัยต้องมีผลการทดสอบห้องปฏิบัติการที่ผ่านการพิจารณาของเจ้าหน้าที่แล้ว
           </p>
@@ -75,7 +76,10 @@
           <v-col cols="12" sm="6">
             <v-card
               class="lab-option-card h-100"
-              style="border: 2px solid rgba(var(--v-theme-success), 0.3); cursor: pointer;"
+              style="
+                border: 2px solid rgba(var(--v-theme-success), 0.3);
+                cursor: pointer;
+              "
               @click="hasLab = true"
             >
               <v-card-text class="pa-5 text-center">
@@ -98,21 +102,26 @@
           <v-col cols="12" sm="6">
             <v-card
               class="lab-option-card h-100"
-              style="border: 2px solid rgba(var(--v-theme-warning), 0.3); cursor: pointer;"
+              style="
+                border: 2px solid rgba(var(--v-theme-hcex-user), 0.3);
+                cursor: pointer;
+              "
               @click="hasLab = false"
             >
               <v-card-text class="pa-5 text-center">
                 <div
                   class="lab-option-icon mx-auto mb-3"
-                  style="background: rgba(var(--v-theme-warning), 0.1)"
+                  style="background: rgba(var(--v-theme-hcex-user), 0.1)"
                 >
-                  <v-icon icon="fas fa-vial" color="warning" size="28" />
+                  <v-icon icon="fas fa-vial" color="hcex-user" size="28" />
                 </div>
-                <h3 class="text-body-1 font-weight-bold mb-2">ยังไม่มีผล Lab</h3>
+                <h3 class="text-body-1 font-weight-bold mb-2">
+                  ยังไม่มีผล Lab
+                </h3>
                 <p class="text-body-2 text-medium-emphasis mb-4">
                   ต้องการยื่นขอผลการทดสอบห้องปฏิบัติการก่อน
                 </p>
-                <v-btn color="warning" block variant="tonal" size="small">
+                <v-btn color="hcex-user" block variant="tonal" size="small">
                   ยื่นขอผล Lab
                 </v-btn>
               </v-card-text>
@@ -133,19 +142,25 @@
         />
         <div>
           <div class="text-body-1 font-weight-bold">ยื่นขอผลการทดสอบ Lab</div>
-          <div class="text-body-2 text-medium-emphasis">กรอกรายละเอียดสินค้าที่ต้องการทดสอบ</div>
+          <div class="text-body-2 text-medium-emphasis">
+            กรอกรายละเอียดสินค้าที่ต้องการทดสอบ
+          </div>
         </div>
       </div>
 
       <v-card class="mb-4">
-        <v-card-title class="pa-4 pb-2 text-body-1 font-weight-bold d-flex align-center ga-2">
-          <v-icon icon="fas fa-vial" color="warning" size="16" />
+        <v-card-title
+          class="pa-4 pb-2 text-body-1 font-weight-bold d-flex align-center ga-2"
+        >
+          <v-icon icon="fas fa-vial" color="hcex-user" size="16" />
           ยื่นขอผลการทดสอบ Lab
         </v-card-title>
         <v-card-text class="pa-4 pt-0">
           <v-row dense>
             <v-col cols="12" sm="6">
-              <div class="field-label mb-2">ชนิดสินค้า <span class="req">*</span></div>
+              <div class="field-label mb-2">
+                ชนิดสินค้า <span class="field-label-en">Product Type</span> <span class="req">*</span>
+              </div>
               <v-text-field
                 v-model="labRequestForm.productType"
                 placeholder="เช่น มันฝรั่งทอดกรอบ"
@@ -153,7 +168,9 @@
               />
             </v-col>
             <v-col cols="12" sm="6">
-              <div class="field-label mb-2">จำนวนตัวอย่าง <span class="req">*</span></div>
+              <div class="field-label mb-2">
+                จำนวนตัวอย่าง <span class="field-label-en">Quantity</span> <span class="req">*</span>
+              </div>
               <v-text-field
                 v-model="labRequestForm.sampleCount"
                 placeholder="เช่น 5 ตัวอย่าง"
@@ -161,7 +178,7 @@
               />
             </v-col>
             <v-col cols="12">
-              <div class="field-label mb-2">คำอธิบายสินค้า</div>
+              <div class="field-label mb-2">คำอธิบายสินค้า <span class="field-label-en">Description</span></div>
               <v-textarea
                 v-model="labRequestForm.productDesc"
                 placeholder="อธิบายรายละเอียดสินค้าที่ต้องการทดสอบ"
@@ -170,7 +187,7 @@
               />
             </v-col>
             <v-col cols="12">
-              <div class="field-label mb-2">หมายเหตุ</div>
+              <div class="field-label mb-2">หมายเหตุ <span class="field-label-en">Remarks</span></div>
               <v-textarea
                 v-model="labRequestForm.note"
                 placeholder="หมายเหตุเพิ่มเติม (ถ้ามี)"
@@ -194,7 +211,7 @@
         </v-btn>
         <v-spacer />
         <v-btn
-          color="warning"
+          color="hcex-user"
           size="large"
           prepend-icon="fas fa-paper-plane"
           @click="labRequestDialog = true"
@@ -237,14 +254,14 @@
             <v-card-title
               class="pa-4 pb-2 text-body-1 font-weight-bold d-flex align-center ga-2"
             >
-              <v-icon icon="fas fa-building" color="warning" size="16" />
+              <v-icon icon="fas fa-building" color="hcex-user" size="16" />
               ผู้ส่งออก (Exporter)
             </v-card-title>
             <v-card-text class="pa-4 pt-0">
               <v-row dense>
                 <v-col cols="12" sm="6">
                   <div class="field-label">
-                    ชื่อบริษัท <span class="req">*</span>
+                    ชื่อบริษัท <span class="field-label-en">Company Name</span> <span class="req">*</span>
                   </div>
                   <v-text-field
                     v-model="form.exporterName"
@@ -255,7 +272,7 @@
                 </v-col>
                 <v-col cols="12" sm="6">
                   <div class="field-label">
-                    ที่อยู่ <span class="req">*</span>
+                    ที่อยู่ <span class="field-label-en">Address</span> <span class="req">*</span>
                   </div>
                   <v-text-field
                     v-model="form.exporterAddress"
@@ -266,7 +283,7 @@
                 </v-col>
                 <v-col cols="12" sm="4">
                   <div class="field-label">
-                    ประเทศ <span class="req">*</span>
+                    ประเทศ <span class="field-label-en">Country</span> <span class="req">*</span>
                   </div>
                   <v-text-field
                     v-model="form.exporterCountry"
@@ -284,14 +301,14 @@
             <v-card-title
               class="pa-4 pb-2 text-body-1 font-weight-bold d-flex align-center ga-2"
             >
-              <v-icon icon="fas fa-user-tie" color="warning" size="16" />
+              <v-icon icon="fas fa-user-tie" color="hcex-user" size="16" />
               ผู้รับสินค้า (Consignee)
             </v-card-title>
             <v-card-text class="pa-4 pt-0">
               <v-row dense>
                 <v-col cols="12" sm="6">
                   <div class="field-label">
-                    ชื่อผู้รับสินค้า <span class="req">*</span>
+                    ชื่อผู้รับสินค้า <span class="field-label-en">Consignee Name</span> <span class="req">*</span>
                   </div>
                   <v-text-field
                     v-model="form.consigneeName"
@@ -302,7 +319,7 @@
                 </v-col>
                 <v-col cols="12" sm="6">
                   <div class="field-label">
-                    ที่อยู่ <span class="req">*</span>
+                    ที่อยู่ <span class="field-label-en">Address</span> <span class="req">*</span>
                   </div>
                   <v-text-field
                     v-model="form.consigneeAddress"
@@ -313,7 +330,7 @@
                 </v-col>
                 <v-col cols="12" sm="4">
                   <div class="field-label">
-                    ประเทศปลายทาง <span class="req">*</span>
+                    ประเทศปลายทาง <span class="field-label-en">Destination Country</span> <span class="req">*</span>
                   </div>
                   <v-autocomplete
                     v-model="form.destination"
@@ -332,14 +349,14 @@
             <v-card-title
               class="pa-4 pb-2 text-body-1 font-weight-bold d-flex align-center ga-2"
             >
-              <v-icon icon="fas fa-ship" color="warning" size="16" />
+              <v-icon icon="fas fa-ship" color="hcex-user" size="16" />
               ข้อมูลการขนส่ง
             </v-card-title>
             <v-card-text class="pa-4 pt-0">
               <v-row dense>
                 <v-col cols="12" sm="4">
                   <div class="field-label">
-                    วันที่ส่งสินค้า <span class="req">*</span>
+                    วันที่ส่งสินค้า <span class="field-label-en">Shipping Date</span> <span class="req">*</span>
                   </div>
                   <v-text-field
                     v-model="form.shipDate"
@@ -350,9 +367,9 @@
                 </v-col>
                 <v-col cols="12" sm="4">
                   <div class="field-label">
-                    วิธีการขนส่ง <span class="req">*</span>
+                    วิธีการขนส่ง <span class="field-label-en">Shipping Method</span> <span class="req">*</span>
                   </div>
-                  <v-select
+                  <v-autocomplete
                     v-model="form.shipMethod"
                     :items="shipMethods"
                     placeholder="เลือกวิธีการขนส่ง"
@@ -361,7 +378,7 @@
                   />
                 </v-col>
                 <v-col cols="12" sm="4">
-                  <div class="field-label">ท่าเรือ/สนามบินต้นทาง</div>
+                  <div class="field-label">ท่าเรือ/สนามบินต้นทาง <span class="field-label-en">Port/Airport of Loading</span></div>
                   <v-text-field
                     v-model="form.portOfLoading"
                     placeholder="เช่น ท่าเรือแหลมฉบัง"
@@ -378,11 +395,11 @@
               class="pa-4 pb-2 text-body-1 font-weight-bold d-flex align-center justify-space-between"
             >
               <div class="d-flex align-center ga-2">
-                <v-icon icon="fas fa-box" color="warning" size="16" />
+                <v-icon icon="fas fa-box" color="hcex-user" size="16" />
                 รายละเอียดสินค้า
               </div>
               <v-btn
-                color="warning"
+                color="hcex-user"
                 size="small"
                 variant="tonal"
                 prepend-icon="fas fa-plus"
@@ -397,7 +414,9 @@
                   <tr>
                     <th>Shipping Mark</th>
                     <th>Description of Goods <span class="req">*</span></th>
-                    <th style="width: 120px">Quantity <span class="req">*</span></th>
+                    <th style="width: 120px">
+                      Quantity <span class="req">*</span>
+                    </th>
                     <th style="width: 130px">Net Weight (kg)</th>
                     <th style="width: 130px">Total Amount</th>
                     <th style="width: 50px"></th>
@@ -470,12 +489,13 @@
             <v-card-title
               class="pa-4 pb-2 text-body-1 font-weight-bold d-flex align-center ga-2"
             >
-              <v-icon icon="fas fa-flask-vial" color="warning" size="16" />
+              <v-icon icon="fas fa-flask-vial" color="hcex-user" size="16" />
               เลือกผล Lab ที่ผ่านการพิจารณาแล้ว
             </v-card-title>
             <v-card-text class="pa-4 pt-0">
               <p class="text-body-2 text-medium-emphasis mb-4">
-                เลือกผลการทดสอบ Lab ที่เกี่ยวข้องกับคำขอนี้ (สามารถเลือกได้หลายรายการ)
+                เลือกผลการทดสอบ Lab ที่เกี่ยวข้องกับคำขอนี้
+                (สามารถเลือกได้หลายรายการ)
               </p>
               <v-table hover>
                 <thead>
@@ -499,13 +519,15 @@
                     <td>
                       <v-checkbox
                         :model-value="selectedLabs.includes(lab.id)"
-                        color="warning"
+                        color="hcex-user"
                         hide-details
                         density="compact"
                         @click.stop="toggleLab(lab.id)"
                       />
                     </td>
-                    <td class="text-body-2 font-weight-medium text-warning">{{ lab.labNo }}</td>
+                    <td class="text-body-2 font-weight-medium text-hcex-user">
+                      {{ lab.labNo }}
+                    </td>
                     <td>{{ lab.productType }}</td>
                     <td>{{ lab.testDate }}</td>
                     <td>
@@ -515,13 +537,20 @@
                       </v-chip>
                     </td>
                     <td>
-                      <v-chip size="x-small" color="warning" variant="tonal">ผ่านการพิจารณา</v-chip>
+                      <v-chip size="x-small" color="hcex-user" variant="tonal"
+                        >ผ่านการพิจารณา</v-chip
+                      >
                     </td>
                   </tr>
                 </tbody>
               </v-table>
               <div v-if="selectedLabs.length === 0" class="mt-3">
-                <v-alert color="warning" variant="tonal" density="compact" prepend-icon="fas fa-triangle-exclamation">
+                <v-alert
+                  color="hcex-user"
+                  variant="tonal"
+                  density="compact"
+                  prepend-icon="fas fa-triangle-exclamation"
+                >
                   กรุณาเลือกผล Lab อย่างน้อย 1 รายการ
                 </v-alert>
               </div>
@@ -561,7 +590,7 @@
           </v-btn>
           <v-btn
             v-if="currentStep < formSteps.length - 1"
-            color="warning"
+            color="hcex-user"
             size="large"
             append-icon="fas fa-chevron-right"
             type="submit"
@@ -570,7 +599,7 @@
           </v-btn>
           <v-btn
             v-else
-            color="warning"
+            color="hcex-user"
             size="large"
             prepend-icon="fas fa-paper-plane"
             :loading="submitting"
@@ -587,11 +616,14 @@
     <v-dialog v-model="labRequestDialog" max-width="420" persistent>
       <v-card rounded="xl">
         <v-card-text class="pa-8 text-center">
-          <div class="success-ring mx-auto mb-5" style="background: rgba(var(--v-theme-warning), 0.1);">
-            <v-icon icon="fas fa-circle-check" size="40" color="warning" />
+          <div
+            class="success-ring mx-auto mb-5"
+            style="background: rgba(var(--v-theme-hcex-user), 0.1)"
+          >
+            <v-icon icon="fas fa-circle-check" size="40" color="hcex-user" />
           </div>
           <h3 class="text-h6 font-weight-bold mb-2">ส่งคำขอผล Lab สำเร็จ!</h3>
-          <p class="text-body-2 font-weight-bold text-warning mb-1">
+          <p class="text-body-2 font-weight-bold text-hcex-user mb-1">
             LAB-REQ-2568-{{ Math.floor(Math.random() * 900 + 100) }}
           </p>
           <p class="text-body-2 text-medium-emphasis mb-0">
@@ -600,7 +632,7 @@
         </v-card-text>
         <v-card-actions class="px-6 pb-6">
           <v-btn
-            color="warning"
+            color="hcex-user"
             rounded="lg"
             block
             @click="router.push('/hcex/user/dashboard')"
@@ -619,7 +651,7 @@
             <v-icon icon="fas fa-circle-check" size="40" color="success" />
           </div>
           <h3 class="text-h6 font-weight-bold mb-2">ยื่นคำขอสำเร็จ!</h3>
-          <p class="text-body-2 font-weight-bold text-warning mb-1">
+          <p class="text-body-2 font-weight-bold text-hcex-user mb-1">
             {{ newRequestNo }}
           </p>
           <p class="text-body-2 text-medium-emphasis mb-0">
@@ -636,7 +668,7 @@
             >ดูรายการคำขอ</v-btn
           >
           <v-btn
-            color="warning"
+            color="hcex-user"
             rounded="lg"
             block
             @click="router.push('/hcex/user/applications')"
@@ -669,31 +701,36 @@ const certTypes = [
     value: "kmp1",
     label: "กมพ.1",
     desc: "ใบรับรองสุขอนามัยสำหรับสินค้าแปรรูปด้านพืชทั่วไป",
-    icon: "fas fa-file-certificate",
+    icon: "fas fa-file-circle-check",
+    color: "hcex-user",
   },
   {
     value: "kmp1-1",
     label: "กมพ.1-1",
     desc: "ใบรับรองสุขอนามัยสำหรับผลิตภัณฑ์แป้งและธัญพืชแปรรูป",
     icon: "fas fa-wheat-awn",
+    color: "warning",
   },
   {
     value: "kmp1-2",
     label: "กมพ.1-2",
     desc: "ใบรับรองสำหรับผลิตภัณฑ์ผักและผลไม้แปรรูป",
     icon: "fas fa-jar",
+    color: "success",
   },
   {
     value: "kmp1-3",
     label: "กมพ.1-3",
     desc: "ใบรับรองสำหรับเครื่องเทศและสมุนไพรแปรรูป",
     icon: "fas fa-mortar-pestle",
+    color: "hc-staff",
   },
   {
     value: "correction",
     label: "แก้ไขใบรับรอง",
     desc: "ยื่นคำขอแก้ไขข้อมูลในใบรับรองที่ออกแล้ว",
     icon: "fas fa-file-pen",
+    color: "info",
   },
 ];
 
@@ -713,7 +750,13 @@ const form = reactive({
   shipMethod: "",
   portOfLoading: "",
   products: [
-    { shippingMark: "", description: "", quantity: "", netWeight: "", totalAmount: "" },
+    {
+      shippingMark: "",
+      description: "",
+      quantity: "",
+      netWeight: "",
+      totalAmount: "",
+    },
   ],
 });
 
@@ -727,8 +770,16 @@ const labRequestForm = reactive({
 const shipMethods = ["ทางเรือ", "ทางอากาศ", "ทางบก"];
 
 const countries = [
-  "จีน", "ญี่ปุ่น", "เกาหลีใต้", "สิงคโปร์", "ฮ่องกง",
-  "เวียดนาม", "มาเลเซีย", "สหรัฐอเมริกา", "สหภาพยุโรป", "ออสเตรเลีย",
+  "จีน",
+  "ญี่ปุ่น",
+  "เกาหลีใต้",
+  "สิงคโปร์",
+  "ฮ่องกง",
+  "เวียดนาม",
+  "มาเลเซีย",
+  "สหรัฐอเมริกา",
+  "สหภาพยุโรป",
+  "ออสเตรเลีย",
 ];
 
 const labResults = [
@@ -838,9 +889,9 @@ async function handleSubmit() {
   color: white;
 }
 .step-item--active .step-dot {
-  background: rgb(var(--v-theme-warning));
+  background: rgb(var(--v-theme-hcex-user));
   color: white;
-  box-shadow: 0 0 0 4px rgba(var(--v-theme-warning), 0.2);
+  box-shadow: 0 0 0 4px rgba(var(--v-theme-hcex-user), 0.2);
 }
 .step-item--pending .step-dot {
   background: rgba(var(--v-theme-on-surface), 0.1);
@@ -854,7 +905,7 @@ async function handleSubmit() {
   line-height: 1.3;
 }
 .step-item--active .step-label {
-  color: rgb(var(--v-theme-warning));
+  color: rgb(var(--v-theme-hcex-user));
   font-weight: 600;
 }
 .step-item--done .step-label {
@@ -905,7 +956,9 @@ async function handleSubmit() {
 
 /* Lab Option Card */
 .lab-option-card {
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
 }
 .lab-option-card:hover {
   transform: translateY(-3px);
@@ -923,7 +976,7 @@ async function handleSubmit() {
   width: 72px;
   height: 72px;
   border-radius: 50%;
-  background: rgba(var(--v-theme-warning), 0.1);
+  background: rgba(var(--v-theme-hcex-user), 0.1);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -936,13 +989,14 @@ async function handleSubmit() {
   color: rgba(var(--v-theme-on-surface), 0.75);
   margin-bottom: 6px;
 }
+.field-label-en { font-size: 11px; font-weight: 400; color: rgba(var(--v-theme-on-surface), 0.4); margin-left: 4px; }
 .req {
   color: rgb(var(--v-theme-error));
 }
 
 /* Selected row */
 .selected-row {
-  background: rgba(var(--v-theme-warning), 0.06);
+  background: rgba(var(--v-theme-hcex-user), 0.06);
 }
 
 /* Success */

@@ -20,19 +20,15 @@
 
     <!-- Stats -->
     <v-row class="mb-6">
-      <v-col
-        v-for="stat in stats"
-        :key="stat.label"
-        cols="12"
-        sm="6"
-        md="3"
-      >
+      <v-col v-for="stat in stats" :key="stat.label" cols="12" sm="6" md="3">
         <v-card rounded="xl" elevation="0" class="stat-card h-100">
           <v-card-text class="pa-5">
             <div class="d-flex align-center justify-space-between mb-3">
               <div
                 class="stat-icon-box rounded-xl"
-                :style="{ background: `rgba(var(--v-theme-${stat.color}), 0.1)` }"
+                :style="{
+                  background: `rgba(var(--v-theme-${stat.color}), 0.1)`,
+                }"
               >
                 <v-icon :icon="stat.icon" :color="stat.color" size="20" />
               </div>
@@ -48,7 +44,9 @@
       <!-- Recent Applications -->
       <v-col cols="12" md="8">
         <v-card rounded="xl" elevation="0" class="h-100">
-          <v-card-title class="pa-5 pb-0 d-flex align-center justify-space-between">
+          <v-card-title
+            class="pa-5 pb-0 d-flex align-center justify-space-between"
+          >
             <span class="text-body-1 font-weight-bold">คำขอล่าสุด</span>
             <v-btn
               variant="text"
@@ -94,7 +92,9 @@
                   >
                     {{ statusLabel(app.status) }}
                   </v-chip>
-                  <span class="text-caption text-medium-emphasis">{{ app.submittedDate }}</span>
+                  <span class="text-caption text-medium-emphasis">{{
+                    app.submittedDate
+                  }}</span>
                 </div>
               </template>
             </v-list-item>
@@ -152,10 +152,30 @@ import { useRouter } from "vue-router";
 const router = useRouter();
 
 const stats = [
-  { label: "คำขอทั้งหมด", value: 3, icon: "fas fa-file-lines", color: "el-user" },
-  { label: "อยู่ระหว่างตรวจสอบ", value: 1, icon: "fas fa-magnifying-glass", color: "el-user" },
-  { label: "อนุมัติแล้ว", value: 1, icon: "fas fa-circle-check", color: "success" },
-  { label: "รอแก้ไข", value: 1, icon: "fas fa-triangle-exclamation", color: "warning" },
+  {
+    label: "คำขอทั้งหมด",
+    value: 3,
+    icon: "fas fa-file-lines",
+    color: "el-user",
+  },
+  {
+    label: "อยู่ระหว่างตรวจสอบ",
+    value: 1,
+    icon: "fas fa-magnifying-glass",
+    color: "info",
+  },
+  {
+    label: "อนุมัติแล้ว",
+    value: 1,
+    icon: "fas fa-circle-check",
+    color: "success",
+  },
+  {
+    label: "รอแก้ไข",
+    value: 1,
+    icon: "fas fa-triangle-exclamation",
+    color: "warning",
+  },
 ];
 
 const recentApplications = [

@@ -10,7 +10,7 @@
         <v-row dense>
           <v-col cols="12" sm="2">
             <div class="field-label">คำนำหน้า <span class="req">*</span></div>
-            <v-select v-model="form.namePrefix" :items="['นาย', 'นาง', 'นางสาว', 'เด็กชาย', 'เด็กหญิง']" hide-details="auto" />
+            <v-autocomplete v-model="form.namePrefix" :items="['นาย', 'นาง', 'นางสาว', 'เด็กชาย', 'เด็กหญิง']" hide-details="auto" />
           </v-col>
           <v-col cols="12" sm="5">
             <div class="field-label">ชื่อ <span class="req">*</span></div>
@@ -72,18 +72,18 @@
           </v-col>
           <v-col cols="12" sm="4">
             <div class="field-label">จังหวัด <span class="req">*</span></div>
-            <v-select v-model="form.province" :items="provinces"
+            <v-autocomplete v-model="form.province" :items="provinces"
               prepend-inner-icon="fas fa-map" :rules="[rules.required]" hide-details="auto" />
           </v-col>
           <v-col cols="12" sm="4">
             <div class="field-label">อำเภอ / เขต <span class="req">*</span></div>
-            <v-select v-model="form.district"
+            <v-autocomplete v-model="form.district"
               :items="['อำเภอเมือง', 'อำเภอปากช่อง', 'อำเภอโชคชัย', 'อำเภอสีคิ้ว']"
               prepend-inner-icon="fas fa-city" hide-details="auto" />
           </v-col>
           <v-col cols="12" sm="4">
             <div class="field-label">ตำบล / แขวง <span class="req">*</span></div>
-            <v-select v-model="form.subDistrict"
+            <v-autocomplete v-model="form.subDistrict"
               :items="['ตำบลในเมือง', 'ตำบลโพธิ์กลาง', 'ตำบลหนองไข่น้ำ']"
               prepend-inner-icon="fas fa-map-pin" hide-details="auto" />
           </v-col>
@@ -101,7 +101,7 @@
         <v-row dense>
           <v-col cols="12" sm="6">
             <div class="field-label">ชนิดพืช <span class="req">*</span></div>
-            <v-select v-model="form.cropTypes" :items="cropTypes"
+            <v-autocomplete v-model="form.cropTypes" :items="cropTypes"
               prepend-inner-icon="fas fa-seedling"
               multiple chips closable-chips :rules="[rules.required]" hide-details="auto" />
           </v-col>

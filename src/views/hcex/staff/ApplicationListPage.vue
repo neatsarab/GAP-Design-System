@@ -15,27 +15,27 @@
       <v-card-text class="pa-4">
         <v-row dense>
           <v-col cols="12" sm="4">
+            <div class="field-label mb-1">ค้นหา <span class="field-label-en">Search</span></div>
             <v-text-field
               v-model="search"
-              label="ค้นหาเลขคำขอ / ผู้ประกอบการ"
               prepend-inner-icon="fas fa-search"
               clearable
               hide-details
             />
           </v-col>
           <v-col cols="6" sm="3">
-            <v-select
+            <div class="field-label mb-1">ประเภทคำขอ <span class="field-label-en">Request Type</span></div>
+            <v-autocomplete
               v-model="filterType"
-              label="ประเภทคำขอ"
               :items="typeOptions"
               hide-details
               clearable
             />
           </v-col>
           <v-col cols="6" sm="3">
-            <v-select
+            <div class="field-label mb-1">สถานะ <span class="field-label-en">Status</span></div>
+            <v-autocomplete
               v-model="filterStatus"
-              label="สถานะ"
               :items="statusOptions"
               item-title="label"
               item-value="value"
@@ -43,7 +43,7 @@
               clearable
             />
           </v-col>
-          <v-col cols="auto" class="d-flex align-self-center">
+          <v-col cols="auto" class="ml-auto d-flex align-self-center">
             <v-btn
               variant="tonal"
               color="grey"
@@ -358,3 +358,8 @@ function getStatusLabel(s: string) {
   return m[s] ?? s;
 }
 </script>
+
+<style scoped>
+.field-label { font-size: 12px; font-weight: 600; color: rgba(var(--v-theme-on-surface), 0.75); }
+.field-label-en { font-size: 11px; font-weight: 400; color: rgba(var(--v-theme-on-surface), 0.4); margin-left: 4px; }
+</style>

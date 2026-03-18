@@ -31,36 +31,21 @@
       </div>
     </div>
 
-    <!-- Workflow Stepper -->
+    <!-- Step Bar -->
     <v-card class="mb-5 pa-4">
-      <div class="workflow-stepper">
-        <div
-          v-for="(step, idx) in workflowSteps"
-          :key="step.key"
-          class="wf-step"
-          :class="{
-            'wf-step--done':   isStepDone(idx),
-            'wf-step--active': isStepActive(idx),
-            'wf-step--pending': !isStepDone(idx) && !isStepActive(idx),
-          }"
-        >
-          <div class="wf-dot">
-            <v-icon v-if="isStepDone(idx)" icon="fas fa-check" size="12" />
-            <span v-else class="wf-num">{{ idx + 1 }}</span>
+      <div class="step-bar">
+        <div v-for="(s, i) in workflowSteps" :key="s.key" class="d-flex align-center" :class="{ 'flex-grow-1': i < workflowSteps.length - 1 }">
+          <div class="step-node" :class="stepClass(i)">
+            <v-icon v-if="currentStepIdx > i" icon="fas fa-check" size="12" />
+            <span v-else class="step-num">{{ i + 1 }}</span>
           </div>
-          <div class="wf-label text-caption">{{ step.label }}</div>
-          <div v-if="idx < workflowSteps.length - 1" class="wf-line" />
+          <div class="step-label-col">
+            <div class="step-label" :class="{ 'step-label--active': currentStepIdx === i }">{{ s.label }}</div>
+          </div>
+          <div v-if="i < workflowSteps.length - 1" class="step-line" :class="{ 'step-line--done': currentStepIdx > i }" />
         </div>
       </div>
     </v-card>
-
-    <!-- Step Content -->
-    <v-tabs v-model="activeStep" color="hc-staff" class="mb-4">
-      <v-tab v-for="step in workflowSteps" :key="step.key" :value="step.key">
-        <v-icon start :icon="step.icon" size="14" />
-        {{ step.label }}
-      </v-tab>
-    </v-tabs>
 
     <v-window v-model="activeStep">
 
@@ -75,10 +60,10 @@
               </v-card-title>
               <v-card-text class="pa-4 pt-0">
                 <div class="info-grid">
-                  <div class="info-item"><span class="label">ชื่อผู้ส่งออก</span><span class="value">{{ app.exporter }}</span></div>
-                  <div class="info-item"><span class="label">ที่อยู่</span><span class="value">{{ app.exporterAddress }}</span></div>
-                  <div class="info-item"><span class="label">จังหวัด</span><span class="value">{{ app.exporterProvince }}</span></div>
-                  <div class="info-item"><span class="label">โทรศัพท์</span><span class="value">{{ app.exporterPhone }}</span></div>
+                  <div class="info-item"><span class="info-label">ชื่อผู้ส่งออก</span><span class="info-value">{{ app.exporter }}</span></div>
+                  <div class="info-item"><span class="info-label">ที่อยู่</span><span class="info-value">{{ app.exporterAddress }}</span></div>
+                  <div class="info-item"><span class="info-label">จังหวัด</span><span class="info-value">{{ app.exporterProvince }}</span></div>
+                  <div class="info-item"><span class="info-label">โทรศัพท์</span><span class="info-value">{{ app.exporterPhone }}</span></div>
                 </div>
               </v-card-text>
             </v-card>
@@ -90,9 +75,9 @@
               </v-card-title>
               <v-card-text class="pa-4 pt-0">
                 <div class="info-grid">
-                  <div class="info-item"><span class="label">รหัสโรงคัดบรรจุ</span><span class="value">{{ app.packingHouseCode }}</span></div>
-                  <div class="info-item"><span class="label">ชื่อโรงคัดบรรจุ</span><span class="value">{{ app.packingHouseName }}</span></div>
-                  <div class="info-item"><span class="label">จังหวัด</span><span class="value">{{ app.packingHouseProvince }}</span></div>
+                  <div class="info-item"><span class="info-label">รหัสโรงคัดบรรจุ</span><span class="info-value">{{ app.packingHouseCode }}</span></div>
+                  <div class="info-item"><span class="info-label">ชื่อโรงคัดบรรจุ</span><span class="info-value">{{ app.packingHouseName }}</span></div>
+                  <div class="info-item"><span class="info-label">จังหวัด</span><span class="info-value">{{ app.packingHouseProvince }}</span></div>
                 </div>
               </v-card-text>
             </v-card>
@@ -106,9 +91,9 @@
               </v-card-title>
               <v-card-text class="pa-4 pt-0">
                 <div class="info-grid">
-                  <div class="info-item"><span class="label">ชื่อผู้รับสินค้า</span><span class="value">{{ app.consignee }}</span></div>
-                  <div class="info-item"><span class="label">ที่อยู่</span><span class="value">{{ app.consigneeAddress }}</span></div>
-                  <div class="info-item"><span class="label">ประเทศ</span><span class="value">{{ app.destination }}</span></div>
+                  <div class="info-item"><span class="info-label">ชื่อผู้รับสินค้า</span><span class="info-value">{{ app.consignee }}</span></div>
+                  <div class="info-item"><span class="info-label">ที่อยู่</span><span class="info-value">{{ app.consigneeAddress }}</span></div>
+                  <div class="info-item"><span class="info-label">ประเทศ</span><span class="info-value">{{ app.destination }}</span></div>
                 </div>
               </v-card-text>
             </v-card>
@@ -146,7 +131,7 @@
         <v-card v-if="app.status === 'under_review'" class="mt-4">
           <v-card-title class="pa-4 pb-2 text-body-1 font-weight-bold">ผลการตรวจสอบคำขอ</v-card-title>
           <v-card-text class="pa-4 pt-0">
-            <div class="text-body-2 font-weight-medium mb-1">หมายเหตุ / เหตุผล</div>
+            <div class="field-label mb-1">หมายเหตุ / เหตุผล <span class="field-label-en">Remarks / Reason</span></div>
             <v-textarea v-model="reviewNote" rows="3" class="mb-3" />
             <div class="d-flex ga-3 flex-wrap">
               <v-btn color="success" prepend-icon="fas fa-circle-check" @click="updateStatus('testing')">
@@ -190,7 +175,7 @@
                   <td>{{ app.labSentAt }}</td>
                   <td>{{ app.labResultAt }}</td>
                   <td>
-                    <v-select
+                    <v-autocomplete
                       :items="labResultOptions"
                       item-title="label"
                       item-value="value"
@@ -204,7 +189,7 @@
               </tbody>
             </v-table>
 
-            <div class="text-body-2 font-weight-medium mb-1">หมายเหตุผลตรวจ</div>
+            <div class="field-label mb-1">หมายเหตุผลตรวจ <span class="field-label-en">Lab Remarks</span></div>
             <v-textarea v-model="labNote" rows="3" class="mb-3" />
 
             <div class="d-flex ga-3" v-if="app.status === 'testing'">
@@ -238,12 +223,12 @@
                   </div>
                   <v-divider class="mb-3" />
                   <div class="info-grid">
-                    <div class="info-item"><span class="label">เลขใบรับรอง</span><span class="value text-info font-weight-bold">HC-{{ app.requestNo }}</span></div>
-                    <div class="info-item"><span class="label">ผู้ส่งออก</span><span class="value">{{ app.exporter }}</span></div>
-                    <div class="info-item"><span class="label">ผู้รับสินค้า</span><span class="value">{{ app.consignee }}</span></div>
-                    <div class="info-item"><span class="label">สินค้า</span><span class="value">{{ app.product }}</span></div>
-                    <div class="info-item"><span class="label">ประเทศปลายทาง</span><span class="value">{{ app.destination }}</span></div>
-                    <div class="info-item"><span class="label">วันที่ออก</span><span class="value">15 มกราคม 2568</span></div>
+                    <div class="info-item"><span class="info-label">เลขใบรับรอง</span><span class="info-value text-info font-weight-bold">HC-{{ app.requestNo }}</span></div>
+                    <div class="info-item"><span class="info-label">ผู้ส่งออก</span><span class="info-value">{{ app.exporter }}</span></div>
+                    <div class="info-item"><span class="info-label">ผู้รับสินค้า</span><span class="info-value">{{ app.consignee }}</span></div>
+                    <div class="info-item"><span class="info-label">สินค้า</span><span class="info-value">{{ app.product }}</span></div>
+                    <div class="info-item"><span class="info-label">ประเทศปลายทาง</span><span class="info-value">{{ app.destination }}</span></div>
+                    <div class="info-item"><span class="info-label">วันที่ออก</span><span class="info-value">15 มกราคม 2568</span></div>
                   </div>
                 </div>
               </v-card-text>
@@ -254,7 +239,7 @@
             <v-card>
               <v-card-title class="pa-4 pb-2 text-body-1 font-weight-bold">พิจารณาผล</v-card-title>
               <v-card-text class="pa-4 pt-0">
-                <div class="text-body-2 font-weight-medium mb-1">หมายเหตุ / เหตุผล</div>
+                <div class="field-label mb-1">หมายเหตุ / เหตุผล <span class="field-label-en">Remarks / Reason</span></div>
                 <v-textarea v-model="approvalNote" rows="4" class="mb-4" />
                 <div v-if="app.status === 'pending_approval'" class="d-flex flex-column ga-2">
                   <v-btn color="success" prepend-icon="fas fa-circle-check" block @click="updateStatus('approved')">
@@ -294,11 +279,11 @@
               </div>
               <v-row class="mb-4">
                 <v-col cols="12" sm="6">
-                  <div class="text-body-2 font-weight-medium mb-1">ชื่อผู้ลงนาม</div>
+                  <div class="field-label mb-1">ชื่อผู้ลงนาม <span class="field-label-en">Signatory Name</span></div>
                   <v-text-field value="นายสมพงศ์ วิชาการเกษตร" readonly />
                 </v-col>
                 <v-col cols="12" sm="6">
-                  <div class="text-body-2 font-weight-medium mb-1">ตำแหน่ง</div>
+                  <div class="field-label mb-1">ตำแหน่ง <span class="field-label-en">Position</span></div>
                   <v-text-field value="ผู้อำนวยการกอง" readonly />
                 </v-col>
               </v-row>
@@ -408,6 +393,12 @@ function isStepActive(stepIdx: number) {
   return currentStepIdx.value === stepIdx
 }
 
+function stepClass(i: number) {
+  if (currentStepIdx.value > i) return 'step-node--done'
+  if (currentStepIdx.value === i) return 'step-node--active'
+  return ''
+}
+
 const activeStep = ref(workflowSteps[Math.min(currentStepIdx.value, workflowSteps.length - 1)].key)
 
 function updateStatus(newStatus: string) {
@@ -437,64 +428,23 @@ function getStatusLabel(s: string) {
 </script>
 
 <style scoped>
-/* Workflow Stepper */
-.workflow-stepper {
-  display: flex;
-  align-items: flex-start;
-  gap: 0;
-  overflow-x: auto;
-}
-.wf-step {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  flex: 1;
-  position: relative;
-  min-width: 80px;
-}
-.wf-dot {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  font-weight: 700;
-  z-index: 1;
-  flex-shrink: 0;
-}
-.wf-step--done   .wf-dot { background: rgb(var(--v-theme-success)); color: white; }
-.wf-step--active .wf-dot { background: rgb(var(--v-theme-hc-staff));    color: white; box-shadow: 0 0 0 4px rgba(var(--v-theme-hc-staff),0.2); }
-.wf-step--pending .wf-dot { background: rgba(var(--v-theme-on-surface),0.1); color: rgba(var(--v-theme-on-surface),0.4); }
-
-.wf-num { font-size: 12px; }
-.wf-label {
-  margin-top: 8px;
-  text-align: center;
-  font-size: 11px;
-  color: rgba(var(--v-theme-on-surface), 0.7);
-  line-height: 1.3;
-}
-.wf-step--active .wf-label { color: rgb(var(--v-theme-hc-staff)); font-weight: 600; }
-.wf-step--done   .wf-label { color: rgb(var(--v-theme-success)); }
-
-.wf-line {
-  position: absolute;
-  top: 16px;
-  left: 50%;
-  width: 100%;
-  height: 2px;
-  background: rgba(var(--v-theme-on-surface), 0.12);
-  z-index: 0;
-}
-.wf-step--done .wf-line { background: rgba(var(--v-theme-success), 0.5); }
+/* Step Bar */
+.step-bar { display: flex; align-items: flex-start; }
+.step-node { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; transition: all 0.2s; border: 2px solid rgba(var(--v-border-color), var(--v-border-opacity)); background: rgb(var(--v-theme-surface)); color: rgba(var(--v-theme-on-surface), 0.4); }
+.step-node--active { border-color: rgb(var(--v-theme-primary)); color: rgb(var(--v-theme-primary)); }
+.step-node--done { background: rgb(var(--v-theme-primary)); border-color: rgb(var(--v-theme-primary)); color: white; }
+.step-line { flex: 1; height: 2px; background: rgba(var(--v-border-color), var(--v-border-opacity)); margin: 0 8px; margin-top: 14px; align-self: flex-start; }
+.step-line--done { background: rgb(var(--v-theme-primary)); }
+.step-label-col { display: flex; flex-direction: column; align-items: center; }
+.step-label { font-size: 11px; color: rgba(var(--v-theme-on-surface), 0.5); margin-top: 4px; text-align: center; max-width: 80px; }
+.step-label--active { color: rgb(var(--v-theme-primary)); font-weight: 600; }
+.step-num { font-size: 12px; }
 
 /* Info Grid */
-.info-grid { display: flex; flex-direction: column; gap: 10px; }
+.info-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
 .info-item { display: flex; flex-direction: column; gap: 2px; }
-.info-item .label { font-size: 11px; color: rgba(var(--v-theme-on-surface), 0.5); font-weight: 600; text-transform: uppercase; letter-spacing: 0.4px; }
-.info-item .value { font-size: 13.5px; font-weight: 500; }
+.info-label { font-size: 12px; font-weight: 600; color: rgba(var(--v-theme-on-surface), 0.55); text-transform: uppercase; letter-spacing: 0.4px; }
+.info-value { font-size: 14px; color: rgba(var(--v-theme-on-surface), 0.87); }
 
 /* Cert Draft */
 .cert-draft {
@@ -504,6 +454,10 @@ function getStatusLabel(s: string) {
   background: rgba(var(--v-theme-surface-variant), 0.3);
 }
 .cert-draft-header { padding-bottom: 12px; }
+
+/* Field Labels */
+.field-label { font-size: 12px; font-weight: 600; color: rgba(var(--v-theme-on-surface), 0.75); }
+.field-label-en { font-size: 11px; font-weight: 400; color: rgba(var(--v-theme-on-surface), 0.4); margin-left: 4px; }
 
 /* Sign Box */
 .sign-box {

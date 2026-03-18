@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="--v-theme-primary: var(--v-theme-el-user)">
     <!-- ── Sidebar ── -->
     <v-navigation-drawer
       v-model="drawer"
@@ -83,7 +83,7 @@
             prepend-icon="fas fa-arrow-left"
             title="กลับหน้า Portal"
             rounded="lg"
-            @click="router.push('/portal')"
+            @click="router.push('/portal?mode=user')"
           />
           <v-list-item
             prepend-icon="fas fa-right-from-bracket"
@@ -235,17 +235,6 @@ const navGroups = [
         title: "รายการคำขอ",
         icon: "fas fa-file-lines",
         to: "/el/user/applications",
-      },
-    ],
-  },
-  {
-    label: "ข้อมูล",
-    divider: false,
-    items: [
-      {
-        title: "ข้อมูลโรงคัดบรรจุ",
-        icon: "fas fa-warehouse",
-        to: "/el/user/registry",
       },
     ],
   },

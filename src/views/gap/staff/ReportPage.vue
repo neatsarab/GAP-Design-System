@@ -41,15 +41,15 @@
           </v-col>
           <v-col cols="12" sm="4">
             <div class="text-body-2 font-weight-medium mb-1">รูปแบบไฟล์</div>
-            <v-select v-model="reportForm.format" :items="['PDF', 'Excel (.xlsx)', 'CSV']" />
+            <v-autocomplete v-model="reportForm.format" :items="['PDF', 'Excel (.xlsx)', 'CSV']" />
           </v-col>
           <v-col v-if="selectedReport.hasStatusFilter" cols="12" sm="4">
             <div class="text-body-2 font-weight-medium mb-1">สถานะ</div>
-            <v-select v-model="reportForm.status" :items="statusOptions" item-title="label" item-value="value" clearable />
+            <v-autocomplete v-model="reportForm.status" :items="statusOptions" item-title="label" item-value="value" clearable />
           </v-col>
           <v-col v-if="selectedReport.hasProvinceFilter" cols="12" sm="4">
             <div class="text-body-2 font-weight-medium mb-1">จังหวัด</div>
-            <v-select v-model="reportForm.province" :items="provinces" clearable />
+            <v-autocomplete v-model="reportForm.province" :items="provinces" clearable />
           </v-col>
         </v-row>
       </v-card-text>

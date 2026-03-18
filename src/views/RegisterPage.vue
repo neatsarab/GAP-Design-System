@@ -1,30 +1,22 @@
 <template>
-  <div class="login-root" :class="{ 'is-dark': themeStore.isDark }">
+  <div class="reg-root" :class="{ 'is-dark': themeStore.isDark }">
 
-    <!-- Left panel — branding (same as login) -->
-    <div class="login-left d-none d-md-flex">
-      <div class="login-left-inner">
-        <div class="brand-logo mb-8">
-          <div class="brand-icon-ring">
-            <v-icon icon="fas fa-leaf" size="36" color="white" />
-          </div>
+    <!-- ═══ Left Panel ═══ -->
+    <div class="reg-left d-none d-md-flex">
+      <div class="reg-left-inner">
+        <div class="brand-ring mb-8">
+          <v-icon icon="fas fa-leaf" size="36" color="white" />
         </div>
-        <h1 class="text-h4 font-weight-bold text-white mb-3" style="line-height:1.2">
-          กรมวิชาการเกษตร
-        </h1>
+        <h1 class="text-h4 font-weight-bold text-white mb-2" style="line-height:1.2">กรมวิชาการเกษตร</h1>
         <p class="text-body-1 mb-1" style="color:rgba(255,255,255,0.75)">Department of Agriculture</p>
-        <p class="text-body-2 mb-10" style="color:rgba(255,255,255,0.55)">กระทรวงเกษตรและสหกรณ์</p>
-
+        <p class="text-body-2 mb-10" style="color:rgba(255,255,255,0.5)">กระทรวงเกษตรและสหกรณ์</p>
         <div class="feature-list">
           <div v-for="f in features" :key="f.text" class="feature-item">
-            <div class="feature-icon">
-              <v-icon :icon="f.icon" size="15" color="white" />
-            </div>
+            <div class="feature-icon-box"><v-icon :icon="f.icon" size="15" color="white" /></div>
             <span class="text-body-2" style="color:rgba(255,255,255,0.85)">{{ f.text }}</span>
           </div>
         </div>
-
-        <div class="login-left-footer">
+        <div class="reg-left-footer">
           <v-chip size="small" color="white" variant="outlined" style="color:rgba(255,255,255,0.7)">
             <v-icon start icon="fas fa-shield-halved" size="12" />
             ระบบมาตรฐาน SSL/TLS ปลอดภัย
@@ -33,257 +25,284 @@
       </div>
     </div>
 
-    <!-- Right panel — register form -->
-    <div class="login-right d-flex align-center justify-center">
-      <div class="login-form-wrapper">
+    <!-- ═══ Right Panel ═══ -->
+    <div class="reg-right">
+      <div class="reg-form-wrapper">
 
-        <!-- Mobile brand -->
-        <div class="d-flex d-md-none align-center ga-3 mb-8">
-          <div class="brand-icon-ring-sm">
-            <v-icon icon="fas fa-leaf" size="20" color="white" />
+        <!-- Top bar -->
+        <div class="d-flex align-center justify-space-between mb-6">
+          <div class="d-flex d-md-none align-center ga-2">
+            <div class="brand-ring-sm">
+              <v-icon icon="fas fa-leaf" size="18" color="white" />
+            </div>
+            <div>
+              <div class="text-body-2 font-weight-bold text-primary" style="line-height:1.2">กรมวิชาการเกษตร</div>
+              <div class="text-caption text-medium-emphasis">ระบบบริการออนไลน์</div>
+            </div>
           </div>
-          <div>
-            <div class="text-body-1 font-weight-bold text-primary" style="line-height:1.2">กรมวิชาการเกษตร</div>
-            <div class="text-caption text-medium-emphasis">ระบบบริการออนไลน์</div>
-          </div>
+          <div class="d-none d-md-block" />
+          <v-btn variant="tonal" size="small"
+            :prepend-icon="themeStore.isDark ? 'fas fa-sun' : 'fas fa-moon'"
+            @click="themeStore.toggle()">
+            {{ themeStore.isDark ? 'โหมดสว่าง' : 'โหมดมืด' }}
+          </v-btn>
         </div>
 
         <!-- Heading -->
         <div class="mb-6">
-          <h2 class="text-h5 font-weight-bold mb-1">สมัครสมาชิก</h2>
+          <h2 class="text-h5 font-weight-bold mb-1">ลงทะเบียนผู้ใช้งานใหม่</h2>
           <p class="text-body-2 text-medium-emphasis mb-0">
             สร้างบัญชีเพื่อเข้าใช้งานระบบบริการออนไลน์ กรมวิชาการเกษตร
           </p>
         </div>
 
-        <!-- Step indicator -->
-        <div class="step-indicator mb-6">
-          <div
-            v-for="(step, idx) in steps"
-            :key="step"
-            class="step-dot"
-            :class="{
-              'step-dot--active':    currentStep === idx,
-              'step-dot--done':      currentStep > idx,
-              'step-dot--pending':   currentStep < idx,
-            }"
-          >
-            <v-icon v-if="currentStep > idx" icon="fas fa-check" size="11" />
-            <span v-else>{{ idx + 1 }}</span>
+        <!-- ─── Step Indicator ─── -->
+        <div class="step-indicator mb-8">
+          <div class="step-track">
+            <template v-for="(step, idx) in steps" :key="step.key">
+              <div class="step-node"
+                :class="{
+                  'step-node--done':    currentStep > idx,
+                  'step-node--active':  currentStep === idx,
+                  'step-node--pending': currentStep < idx,
+                }">
+                <v-icon v-if="currentStep > idx" icon="fas fa-check" size="11" />
+                <span v-else>{{ idx + 1 }}</span>
+              </div>
+              <div v-if="idx < steps.length - 1" class="step-connector"
+                :class="currentStep > idx ? 'step-connector--done' : ''" />
+            </template>
           </div>
-          <div class="step-label text-caption text-medium-emphasis">
-            ขั้นตอนที่ {{ currentStep + 1 }}/{{ steps.length }}: {{ steps[currentStep] }}
+          <div class="step-labels">
+            <span v-for="(step, idx) in steps" :key="step.key + '_l'"
+              class="step-label"
+              :class="currentStep === idx ? 'text-primary font-weight-bold' : 'text-medium-emphasis'">
+              {{ step.label }}
+            </span>
           </div>
         </div>
 
-        <!-- Form -->
-        <v-form ref="formRef" @submit.prevent="nextStep">
+        <!-- ═══ Step 0: ยืนยันตัวตน ═══ -->
+        <div v-if="currentStep === 0">
+          <div class="thaid-hero mb-6">
+            <div class="thaid-icon-wrap mb-4">
+              <v-icon icon="fas fa-id-card" size="40" color="primary" />
+            </div>
+            <div class="text-body-1 font-weight-bold mb-1">ยืนยันตัวตนผ่าน ThaiD</div>
+            <div class="text-body-2 text-medium-emphasis mb-6" style="max-width:320px;margin:0 auto">
+              ใช้แอปพลิเคชัน ThaiD เพื่อยืนยันตัวตนอย่างปลอดภัย ระบบจะดึงข้อมูลของท่านโดยอัตโนมัติ
+            </div>
+            <v-btn color="primary" size="large" rounded="lg"
+              prepend-icon="fas fa-mobile-screen"
+              :loading="thaidLoading"
+              style="min-width:260px"
+              @click="doThaiDVerify">
+              ยืนยันตัวตนด้วย ThaiD
+            </v-btn>
+          </div>
 
-          <!-- Step 1: ข้อมูลส่วนตัว -->
-          <div v-if="currentStep === 0">
-            <div class="field-label">คำนำหน้า <span class="req">*</span></div>
-            <v-select
-              v-model="form.prefix"
-              :items="['นาย', 'นาง', 'นางสาว']"
-              placeholder="เลือกคำนำหน้า"
-              hide-details="auto"
-              :rules="[rules.required]"
-              class="mb-4"
-            />
+          <div class="divider-or mb-4">
+            <span class="divider-or-text">หรือ</span>
+          </div>
 
-            <v-row dense class="mb-4">
-              <v-col cols="6">
-                <div class="field-label">ชื่อ <span class="req">*</span></div>
-                <v-text-field
-                  v-model="form.firstName"
-                  placeholder="ชื่อจริง"
-                  hide-details="auto"
-                  :rules="[rules.required]"
-                />
+          <div class="text-center">
+            <p class="text-caption text-medium-emphasis mb-3">ไม่มี ThaiD? กรอกข้อมูลด้วยตนเอง</p>
+            <v-btn variant="tonal" color="grey" rounded="lg" @click="skipThaiD">
+              กรอกข้อมูลเอง
+            </v-btn>
+          </div>
+        </div>
+
+        <!-- ═══ Step 1: กรอกข้อมูล ═══ -->
+        <div v-else-if="currentStep === 1">
+
+          <v-alert v-if="thaidVerified" color="success" variant="tonal" rounded="lg"
+            density="compact" prepend-icon="fas fa-circle-check" class="mb-5">
+            ดึงข้อมูลจาก ThaiD API สำเร็จ — ช่องสีเทาถูกเติมอัตโนมัติ
+          </v-alert>
+
+          <v-form ref="formRef">
+
+            <div class="form-section-title mb-3">
+              <v-icon icon="fas fa-user" size="13" class="mr-1" />
+              ข้อมูลส่วนตัว
+            </div>
+            <v-row dense>
+              <v-col cols="12" sm="4">
+                <div class="field-label">คำนำหน้า <span class="field-label-en">Title</span> <span class="req">*</span></div>
+                <v-autocomplete v-model="form.prefix" :items="['นาย','นาง','นางสาว']"
+                  variant="outlined" density="compact" rounded="lg" hide-details="auto"
+                  :rules="[rules.required]" :readonly="thaidVerified" :class="{ 'autofill-field': thaidVerified }" />
+              </v-col>
+              <v-col cols="12" sm="8">
+                <div class="field-label">เลขบัตรประชาชน <span class="field-label-en">National ID No.</span> <span class="req">*</span></div>
+                <v-text-field v-model="form.idCard"
+                  variant="outlined" density="compact" rounded="lg" hide-details="auto"
+                  :rules="[rules.required]" :readonly="thaidVerified" :class="{ 'autofill-field': thaidVerified }"
+                  placeholder="X-XXXX-XXXXX-XX-X" />
               </v-col>
               <v-col cols="6">
-                <div class="field-label">นามสกุล <span class="req">*</span></div>
-                <v-text-field
-                  v-model="form.lastName"
-                  placeholder="นามสกุล"
-                  hide-details="auto"
-                  :rules="[rules.required]"
-                />
+                <div class="field-label mt-3">ชื่อ <span class="field-label-en">First Name</span> <span class="req">*</span></div>
+                <v-text-field v-model="form.firstName"
+                  variant="outlined" density="compact" rounded="lg" hide-details="auto"
+                  :rules="[rules.required]" :readonly="thaidVerified" :class="{ 'autofill-field': thaidVerified }" />
+              </v-col>
+              <v-col cols="6">
+                <div class="field-label mt-3">นามสกุล <span class="field-label-en">Last Name</span> <span class="req">*</span></div>
+                <v-text-field v-model="form.lastName"
+                  variant="outlined" density="compact" rounded="lg" hide-details="auto"
+                  :rules="[rules.required]" :readonly="thaidVerified" :class="{ 'autofill-field': thaidVerified }" />
               </v-col>
             </v-row>
 
-            <div class="field-label">เลขบัตรประชาชน <span class="req">*</span></div>
-            <v-text-field
-              v-model="form.idCard"
-              placeholder="X-XXXX-XXXXX-XX-X"
-              prepend-inner-icon="fas fa-id-card"
-              hide-details="auto"
-              :rules="[rules.required, rules.idCard]"
-              class="mb-4"
-              maxlength="13"
-            />
-
-            <div class="field-label">เบอร์โทรศัพท์ <span class="req">*</span></div>
-            <v-text-field
-              v-model="form.phone"
-              placeholder="0XX-XXX-XXXX"
-              prepend-inner-icon="fas fa-phone"
-              hide-details="auto"
-              :rules="[rules.required, rules.phone]"
-              class="mb-4"
-              maxlength="10"
-            />
-          </div>
-
-          <!-- Step 2: ข้อมูลบัญชี -->
-          <div v-if="currentStep === 1">
-            <div class="field-label">อีเมล <span class="req">*</span></div>
-            <v-text-field
-              v-model="form.email"
-              placeholder="example@email.com"
-              prepend-inner-icon="fas fa-envelope"
-              hide-details="auto"
-              :rules="[rules.required, rules.email]"
-              class="mb-4"
-            />
-
-            <div class="field-label">รหัสผ่าน <span class="req">*</span></div>
-            <v-text-field
-              v-model="form.password"
-              :type="showPassword ? 'text' : 'password'"
-              placeholder="อย่างน้อย 8 ตัวอักษร"
-              prepend-inner-icon="fas fa-lock"
-              :append-inner-icon="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"
-              hide-details="auto"
-              :rules="[rules.required, rules.minLength]"
-              class="mb-4"
-              @click:append-inner="showPassword = !showPassword"
-            />
-
-            <div class="field-label">ยืนยันรหัสผ่าน <span class="req">*</span></div>
-            <v-text-field
-              v-model="form.confirmPassword"
-              :type="showConfirm ? 'text' : 'password'"
-              placeholder="กรอกรหัสผ่านอีกครั้ง"
-              prepend-inner-icon="fas fa-lock-open"
-              :append-inner-icon="showConfirm ? 'fas fa-eye-slash' : 'fas fa-eye'"
-              hide-details="auto"
-              :rules="[rules.required, rules.matchPassword]"
-              class="mb-4"
-              @click:append-inner="showConfirm = !showConfirm"
-            />
-
-            <!-- Password strength -->
-            <div class="mb-2">
-              <div class="d-flex justify-space-between mb-1">
-                <span class="text-caption text-medium-emphasis">ความปลอดภัยรหัสผ่าน</span>
-                <span class="text-caption font-weight-bold" :style="{ color: `rgb(var(--v-theme-${passwordStrength.color}))` }">
-                  {{ passwordStrength.label }}
-                </span>
-              </div>
-              <v-progress-linear
-                :model-value="passwordStrength.value"
-                :color="passwordStrength.color"
-                rounded
-                height="4"
-              />
+            <v-divider class="my-5" />
+            <div class="form-section-title mb-3">
+              <v-icon icon="fas fa-address-book" size="13" class="mr-1" />
+              ข้อมูลติดต่อ
             </div>
-          </div>
+            <v-row dense>
+              <v-col cols="12" sm="6">
+                <div class="field-label">อีเมล <span class="field-label-en">Email</span> <span class="req">*</span></div>
+                <v-text-field v-model="form.email"
+                  variant="outlined" density="compact" rounded="lg" hide-details="auto"
+                  :rules="[rules.required, rules.email]"
+                  prepend-inner-icon="fas fa-envelope" placeholder="example@email.com" />
+              </v-col>
+              <v-col cols="12" sm="6">
+                <div class="field-label">เบอร์โทรศัพท์ <span class="field-label-en">Phone Number</span> <span class="req">*</span></div>
+                <v-text-field v-model="form.phone"
+                  variant="outlined" density="compact" rounded="lg" hide-details="auto"
+                  :rules="[rules.required]"
+                  prepend-inner-icon="fas fa-phone" placeholder="0XX-XXX-XXXX" />
+              </v-col>
+              <v-col cols="12">
+                <div class="field-label mt-3">ที่อยู่ <span class="field-label-en">Address</span> <span class="req">*</span></div>
+                <v-text-field v-model="form.address"
+                  variant="outlined" density="compact" rounded="lg" hide-details="auto"
+                  :rules="[rules.required]" placeholder="บ้านเลขที่ ถนน แขวง/ตำบล เขต/อำเภอ" />
+              </v-col>
+              <v-col cols="12" sm="6">
+                <div class="field-label mt-3">จังหวัด <span class="field-label-en">Province</span> <span class="req">*</span></div>
+                <v-autocomplete v-model="form.province" :items="provinces"
+                  variant="outlined" density="compact" rounded="lg" hide-details="auto"
+                  :rules="[rules.required]" />
+              </v-col>
+              <v-col cols="12" sm="6">
+                <div class="field-label mt-3">รหัสไปรษณีย์ <span class="field-label-en">Postal Code</span> <span class="req">*</span></div>
+                <v-text-field v-model="form.zipCode"
+                  variant="outlined" density="compact" rounded="lg" hide-details="auto"
+                  :rules="[rules.required]" maxlength="5" />
+              </v-col>
+            </v-row>
 
-          <!-- Step 3: ตรวจสอบ & ยืนยัน -->
-          <div v-if="currentStep === 2">
-            <v-card variant="tonal" color="surface-variant" class="mb-4">
-              <v-card-text class="pa-4">
-                <div class="text-body-2 font-weight-bold mb-3">ข้อมูลที่จะสมัคร</div>
-                <div class="confirm-grid">
-                  <div class="confirm-item">
-                    <span class="label">ชื่อ-นามสกุล</span>
-                    <span class="value">{{ form.prefix }}{{ form.firstName }} {{ form.lastName }}</span>
-                  </div>
-                  <div class="confirm-item">
-                    <span class="label">เลขบัตรประชาชน</span>
-                    <span class="value">{{ maskIdCard(form.idCard) }}</span>
-                  </div>
-                  <div class="confirm-item">
-                    <span class="label">เบอร์โทรศัพท์</span>
-                    <span class="value">{{ form.phone }}</span>
-                  </div>
-                  <div class="confirm-item">
-                    <span class="label">อีเมล</span>
-                    <span class="value">{{ form.email }}</span>
-                  </div>
-                </div>
-              </v-card-text>
-            </v-card>
+            <v-divider class="my-5" />
+            <div class="form-section-title mb-3">
+              <v-icon icon="fas fa-paperclip" size="13" class="mr-1" />
+              เอกสารประกอบ
+            </div>
+            <v-row dense>
+              <v-col cols="12">
+                <div class="field-label">สำเนาบัตรประชาชน <span class="field-label-en">ID Card Copy</span> <span class="req">*</span></div>
+                <v-file-input v-model="form.idDoc"
+                  variant="outlined" density="compact" rounded="lg" hide-details="auto"
+                  :rules="[rules.requiredFile]"
+                  prepend-icon="" prepend-inner-icon="fas fa-paperclip"
+                  accept=".pdf,.jpg,.jpeg,.png" placeholder="เลือกไฟล์ .pdf .jpg .png" />
+              </v-col>
+            </v-row>
 
-            <v-checkbox
-              v-model="form.acceptTerms"
-              :rules="[v => !!v || 'กรุณายอมรับเงื่อนไข']"
-              hide-details="auto"
-              class="mb-2"
-            >
-              <template #label>
-                <span class="text-body-2">
-                  ฉันยอมรับ
-                  <a href="#" class="text-primary text-decoration-none">นโยบายความเป็นส่วนตัว</a>
-                  และ
-                  <a href="#" class="text-primary text-decoration-none">เงื่อนไขการใช้งาน</a>
-                </span>
-              </template>
-            </v-checkbox>
+          </v-form>
 
-            <v-alert v-if="error" type="error" variant="tonal" density="compact"
-              prepend-icon="fas fa-circle-xmark" class="mb-3">
-              {{ error }}
-            </v-alert>
-          </div>
-
-          <!-- Buttons -->
-          <div class="d-flex ga-3 mt-6">
-            <v-btn
-              v-if="currentStep > 0"
-              variant="tonal"
-              color="grey"
-              size="large"
-              prepend-icon="fas fa-chevron-left"
-              @click="currentStep--"
-            >
+          <div class="step-actions mt-6">
+            <v-btn variant="tonal" color="grey" size="large" rounded="lg"
+              prepend-icon="fas fa-chevron-left" @click="currentStep--">
               ย้อนกลับ
             </v-btn>
-            <v-btn
-              v-if="currentStep < steps.length - 1"
-              color="primary"
-              size="large"
-              block
-              append-icon="fas fa-chevron-right"
-              type="submit"
-            >
+            <v-btn color="primary" size="large" rounded="lg" style="flex:1"
+              append-icon="fas fa-chevron-right" @click="nextFromInfo">
               ถัดไป
             </v-btn>
-            <v-btn
-              v-else
-              color="primary"
-              size="large"
-              block
-              prepend-icon="fas fa-user-plus"
-              :loading="loading"
-              type="submit"
-            >
-              สมัครสมาชิก
+          </div>
+        </div>
+
+        <!-- ═══ Step 2: ตรวจสอบ & ยืนยัน ═══ -->
+        <div v-else-if="currentStep === 2">
+
+          <v-card variant="outlined" rounded="xl" class="mb-5">
+            <v-card-text class="pa-5">
+              <div class="d-flex align-center ga-2 mb-4">
+                <div class="summary-icon-box">
+                  <v-icon icon="fas fa-clipboard-list" size="16" color="primary" />
+                </div>
+                <span class="text-body-2 font-weight-bold">สรุปข้อมูลการลงทะเบียน</span>
+              </div>
+
+              <div class="confirm-row">
+                <span class="confirm-label">ชื่อ-นามสกุล</span>
+                <span class="confirm-value">{{ form.prefix }}{{ form.firstName }} {{ form.lastName }}</span>
+              </div>
+              <div class="confirm-row">
+                <span class="confirm-label">เลขบัตรประชาชน</span>
+                <span class="confirm-value">{{ maskIdCard(form.idCard) }}</span>
+              </div>
+              <v-divider class="my-3" />
+              <div class="confirm-row">
+                <span class="confirm-label">อีเมล</span>
+                <span class="confirm-value">{{ form.email }}</span>
+              </div>
+              <div class="confirm-row">
+                <span class="confirm-label">เบอร์โทรศัพท์</span>
+                <span class="confirm-value">{{ form.phone }}</span>
+              </div>
+              <div class="confirm-row">
+                <span class="confirm-label">จังหวัด</span>
+                <span class="confirm-value">{{ form.province }}</span>
+              </div>
+            </v-card-text>
+          </v-card>
+
+          <v-alert color="info" variant="tonal" rounded="lg" density="compact"
+            prepend-icon="fas fa-circle-info" class="mb-5">
+            <span class="text-body-2">
+              หลังส่งคำขอ เจ้าหน้าที่จะตรวจสอบข้อมูลและอนุมัติสิทธิ์ภายใน <strong>3-5 วันทำการ</strong>
+            </span>
+          </v-alert>
+
+          <v-checkbox v-model="form.acceptTerms" hide-details="auto"
+            :rules="[v => !!v || 'กรุณายอมรับเงื่อนไข']" class="mb-5">
+            <template #label>
+              <span class="text-body-2">
+                ฉันยอมรับ
+                <a href="#" class="text-primary text-decoration-none">นโยบายความเป็นส่วนตัว</a>
+                และ
+                <a href="#" class="text-primary text-decoration-none">เงื่อนไขการใช้งาน</a>
+              </span>
+            </template>
+          </v-checkbox>
+
+          <div class="step-actions">
+            <v-btn variant="tonal" color="grey" size="large" rounded="lg"
+              prepend-icon="fas fa-chevron-left" @click="currentStep--">
+              ย้อนกลับ
+            </v-btn>
+            <v-btn color="primary" size="large" rounded="lg" style="flex:1"
+              prepend-icon="fas fa-paper-plane" :loading="loading" @click="doSubmit">
+              ส่งคำขอลงทะเบียน
             </v-btn>
           </div>
-        </v-form>
+        </div>
 
         <!-- Login link -->
-        <div class="register-row mt-6">
+        <div class="login-row mt-6">
           <span class="text-body-2 text-medium-emphasis">มีบัญชีแล้ว?</span>
-          <v-btn variant="text" size="small" color="primary" class="ml-1 pa-0" @click="router.push('/login')">
+          <v-btn variant="text" size="small" color="primary" class="ml-1 pa-0"
+            @click="router.push('/login')">
             เข้าสู่ระบบ
           </v-btn>
         </div>
 
         <!-- Footer -->
-        <div class="d-flex align-center justify-space-between mt-5">
+        <div class="d-flex align-center justify-space-between mt-4">
           <v-btn variant="text" size="small" color="medium-emphasis"
             prepend-icon="fas fa-arrow-left" @click="router.push('/')">
             กลับหน้าหลัก
@@ -294,23 +313,29 @@
       </div>
     </div>
 
-    <!-- Success Dialog -->
-    <v-dialog v-model="successDialog" max-width="400" persistent>
+    <!-- ═══ Success Dialog ═══ -->
+    <v-dialog v-model="successDialog" max-width="440" persistent>
       <v-card rounded="xl">
         <v-card-text class="pa-8 text-center">
           <div class="success-ring mx-auto mb-5">
-            <v-icon icon="fas fa-circle-check" size="40" color="success" />
+            <v-icon icon="fas fa-paper-plane" size="36" color="primary" />
           </div>
-          <h3 class="text-h6 font-weight-bold mb-2">สมัครสมาชิกสำเร็จ!</h3>
-          <p class="text-body-2 text-medium-emphasis mb-1">
-            ระบบส่งอีเมลยืนยันไปที่
+          <h3 class="text-h6 font-weight-bold mb-2">ส่งคำขอลงทะเบียนสำเร็จ!</h3>
+          <p class="text-body-2 text-medium-emphasis mb-4">
+            ระบบได้รับคำขอของคุณแล้ว เจ้าหน้าที่จะตรวจสอบข้อมูลและอนุมัติสิทธิ์
           </p>
-          <p class="text-body-2 font-weight-bold text-primary mb-4">{{ form.email }}</p>
-          <p class="text-caption text-medium-emphasis">กรุณายืนยันอีเมลก่อนเข้าสู่ระบบ</p>
+          <v-alert color="info" variant="tonal" rounded="lg" density="compact"
+            prepend-icon="fas fa-envelope" class="text-left mb-3">
+            <span class="text-body-2">ระบบส่งอีเมลยืนยันไปที่ <strong>{{ form.email }}</strong></span>
+          </v-alert>
+          <v-alert color="warning" variant="tonal" rounded="lg" density="compact"
+            prepend-icon="fas fa-clock" class="text-left">
+            <span class="text-body-2">รอผลการอนุมัติภายใน <strong>3-5 วันทำการ</strong></span>
+          </v-alert>
         </v-card-text>
         <v-card-actions class="px-6 pb-6">
           <v-btn color="primary" block rounded="lg" @click="router.push('/login')">
-            ไปหน้าเข้าสู่ระบบ
+            กลับหน้าเข้าสู่ระบบ
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -320,32 +345,30 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useThemeStore } from '@/stores/theme.store'
 
-const router = useRouter()
+const router     = useRouter()
 const themeStore = useThemeStore()
 
 const currentStep   = ref(0)
 const loading       = ref(false)
-const error         = ref('')
+const thaidLoading  = ref(false)
 const successDialog = ref(false)
-const showPassword  = ref(false)
-const showConfirm   = ref(false)
+const thaidVerified = ref(false)
 const formRef       = ref()
 
-const steps = ['ข้อมูลส่วนตัว', 'ข้อมูลบัญชี', 'ตรวจสอบ & ยืนยัน']
+const steps = [
+  { key: 'verify',  label: 'ยืนยันตัวตน' },
+  { key: 'info',    label: 'กรอกข้อมูล' },
+  { key: 'confirm', label: 'ยืนยัน' },
+]
 
 const form = ref({
-  prefix: '',
-  firstName: '',
-  lastName: '',
-  idCard: '',
-  phone: '',
-  email: '',
-  password: '',
-  confirmPassword: '',
+  prefix: '', firstName: '', lastName: '', idCard: '',
+  email: '', phone: '', address: '', province: '', zipCode: '',
+  idDoc: null as File | File[] | null,
   acceptTerms: false,
 })
 
@@ -357,202 +380,197 @@ const features = [
   { icon: 'fas fa-flask-vial',  text: 'ระบบ DOA & CB' },
 ]
 
+const provinces = ['กรุงเทพมหานคร','เชียงใหม่','เชียงราย','ขอนแก่น','นครราชสีมา','สงขลา','ภูเก็ต','อุบลราชธานี','นครปฐม','ระยอง']
+
 const rules = {
-  required:      (v: string)  => !!v        || 'กรุณากรอกข้อมูล',
-  email:         (v: string)  => /.+@.+\..+/.test(v) || 'รูปแบบอีเมลไม่ถูกต้อง',
-  phone:         (v: string)  => /^0\d{8,9}$/.test(v) || 'รูปแบบเบอร์โทรไม่ถูกต้อง',
-  idCard:        (v: string)  => v.length === 13 || 'เลขบัตรประชาชนต้องมี 13 หลัก',
-  minLength:     (v: string)  => v.length >= 8   || 'อย่างน้อย 8 ตัวอักษร',
-  matchPassword: (v: string)  => v === form.value.password || 'รหัสผ่านไม่ตรงกัน',
+  required:     (v: string)        => !!v || 'กรุณากรอกข้อมูล',
+  email:        (v: string)        => /.+@.+\..+/.test(v) || 'รูปแบบอีเมลไม่ถูกต้อง',
+  requiredFile: (v: File | File[] | null) => {
+    if (!v) return 'กรุณาแนบเอกสาร'
+    if (Array.isArray(v)) return v.length > 0 || 'กรุณาแนบเอกสาร'
+    return true
+  },
 }
 
-const passwordStrength = computed(() => {
-  const p = form.value.password
-  if (!p) return { value: 0, label: '', color: 'grey' }
-  let score = 0
-  if (p.length >= 8)         score++
-  if (/[A-Z]/.test(p))      score++
-  if (/[0-9]/.test(p))      score++
-  if (/[^A-Za-z0-9]/.test(p)) score++
-  const map = [
-    { value: 25, label: 'อ่อน',    color: 'error' },
-    { value: 50, label: 'พอใช้',   color: 'warning' },
-    { value: 75, label: 'ดี',       color: 'info' },
-    { value: 100, label: 'แข็งแกร่ง', color: 'success' },
-  ]
-  return map[Math.max(score - 1, 0)]
-})
+function doThaiDVerify() {
+  thaidLoading.value = true
+  setTimeout(() => {
+    thaidVerified.value  = true
+    thaidLoading.value   = false
+    form.value.prefix    = 'นาย'
+    form.value.firstName = 'สมชาย'
+    form.value.lastName  = 'ใจดี'
+    form.value.idCard    = '1100200123456'
+    currentStep.value    = 1
+  }, 1200)
+}
+
+function skipThaiD() {
+  thaidVerified.value = false
+  currentStep.value   = 1
+}
+
+async function nextFromInfo() {
+  if (!formRef.value) { currentStep.value = 2; return }
+  const { valid } = await formRef.value.validate()
+  if (!valid) return
+  currentStep.value = 2
+}
+
+async function doSubmit() {
+  if (!form.value.acceptTerms) return
+  loading.value = true
+  await new Promise(r => setTimeout(r, 1200))
+  loading.value       = false
+  successDialog.value = true
+}
 
 function maskIdCard(v: string) {
   if (v.length < 5) return v
   return v.slice(0, 1) + '-XXXX-XXXXX-' + v.slice(-2)
 }
-
-async function nextStep() {
-  const { valid } = await formRef.value.validate()
-  if (!valid) return
-
-  if (currentStep.value < steps.length - 1) {
-    currentStep.value++
-    return
-  }
-
-  // Final submit
-  loading.value = true
-  error.value   = ''
-  await new Promise(r => setTimeout(r, 1200))
-  loading.value       = false
-  successDialog.value = true
-}
 </script>
 
 <style scoped>
-.login-root {
-  min-height: 100vh;
-  display: flex;
-}
+/* ═══ Root ═══ */
+.reg-root { min-height: 100vh; display: flex; }
 
-/* ─── Left Panel ─── */
-.login-left {
-  width: 420px;
-  flex-shrink: 0;
-  position: relative;
-  background: linear-gradient(135deg,
-    rgb(var(--v-theme-primary)) 0%,
-    rgba(var(--v-theme-primary), 0.65) 100%
-  );
-  flex-direction: column;
-  overflow: hidden;
+/* ═══ Left Panel ═══ */
+.reg-left {
+  width: 400px; flex-shrink: 0;
+  background: linear-gradient(145deg, rgb(var(--v-theme-primary)) 0%, rgba(var(--v-theme-primary), 0.6) 100%);
+  flex-direction: column; overflow: hidden; position: relative;
 }
-
-.login-left::before {
-  content: '';
-  position: absolute;
-  inset: 0;
+.reg-left::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
   background:
-    radial-gradient(ellipse at 80% 20%, rgba(255,255,255,0.07) 0%, transparent 55%),
-    radial-gradient(ellipse at 10% 80%, rgba(255,255,255,0.05) 0%, transparent 50%);
-  pointer-events: none;
+    radial-gradient(ellipse at 80% 15%, rgba(255,255,255,0.08) 0%, transparent 55%),
+    radial-gradient(ellipse at 10% 85%, rgba(255,255,255,0.05) 0%, transparent 50%);
 }
-
-.is-dark .login-left {
+.is-dark .reg-left {
   background:
-    linear-gradient(rgba(0,0,0,0.62), rgba(0,0,0,0.70)),
-    linear-gradient(135deg, rgb(var(--v-theme-primary)) 0%, rgba(var(--v-theme-primary), 0.55) 100%);
+    linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.68)),
+    linear-gradient(145deg, rgb(var(--v-theme-primary)) 0%, rgba(var(--v-theme-primary), 0.5) 100%);
 }
-
-
-.login-left-inner {
-  position: relative;
-  z-index: 1;
-  padding: 52px 44px;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
+.reg-left-inner { position: relative; z-index: 1; padding: 52px 44px; display: flex; flex-direction: column; height: 100%; }
+.brand-ring {
+  width: 72px; height: 72px; border-radius: 50%;
+  background: rgba(255,255,255,0.15); border: 2px solid rgba(255,255,255,0.3);
+  display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px);
 }
-.brand-icon-ring {
-  width: 72px;
-  height: 72px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.15);
-  border: 2px solid rgba(255,255,255,0.3);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  backdrop-filter: blur(8px);
+.brand-ring-sm {
+  width: 38px; height: 38px; border-radius: 50%;
+  background: rgb(var(--v-theme-primary));
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
 }
-.brand-icon-ring-sm {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: rgba(var(--v-theme-primary), 0.12);
-  border: 1.5px solid rgba(var(--v-theme-primary), 0.25);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-.brand-icon-ring-sm .v-icon { color: rgb(var(--v-theme-primary)) !important; }
 .feature-list { display: flex; flex-direction: column; gap: 14px; }
 .feature-item { display: flex; align-items: center; gap: 12px; }
-.feature-icon {
-  width: 30px;
-  height: 30px;
-  border-radius: 8px;
+.feature-icon-box {
+  width: 30px; height: 30px; border-radius: 8px;
   background: rgba(255,255,255,0.12);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
 }
-.login-left-footer { margin-top: auto; padding-top: 32px; }
+.reg-left-footer { margin-top: auto; padding-top: 32px; }
 
-/* ─── Right Panel ─── */
-.login-right {
-  flex: 1;
-  background: rgb(var(--v-theme-background));
-  padding: 40px 24px;
+/* ═══ Right Panel ═══ */
+.reg-right {
+  flex: 1; background: rgb(var(--v-theme-background));
+  display: flex; align-items: flex-start; justify-content: center;
+  padding: 48px 24px; overflow-y: auto;
 }
-.login-form-wrapper {
-  width: 100%;
-  max-width: 420px;
-}
+.reg-form-wrapper { width: 100%; max-width: 520px; }
 
-/* ─── Step Indicator ─── */
-.step-indicator {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+/* ═══ Step Indicator ═══ */
+.step-track { display: flex; align-items: center; }
+.step-node {
+  width: 30px; height: 30px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700; flex-shrink: 0;
+  transition: background 0.2s, color 0.2s;
 }
-.step-dot {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 11px;
-  font-weight: 700;
-  flex-shrink: 0;
+.step-node--done    { background: rgb(var(--v-theme-success)); color: white; }
+.step-node--active  { background: rgb(var(--v-theme-primary)); color: white; box-shadow: 0 0 0 4px rgba(var(--v-theme-primary), 0.15); }
+.step-node--pending { background: rgba(var(--v-theme-on-surface), 0.08); color: rgba(var(--v-theme-on-surface), 0.35); }
+.step-connector {
+  flex: 1; height: 2px; margin: 0 6px;
+  background: rgba(var(--v-border-color), var(--v-border-opacity));
   transition: background 0.2s;
 }
-.step-dot--done    { background: rgb(var(--v-theme-success)); color: white; }
-.step-dot--active  { background: rgb(var(--v-theme-primary)); color: white; }
-.step-dot--pending { background: rgba(var(--v-theme-on-surface), 0.1); color: rgba(var(--v-theme-on-surface), 0.4); }
-.step-label { margin-left: 4px; }
+.step-connector--done { background: rgb(var(--v-theme-success)); }
+.step-labels { display: flex; justify-content: space-between; margin-top: 8px; }
+.step-label { flex: 1; text-align: center; font-size: 11px; }
+.step-label:first-child { text-align: left; }
+.step-label:last-child  { text-align: right; }
 
-/* ─── Fields ─── */
-.field-label {
-  font-size: 13px;
-  font-weight: 600;
-  color: rgba(var(--v-theme-on-surface), 0.75);
-  margin-bottom: 6px;
+/* ═══ Step 0: ThaiD Hero ═══ */
+.thaid-hero {
+  border: 1.5px solid rgba(var(--v-border-color), var(--v-border-opacity));
+  border-radius: 20px; padding: 44px 24px; text-align: center;
+  background: rgba(var(--v-theme-primary), 0.02);
 }
+.thaid-icon-wrap {
+  width: 84px; height: 84px; border-radius: 50%;
+  background: rgba(var(--v-theme-primary), 0.1);
+  display: flex; align-items: center; justify-content: center; margin: 0 auto;
+}
+.divider-or { position: relative; text-align: center; }
+.divider-or::before {
+  content: ''; position: absolute; top: 50%; left: 0; right: 0; height: 1px;
+  background: rgba(var(--v-border-color), var(--v-border-opacity));
+}
+.divider-or-text {
+  position: relative; background: rgb(var(--v-theme-background));
+  padding: 0 12px; font-size: 12px; color: rgba(var(--v-theme-on-surface), 0.4);
+}
+
+/* ═══ Form ═══ */
+.form-section-title {
+  font-size: 12px; font-weight: 700;
+  color: rgba(var(--v-theme-on-surface), 0.5);
+  text-transform: uppercase; letter-spacing: 0.6px;
+  display: flex; align-items: center;
+}
+.field-label { font-size: 13px; font-weight: 600; color: rgba(var(--v-theme-on-surface), 0.75); margin-bottom: 6px; }
+.field-label-en { font-size: 11px; font-weight: 400; color: rgba(var(--v-theme-on-surface), 0.4); margin-left: 4px; }
 .req { color: rgb(var(--v-theme-error)); }
+.autofill-field :deep(.v-field__input) { color: rgba(var(--v-theme-on-surface), 0.45) !important; }
+.autofill-field :deep(.v-field) { background: rgba(var(--v-border-color), 0.04) !important; }
 
-/* ─── Confirm ─── */
-.confirm-grid { display: flex; flex-direction: column; gap: 8px; }
-.confirm-item { display: flex; flex-direction: column; gap: 2px; }
-.confirm-item .label { font-size: 11px; color: rgba(var(--v-theme-on-surface), 0.5); font-weight: 600; text-transform: uppercase; letter-spacing: 0.4px; }
-.confirm-item .value { font-size: 13.5px; font-weight: 500; }
-
-/* ─── Register row ─── */
-.register-row {
+/* ═══ Step Actions (buttons row) ═══ */
+.step-actions {
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding: 12px 0;
-  border-top: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
+  gap: 12px;
+}
+.step-actions .v-btn:first-child {
+  flex-shrink: 0;
+  width: 130px;
 }
 
-/* ─── Success ─── */
+/* ═══ Step 2: Summary ═══ */
+.summary-icon-box {
+  width: 30px; height: 30px; border-radius: 8px;
+  background: rgba(var(--v-theme-primary), 0.1);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.confirm-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 7px 0; border-bottom: 1px solid rgba(var(--v-border-color), 0.5);
+}
+.confirm-row:last-child { border-bottom: none; }
+.confirm-label { font-size: 12px; color: rgba(var(--v-theme-on-surface), 0.5); font-weight: 600; }
+.confirm-value { font-size: 13px; font-weight: 500; text-align: right; }
+
+/* ═══ Bottom ═══ */
+.login-row {
+  display: flex; align-items: center; justify-content: center;
+  padding: 12px 0; border-top: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
+}
+
+/* ═══ Success Dialog ═══ */
 .success-ring {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  background: rgba(var(--v-theme-success), 0.1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  width: 80px; height: 80px; border-radius: 50%;
+  background: rgba(var(--v-theme-primary), 0.1);
+  display: flex; align-items: center; justify-content: center;
 }
 </style>

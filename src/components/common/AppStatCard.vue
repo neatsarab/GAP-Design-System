@@ -3,6 +3,8 @@
     :to="to"
     :ripple="!!to"
     :class="['app-stat-card', { 'app-stat-card--clickable': !!to }]"
+    rounded="xl"
+    elevation="0"
     height="100%"
   >
     <v-skeleton-loader v-if="loading" type="list-item-two-line" />
@@ -64,6 +66,7 @@ withDefaults(defineProps<Props>(), {
 </script>
 
 <style scoped>
+.app-stat-card { border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity)); }
 .stat-icon-box {
   width: 44px;
   height: 44px;

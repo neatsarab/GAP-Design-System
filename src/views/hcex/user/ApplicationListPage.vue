@@ -8,7 +8,7 @@
         </p>
       </div>
       <v-btn
-        color="warning"
+        color="hcex-user"
         prepend-icon="fas fa-file-pen"
         @click="router.push('/hcex/user/applications/new')"
       >
@@ -21,27 +21,27 @@
       <v-card-text class="pa-4">
         <v-row dense>
           <v-col cols="12" sm="5">
+            <div class="field-label mb-1">ค้นหา <span class="field-label-en">Search</span></div>
             <v-text-field
               v-model="search"
-              label="ค้นหาเลขคำขอ / ผู้รับสินค้า"
               prepend-inner-icon="fas fa-search"
               clearable
               hide-details
             />
           </v-col>
           <v-col cols="6" sm="3">
-            <v-select
+            <div class="field-label mb-1">ประเภทคำขอ <span class="field-label-en">Request Type</span></div>
+            <v-autocomplete
               v-model="filterType"
-              label="ประเภทคำขอ"
               :items="typeOptions"
               hide-details
               clearable
             />
           </v-col>
           <v-col cols="6" sm="3">
-            <v-select
+            <div class="field-label mb-1">สถานะ <span class="field-label-en">Status</span></div>
+            <v-autocomplete
               v-model="filterStatus"
-              label="สถานะ"
               :items="statusOptions"
               item-title="label"
               item-value="value"
@@ -49,7 +49,7 @@
               clearable
             />
           </v-col>
-          <v-col cols="auto" class="d-flex align-self-center">
+          <v-col cols="auto" class="ml-auto d-flex align-self-center">
             <v-btn
               variant="tonal"
               color="grey"
@@ -97,14 +97,14 @@
         @click:row="onRowClick"
       >
         <template #item.requestNo="{ item }">
-          <span class="text-body-2 font-weight-medium text-warning">{{
+          <span class="text-body-2 font-weight-medium text-hcex-user">{{
             item.requestNo
           }}</span>
         </template>
         <template #item.certType="{ item }">
           <v-chip
             size="x-small"
-            :color="item.type === 'correction' ? 'secondary' : 'warning'"
+            :color="item.type === 'correction' ? 'secondary' : 'hcex-user'"
             variant="tonal"
           >
             {{ item.type === "correction" ? "แก้ไขใบรับรอง" : item.certType }}
@@ -124,7 +124,7 @@
           <v-btn
             size="small"
             variant="tonal"
-            color="warning"
+            color="hcex-user"
             prepend-icon="fas fa-eye"
             @click.stop="router.push(`/hcex/user/applications/${item.id}`)"
           >
@@ -177,7 +177,7 @@ const statusTabs = [
   {
     label: "อยู่ระหว่างดำเนินการ",
     value: "in_progress",
-    color: "warning",
+    color: "hcex-user",
     icon: "fas fa-hourglass-half",
     count: 2,
   },
@@ -287,7 +287,9 @@ const filteredItems = computed(() => {
     if (filterType.value === "แก้ไขใบรับรอง") {
       items = items.filter((i) => i.type === "correction");
     } else {
-      items = items.filter((i) => i.certType === filterType.value && i.type === "new");
+      items = items.filter(
+        (i) => i.certType === filterType.value && i.type === "new",
+      );
     }
   }
   if (filterStatus.value)
@@ -314,7 +316,7 @@ const headers = [
 function getStatusColor(s: string) {
   const m: Record<string, string> = {
     draft: "grey",
-    submitted: "warning",
+    submitted: "hcex-user",
     under_review: "info",
     lab_verification: "secondary",
     approved: "success",
@@ -348,3 +350,8 @@ function getStatusLabel(s: string) {
   return m[s] ?? s;
 }
 </script>
+
+<style scoped>
+.field-label { font-size: 12px; font-weight: 600; color: rgba(var(--v-theme-on-surface), 0.75); }
+.field-label-en { font-size: 11px; font-weight: 400; color: rgba(var(--v-theme-on-surface), 0.4); margin-left: 4px; }
+</style>
