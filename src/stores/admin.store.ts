@@ -7,16 +7,24 @@ export const useAdminStore = defineStore("admin", () => {
   const role = ref<AdminRole>(
     (sessionStorage.getItem("adminRole") as AdminRole) || "sysadmin",
   );
+  const username = ref<string>(sessionStorage.getItem("adminUsername") || "");
 
   function setRole(r: AdminRole) {
     role.value = r;
     sessionStorage.setItem("adminRole", r);
   }
 
-  function clear() {
-    role.value = "sysadmin";
-    sessionStorage.removeItem("adminRole");
+  function setUsername(u: string) {
+    username.value = u;
+    sessionStorage.setItem("adminUsername", u);
   }
 
-  return { role, setRole, clear };
+  function clear() {
+    role.value = "sysadmin";
+    username.value = "";
+    sessionStorage.removeItem("adminRole");
+    sessionStorage.removeItem("adminUsername");
+  }
+
+  return { role, username, setRole, setUsername, clear };
 });

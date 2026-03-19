@@ -192,12 +192,6 @@ const router = createRouter({
           component: () => import("@/views/gap/user/ApplicationDetailPage.vue"),
           meta: { title: "ติดตามสถานะคำขอ GAP" },
         },
-        {
-          path: "settings",
-          name: "Settings",
-          component: () => import("@/views/gap/user/SettingsPage.vue"),
-          meta: { title: "ตั้งค่าระบบ" },
-        },
       ],
     },
 

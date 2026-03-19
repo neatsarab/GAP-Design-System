@@ -10,7 +10,7 @@
       />
       <div class="flex-grow-1">
         <div class="d-flex align-center ga-3 flex-wrap">
-          <h1 class="text-h5 font-weight-bold mb-0">EL-2568-00002</h1>
+          <h1 class="page-title mb-0">EL-2568-00002</h1>
           <v-chip color="el-user" size="small" variant="tonal">
             อยู่ระหว่างตรวจประเมิน
           </v-chip>
@@ -277,13 +277,6 @@ const statusHistory = [
 </script>
 
 <style scoped>
-.section-card {
-  border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
-}
-.section-title {
-  font-size: 14px !important;
-  font-weight: 600;
-}
 .tracker-circle {
   width: 34px;
   height: 34px;

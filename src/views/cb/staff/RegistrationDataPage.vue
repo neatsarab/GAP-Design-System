@@ -2,7 +2,7 @@
   <div>
     <!-- Header -->
     <div class="mb-6">
-      <h1 class="text-h5 font-weight-bold mb-1">ข้อมูลทะเบียน CB</h1>
+      <h1 class="page-title mb-1">ข้อมูลทะเบียน CB</h1>
       <p class="text-body-2 text-medium-emphasis mb-0">รายการใบรับรองหน่วยรับรองโรงงานผลิตสินค้าพืช</p>
     </div>
 
@@ -149,7 +149,6 @@ function openDetail(item: CertRecord) { selected.value = item; detailDialog.valu
 </script>
 
 <style scoped>
-.data-card { border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity)); }
 .info-label { font-size: 11px; color: rgba(var(--v-theme-on-surface), 0.5); text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 2px; }
 .info-value { font-size: 14px; font-weight: 500; }
 </style>

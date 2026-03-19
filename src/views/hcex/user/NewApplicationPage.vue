@@ -2,7 +2,7 @@
   <div>
     <div class="d-flex align-center ga-3 mb-6">
       <div>
-        <h1 class="text-h5 font-weight-bold mb-1">
+        <h1 class="page-title mb-1">
           ยื่นคำขอใบรับรองสุขอนามัยสินค้าแปรรูปด้านพืช
         </h1>
         <p class="text-body-2 text-medium-emphasis mb-0">
@@ -159,7 +159,8 @@
           <v-row dense>
             <v-col cols="12" sm="6">
               <div class="field-label mb-2">
-                ชนิดสินค้า <span class="field-label-en">Product Type</span> <span class="req">*</span>
+                <div>ชนิดสินค้า <span class="req">*</span></div>
+                <div class="field-label-en">Product Type</div>
               </div>
               <v-text-field
                 v-model="labRequestForm.productType"
@@ -169,7 +170,8 @@
             </v-col>
             <v-col cols="12" sm="6">
               <div class="field-label mb-2">
-                จำนวนตัวอย่าง <span class="field-label-en">Quantity</span> <span class="req">*</span>
+                <div>จำนวนตัวอย่าง <span class="req">*</span></div>
+                <div class="field-label-en">Quantity</div>
               </div>
               <v-text-field
                 v-model="labRequestForm.sampleCount"
@@ -178,7 +180,10 @@
               />
             </v-col>
             <v-col cols="12">
-              <div class="field-label mb-2">คำอธิบายสินค้า <span class="field-label-en">Description</span></div>
+              <div class="field-label mb-2">
+                <div>คำอธิบายสินค้า</div>
+                <div class="field-label-en">Description</div>
+              </div>
               <v-textarea
                 v-model="labRequestForm.productDesc"
                 placeholder="อธิบายรายละเอียดสินค้าที่ต้องการทดสอบ"
@@ -187,7 +192,10 @@
               />
             </v-col>
             <v-col cols="12">
-              <div class="field-label mb-2">หมายเหตุ <span class="field-label-en">Remarks</span></div>
+              <div class="field-label mb-2">
+                <div>หมายเหตุ</div>
+                <div class="field-label-en">Remarks</div>
+              </div>
               <v-textarea
                 v-model="labRequestForm.note"
                 placeholder="หมายเหตุเพิ่มเติม (ถ้ามี)"
@@ -224,26 +232,44 @@
     <!-- Form Steps (hasLab === true) -->
     <template v-else-if="hasLab === true">
       <!-- Step Indicator -->
-      <v-card class="mb-5 pa-4">
-        <div class="step-bar">
-          <div
-            v-for="(step, idx) in formSteps"
-            :key="step.key"
-            class="step-item"
-            :class="{
-              'step-item--done': currentStep > idx,
-              'step-item--active': currentStep === idx,
-              'step-item--pending': currentStep < idx,
-            }"
-          >
-            <div class="step-dot">
-              <v-icon v-if="currentStep > idx" icon="fas fa-check" size="11" />
-              <span v-else>{{ idx + 1 }}</span>
-            </div>
-            <span class="step-label text-caption">{{ step.label }}</span>
-            <div v-if="idx < formSteps.length - 1" class="step-line" />
+      <v-card class="mb-5">
+        <v-card-text class="pa-5">
+          <div class="d-flex align-center">
+            <template v-for="(step, idx) in formSteps" :key="step.key">
+              <div
+                class="step-item d-flex flex-column align-center"
+                style="min-width: 80px"
+              >
+                <div class="step-circle mb-1" :class="stepClass(idx)">
+                  <v-icon
+                    v-if="currentStep > idx"
+                    icon="fas fa-check"
+                    size="14"
+                    color="white"
+                  />
+                  <span v-else class="text-caption font-weight-bold">{{
+                    idx + 1
+                  }}</span>
+                </div>
+                <div
+                  class="text-caption text-center"
+                  :class="
+                    currentStep >= idx
+                      ? 'text-hcex-user font-weight-bold'
+                      : 'text-medium-emphasis'
+                  "
+                >
+                  {{ step.label }}
+                </div>
+              </div>
+              <div
+                v-if="idx < formSteps.length - 1"
+                class="step-line flex-grow-1"
+                :class="{ 'step-line--done': currentStep > idx }"
+              />
+            </template>
           </div>
-        </div>
+        </v-card-text>
       </v-card>
 
       <v-form ref="formRef" @submit.prevent="handleNext">
@@ -258,10 +284,12 @@
               ผู้ส่งออก (Exporter)
             </v-card-title>
             <v-card-text class="pa-4 pt-0">
+              <div class="field-section-label mb-3 mt-2">ข้อมูลบริษัท</div>
               <v-row dense>
                 <v-col cols="12" sm="6">
                   <div class="field-label">
-                    ชื่อบริษัท <span class="field-label-en">Company Name</span> <span class="req">*</span>
+                    <div>ชื่อบริษัท <span class="req">*</span></div>
+                    <div class="field-label-en">Company Name</div>
                   </div>
                   <v-text-field
                     v-model="form.exporterName"
@@ -272,7 +300,8 @@
                 </v-col>
                 <v-col cols="12" sm="6">
                   <div class="field-label">
-                    ที่อยู่ <span class="field-label-en">Address</span> <span class="req">*</span>
+                    <div>ที่อยู่ <span class="req">*</span></div>
+                    <div class="field-label-en">Address</div>
                   </div>
                   <v-text-field
                     v-model="form.exporterAddress"
@@ -283,7 +312,8 @@
                 </v-col>
                 <v-col cols="12" sm="4">
                   <div class="field-label">
-                    ประเทศ <span class="field-label-en">Country</span> <span class="req">*</span>
+                    <div>ประเทศ <span class="req">*</span></div>
+                    <div class="field-label-en">Country</div>
                   </div>
                   <v-text-field
                     v-model="form.exporterCountry"
@@ -305,10 +335,14 @@
               ผู้รับสินค้า (Consignee)
             </v-card-title>
             <v-card-text class="pa-4 pt-0">
+              <div class="field-section-label mb-3 mt-2">
+                ข้อมูลผู้รับสินค้า
+              </div>
               <v-row dense>
                 <v-col cols="12" sm="6">
                   <div class="field-label">
-                    ชื่อผู้รับสินค้า <span class="field-label-en">Consignee Name</span> <span class="req">*</span>
+                    <div>ชื่อผู้รับสินค้า <span class="req">*</span></div>
+                    <div class="field-label-en">Consignee Name</div>
                   </div>
                   <v-text-field
                     v-model="form.consigneeName"
@@ -319,7 +353,8 @@
                 </v-col>
                 <v-col cols="12" sm="6">
                   <div class="field-label">
-                    ที่อยู่ <span class="field-label-en">Address</span> <span class="req">*</span>
+                    <div>ที่อยู่ <span class="req">*</span></div>
+                    <div class="field-label-en">Address</div>
                   </div>
                   <v-text-field
                     v-model="form.consigneeAddress"
@@ -330,7 +365,8 @@
                 </v-col>
                 <v-col cols="12" sm="4">
                   <div class="field-label">
-                    ประเทศปลายทาง <span class="field-label-en">Destination Country</span> <span class="req">*</span>
+                    <div>ประเทศปลายทาง <span class="req">*</span></div>
+                    <div class="field-label-en">Destination Country</div>
                   </div>
                   <v-autocomplete
                     v-model="form.destination"
@@ -353,10 +389,14 @@
               ข้อมูลการขนส่ง
             </v-card-title>
             <v-card-text class="pa-4 pt-0">
+              <div class="field-section-label mb-3 mt-2">
+                รายละเอียดการขนส่ง
+              </div>
               <v-row dense>
                 <v-col cols="12" sm="4">
                   <div class="field-label">
-                    วันที่ส่งสินค้า <span class="field-label-en">Shipping Date</span> <span class="req">*</span>
+                    <div>วันที่ส่งสินค้า <span class="req">*</span></div>
+                    <div class="field-label-en">Shipping Date</div>
                   </div>
                   <v-text-field
                     v-model="form.shipDate"
@@ -367,7 +407,8 @@
                 </v-col>
                 <v-col cols="12" sm="4">
                   <div class="field-label">
-                    วิธีการขนส่ง <span class="field-label-en">Shipping Method</span> <span class="req">*</span>
+                    <div>วิธีการขนส่ง <span class="req">*</span></div>
+                    <div class="field-label-en">Shipping Method</div>
                   </div>
                   <v-autocomplete
                     v-model="form.shipMethod"
@@ -378,7 +419,10 @@
                   />
                 </v-col>
                 <v-col cols="12" sm="4">
-                  <div class="field-label">ท่าเรือ/สนามบินต้นทาง <span class="field-label-en">Port/Airport of Loading</span></div>
+                  <div class="field-label">
+                    <div>ท่าเรือ/สนามบินต้นทาง</div>
+                    <div class="field-label-en">Port/Airport of Loading</div>
+                  </div>
                   <v-text-field
                     v-model="form.portOfLoading"
                     placeholder="เช่น ท่าเรือแหลมฉบัง"
@@ -813,6 +857,12 @@ const labResults = [
   },
 ];
 
+function stepClass(idx: number) {
+  if (currentStep.value > idx) return "step-done";
+  if (currentStep.value === idx) return "step-active";
+  return "step-pending";
+}
+
 function addProduct() {
   form.products.push({
     shippingMark: "",
@@ -858,100 +908,9 @@ async function handleSubmit() {
 </script>
 
 <style scoped>
-/* Step Bar */
-.step-bar {
-  display: flex;
-  align-items: flex-start;
-  overflow-x: auto;
-}
-.step-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  flex: 1;
-  position: relative;
-  min-width: 70px;
-}
-.step-dot {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 11px;
-  font-weight: 700;
-  z-index: 1;
-  flex-shrink: 0;
-}
-.step-item--done .step-dot {
-  background: rgb(var(--v-theme-success));
-  color: white;
-}
-.step-item--active .step-dot {
-  background: rgb(var(--v-theme-hcex-user));
-  color: white;
-  box-shadow: 0 0 0 4px rgba(var(--v-theme-hcex-user), 0.2);
-}
-.step-item--pending .step-dot {
-  background: rgba(var(--v-theme-on-surface), 0.1);
-  color: rgba(var(--v-theme-on-surface), 0.4);
-}
-.step-label {
-  margin-top: 6px;
-  font-size: 10px;
-  text-align: center;
-  color: rgba(var(--v-theme-on-surface), 0.6);
-  line-height: 1.3;
-}
-.step-item--active .step-label {
-  color: rgb(var(--v-theme-hcex-user));
-  font-weight: 600;
-}
-.step-item--done .step-label {
-  color: rgb(var(--v-theme-success));
-}
-.step-line {
-  position: absolute;
-  top: 14px;
-  left: 50%;
-  width: 100%;
-  height: 2px;
-  background: rgba(var(--v-theme-on-surface), 0.1);
-  z-index: 0;
-}
-.step-item--done .step-line {
-  background: rgba(var(--v-theme-success), 0.4);
-}
-
-/* Type Card */
-.type-card {
-  border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
-  position: relative;
-  overflow: hidden;
-  cursor: pointer;
-  transition:
-    transform 0.2s,
-    box-shadow 0.2s;
-}
-.type-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 10px 36px rgba(0, 0, 0, 0.1) !important;
-}
-.type-accent {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-}
-.type-icon {
-  width: 60px;
-  height: 60px;
-  border-radius: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+div {
+  --step-color: rgb(var(--v-theme-hcex-user));
+  --step-color-tint: rgba(var(--v-theme-hcex-user), 0.2);
 }
 
 /* Lab Option Card */
@@ -982,31 +941,9 @@ async function handleSubmit() {
   justify-content: center;
 }
 
-/* Fields */
-.field-label {
-  font-size: 13px;
-  font-weight: 600;
-  color: rgba(var(--v-theme-on-surface), 0.75);
-  margin-bottom: 6px;
-}
-.field-label-en { font-size: 11px; font-weight: 400; color: rgba(var(--v-theme-on-surface), 0.4); margin-left: 4px; }
-.req {
-  color: rgb(var(--v-theme-error));
-}
-
 /* Selected row */
 .selected-row {
   background: rgba(var(--v-theme-hcex-user), 0.06);
 }
 
-/* Success */
-.success-ring {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  background: rgba(var(--v-theme-success), 0.1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 </style>

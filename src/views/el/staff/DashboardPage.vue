@@ -2,7 +2,7 @@
   <div>
     <!-- Header -->
     <div class="mb-6">
-      <h1 class="text-h5 font-weight-bold mb-1">แดชบอร์ด EL โรงคัดบรรจุ</h1>
+      <h1 class="page-title mb-1">แดชบอร์ด EL โรงคัดบรรจุ</h1>
       <p class="text-body-2 text-medium-emphasis mb-0">
         ภาพรวมงานตรวจประเมินโรงคัดบรรจุ (Establishment List)
       </p>
@@ -22,9 +22,9 @@
               >
                 <v-icon :icon="stat.icon" :color="stat.color" size="20" />
               </div>
-              <span class="text-h4 font-weight-bold">{{ stat.value }}</span>
+              <span class="stat-num">{{ stat.value }}</span>
             </div>
-            <div class="text-body-2 font-weight-medium">{{ stat.label }}</div>
+            <div class="stat-label">{{ stat.label }}</div>
           </v-card-text>
         </v-card>
       </v-col>
@@ -275,20 +275,3 @@ function statusLabel(status: string): string {
   return map[status] ?? status;
 }
 </script>
-
-<style scoped>
-.stat-card {
-  border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
-}
-.stat-icon-box {
-  width: 44px;
-  height: 44px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-.section-card {
-  border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
-}
-</style>

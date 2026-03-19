@@ -3,7 +3,7 @@
     <!-- Page Header -->
     <div class="d-flex align-center justify-space-between flex-wrap ga-3 mb-6">
       <div>
-        <h1 class="text-h5 font-weight-bold mb-1">แดชบอร์ด</h1>
+        <h1 class="page-title mb-1">แดชบอร์ด</h1>
         <p class="text-body-2 text-medium-emphasis mb-0">
           ภาพรวมระบบการรับรองมาตรฐาน GAP (Good Agricultural Practices)
         </p>
@@ -274,32 +274,15 @@ const quickActions = [
     color: "info",
     to: "/gap/user/applications",
   },
-  {
-    title: "ตั้งค่าระบบ",
-    desc: "จัดการผู้ใช้และสิทธิ์",
-    icon: "fas fa-gear",
-    color: "secondary",
-    to: "/gap/user/settings",
-  },
 ];
 </script>
 
 <style scoped>
-.stat-card { border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity)); }
 .quick-action-card {
   cursor: pointer;
   transition: transform 0.15s ease;
 }
 .quick-action-card:hover {
   transform: translateY(-2px);
-}
-.action-icon-box {
-  width: 40px;
-  height: 40px;
-  border-radius: 10px;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 </style>

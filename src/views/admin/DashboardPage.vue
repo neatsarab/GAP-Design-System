@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="mb-6">
-      <h1 class="text-h5 font-weight-bold mb-1">Admin Dashboard</h1>
+      <h1 class="page-title mb-1">Admin Dashboard</h1>
       <p class="text-body-2 text-medium-emphasis mb-0">ภาพรวมสถานะระบบทั้งหมด</p>
     </div>
 
@@ -11,7 +11,7 @@
         <v-card rounded="xl" elevation="0" class="summary-card">
           <v-card-text class="pa-5">
             <div class="d-flex align-center justify-space-between mb-3">
-              <div class="summary-icon-box" :style="`background: rgba(var(--v-theme-${card.color}), 0.1)`">
+              <div class="action-icon-box" :style="`background: rgba(var(--v-theme-${card.color}), 0.1)`">
                 <v-icon :icon="card.icon" :color="card.color" size="20" />
               </div>
               <v-chip size="x-small" :color="card.chipColor" variant="tonal">{{ card.chipLabel }}</v-chip>
@@ -170,8 +170,3 @@ function statusIcon(s: string) {
 }
 </script>
 
-<style scoped>
-.summary-card, .section-card { border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity)); }
-.summary-icon-box { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; }
-.section-title { font-size: 14px !important; font-weight: 600; }
-</style>

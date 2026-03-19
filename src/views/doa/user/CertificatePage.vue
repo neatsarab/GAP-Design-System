@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="mb-6">
-      <h1 class="text-h5 font-weight-bold mb-1">ใบรับรอง DOA</h1>
+      <h1 class="page-title mb-1">ใบรับรอง DOA</h1>
       <p class="text-body-2 text-medium-emphasis mb-0">
         รายการใบรับรองขึ้นทะเบียนโรงงานผลิตสินค้าพืชที่ได้รับการอนุมัติ
       </p>
@@ -12,7 +12,7 @@
       <v-card-text class="pa-4">
         <v-row dense align="center">
           <v-col cols="12" sm="6" md="3">
-            <div class="field-label">วันที่ออกใบรับรอง (จาก) <span class="field-label-en">Issue Date (From)</span></div>
+            <div class="field-label"><div>วันที่ออกใบรับรอง (จาก)</div><div class="field-label-en">Issue Date (From)</div></div>
             <v-text-field
               v-model="filters.dateFrom"
               type="date"
@@ -23,7 +23,7 @@
             />
           </v-col>
           <v-col cols="12" sm="6" md="3">
-            <div class="field-label">วันที่ออกใบรับรอง (ถึง) <span class="field-label-en">Issue Date (To)</span></div>
+            <div class="field-label"><div>วันที่ออกใบรับรอง (ถึง)</div><div class="field-label-en">Issue Date (To)</div></div>
             <v-text-field
               v-model="filters.dateTo"
               type="date"
@@ -34,7 +34,7 @@
             />
           </v-col>
           <v-col cols="12" sm="6" md="3">
-            <div class="field-label">ประเภทคำขอ <span class="field-label-en">Request Type</span></div>
+            <div class="field-label"><div>ประเภทคำขอ</div><div class="field-label-en">Request Type</div></div>
             <v-autocomplete
               v-model="filters.type"
               :items="typeOptions"
@@ -49,7 +49,7 @@
             />
           </v-col>
           <v-col cols="12" sm="6" md="3">
-            <div class="field-label">ประเภทใบรับรอง <span class="field-label-en">Certificate Type</span></div>
+            <div class="field-label"><div>ประเภทใบรับรอง</div><div class="field-label-en">Certificate Type</div></div>
             <v-autocomplete
               v-model="filters.certType"
               :items="certTypeOptions"
@@ -335,17 +335,6 @@ function typeLabel(t: string) {
 </script>
 
 <style scoped>
-.filter-card,
-.data-card {
-  border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
-}
-.field-label {
-  font-size: 13px;
-  font-weight: 500;
-  color: rgba(var(--v-theme-on-surface), 0.75);
-  margin-bottom: 4px;
-}
-.field-label-en { font-size: 11px; font-weight: 400; color: rgba(var(--v-theme-on-surface), 0.4); margin-left: 4px; }
 .info-label {
   font-size: 11px;
   color: rgba(var(--v-theme-on-surface), 0.5);

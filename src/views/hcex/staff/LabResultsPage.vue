@@ -3,7 +3,7 @@
     <!-- Header -->
     <div class="d-flex align-center justify-space-between mb-5 flex-wrap ga-3">
       <div>
-        <h1 class="text-h5 font-weight-bold mb-1">ผลการทดสอบ Lab</h1>
+        <h1 class="page-title mb-1">ผลการทดสอบ Lab</h1>
         <p class="text-body-2 text-medium-emphasis mb-0">
           จัดการผลการทดสอบห้องปฏิบัติการและคำขอจากผู้ประกอบการ
         </p>
@@ -37,7 +37,7 @@
           <v-card-text class="pa-4">
             <v-row dense>
               <v-col cols="12" sm="4">
-                <div class="field-label mb-1">ค้นหา <span class="field-label-en">Search</span></div>
+                <div class="field-label mb-1"><div>ค้นหา</div><div class="field-label-en">Search</div></div>
                 <v-text-field
                   v-model="search"
                   prepend-inner-icon="fas fa-search"
@@ -46,7 +46,7 @@
                 />
               </v-col>
               <v-col cols="6" sm="3">
-                <div class="field-label mb-1">สถานะ <span class="field-label-en">Status</span></div>
+                <div class="field-label mb-1"><div>สถานะ</div><div class="field-label-en">Status</div></div>
                 <v-autocomplete
                   v-model="filterStatus"
                   :items="statusOptions"
@@ -57,7 +57,7 @@
                 />
               </v-col>
               <v-col cols="6" sm="3">
-                <div class="field-label mb-1">วันที่ทดสอบ (จาก) <span class="field-label-en">Test Date From</span></div>
+                <div class="field-label mb-1"><div>วันที่ทดสอบ (จาก)</div><div class="field-label-en">Test Date From</div></div>
                 <v-text-field
                   v-model="filterDateFrom"
                   type="date"
@@ -164,7 +164,7 @@
           <v-card-text class="pa-4">
             <v-row dense>
               <v-col cols="12" sm="4">
-                <div class="field-label mb-1">ค้นหา <span class="field-label-en">Search</span></div>
+                <div class="field-label mb-1"><div>ค้นหา</div><div class="field-label-en">Search</div></div>
                 <v-text-field
                   v-model="requestSearch"
                   prepend-inner-icon="fas fa-search"
@@ -266,7 +266,7 @@
           </div>
 
           <!-- Decision -->
-          <div class="field-label mb-2">ผลการพิจารณา <span class="field-label-en">Review Result</span> <span class="req">*</span></div>
+          <div class="field-label mb-2"><div>ผลการพิจารณา <span class="req">*</span></div><div class="field-label-en">Review Result</div></div>
           <v-radio-group v-model="decision" class="mb-4">
             <v-radio value="pass" color="success">
               <template #label>
@@ -286,7 +286,7 @@
             </v-radio>
           </v-radio-group>
 
-          <div class="field-label mb-2">หมายเหตุ <span class="field-label-en">Remarks</span></div>
+          <div class="field-label mb-2"><div>หมายเหตุ</div><div class="field-label-en">Remarks</div></div>
           <v-textarea
             v-model="reviewNote"
             placeholder="ระบุหมายเหตุหรือเหตุผลประกอบการพิจารณา"
@@ -647,14 +647,5 @@ function getRequestStatusIcon(s: string) {
 .info-value {
   font-size: 13px;
   font-weight: 500;
-}
-.field-label {
-  font-size: 13px;
-  font-weight: 600;
-  color: rgba(var(--v-theme-on-surface), 0.75);
-}
-.field-label-en { font-size: 11px; font-weight: 400; color: rgba(var(--v-theme-on-surface), 0.4); margin-left: 4px; }
-.req {
-  color: rgb(var(--v-theme-error));
 }
 </style>

@@ -10,7 +10,7 @@
       />
       <div class="flex-grow-1">
         <div class="d-flex align-center ga-3 flex-wrap">
-          <h1 class="text-h5 font-weight-bold mb-0">
+          <h1 class="page-title mb-0">
             {{ appDetail.requestNo }}
           </h1>
           <v-chip color="el-staff" size="small" variant="tonal"
@@ -281,7 +281,7 @@
             <v-card-text class="pa-5">
               <v-row dense>
                 <v-col cols="12" sm="6">
-                  <div class="field-label mb-1">วันที่นัดตรวจ <span class="field-label-en">Inspection Date</span></div>
+                  <div class="field-label mb-1"><div>วันที่นัดตรวจ</div><div class="field-label-en">Inspection Date</div></div>
                   <v-text-field
                     v-model="schedule.date"
                     type="date"
@@ -291,7 +291,7 @@
                   />
                 </v-col>
                 <v-col cols="12" sm="6">
-                  <div class="field-label mb-1">เวลา <span class="field-label-en">Time</span></div>
+                  <div class="field-label mb-1"><div>เวลา</div><div class="field-label-en">Time</div></div>
                   <v-text-field
                     v-model="schedule.time"
                     type="time"
@@ -301,7 +301,7 @@
                   />
                 </v-col>
                 <v-col cols="12">
-                  <div class="field-label mb-1">ผู้ตรวจ <span class="field-label-en">Inspector Name</span></div>
+                  <div class="field-label mb-1"><div>ผู้ตรวจ</div><div class="field-label-en">Inspector Name</div></div>
                   <v-autocomplete
                     v-model="schedule.inspector"
                     :items="inspectorOptions"
@@ -313,7 +313,7 @@
                   />
                 </v-col>
                 <v-col cols="12">
-                  <div class="field-label mb-1">หมายเหตุ <span class="field-label-en">Remarks</span></div>
+                  <div class="field-label mb-1"><div>หมายเหตุ</div><div class="field-label-en">Remarks</div></div>
                   <v-textarea
                     v-model="schedule.note"
                     variant="outlined"
@@ -598,11 +598,11 @@
           </v-radio-group>
           <v-row dense>
             <v-col cols="12" md="6">
-              <div class="field-label mb-1">หมายเหตุ <span class="field-label-en">Remarks</span></div>
+              <div class="field-label mb-1"><div>หมายเหตุ</div><div class="field-label-en">Remarks</div></div>
               <v-textarea v-model="inspectionNote" variant="outlined" density="compact" rounded="lg" rows="3" />
             </v-col>
             <v-col cols="12" md="6">
-              <div class="field-label mb-1">ข้อเสนอแนะ <span class="field-label-en">Suggestion</span></div>
+              <div class="field-label mb-1"><div>ข้อเสนอแนะ</div><div class="field-label-en">Suggestion</div></div>
               <v-textarea v-model="inspectionSuggestion" variant="outlined" density="compact" rounded="lg" rows="3" />
             </v-col>
           </v-row>
@@ -630,7 +630,7 @@
           <v-card-text class="pa-5">
             <v-row dense>
               <v-col cols="12">
-                <div class="field-label mb-1">{{ testDialogLabel }} <span class="field-label-en">Item</span></div>
+                <div class="field-label mb-1"><div>{{ testDialogLabel }}</div><div class="field-label-en">Item</div></div>
                 <v-autocomplete
                   v-model="testDialogItem.subject"
                   :items="testDialogOptions"
@@ -640,11 +640,11 @@
                 />
               </v-col>
               <v-col cols="12">
-                <div class="field-label mb-1">ผลตรวจ <span class="field-label-en">Test Result</span></div>
+                <div class="field-label mb-1"><div>ผลตรวจ</div><div class="field-label-en">Test Result</div></div>
                 <v-text-field v-model="testDialogItem.value" variant="outlined" density="compact" rounded="lg" />
               </v-col>
               <v-col cols="12">
-                <div class="field-label mb-1">ผ่าน/ไม่ผ่าน <span class="field-label-en">Pass/Fail</span></div>
+                <div class="field-label mb-1"><div>ผ่าน/ไม่ผ่าน</div><div class="field-label-en">Pass/Fail</div></div>
                 <v-autocomplete
                   v-model="testDialogItem.pass"
                   :items="[{ title: 'ผ่าน', value: 'pass' }, { title: 'ไม่ผ่าน', value: 'fail' }]"
@@ -656,7 +656,7 @@
                 />
               </v-col>
               <v-col cols="12">
-                <div class="field-label mb-1">หมายเหตุ <span class="field-label-en">Remarks</span></div>
+                <div class="field-label mb-1"><div>หมายเหตุ</div><div class="field-label-en">Remarks</div></div>
                 <v-text-field v-model="testDialogItem.remark" variant="outlined" density="compact" rounded="lg" />
               </v-col>
             </v-row>
@@ -732,7 +732,7 @@
             </v-card-title>
             <v-divider />
             <v-card-text class="pa-5">
-              <div class="field-label mb-1">เลือกคณะกรรมการ <span class="field-label-en">Committee Select</span></div>
+              <div class="field-label mb-1"><div>เลือกคณะกรรมการ</div><div class="field-label-en">Committee Select</div></div>
               <v-autocomplete
                 v-model="selectedCommittee"
                 :items="committeeOptions"
@@ -782,7 +782,7 @@
         </v-card-title>
         <v-divider />
         <v-card-text class="pa-5">
-          <div class="field-label mb-1">เหตุผลในการส่งกลับ <span class="field-label-en">Return Reason</span> <span class="req">*</span></div>
+          <div class="field-label mb-1"><div>เหตุผลในการส่งกลับ <span class="req">*</span></div><div class="field-label-en">Return Reason</div></div>
           <v-textarea
             v-model="returnReason"
             variant="outlined"
@@ -1092,16 +1092,7 @@ function doSubmitToCommittee() {
 </script>
 
 <style scoped>
-.field-label { font-size: 12px; font-weight: 600; color: rgba(var(--v-theme-on-surface), 0.75); }
-.field-label-en { font-size: 11px; font-weight: 400; color: rgba(var(--v-theme-on-surface), 0.4); margin-left: 4px; }
-.req { color: rgb(var(--v-theme-error)); margin-left: 2px; }
-.section-card {
-  border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
-}
-.section-title {
-  font-size: 14px !important;
-  font-weight: 600;
-}
+div { --step-color: rgb(var(--v-theme-el-staff)); --step-color-tint: rgba(var(--v-theme-el-staff), 0.2); }
 .step-circle {
   width: 32px;
   height: 32px;
@@ -1126,27 +1117,6 @@ function doSubmitToCommittee() {
   background: rgb(var(--v-theme-el-staff));
   color: white;
 }
-.step-line {
-  height: 2px;
-  background: rgba(var(--v-border-color), var(--v-border-opacity));
-  margin: 0 8px;
-  margin-bottom: 22px;
-  min-width: 20px;
-}
-.step-line--done {
-  background: rgb(var(--v-theme-el-staff));
-}
-.info-label {
-  font-size: 11px;
-  color: rgba(var(--v-theme-on-surface), 0.5);
-  text-transform: uppercase;
-  letter-spacing: 0.4px;
-  margin-bottom: 2px;
-}
-.info-value {
-  font-size: 14px;
-  font-weight: 500;
-}
 .checklist-row {
   background: rgba(var(--v-theme-el-staff), 0.03);
   border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
@@ -1157,19 +1127,13 @@ function doSubmitToCommittee() {
   cursor: pointer;
   min-height: 100px;
 }
-.confirm-ring,
-.success-ring {
+.confirm-ring {
   width: 72px;
   height: 72px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-}
-.confirm-ring {
   background: rgba(var(--v-theme-el-staff), 0.1);
-}
-.success-ring {
-  background: rgba(var(--v-theme-success), 0.1);
 }
 </style>

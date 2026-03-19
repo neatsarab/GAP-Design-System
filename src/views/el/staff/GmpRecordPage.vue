@@ -9,7 +9,7 @@
         @click="router.push('/el/staff/inspection/new')"
       />
       <div>
-        <h1 class="text-h5 font-weight-bold mb-0">ผลตรวจ GMP / HACCP</h1>
+        <h1 class="page-title mb-0">ผลตรวจ GMP / HACCP</h1>
         <p class="text-body-2 text-medium-emphasis mb-0 mt-1">
           บันทึกและแสดงผลการตรวจมาตรฐาน GMP และ HACCP
         </p>
@@ -192,7 +192,7 @@
         <v-card-text class="pa-5">
           <v-row dense>
             <v-col cols="12" sm="6">
-              <div class="field-label mb-1">ครั้งที่ตรวจ <span class="field-label-en">Inspection Round</span></div>
+              <div class="field-label mb-1"><div>ครั้งที่ตรวจ</div><div class="field-label-en">Inspection Round</div></div>
               <v-text-field
                 v-model="dialogItem.round"
                 type="number"
@@ -202,7 +202,7 @@
               />
             </v-col>
             <v-col cols="12" sm="6">
-              <div class="field-label mb-1">กำหนดตรวจ <span class="field-label-en">Scheduled Date</span></div>
+              <div class="field-label mb-1"><div>กำหนดตรวจ</div><div class="field-label-en">Scheduled Date</div></div>
               <v-text-field
                 v-model="dialogItem.scheduledDate"
                 type="date"
@@ -212,7 +212,7 @@
               />
             </v-col>
             <v-col cols="12" sm="6">
-              <div class="field-label mb-1">วันที่ตรวจ <span class="field-label-en">Inspection Date</span></div>
+              <div class="field-label mb-1"><div>วันที่ตรวจ</div><div class="field-label-en">Inspection Date</div></div>
               <v-text-field
                 v-model="dialogItem.inspectedDate"
                 type="date"
@@ -222,7 +222,7 @@
               />
             </v-col>
             <v-col cols="12" sm="6">
-              <div class="field-label mb-1">ผู้ตรวจ <span class="field-label-en">Inspector Name</span></div>
+              <div class="field-label mb-1"><div>ผู้ตรวจ</div><div class="field-label-en">Inspector Name</div></div>
               <v-autocomplete
                 v-model="dialogItem.inspector"
                 :items="inspectorOptions"
@@ -234,7 +234,7 @@
               />
             </v-col>
             <v-col cols="12" sm="6">
-              <div class="field-label mb-1">ผลการตรวจ <span class="field-label-en">Inspection Result</span></div>
+              <div class="field-label mb-1"><div>ผลการตรวจ</div><div class="field-label-en">Inspection Result</div></div>
               <v-autocomplete
                 v-model="dialogItem.result"
                 :items="[{ title: 'ผ่าน', value: 'pass' }, { title: 'ไม่ผ่าน', value: 'fail' }]"
@@ -246,7 +246,7 @@
               />
             </v-col>
             <v-col cols="12">
-              <div class="field-label mb-1">หมายเหตุ <span class="field-label-en">Remarks</span></div>
+              <div class="field-label mb-1"><div>หมายเหตุ</div><div class="field-label-en">Remarks</div></div>
               <v-textarea
                 v-model="dialogItem.remark"
                 variant="outlined"
@@ -366,14 +366,3 @@ function saveRecord() {
 }
 </script>
 
-<style scoped>
-.field-label { font-size: 12px; font-weight: 600; color: rgba(var(--v-theme-on-surface), 0.75); }
-.field-label-en { font-size: 11px; font-weight: 400; color: rgba(var(--v-theme-on-surface), 0.4); margin-left: 4px; }
-.section-card {
-  border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
-}
-.section-title {
-  font-size: 14px !important;
-  font-weight: 600;
-}
-</style>

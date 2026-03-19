@@ -7,7 +7,7 @@
         <div class="brand-ring mb-8">
           <v-icon icon="fas fa-leaf" size="36" color="white" />
         </div>
-        <h1 class="text-h4 font-weight-bold text-white mb-2" style="line-height:1.2">กรมวิชาการเกษตร</h1>
+        <h1 class="text-h4 font-weight-bold text-white mb-2 lh-tight">กรมวิชาการเกษตร</h1>
         <p class="text-body-1 mb-1" style="color:rgba(255,255,255,0.75)">Department of Agriculture</p>
         <p class="text-body-2 mb-10" style="color:rgba(255,255,255,0.5)">กระทรวงเกษตรและสหกรณ์</p>
         <div class="feature-list">
@@ -36,7 +36,7 @@
               <v-icon icon="fas fa-leaf" size="18" color="white" />
             </div>
             <div>
-              <div class="text-body-2 font-weight-bold text-primary" style="line-height:1.2">กรมวิชาการเกษตร</div>
+              <div class="text-body-2 font-weight-bold text-primary lh-tight">กรมวิชาการเกษตร</div>
               <div class="text-caption text-medium-emphasis">ระบบบริการออนไลน์</div>
             </div>
           </div>
@@ -50,7 +50,7 @@
 
         <!-- Heading -->
         <div class="mb-6">
-          <h2 class="text-h5 font-weight-bold mb-1">ลงทะเบียนผู้ใช้งานใหม่</h2>
+          <h2 class="page-title mb-1">ลงทะเบียนผู้ใช้งานใหม่</h2>
           <p class="text-body-2 text-medium-emphasis mb-0">
             สร้างบัญชีเพื่อเข้าใช้งานระบบบริการออนไลน์ กรมวิชาการเกษตร
           </p>

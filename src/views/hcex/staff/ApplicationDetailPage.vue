@@ -9,7 +9,7 @@
         @click="router.push('/hcex/staff/applications')"
       />
       <div>
-        <h1 class="text-h5 font-weight-bold mb-1">
+        <h1 class="page-title mb-1">
           รายละเอียดคำขอ {{ appDetail.requestNo }}
         </h1>
         <div class="d-flex align-center ga-2">
@@ -206,7 +206,7 @@
         <v-card-text class="pa-4 pt-0">
           <v-row dense>
             <v-col cols="12" sm="6">
-              <div class="field-label mb-2">เลขที่ใบรับรอง (ร่าง) <span class="field-label-en">Draft Cert No.</span></div>
+              <div class="field-label mb-2"><div>เลขที่ใบรับรอง (ร่าง)</div><div class="field-label-en">Draft Cert No.</div></div>
               <v-text-field
                 model-value="DRAFT-THHCEX-2568-00012"
                 readonly
@@ -220,7 +220,7 @@
               </v-text-field>
             </v-col>
             <v-col cols="12" sm="6">
-              <div class="field-label mb-2">ผู้ส่งออก <span class="field-label-en">Exporter Name</span></div>
+              <div class="field-label mb-2"><div>ผู้ส่งออก</div><div class="field-label-en">Exporter Name</div></div>
               <v-text-field
                 :model-value="appDetail.exporterName"
                 readonly
@@ -230,7 +230,7 @@
               />
             </v-col>
             <v-col cols="12" sm="6">
-              <div class="field-label mb-2">ผู้รับสินค้า <span class="field-label-en">Consignee</span></div>
+              <div class="field-label mb-2"><div>ผู้รับสินค้า</div><div class="field-label-en">Consignee</div></div>
               <v-text-field
                 :model-value="appDetail.consigneeName"
                 readonly
@@ -240,7 +240,7 @@
               />
             </v-col>
             <v-col cols="12" sm="6">
-              <div class="field-label mb-2">ประเทศปลายทาง <span class="field-label-en">Destination Country</span></div>
+              <div class="field-label mb-2"><div>ประเทศปลายทาง</div><div class="field-label-en">Destination Country</div></div>
               <v-text-field
                 :model-value="appDetail.destination"
                 readonly
@@ -250,7 +250,7 @@
               />
             </v-col>
             <v-col cols="12" sm="6">
-              <div class="field-label mb-2">วันที่ออกใบรับรอง <span class="field-label-en">Issue Date</span> <span class="req">*</span></div>
+              <div class="field-label mb-2"><div>วันที่ออกใบรับรอง <span class="req">*</span></div><div class="field-label-en">Issue Date</div></div>
               <v-text-field
                 v-model="previewIssueDate"
                 type="date"
@@ -260,7 +260,7 @@
               />
             </v-col>
             <v-col cols="12">
-              <div class="field-label mb-2">หมายเหตุ <span class="field-label-en">Remarks</span></div>
+              <div class="field-label mb-2"><div>หมายเหตุ</div><div class="field-label-en">Remarks</div></div>
               <v-textarea
                 v-model="previewNote"
                 placeholder="หมายเหตุเพิ่มเติม (ถ้ามี)"
@@ -324,7 +324,7 @@
           </div>
 
           <!-- Status Radio -->
-          <div class="field-label mb-3">สถานะการยืนยันจากผู้ประกอบการ <span class="field-label-en">Operator Confirmation Status</span> <span class="req">*</span></div>
+          <div class="field-label mb-3"><div>สถานะการยืนยันจากผู้ประกอบการ <span class="req">*</span></div><div class="field-label-en">Operator Confirmation Status</div></div>
           <v-radio-group v-model="operatorConfirmStatus" class="mb-0">
             <v-radio value="confirmed" color="success">
               <template #label>
@@ -398,7 +398,7 @@
             </div>
           </div>
 
-          <div class="field-label mb-2">เลือกผู้มีอำนาจลงนาม <span class="field-label-en">Select Signer</span> <span class="req">*</span></div>
+          <div class="field-label mb-2"><div>เลือกผู้มีอำนาจลงนาม <span class="req">*</span></div><div class="field-label-en">Select Signer</div></div>
           <v-autocomplete
             v-model="selectedSigner"
             :items="signers"
@@ -441,7 +441,7 @@
         </v-card-title>
         <v-divider />
         <v-card-text class="pa-5">
-          <div class="field-label mb-2">เหตุผลที่ส่งกลับแก้ไข <span class="field-label-en">Return Reason</span> <span class="req">*</span></div>
+          <div class="field-label mb-2"><div>เหตุผลที่ส่งกลับแก้ไข <span class="req">*</span></div><div class="field-label-en">Return Reason</div></div>
           <v-textarea
             v-model="returnReason"
             placeholder="ระบุเหตุผลหรือรายละเอียดที่ต้องแก้ไข"
@@ -629,6 +629,7 @@ function getStatusLabel(s: string) {
 </script>
 
 <style scoped>
+div { --step-color: rgb(var(--v-theme-hcex-staff)); --step-color-tint: rgba(var(--v-theme-hcex-staff), 0.2); }
 /* Step Bar */
 .step-bar {
   display: flex;
@@ -682,18 +683,6 @@ function getStatusLabel(s: string) {
 .step-item--done .step-label {
   color: rgb(var(--v-theme-success));
 }
-.step-line {
-  position: absolute;
-  top: 14px;
-  left: 50%;
-  width: 100%;
-  height: 2px;
-  background: rgba(var(--v-theme-on-surface), 0.1);
-  z-index: 0;
-}
-.step-item--done .step-line {
-  background: rgba(var(--v-theme-success), 0.4);
-}
 
 /* Info Grid */
 .info-grid {
@@ -716,17 +705,6 @@ function getStatusLabel(s: string) {
 .info-value {
   font-size: 13px;
   font-weight: 500;
-}
-
-/* Fields */
-.field-label {
-  font-size: 13px;
-  font-weight: 600;
-  color: rgba(var(--v-theme-on-surface), 0.75);
-}
-.field-label-en { font-size: 11px; font-weight: 400; color: rgba(var(--v-theme-on-surface), 0.4); margin-left: 4px; }
-.req {
-  color: rgb(var(--v-theme-error));
 }
 
 /* Draft cert box */

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="mb-6">
-      <h1 class="text-h5 font-weight-bold mb-1">Certificate Expiration</h1>
+      <h1 class="page-title mb-1">Certificate Expiration</h1>
       <p class="text-body-2 text-medium-emphasis mb-0">ติดตาม Certificate ที่กำลังจะหมดอายุ</p>
     </div>
 
@@ -58,6 +58,3 @@ function certStatusIcon(s: string) {
 }
 </script>
 
-<style scoped>
-.data-card { border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity)); }
-</style>

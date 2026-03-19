@@ -46,7 +46,7 @@
         </v-alert>
 
         <v-form ref="formRef" @submit.prevent="doLogin">
-          <div class="field-label">Username <span class="field-label-en">Username</span> <span class="req">*</span></div>
+          <div class="field-label"><div>Username <span class="req">*</span></div><div class="field-label-en">Username</div></div>
           <v-text-field
             v-model="username"
             placeholder="Admin username"
@@ -57,7 +57,7 @@
             autofocus
           />
 
-          <div class="field-label">Password <span class="field-label-en">Password</span> <span class="req">*</span></div>
+          <div class="field-label"><div>Password <span class="req">*</span></div><div class="field-label-en">Password</div></div>
           <v-text-field
             v-model="password"
             :type="showPassword ? 'text' : 'password'"
@@ -143,9 +143,19 @@ async function doLogin() {
   if (password.value === "admin") {
     if (username.value === "admin") {
       adminStore.setRole("sysadmin");
+      adminStore.setUsername("admin");
       router.push("/admin/dashboard");
     } else if (username.value === "adminsso") {
       adminStore.setRole("adminsso");
+      adminStore.setUsername("adminsso");
+      router.push("/admin/access-requests");
+    } else if (username.value === "adminsso01") {
+      adminStore.setRole("adminsso");
+      adminStore.setUsername("adminsso01");
+      router.push("/admin/access-requests");
+    } else if (username.value === "adminsso02") {
+      adminStore.setRole("adminsso");
+      adminStore.setUsername("adminsso02");
       router.push("/admin/access-requests");
     } else {
       error.value = "Username หรือ Password ไม่ถูกต้อง";
@@ -224,13 +234,4 @@ async function doLogin() {
   background: rgba(var(--v-theme-surface-variant), 0.4);
 }
 
-.field-label {
-  font-size: 13px;
-  font-weight: 600;
-  color: rgba(var(--v-theme-on-surface), 0.75);
-  margin-bottom: 6px;
-}
-.field-label-en { font-size: 11px; font-weight: 400; color: rgba(var(--v-theme-on-surface), 0.4); margin-left: 4px; }
-
-.req { color: rgb(var(--v-theme-error)); }
 </style>

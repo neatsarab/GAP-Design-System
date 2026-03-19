@@ -2,7 +2,7 @@
   <div>
     <div class="d-flex align-center justify-space-between mb-6">
       <div>
-        <h1 class="text-h5 font-weight-bold mb-1">ขอบข่ายมาตรฐาน</h1>
+        <h1 class="page-title mb-1">ขอบข่ายมาตรฐาน</h1>
         <p class="text-body-2 text-medium-emphasis mb-0">จัดการรายการขอบข่ายมาตรฐานที่ใช้ในระบบ</p>
       </div>
       <v-btn color="doa-staff" rounded="lg" prepend-icon="fas fa-plus" @click="openAdd">เพิ่มมาตรฐาน</v-btn>
@@ -101,27 +101,27 @@
         <v-card-text class="pa-6">
           <v-row dense>
             <v-col cols="12" sm="4">
-              <div class="field-label">รหัสมาตรฐาน <span class="field-label-en">Standard Code</span> <span class="req">*</span></div>
+              <div class="field-label"><div>รหัสมาตรฐาน <span class="req">*</span></div><div class="field-label-en">Standard Code</div></div>
               <v-text-field v-model="form.code" variant="outlined" density="compact" rounded="lg" hide-details placeholder="เช่น มกษ.9023" />
             </v-col>
             <v-col cols="12" sm="8">
-              <div class="field-label">หมวดหมู่ <span class="field-label-en">Category</span> <span class="req">*</span></div>
+              <div class="field-label"><div>หมวดหมู่ <span class="req">*</span></div><div class="field-label-en">Category</div></div>
               <v-autocomplete v-model="form.category" :items="categoryOptions" item-title="label" item-value="value" variant="outlined" density="compact" rounded="lg" hide-details />
             </v-col>
             <v-col cols="12">
-              <div class="field-label mt-2">ชื่อมาตรฐาน (ภาษาไทย) <span class="field-label-en">Standard Name (Thai)</span> <span class="req">*</span></div>
+              <div class="field-label mt-2"><div>ชื่อมาตรฐาน (ภาษาไทย) <span class="req">*</span></div><div class="field-label-en">Standard Name (Thai)</div></div>
               <v-text-field v-model="form.nameTh" variant="outlined" density="compact" rounded="lg" hide-details placeholder="ชื่อเต็มภาษาไทย" />
             </v-col>
             <v-col cols="12">
-              <div class="field-label mt-2">Standard Name (English) <span class="field-label-en">Standard Name (English)</span></div>
+              <div class="field-label mt-2"><div>Standard Name (English)</div><div class="field-label-en">Standard Name (English)</div></div>
               <v-text-field v-model="form.nameEn" variant="outlined" density="compact" rounded="lg" hide-details placeholder="Full name in English" />
             </v-col>
             <v-col cols="12">
-              <div class="field-label mt-2">คำอธิบาย <span class="field-label-en">Description</span></div>
+              <div class="field-label mt-2"><div>คำอธิบาย</div><div class="field-label-en">Description</div></div>
               <v-textarea v-model="form.description" variant="outlined" density="compact" rounded="lg" hide-details rows="2" placeholder="รายละเอียดเพิ่มเติม..." />
             </v-col>
             <v-col cols="12">
-              <div class="field-label mt-2">สถานะ <span class="field-label-en">Status</span></div>
+              <div class="field-label mt-2"><div>สถานะ</div><div class="field-label-en">Status</div></div>
               <v-switch v-model="form.isActive" color="doa-staff" :label="form.isActive ? 'ใช้งาน' : 'ปิดใช้งาน'" hide-details density="compact" />
             </v-col>
           </v-row>
@@ -257,9 +257,5 @@ function confirmDelete() {
 </script>
 
 <style scoped>
-.filter-card, .data-card { border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity)); }
-.field-label { font-size: 13px; font-weight: 500; color: rgba(var(--v-theme-on-surface), 0.75); margin-bottom: 4px; }
-.field-label-en { font-size: 11px; font-weight: 400; color: rgba(var(--v-theme-on-surface), 0.4); margin-left: 4px; }
-.req { color: rgb(var(--v-theme-error)); }
 .delete-ring { width: 60px; height: 60px; border-radius: 50%; background: rgba(var(--v-theme-error), 0.1); display: flex; align-items: center; justify-content: center; }
 </style>

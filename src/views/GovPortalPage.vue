@@ -12,8 +12,8 @@
           </div>
           <div>
             <div
-              class="text-body-2 font-weight-bold text-white"
-              style="line-height: 1.2"
+              class="text-body-2 font-weight-bold text-white lh-tight"
+              
             >
               กรมวิชาการเกษตร
             </div>
@@ -87,8 +87,8 @@
                 </div>
                 <div class="d-none d-sm-block">
                   <div
-                    class="text-caption font-weight-semibold text-white"
-                    style="line-height: 1.2"
+                    class="text-caption font-weight-semibold text-white lh-tight"
+                    
                   >
                     {{ user.name }}
                   </div>
@@ -170,7 +170,7 @@
             >
               ยินดีต้อนรับ
             </p>
-            <h1 class="text-h5 font-weight-bold text-white mb-1">
+            <h1 class="page-title text-white mb-1">
               {{ user.name }}
             </h1>
             <div class="d-flex align-center ga-2 flex-wrap">

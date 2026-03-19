@@ -18,7 +18,7 @@
             >แก้ไข / ยกเลิก</v-chip
           >
         </div>
-        <h1 class="text-h5 font-weight-bold mb-0">
+        <h1 class="page-title mb-0">
           ใบคำขอแก้ไขและยกเลิกใบรับรอง GAP พืช
         </h1>
         <p class="text-body-2 text-medium-emphasis mb-0">
@@ -61,7 +61,7 @@
             <div
               v-if="i < steps.length - 1"
               class="step-line flex-grow-1"
-              :class="{ 'step-line--done-warn': currentStep > step.value }"
+              :class="{ 'step-line--done': currentStep > step.value }"
             />
           </template>
         </div>
@@ -74,17 +74,15 @@
         <v-card elevation="0" border rounded="xl" class="mb-4">
           <div class="section-header border-b">
             <v-icon size="15" color="gap-user">fas fa-certificate</v-icon>
-            <span class="text-subtitle-2 font-weight-bold"
-              >หมวดที่ 1 · ระบุใบรับรองที่ต้องการดำเนินการ</span
-            >
+            <span class="text-subtitle-2">ระบุใบรับรองที่ต้องการดำเนินการ</span>
           </div>
           <v-card-text class="pt-5">
+            <div class="field-section-label mb-3">เลขที่ใบรับรอง</div>
             <v-row dense>
               <v-col cols="12" sm="6">
                 <div class="field-label">
-                  เลขที่ใบรับรอง GAP
-                  <span class="field-label-en">GAP Certificate No.</span>
-                  <span class="req">*</span>
+                  เลขที่ใบรับรอง GAP <span class="req">*</span>
+                  <div class="field-label-en">GAP Certificate No.</div>
                 </div>
                 <v-text-field
                   v-model="form.certNo"
@@ -100,11 +98,11 @@
                   prepend-inner-icon="fas fa-file-lines" :rules="[rules.required]" hide-details="auto" />
               </v-col> -->
 
-              <v-col cols="12" class="mt-2">
-                <div class="field-label">
-                  ประเภทคำขอ <span class="field-label-en">Request Type</span>
-                  <span class="req">*</span>
-                </div>
+              <v-col cols="12">
+                <v-divider class="my-2" />
+                <div class="field-section-label mt-3 mb-2">ประเภทคำขอ</div>
+              </v-col>
+              <v-col cols="12">
                 <v-radio-group
                   v-model="form.requestType"
                   color="gap-user"
@@ -176,17 +174,14 @@
           <v-card elevation="0" border rounded="xl" class="mb-4">
             <div class="section-header border-b">
               <v-icon size="15" color="gap-user">fas fa-pencil</v-icon>
-              <span class="text-subtitle-2 font-weight-bold"
-                >หมวดที่ 2 · รายละเอียดที่ต้องการแก้ไข</span
-              >
+              <span class="text-subtitle-2">รายละเอียดที่ต้องการแก้ไข</span>
             </div>
             <v-card-text class="pt-5">
               <v-row dense>
                 <v-col cols="12">
                   <div class="field-label">
-                    รายการที่ต้องการแก้ไข
-                    <span class="field-label-en">Items to Amend</span>
-                    <span class="req">*</span>
+                    รายการที่ต้องการแก้ไข <span class="req">*</span>
+                    <div class="field-label-en">Items to Amend</div>
                   </div>
                   <div class="amend-list">
                     <div
@@ -206,7 +201,6 @@
                         color="gap-user"
                         density="compact"
                         hide-details
-                        pr-5
                       />
                       <v-expand-transition>
                         <div
@@ -214,11 +208,10 @@
                           class="amend-detail-field"
                         >
                           <div class="field-label mb-1">
-                            {{ item.detailLabel }}
+                            {{ item.detailLabel }} <span class="req">*</span>
                             <span class="field-label-en">{{
                               item.detailLabelEn
                             }}</span>
-                            <span class="req">*</span>
                           </div>
                           <v-textarea
                             v-if="item.inputType === 'textarea'"
@@ -255,17 +248,14 @@
           <v-card elevation="0" border rounded="xl" class="mb-4">
             <div class="section-header border-b">
               <v-icon size="15" color="error">fas fa-ban</v-icon>
-              <span class="text-subtitle-2 font-weight-bold"
-                >หมวดที่ 2 · เหตุผลการยกเลิกใบรับรอง</span
-              >
+              <span class="text-subtitle-2">เหตุผลการยกเลิกใบรับรอง</span>
             </div>
             <v-card-text class="pt-5">
               <v-row dense>
                 <v-col cols="12">
                   <div class="field-label">
-                    สาเหตุการยกเลิก
-                    <span class="field-label-en">Cancellation Reason</span>
-                    <span class="req">*</span>
+                    สาเหตุการยกเลิก <span class="req">*</span>
+                    <div class="field-label-en">Cancellation Reason</div>
                   </div>
                   <v-autocomplete
                     v-model="form.cancelReason"
@@ -280,7 +270,8 @@
                 <v-col cols="12" class="mt-2">
                   <div class="field-label">
                     รายละเอียดเพิ่มเติม
-                    <span class="field-label-en">Additional Details</span>
+                    <div></div>
+                    <div class="field-label-en">Additional Details</div>
                   </div>
                   <v-textarea
                     v-model="form.cancelDetail"
@@ -313,23 +304,21 @@
         <v-card elevation="0" border rounded="xl">
           <div class="section-header border-b">
             <v-icon size="15" color="gap-user">fas fa-paperclip</v-icon>
-            <span class="text-subtitle-2 font-weight-bold"
-              >หมวดที่ 3 · เอกสารประกอบคำขอ</span
-            >
+            <span class="text-subtitle-2">เอกสารประกอบคำขอ</span>
             <v-spacer />
             <v-chip size="x-small" variant="tonal" color="gap-user"
               >ไม่เกินไฟล์ละ 10 MB</v-chip
             >
           </div>
           <v-card-text class="pt-5">
+            <div class="field-section-label mb-3">เอกสารแนบ</div>
             <v-row dense>
               <v-col cols="12" sm="6">
                 <div class="field-label">
-                  สำเนาใบรับรอง GAP เดิม
+                  สำเนาใบรับรอง GAP เดิม <span class="req">*</span>
                   <span class="field-label-en"
                     >Copy of Previous GAP Certificate</span
                   >
-                  <span class="req">*</span>
                 </div>
                 <v-file-input
                   v-model="form.certCopy"
@@ -367,9 +356,7 @@
         <v-card elevation="0" border rounded="xl">
           <div class="section-header border-b">
             <v-icon size="15" color="success">fas fa-clipboard-check</v-icon>
-            <span class="text-subtitle-2 font-weight-bold"
-              >ตรวจสอบคำขอก่อนยื่น</span
-            >
+            <span class="text-subtitle-2">ตรวจสอบคำขอก่อนยื่น</span>
           </div>
           <v-card-text class="pa-5">
             <v-row dense>
@@ -533,8 +520,8 @@ const steps = [
 ];
 
 function stepClass(v: number) {
-  if (currentStep.value > v) return "step-done-warn";
-  if (currentStep.value === v) return "step-active-warn";
+  if (currentStep.value > v) return "step-done";
+  if (currentStep.value === v) return "step-active";
   return "step-pending";
 }
 
@@ -631,59 +618,9 @@ const rules = {
 </script>
 
 <style scoped>
-.section-header {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 12px 16px;
-}
-.field-label {
-  font-size: 13px;
-  font-weight: 600;
-  color: rgba(var(--v-theme-on-surface), 0.75);
-  margin-bottom: 6px;
-}
-.field-label-en {
-  font-size: 11px;
-  font-weight: 400;
-  color: rgba(var(--v-theme-on-surface), 0.4);
-  margin-left: 4px;
-}
-.req {
-  color: rgb(var(--v-theme-error));
-}
-.step-circle {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 13px;
-  transition: all 0.2s;
-}
-.step-done-warn {
-  background: rgb(var(--v-theme-gap-user));
-  color: white;
-}
-.step-active-warn {
-  background: rgb(var(--v-theme-gap-user));
-  color: white;
-  box-shadow: 0 0 0 4px rgba(var(--v-theme-gap-user), 0.2);
-}
-.step-pending {
-  background: rgba(var(--v-theme-on-surface), 0.1);
-  color: rgba(var(--v-theme-on-surface), 0.5);
-}
-.step-line {
-  height: 2px;
-  margin: 0 4px;
-  margin-bottom: 20px;
-  background: rgba(var(--v-theme-on-surface), 0.12);
-  transition: background 0.3s;
-}
-.step-line--done-warn {
-  background: rgb(var(--v-theme-gap-user));
+div {
+  --step-color: rgb(var(--v-theme-gap-user));
+  --step-color-tint: rgba(var(--v-theme-gap-user), 0.2);
 }
 
 /* Amendment item list */
@@ -705,8 +642,5 @@ const rules = {
 }
 .amend-detail-field {
   padding: 8px 4px 4px 32px;
-}
-.amend-item :deep(.v-checkbox .v-label) {
-  padding-inline-start: 12px;
 }
 </style>

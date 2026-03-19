@@ -3,7 +3,7 @@
     <!-- Header -->
     <div class="d-flex align-center justify-space-between mb-6 flex-wrap ga-3">
       <div>
-        <h1 class="text-h5 font-weight-bold mb-1">แดชบอร์ด</h1>
+        <h1 class="page-title mb-1">แดชบอร์ด</h1>
         <p class="text-body-2 text-medium-emphasis mb-0">
           ภาพรวมระบบออกใบรับรองสุขอนามัย (Health Certificate)
           ตามประกาศพืชควบคุมเฉพาะ
@@ -283,36 +283,3 @@ function getStatusLabel(s: string) {
   return m[s] ?? s;
 }
 </script>
-
-<style scoped>
-.stat-card {
-  border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
-  position: relative;
-  overflow: hidden;
-}
-.stat-icon-box {
-  width: 38px;
-  height: 38px;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.stat-accent {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  opacity: 0.6;
-}
-.app-icon-box {
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-</style>

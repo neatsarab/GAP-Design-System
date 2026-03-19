@@ -9,8 +9,8 @@
           </div>
           <div>
             <div
-              class="text-body-2 font-weight-bold text-white"
-              style="line-height: 1.2"
+              class="text-body-2 font-weight-bold text-white lh-tight"
+              
             >
               กรมวิชาการเกษตร
             </div>
@@ -42,8 +42,8 @@
             </div>
             <div class="d-none d-sm-block">
               <div
-                class="text-caption font-weight-semibold text-white"
-                style="line-height: 1.2"
+                class="text-caption font-weight-semibold text-white lh-tight"
+                
               >
                 นิธิพร เทิบจันทึก
               </div>
@@ -71,7 +71,7 @@
           <div class="heading-icon-ring mx-auto mb-4">
             <v-icon icon="fas fa-layer-group" size="28" color="primary" />
           </div>
-          <h1 class="text-h5 font-weight-bold mb-2">
+          <h1 class="page-title mb-2">
             เลือกบัญชีที่ต้องการดำเนินการ
           </h1>
           <p class="text-body-2 text-medium-emphasis mb-0">

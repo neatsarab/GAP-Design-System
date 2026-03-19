@@ -32,7 +32,7 @@
 
         <div>
           <v-skeleton-loader v-if="loading" type="heading" width="200" />
-          <h1 v-else class="text-h5 font-weight-bold">{{ title }}</h1>
+          <h1 v-else class="page-title">{{ title }}</h1>
           <p v-if="subtitle" class="text-body-2 text-medium-emphasis mt-1 mb-0">
             {{ subtitle }}
           </p>

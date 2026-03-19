@@ -131,7 +131,7 @@
         <v-card v-if="app.status === 'under_review'" class="mt-4">
           <v-card-title class="pa-4 pb-2 text-body-1 font-weight-bold">ผลการตรวจสอบคำขอ</v-card-title>
           <v-card-text class="pa-4 pt-0">
-            <div class="field-label mb-1">หมายเหตุ / เหตุผล <span class="field-label-en">Remarks / Reason</span></div>
+            <div class="field-label mb-1"><div>หมายเหตุ / เหตุผล</div><div class="field-label-en">Remarks / Reason</div></div>
             <v-textarea v-model="reviewNote" rows="3" class="mb-3" />
             <div class="d-flex ga-3 flex-wrap">
               <v-btn color="success" prepend-icon="fas fa-circle-check" @click="updateStatus('testing')">
@@ -189,7 +189,7 @@
               </tbody>
             </v-table>
 
-            <div class="field-label mb-1">หมายเหตุผลตรวจ <span class="field-label-en">Lab Remarks</span></div>
+            <div class="field-label mb-1"><div>หมายเหตุผลตรวจ</div><div class="field-label-en">Lab Remarks</div></div>
             <v-textarea v-model="labNote" rows="3" class="mb-3" />
 
             <div class="d-flex ga-3" v-if="app.status === 'testing'">
@@ -239,7 +239,7 @@
             <v-card>
               <v-card-title class="pa-4 pb-2 text-body-1 font-weight-bold">พิจารณาผล</v-card-title>
               <v-card-text class="pa-4 pt-0">
-                <div class="field-label mb-1">หมายเหตุ / เหตุผล <span class="field-label-en">Remarks / Reason</span></div>
+                <div class="field-label mb-1"><div>หมายเหตุ / เหตุผล</div><div class="field-label-en">Remarks / Reason</div></div>
                 <v-textarea v-model="approvalNote" rows="4" class="mb-4" />
                 <div v-if="app.status === 'pending_approval'" class="d-flex flex-column ga-2">
                   <v-btn color="success" prepend-icon="fas fa-circle-check" block @click="updateStatus('approved')">
@@ -279,11 +279,11 @@
               </div>
               <v-row class="mb-4">
                 <v-col cols="12" sm="6">
-                  <div class="field-label mb-1">ชื่อผู้ลงนาม <span class="field-label-en">Signatory Name</span></div>
+                  <div class="field-label mb-1"><div>ชื่อผู้ลงนาม</div><div class="field-label-en">Signatory Name</div></div>
                   <v-text-field value="นายสมพงศ์ วิชาการเกษตร" readonly />
                 </v-col>
                 <v-col cols="12" sm="6">
-                  <div class="field-label mb-1">ตำแหน่ง <span class="field-label-en">Position</span></div>
+                  <div class="field-label mb-1"><div>ตำแหน่ง</div><div class="field-label-en">Position</div></div>
                   <v-text-field value="ผู้อำนวยการกอง" readonly />
                 </v-col>
               </v-row>
@@ -428,13 +428,12 @@ function getStatusLabel(s: string) {
 </script>
 
 <style scoped>
+div { --step-color: rgb(var(--v-theme-primary)); --step-color-tint: rgba(var(--v-theme-primary), 0.2); }
 /* Step Bar */
 .step-bar { display: flex; align-items: flex-start; }
 .step-node { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; transition: all 0.2s; border: 2px solid rgba(var(--v-border-color), var(--v-border-opacity)); background: rgb(var(--v-theme-surface)); color: rgba(var(--v-theme-on-surface), 0.4); }
 .step-node--active { border-color: rgb(var(--v-theme-primary)); color: rgb(var(--v-theme-primary)); }
 .step-node--done { background: rgb(var(--v-theme-primary)); border-color: rgb(var(--v-theme-primary)); color: white; }
-.step-line { flex: 1; height: 2px; background: rgba(var(--v-border-color), var(--v-border-opacity)); margin: 0 8px; margin-top: 14px; align-self: flex-start; }
-.step-line--done { background: rgb(var(--v-theme-primary)); }
 .step-label-col { display: flex; flex-direction: column; align-items: center; }
 .step-label { font-size: 11px; color: rgba(var(--v-theme-on-surface), 0.5); margin-top: 4px; text-align: center; max-width: 80px; }
 .step-label--active { color: rgb(var(--v-theme-primary)); font-weight: 600; }
@@ -454,10 +453,6 @@ function getStatusLabel(s: string) {
   background: rgba(var(--v-theme-surface-variant), 0.3);
 }
 .cert-draft-header { padding-bottom: 12px; }
-
-/* Field Labels */
-.field-label { font-size: 12px; font-weight: 600; color: rgba(var(--v-theme-on-surface), 0.75); }
-.field-label-en { font-size: 11px; font-weight: 400; color: rgba(var(--v-theme-on-surface), 0.4); margin-left: 4px; }
 
 /* Sign Box */
 .sign-box {

@@ -2,7 +2,7 @@
   <div>
     <!-- Header -->
     <div class="mb-6">
-      <h1 class="text-h5 font-weight-bold mb-1">ทะเบียนโรงคัดบรรจุ EL</h1>
+      <h1 class="page-title mb-1">ทะเบียนโรงคัดบรรจุ EL</h1>
       <p class="text-body-2 text-medium-emphasis mb-0">
         รายชื่อโรงคัดบรรจุที่ขึ้นทะเบียนในระบบ Establishment List
       </p>
@@ -25,9 +25,9 @@
               >
                 <v-icon :icon="stat.icon" :color="stat.color" size="20" />
               </div>
-              <span class="text-h4 font-weight-bold">{{ stat.value }}</span>
+              <span class="stat-num">{{ stat.value }}</span>
             </div>
-            <div class="text-body-2 font-weight-medium">{{ stat.label }}</div>
+            <div class="stat-label">{{ stat.label }}</div>
           </v-card-text>
         </v-card>
       </v-col>
@@ -38,7 +38,7 @@
       <v-card-text class="pa-4">
         <v-row dense align="center">
           <v-col cols="12" sm="6" md="5">
-            <div class="field-label mb-1">ค้นหา <span class="field-label-en">Search</span></div>
+            <div class="field-label mb-1"><div>ค้นหา</div><div class="field-label-en">Search</div></div>
             <v-text-field
               v-model="search"
               placeholder="ค้นหาเลขทะเบียน / ชื่อโรงคัดบรรจุ"
@@ -51,7 +51,7 @@
             />
           </v-col>
           <v-col cols="12" sm="6" md="4">
-            <div class="field-label mb-1">สถานะ <span class="field-label-en">Status</span></div>
+            <div class="field-label mb-1"><div>สถานะ</div><div class="field-label-en">Status</div></div>
             <v-autocomplete
               v-model="statusFilter"
               :items="statusOptions"
@@ -175,24 +175,3 @@ function statusLabel(status: string): string {
 }
 </script>
 
-<style scoped>
-.field-label { font-size: 12px; font-weight: 600; color: rgba(var(--v-theme-on-surface), 0.75); }
-.field-label-en { font-size: 11px; font-weight: 400; color: rgba(var(--v-theme-on-surface), 0.4); margin-left: 4px; }
-.stat-card {
-  border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
-}
-.stat-icon-box {
-  width: 44px;
-  height: 44px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-.filter-card {
-  border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
-}
-.data-card {
-  border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
-}
-</style>

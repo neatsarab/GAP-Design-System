@@ -2,7 +2,7 @@
   <div>
     <div class="d-flex align-center justify-space-between mb-5 flex-wrap ga-3">
       <div>
-        <h1 class="text-h5 font-weight-bold mb-1">ข้อมูลใบรับรอง GAP</h1>
+        <h1 class="page-title mb-1">ข้อมูลใบรับรอง GAP</h1>
         <p class="text-body-2 text-medium-emphasis mb-0">รายการใบรับรองมาตรฐานการปฏิบัติทางการเกษตรที่ดีที่ออกแล้ว</p>
       </div>
       <div class="d-flex ga-2">

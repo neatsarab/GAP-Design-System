@@ -2,7 +2,7 @@
   <div>
     <div class="d-flex align-center justify-space-between mb-6">
       <div>
-        <h1 class="text-h5 font-weight-bold mb-1">API Status</h1>
+        <h1 class="page-title mb-1">API Status</h1>
         <p class="text-body-2 text-medium-emphasis mb-0">สถานะการเชื่อมต่อ API กับหน่วยงานภายนอก</p>
       </div>
       <v-btn color="admin" rounded="lg" prepend-icon="fas fa-rotate" @click="pingAll">Ping All</v-btn>
@@ -59,6 +59,3 @@ function pingApi(api: Api) {
 function pingAll() { apis.value.forEach(pingApi); }
 </script>
 
-<style scoped>
-.data-card { border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity)); }
-</style>

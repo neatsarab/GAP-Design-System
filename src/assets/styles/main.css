@@ -119,15 +119,140 @@
   font-weight: 500 !important;
 }
 
-/* ── Stat card icon box ── */
+/* ── Stat cards ── */
+.stat-card,
+.app-stat-card {
+  border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
+  position: relative;
+  overflow: hidden;
+}
+.stat-accent {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  opacity: 0.6;
+}
+
+/* ── Icon boxes ── */
 .stat-icon-box {
-  width: 46px;
-  height: 46px;
+  width: 38px;
+  height: 38px;
   border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+}
+.app-icon-box {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.action-icon-box {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* ── Queue / interactive list items ── */
+.queue-item {
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+/* ── Module step colors (set --step-color / --step-color-tint on root element) ── */
+.step-done {
+  background: var(--step-color, rgb(var(--v-theme-primary)));
+  color: white;
+}
+.step-active {
+  background: var(--step-color, rgb(var(--v-theme-primary)));
+  color: white;
+  box-shadow: 0 0 0 4px var(--step-color-tint, rgba(var(--v-theme-primary), 0.2));
+}
+.step-line--done {
+  background: var(--step-color, rgb(var(--v-theme-primary)));
+}
+
+/* ── Field section label ── */
+.field-section-label {
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  margin-bottom: 8px;
+  color: var(--step-color, rgb(var(--v-theme-primary)));
+}
+
+/* ── Application type selection card ── */
+.type-card {
+  border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.type-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 36px rgba(0, 0, 0, 0.1) !important;
+}
+.type-accent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+}
+.type-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Info label / value (staff application detail) ── */
+.info-label {
+  font-size: 11px;
+  color: rgba(var(--v-theme-on-surface), 0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  margin-bottom: 2px;
+}
+.info-value {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* ── Typography shared utilities ── */
+.page-title {
+  font-size: 1.5rem !important;
+  font-weight: 700 !important;
+  line-height: 2rem;
+  letter-spacing: normal;
+}
+.stat-num {
+  font-size: 2.125rem !important;
+  font-weight: 700 !important;
+  line-height: 1.2;
+}
+.stat-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+.lh-tight {
+  line-height: 1.2 !important;
 }
 
 /* ── Page header ── */
@@ -173,18 +298,100 @@
   --v-field-border-opacity: 0.1;
 }
 
-/* ── Field label above input ── */
+/* ── Field labels above inputs ── */
 .field-label {
-  display: block;
-  font-size: 1rem; /* 16px per Figma */
-  font-weight: 400;
-  line-height: 1.5;
-  color: #616161;
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(var(--v-theme-on-surface), 0.75);
   margin-bottom: 6px;
 }
-.field-label .req {
-  color: #ff5252;
-  margin-left: 2px;
+.field-label-en {
+  font-size: 11px;
+  font-weight: 400;
+  color: rgba(var(--v-theme-on-surface), 0.4);
+  display: block;
+  line-height: 1.2;
+}
+.req {
+  color: rgb(var(--v-theme-error));
+}
+
+/* ── Filter / Data / Table / Summary cards ── */
+.filter-card,
+.data-card,
+.table-card,
+.summary-card {
+  border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
+}
+
+/* ── Section / Card layout ── */
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+}
+.section-title {
+  font-size: 14px !important;
+  font-weight: 600;
+}
+.section-card {
+  border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
+}
+
+/* ── Stepper (shared base — color overrides stay scoped per module) ── */
+.step-circle {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  transition: all 0.2s ease;
+}
+.step-pending {
+  background: rgba(var(--v-theme-on-surface), 0.1);
+  color: rgba(var(--v-theme-on-surface), 0.5);
+}
+.step-line {
+  height: 2px;
+  margin: 0 8px;
+  margin-bottom: 22px;
+  min-width: 20px;
+  background: rgba(var(--v-border-color), var(--v-border-opacity));
+  transition: background 0.3s ease;
+}
+.step-bar .step-line {
+  flex: 1;
+  height: 2px;
+  background: rgba(var(--v-border-color), var(--v-border-opacity));
+  margin: 0 8px;
+  margin-top: 14px;
+  align-self: flex-start;
+}
+.step-item .step-line {
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  width: 100%;
+  margin: 0;
+  background: rgba(var(--v-theme-on-surface), 0.1);
+  z-index: 0;
+}
+.step-item--done .step-line {
+  background: rgba(var(--v-theme-success), 0.4);
+}
+
+/* ── Status rings ── */
+.success-ring {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: rgba(var(--v-theme-success), 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* ── Scrollbar — light mode ── */

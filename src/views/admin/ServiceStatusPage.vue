@@ -2,7 +2,7 @@
   <div>
     <div class="d-flex align-center justify-space-between mb-6">
       <div>
-        <h1 class="text-h5 font-weight-bold mb-1">Service Status</h1>
+        <h1 class="page-title mb-1">Service Status</h1>
         <p class="text-body-2 text-medium-emphasis mb-0">สถานะการทำงานของ Service ต่าง ๆ ในระบบ</p>
       </div>
       <v-btn color="admin" rounded="lg" prepend-icon="fas fa-rotate" @click="lastCheck = new Date().toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' })">
@@ -80,6 +80,3 @@ function statusIcon(s: string) {
 function setStatus(item: Service, status: string) { item.status = status; }
 </script>
 
-<style scoped>
-.stat-card, .data-card { border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity)); }
-</style>

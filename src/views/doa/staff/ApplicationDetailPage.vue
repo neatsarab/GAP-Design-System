@@ -4,7 +4,7 @@
     <div class="d-flex align-center ga-3 mb-6">
       <v-btn icon="fas fa-arrow-left" variant="text" size="small" @click="goBack" />
       <div>
-        <h1 class="text-h5 font-weight-bold mb-0">{{ pageTitle }}</h1>
+        <h1 class="page-title mb-0">{{ pageTitle }}</h1>
         <p class="text-body-2 text-medium-emphasis mb-0 mt-1">เลขคำขอ: {{ route.params.id }}</p>
       </div>
     </div>
@@ -207,12 +207,12 @@
               <v-alert variant="tonal" color="warning" rounded="lg" density="compact" class="mb-4" prepend-icon="fas fa-triangle-exclamation">
                 หากผู้ประกอบการไม่ดำเนินการภายในเวลาที่กำหนด ระบบจะ reject และให้ยื่นคำขอใหม่
               </v-alert>
-              <div class="field-label">กำหนดระยะเวลาแก้ไข <span class="field-label-en">Revision Deadline</span> <span class="req">*</span></div>
+              <div class="field-label"><div>กำหนดระยะเวลาแก้ไข <span class="req">*</span></div><div class="field-label-en">Revision Deadline</div></div>
               <v-text-field v-model="review.deadline" type="date" variant="outlined" density="compact" rounded="lg" hide-details style="max-width:280px" />
             </div>
           </v-expand-transition>
 
-          <div class="field-label">หมายเหตุ / เหตุผลประกอบการพิจารณา <span class="field-label-en">Remarks / Review Reason</span></div>
+          <div class="field-label"><div>หมายเหตุ / เหตุผลประกอบการพิจารณา</div><div class="field-label-en">Remarks / Review Reason</div></div>
           <v-textarea v-model="review.remark" variant="outlined" density="compact" rounded="lg" hide-details rows="3" placeholder="ระบุเหตุผล..." />
         </v-card-text>
       </v-card>
@@ -287,15 +287,15 @@
 
           <v-row dense>
             <v-col cols="12" md="6">
-              <div class="field-label">ชื่อผู้ลงนาม <span class="field-label-en">Signer Name</span> <span class="req">*</span></div>
+              <div class="field-label"><div>ชื่อผู้ลงนาม <span class="req">*</span></div><div class="field-label-en">Signer Name</div></div>
               <v-text-field v-model="sign.signerName" variant="outlined" density="compact" rounded="lg" hide-details />
             </v-col>
             <v-col cols="12" md="6">
-              <div class="field-label">วันที่ลงนาม <span class="field-label-en">Signing Date</span> <span class="req">*</span></div>
+              <div class="field-label"><div>วันที่ลงนาม <span class="req">*</span></div><div class="field-label-en">Signing Date</div></div>
               <v-text-field v-model="sign.signDate" type="date" variant="outlined" density="compact" rounded="lg" hide-details />
             </v-col>
             <v-col cols="12">
-              <div class="field-label mt-3">หมายเหตุ (ถ้ามี) <span class="field-label-en">Remarks (if any)</span></div>
+              <div class="field-label mt-3"><div>หมายเหตุ (ถ้ามี)</div><div class="field-label-en">Remarks (if any)</div></div>
               <v-textarea v-model="sign.remark" variant="outlined" density="compact" rounded="lg" hide-details rows="2" />
             </v-col>
           </v-row>
@@ -439,19 +439,13 @@ function submitAction() {
 </script>
 
 <style scoped>
-.section-card { border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity)); }
-.section-title { font-size: 14px !important; font-weight: 600; }
-.info-label { font-size: 11px; color: rgba(var(--v-theme-on-surface), 0.5); text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 2px; }
-.info-value { font-size: 14px; font-weight: 500; margin-bottom: 12px; }
-.field-label { font-size: 13px; font-weight: 500; color: rgba(var(--v-theme-on-surface), 0.75); margin-bottom: 4px; }
-.field-label-en { font-size: 11px; font-weight: 400; color: rgba(var(--v-theme-on-surface), 0.4); margin-left: 4px; }
-.req { color: rgb(var(--v-theme-error)); }
-.step-circle { width: 32px; height: 32px; border-radius: 50%; border: 2px solid rgba(var(--v-border-color), var(--v-border-opacity)); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: rgba(var(--v-theme-on-surface), 0.45); flex-shrink: 0; }
-.step-active { border-color: rgb(var(--v-theme-doa-staff)); color: rgb(var(--v-theme-doa-staff)); background: rgba(var(--v-theme-doa-staff), 0.08); }
-.step-done { border-color: rgb(var(--v-theme-doa-staff)); background: rgb(var(--v-theme-doa-staff)); color: white; }
-.step-pending { background: transparent; }
-.step-line { height: 2px; background: rgba(var(--v-border-color), var(--v-border-opacity)); margin: 0 8px; margin-bottom: 22px; min-width: 20px; }
-.step-line--done { background: rgb(var(--v-theme-doa-staff)); }
+div {
+  --step-color: rgb(var(--v-theme-doa-staff));
+  --step-color-tint: rgba(var(--v-theme-doa-staff), 0.2);
+}
+.info-value { margin-bottom: 12px; }
+/* step-circle: global handles base size/shape; add border + weight unique to staff */
+.step-circle { border: 2px solid rgba(var(--v-border-color), var(--v-border-opacity)); font-weight: 700; color: rgba(var(--v-theme-on-surface), 0.45); flex-shrink: 0; }
 .map-placeholder { background: rgba(var(--v-theme-doa-staff), 0.04); border: 1px dashed rgba(var(--v-theme-doa-staff), 0.3); height: 200px; }
 .forward-ring { width: 64px; height: 64px; border-radius: 50%; background: rgba(var(--v-theme-doa-staff), 0.1); display: flex; align-items: center; justify-content: center; }
 .confirm-ring { width: 64px; height: 64px; border-radius: 50%; background: rgba(var(--v-theme-doa-staff), 0.1); display: flex; align-items: center; justify-content: center; }

@@ -3,7 +3,7 @@
     <!-- Header -->
     <div class="d-flex align-center justify-space-between flex-wrap ga-3 mb-6">
       <div>
-        <h1 class="text-h5 font-weight-bold mb-1">รายการคำขอ GAP</h1>
+        <h1 class="page-title mb-1">รายการคำขอ GAP</h1>
         <p class="text-body-2 text-medium-emphasis mb-0">
           จัดการและติดตามคำขอรับรองแหล่งผลิตทั้งหมด
         </p>
@@ -22,7 +22,7 @@
       <v-card-text class="pa-4">
         <v-row dense align="center">
           <v-col cols="12" sm="5" md="4">
-            <div class="field-label mb-1">ค้นหา <span class="field-label-en">Search</span></div>
+            <div class="field-label mb-1"><div>ค้นหา</div><div class="field-label-en">Search</div></div>
             <v-text-field
               v-model="search"
               placeholder="ค้นหาเลขที่คำขอ, ชื่อเกษตรกร..."
@@ -35,7 +35,7 @@
             />
           </v-col>
           <v-col cols="12" sm="4" md="3">
-            <div class="field-label mb-1">สถานะ <span class="field-label-en">Status</span></div>
+            <div class="field-label mb-1"><div>สถานะ</div><div class="field-label-en">Status</div></div>
             <v-autocomplete
               v-model="filterStatus"
               :items="statusFilterItems"
@@ -49,7 +49,7 @@
             />
           </v-col>
           <v-col cols="12" sm="3" md="2">
-            <div class="field-label mb-1">จังหวัด <span class="field-label-en">Province</span></div>
+            <div class="field-label mb-1"><div>จังหวัด</div><div class="field-label-en">Province</div></div>
             <v-autocomplete
               v-model="filterProvince"
               :items="provinces"
@@ -419,10 +419,6 @@ const filteredItems = computed(() => {
 </script>
 
 <style scoped>
-.filter-card { border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity)); }
-.field-label { font-size: 12px; font-weight: 600; color: rgba(var(--v-theme-on-surface), 0.6); }
-.field-label-en { font-size: 11px; font-weight: 400; color: rgba(var(--v-theme-on-surface), 0.4); margin-left: 4px; }
-.table-card { border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity)); }
 .app-card {
   cursor: pointer;
   transition: transform 0.15s ease;

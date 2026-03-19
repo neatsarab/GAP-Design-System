@@ -10,7 +10,7 @@
       />
       <div class="flex-grow-1">
         <div class="d-flex align-center ga-2 mb-1 flex-wrap">
-          <h1 class="text-h5 font-weight-bold">{{ application.no }}</h1>
+          <h1 class="page-title">{{ application.no }}</h1>
           <AppStatusChip :status="application.status" />
         </div>
         <p class="text-body-2 text-medium-emphasis mb-0">

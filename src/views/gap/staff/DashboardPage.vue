@@ -3,7 +3,7 @@
     <!-- Header -->
     <div class="d-flex align-center justify-space-between mb-6 flex-wrap ga-3">
       <div>
-        <h1 class="text-h5 font-weight-bold mb-1">แดชบอร์ด</h1>
+        <h1 class="page-title mb-1">แดชบอร์ด</h1>
         <p class="text-body-2 text-medium-emphasis mb-0">
           ภาพรวมระบบการรับรองมาตรฐาน GAP (Good Agricultural Practices)
         </p>
@@ -75,7 +75,7 @@
               >
                 <template v-slot:prepend>
                   <div
-                    class="queue-icon-box mr-3"
+                    class="app-icon-box mr-3"
                     :style="`background:rgba(var(--v-theme-${item.color}),0.12)`"
                   >
                     <v-icon :icon="item.icon" :color="item.color" size="16" />
@@ -318,34 +318,12 @@ const statusBars = [
 
 <style scoped>
 .stat-card {
-  border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
   transition: transform 0.15s;
 }
 .stat-card:hover {
   transform: translateY(-2px);
 }
-.stat-icon-box {
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.queue-item {
-  cursor: pointer;
-  transition: background 0.15s;
-}
 .queue-item:hover {
   background: rgba(var(--v-theme-gap-staff), 0.04);
-}
-.queue-icon-box {
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 </style>

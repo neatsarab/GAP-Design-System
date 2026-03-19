@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="mb-6">
-      <h1 class="text-h5 font-weight-bold mb-1">Storage Status</h1>
+      <h1 class="page-title mb-1">Storage Status</h1>
       <p class="text-body-2 text-medium-emphasis mb-0">พื้นที่จัดเก็บข้อมูลของระบบ</p>
     </div>
 
@@ -77,7 +77,5 @@ function usageColor(p: number) {
 </script>
 
 <style scoped>
-.section-card { border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity)); }
-.section-title { font-size: 14px !important; font-weight: 600; }
 .storage-icon { width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 </style>

@@ -9,7 +9,7 @@
         @click="router.push('/hcex/user/applications')"
       />
       <div>
-        <h1 class="text-h5 font-weight-bold mb-1">
+        <h1 class="page-title mb-1">
           {{ app.requestNo }}
         </h1>
         <div class="d-flex align-center ga-2">
@@ -619,6 +619,7 @@ function getStatusLabel(s: string) {
 </script>
 
 <style scoped>
+div { --step-color: rgb(var(--v-theme-hcex-user)); --step-color-tint: rgba(var(--v-theme-hcex-user), 0.2); }
 .step-bar {
   display: flex;
   align-items: flex-start;
@@ -670,18 +671,6 @@ function getStatusLabel(s: string) {
 }
 .step-item--done .step-label {
   color: rgb(var(--v-theme-success));
-}
-.step-line {
-  position: absolute;
-  top: 14px;
-  left: 50%;
-  width: 100%;
-  height: 2px;
-  background: rgba(var(--v-theme-on-surface), 0.1);
-  z-index: 0;
-}
-.step-item--done .step-line {
-  background: rgba(var(--v-theme-success), 0.4);
 }
 
 .info-grid {

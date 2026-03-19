@@ -37,7 +37,7 @@
       </div>
 
       <div class="mt-4">
-        <div class="text-h4 font-weight-bold">{{ value }}</div>
+        <div class="stat-num">{{ value }}</div>
         <div class="text-body-2 text-medium-emphasis mt-1">{{ label }}</div>
         <div v-if="trendLabel && trend !== undefined" class="text-caption text-disabled mt-1">
           {{ trendLabel }}
@@ -66,7 +66,6 @@ withDefaults(defineProps<Props>(), {
 </script>
 
 <style scoped>
-.app-stat-card { border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity)); }
 .stat-icon-box {
   width: 44px;
   height: 44px;

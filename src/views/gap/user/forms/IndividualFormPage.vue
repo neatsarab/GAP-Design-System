@@ -18,7 +18,7 @@
             >รายเดี่ยว</v-chip
           >
         </div>
-        <h1 class="text-h5 font-weight-bold mb-0">
+        <h1 class="page-title mb-0">
           คำขอรับรองแหล่งผลิต GAP พืช (รายเดี่ยว)
         </h1>
         <p class="text-body-2 text-medium-emphasis mb-0">
@@ -75,7 +75,7 @@
         <v-card elevation="0" border rounded="xl" class="mb-4">
           <div class="section-header border-b">
             <v-icon size="15" color="gap-user">fas fa-list-check</v-icon>
-            <span class="text-subtitle-2 font-weight-bold">ประเภทคำขอ</span>
+            <span class="text-subtitle-2">ประเภทคำขอ</span>
           </div>
           <v-card-text class="pt-4">
             <v-radio-group v-model="form.requestType" inline hide-details>
@@ -101,11 +101,10 @@
                 <v-row dense>
                   <v-col cols="12" sm="5">
                     <div class="field-label">
-                      เลขที่ใบรับรองเดิม
+                      เลขที่ใบรับรองเดิม <span class="req">*</span>
                       <span class="field-label-en"
                         >Previous Certificate No.</span
                       >
-                      <span class="req">*</span>
                     </div>
                     <v-text-field
                       v-model="form.existingCertNo"
@@ -118,7 +117,8 @@
                   <v-col cols="12" sm="4">
                     <div class="field-label">
                       วันหมดอายุใบรับรองเดิม
-                      <span class="field-label-en">Expiry Date</span>
+                      <div></div>
+                      <div class="field-label-en">Expiry Date</div>
                     </div>
                     <v-text-field
                       v-model="form.existingCertExpiry"
@@ -137,9 +137,7 @@
         <v-card elevation="0" border rounded="xl" class="mb-4">
           <div class="section-header border-b">
             <v-icon size="15" color="gap-user">fas fa-certificate</v-icon>
-            <span class="text-subtitle-2 font-weight-bold"
-              >หมวดที่ 1 · ประเภทมาตรฐานที่ขอรับรอง</span
-            >
+            <span class="text-subtitle-2">ประเภทมาตรฐานที่ขอรับรอง</span>
           </div>
           <v-card-text class="pt-4">
             <v-radio-group v-model="form.standardType" hide-details>
@@ -195,9 +193,7 @@
         <v-card elevation="0" border rounded="xl">
           <div class="section-header border-b">
             <v-icon size="15" color="gap-user">fas fa-user</v-icon>
-            <span class="text-subtitle-2 font-weight-bold"
-              >หมวดที่ 2 · ข้อมูลเกษตรกรเจ้าของฟาร์ม</span
-            >
+            <span class="text-subtitle-2">ข้อมูลเกษตรกรเจ้าของฟาร์ม</span>
           </div>
           <v-card-text class="pt-5">
             <!-- ชื่อภาษาไทย -->
@@ -205,8 +201,8 @@
             <v-row dense>
               <v-col cols="12" sm="2">
                 <div class="field-label">
-                  คำนำหน้า <span class="field-label-en">Title</span>
-                  <span class="req">*</span>
+                  <div>คำนำหน้า <span class="req">*</span></div>
+                  <div class="field-label-en">Title</div>
                 </div>
                 <v-autocomplete
                   v-model="form.namePrefix"
@@ -216,9 +212,8 @@
               </v-col>
               <v-col cols="12" sm="5">
                 <div class="field-label">
-                  ชื่อ (ภาษาไทย)
-                  <span class="field-label-en">First Name (Thai)</span>
-                  <span class="req">*</span>
+                  ชื่อ (ภาษาไทย) <span class="req">*</span>
+                  <div class="field-label-en">First Name (Thai)</div>
                 </div>
                 <v-text-field
                   v-model="form.firstName"
@@ -229,9 +224,8 @@
               </v-col>
               <v-col cols="12" sm="5">
                 <div class="field-label">
-                  นามสกุล (ภาษาไทย)
-                  <span class="field-label-en">Last Name (Thai)</span>
-                  <span class="req">*</span>
+                  นามสกุล (ภาษาไทย) <span class="req">*</span>
+                  <div class="field-label-en">Last Name (Thai)</div>
                 </div>
                 <v-text-field
                   v-model="form.lastName"
@@ -273,9 +267,8 @@
             <v-row dense>
               <v-col cols="12" sm="6">
                 <div class="field-label">
-                  เลขบัตรประจำตัวประชาชน
-                  <span class="field-label-en">National ID No.</span>
-                  <span class="req">*</span>
+                  เลขบัตรประจำตัวประชาชน <span class="req">*</span>
+                  <div class="field-label-en">National ID No.</div>
                 </div>
                 <v-text-field
                   v-model="form.idCard"
@@ -291,7 +284,8 @@
               <v-col cols="12" sm="6">
                 <div class="field-label">
                   รหัสทะเบียนบ้าน
-                  <span class="field-label-en">House Registration Code</span>
+                  <div></div>
+                  <div class="field-label-en">House Registration Code</div>
                 </div>
                 <v-text-field
                   v-model="form.houseRegCode"
@@ -310,8 +304,8 @@
             <v-row dense>
               <v-col cols="12" sm="3">
                 <div class="field-label">
-                  บ้านเลขที่ <span class="field-label-en">House No.</span>
-                  <span class="req">*</span>
+                  <div>บ้านเลขที่ <span class="req">*</span></div>
+                  <div class="field-label-en">House No.</div>
                 </div>
                 <v-text-field
                   v-model="form.houseNo"
@@ -322,7 +316,8 @@
               </v-col>
               <v-col cols="12" sm="3">
                 <div class="field-label">
-                  หมู่บ้าน <span class="field-label-en">Village</span>
+                  <div>หมู่บ้าน</div>
+                  <div class="field-label-en">Village</div>
                 </div>
                 <v-text-field
                   v-model="form.village"
@@ -332,7 +327,8 @@
               </v-col>
               <v-col cols="12" sm="2">
                 <div class="field-label">
-                  หมู่ที่ <span class="field-label-en">Moo</span>
+                  <div>หมู่ที่</div>
+                  <div class="field-label-en">Moo</div>
                 </div>
                 <v-text-field
                   v-model="form.moo"
@@ -343,7 +339,8 @@
               </v-col>
               <v-col cols="12" sm="4">
                 <div class="field-label">
-                  ถนน <span class="field-label-en">Road</span>
+                  <div>ถนน</div>
+                  <div class="field-label-en">Road</div>
                 </div>
                 <v-text-field
                   v-model="form.road"
@@ -353,7 +350,8 @@
               </v-col>
               <v-col cols="12" sm="4">
                 <div class="field-label">
-                  ตรอก / ซอย <span class="field-label-en">Lane / Alley</span>
+                  <div>ตรอก / ซอย</div>
+                  <div class="field-label-en">Lane / Alley</div>
                 </div>
                 <v-text-field
                   v-model="form.lane"
@@ -363,8 +361,8 @@
               </v-col>
               <v-col cols="12" sm="4">
                 <div class="field-label">
-                  ตำบล / แขวง <span class="field-label-en">Sub-district</span>
-                  <span class="req">*</span>
+                  <div>ตำบล / แขวง <span class="req">*</span></div>
+                  <div class="field-label-en">Sub-district</div>
                 </div>
                 <v-text-field
                   v-model="form.subDistrict"
@@ -375,8 +373,8 @@
               </v-col>
               <v-col cols="12" sm="4">
                 <div class="field-label">
-                  อำเภอ / เขต <span class="field-label-en">District</span>
-                  <span class="req">*</span>
+                  <div>อำเภอ / เขต <span class="req">*</span></div>
+                  <div class="field-label-en">District</div>
                 </div>
                 <v-text-field
                   v-model="form.district"
@@ -387,8 +385,8 @@
               </v-col>
               <v-col cols="12" sm="5">
                 <div class="field-label">
-                  จังหวัด <span class="field-label-en">Province</span>
-                  <span class="req">*</span>
+                  <div>จังหวัด <span class="req">*</span></div>
+                  <div class="field-label-en">Province</div>
                 </div>
                 <v-autocomplete
                   v-model="form.province"
@@ -400,7 +398,8 @@
               </v-col>
               <v-col cols="12" sm="3">
                 <div class="field-label">
-                  รหัสไปรษณีย์ <span class="field-label-en">Postal Code</span>
+                  <div>รหัสไปรษณีย์</div>
+                  <div class="field-label-en">Postal Code</div>
                 </div>
                 <v-text-field
                   v-model="form.postalCode"
@@ -419,7 +418,8 @@
               <v-col cols="12" sm="4">
                 <div class="field-label">
                   โทรศัพท์ (Tel.)
-                  <span class="field-label-en">Phone Number</span>
+                  <div></div>
+                  <div class="field-label-en">Phone Number</div>
                 </div>
                 <v-text-field
                   v-model="form.tel"
@@ -430,8 +430,8 @@
               </v-col>
               <v-col cols="12" sm="4">
                 <div class="field-label">
-                  โทรศัพท์มือถือ <span class="field-label-en">Mobile No.</span>
-                  <span class="req">*</span>
+                  <div>โทรศัพท์มือถือ <span class="req">*</span></div>
+                  <div class="field-label-en">Mobile No.</div>
                 </div>
                 <v-text-field
                   v-model="form.mobile"
@@ -443,7 +443,8 @@
               </v-col>
               <v-col cols="12" sm="4">
                 <div class="field-label">
-                  E-mail <span class="field-label-en">Email</span>
+                  <div>E-mail</div>
+                  <div class="field-label-en">Email</div>
                 </div>
                 <v-text-field
                   v-model="form.email"
@@ -464,9 +465,7 @@
         <v-card elevation="0" border rounded="xl" class="mb-4">
           <div class="section-header border-b">
             <v-icon size="15" color="gap-user">fas fa-building</v-icon>
-            <span class="text-subtitle-2 font-weight-bold"
-              >หมวดที่ 3 · ข้อมูลนิติบุคคลเจ้าของฟาร์ม</span
-            >
+            <span class="text-subtitle-2">ข้อมูลนิติบุคคลเจ้าของฟาร์ม</span>
             <v-spacer />
             <v-switch
               v-model="form.hasJuristic"
@@ -481,9 +480,8 @@
             <v-row dense>
               <v-col cols="12" sm="8">
                 <div class="field-label">
-                  ชื่อนิติบุคคล (Juristic person)
-                  <span class="field-label-en">Juristic Person Name</span>
-                  <span class="req">*</span>
+                  ชื่อนิติบุคคล (Juristic person) <span class="req">*</span>
+                  <div class="field-label-en">Juristic Person Name</div>
                 </div>
                 <v-text-field
                   v-model="form.juristicName"
@@ -495,9 +493,8 @@
               </v-col>
               <v-col cols="12" sm="4">
                 <div class="field-label">
-                  เลขทะเบียนนิติบุคคล
-                  <span class="field-label-en">Registration No.</span>
-                  <span class="req">*</span>
+                  เลขทะเบียนนิติบุคคล <span class="req">*</span>
+                  <div class="field-label-en">Registration No.</div>
                 </div>
                 <v-text-field
                   v-model="form.juristicRegNo"
@@ -508,9 +505,8 @@
               </v-col>
               <v-col cols="12" sm="6">
                 <div class="field-label">
-                  ชื่อผู้มีอำนาจลงนาม
-                  <span class="field-label-en">Authorized Signatory</span>
-                  <span class="req">*</span>
+                  ชื่อผู้มีอำนาจลงนาม <span class="req">*</span>
+                  <div class="field-label-en">Authorized Signatory</div>
                 </div>
                 <v-text-field
                   v-model="form.juristicSignatory"
@@ -523,7 +519,8 @@
               <v-col cols="12" sm="6">
                 <div class="field-label">
                   ที่อยู่นิติบุคคล
-                  <span class="field-label-en">Juristic Address</span>
+                  <div></div>
+                  <div class="field-label-en">Juristic Address</div>
                 </div>
                 <v-textarea
                   v-model="form.juristicAddress"
@@ -544,7 +541,8 @@
               <v-col cols="12" sm="5">
                 <div class="field-label">
                   ชื่อ-นามสกุลผู้ดูแล
-                  <span class="field-label-en">Farm Manager Name</span>
+                  <div></div>
+                  <div class="field-label-en">Farm Manager Name</div>
                 </div>
                 <v-text-field
                   v-model="form.farmManager"
@@ -555,7 +553,8 @@
               <v-col cols="12" sm="4">
                 <div class="field-label">
                   เลขบัตรประชาชนผู้ดูแล
-                  <span class="field-label-en">Manager ID No.</span>
+                  <div></div>
+                  <div class="field-label-en">Manager ID No.</div>
                 </div>
                 <v-text-field
                   v-model="form.farmManagerIdCard"
@@ -579,9 +578,7 @@
         <v-card elevation="0" border rounded="xl">
           <div class="section-header border-b">
             <v-icon size="15" color="gap-user">fas fa-location-dot</v-icon>
-            <span class="text-subtitle-2 font-weight-bold"
-              >หมวดที่ 4 · ข้อมูลที่ตั้งฟาร์ม</span
-            >
+            <span class="text-subtitle-2">ข้อมูลที่ตั้งฟาร์ม</span>
           </div>
           <v-card-text class="pt-5">
             <v-alert
@@ -605,7 +602,8 @@
             <v-row dense>
               <v-col cols="12" sm="3">
                 <div class="field-label">
-                  หมู่บ้าน (Village) <span class="field-label-en">Village</span>
+                  <div>หมู่บ้าน (Village)</div>
+                  <div class="field-label-en">Village</div>
                 </div>
                 <v-text-field
                   v-model="form.farmVillage"
@@ -615,7 +613,8 @@
               </v-col>
               <v-col cols="12" sm="2">
                 <div class="field-label">
-                  หมู่ที่ <span class="field-label-en">Moo</span>
+                  <div>หมู่ที่</div>
+                  <div class="field-label-en">Moo</div>
                 </div>
                 <v-text-field
                   v-model="form.farmMoo"
@@ -626,7 +625,8 @@
               </v-col>
               <v-col cols="12" sm="4">
                 <div class="field-label">
-                  ถนน (Road) <span class="field-label-en">Road</span>
+                  <div>ถนน (Road)</div>
+                  <div class="field-label-en">Road</div>
                 </div>
                 <v-text-field
                   v-model="form.farmRoad"
@@ -636,7 +636,8 @@
               </v-col>
               <v-col cols="12" sm="3">
                 <div class="field-label">
-                  ตรอก / ซอย <span class="field-label-en">Lane / Alley</span>
+                  <div>ตรอก / ซอย</div>
+                  <div class="field-label-en">Lane / Alley</div>
                 </div>
                 <v-text-field
                   v-model="form.farmLane"
@@ -646,8 +647,8 @@
               </v-col>
               <v-col cols="12" sm="4">
                 <div class="field-label">
-                  ตำบล / แขวง <span class="field-label-en">Sub-district</span>
-                  <span class="req">*</span>
+                  <div>ตำบล / แขวง <span class="req">*</span></div>
+                  <div class="field-label-en">Sub-district</div>
                 </div>
                 <v-text-field
                   v-model="form.farmSubDistrict"
@@ -658,8 +659,8 @@
               </v-col>
               <v-col cols="12" sm="4">
                 <div class="field-label">
-                  อำเภอ / เขต <span class="field-label-en">District</span>
-                  <span class="req">*</span>
+                  <div>อำเภอ / เขต <span class="req">*</span></div>
+                  <div class="field-label-en">District</div>
                 </div>
                 <v-text-field
                   v-model="form.farmDistrict"
@@ -670,8 +671,8 @@
               </v-col>
               <v-col cols="12" sm="4">
                 <div class="field-label">
-                  จังหวัด <span class="field-label-en">Province</span>
-                  <span class="req">*</span>
+                  <div>จังหวัด <span class="req">*</span></div>
+                  <div class="field-label-en">Province</div>
                 </div>
                 <v-autocomplete
                   v-model="form.farmProvince"
@@ -683,9 +684,8 @@
               </v-col>
               <v-col cols="12" sm="4">
                 <div class="field-label">
-                  พื้นที่ขอรับรอง (ไร่)
-                  <span class="field-label-en">Certified Area (Rai)</span>
-                  <span class="req">*</span>
+                  พื้นที่ขอรับรอง (ไร่) <span class="req">*</span>
+                  <div class="field-label-en">Certified Area (Rai)</div>
                 </div>
                 <v-text-field
                   v-model.number="form.farmArea"
@@ -707,9 +707,7 @@
         <v-card elevation="0" border rounded="xl">
           <div class="section-header border-b">
             <v-icon size="15" color="gap-user">fas fa-seedling</v-icon>
-            <span class="text-subtitle-2 font-weight-bold"
-              >หมวดที่ 5 · ข้อมูลพืชที่ขอรับรอง</span
-            >
+            <span class="text-subtitle-2">ข้อมูลพืชที่ขอรับรอง</span>
             <v-spacer />
             <v-btn
               size="small"
@@ -738,9 +736,8 @@
               <v-row dense>
                 <v-col cols="12" sm="4">
                   <div class="field-label">
-                    ชนิดพืช / พันธุ์พืช
-                    <span class="field-label-en">Crop Type / Variety</span>
-                    <span class="req">*</span>
+                    ชนิดพืช / พันธุ์พืช <span class="req">*</span>
+                    <div class="field-label-en">Crop Type / Variety</div>
                   </div>
                   <v-combobox
                     v-model="crop.type"
@@ -752,8 +749,8 @@
                 </v-col>
                 <v-col cols="6" sm="2">
                   <div class="field-label">
-                    พื้นที่ (ไร่) <span class="field-label-en">Area (Rai)</span>
-                    <span class="req">*</span>
+                    <div>พื้นที่ (ไร่) <span class="req">*</span></div>
+                    <div class="field-label-en">Area (Rai)</div>
                   </div>
                   <v-text-field
                     v-model.number="crop.area"
@@ -765,7 +762,8 @@
                 </v-col>
                 <v-col cols="6" sm="3">
                   <div class="field-label">
-                    อายุพืช <span class="field-label-en">Plant Age</span>
+                    <div>อายุพืช</div>
+                    <div class="field-label-en">Plant Age</div>
                   </div>
                   <v-text-field
                     v-model="crop.age"
@@ -803,7 +801,8 @@
                 <v-col cols="12" sm="3">
                   <div class="field-label">
                     คาดว่าจะเก็บเกี่ยว
-                    <span class="field-label-en">Expected Harvest Period</span>
+                    <div></div>
+                    <div class="field-label-en">Expected Harvest Period</div>
                   </div>
                   <v-text-field
                     v-model="crop.harvestPeriod"
@@ -814,7 +813,8 @@
                 <v-col cols="12" sm="3">
                   <div class="field-label">
                     ผลผลิตรวมที่คาดว่าจะได้รับ
-                    <span class="field-label-en">Expected Total Yield</span>
+                    <div></div>
+                    <div class="field-label-en">Expected Total Yield</div>
                   </div>
                   <v-text-field
                     v-model="crop.expectedYield"
@@ -824,7 +824,8 @@
                 </v-col>
                 <v-col cols="12" sm="3">
                   <div class="field-label">
-                    เลขประจำแปลง <span class="field-label-en">Plot No.</span>
+                    <div>เลขประจำแปลง</div>
+                    <div class="field-label-en">Plot No.</div>
                   </div>
                   <v-text-field
                     v-model="crop.plotNo"
@@ -844,9 +845,7 @@
         <v-card elevation="0" border rounded="xl">
           <div class="section-header border-b">
             <v-icon size="15" color="gap-user">fas fa-paperclip</v-icon>
-            <span class="text-subtitle-2 font-weight-bold"
-              >หมวดที่ 7 · เอกสารประกอบคำขอ</span
-            >
+            <span class="text-subtitle-2">เอกสารประกอบคำขอ</span>
             <v-spacer />
             <v-chip size="x-small" variant="tonal" color="gap-user"
               >ไม่เกินไฟล์ละ 10 MB</v-chip
@@ -1020,9 +1019,7 @@
         <v-card elevation="0" border rounded="xl">
           <div class="section-header border-b">
             <v-icon size="15" color="success">fas fa-clipboard-check</v-icon>
-            <span class="text-subtitle-2 font-weight-bold"
-              >ตรวจสอบข้อมูลก่อนยื่น</span
-            >
+            <span class="text-subtitle-2">ตรวจสอบข้อมูลก่อนยื่น</span>
           </div>
           <v-card-text class="pa-5">
             <v-row dense>
@@ -1368,34 +1365,13 @@ const cropTypes = [
 </script>
 
 <style scoped>
-.section-header {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 12px 16px;
-}
-.field-label {
-  font-size: 13px;
-  font-weight: 600;
-  color: rgba(var(--v-theme-on-surface), 0.75);
-  margin-bottom: 6px;
-}
-.field-label-en {
-  font-size: 11px;
-  font-weight: 400;
-  color: rgba(var(--v-theme-on-surface), 0.4);
-  margin-left: 4px;
-}
-.req {
-  color: rgb(var(--v-theme-error));
+div {
+  --step-color: rgb(var(--v-theme-gap-user));
+  --step-color-tint: rgba(var(--v-theme-gap-user), 0.2);
 }
 
 .field-section-label {
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: rgb(var(--v-theme-gap-user));
   opacity: 0.8;
 }
 
@@ -1414,39 +1390,5 @@ const cropTypes = [
   border-radius: 12px;
   background: rgba(var(--v-theme-gap-user), 0.03);
   border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
-}
-
-.step-circle {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 13px;
-  transition: all 0.2s ease;
-}
-.step-done {
-  background: rgb(var(--v-theme-gap-user));
-  color: white;
-}
-.step-active {
-  background: rgb(var(--v-theme-gap-user));
-  color: white;
-  box-shadow: 0 0 0 4px rgba(var(--v-theme-gap-user), 0.2);
-}
-.step-pending {
-  background: rgba(var(--v-theme-on-surface), 0.1);
-  color: rgba(var(--v-theme-on-surface), 0.5);
-}
-.step-line {
-  height: 2px;
-  margin: 0 4px;
-  margin-bottom: 20px;
-  background: rgba(var(--v-theme-on-surface), 0.12);
-  transition: background 0.3s;
-}
-.step-line--done {
-  background: rgb(var(--v-theme-gap-user));
 }
 </style>

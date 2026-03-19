@@ -3,7 +3,7 @@
     <!-- Header -->
     <div class="d-flex align-center justify-space-between mb-5 flex-wrap ga-3">
       <div>
-        <h1 class="text-h5 font-weight-bold mb-1">ข้อมูลทะเบียน</h1>
+        <h1 class="page-title mb-1">ข้อมูลทะเบียน</h1>
         <p class="text-body-2 text-medium-emphasis mb-0">
           ทะเบียนผู้ส่งออกและโรงงาน/สถานที่ผลิตสินค้าแปรรูปด้านพืช
         </p>
@@ -24,7 +24,7 @@
           <v-card-text class="pa-4">
             <v-row dense>
               <v-col cols="12" sm="5">
-                <div class="field-label mb-1">ค้นหา <span class="field-label-en">Search</span></div>
+                <div class="field-label mb-1"><div>ค้นหา</div><div class="field-label-en">Search</div></div>
                 <v-text-field
                   v-model="exporterSearch"
                   prepend-inner-icon="fas fa-search"
@@ -33,7 +33,7 @@
                 />
               </v-col>
               <v-col cols="6" sm="3">
-                <div class="field-label mb-1">สถานะ <span class="field-label-en">Status</span></div>
+                <div class="field-label mb-1"><div>สถานะ</div><div class="field-label-en">Status</div></div>
                 <v-autocomplete
                   v-model="exporterStatusFilter"
                   :items="registryStatusOptions"
@@ -98,7 +98,7 @@
           <v-card-text class="pa-4">
             <v-row dense>
               <v-col cols="12" sm="5">
-                <div class="field-label mb-1">ค้นหา <span class="field-label-en">Search</span></div>
+                <div class="field-label mb-1"><div>ค้นหา</div><div class="field-label-en">Search</div></div>
                 <v-text-field
                   v-model="factorySearch"
                   prepend-inner-icon="fas fa-search"
@@ -107,7 +107,7 @@
                 />
               </v-col>
               <v-col cols="6" sm="3">
-                <div class="field-label mb-1">สถานะ <span class="field-label-en">Status</span></div>
+                <div class="field-label mb-1"><div>สถานะ</div><div class="field-label-en">Status</div></div>
                 <v-autocomplete
                   v-model="factoryStatusFilter"
                   :items="registryStatusOptions"
@@ -327,7 +327,3 @@ const factoryHeaders = [
 ];
 </script>
 
-<style scoped>
-.field-label { font-size: 12px; font-weight: 600; color: rgba(var(--v-theme-on-surface), 0.75); }
-.field-label-en { font-size: 11px; font-weight: 400; color: rgba(var(--v-theme-on-surface), 0.4); margin-left: 4px; }
-</style>

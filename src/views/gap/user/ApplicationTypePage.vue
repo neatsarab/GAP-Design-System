@@ -9,7 +9,7 @@
         @click="router.push('/gap/user/applications')"
       />
       <div>
-        <h1 class="text-h5 font-weight-bold mb-0">
+        <h1 class="page-title mb-0">
           ยื่นคำขอรับรองแหล่งผลิต GAP
         </h1>
         <p class="text-body-2 text-medium-emphasis mb-0">

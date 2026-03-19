@@ -143,19 +143,19 @@
 
             <v-row v-if="app.currentStep === 2">
               <v-col cols="12" sm="4">
-                <div class="field-label mb-1">จากวันที่ <span class="field-label-en">Date From</span></div>
+                <div class="field-label mb-1"><div>จากวันที่</div><div class="field-label-en">Date From</div></div>
                 <v-text-field v-model="scheduleForm.dateFrom" type="date" />
               </v-col>
               <v-col cols="12" sm="4">
-                <div class="field-label mb-1">ถึงวันที่ <span class="field-label-en">Date To</span></div>
+                <div class="field-label mb-1"><div>ถึงวันที่</div><div class="field-label-en">Date To</div></div>
                 <v-text-field v-model="scheduleForm.dateTo" type="date" />
               </v-col>
               <v-col cols="12" sm="4">
-                <div class="field-label mb-1">ผู้รับผิดชอบตรวจ <span class="field-label-en">Inspector Name</span></div>
+                <div class="field-label mb-1"><div>ผู้รับผิดชอบตรวจ</div><div class="field-label-en">Inspector Name</div></div>
                 <v-text-field v-model="scheduleForm.inspector" prepend-inner-icon="fas fa-user-check" />
               </v-col>
               <v-col cols="12" sm="6">
-                <div class="field-label mb-1">หมายเหตุ / คำแนะนำ <span class="field-label-en">Remarks/Notes</span></div>
+                <div class="field-label mb-1"><div>หมายเหตุ / คำแนะนำ</div><div class="field-label-en">Remarks/Notes</div></div>
                 <v-textarea v-model="scheduleForm.note" rows="3" />
               </v-col>
             </v-row>
@@ -190,18 +190,18 @@
 
             <v-row v-if="app.currentStep === 3">
               <v-col cols="12" sm="6">
-                <div class="field-label mb-1">ผลการตรวจพื้นที่ <span class="field-label-en">Inspection Result</span></div>
+                <div class="field-label mb-1"><div>ผลการตรวจพื้นที่</div><div class="field-label-en">Inspection Result</div></div>
                 <v-radio-group v-model="inspectionForm.result" inline>
                   <v-radio label="ผ่าน" value="pass" color="success" />
                   <v-radio label="ไม่ผ่าน" value="fail" color="error" />
                 </v-radio-group>
               </v-col>
               <v-col cols="12" sm="6">
-                <div class="field-label mb-1">ชื่อผู้ตรวจประเมิน <span class="field-label-en">Inspector Name</span></div>
+                <div class="field-label mb-1"><div>ชื่อผู้ตรวจประเมิน</div><div class="field-label-en">Inspector Name</div></div>
                 <v-text-field v-model="inspectionForm.inspectorName" prepend-inner-icon="fas fa-user-check" />
               </v-col>
               <v-col cols="12" sm="6">
-                <div class="field-label mb-1">ข้อบกพร่องที่พบ <span class="field-label-en">Defects Found</span></div>
+                <div class="field-label mb-1"><div>ข้อบกพร่องที่พบ</div><div class="field-label-en">Defects Found</div></div>
                 <v-textarea
                   v-model="inspectionForm.defects"
                   rows="3"
@@ -209,7 +209,7 @@
                 />
               </v-col>
               <v-col cols="12" sm="6">
-                <div class="field-label mb-1">ผลวิเคราะห์ตัวอย่างจาก Lab <span class="field-label-en">Lab Result</span></div>
+                <div class="field-label mb-1"><div>ผลวิเคราะห์ตัวอย่างจาก Lab</div><div class="field-label-en">Lab Result</div></div>
                 <v-textarea
                   v-model="inspectionForm.labResult"
                   rows="3"
@@ -217,7 +217,7 @@
                 />
               </v-col>
               <v-col cols="12" sm="6">
-                <div class="field-label mb-1">วันที่ตรวจ <span class="field-label-en">Inspection Date</span></div>
+                <div class="field-label mb-1"><div>วันที่ตรวจ</div><div class="field-label-en">Inspection Date</div></div>
                 <v-text-field v-model="inspectionForm.inspectedDate" type="date" />
               </v-col>
             </v-row>
@@ -270,7 +270,7 @@
 
             <v-row v-if="app.currentStep === 4">
               <v-col cols="12" sm="4">
-                <div class="field-label mb-1">ครั้งที่เสนอ CC <span class="field-label-en">CC Round</span></div>
+                <div class="field-label mb-1"><div>ครั้งที่เสนอ CC</div><div class="field-label-en">CC Round</div></div>
                 <v-text-field
                   v-model="ccProposeForm.round"
                   type="number"
@@ -279,11 +279,11 @@
                 />
               </v-col>
               <v-col cols="12" sm="4">
-                <div class="field-label mb-1">วันที่นัดประชุม CC <span class="field-label-en">CC Meeting Date</span></div>
+                <div class="field-label mb-1"><div>วันที่นัดประชุม CC</div><div class="field-label-en">CC Meeting Date</div></div>
                 <v-text-field v-model="ccProposeForm.meetingDate" type="date" />
               </v-col>
               <v-col cols="12" sm="6">
-                <div class="field-label mb-1">บทสรุปสำหรับคณะกรรมการ <span class="field-label-en">Summary</span></div>
+                <div class="field-label mb-1"><div>บทสรุปสำหรับคณะกรรมการ</div><div class="field-label-en">Summary</div></div>
                 <v-textarea v-model="ccProposeForm.summary" rows="4" />
               </v-col>
             </v-row>
@@ -315,11 +315,11 @@
 
             <v-row v-if="app.currentStep === 5">
               <v-col cols="12" sm="4">
-                <div class="field-label mb-1">วันที่ประชุม CC <span class="field-label-en">CC Meeting Date</span></div>
+                <div class="field-label mb-1"><div>วันที่ประชุม CC</div><div class="field-label-en">CC Meeting Date</div></div>
                 <v-text-field v-model="ccResultForm.meetingDate" type="date" />
               </v-col>
               <v-col cols="12" sm="8">
-                <div class="field-label mb-1">ผลการพิจารณา <span class="field-label-en">Decision</span></div>
+                <div class="field-label mb-1"><div>ผลการพิจารณา</div><div class="field-label-en">Decision</div></div>
                 <v-autocomplete
                   v-model="ccResultForm.decision"
                   :items="ccDecisionOptions"
@@ -329,7 +329,7 @@
                 />
               </v-col>
               <v-col cols="12" sm="6">
-                <div class="field-label mb-1">หมายเหตุ / เงื่อนไข <span class="field-label-en">Remarks/Conditions</span></div>
+                <div class="field-label mb-1"><div>หมายเหตุ / เงื่อนไข</div><div class="field-label-en">Remarks/Conditions</div></div>
                 <v-textarea v-model="ccResultForm.notes" rows="3" />
               </v-col>
             </v-row>
@@ -378,19 +378,19 @@
                 </div>
                 <v-row>
                   <v-col cols="12" sm="4">
-                    <div class="field-label mb-1">เลขที่ใบรับรอง <span class="field-label-en">Cert No.</span></div>
+                    <div class="field-label mb-1"><div>เลขที่ใบรับรอง</div><div class="field-label-en">Cert No.</div></div>
                     <v-text-field v-model="certForm.certNo" prepend-inner-icon="fas fa-hashtag" />
                   </v-col>
                   <v-col cols="12" sm="4">
-                    <div class="field-label mb-1">วันที่ออกใบรับรอง <span class="field-label-en">Issue Date</span></div>
+                    <div class="field-label mb-1"><div>วันที่ออกใบรับรอง</div><div class="field-label-en">Issue Date</div></div>
                     <v-text-field v-model="certForm.issuedDate" type="date" />
                   </v-col>
                   <v-col cols="12" sm="4">
-                    <div class="field-label mb-1">วันหมดอายุ <span class="field-label-en">Expiry Date</span></div>
+                    <div class="field-label mb-1"><div>วันหมดอายุ</div><div class="field-label-en">Expiry Date</div></div>
                     <v-text-field v-model="certForm.expiryDate" type="date" />
                   </v-col>
                   <v-col cols="12" sm="6">
-                    <div class="field-label mb-1">ผู้มีอำนาจลงนาม <span class="field-label-en">Authorized Signer</span></div>
+                    <div class="field-label mb-1"><div>ผู้มีอำนาจลงนาม</div><div class="field-label-en">Authorized Signer</div></div>
                     <v-autocomplete
                       v-model="certForm.signedBy"
                       :items="signerOptions"
@@ -398,7 +398,7 @@
                     />
                   </v-col>
                   <v-col cols="12" sm="6">
-                    <div class="field-label mb-1">ตำแหน่ง <span class="field-label-en">Position</span></div>
+                    <div class="field-label mb-1"><div>ตำแหน่ง</div><div class="field-label-en">Position</div></div>
                     <v-text-field v-model="certForm.position" prepend-inner-icon="fas fa-user-shield" />
                   </v-col>
                 </v-row>
@@ -432,7 +432,7 @@
           ส่งกลับแก้ไข
         </v-card-title>
         <v-card-text class="px-5 pb-3">
-          <div class="field-label mb-1">ระบุเหตุผล / ข้อมูลที่ต้องแก้ไข <span class="field-label-en">Return Reason</span></div>
+          <div class="field-label mb-1"><div>ระบุเหตุผล / ข้อมูลที่ต้องแก้ไข</div><div class="field-label-en">Return Reason</div></div>
           <v-textarea v-model="rejectNote" rows="4" />
           <p class="text-caption text-medium-emphasis">* ผู้ยื่นคำขอสามารถแก้ไขได้ไม่เกิน 3 ครั้ง</p>
         </v-card-text>
@@ -711,8 +711,7 @@ function issueCert() {
 </script>
 
 <style scoped>
-.field-label { font-size: 12px; font-weight: 600; color: rgba(var(--v-theme-on-surface), 0.75); }
-.field-label-en { font-size: 11px; font-weight: 400; color: rgba(var(--v-theme-on-surface), 0.4); margin-left: 4px; }
+div { --step-color: rgb(var(--v-theme-gap-staff)); --step-color-tint: rgba(var(--v-theme-gap-staff), 0.2); }
 /* ─── Workflow Stepper ─── */
 .workflow-stepper {
   display: flex;
@@ -771,7 +770,7 @@ function issueCert() {
   background: rgba(var(--v-border-color), 0.3);
 }
 .wf-step--done .wf-connector {
-  background: rgb(var(--v-theme-success));
+  background: var(--step-color);
 }
 
 /* ─── Step content ─── */

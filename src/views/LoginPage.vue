@@ -7,8 +7,8 @@
           <v-icon icon="fas fa-leaf" size="36" color="white" />
         </div>
         <h1
-          class="text-h4 font-weight-bold text-white mb-3"
-          style="line-height: 1.2"
+          class="text-h4 font-weight-bold text-white mb-3 lh-tight"
+          
         >
           กรมวิชาการเกษตร
         </h1>
@@ -54,8 +54,8 @@
           </div>
           <div>
             <div
-              class="text-body-1 font-weight-bold text-primary"
-              style="line-height: 1.2"
+              class="text-body-1 font-weight-bold text-primary lh-tight"
+              
             >
               กรมวิชาการเกษตร
             </div>
@@ -80,7 +80,7 @@
         <!-- ════ Step 0: เลือกบทบาท ════ -->
         <template v-if="step === 0">
           <div class="mb-7">
-            <h2 class="text-h5 font-weight-bold mb-1">เข้าสู่ระบบ</h2>
+            <h2 class="page-title mb-1">เข้าสู่ระบบ</h2>
             <p class="text-body-2 text-medium-emphasis mb-0">
               กรุณาเลือกประเภทผู้ใช้งานเพื่อดำเนินการต่อ
             </p>
@@ -161,7 +161,7 @@
               @click="step = 0"
             />
             <div>
-              <h2 class="text-h5 font-weight-bold mb-0">
+              <h2 class="page-title mb-0">
                 {{
                   selectedRole === "operator" ? "ผู้ประกอบการ" : "เจ้าหน้าที่"
                 }}

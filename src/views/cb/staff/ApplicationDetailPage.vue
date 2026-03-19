@@ -5,7 +5,7 @@
       <v-btn icon="fas fa-arrow-left" variant="text" size="small" @click="router.push('/cb/staff/applications')" />
       <div class="flex-grow-1">
         <div class="d-flex align-center ga-3 flex-wrap">
-          <h1 class="text-h5 font-weight-bold mb-0">{{ app.requestNo }}</h1>
+          <h1 class="page-title mb-0">{{ app.requestNo }}</h1>
           <v-chip :color="statusColor(app.status)" size="small" variant="tonal">{{ statusLabel(app.status) }}</v-chip>
         </div>
         <p class="text-body-2 text-medium-emphasis mb-0 mt-1">{{ app.applicant }} · ยื่นเมื่อ {{ app.submittedDate }}</p>
@@ -132,7 +132,7 @@
             </v-radio>
           </v-radio-group>
 
-          <div class="field-label mb-1">หมายเหตุ / เหตุผล <span class="field-label-en">Remarks / Review Reason</span></div>
+          <div class="field-label mb-1"><div>หมายเหตุ / เหตุผล</div><div class="field-label-en">Remarks / Review Reason</div></div>
           <v-textarea
             v-model="review.remark"
             variant="outlined"
@@ -173,7 +173,7 @@
                 ผลการพิจารณา: <strong>{{ { approved: 'ผ่าน', improve: 'ปรับปรุง', rejected: 'ไม่ผ่าน' }[review.decision] ?? '—' }}</strong>
               </v-alert>
 
-              <div class="field-label mb-1">สถานะการดำเนินการ <span class="field-label-en">Action Status</span></div>
+              <div class="field-label mb-1"><div>สถานะการดำเนินการ</div><div class="field-label-en">Action Status</div></div>
               <v-radio-group v-model="sign.actionStatus" color="cb-staff" class="mb-4">
                 <v-radio value="suspend" label="ระงับ" class="mb-1" />
                 <v-radio value="pause" label="พักใช้" class="mb-1" />
@@ -182,7 +182,7 @@
 
               <v-row dense>
                 <v-col cols="12">
-                  <div class="field-label mb-1">ประเทศ <span class="field-label-en">Country</span> <span class="text-caption text-medium-emphasis">(เลือกได้หลายประเทศ)</span></div>
+                  <div class="field-label mb-1"><div>ประเทศ</div><div class="field-label-en">Country</div> <span class="text-caption text-medium-emphasis">(เลือกได้หลายประเทศ)</span></div>
                   <v-autocomplete
                     v-model="sign.countries"
                     :items="countryOptions"
@@ -196,7 +196,7 @@
                   />
                 </v-col>
                 <v-col cols="12" class="mt-3">
-                  <div class="field-label mb-1">พืช <span class="field-label-en">Crop</span></div>
+                  <div class="field-label mb-1"><div>พืช</div><div class="field-label-en">Crop</div></div>
                   <v-autocomplete
                     v-model="sign.cropType"
                     :items="cropOptions"
@@ -207,7 +207,7 @@
                   />
                 </v-col>
                 <v-col cols="12" class="mt-3">
-                  <div class="field-label mb-1">หมายเหตุ / เหตุผล <span class="field-label-en">Remarks / Reason</span></div>
+                  <div class="field-label mb-1"><div>หมายเหตุ / เหตุผล</div><div class="field-label-en">Remarks / Reason</div></div>
                   <v-textarea v-model="sign.remark" variant="outlined" density="compact" rounded="lg" rows="3" />
                 </v-col>
               </v-row>
@@ -338,17 +338,9 @@ function doSave() { confirmDialog.value = false; successDialog.value = true; }
 </script>
 
 <style scoped>
-.section-card { border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity)); }
-.section-title { font-size: 14px !important; font-weight: 600; }
-.field-label { font-size: 13px; font-weight: 500; color: rgba(var(--v-theme-on-surface), 0.75); }
-.field-label-en { font-size: 11px; font-weight: 400; color: rgba(var(--v-theme-on-surface), 0.4); margin-left: 4px; }
-.info-label { font-size: 11px; color: rgba(var(--v-theme-on-surface), 0.5); text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 2px; }
-.info-value { font-size: 14px; font-weight: 500; }
+div { --step-color: rgb(var(--v-theme-cb-staff)); --step-color-tint: rgba(var(--v-theme-cb-staff), 0.2); }
 .step-circle { width: 32px; height: 32px; border-radius: 50%; border: 2px solid rgba(var(--v-border-color), var(--v-border-opacity)); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: rgba(var(--v-theme-on-surface), 0.45); flex-shrink: 0; }
 .step-circle--active { border-color: rgb(var(--v-theme-cb-staff)); color: rgb(var(--v-theme-cb-staff)); background: rgba(var(--v-theme-cb-staff), 0.08); }
 .step-circle--done { border-color: rgb(var(--v-theme-cb-staff)); background: rgb(var(--v-theme-cb-staff)); color: white; }
-.step-line { height: 2px; background: rgba(var(--v-border-color), var(--v-border-opacity)); margin: 0 8px; margin-bottom: 22px; min-width: 20px; }
-.step-line--done { background: rgb(var(--v-theme-cb-staff)); }
 .confirm-ring { width: 72px; height: 72px; border-radius: 50%; background: rgba(var(--v-theme-cb-staff), 0.1); display: flex; align-items: center; justify-content: center; }
-.success-ring { width: 72px; height: 72px; border-radius: 50%; background: rgba(var(--v-theme-success), 0.1); display: flex; align-items: center; justify-content: center; }
 </style>

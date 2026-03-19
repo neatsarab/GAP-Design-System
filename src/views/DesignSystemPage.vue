@@ -385,16 +385,6 @@ const summaryCards = [
 }
 
 /* ── Page ────────────────────────────────────────────── */
-.stat-icon-box {
-  width: 44px;
-  height: 44px;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
 .page-header {
   animation: fadeInDown 0.4s ease;
 }

@@ -2,12 +2,19 @@
   <div>
     <!-- Header -->
     <div class="d-flex align-center ga-3 mb-6">
-      <v-btn icon="fas fa-arrow-left" variant="text" size="small" @click="router.back()" />
+      <v-btn
+        icon="fas fa-arrow-left"
+        variant="text"
+        size="small"
+        @click="router.back()"
+      />
       <div>
-        <h1 class="text-h5 font-weight-bold mb-0">
+        <h1 class="page-title mb-0">
           {{ pageTitle }}
         </h1>
-        <p class="text-body-2 text-medium-emphasis mb-0 mt-1">กรอกข้อมูลให้ครบถ้วนแล้วยืนยันคำขอ</p>
+        <p class="text-body-2 text-medium-emphasis mb-0 mt-1">
+          กรอกข้อมูลให้ครบถ้วนแล้วยืนยันคำขอ
+        </p>
       </div>
     </div>
 
@@ -16,22 +23,31 @@
       <v-card-text class="pa-5">
         <div class="d-flex align-center">
           <template v-for="(step, i) in steps" :key="step.value">
-            <div class="d-flex flex-column align-center" style="min-width: 90px">
-              <div
-                class="step-circle mb-1"
-                :class="{
-                  'step-done': currentStep > step.value,
-                  'step-active': currentStep === step.value,
-                  'step-pending': currentStep < step.value,
-                }"
-              >
-                <v-icon v-if="currentStep > step.value" icon="fas fa-check" size="13" color="white" />
-                <span v-else class="text-caption font-weight-bold">{{ step.value }}</span>
+            <div
+              class="step-item d-flex flex-column align-center"
+              style="min-width: 90px"
+            >
+              <div class="step-circle mb-1" :class="stepClass(step.value)">
+                <v-icon
+                  v-if="currentStep > step.value"
+                  icon="fas fa-check"
+                  size="13"
+                  color="white"
+                />
+                <span v-else class="text-caption font-weight-bold">{{
+                  step.value
+                }}</span>
               </div>
               <div
                 class="text-caption text-center"
-                :class="currentStep >= step.value ? 'text-doa-user font-weight-bold' : 'text-medium-emphasis'"
-              >{{ step.title }}</div>
+                :class="
+                  currentStep >= step.value
+                    ? 'text-doa-user font-weight-bold'
+                    : 'text-medium-emphasis'
+                "
+              >
+                {{ step.title }}
+              </div>
             </div>
             <div
               v-if="i < steps.length - 1"
@@ -55,35 +71,104 @@
         <v-card-text class="pa-5">
           <v-row dense>
             <v-col cols="12">
-              <div class="field-group-label mb-3">ชื่อและที่อยู่ผู้ยื่นคำขอ</div>
+              <div class="field-section-label mb-2">ข้อมูลผู้ยื่นคำขอ</div>
             </v-col>
             <v-col cols="12" md="6">
-              <div class="field-label">ชื่อ-สกุล (ภาษาไทย) <span class="field-label-en">Full Name (Thai)</span> <span class="req">*</span></div>
-              <v-text-field v-model="form.applicantNameTh" variant="outlined" density="compact" rounded="lg" hide-details />
+              <div class="field-label">
+                <div>ชื่อ-สกุล (ภาษาไทย) <span class="req">*</span></div>
+                <div class="field-label-en">Full Name (Thai)</div>
+              </div>
+              <v-text-field
+                v-model="form.applicantNameTh"
+                variant="outlined"
+                density="compact"
+                rounded="lg"
+                hide-details
+              />
             </v-col>
             <v-col cols="12" md="6">
-              <div class="field-label">Name (English) <span class="field-label-en">Full Name (English)</span> <span class="req">*</span></div>
-              <v-text-field v-model="form.applicantNameEn" variant="outlined" density="compact" rounded="lg" hide-details />
+              <div class="field-label">
+                <div>Name (English) <span class="req">*</span></div>
+                <div class="field-label-en">Full Name (English)</div>
+              </div>
+              <v-text-field
+                v-model="form.applicantNameEn"
+                variant="outlined"
+                density="compact"
+                rounded="lg"
+                hide-details
+              />
             </v-col>
             <v-col cols="12" md="6">
-              <div class="field-label">เลขบัตรประชาชน <span class="field-label-en">ID Card No.</span> <span class="req">*</span></div>
-              <v-text-field v-model="form.idCard" variant="outlined" density="compact" rounded="lg" hide-details maxlength="13" />
+              <div class="field-label">
+                <div>เลขบัตรประชาชน <span class="req">*</span></div>
+                <div class="field-label-en">ID Card No.</div>
+              </div>
+              <v-text-field
+                v-model="form.idCard"
+                variant="outlined"
+                density="compact"
+                rounded="lg"
+                hide-details
+                maxlength="13"
+              />
             </v-col>
             <v-col cols="12">
-              <div class="field-label">ที่อยู่ <span class="field-label-en">Address</span> <span class="req">*</span></div>
-              <v-textarea v-model="form.applicantAddress" variant="outlined" density="compact" rounded="lg" hide-details rows="2" />
+              <div class="field-label">
+                <div>ที่อยู่ <span class="req">*</span></div>
+                <div class="field-label-en">Address</div>
+              </div>
+              <v-textarea
+                v-model="form.applicantAddress"
+                variant="outlined"
+                density="compact"
+                rounded="lg"
+                hide-details
+                rows="2"
+              />
+            </v-col>
+            <v-col cols="12">
+              <div class="field-section-label mt-3 mb-2">ข้อมูลการติดต่อ</div>
             </v-col>
             <v-col cols="12" md="4">
-              <div class="field-label">โทรศัพท์ <span class="field-label-en">Phone Number</span></div>
-              <v-text-field v-model="form.applicantPhone" variant="outlined" density="compact" rounded="lg" hide-details />
+              <div class="field-label">
+                <div>โทรศัพท์</div>
+                <div class="field-label-en">Phone Number</div>
+              </div>
+              <v-text-field
+                v-model="form.applicantPhone"
+                variant="outlined"
+                density="compact"
+                rounded="lg"
+                hide-details
+              />
             </v-col>
             <v-col cols="12" md="4">
-              <div class="field-label">โทรสาร <span class="field-label-en">Fax</span></div>
-              <v-text-field v-model="form.applicantFax" variant="outlined" density="compact" rounded="lg" hide-details />
+              <div class="field-label">
+                <div>โทรสาร</div>
+                <div class="field-label-en">Fax</div>
+              </div>
+              <v-text-field
+                v-model="form.applicantFax"
+                variant="outlined"
+                density="compact"
+                rounded="lg"
+                hide-details
+              />
             </v-col>
             <v-col cols="12" md="4">
-              <div class="field-label">Email <span class="field-label-en">Email</span></div>
-              <v-text-field v-model="form.applicantEmail" type="email" variant="outlined" density="compact" rounded="lg" hide-details />
+              <div class="field-label">
+                <div>Email</div>
+                <div class="field-label-en">Email</div>
+              </div>
+              <v-text-field
+                v-model="form.applicantEmail"
+                type="email"
+                variant="outlined"
+                density="compact"
+                rounded="lg"
+                hide-details
+              />
             </v-col>
           </v-row>
         </v-card-text>
@@ -92,7 +177,12 @@
       <!-- วัตถุประสงค์ -->
       <v-card rounded="xl" elevation="0" class="section-card mb-5">
         <v-card-title class="pa-5 pb-3 section-title">
-          <v-icon icon="fas fa-bullseye" color="doa-user" class="mr-2" size="18" />
+          <v-icon
+            icon="fas fa-bullseye"
+            color="doa-user"
+            class="mr-2"
+            size="18"
+          />
           วัตถุประสงค์ของการยื่นคำขอ
         </v-card-title>
         <v-divider />
@@ -100,8 +190,15 @@
           <!-- Register type: radio -->
           <template v-if="isRegister">
             <v-radio-group v-model="form.purpose" color="doa-user">
-              <v-radio value="register" label="ขึ้นทะเบียนโรงงานผลิตสินค้าพืช" class="mb-2" />
-              <v-radio value="renew" label="ต่ออายุการขึ้นทะเบียนโรงงานผลิตสินค้าพืช" />
+              <v-radio
+                value="register"
+                label="ขึ้นทะเบียนโรงงานผลิตสินค้าพืช"
+                class="mb-2"
+              />
+              <v-radio
+                value="renew"
+                label="ต่ออายุการขึ้นทะเบียนโรงงานผลิตสินค้าพืช"
+              />
             </v-radio-group>
           </template>
           <!-- Amendment / Scope type: checkboxes -->
@@ -117,7 +214,12 @@
                   hide-details
                   class="mb-1"
                 />
-                <div v-if="obj.value === 'other' && form.objectives.includes('other')" class="ml-8 mt-1 mb-2">
+                <div
+                  v-if="
+                    obj.value === 'other' && form.objectives.includes('other')
+                  "
+                  class="ml-8 mt-1 mb-2"
+                >
                   <v-text-field
                     v-model="form.objectiveOther"
                     placeholder="ระบุรายละเอียด"
@@ -136,43 +238,107 @@
       <!-- ข้อมูลสถานประกอบการ -->
       <v-card rounded="xl" elevation="0" class="section-card mb-5">
         <v-card-title class="pa-5 pb-3 section-title">
-          <v-icon icon="fas fa-industry" color="doa-user" class="mr-2" size="18" />
+          <v-icon
+            icon="fas fa-industry"
+            color="doa-user"
+            class="mr-2"
+            size="18"
+          />
           ข้อมูลสถานประกอบการ
         </v-card-title>
         <v-divider />
         <v-card-text class="pa-5">
           <v-row dense>
             <v-col cols="12">
-              <div class="field-group-label mb-3">ชื่อสถานที่โรงงานผลิตสินค้าพืช</div>
+              <div class="field-section-label mb-2">สถานที่โรงงาน</div>
             </v-col>
             <v-col cols="12" md="6">
-              <div class="field-label">ชื่อโรงงาน (ภาษาไทย) <span class="field-label-en">Factory Name (Thai)</span> <span class="req">*</span></div>
-              <v-text-field v-model="form.factoryNameTh" variant="outlined" density="compact" rounded="lg" hide-details />
+              <div class="field-label">
+                <div>ชื่อโรงงาน (ภาษาไทย) <span class="req">*</span></div>
+                <div class="field-label-en">Factory Name (Thai)</div>
+              </div>
+              <v-text-field
+                v-model="form.factoryNameTh"
+                variant="outlined"
+                density="compact"
+                rounded="lg"
+                hide-details
+              />
             </v-col>
             <v-col cols="12" md="6">
-              <div class="field-label">Factory Name (English) <span class="field-label-en">Factory Name (English)</span></div>
-              <v-text-field v-model="form.factoryNameEn" variant="outlined" density="compact" rounded="lg" hide-details />
+              <div class="field-label">
+                <div>Factory Name (English)</div>
+                <div class="field-label-en">Factory Name (English)</div>
+              </div>
+              <v-text-field
+                v-model="form.factoryNameEn"
+                variant="outlined"
+                density="compact"
+                rounded="lg"
+                hide-details
+              />
             </v-col>
             <v-col cols="12">
-              <div class="field-label">ที่อยู่สถานประกอบการ <span class="field-label-en">Establishment Address</span> <span class="req">*</span></div>
-              <v-textarea v-model="form.factoryAddress" variant="outlined" density="compact" rounded="lg" hide-details rows="2" />
+              <div class="field-label">
+                <div>ที่อยู่สถานประกอบการ <span class="req">*</span></div>
+                <div class="field-label-en">Establishment Address</div>
+              </div>
+              <v-textarea
+                v-model="form.factoryAddress"
+                variant="outlined"
+                density="compact"
+                rounded="lg"
+                hide-details
+                rows="2"
+              />
+            </v-col>
+            <v-col cols="12">
+              <div class="field-section-label mt-3 mb-2">ข้อมูลการติดต่อ</div>
             </v-col>
             <v-col cols="12" md="4">
-              <div class="field-label">โทรศัพท์ <span class="field-label-en">Phone Number</span></div>
-              <v-text-field v-model="form.factoryPhone" variant="outlined" density="compact" rounded="lg" hide-details />
+              <div class="field-label">
+                <div>โทรศัพท์</div>
+                <div class="field-label-en">Phone Number</div>
+              </div>
+              <v-text-field
+                v-model="form.factoryPhone"
+                variant="outlined"
+                density="compact"
+                rounded="lg"
+                hide-details
+              />
             </v-col>
             <v-col cols="12" md="4">
-              <div class="field-label">โทรสาร <span class="field-label-en">Fax</span></div>
-              <v-text-field v-model="form.factoryFax" variant="outlined" density="compact" rounded="lg" hide-details />
+              <div class="field-label">
+                <div>โทรสาร</div>
+                <div class="field-label-en">Fax</div>
+              </div>
+              <v-text-field
+                v-model="form.factoryFax"
+                variant="outlined"
+                density="compact"
+                rounded="lg"
+                hide-details
+              />
             </v-col>
             <v-col cols="12" md="4">
-              <div class="field-label">Email <span class="field-label-en">Email</span></div>
-              <v-text-field v-model="form.factoryEmail" type="email" variant="outlined" density="compact" rounded="lg" hide-details />
+              <div class="field-label">
+                <div>Email</div>
+                <div class="field-label-en">Email</div>
+              </div>
+              <v-text-field
+                v-model="form.factoryEmail"
+                type="email"
+                variant="outlined"
+                density="compact"
+                rounded="lg"
+                hide-details
+              />
             </v-col>
 
             <!-- ประเภทสถานประกอบการ -->
             <v-col cols="12" class="mt-1">
-              <div class="field-group-label mb-2">ประเภทสถานประกอบการ</div>
+              <div class="field-section-label mb-2">ประเภทสถานประกอบการ</div>
               <v-radio-group v-model="form.factoryType" color="doa-user" inline>
                 <v-radio value="packing" label="โรงคัดบรรจุ" class="mr-6" />
                 <v-radio value="processing" label="โรงงานแปรรูป" />
@@ -184,9 +350,16 @@
 
       <!-- มาตรฐานที่ขอขึ้นทะเบียน -->
       <v-card rounded="xl" elevation="0" class="section-card mb-5">
-        <v-card-title class="pa-5 pb-3 d-flex align-center justify-space-between section-title">
+        <v-card-title
+          class="pa-5 pb-3 d-flex align-center justify-space-between section-title"
+        >
           <span>
-            <v-icon icon="fas fa-certificate" color="doa-user" class="mr-2" size="18" />
+            <v-icon
+              icon="fas fa-certificate"
+              color="doa-user"
+              class="mr-2"
+              size="18"
+            />
             มาตรฐานที่ขอขึ้นทะเบียน
           </span>
           <v-btn
@@ -214,7 +387,10 @@
           </thead>
           <tbody>
             <tr v-if="form.standards.length === 0">
-              <td colspan="6" class="text-center text-medium-emphasis py-5 text-body-2">
+              <td
+                colspan="6"
+                class="text-center text-medium-emphasis py-5 text-body-2"
+              >
                 ยังไม่มีมาตรฐาน — กดปุ่ม "เพิ่ม" เพื่อระบุมาตรฐาน
               </td>
             </tr>
@@ -225,8 +401,20 @@
               <td>{{ std.issueDate }}</td>
               <td>{{ std.expireDate }}</td>
               <td class="text-right">
-                <v-btn icon="fas fa-pen" variant="text" size="x-small" color="doa-user" @click="openStandardDialog(idx)" />
-                <v-btn icon="fas fa-trash" variant="text" size="x-small" color="error" @click="removeStandard(idx)" />
+                <v-btn
+                  icon="fas fa-pen"
+                  variant="text"
+                  size="x-small"
+                  color="doa-user"
+                  @click="openStandardDialog(idx)"
+                />
+                <v-btn
+                  icon="fas fa-trash"
+                  variant="text"
+                  size="x-small"
+                  color="error"
+                  @click="removeStandard(idx)"
+                />
               </td>
             </tr>
           </tbody>
@@ -245,10 +433,21 @@
           ย้อนกลับ
         </v-btn>
         <div class="d-flex ga-2">
-          <v-btn variant="tonal" color="doa-user" rounded="lg" prepend-icon="fas fa-floppy-disk" @click="saveDraft">
+          <v-btn
+            variant="tonal"
+            color="doa-user"
+            rounded="lg"
+            prepend-icon="fas fa-floppy-disk"
+            @click="saveDraft"
+          >
             แบบร่าง
           </v-btn>
-          <v-btn color="doa-user" rounded="lg" append-icon="fas fa-arrow-right" @click="currentStep = 2">
+          <v-btn
+            color="doa-user"
+            rounded="lg"
+            append-icon="fas fa-arrow-right"
+            @click="currentStep = 2"
+          >
             ถัดไป
           </v-btn>
         </div>
@@ -267,10 +466,19 @@
         <v-card-text class="pa-5">
           <v-row dense>
             <v-col v-for="doc in docNatural" :key="doc.key" cols="12">
-              <div class="upload-row rounded-lg pa-4 mb-2 d-flex align-center justify-space-between flex-wrap ga-3">
+              <div
+                class="upload-row rounded-lg pa-4 mb-2 d-flex align-center justify-space-between flex-wrap ga-3"
+              >
                 <div>
-                  <div class="text-body-2 font-weight-medium">{{ doc.label }}</div>
-                  <div v-if="doc.note" class="text-caption text-medium-emphasis mt-1">{{ doc.note }}</div>
+                  <div class="text-body-2 font-weight-medium">
+                    {{ doc.label }}
+                  </div>
+                  <div
+                    v-if="doc.note"
+                    class="text-caption text-medium-emphasis mt-1"
+                  >
+                    {{ doc.note }}
+                  </div>
                 </div>
                 <div class="d-flex align-center ga-2">
                   <v-chip
@@ -302,17 +510,31 @@
       <!-- เอกสารนิติบุคคล -->
       <v-card rounded="xl" elevation="0" class="section-card mb-5">
         <v-card-title class="pa-5 pb-3 section-title">
-          <v-icon icon="fas fa-building" color="doa-user" class="mr-2" size="18" />
+          <v-icon
+            icon="fas fa-building"
+            color="doa-user"
+            class="mr-2"
+            size="18"
+          />
           เอกสารกรณีนิติบุคคล
         </v-card-title>
         <v-divider />
         <v-card-text class="pa-5">
           <v-row dense>
             <v-col v-for="doc in docJuristic" :key="doc.key" cols="12">
-              <div class="upload-row rounded-lg pa-4 mb-2 d-flex align-center justify-space-between flex-wrap ga-3">
+              <div
+                class="upload-row rounded-lg pa-4 mb-2 d-flex align-center justify-space-between flex-wrap ga-3"
+              >
                 <div>
-                  <div class="text-body-2 font-weight-medium">{{ doc.label }}</div>
-                  <div v-if="doc.note" class="text-caption text-medium-emphasis mt-1">{{ doc.note }}</div>
+                  <div class="text-body-2 font-weight-medium">
+                    {{ doc.label }}
+                  </div>
+                  <div
+                    v-if="doc.note"
+                    class="text-caption text-medium-emphasis mt-1"
+                  >
+                    {{ doc.note }}
+                  </div>
                 </div>
                 <div class="d-flex align-center ga-2">
                   <v-chip
@@ -344,19 +566,35 @@
       <!-- เอกสารประกอบเพิ่มเติม -->
       <v-card rounded="xl" elevation="0" class="section-card mb-5">
         <v-card-title class="pa-5 pb-3 section-title">
-          <v-icon icon="fas fa-paperclip" color="doa-user" class="mr-2" size="18" />
+          <v-icon
+            icon="fas fa-paperclip"
+            color="doa-user"
+            class="mr-2"
+            size="18"
+          />
           เอกสารประกอบเพิ่มเติม
         </v-card-title>
         <v-divider />
         <v-card-text class="pa-5">
-          <v-alert variant="tonal" color="warning" rounded="lg" density="compact" class="mb-4" prepend-icon="fas fa-triangle-exclamation">
+          <v-alert
+            variant="tonal"
+            color="warning"
+            rounded="lg"
+            density="compact"
+            class="mb-4"
+            prepend-icon="fas fa-triangle-exclamation"
+          >
             เอกสารลำดับที่ 1–5 ต้องรับรองสำเนาถูกต้องทุกฉบับ
           </v-alert>
           <v-row dense>
             <v-col v-for="doc in docExtra" :key="doc.key" cols="12">
-              <div class="upload-row rounded-lg pa-4 mb-2 d-flex align-center justify-space-between flex-wrap ga-3">
+              <div
+                class="upload-row rounded-lg pa-4 mb-2 d-flex align-center justify-space-between flex-wrap ga-3"
+              >
                 <div>
-                  <div class="text-body-2 font-weight-medium">{{ doc.label }}</div>
+                  <div class="text-body-2 font-weight-medium">
+                    {{ doc.label }}
+                  </div>
                 </div>
                 <div class="d-flex align-center ga-2">
                   <v-chip
@@ -397,10 +635,21 @@
           ย้อนกลับ
         </v-btn>
         <div class="d-flex ga-2">
-          <v-btn variant="tonal" color="doa-user" rounded="lg" prepend-icon="fas fa-floppy-disk" @click="saveDraft">
+          <v-btn
+            variant="tonal"
+            color="doa-user"
+            rounded="lg"
+            prepend-icon="fas fa-floppy-disk"
+            @click="saveDraft"
+          >
             แบบร่าง
           </v-btn>
-          <v-btn color="doa-user" rounded="lg" prepend-icon="fas fa-paper-plane" @click="confirmDialog = true">
+          <v-btn
+            color="doa-user"
+            rounded="lg"
+            prepend-icon="fas fa-paper-plane"
+            @click="confirmDialog = true"
+          >
             ยืนยันคำขอ
           </v-btn>
         </div>
@@ -411,38 +660,101 @@
     <v-dialog v-model="standardDialog" max-width="560">
       <v-card rounded="xl">
         <v-card-title class="pa-5 pb-3 text-body-1 font-weight-bold">
-          <v-icon icon="fas fa-certificate" color="doa-user" class="mr-2" size="18" />
+          <v-icon
+            icon="fas fa-certificate"
+            color="doa-user"
+            class="mr-2"
+            size="18"
+          />
           {{ standardDialogIndex === -1 ? "เพิ่มมาตรฐาน" : "แก้ไขมาตรฐาน" }}
         </v-card-title>
         <v-divider />
         <v-card-text class="pa-5">
           <v-row dense>
             <v-col cols="12">
-              <div class="field-label">ขอบข่ายมาตรฐาน <span class="field-label-en">Standard Scope</span> <span class="req">*</span></div>
-              <v-autocomplete v-model="standardForm.standard" :items="standardOptions" variant="outlined" density="compact" rounded="lg" hide-details />
+              <div class="field-label">
+                <div>ขอบข่ายมาตรฐาน <span class="req">*</span></div>
+                <div class="field-label-en">Standard Scope</div>
+              </div>
+              <v-autocomplete
+                v-model="standardForm.standard"
+                :items="standardOptions"
+                variant="outlined"
+                density="compact"
+                rounded="lg"
+                hide-details
+              />
             </v-col>
             <v-col cols="12">
-              <div class="field-label">หน่วยรับรองที่ให้การรับรองมาตรฐาน <span class="field-label-en">Certifying Body</span> <span class="req">*</span></div>
-              <v-text-field v-model="standardForm.certBody" variant="outlined" density="compact" rounded="lg" hide-details />
+              <div class="field-label">
+                <div>
+                  หน่วยรับรองที่ให้การรับรองมาตรฐาน <span class="req">*</span>
+                </div>
+                <div class="field-label-en">Certifying Body</div>
+              </div>
+              <v-text-field
+                v-model="standardForm.certBody"
+                variant="outlined"
+                density="compact"
+                rounded="lg"
+                hide-details
+              />
             </v-col>
             <v-col cols="12">
-              <div class="field-label">เลขที่ใบรับรอง <span class="field-label-en">Certificate No.</span> <span class="req">*</span></div>
-              <v-text-field v-model="standardForm.certNo" variant="outlined" density="compact" rounded="lg" hide-details />
+              <div class="field-label">
+                <div>เลขที่ใบรับรอง <span class="req">*</span></div>
+                <div class="field-label-en">Certificate No.</div>
+              </div>
+              <v-text-field
+                v-model="standardForm.certNo"
+                variant="outlined"
+                density="compact"
+                rounded="lg"
+                hide-details
+              />
             </v-col>
             <v-col cols="12" md="6">
-              <div class="field-label">วันที่ได้รับการรับรอง <span class="field-label-en">Issue Date</span></div>
-              <v-text-field v-model="standardForm.issueDate" type="date" variant="outlined" density="compact" rounded="lg" hide-details />
+              <div class="field-label">
+                <div>วันที่ได้รับการรับรอง</div>
+                <div class="field-label-en">Issue Date</div>
+              </div>
+              <v-text-field
+                v-model="standardForm.issueDate"
+                type="date"
+                variant="outlined"
+                density="compact"
+                rounded="lg"
+                hide-details
+              />
             </v-col>
             <v-col cols="12" md="6">
-              <div class="field-label">วันหมดอายุ <span class="field-label-en">Expiry Date</span></div>
-              <v-text-field v-model="standardForm.expireDate" type="date" variant="outlined" density="compact" rounded="lg" hide-details />
+              <div class="field-label">
+                <div>วันหมดอายุ</div>
+                <div class="field-label-en">Expiry Date</div>
+              </div>
+              <v-text-field
+                v-model="standardForm.expireDate"
+                type="date"
+                variant="outlined"
+                density="compact"
+                rounded="lg"
+                hide-details
+              />
             </v-col>
           </v-row>
         </v-card-text>
         <v-card-actions class="px-5 pb-5 ga-2">
-          <v-btn variant="tonal" color="grey" rounded="lg" @click="standardDialog = false">ยกเลิก</v-btn>
+          <v-btn
+            variant="tonal"
+            color="grey"
+            rounded="lg"
+            @click="standardDialog = false"
+            >ยกเลิก</v-btn
+          >
           <v-spacer />
-          <v-btn color="doa-user" rounded="lg" @click="saveStandard">บันทึก</v-btn>
+          <v-btn color="doa-user" rounded="lg" @click="saveStandard"
+            >บันทึก</v-btn
+          >
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -460,8 +772,17 @@
           </p>
         </v-card-text>
         <v-card-actions class="px-6 pb-5 ga-2">
-          <v-btn variant="tonal" color="grey" rounded="lg" block @click="confirmDialog = false">ยกเลิก</v-btn>
-          <v-btn color="doa-user" rounded="lg" block @click="submitApplication">ยืนยัน</v-btn>
+          <v-btn
+            variant="tonal"
+            color="grey"
+            rounded="lg"
+            block
+            @click="confirmDialog = false"
+            >ยกเลิก</v-btn
+          >
+          <v-btn color="doa-user" rounded="lg" block @click="submitApplication"
+            >ยืนยัน</v-btn
+          >
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -479,7 +800,12 @@
           </p>
         </v-card-text>
         <v-card-actions class="px-6 pb-5">
-          <v-btn color="doa-user" rounded="lg" block @click="router.push('/doa/user/applications')">
+          <v-btn
+            color="doa-user"
+            rounded="lg"
+            block
+            @click="router.push('/doa/user/applications')"
+          >
             ดูรายการคำขอ
           </v-btn>
         </v-card-actions>
@@ -487,7 +813,13 @@
     </v-dialog>
 
     <!-- Draft Snackbar -->
-    <v-snackbar v-model="draftSnackbar" color="success" rounded="lg" timeout="2500" location="bottom right">
+    <v-snackbar
+      v-model="draftSnackbar"
+      color="success"
+      rounded="lg"
+      timeout="2500"
+      location="bottom right"
+    >
       <v-icon icon="fas fa-floppy-disk" class="mr-2" />
       บันทึกแบบร่างแล้ว
     </v-snackbar>
@@ -506,7 +838,9 @@ const typeTitles: Record<string, string> = {
   amendment: "คำขอเปลี่ยนแปลงทะเบียนโรงงานผลิตสินค้าพืช DOA",
   scope: "คำขอเพิ่ม / ลดขอบข่ายมาตรฐาน",
 };
-const pageTitle = computed(() => typeTitles[route.params.type as string] ?? "คำขอ DOA");
+const pageTitle = computed(
+  () => typeTitles[route.params.type as string] ?? "คำขอ DOA",
+);
 const isRegister = computed(() => route.params.type === "register");
 const currentStep = ref(1);
 const confirmDialog = ref(false);
@@ -534,7 +868,13 @@ const form = reactive({
   factoryFax: "",
   factoryEmail: "",
   factoryType: "packing" as "packing" | "processing",
-  standards: [] as { standard: string; certBody: string; certNo: string; issueDate: string; expireDate: string }[],
+  standards: [] as {
+    standard: string;
+    certBody: string;
+    certNo: string;
+    issueDate: string;
+    expireDate: string;
+  }[],
   objectives: [] as string[],
   objectiveOther: "",
 });
@@ -542,14 +882,30 @@ const form = reactive({
 // Standards CRUD
 const standardDialog = ref(false);
 const standardDialogIndex = ref(-1);
-const standardForm = reactive({ standard: "", certBody: "", certNo: "", issueDate: "", expireDate: "" });
+const standardForm = reactive({
+  standard: "",
+  certBody: "",
+  certNo: "",
+  issueDate: "",
+  expireDate: "",
+});
 
 const objectives = [
-  { value: "change_cb", label: "1. เปลี่ยนแปลงหน่วยรับรองโรงงานผลิตสินค้าพืช (CB)" },
-  { value: "change_name", label: "2. เปลี่ยนแปลงชื่อโรงงานผลิตสินค้าพืช (เปลี่ยนจากบุคคลธรรมดา→นิติบุคคล / นิติบุคคล→บุคคลธรรมดา / ควบรวมกิจการ)" },
+  {
+    value: "change_cb",
+    label: "1. เปลี่ยนแปลงหน่วยรับรองโรงงานผลิตสินค้าพืช (CB)",
+  },
+  {
+    value: "change_name",
+    label:
+      "2. เปลี่ยนแปลงชื่อโรงงานผลิตสินค้าพืช (เปลี่ยนจากบุคคลธรรมดา→นิติบุคคล / นิติบุคคล→บุคคลธรรมดา / ควบรวมกิจการ)",
+  },
   { value: "add_standard", label: "3. เพิ่มมาตรฐานสินค้าเกษตร (มกษ.)" },
   { value: "remove_standard", label: "4. ลดมาตรฐานสินค้าเกษตร (มกษ.)" },
-  { value: "notify", label: "5. แจ้งให้ทราบ (แนบหลักฐานเพื่อแสดงการเปลี่ยนแปลงในระบบ)" },
+  {
+    value: "notify",
+    label: "5. แจ้งให้ทราบ (แนบหลักฐานเพื่อแสดงการเปลี่ยนแปลงในระบบ)",
+  },
   { value: "change_scope", label: "6. เพิ่ม / ลด ขอบข่ายผลิตภัณฑ์" },
   { value: "other", label: "7. อื่น ๆ" },
 ];
@@ -562,10 +918,22 @@ const standardOptions = [
   "IFS Food",
 ];
 
+function stepClass(v: number) {
+  if (currentStep.value > v) return "step-done";
+  if (currentStep.value === v) return "step-active";
+  return "step-pending";
+}
+
 function openStandardDialog(idx = -1) {
   standardDialogIndex.value = idx;
   if (idx === -1) {
-    Object.assign(standardForm, { standard: "", certBody: "", certNo: "", issueDate: "", expireDate: "" });
+    Object.assign(standardForm, {
+      standard: "",
+      certBody: "",
+      certNo: "",
+      issueDate: "",
+      expireDate: "",
+    });
   } else {
     Object.assign(standardForm, { ...form.standards[idx] });
   }
@@ -594,15 +962,35 @@ function mockUpload(key: string) {
 
 // Documents
 const docNatural = [
-  { key: "poa_natural", label: "หนังสือมอบอำนาจ", note: "ติดอากรแสตมป์ 30 บาท" },
+  {
+    key: "poa_natural",
+    label: "หนังสือมอบอำนาจ",
+    note: "ติดอากรแสตมป์ 30 บาท",
+  },
   { key: "id_card_natural", label: "สำเนาบัตรประชาชนของผู้มอบอำนาจ", note: "" },
 ];
 
 const docJuristic = [
-  { key: "juristic_cert", label: "สำเนาหนังสือรับรองการจดทะเบียนนิติบุคคล", note: "" },
-  { key: "company_cert", label: "สำเนาหนังสือรับรองบริษัท / ห้างหุ้นส่วน / ทะเบียนการค้า", note: "" },
-  { key: "poa_juristic", label: "หนังสือมอบอำนาจ (กรณีมอบอำนาจ)", note: "ติดอากรแสตมป์ 30 บาท" },
-  { key: "id_card_juristic", label: "สำเนาบัตรประชาชนผู้มอบอำนาจ (กรณีมอบอำนาจ)", note: "" },
+  {
+    key: "juristic_cert",
+    label: "สำเนาหนังสือรับรองการจดทะเบียนนิติบุคคล",
+    note: "",
+  },
+  {
+    key: "company_cert",
+    label: "สำเนาหนังสือรับรองบริษัท / ห้างหุ้นส่วน / ทะเบียนการค้า",
+    note: "",
+  },
+  {
+    key: "poa_juristic",
+    label: "หนังสือมอบอำนาจ (กรณีมอบอำนาจ)",
+    note: "ติดอากรแสตมป์ 30 บาท",
+  },
+  {
+    key: "id_card_juristic",
+    label: "สำเนาบัตรประชาชนผู้มอบอำนาจ (กรณีมอบอำนาจ)",
+    note: "",
+  },
 ];
 
 const docExtra = [
@@ -624,58 +1012,9 @@ function submitApplication() {
 </script>
 
 <style scoped>
-.section-card {
-  border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
-}
-.section-title {
-  font-size: 14px !important;
-  font-weight: 600;
-}
-.field-label { font-size: 13px; font-weight: 500; color: rgba(var(--v-theme-on-surface), 0.75); margin-bottom: 4px; }
-.field-label-en { font-size: 11px; font-weight: 400; color: rgba(var(--v-theme-on-surface), 0.4); margin-left: 4px; }
-.req { color: rgb(var(--v-theme-error)); }
-.field-group-label {
-  font-size: 12px;
-  font-weight: 600;
-  color: rgba(var(--v-theme-on-surface), 0.6);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-.step-circle {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  border: 2px solid rgba(var(--v-border-color), var(--v-border-opacity));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 13px;
-  font-weight: 700;
-  color: rgba(var(--v-theme-on-surface), 0.45);
-  flex-shrink: 0;
-}
-.step-active {
-  border-color: rgb(var(--v-theme-doa-user));
-  color: rgb(var(--v-theme-doa-user));
-  background: rgba(var(--v-theme-doa-user), 0.08);
-}
-.step-done {
-  border-color: rgb(var(--v-theme-doa-user));
-  background: rgb(var(--v-theme-doa-user));
-  color: white;
-}
-.step-pending {
-  background: transparent;
-}
-.step-line {
-  height: 2px;
-  background: rgba(var(--v-border-color), var(--v-border-opacity));
-  margin: 0 8px;
-  margin-bottom: 22px;
-  min-width: 20px;
-}
-.step-line--done {
-  background: rgb(var(--v-theme-doa-user));
+div {
+  --step-color: rgb(var(--v-theme-doa-user));
+  --step-color-tint: rgba(var(--v-theme-doa-user), 0.2);
 }
 .upload-row {
   background: rgba(var(--v-theme-doa-user), 0.03);
@@ -686,15 +1025,6 @@ function submitApplication() {
   height: 72px;
   border-radius: 50%;
   background: rgba(var(--v-theme-doa-user), 0.1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.success-ring {
-  width: 72px;
-  height: 72px;
-  border-radius: 50%;
-  background: rgba(var(--v-theme-success), 0.1);
   display: flex;
   align-items: center;
   justify-content: center;

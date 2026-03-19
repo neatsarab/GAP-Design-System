@@ -2,7 +2,7 @@
   <div>
     <div class="d-flex align-center justify-space-between mb-6">
       <div>
-        <h1 class="text-h5 font-weight-bold mb-1">Login Logs</h1>
+        <h1 class="page-title mb-1">Login Logs</h1>
         <p class="text-body-2 text-medium-emphasis mb-0">ประวัติการเข้าใช้งานระบบ</p>
       </div>
       <v-btn color="admin" rounded="lg" prepend-icon="fas fa-file-export">Export Log</v-btn>
@@ -13,15 +13,15 @@
       <v-card-text class="pa-4">
         <v-row dense align="center">
           <v-col cols="12" sm="5" md="4">
-            <div class="field-label mb-1">ค้นหา <span class="field-label-en">Search</span></div>
+            <div class="field-label mb-1"><div>ค้นหา</div><div class="field-label-en">Search</div></div>
             <v-text-field v-model="search" variant="outlined" density="compact" rounded="lg" hide-details placeholder="ค้นหา username / IP..." prepend-inner-icon="fas fa-magnifying-glass" clearable />
           </v-col>
           <v-col cols="12" sm="3" md="2">
-            <div class="field-label mb-1">วันที่ <span class="field-label-en">Date</span></div>
+            <div class="field-label mb-1"><div>วันที่</div><div class="field-label-en">Date</div></div>
             <v-text-field v-model="filterDate" type="date" variant="outlined" density="compact" rounded="lg" hide-details />
           </v-col>
           <v-col cols="12" sm="4" md="2">
-            <div class="field-label mb-1">สถานะ <span class="field-label-en">Status</span></div>
+            <div class="field-label mb-1"><div>สถานะ</div><div class="field-label-en">Status</div></div>
             <v-autocomplete v-model="filterStatus" :items="['ทั้งหมด', 'Success', 'Failed']" variant="outlined" density="compact" rounded="lg" hide-details />
           </v-col>
         </v-row>
@@ -76,8 +76,3 @@ const filteredLogs = computed(() => {
 });
 </script>
 
-<style scoped>
-.field-label { font-size: 12px; font-weight: 600; color: rgba(var(--v-theme-on-surface), 0.75); }
-.field-label-en { font-size: 11px; font-weight: 400; color: rgba(var(--v-theme-on-surface), 0.4); margin-left: 4px; }
-.filter-card, .data-card { border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity)); }
-</style>

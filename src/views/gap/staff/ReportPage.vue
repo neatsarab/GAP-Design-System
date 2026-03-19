@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="mb-5">
-      <h1 class="text-h5 font-weight-bold mb-1">รายงาน</h1>
+      <h1 class="page-title mb-1">รายงาน</h1>
       <p class="text-body-2 text-medium-emphasis mb-0">สร้างและดาวน์โหลดรายงานการดำเนินงาน GAP</p>
     </div>
 

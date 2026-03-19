@@ -237,20 +237,12 @@ const navGroups = [
       },
     ],
   },
-  {
-    label: "ระบบ",
-    divider: false,
-    items: [
-      { title: "ตั้งค่า", icon: "fas fa-gear", to: "/gap/user/settings" },
-    ],
-  },
 ];
 
 const routeTitleMap: Record<string, string> = {
   "/gap/user/dashboard": "แดชบอร์ด",
   "/gap/user/applications": "รายการคำขอ",
   "/gap/user/applications/new": "ยื่นคำขอใหม่",
-  "/gap/user/settings": "ตั้งค่า",
 };
 
 const breadcrumbs = computed(() => {

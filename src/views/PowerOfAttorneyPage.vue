@@ -9,8 +9,8 @@
           </div>
           <div>
             <div
-              class="text-body-2 font-weight-bold text-white"
-              style="line-height: 1.2"
+              class="text-body-2 font-weight-bold text-white lh-tight"
+              
             >
               กรมวิชาการเกษตร
             </div>
@@ -39,8 +39,8 @@
             </div>
             <div class="d-none d-sm-block">
               <div
-                class="text-caption font-weight-semibold text-white"
-                style="line-height: 1.2"
+                class="text-caption font-weight-semibold text-white lh-tight"
+                
               >
                 นิธิพร เทิบจันทึก
               </div>
@@ -73,7 +73,7 @@
             @click="router.push('/select-company')"
           />
           <div>
-            <h1 class="text-h5 font-weight-bold mb-0">จัดการมอบอำนาจ</h1>
+            <h1 class="page-title mb-0">จัดการมอบอำนาจ</h1>
             <p class="text-body-2 text-medium-emphasis mb-0">
               มอบสิทธิ์ให้บุคคลอื่นเข้าใช้งานระบบในนามบริษัท
             </p>
