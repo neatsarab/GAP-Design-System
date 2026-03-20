@@ -223,7 +223,9 @@ const breadcrumbs = computed(() => [
   { title: route.meta.title as string },
 ]);
 
-const navGroups = [
+type NavItem = { title: string; icon: string; to: string; count?: number }
+type NavGroup = { label: string; divider: boolean; items: NavItem[] }
+const navGroups: NavGroup[] = [
   {
     label: "ภาพรวม",
     divider: true,

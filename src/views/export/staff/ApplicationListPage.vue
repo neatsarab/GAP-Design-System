@@ -95,7 +95,7 @@
         rounded="xl"
         hover
         @click:row="
-          (_event: MouseEvent, { item }: { item: (typeof allItems)[0] }) =>
+          (_event: unknown, { item }: any) =>
             router.push(`/export/staff/applications/${item.id}`)
         "
       >

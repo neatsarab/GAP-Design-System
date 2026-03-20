@@ -67,7 +67,7 @@
 
     <!-- Table -->
     <v-card rounded="xl" elevation="0" class="data-card">
-      <v-data-table :headers="headers" :items="filteredItems" :search="search" hover @click:row="(_e: unknown, row: { item: RegItem }) => openDetail(row.item)">
+      <v-data-table :headers="headers" :items="filteredItems" :search="search" hover @click:row="(_e: unknown, row: any) => openDetail(row.item)">
         <template #item.factoryName="{ item }">
           <span class="text-body-2 font-weight-medium text-doa-staff">{{ item.factoryName }}</span>
         </template>

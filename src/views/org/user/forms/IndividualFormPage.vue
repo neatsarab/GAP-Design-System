@@ -159,7 +159,7 @@
                 </div>
                 <v-file-input
                   :model-value="uploadedFiles[doc.key]"
-                  @update:model-value="(v) => uploadedFiles[doc.key] = v"
+                  @update:model-value="(v) => uploadedFiles[doc.key] = Array.isArray(v) ? (v[0] ?? null) : v"
                   accept=".pdf,.jpg,.png"
                   variant="outlined"
                   density="compact"
