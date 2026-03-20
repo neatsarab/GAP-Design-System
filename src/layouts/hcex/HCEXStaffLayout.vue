@@ -67,10 +67,15 @@
             :prepend-icon="item.icon"
             :title="item.title"
             :to="item.to"
+            :active="isNavActive(item.to)"
             active-color="hcex-staff"
             rounded="lg"
             class="mb-1"
-          />
+          >
+            <template v-if="item.count" #append>
+              <v-chip size="x-small" color="error" variant="flat">{{ item.count }}</v-chip>
+            </template>
+          </v-list-item>
           <v-divider v-if="group.divider" class="mx-2 my-2" />
         </template>
       </v-list>
@@ -209,6 +214,10 @@ function doLogout() {
   router.push("/login");
 }
 
+function isNavActive(to: string): boolean {
+  return route.path === to || route.path.startsWith(to + '/');
+}
+
 const breadcrumbs = computed(() => [
   { title: "ระบบ HC แปรรูป (เจ้าหน้าที่)", to: "/hcex/staff" },
   { title: route.meta.title as string },
@@ -230,11 +239,13 @@ const navGroups = [
         title: "รายการคำขอทั้งหมด",
         icon: "fas fa-file-lines",
         to: "/hcex/staff/applications",
+        count: 9,
       },
       {
         title: "ผล Lab",
         icon: "fas fa-flask-vial",
         to: "/hcex/staff/lab-results",
+        count: 5,
       },
     ],
   },
@@ -246,6 +257,7 @@ const navGroups = [
         title: "ลงนาม",
         icon: "fas fa-signature",
         to: "/hcex/staff/signing",
+        count: 3,
       },
     ],
   },

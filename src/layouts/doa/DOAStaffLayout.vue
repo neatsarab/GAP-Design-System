@@ -31,7 +31,11 @@
       <v-list density="compact" nav class="mt-1 px-2">
         <template v-for="group in navGroups" :key="group.label">
           <div v-if="!rail" class="sidebar-group-label text-medium-emphasis">{{ group.label }}</div>
-          <v-list-item v-for="item in group.items" :key="item.to" :prepend-icon="item.icon" :title="item.title" :to="item.to" active-color="doa-staff" rounded="lg" class="mb-1" />
+          <v-list-item v-for="item in group.items" :key="item.to" :prepend-icon="item.icon" :title="item.title" :to="item.to" :active="isNavActive(item.to)" active-color="doa-staff" rounded="lg" class="mb-1">
+            <template v-if="item.count" #append>
+              <v-chip size="x-small" color="error" variant="flat">{{ item.count }}</v-chip>
+            </template>
+          </v-list-item>
           <v-divider v-if="group.divider" class="mx-2 my-2" />
         </template>
       </v-list>
@@ -110,6 +114,10 @@ function doLogout() {
   router.push("/login");
 }
 
+function isNavActive(to: string): boolean {
+  return route.path === to || route.path.startsWith(to + '/');
+}
+
 const breadcrumbs = computed(() => [
   { title: "ระบบ DOA (เจ้าหน้าที่)", to: "/doa/staff" },
   { title: route.meta.title as string },
@@ -127,7 +135,7 @@ const navGroups = [
     label: "คำขอ",
     divider: true,
     items: [
-      { title: "รายการคำขอ", icon: "fas fa-file-lines", to: "/doa/staff/applications" },
+      { title: "รายการคำขอ", icon: "fas fa-file-lines", to: "/doa/staff/applications", count: 9 },
       { title: "พิจารณาทะเบียน", icon: "fas fa-scale-balanced", to: "/doa/staff/review" },
       { title: "ลงนาม", icon: "fas fa-pen-nib", to: "/doa/staff/signing" },
     ],

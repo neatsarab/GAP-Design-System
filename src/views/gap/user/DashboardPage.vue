@@ -1,9 +1,8 @@
 <template>
   <div>
-    <!-- Page Header -->
     <div class="d-flex align-center justify-space-between flex-wrap ga-3 mb-6">
       <div>
-        <h1 class="page-title mb-1">แดชบอร์ด</h1>
+        <h1 class="page-title mb-1">แดชบอร์ด GAP เกษตรกร</h1>
         <p class="text-body-2 text-medium-emphasis mb-0">
           ภาพรวมระบบการรับรองมาตรฐาน GAP (Good Agricultural Practices)
         </p>
@@ -17,134 +16,106 @@
       </v-btn>
     </div>
 
-    <!-- Stat Cards -->
-    <v-row class="mb-4">
+    <v-row class="mb-6">
       <v-col
-        v-for="card in statCards"
-        :key="card.label"
+        v-for="stat in statCards"
+        :key="stat.label"
         cols="12"
         sm="6"
-        lg="3"
+        md="3"
       >
-        <AppStatCard v-bind="card" />
+        <AppStatCard v-bind="stat" />
       </v-col>
     </v-row>
 
-    <!-- Recent + Status distribution -->
     <v-row>
       <!-- Recent Applications -->
-      <v-col cols="12" lg="8">
-        <v-card rounded="xl" elevation="0" class="stat-card">
-          <div class="d-flex align-center px-5 py-4 border-b">
+      <v-col cols="12" md="8">
+        <v-card rounded="xl" elevation="0">
+          <v-card-title class="d-flex align-center ga-2 pa-4 pb-3">
             <v-icon
               icon="fas fa-clock-rotate-left"
               color="gap-user"
               size="16"
-              class="mr-2"
             />
-            <span class="text-subtitle-2 font-weight-bold">คำขอล่าสุด</span>
+            <span class="text-body-1 font-weight-bold">คำขอล่าสุด</span>
             <v-spacer />
             <v-btn
               variant="text"
-              size="small"
               color="gap-user"
+              size="small"
               append-icon="fas fa-arrow-right"
               @click="router.push('/gap/user/applications')"
-              >ดูทั้งหมด</v-btn
             >
-          </div>
-          <v-data-table
-            :headers="tableHeaders"
-            :items="recentItems"
-            density="comfortable"
-            hide-default-footer
-            hover
-          >
-            <template #item.status="{ item }">
-              <AppStatusChip :status="item.status" size="small" />
-            </template>
-            <template #item.actions="{ item }">
-              <v-btn
-                icon
-                size="x-small"
-                variant="text"
-                color="gap-user"
-                @click="router.push(`/app/applications/${item.no}`)"
+              ดูทั้งหมด
+            </v-btn>
+          </v-card-title>
+          <v-divider />
+          <v-list lines="two" class="pa-0">
+            <template v-for="(item, i) in recentItems" :key="item.no">
+              <v-list-item
+                class="pa-3"
+                @click="router.push(`/gap/user/applications/${item.no}`)"
               >
-                <v-icon icon="fas fa-eye" size="14" />
-              </v-btn>
+                <template #prepend>
+                  <v-avatar
+                    color="gap-user"
+                    variant="tonal"
+                    size="40"
+                    rounded="lg"
+                    class="mr-3"
+                  >
+                    <v-icon icon="fas fa-seedling" size="18" />
+                  </v-avatar>
+                </template>
+                <v-list-item-title class="text-body-2 font-weight-medium">{{
+                  item.no
+                }}</v-list-item-title>
+                <v-list-item-subtitle class="text-caption"
+                  >{{ item.farmer }} · {{ item.crop }}</v-list-item-subtitle
+                >
+                <template #append>
+                  <AppStatusChip :status="item.status" size="x-small" />
+                </template>
+              </v-list-item>
+              <v-divider v-if="i < recentItems.length - 1" />
             </template>
-          </v-data-table>
+          </v-list>
         </v-card>
       </v-col>
 
-      <!-- Status Pie -->
-      <v-col cols="12" lg="4">
-        <v-card rounded="xl" elevation="0" class="stat-card h-100">
-          <div class="d-flex align-center px-5 py-4 border-b">
-            <v-icon
-              icon="fas fa-circle-half-stroke"
-              color="gap-user"
-              size="16"
-              class="mr-2"
-            />
-            <span class="text-subtitle-2 font-weight-bold">สัดส่วนสถานะ</span>
+      <!-- Info Alert + Quick Actions -->
+      <v-col cols="12" md="4">
+        <v-alert
+          color="gap-user"
+          variant="tonal"
+          rounded="xl"
+          class="mb-4"
+          prepend-icon="fas fa-circle-info"
+        >
+          <div class="text-body-2 font-weight-medium mb-1">อัพเดทสถานะ</div>
+          <div class="text-body-2">
+            คำขอ GAP-2567-001 อยู่ระหว่างการตรวจสอบเอกสาร
           </div>
-          <v-card-text class="pa-4">
-            <div
-              v-for="item in statusDistribution"
-              :key="item.status"
-              class="mb-3"
-            >
-              <div class="d-flex align-center justify-space-between mb-1">
-                <AppStatusChip :status="item.status" size="x-small" />
-                <span class="text-caption font-weight-bold">{{
-                  item.count
-                }}</span>
-              </div>
-              <v-progress-linear
-                :model-value="(item.count / totalApps) * 100"
-                :color="item.color"
-                height="6"
-                rounded
-                bg-color="surface-variant"
-              />
-            </div>
-          </v-card-text>
-        </v-card>
-      </v-col>
-    </v-row>
-
-    <!-- Quick actions -->
-    <v-row class="mt-2">
-      <v-col
-        v-for="action in quickActions"
-        :key="action.title"
-        cols="12"
-        sm="6"
-        md="4"
-      >
-        <v-card hover rounded="xl" elevation="0" class="stat-card quick-action-card" @click="router.push(action.to)">
-          <v-card-text class="d-flex align-center ga-3 pa-4">
-            <div
-              class="action-icon-box"
-              :style="`background:rgba(var(--v-theme-${action.color}),0.12)`"
-            >
-              <v-icon :icon="action.icon" :color="action.color" size="20" />
-            </div>
-            <div>
-              <div class="text-body-2 font-weight-bold">{{ action.title }}</div>
-              <div class="text-caption text-medium-emphasis">
-                {{ action.desc }}
-              </div>
-            </div>
-            <v-spacer />
-            <v-icon
-              icon="fas fa-chevron-right"
-              size="12"
-              color="on-surface-variant"
+        </v-alert>
+        <v-card rounded="xl" elevation="0">
+          <v-card-title class="d-flex align-center ga-2 pa-4 pb-3">
+            <v-icon icon="fas fa-bolt" color="gap-user" size="16" />
+            <span class="text-body-1 font-weight-bold">ดำเนินการด่วน</span>
+          </v-card-title>
+          <v-divider />
+          <v-list density="compact" nav class="pa-2">
+            <v-list-item
+              v-for="action in quickActions"
+              :key="action.title"
+              :prepend-icon="action.icon"
+              :title="action.title"
+              rounded="lg"
+              :color="action.color"
+              class="mb-1"
+              @click="router.push(action.to)"
             />
-          </v-card-text>
+          </v-list>
         </v-card>
       </v-col>
     </v-row>
@@ -152,7 +123,6 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
 import { useRouter } from "vue-router";
 import AppStatCard from "@/components/common/AppStatCard.vue";
 import AppStatusChip from "@/components/common/AppStatusChip.vue";
@@ -166,41 +136,25 @@ const statCards = [
     value: 128,
     icon: "fas fa-copy",
     iconColor: "gap-user",
-    trend: 12.4,
-    trendLabel: "vs เดือนที่แล้ว",
   },
   {
     label: "รอดำเนินการ",
     value: 34,
     icon: "fas fa-clock",
     iconColor: "warning",
-    trend: -3.2,
-    trendLabel: "vs เดือนที่แล้ว",
   },
   {
     label: "ผ่านการรับรอง",
     value: 82,
     icon: "fas fa-circle-check",
     iconColor: "success",
-    trend: 8.1,
-    trendLabel: "vs เดือนที่แล้ว",
   },
   {
     label: "ใบรับรองที่ใช้งานอยู่",
     value: 76,
     icon: "fas fa-certificate",
     iconColor: "info",
-    trend: 5.7,
-    trendLabel: "vs เดือนที่แล้ว",
   },
-];
-
-const tableHeaders = [
-  { title: "เลขที่คำขอ", key: "no", sortable: false },
-  { title: "เกษตรกร", key: "farmer", sortable: false },
-  { title: "ชนิดพืช", key: "crop", sortable: false },
-  { title: "สถานะ", key: "status", sortable: false },
-  { title: "", key: "actions", sortable: false },
 ];
 
 const recentItems: {
@@ -241,48 +195,18 @@ const recentItems: {
   },
 ];
 
-const statusDistribution: {
-  status: GapStatus;
-  count: number;
-  color: string;
-}[] = [
-  { status: "SUBMITTED", count: 12, color: "blue" },
-  { status: "DOC_REVIEW", count: 8, color: "orange" },
-  { status: "INSPECTING", count: 6, color: "indigo" },
-  { status: "APPROVED", count: 45, color: "success" },
-  { status: "CERT_ISSUED", count: 31, color: "teal" },
-  { status: "REJECTED", count: 7, color: "error" },
-  { status: "CERT_EXPIRED", count: 19, color: "warning" },
-];
-
-const totalApps = computed(() =>
-  statusDistribution.reduce((s, i) => s + i.count, 0),
-);
-
 const quickActions = [
   {
     title: "ยื่นคำขอใหม่",
-    desc: "สร้างคำขอรับรอง GAP",
     icon: "fas fa-file-pen",
     color: "gap-user",
     to: "/gap/user/applications/new",
   },
   {
     title: "รายการคำขอ",
-    desc: "ดูและจัดการคำขอทั้งหมด",
     icon: "fas fa-file-lines",
-    color: "info",
+    color: "gap-user",
     to: "/gap/user/applications",
   },
 ];
 </script>
-
-<style scoped>
-.quick-action-card {
-  cursor: pointer;
-  transition: transform 0.15s ease;
-}
-.quick-action-card:hover {
-  transform: translateY(-2px);
-}
-</style>

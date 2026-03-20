@@ -16,7 +16,7 @@
     <!-- Stats -->
     <v-row class="mb-5">
       <v-col v-for="s in stats" :key="s.label" cols="6" sm="3">
-        <v-card>
+        <v-card rounded="xl" elevation="0">
           <v-card-text class="pa-4 d-flex align-center ga-3">
             <div
               class="stat-icon"
@@ -36,7 +36,7 @@
     </v-row>
 
     <!-- Search -->
-    <v-card class="mb-4">
+    <v-card rounded="xl" elevation="0" class="mb-4 filter-card">
       <v-card-text class="pa-4">
         <v-row dense>
           <v-col cols="12" sm="5">
@@ -111,7 +111,7 @@
     </v-chip-group>
 
     <!-- Table -->
-    <v-card>
+    <v-card rounded="xl" elevation="0" class="data-card">
       <v-data-table
         :headers="headers"
         :items="filteredCerts"

@@ -8,10 +8,7 @@
             <v-icon icon="fas fa-leaf" size="18" color="white" />
           </div>
           <div>
-            <div
-              class="text-body-2 font-weight-bold text-white lh-tight"
-              
-            >
+            <div class="text-body-2 font-weight-bold text-white lh-tight">
               กรมวิชาการเกษตร
             </div>
             <div
@@ -34,13 +31,9 @@
             {{ themeStore.isDark ? "โหมดสว่าง" : "โหมดมืด" }}
           </v-btn>
           <div class="user-pill d-flex align-center ga-2">
-            <div class="user-avatar-sm">
-              <span class="text-caption font-weight-bold">นส</span>
-            </div>
             <div class="d-none d-sm-block">
               <div
                 class="text-caption font-weight-semibold text-white lh-tight"
-                
               >
                 นิธิพร เทิบจันทึก
               </div>
@@ -111,17 +104,13 @@
         </v-card>
 
         <!-- Tabs -->
-        <v-tabs v-model="activeTab" color="primary" class="mb-5">
+        <v-tabs v-model="activeTab" color="info" class="mb-5">
           <v-tab value="grant">
             <v-icon start icon="fas fa-user-check" size="14" />
             มอบอำนาจ
-            <v-chip
-              size="x-small"
-              color="primary"
-              variant="tonal"
-              class="ml-2"
-              >{{ filteredDelegates.length }}</v-chip
-            >
+            <v-chip size="x-small" color="info" variant="tonal" class="ml-2">{{
+              filteredDelegates.length
+            }}</v-chip>
           </v-tab>
           <v-tab value="requests">
             <v-icon start icon="fas fa-inbox" size="14" />
@@ -147,16 +136,12 @@
           <div class="d-flex align-center justify-space-between mb-4">
             <div>
               <span class="text-body-1 font-weight-bold">ผู้รับมอบอำนาจ</span>
-              <v-chip
-                size="x-small"
-                color="primary"
-                variant="tonal"
-                class="ml-2"
+              <v-chip size="x-small" color="info" variant="tonal" class="ml-2"
                 >{{ filteredDelegates.length }} คน</v-chip
               >
             </div>
             <v-btn
-              color="primary"
+              color="info"
               rounded="lg"
               prepend-icon="fas fa-plus"
               @click="openAdd"
@@ -189,32 +174,14 @@
                   'delegate-row--last': idx === filteredDelegates.length - 1,
                 }"
               >
-                <div class="delegate-avatar flex-shrink-0">
-                  <span class="text-caption font-weight-bold">{{
-                    initials(d.name)
-                  }}</span>
+                <div class="delegate-icon-box flex-shrink-0">
+                  <v-icon icon="fas fa-user" color="info" size="16" />
                 </div>
-
                 <div class="flex-grow-1 overflow-hidden">
                   <div class="d-flex align-center ga-2 flex-wrap">
                     <span class="text-body-2 font-weight-bold">{{
                       d.name
                     }}</span>
-                    <v-chip
-                      size="x-small"
-                      :color="d.status === 'active' ? 'success' : 'default'"
-                      variant="tonal"
-                    >
-                      {{ d.status === "active" ? "ใช้งาน" : "ระงับ" }}
-                    </v-chip>
-                    <v-chip
-                      v-if="isExpiringSoon(d.expiry)"
-                      size="x-small"
-                      color="warning"
-                      variant="tonal"
-                      prepend-icon="fas fa-clock"
-                      >ใกล้หมดอายุ</v-chip
-                    >
                   </div>
                   <div class="text-caption text-medium-emphasis">
                     {{ d.idCard }} · {{ d.email }}
@@ -225,7 +192,7 @@
                       :key="sys"
                       size="x-small"
                       variant="tonal"
-                      color="primary"
+                      color="info"
                       >{{ sys }}</v-chip
                     >
                   </div>
@@ -234,21 +201,13 @@
                 <div
                   class="d-none d-sm-block text-right flex-shrink-0"
                   style="min-width: 110px"
-                >
-                  <div class="text-caption text-medium-emphasis">หมดอายุ</div>
-                  <div
-                    class="text-body-2 font-weight-medium"
-                    :class="isExpiringSoon(d.expiry) ? 'text-warning' : ''"
-                  >
-                    {{ d.expiry }}
-                  </div>
-                </div>
+                ></div>
 
                 <div class="d-flex ga-1 flex-shrink-0">
                   <v-btn
                     size="x-small"
                     variant="tonal"
-                    color="primary"
+                    color="info"
                     rounded="lg"
                     icon="fas fa-pen"
                     @click="openEdit(d)"
@@ -303,7 +262,9 @@
             >
               <v-icon v-if="f.icon" :icon="f.icon" start size="11" />
               {{ f.label }}
-              <span class="ml-1 text-caption">({{ countByStatus(f.value) }})</span>
+              <span class="ml-1 text-caption"
+                >({{ countByStatus(f.value) }})</span
+              >
             </v-chip>
           </div>
 
@@ -320,15 +281,8 @@
               <!-- ผู้ขอ -->
               <template #item.name="{ item }">
                 <div class="d-flex align-center ga-3 py-1">
-                  <div
-                    class="delegate-avatar flex-shrink-0"
-                    :class="
-                      item.status !== 'pending' ? 'delegate-avatar--muted' : ''
-                    "
-                  >
-                    <span style="font-size: 11px; font-weight: 700">{{
-                      initials(item.name)
-                    }}</span>
+                  <div class="delegate-icon-box flex-shrink-0">
+                    <v-icon icon="fas fa-user" color="info" size="16" />
                   </div>
                   <div>
                     <div class="text-body-2 font-weight-bold">
@@ -352,7 +306,7 @@
                     :key="sys"
                     size="x-small"
                     variant="tonal"
-                    color="primary"
+                    color="info"
                     >{{ sys }}</v-chip
                   >
                 </div>
@@ -443,7 +397,7 @@
         <v-card-title class="pa-6 pb-4 d-flex align-center ga-2">
           <v-icon
             :icon="editingItem ? 'fas fa-pen' : 'fas fa-user-plus'"
-            color="primary"
+            color="info"
             size="18"
           />
           {{ editingItem ? "แก้ไขผู้รับมอบอำนาจ" : "เพิ่มผู้รับมอบอำนาจ" }}
@@ -453,7 +407,8 @@
           <v-row dense>
             <v-col cols="12" sm="7">
               <div class="field-label">
-                ชื่อ-นามสกุล <span class="field-label-en">Full Name</span> <span class="req">*</span>
+                ชื่อ-นามสกุล<span class="req">*</span>
+                <span class="field-label-en">Full Name</span>
               </div>
               <v-text-field
                 v-model="form.name"
@@ -466,7 +421,8 @@
             </v-col>
             <v-col cols="12" sm="5">
               <div class="field-label">
-                เลขบัตรประชาชน <span class="field-label-en">National ID No.</span> <span class="req">*</span>
+                เลขบัตรประชาชน<span class="req">*</span>
+                <span class="field-label-en">National ID No.</span>
               </div>
               <v-text-field
                 v-model="form.idCard"
@@ -477,9 +433,10 @@
                 placeholder="1 xxxx xxxxx xx x"
               />
             </v-col>
-            <v-col cols="12">
+            <v-col cols="12" sm="7">
               <div class="field-label mt-3">
-                อีเมล <span class="field-label-en">Email</span> <span class="req">*</span>
+                อีเมล<span class="req">*</span>
+                <span class="field-label-en">Email</span>
               </div>
               <v-text-field
                 v-model="form.email"
@@ -491,21 +448,10 @@
                 prepend-inner-icon="fas fa-envelope"
               />
             </v-col>
-            <v-col cols="12" sm="6">
+            <v-col cols="12" sm="5">
               <div class="field-label mt-3">
-                วันที่สิ้นสุดการมอบอำนาจ <span class="field-label-en">Authorization End Date</span> <span class="req">*</span>
+                สถานะ <span class="field-label-en">Status</span>
               </div>
-              <v-text-field
-                v-model="form.expiry"
-                type="date"
-                variant="outlined"
-                density="compact"
-                rounded="lg"
-                hide-details
-              />
-            </v-col>
-            <v-col cols="12" sm="6">
-              <div class="field-label mt-3">สถานะ <span class="field-label-en">Status</span></div>
               <v-autocomplete
                 v-model="form.status"
                 :items="[
@@ -520,9 +466,11 @@
                 hide-details
               />
             </v-col>
+
             <v-col cols="12">
               <div class="field-label mt-3">
-                ระบบที่อนุญาตให้เข้าใช้งาน <span class="field-label-en">Authorized Systems</span> <span class="req">*</span>
+                ระบบที่อนุญาตให้เข้าใช้งาน<span class="req">*</span>
+                <span class="field-label-en">Authorized Systems</span>
               </div>
               <div class="system-checkbox-grid mt-1">
                 <v-checkbox
@@ -531,7 +479,7 @@
                   v-model="form.systems"
                   :value="sys.value"
                   :label="sys.label"
-                  color="primary"
+                  color="info"
                   density="compact"
                   hide-details
                 />
@@ -550,7 +498,7 @@
             >ยกเลิก</v-btn
           >
           <v-btn
-            color="primary"
+            color="info"
             rounded="lg"
             :prepend-icon="
               editingItem ? 'fas fa-floppy-disk' : 'fas fa-user-plus'
@@ -652,7 +600,9 @@
             ต้องการปฏิเสธคำขอรับมอบอำนาจของ
             <strong>{{ actionRequest?.name }}</strong> ใช่หรือไม่?
           </p>
-          <div class="field-label text-left mb-1">เหตุผล (ถ้ามี) <span class="field-label-en">Reason (if any)</span></div>
+          <div class="field-label text-left mb-1">
+            เหตุผล (ถ้ามี) <span class="field-label-en">Reason (if any)</span>
+          </div>
           <v-textarea
             v-model="rejectReason"
             variant="outlined"
@@ -869,7 +819,7 @@ const requestStatusFilter = ref<"all" | "pending" | "approved" | "rejected">(
 );
 
 const statusFilters = [
-  { value: "all", label: "ทั้งหมด", color: "primary", icon: "" },
+  { value: "all", label: "ทั้งหมด", color: "info", icon: "" },
   {
     value: "pending",
     label: "รอดำเนินการ",
@@ -893,12 +843,7 @@ const statusFilters = [
 const requestHeaders = [
   { title: "ผู้ขอรับมอบอำนาจ", key: "name", sortable: true, width: "260px" },
   { title: "ระบบที่ขอ", key: "requestedSystems", sortable: false },
-  {
-    title: "ขอถึงวันที่",
-    key: "requestedExpiry",
-    sortable: true,
-    width: "130px",
-  },
+
   {
     title: "วันที่ยื่นคำขอ",
     key: "requestedAt",
@@ -1128,6 +1073,16 @@ function isExpiringSoon(expiry: string) {
 .delegate-row--last {
   border-bottom: none;
 }
+.delegate-icon-box {
+  width: 36px;
+  height: 36px;
+  border-radius: 9px;
+  background: rgba(var(--v-border-color), 0.06);
+  border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 .delegate-avatar {
   width: 40px;
@@ -1191,7 +1146,12 @@ function isExpiringSoon(expiry: string) {
   color: rgba(var(--v-theme-on-surface), 0.75);
   margin-bottom: 4px;
 }
-.field-label-en { font-size: 11px; font-weight: 400; color: rgba(var(--v-theme-on-surface), 0.4); margin-left: 4px; }
+.field-label-en {
+  font-size: 11px;
+  font-weight: 400;
+  color: rgba(var(--v-theme-on-surface), 0.4);
+  margin-left: 4px;
+}
 .req {
   color: rgb(var(--v-theme-error));
 }

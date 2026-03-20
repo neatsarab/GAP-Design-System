@@ -141,11 +141,19 @@
                 />
                 <v-divider class="my-1" />
                 <v-list-item
+                  v-if="mode === 'user'"
+                  prepend-icon="fas fa-arrow-left""
+                  title="ย้อนกลับเลือกประเภท"
+                  subtitle="บุคคล / นิติบุคคล / กลุ่ม"
+                  rounded="lg"
+                  @click="router.push('/select-company')"
+                />
+                <v-list-item
                   prepend-icon="fas fa-right-from-bracket"
                   title="ออกจากระบบ"
                   rounded="lg"
                   base-color="error"
-                  @click="router.push('/')"
+                  @click="router.push('/login')"
                 />
               </v-list>
             </v-card>
@@ -181,11 +189,19 @@
                     :icon="
                       entityType === 'juristic'
                         ? 'fas fa-building'
-                        : 'fas fa-user'
+                        : entityType === 'group'
+                          ? 'fas fa-people-group'
+                          : 'fas fa-user'
                     "
                     size="10"
                   />
-                  {{ entityType === "juristic" ? "นิติบุคคล" : "บุคคลธรรมดา" }}
+                  {{
+                    entityType === "juristic"
+                      ? "นิติบุคคล"
+                      : entityType === "group"
+                        ? "กลุ่ม"
+                        : "บุคคลธรรมดา"
+                  }}
                 </v-chip>
                 <v-chip
                   v-if="entityType === 'juristic' && companyName"
@@ -195,6 +211,15 @@
                 >
                   <v-icon start icon="fas fa-briefcase" size="10" />
                   {{ companyName }}
+                </v-chip>
+                <v-chip
+                  v-if="entityType === 'group' && groupName"
+                  size="x-small"
+                  color="white"
+                  variant="outlined"
+                >
+                  <v-icon start icon="fas fa-people-group" size="10" />
+                  {{ groupName }}
                 </v-chip>
               </template>
               <template v-else>
@@ -428,7 +453,11 @@
                   {{ system.desc }}
                 </p>
 
-                <div class="coming-soon-bar">
+                <div v-if="system.noAccess" class="coming-soon-bar coming-soon-bar--noaccess">
+                  <v-icon icon="fas fa-ban" size="12" class="mr-1" />
+                  <span class="text-caption">กลุ่มนี้ยังไม่ได้รับสิทธิ์ — ยื่นคำขอเพิ่มสิทธิ์</span>
+                </div>
+                <div v-else class="coming-soon-bar">
                   <v-icon icon="fas fa-clock" size="12" class="mr-1" />
                   <span class="text-caption">{{ system.eta }}</span>
                 </div>
@@ -473,13 +502,15 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from "vue";
+import { ref, computed, watch } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { useThemeStore } from "@/stores/theme.store";
+import { useSessionStore } from "@/stores/session.store";
 
 const router = useRouter();
 const route = useRoute();
 const themeStore = useThemeStore();
+const sessionStore = useSessionStore();
 
 const initialMode =
   (route.query.mode as string) === "admin"
@@ -492,7 +523,35 @@ const mode = ref<"staff" | "user" | "admin">(initialMode);
 const entityType = computed(
   () => (route.query.entityType as string) || "personal",
 );
+const personalName = computed(() => (route.query.personalName as string) || "");
 const companyName = computed(() => (route.query.companyName as string) || "");
+const groupName = computed(() => (route.query.groupName as string) || "");
+const groupSystems = computed(() => {
+  const raw = route.query.groupSystems as string;
+  return raw ? raw.split(",").map((s) => s.trim()) : [];
+});
+
+// sync session store when entering portal
+watch(
+  () => [entityType.value, personalName.value, companyName.value, groupName.value, groupSystems.value] as const,
+  ([type, pName, cName, gName, gSystems]) => {
+    if (mode.value === "user") {
+      const name =
+        type === "juristic" ? cName : type === "group" ? gName : pName;
+      sessionStore.setContext(
+        type as "personal" | "juristic" | "group",
+        name,
+        "",
+        type === "group" ? (gSystems as string[]) : [],
+      );
+    }
+  },
+  { immediate: true },
+);
+
+const isGroupMode = computed(
+  () => mode.value === "user" && entityType.value === "group",
+);
 
 const heroStats = [
   {
@@ -544,6 +603,7 @@ interface SystemItem {
   route: string;
   tags?: string[];
   eta?: string;
+  noAccess?: boolean;
 }
 
 const systems = computed<SystemItem[]>(() => [
@@ -749,8 +809,34 @@ const systems = computed<SystemItem[]>(() => [
   },
 ]);
 
-const activeSystems = computed(() => systems.value.filter((s) => s.active));
-const inactiveSystems = computed(() => systems.value.filter((s) => !s.active));
+// Map system id → systems key used in group.systems
+const groupSystemKey: Record<number, string> = { 1: "GAP", 2: "ORG" };
+
+const activeSystems = computed(() => {
+  if (isGroupMode.value) {
+    return systems.value.filter((s) => {
+      if (s.id !== 1 && s.id !== 2) return false;
+      const key = groupSystemKey[s.id];
+      return groupSystems.value.includes(key);
+    });
+  }
+  return systems.value.filter((s) => s.active);
+});
+
+const inactiveSystems = computed(() => {
+  if (isGroupMode.value) {
+    return [1, 2]
+      .filter((id) => {
+        const key = groupSystemKey[id];
+        return !groupSystems.value.includes(key);
+      })
+      .map((id) => {
+        const base = systems.value.find((s) => s.id === id)!;
+        return { ...base, active: false, noAccess: true, eta: "ไม่มีสิทธิ์เข้าถึง" };
+      });
+  }
+  return systems.value.filter((s) => !s.active);
+});
 </script>
 
 <style scoped>
@@ -980,6 +1066,11 @@ const inactiveSystems = computed(() => systems.value.filter((s) => !s.active));
   border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
   color: rgba(var(--v-theme-on-surface), 0.45);
   font-size: 12px;
+}
+.coming-soon-bar--noaccess {
+  background: rgba(var(--v-theme-error), 0.06);
+  border-color: rgba(var(--v-theme-error), 0.2);
+  color: rgba(var(--v-theme-error), 0.75);
 }
 
 /* ─── Footer ─── */

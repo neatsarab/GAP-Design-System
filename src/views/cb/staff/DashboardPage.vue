@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="d-flex align-center justify-space-between mb-6 flex-wrap ga-3">
+    <div class="d-flex align-center justify-space-between flex-wrap ga-3 mb-6">
       <div>
         <h1 class="page-title mb-1">แดชบอร์ด CB (เจ้าหน้าที่)</h1>
         <p class="text-body-2 text-medium-emphasis mb-0">ภาพรวมคำขอขึ้นทะเบียนหน่วยรับรองทั้งหมด</p>
@@ -9,56 +9,68 @@
 
     <v-row class="mb-6">
       <v-col v-for="stat in stats" :key="stat.label" cols="12" sm="6" md="3">
-        <v-card rounded="xl" elevation="0" class="stat-card h-100">
-          <v-card-text class="pa-5">
-            <div class="d-flex align-center justify-space-between mb-3">
-              <div class="stat-icon-box rounded-xl" :style="{ background: `rgba(var(--v-theme-${stat.color}), 0.1)` }">
-                <v-icon :icon="stat.icon" :color="stat.color" size="20" />
-              </div>
-              <span class="stat-num">{{ stat.value }}</span>
-            </div>
-            <div class="stat-label">{{ stat.label }}</div>
-          </v-card-text>
-        </v-card>
+        <AppStatCard v-bind="stat" />
       </v-col>
     </v-row>
 
     <v-row>
+      <!-- Recent Applications -->
       <v-col cols="12" md="8">
-        <v-card rounded="xl" elevation="0" class="h-100">
-          <v-card-title class="pa-5 pb-0 d-flex align-center justify-space-between">
+        <v-card rounded="xl" elevation="0">
+          <v-card-title class="d-flex align-center ga-2 pa-4 pb-3">
+            <v-icon icon="fas fa-clock-rotate-left" color="cb-staff" size="16" />
             <span class="text-body-1 font-weight-bold">คำขอรอดำเนินการ</span>
+            <v-spacer />
             <v-btn variant="text" color="cb-staff" size="small" append-icon="fas fa-arrow-right" @click="router.push('/cb/staff/applications')">
               ดูทั้งหมด
             </v-btn>
           </v-card-title>
-          <v-list lines="two" class="pa-2">
-            <v-list-item v-for="app in pendingApplications" :key="app.id" rounded="lg" class="mb-1" @click="router.push(`/cb/staff/applications/${app.id}`)">
-              <template #prepend>
-                <v-avatar :color="statusColor(app.status)" variant="tonal" size="40" rounded="lg" class="mr-3">
-                  <v-icon icon="fas fa-certificate" size="18" />
-                </v-avatar>
-              </template>
-              <v-list-item-title class="text-body-2 font-weight-medium">{{ app.requestNo }}</v-list-item-title>
-              <v-list-item-subtitle class="text-caption">{{ app.cbName }} · {{ app.scope }}</v-list-item-subtitle>
-              <template #append>
-                <div class="d-flex flex-column align-end ga-1">
-                  <v-chip :color="statusColor(app.status)" size="x-small" variant="tonal">{{ statusLabel(app.status) }}</v-chip>
-                  <span class="text-caption text-medium-emphasis">{{ app.submittedDate }}</span>
-                </div>
-              </template>
-            </v-list-item>
+          <v-divider />
+          <v-list lines="two" class="pa-0">
+            <template v-for="(app, i) in pendingApplications" :key="app.id">
+              <v-list-item class="pa-3" @click="router.push(`/cb/staff/applications/${app.id}`)">
+                <template #prepend>
+                  <v-avatar :color="statusColor(app.status)" variant="tonal" size="40" rounded="lg" class="mr-3">
+                    <v-icon icon="fas fa-certificate" size="18" />
+                  </v-avatar>
+                </template>
+                <v-list-item-title class="text-body-2 font-weight-medium">{{ app.requestNo }}</v-list-item-title>
+                <v-list-item-subtitle class="text-caption">{{ app.cbName }} · {{ app.scope }}</v-list-item-subtitle>
+                <template #append>
+                  <div class="d-flex flex-column align-end ga-1">
+                    <v-chip :color="statusColor(app.status)" size="x-small" variant="tonal">{{ statusLabel(app.status) }}</v-chip>
+                    <span class="text-caption text-medium-emphasis">{{ app.submittedDate }}</span>
+                  </div>
+                </template>
+              </v-list-item>
+              <v-divider v-if="i < pendingApplications.length - 1" />
+            </template>
           </v-list>
         </v-card>
       </v-col>
 
+      <!-- Info Alert + Quick Actions -->
       <v-col cols="12" md="4">
-        <v-card rounded="xl" elevation="0">
-          <v-card-title class="pa-5 pb-3 text-body-1 font-weight-bold">เมนูด่วน</v-card-title>
-          <v-list density="compact" nav class="px-2 pb-3">
-            <v-list-item prepend-icon="fas fa-file-lines" title="รายการคำขอทั้งหมด" rounded="lg" color="cb-staff" class="mb-1" @click="router.push('/cb/staff/applications')" />
-            <v-list-item prepend-icon="fas fa-magnifying-glass" title="ตรวจประเมิน CB" rounded="lg" color="cb-staff" @click="router.push('/cb/staff/inspection')" />
-          </v-list>
+        <v-alert color="cb-staff" variant="tonal" rounded="xl" class="mb-4" prepend-icon="fas fa-circle-info">
+          <div class="text-body-2 font-weight-medium mb-1">สรุปงานที่รอดำเนินการ</div>
+          <div class="text-body-2">มีคำขอรอดำเนินการทั้งหมด 3 รายการ รวมถึงการตรวจประเมิน CB 2 รายการ</div>
+        </v-alert>
+        <!-- Status Summary -->
+        <v-card rounded="xl" elevation="0" class="mt-4">
+          <v-card-title class="d-flex align-center ga-2 pa-4 pb-3">
+            <v-icon icon="fas fa-chart-pie" color="info" size="16" />
+            <span class="text-body-1 font-weight-bold">สัดส่วนสถานะ</span>
+          </v-card-title>
+          <v-divider />
+          <v-card-text class="pa-4">
+            <div v-for="bar in statusBars" :key="bar.label" class="mb-3">
+              <div class="d-flex justify-space-between mb-1">
+                <span class="text-caption">{{ bar.label }}</span>
+                <span class="text-caption font-weight-bold">{{ bar.value }} ({{ bar.pct }}%)</span>
+              </div>
+              <v-progress-linear :model-value="bar.pct" :color="bar.color" height="6" rounded />
+            </div>
+          </v-card-text>
         </v-card>
       </v-col>
     </v-row>
@@ -67,20 +79,28 @@
 
 <script setup lang="ts">
 import { useRouter } from "vue-router";
+import AppStatCard from "@/components/common/AppStatCard.vue";
 
 const router = useRouter();
 
 const stats = [
-  { label: "คำขอทั้งหมด", value: 15, icon: "fas fa-file-lines", color: "cb-staff" },
-  { label: "รอตรวจสอบ", value: 3, icon: "fas fa-clock", color: "warning" },
-  { label: "อยู่ระหว่างตรวจประเมิน", value: 2, icon: "fas fa-magnifying-glass", color: "info" },
-  { label: "อนุมัติแล้ว", value: 9, icon: "fas fa-circle-check", color: "success" },
+  { label: "คำขอทั้งหมด", value: 15, icon: "fas fa-file-lines", iconColor: "cb-staff" },
+  { label: "รอตรวจสอบ", value: 3, icon: "fas fa-clock", iconColor: "warning" },
+  { label: "อยู่ระหว่างตรวจประเมิน", value: 2, icon: "fas fa-magnifying-glass", iconColor: "info" },
+  { label: "อนุมัติแล้ว", value: 9, icon: "fas fa-circle-check", iconColor: "success" },
 ];
 
 const pendingApplications = [
   { id: "CB-2568-00008", requestNo: "CB-2568-00008", cbName: "บ.เอเชียเซอร์ติฟาย จก.", scope: "ผลไม้ส่งออก", submittedDate: "9 มี.ค. 2568", status: "submitted" },
   { id: "CB-2568-00007", requestNo: "CB-2568-00007", cbName: "บ.ไทยมาตรฐาน จก.", scope: "ผักและสมุนไพร", submittedDate: "6 มี.ค. 2568", status: "under_review" },
   { id: "CB-2568-00006", requestNo: "CB-2568-00006", cbName: "บ.กรีนเซอร์ติฟาย จก.", scope: "ธัญพืชอินทรีย์", submittedDate: "2 มี.ค. 2568", status: "inspection_scheduled" },
+];
+
+const statusBars = [
+  { label: "อนุมัติแล้ว", value: 9, pct: 60, color: "success" },
+  { label: "รอตรวจสอบ", value: 3, pct: 20, color: "warning" },
+  { label: "อยู่ระหว่างตรวจประเมิน", value: 2, pct: 13, color: "info" },
+  { label: "ไม่ผ่าน", value: 1, pct: 7, color: "error" },
 ];
 
 function statusColor(status: string): string {

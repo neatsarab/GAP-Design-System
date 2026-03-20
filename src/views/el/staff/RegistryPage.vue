@@ -1,11 +1,12 @@
 <template>
   <div>
     <!-- Header -->
-    <div class="mb-6">
-      <h1 class="page-title mb-1">ทะเบียนโรงคัดบรรจุ EL</h1>
-      <p class="text-body-2 text-medium-emphasis mb-0">
-        รายชื่อโรงคัดบรรจุที่ขึ้นทะเบียนในระบบ Establishment List
-      </p>
+    <div class="d-flex align-center justify-space-between mb-5 flex-wrap ga-3">
+      <div>
+        <h1 class="page-title mb-1">ทะเบียนโรงคัดบรรจุ EL</h1>
+        <p class="text-body-2 text-medium-emphasis mb-0">รายชื่อโรงคัดบรรจุที่ขึ้นทะเบียนในระบบ Establishment List</p>
+      </div>
+      <v-btn variant="tonal" color="el-staff" prepend-icon="fas fa-download">ส่งออก Excel</v-btn>
     </div>
 
     <!-- Stats -->
@@ -13,8 +14,8 @@
       <v-col
         v-for="stat in stats"
         :key="stat.label"
-        cols="12"
-        sm="4"
+        cols="6"
+        sm="3"
       >
         <v-card rounded="xl" elevation="0" class="stat-card">
           <v-card-text class="pa-5">
@@ -91,14 +92,11 @@
             {{ statusLabel(item.status) }}
           </v-chip>
         </template>
-        <template #item.actions>
-          <v-btn
-            size="small"
-            color="el-staff"
-            variant="tonal"
-            rounded="lg"
-            icon="fas fa-eye"
-          />
+        <template #item.actions="{ item }">
+          <div class="d-flex ga-1">
+            <v-btn size="small" variant="text" color="el-staff" icon="fas fa-eye" />
+            <v-btn size="small" variant="text" color="success" icon="fas fa-download" :disabled="item.status === 'expired'" />
+          </div>
         </template>
       </v-data-table>
     </v-card>
@@ -111,12 +109,6 @@ import { ref, computed } from "vue";
 const search = ref("");
 const statusFilter = ref<string | null>(null);
 const activeTab = ref("all");
-
-const stats = [
-  { label: "ขึ้นทะเบียนแล้ว", value: 45, icon: "fas fa-warehouse", color: "success" },
-  { label: "ใกล้หมดอายุ (90 วัน)", value: 5, icon: "fas fa-clock", color: "warning" },
-  { label: "หมดอายุ", value: 3, icon: "fas fa-circle-xmark", color: "error" },
-];
 
 const statusOptions = [
   { label: "มีผล", value: "active" },
@@ -143,6 +135,13 @@ const allItems = [
   { id: 5, regNo: "EL-REG-2566-00020", establishmentName: "บ.กรีนฟาร์ม จก.", cropType: "ลิ้นจี่", province: "ลำพูน", registeredDate: "10 ส.ค. 2566", expireDate: "09 ส.ค. 2568", status: "expiring_soon" },
   { id: 6, regNo: "EL-REG-2565-00015", establishmentName: "บ.นครปฐมฟาร์ม จก.", cropType: "ทุเรียน", province: "นครปฐม", registeredDate: "12 พ.ค. 2565", expireDate: "11 พ.ค. 2567", status: "expired" },
   { id: 7, regNo: "EL-REG-2565-00010", establishmentName: "บ.ภาคใต้โปรดิ๊วซ จก.", cropType: "มังคุด", province: "สุราษฎร์ธานี", registeredDate: "03 ม.ค. 2565", expireDate: "02 ม.ค. 2567", status: "expired" },
+];
+
+const stats = [
+  { label: "ทั้งหมด",      value: allItems.length, icon: "fas fa-warehouse",    color: "el-staff" },
+  { label: "มีผล",          value: allItems.filter(i => i.status === "active").length,        icon: "fas fa-circle-check", color: "success" },
+  { label: "ใกล้หมดอายุ",  value: allItems.filter(i => i.status === "expiring_soon").length, icon: "fas fa-clock",        color: "warning" },
+  { label: "หมดอายุ",       value: allItems.filter(i => i.status === "expired").length,       icon: "fas fa-circle-xmark", color: "error" },
 ];
 
 const filteredItems = computed(() => {

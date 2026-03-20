@@ -67,10 +67,15 @@
             :prepend-icon="item.icon"
             :title="item.title"
             :to="item.to"
+            :active="isNavActive(item.to)"
             active-color="el-staff"
             rounded="lg"
             class="mb-1"
-          />
+          >
+            <template v-if="item.count" #append>
+              <v-chip size="x-small" color="error" variant="flat">{{ item.count }}</v-chip>
+            </template>
+          </v-list-item>
           <v-divider v-if="group.divider" class="mx-2 my-2" />
         </template>
       </v-list>
@@ -209,6 +214,10 @@ function doLogout() {
   router.push("/login");
 }
 
+function isNavActive(to: string): boolean {
+  return route.path === to || route.path.startsWith(to + '/');
+}
+
 const breadcrumbs = computed(() => [
   { title: "ระบบ EL (เจ้าหน้าที่)", to: "/el/staff" },
   { title: route.meta.title as string },
@@ -230,6 +239,7 @@ const navGroups = [
         title: "รายการคำขอทั้งหมด",
         icon: "fas fa-file-lines",
         to: "/el/staff/applications",
+        count: 7,
       },
     ],
   },
@@ -241,6 +251,7 @@ const navGroups = [
         title: "บันทึกผลตรวจ GMP",
         icon: "fas fa-clipboard-check",
         to: "/el/staff/inspection/new",
+        count: 2,
       },
     ],
   },

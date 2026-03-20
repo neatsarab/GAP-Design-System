@@ -11,44 +11,19 @@
       </div>
     </div>
 
-    <!-- Step 0: เลือกประเภทคำขอ -->
-    <div v-if="!selectedType" class="mb-6">
-      <div class="text-body-1 font-weight-bold mb-4">เลือกประเภทคำขอ</div>
-      <v-row>
-        <v-col v-for="t in certTypes" :key="t.value" cols="12" sm="6" md="4">
-          <v-card class="type-card h-100" @click="selectedType = t.value">
-            <div class="type-accent" :class="`bg-${t.color}`" />
-            <v-card-text class="pa-5 text-center">
-              <div
-                class="type-icon mx-auto mb-3"
-                :style="`background: rgba(var(--v-theme-${t.color}), 0.1)`"
-              >
-                <v-icon :icon="t.icon" :color="t.color" size="28" />
-              </div>
-              <h3 class="text-body-1 font-weight-bold mb-2">{{ t.label }}</h3>
-              <p class="text-body-2 text-medium-emphasis mb-3">
-                {{ t.desc }}
-              </p>
-              <v-btn :color="t.color" block size="small">เลือก</v-btn>
-            </v-card-text>
-          </v-card>
-        </v-col>
-      </v-row>
-    </div>
-
     <!-- Step 0.5: ตรวจสอบว่ามีผล Lab แล้วหรือยัง -->
-    <div v-else-if="selectedType && hasLab === null" class="mb-6">
+    <div v-if="hasLab === null" class="mb-6">
       <div class="d-flex align-center ga-2 mb-5">
         <v-btn
           icon="fas fa-arrow-left"
           variant="text"
           size="small"
-          @click="selectedType = null"
+          @click="router.push('/hcex/user/applications/new')"
         />
         <div>
           <div class="text-body-1 font-weight-bold">ตรวจสอบผล Lab</div>
           <div class="text-body-2 text-medium-emphasis">
-            ประเภทคำขอ: {{ selectedType }}
+            ประเภทคำขอ: {{ route.params.type }}
           </div>
         </div>
       </div>
@@ -726,11 +701,11 @@
 
 <script setup lang="ts">
 import { ref, reactive } from "vue";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 
 const router = useRouter();
+const route = useRoute();
 
-const selectedType = ref<string | null>(null);
 const hasLab = ref<boolean | null>(null);
 const currentStep = ref(0);
 const submitting = ref(false);
@@ -740,43 +715,6 @@ const newRequestNo = ref("");
 const formRef = ref();
 const selectedLabs = ref<string[]>([]);
 
-const certTypes = [
-  {
-    value: "kmp1",
-    label: "กมพ.1",
-    desc: "ใบรับรองสุขอนามัยสำหรับสินค้าแปรรูปด้านพืชทั่วไป",
-    icon: "fas fa-file-circle-check",
-    color: "hcex-user",
-  },
-  {
-    value: "kmp1-1",
-    label: "กมพ.1-1",
-    desc: "ใบรับรองสุขอนามัยสำหรับผลิตภัณฑ์แป้งและธัญพืชแปรรูป",
-    icon: "fas fa-wheat-awn",
-    color: "warning",
-  },
-  {
-    value: "kmp1-2",
-    label: "กมพ.1-2",
-    desc: "ใบรับรองสำหรับผลิตภัณฑ์ผักและผลไม้แปรรูป",
-    icon: "fas fa-jar",
-    color: "success",
-  },
-  {
-    value: "kmp1-3",
-    label: "กมพ.1-3",
-    desc: "ใบรับรองสำหรับเครื่องเทศและสมุนไพรแปรรูป",
-    icon: "fas fa-mortar-pestle",
-    color: "hc-staff",
-  },
-  {
-    value: "correction",
-    label: "แก้ไขใบรับรอง",
-    desc: "ยื่นคำขอแก้ไขข้อมูลในใบรับรองที่ออกแล้ว",
-    icon: "fas fa-file-pen",
-    color: "info",
-  },
-];
 
 const formSteps = [
   { key: "details", label: "ข้อมูลรายละเอียด" },

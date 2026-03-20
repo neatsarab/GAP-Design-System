@@ -144,7 +144,7 @@
               size="small"
               append-icon="fas fa-arrow-right"
               class="flex-shrink-0"
-              @click="router.push({ path: '/portal', query: { mode: 'user', entityType: 'personal' } })"
+              @click="router.push({ path: '/portal', query: { mode: 'user', entityType: 'personal', personalName } })"
             >
               เข้าใช้งาน
             </v-btn>
@@ -287,6 +287,126 @@
                 "
               >
                 จัดการมอบอำนาจ
+              </v-btn>
+            </div>
+          </div>
+        </v-card>
+
+        <!-- ── ส่วนที่ 3: กลุ่ม ── -->
+        <div class="section-header mb-3 mt-6">
+          <div class="section-label">
+            <div class="section-dot section-dot--group"></div>
+            <span class="text-body-2 font-weight-bold">ในฐานะกลุ่ม</span>
+            <v-chip size="x-small" color="warning" variant="tonal" class="ml-1"
+              >{{ groups.length }} กลุ่ม</v-chip
+            >
+          </div>
+          <v-btn
+            color="warning"
+            size="default"
+            rounded="lg"
+            prepend-icon="fas fa-people-group"
+            @click="openGroupDialog"
+          >
+            สร้างกลุ่ม
+          </v-btn>
+        </div>
+
+        <v-card rounded="xl" elevation="0" class="list-card list-card--group">
+          <div
+            v-for="(group, index) in groups"
+            :key="group.id"
+            class="entity-row entity-row--group"
+            :class="{ 'entity-row--last': index === groups.length - 1 }"
+          >
+            <!-- Icon -->
+            <div class="entity-icon-box entity-icon-box--group flex-shrink-0">
+              <v-icon icon="fas fa-people-group" size="18" color="warning" />
+            </div>
+
+            <!-- Name + meta -->
+            <div class="flex-grow-1 overflow-hidden">
+              <div class="d-flex align-center ga-2 flex-wrap">
+                <span class="text-body-2 font-weight-bold">{{
+                  group.nameTh
+                }}</span>
+                <v-chip
+                  v-if="group.isLeader"
+                  size="x-small"
+                  color="warning"
+                  variant="tonal"
+                  prepend-icon="fas fa-star"
+                >
+                  ผู้นำกลุ่ม
+                </v-chip>
+                <v-chip
+                  v-if="group.isCreator"
+                  size="x-small"
+                  color="success"
+                  variant="tonal"
+                  prepend-icon="fas fa-crown"
+                >
+                  ผู้สร้างกลุ่ม
+                </v-chip>
+              </div>
+              <div class="text-caption text-medium-emphasis">
+                {{ group.nameEn }}
+              </div>
+              <div class="d-flex align-center ga-2 mt-1 flex-wrap">
+                <span class="detail-pill">เลขทะเบียน: {{ group.regNo }}</span>
+                <span class="detail-pill">สมาชิก {{ group.memberCount }} ราย</span>
+              </div>
+              <!-- Systems chips (mobile) -->
+              <div class="d-flex d-md-none flex-wrap ga-1 mt-1">
+                <v-chip
+                  v-for="sys in group.systems"
+                  :key="sys"
+                  size="x-small"
+                  variant="tonal"
+                  color="warning"
+                  >{{ sys }}</v-chip
+                >
+              </div>
+            </div>
+
+            <!-- Systems (desktop) -->
+            <div
+              class="row-right flex-shrink-0 d-none d-md-flex flex-column align-end ga-1"
+            >
+              <div class="d-flex flex-wrap ga-1 justify-end">
+                <v-chip
+                  v-for="sys in group.systems"
+                  :key="sys"
+                  size="x-small"
+                  variant="tonal"
+                  color="warning"
+                  >{{ sys }}</v-chip
+                >
+              </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="d-flex flex-column ga-2 flex-shrink-0 align-end">
+              <v-btn
+                color="warning"
+                rounded="lg"
+                size="small"
+                append-icon="fas fa-arrow-right"
+                style="min-width: 110px"
+                @click="router.push({ path: '/portal', query: { mode: 'user', entityType: 'group', groupName: group.nameTh, groupSystems: group.systems.join(',') } })"
+              >
+                เข้าใช้งาน
+              </v-btn>
+              <v-btn
+                variant="tonal"
+                color="warning"
+                rounded="lg"
+                size="small"
+                prepend-icon="fas fa-users-gear"
+                style="min-width: 110px"
+                @click="router.push({ path: '/group-management', query: { groupId: group.id } })"
+              >
+                จัดการกลุ่ม
               </v-btn>
             </div>
           </div>
@@ -694,7 +814,7 @@
 
             <!-- เลือกระบบ -->
             <div class="field-label mb-2">
-              ระบบที่ต้องการขอใช้งาน <span class="field-label-en">Requested Systems</span> <span class="req">*</span>
+              ระบบที่ต้องการขอใช้งาน <span class="req">*</span> <span class="field-label-en">Requested Systems</span>
             </div>
             <div class="sys-checkbox-list">
               <v-checkbox
@@ -821,6 +941,251 @@
     </v-card>
   </v-dialog>
 
+  <!-- ── Dialog: สร้างกลุ่ม ── -->
+  <v-dialog v-model="groupDialog" max-width="560" persistent>
+    <v-card rounded="xl">
+      <v-card-title class="pa-6 pb-4 d-flex align-center ga-3">
+        <div class="dialog-icon dialog-icon--group">
+          <v-icon icon="fas fa-people-group" size="18" color="warning" />
+        </div>
+        <div class="flex-grow-1">
+          <div class="text-body-1 font-weight-bold">สร้างกลุ่ม</div>
+          <div class="text-caption text-medium-emphasis">
+            {{ groupStep === 1 ? 'ระบุข้อมูลกลุ่มและสมาชิก' : 'เลือกระบบที่ต้องการ' }}
+          </div>
+        </div>
+      </v-card-title>
+
+      <!-- Step indicator -->
+      <div class="dialog-step-bar dialog-step-bar--warning px-6 pb-4">
+        <div class="dialog-step-item" :class="groupStep >= 1 ? 'dialog-step-item--active' : ''">
+          <div class="dialog-step-node" :class="groupStep > 1 ? 'dialog-step-node--done' : 'dialog-step-node--active'">
+            <v-icon v-if="groupStep > 1" icon="fas fa-check" size="11" />
+            <span v-else>1</span>
+          </div>
+          <span class="dialog-step-label">ข้อมูลกลุ่มและสมาชิก</span>
+        </div>
+        <div class="dialog-step-line" :class="groupStep >= 2 ? 'dialog-step-line--active' : ''" />
+        <div class="dialog-step-item" :class="groupStep >= 2 ? 'dialog-step-item--active' : ''">
+          <div class="dialog-step-node" :class="groupStep === 2 ? 'dialog-step-node--active' : ''">
+            <span>2</span>
+          </div>
+          <span class="dialog-step-label">ระบบที่ต้องการ</span>
+        </div>
+      </div>
+
+      <v-divider />
+      <v-card-text class="pa-6">
+
+        <!-- ── Step 1: ข้อมูลกลุ่มและสมาชิก ── -->
+        <div v-if="groupStep === 1">
+          <!-- ชื่อกลุ่ม -->
+          <v-row dense>
+            <v-col cols="12">
+              <div class="field-label">ชื่อกลุ่ม (ไทย) <span class="req">*</span></div>
+              <v-text-field
+                v-model="groupForm.nameTh"
+                variant="outlined"
+                density="compact"
+                rounded="lg"
+                hide-details
+                placeholder="เช่น กลุ่มเกษตรกรอินทรีย์ตำบลนาดี"
+                prepend-inner-icon="fas fa-people-group"
+              />
+            </v-col>
+            <v-col cols="12">
+              <div class="field-label mt-3">ชื่อกลุ่ม (อังกฤษ) <span class="field-label-en">Group Name (EN)</span></div>
+              <v-text-field
+                v-model="groupForm.nameEn"
+                variant="outlined"
+                density="compact"
+                rounded="lg"
+                hide-details
+                placeholder="e.g. Na Di Organic Farmers Group"
+                prepend-inner-icon="fas fa-globe"
+              />
+            </v-col>
+          </v-row>
+
+          <v-divider class="my-4" />
+
+          <!-- สมาชิก -->
+          <div class="field-label mb-1">
+            สมาชิกกลุ่ม <span class="req">*</span> <span class="field-label-en">Members</span>
+            <span class="text-caption text-medium-emphasis ml-1">(ขั้นต่ำ 5 คน)</span>
+          </div>
+
+          <v-alert
+            v-if="groupJuristicCount >= 1"
+            color="warning"
+            variant="tonal"
+            density="compact"
+            rounded="lg"
+            prepend-icon="fas fa-triangle-exclamation"
+            class="mb-3"
+          >
+            <span class="text-caption">มีนิติบุคคลในกลุ่มแล้ว 1 ราย — ไม่สามารถเพิ่มนิติบุคคลอื่นได้อีก</span>
+          </v-alert>
+
+          <div class="d-flex ga-2 mb-3">
+            <v-text-field
+              v-model="groupMemberSearch"
+              variant="outlined"
+              density="compact"
+              rounded="lg"
+              hide-details
+              placeholder="ค้นหาด้วยเลขบัตรประชาชน หรือเลขทะเบียนนิติบุคคล"
+              prepend-inner-icon="fas fa-magnifying-glass"
+              style="flex: 1"
+              @keyup.enter="searchGroupMember"
+            />
+            <v-btn
+              color="warning"
+              rounded="lg"
+              size="default"
+              :loading="groupMemberLoading"
+              @click="searchGroupMember"
+            >ค้นหา</v-btn>
+          </div>
+
+          <!-- ผลค้นหาสมาชิก -->
+          <v-expand-transition>
+            <div v-if="groupMemberResult">
+              <v-card rounded="lg" variant="outlined" class="mb-2 pa-3 d-flex align-center ga-3">
+                <v-icon
+                  :icon="groupMemberResult.isJuristic ? 'fas fa-building' : 'fas fa-user'"
+                  :color="groupMemberResult.isJuristic ? 'info' : 'success'"
+                  size="16"
+                />
+                <div class="flex-grow-1">
+                  <div class="text-body-2 font-weight-medium">{{ groupMemberResult.name }}</div>
+                  <div class="text-caption text-medium-emphasis">{{ groupMemberResult.idNo }}</div>
+                </div>
+                <v-chip v-if="groupMemberResult.isJuristic" size="x-small" color="info" variant="tonal">นิติบุคคล</v-chip>
+                <v-btn
+                  size="small"
+                  color="warning"
+                  rounded="lg"
+                  :disabled="groupMemberResult.isJuristic && groupJuristicCount >= 1"
+                  @click="addGroupMember"
+                >เพิ่ม</v-btn>
+              </v-card>
+              <div v-if="groupMemberResult.isJuristic && groupJuristicCount >= 1" class="text-caption text-error mb-3">
+                <v-icon icon="fas fa-circle-xmark" size="11" class="mr-1" />ไม่สามารถเพิ่มนิติบุคคลซ้ำได้
+              </div>
+            </div>
+          </v-expand-transition>
+
+          <!-- รายชื่อสมาชิก -->
+          <div v-if="groupForm.members.length > 0" class="d-flex flex-wrap ga-2 mb-3">
+            <v-chip
+              v-for="(member, i) in groupForm.members"
+              :key="member.id"
+              size="small"
+              :color="member.isJuristic ? 'info' : 'default'"
+              closable
+              :prepend-icon="member.isJuristic ? 'fas fa-building' : 'fas fa-user'"
+              @click:close="removeGroupMember(i)"
+            >{{ member.name }}</v-chip>
+          </div>
+
+          <!-- Count badge -->
+          <div class="d-flex align-center ga-2 mb-1">
+            <v-icon
+              :icon="groupForm.members.length >= 5 ? 'fas fa-circle-check' : 'fas fa-circle'"
+              :color="groupForm.members.length >= 5 ? 'success' : 'grey'"
+              size="13"
+            />
+            <span class="text-caption" :class="groupForm.members.length >= 5 ? 'text-success' : 'text-medium-emphasis'">
+              {{ groupForm.members.length }} / 5 คนขึ้นไป
+            </span>
+          </div>
+          <div v-if="groupMemberError" class="text-caption text-error mb-1">
+            <v-icon icon="fas fa-circle-xmark" size="11" class="mr-1" />{{ groupMemberError }}
+          </div>
+
+          <v-divider class="my-4" />
+
+          <!-- หัวหน้ากลุ่ม -->
+          <div class="field-label mb-1">หัวหน้ากลุ่ม <span class="req">*</span> <span class="field-label-en">Group Leader</span></div>
+          <v-select
+            v-model="groupForm.leader"
+            :items="groupForm.members"
+            item-title="name"
+            item-value="id"
+            variant="outlined"
+            density="compact"
+            rounded="lg"
+            hide-details="auto"
+            placeholder="เลือกหัวหน้ากลุ่มจากรายชื่อสมาชิก"
+            prepend-inner-icon="fas fa-star"
+            no-data-text="เพิ่มสมาชิกก่อนเลือกหัวหน้า"
+            :disabled="groupForm.members.length === 0"
+          />
+          <div v-if="groupLeaderError" class="text-caption text-error mt-1">
+            <v-icon icon="fas fa-circle-xmark" size="11" class="mr-1" />กรุณาเลือกหัวหน้ากลุ่ม
+          </div>
+        </div><!-- end step 1 -->
+
+        <!-- ── Step 2: ระบบที่ต้องการ ── -->
+        <div v-if="groupStep === 2">
+          <div class="field-label mb-2">
+            ระบบที่ต้องการขอใช้งาน <span class="req">*</span> <span class="field-label-en">Requested Systems</span>
+          </div>
+          <div class="sys-checkbox-list">
+            <v-checkbox
+              v-for="sys in groupAvailableSystems"
+              :key="sys.value"
+              v-model="groupForm.systems"
+              :value="sys.value"
+              color="warning"
+              density="compact"
+              hide-details
+              class="sys-checkbox-item"
+            >
+              <template #label>
+                <div class="d-flex align-center ga-2">
+                  <span class="text-body-2">{{ sys.label }}</span>
+                </div>
+              </template>
+            </v-checkbox>
+          </div>
+          <div v-if="groupSystemError" class="text-caption text-error mt-1">
+            <v-icon icon="fas fa-circle-xmark" size="11" class="mr-1" />กรุณาเลือกอย่างน้อย 1 ระบบ
+          </div>
+        </div><!-- end step 2 -->
+
+      </v-card-text>
+      <v-divider />
+      <v-card-actions class="pa-5 ga-2">
+        <v-btn
+          v-if="groupStep === 2"
+          variant="tonal"
+          color="grey"
+          rounded="lg"
+          prepend-icon="fas fa-arrow-left"
+          @click="groupStep = 1"
+        >ย้อนกลับ</v-btn>
+        <v-spacer />
+        <v-btn variant="tonal" color="grey" rounded="lg" @click="groupDialog = false">ยกเลิก</v-btn>
+        <v-btn
+          v-if="groupStep === 1"
+          color="warning"
+          rounded="lg"
+          append-icon="fas fa-arrow-right"
+          @click="nextGroupStep"
+        >ถัดไป</v-btn>
+        <v-btn
+          v-else
+          color="warning"
+          rounded="lg"
+          prepend-icon="fas fa-paper-plane"
+          @click="submitGroup"
+        >สร้างกลุ่ม</v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
+
   <!-- ── Success Dialog ── -->
   <v-dialog v-model="successDialog" max-width="400">
     <v-card rounded="xl">
@@ -844,7 +1209,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, computed } from "vue";
+import { ref, reactive, computed, watch } from "vue";
 import { useRouter } from "vue-router";
 import { useThemeStore } from "@/stores/theme.store";
 
@@ -863,6 +1228,7 @@ interface Company {
   systems: string[];
 }
 
+const personalName = "นิธิพร เทิบจันทึก";
 const personalSystems = ["GAP", "DOA"];
 
 const companies: Company[] = [
@@ -899,6 +1265,55 @@ const companies: Company[] = [
     isOwner: true,
     systems: ["CB"],
   },
+];
+
+interface Group {
+  id: string;
+  nameTh: string;
+  nameEn: string;
+  regNo: string;
+  memberCount: number;
+  isLeader: boolean;
+  isCreator: boolean;
+  systems: string[];
+}
+
+const groups: Group[] = [
+  {
+    id: "gr1",
+    nameTh: "กลุ่มเกษตรกรอินทรีย์บ้านนาดี",
+    nameEn: "Ban Na Di Organic Farmers Group",
+    regNo: "GRP-68-0001",
+    memberCount: 5,
+    isLeader: false,
+    isCreator: true,
+    systems: ["ORG", "GAP"],
+  },
+  {
+    id: "gr2",
+    nameTh: "วิสาหกิจชุมชนสวนผักปลอดภัย อ.แม่ริม",
+    nameEn: "Mae Rim Safe Vegetable Community Enterprise",
+    regNo: "GRP-68-0034",
+    memberCount: 5,
+    isLeader: true,
+    isCreator: false,
+    systems: ["GAP"],
+  },
+  {
+    id: "gr3",
+    nameTh: "กลุ่มเกษตรกรแปลงใหญ่มะม่วง จ.ฉะเชิงเทรา",
+    nameEn: "Chachoengsao Large-Scale Mango Farmers Group",
+    regNo: "GRP-68-0087",
+    memberCount: 1,
+    isLeader: false,
+    isCreator: false,
+    systems: ["GAP"],
+  },
+];
+
+const groupAvailableSystems = [
+  { label: "ระบบรับรองมาตรฐาน GAP พืช", value: "GAP", icon: "fas fa-seedling" },
+  { label: "ระบบเกษตรอินทรีย์ (ORG)", value: "ORG", icon: "fas fa-leaf" },
 ];
 
 const availableSystems = [
@@ -1090,8 +1505,115 @@ function submitJuristic() {
   successDialog.value = true;
 }
 
+// ── Group dialog ──
+interface GroupMember {
+  id: string;
+  name: string;
+  idNo: string;
+  isJuristic: boolean;
+}
+
+const groupDialog = ref(false);
+const groupStep = ref(1);
+const groupMemberSearch = ref('');
+const groupMemberLoading = ref(false);
+const groupMemberResult = ref<GroupMember | null>(null);
+const groupMemberError = ref('');
+const groupLeaderError = ref(false);
+const groupSystemError = ref(false);
+const groupForm = reactive({
+  nameTh: '',
+  nameEn: '',
+  members: [] as GroupMember[],
+  leader: '',
+  systems: [] as string[],
+});
+
+const groupJuristicCount = computed(() =>
+  groupForm.members.filter((m) => m.isJuristic).length
+);
+
+function openGroupDialog() {
+  groupForm.nameTh = '';
+  groupForm.nameEn = '';
+  groupForm.members = [];
+  groupForm.leader = '';
+  groupForm.systems = [];
+  groupMemberSearch.value = '';
+  groupMemberResult.value = null;
+  groupMemberError.value = '';
+  groupLeaderError.value = false;
+  groupSystemError.value = false;
+  groupStep.value = 1;
+  groupDialog.value = true;
+}
+
+function searchGroupMember() {
+  if (!groupMemberSearch.value.trim()) return;
+  groupMemberLoading.value = true;
+  groupMemberResult.value = null;
+  setTimeout(() => {
+    groupMemberLoading.value = false;
+    const isJuristic =
+      groupMemberSearch.value.startsWith('0') &&
+      groupMemberSearch.value.length === 13;
+    groupMemberResult.value = isJuristic
+      ? { id: `m${Date.now()}`, name: 'บริษัท ตัวอย่าง จำกัด', idNo: groupMemberSearch.value, isJuristic: true }
+      : { id: `m${Date.now()}`, name: 'นาย ตัวอย่าง ชื่อจริง', idNo: groupMemberSearch.value, isJuristic: false };
+  }, 800);
+}
+
+function addGroupMember() {
+  if (!groupMemberResult.value) return;
+  if (groupMemberResult.value.isJuristic && groupJuristicCount.value >= 1) return;
+  if (groupForm.members.some((m) => m.idNo === groupMemberResult.value!.idNo)) return;
+  groupForm.members.push({ ...groupMemberResult.value });
+  groupMemberResult.value = null;
+  groupMemberSearch.value = '';
+}
+
+function removeGroupMember(index: number) {
+  const removed = groupForm.members[index];
+  groupForm.members.splice(index, 1);
+  if (groupForm.leader === removed.id) groupForm.leader = '';
+}
+
+function nextGroupStep() {
+  groupMemberError.value = '';
+  groupLeaderError.value = false;
+  if (!groupForm.nameTh.trim()) return;
+  if (groupForm.members.length < 5) {
+    groupMemberError.value = 'ต้องมีสมาชิกอย่างน้อย 5 คน';
+    return;
+  }
+  if (!groupForm.leader) {
+    groupLeaderError.value = true;
+    return;
+  }
+  groupStep.value = 2;
+}
+
+function submitGroup() {
+  if (groupForm.systems.length === 0) {
+    groupSystemError.value = true;
+    return;
+  }
+  groupSystemError.value = false;
+  groupDialog.value = false;
+  successDialog.value = true;
+}
+
 // ── Shared ──
 const successDialog = ref(false);
+
+watch(
+  [personalDialog, juristicDialog, groupDialog, successDialog],
+  (values) => {
+    const lock = values.some(Boolean);
+    document.body.style.overflow = lock ? "hidden" : "";
+    document.documentElement.style.overflow = lock ? "hidden" : "";
+  }
+);
 
 </script>
 
@@ -1240,6 +1762,17 @@ const successDialog = ref(false);
   background: rgba(var(--v-theme-info), 0.02);
 }
 
+.section-dot--group {
+  background: rgb(var(--v-theme-warning));
+}
+.entity-icon-box--group {
+  background: rgba(var(--v-theme-warning), 0.08);
+  border-color: rgba(var(--v-theme-warning), 0.2);
+}
+.entity-row--group:hover {
+  background: rgba(var(--v-theme-warning), 0.02);
+}
+
 /* Detail pill */
 .detail-pill {
   font-size: 11px;
@@ -1269,6 +1802,10 @@ const successDialog = ref(false);
 .dialog-icon--company {
   background: rgba(var(--v-theme-info), 0.1);
   border: 1px solid rgba(var(--v-theme-info), 0.2);
+}
+.dialog-icon--group {
+  background: rgba(var(--v-theme-warning), 0.1);
+  border: 1px solid rgba(var(--v-theme-warning), 0.2);
 }
 
 /* System checkbox list */
@@ -1369,6 +1906,17 @@ const successDialog = ref(false);
 }
 .dialog-step-line--active {
   background: rgb(var(--v-theme-primary));
+}
+.dialog-step-bar--warning .dialog-step-node--active {
+  border-color: rgb(var(--v-theme-warning));
+  color: rgb(var(--v-theme-warning));
+  background: rgba(var(--v-theme-warning), 0.08);
+}
+.dialog-step-bar--warning .dialog-step-node--done {
+  background: rgb(var(--v-theme-warning));
+}
+.dialog-step-bar--warning .dialog-step-line--active {
+  background: rgb(var(--v-theme-warning));
 }
 
 /* Doc item */

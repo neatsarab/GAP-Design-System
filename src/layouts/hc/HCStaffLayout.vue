@@ -65,10 +65,15 @@
             :prepend-icon="item.icon"
             :title="item.title"
             :to="item.to"
+            :active="isNavActive(item.to)"
             active-color="hc-staff"
             rounded="lg"
             class="mb-1"
-          />
+          >
+            <template v-if="item.count" #append>
+              <v-chip size="x-small" color="error" variant="flat">{{ item.count }}</v-chip>
+            </template>
+          </v-list-item>
           <v-divider v-if="group.divider" class="mx-2 my-2" />
         </template>
       </v-list>
@@ -207,6 +212,10 @@ function doLogout() {
   router.push("/login");
 }
 
+function isNavActive(to: string): boolean {
+  return route.path === to || route.path.startsWith(to + '/');
+}
+
 const breadcrumbs = computed(() => [
   { title: "ระบบ HC (เจ้าหน้าที่)", to: "/hc/staff" },
   { title: route.meta.title as string },
@@ -228,6 +237,7 @@ const navGroups = [
         title: "งานที่ได้รับมอบหมาย",
         icon: "fas fa-list-check",
         to: "/hc/staff/my-work",
+        count: 29,
       },
       {
         title: "คำขอทั้งหมด",

@@ -180,10 +180,6 @@
   color: white;
   box-shadow: 0 0 0 4px var(--step-color-tint, rgba(var(--v-theme-primary), 0.2));
 }
-.step-line--done {
-  background: var(--step-color, rgb(var(--v-theme-primary)));
-}
-
 /* ── Field section label ── */
 .field-section-label {
   font-size: 14px;
@@ -361,6 +357,9 @@
   min-width: 20px;
   background: rgba(var(--v-border-color), var(--v-border-opacity));
   transition: background 0.3s ease;
+}
+.step-line--done {
+  background: var(--step-color, rgb(var(--v-theme-primary)));
 }
 .step-bar .step-line {
   flex: 1;

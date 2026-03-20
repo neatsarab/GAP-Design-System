@@ -38,16 +38,14 @@
       <div v-if="!rail" class="px-4 mb-2">
         <div class="user-card rounded-lg pa-3 d-flex align-center ga-2">
           <v-avatar color="el-user" size="32" variant="tonal">
-            <v-icon icon="fas fa-building" size="16" color="el-user" />
+            <v-icon :icon="sessionStore.entityIcon" size="16" color="el-user" />
           </v-avatar>
           <div class="flex-grow-1 overflow-hidden">
-            <div
-              class="text-truncate text-body-2 font-weight-medium text-el-user"
-            >
-              บริษัท ไทยฟรุ๊ตส์ เอ็กซ์พอร์ต จำกัด
+            <div class="text-truncate text-body-2 font-weight-medium text-el-user">
+              {{ sessionStore.displayName }}
             </div>
             <div class="text-caption text-medium-emphasis">
-              เลขนิติบุคคล : 1100090000099
+              {{ sessionStore.entityLabel }}
             </div>
           </div>
         </div>
@@ -191,8 +189,10 @@
 import { ref, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useThemeStore } from "@/stores/theme.store";
+import { useSessionStore } from "@/stores/session.store";
 
 const themeStore = useThemeStore();
+const sessionStore = useSessionStore();
 const isDark = computed(() => themeStore.isDark);
 function toggleTheme() {
   themeStore.toggle();
@@ -235,6 +235,17 @@ const navGroups = [
         title: "รายการคำขอ",
         icon: "fas fa-file-lines",
         to: "/el/user/applications",
+      },
+    ],
+  },
+  {
+    label: "ทะเบียน",
+    divider: false,
+    items: [
+      {
+        title: "ข้อมูลโรงคัดบรรจุ",
+        icon: "fas fa-warehouse",
+        to: "/el/user/registry",
       },
     ],
   },

@@ -65,10 +65,15 @@
             :prepend-icon="item.icon"
             :title="item.title"
             :to="item.to"
+            :active="isNavActive(item.to)"
             active-color="gap-staff"
             rounded="lg"
             class="mb-1"
-          />
+          >
+            <template v-if="item.count" #append>
+              <v-chip size="x-small" color="error" variant="flat">{{ item.count }}</v-chip>
+            </template>
+          </v-list-item>
           <v-divider v-if="group.divider" class="mx-2 my-2" />
         </template>
       </v-list>
@@ -213,6 +218,10 @@ function doLogout() {
   router.push("/login");
 }
 
+function isNavActive(to: string): boolean {
+  return route.path === to || route.path.startsWith(to + '/');
+}
+
 const navGroups = [
   {
     label: "ภาพรวม",
@@ -222,54 +231,48 @@ const navGroups = [
     ],
   },
   {
-    label: "คำขอรับรองแบบเดี่ยว",
+    label: "จัดการคำขอ",
     divider: true,
     items: [
+      {
+        title: "ยื่นคำขอ",
+        icon: "fas fa-file-pen",
+        to: "/gap/staff/applications/new",
+      },
       {
         title: "รายการคำขอ",
         icon: "fas fa-file-lines",
         to: "/gap/staff/applications",
-      },
-      {
-        title: "ยื่นคำขอรับรอง",
-        icon: "fas fa-file-pen",
-        to: "/gap/staff/applications/new",
+        count: 7,
       },
       {
         title: "นัดตรวจแปลง",
         icon: "fas fa-calendar-check",
         to: "/gap/staff/schedule",
+        count: 5,
       },
       {
         title: "ผลการตรวจแปลง",
         icon: "fas fa-clipboard-check",
         to: "/gap/staff/inspection-results",
+        count: 4,
       },
       {
         title: "เสนอแปลงต่อ CC",
         icon: "fas fa-paper-plane",
         to: "/gap/staff/propose-cc",
+        count: 3,
       },
       {
         title: "บันทึกผลจาก CC",
         icon: "fas fa-gavel",
         to: "/gap/staff/cc-results",
+        count: 6,
       },
     ],
   },
   {
-    label: "คำขอรับรองแบบกลุ่ม",
-    divider: true,
-    items: [
-      {
-        title: "รายการคำขอกลุ่ม",
-        icon: "fas fa-users",
-        to: "/gap/staff/group-applications",
-      },
-    ],
-  },
-  {
-    label: "ใบรับรอง & รายงาน",
+    label: "ใบรับรอง",
     divider: false,
     items: [
       {
@@ -277,35 +280,30 @@ const navGroups = [
         icon: "fas fa-certificate",
         to: "/gap/staff/certificates",
       },
-      {
-        title: "ติดตาม-แจ้งเตือน",
-        icon: "fas fa-bell",
-        to: "/gap/staff/notifications",
-      },
-      { title: "รายงาน", icon: "fas fa-chart-bar", to: "/gap/staff/reports" },
     ],
   },
 ];
 
 const routeTitleMap: Record<string, string> = {
   "/gap/staff/dashboard": "แดชบอร์ด",
+  "/gap/staff/applications/new": "ยื่นคำขอ",
   "/gap/staff/applications": "รายการคำขอ",
-  "/gap/staff/applications/new": "ยื่นคำขอรับรอง",
   "/gap/staff/schedule": "นัดตรวจแปลง",
   "/gap/staff/inspection-results": "ผลการตรวจแปลง",
   "/gap/staff/propose-cc": "เสนอแปลงต่อ CC",
   "/gap/staff/cc-results": "บันทึกผลจาก CC",
-  "/gap/staff/group-applications": "รายการคำขอกลุ่ม",
+
   "/gap/staff/certificates": "ข้อมูลใบรับรอง",
-  "/gap/staff/notifications": "ติดตาม-แจ้งเตือน",
-  "/gap/staff/reports": "รายงาน",
+
 };
 
 const breadcrumbs = computed(() => {
   const base =
     route.path.startsWith("/gap/staff/applications/") && route.params.id
       ? "รายละเอียดคำขอ"
-      : (routeTitleMap[route.path] ?? "รายละเอียด");
+      : route.path === "/gap/staff/applications/new"
+        ? "ยื่นคำขอ"
+        : (routeTitleMap[route.path] ?? "รายละเอียด");
   return [
     { title: "ระบบ GAP (เจ้าหน้าที่)", to: "/gap/staff/dashboard" },
     { title: base },

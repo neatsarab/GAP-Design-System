@@ -11,53 +11,8 @@
       </div>
     </div>
 
-    <!-- Type Selection (step 0) -->
-    <div v-if="!selectedType" class="mb-6">
-      <div class="text-body-1 font-weight-bold mb-4">เลือกประเภทคำขอ</div>
-      <v-row>
-        <v-col cols="12" sm="6">
-          <v-card class="type-card h-100" @click="selectedType = 'new'">
-            <div class="type-accent bg-hc-user" />
-            <v-card-text class="pa-5 text-center">
-              <div
-                class="type-icon mx-auto mb-3"
-                style="background: rgba(var(--v-theme-hc-user), 0.1)"
-              >
-                <v-icon icon="fas fa-file-shield" color="hc-user" size="28" />
-              </div>
-              <h3 class="text-body-1 font-weight-bold mb-2">
-                ขอใบรับรองสุขอนามัยพืช
-              </h3>
-              <p class="text-body-2 text-medium-emphasis mb-3">
-                สำหรับพืชควบคุมเฉพาะเพื่อการส่งออก
-              </p>
-              <v-btn color="hc-user" block size="small">เลือก</v-btn>
-            </v-card-text>
-          </v-card>
-        </v-col>
-        <v-col cols="12" sm="6">
-          <v-card class="type-card h-100" @click="selectedType = 'correction'">
-            <div class="type-accent bg-secondary" />
-            <v-card-text class="pa-5 text-center">
-              <div
-                class="type-icon mx-auto mb-3"
-                style="background: rgba(var(--v-theme-secondary), 0.1)"
-              >
-                <v-icon icon="fas fa-file-pen" color="secondary" size="28" />
-              </div>
-              <h3 class="text-body-1 font-weight-bold mb-2">ขอแก้ไขใบรับรอง</h3>
-              <p class="text-body-2 text-medium-emphasis mb-3">
-                แก้ไขข้อมูลในใบรับรองที่ออกแล้ว
-              </p>
-              <v-btn color="secondary" block size="small">เลือก</v-btn>
-            </v-card-text>
-          </v-card>
-        </v-col>
-      </v-row>
-    </div>
-
     <!-- Form Steps -->
-    <template v-else>
+    <template>
       <!-- Step Indicator -->
       <v-card class="mb-5">
         <v-card-text class="pa-5">
@@ -537,7 +492,7 @@
             variant="tonal"
             color="grey"
             size="large"
-            @click="selectedType = null"
+            @click="router.push('/hc/user/applications/new')"
           >
             เปลี่ยนประเภท
           </v-btn>
@@ -607,7 +562,6 @@ import { useRouter } from "vue-router";
 
 const router = useRouter();
 
-const selectedType = ref<"new" | "correction" | null>(null);
 const currentStep = ref(0);
 const submitting = ref(false);
 const successDialog = ref(false);

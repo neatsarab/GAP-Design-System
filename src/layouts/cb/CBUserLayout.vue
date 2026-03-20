@@ -17,11 +17,11 @@
       <div v-if="!rail" class="px-4 mb-2">
         <div class="user-card rounded-lg pa-3 d-flex align-center ga-2">
           <v-avatar color="cb-user" size="32" variant="tonal">
-            <v-icon icon="fas fa-building-columns" size="16" color="cb-user" />
+            <v-icon :icon="sessionStore.entityIcon" size="16" color="cb-user" />
           </v-avatar>
           <div class="flex-grow-1 overflow-hidden">
-            <div class="text-truncate text-body-2 font-weight-medium text-cb-user">บ.ไทยเซอร์ติฟาย จก.</div>
-            <div class="text-caption text-medium-emphasis">เลขนิติบุคคล : 1100090000077</div>
+            <div class="text-truncate text-body-2 font-weight-medium text-cb-user">{{ sessionStore.displayName }}</div>
+            <div class="text-caption text-medium-emphasis">{{ sessionStore.entityLabel }}</div>
           </div>
         </div>
       </div>
@@ -94,8 +94,10 @@
 import { ref, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useThemeStore } from "@/stores/theme.store";
+import { useSessionStore } from "@/stores/session.store";
 
 const themeStore = useThemeStore();
+const sessionStore = useSessionStore();
 const isDark = computed(() => themeStore.isDark);
 function toggleTheme() { themeStore.toggle(); }
 

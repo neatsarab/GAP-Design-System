@@ -4,11 +4,8 @@
     <div class="d-flex align-center justify-space-between mb-5 flex-wrap ga-3">
       <div>
         <h1 class="page-title mb-1">{{ pageTitle }}</h1>
-        <p class="text-body-2 text-medium-emphasis mb-0">จัดการคำขอรับรองมาตรฐาน GAP แบบเดี่ยว</p>
+        <p class="text-body-2 text-medium-emphasis mb-0">จัดการคำขอรับรองมาตรฐาน GAP ทั้งแบบเดี่ยวและแบบกลุ่ม</p>
       </div>
-      <v-btn color="gap-staff" prepend-icon="fas fa-file-pen" @click="router.push('/gap/staff/applications/new')">
-        ยื่นคำขอรับรองใหม่
-      </v-btn>
     </div>
 
     <!-- Filters -->
@@ -210,16 +207,20 @@ interface ApplicationRow {
 }
 
 const allApplications: ApplicationRow[] = [
-  { id: 'APP-001', requestNo: 'GAP-2568-00041', farmerName: 'นายสมชาย ใจดี',       certType: 'มกษ. 9001', type: 'individual', submittedAt: '15 ม.ค. 68', status: 'reviewing',    crop: 'มะม่วง',     province: 'เชียงใหม่' },
-  { id: 'APP-002', requestNo: 'GAP-2568-00039', farmerName: 'น.ส.วิไล สุขใส',       certType: 'มกษ. 9001', type: 'individual', submittedAt: '13 ม.ค. 68', status: 'scheduling',   crop: 'ข้าวโพดหวาน', province: 'เพชรบูรณ์' },
-  { id: 'APP-003', requestNo: 'GAP-2568-00036', farmerName: 'นายประสิทธิ์ มั่นคง', certType: 'มกษ. 9001', type: 'individual', submittedAt: '10 ม.ค. 68', status: 'pending_cc',   crop: 'กล้วยหอม',   province: 'นครปฐม'   },
-  { id: 'APP-004', requestNo: 'GAP-2568-00034', farmerName: 'น.ส.มาลี รุ่งเรือง',  certType: 'มกษ. 3502', type: 'individual', submittedAt: '8 ม.ค. 68',  status: 'cc_reviewing', crop: 'ลำไย',        province: 'เชียงราย' },
-  { id: 'APP-005', requestNo: 'GAP-2568-00042', farmerName: 'นายอำนาจ วีระชัย',    certType: 'มกษ. 9001', type: 'individual', submittedAt: '15 ม.ค. 68', status: 'reviewing',    crop: 'พริก',        province: 'สระแก้ว'  },
-  { id: 'APP-006', requestNo: 'GAP-2568-00040', farmerName: 'นายชัยพร ดีงาม',       certType: 'มกษ. 9001', type: 'individual', submittedAt: '14 ม.ค. 68', status: 'inspecting',   crop: 'ส้มโอ',       province: 'นครศรีธรรมราช' },
-  { id: 'APP-007', requestNo: 'GAP-2568-00038', farmerName: 'น.ส.รัตนา พงศ์ไพร',   certType: 'มกษ. 9001', type: 'individual', submittedAt: '12 ม.ค. 68', status: 'inspected',    crop: 'กระเทียม',   province: 'เชียงใหม่' },
-  { id: 'APP-008', requestNo: 'GAP-2568-00035', farmerName: 'นายสุรชัย แสงทอง',    certType: 'มกษ. 9001', type: 'individual', submittedAt: '9 ม.ค. 68',  status: 'approved',     crop: 'ฝรั่ง',       province: 'กาญจนบุรี' },
-  { id: 'APP-009', requestNo: 'GAP-2568-00033', farmerName: 'นายพิชัย ชมพู',        certType: 'มกษ. 9001', type: 'individual', submittedAt: '7 ม.ค. 68',  status: 'cert_issued',  crop: 'มะนาว',       province: 'นครปฐม'   },
-  { id: 'APP-010', requestNo: 'GAP-2568-00030', farmerName: 'น.ส.ศิริพร เกษตรดี',  certType: 'มกษ. 3502', type: 'individual', submittedAt: '3 ม.ค. 68',  status: 'rejected',     crop: 'ขมิ้น',       province: 'สุราษฎร์ธานี' },
+  { id: 'APP-001', requestNo: 'GAP-2568-00041',     farmerName: 'นายสมชาย ใจดี',                         certType: 'มกษ. 9001', type: 'individual', submittedAt: '15 ม.ค. 68', status: 'reviewing',    crop: 'มะม่วง',      province: 'เชียงใหม่'       },
+  { id: 'APP-002', requestNo: 'GAP-2568-00039',     farmerName: 'น.ส.วิไล สุขใส',                        certType: 'มกษ. 9001', type: 'individual', submittedAt: '13 ม.ค. 68', status: 'scheduling',   crop: 'ข้าวโพดหวาน', province: 'เพชรบูรณ์'       },
+  { id: 'APP-003', requestNo: 'GAP-2568-00036',     farmerName: 'นายประสิทธิ์ มั่นคง',                   certType: 'มกษ. 9001', type: 'individual', submittedAt: '10 ม.ค. 68', status: 'pending_cc',   crop: 'กล้วยหอม',   province: 'นครปฐม'          },
+  { id: 'APP-004', requestNo: 'GAP-2568-00034',     farmerName: 'น.ส.มาลี รุ่งเรือง',                    certType: 'มกษ. 3502', type: 'individual', submittedAt: '8 ม.ค. 68',  status: 'cc_reviewing', crop: 'ลำไย',        province: 'เชียงราย'        },
+  { id: 'APP-005', requestNo: 'GAP-2568-00042',     farmerName: 'นายอำนาจ วีระชัย',                      certType: 'มกษ. 9001', type: 'individual', submittedAt: '15 ม.ค. 68', status: 'reviewing',    crop: 'พริก',        province: 'สระแก้ว'         },
+  { id: 'APP-006', requestNo: 'GAP-2568-00040',     farmerName: 'นายชัยพร ดีงาม',                        certType: 'มกษ. 9001', type: 'individual', submittedAt: '14 ม.ค. 68', status: 'inspecting',   crop: 'ส้มโอ',       province: 'นครศรีธรรมราช'  },
+  { id: 'APP-007', requestNo: 'GAP-2568-00038',     farmerName: 'น.ส.รัตนา พงศ์ไพร',                    certType: 'มกษ. 9001', type: 'individual', submittedAt: '12 ม.ค. 68', status: 'inspected',    crop: 'กระเทียม',   province: 'เชียงใหม่'       },
+  { id: 'APP-008', requestNo: 'GAP-2568-00035',     farmerName: 'นายสุรชัย แสงทอง',                      certType: 'มกษ. 9001', type: 'individual', submittedAt: '9 ม.ค. 68',  status: 'approved',     crop: 'ฝรั่ง',       province: 'กาญจนบุรี'       },
+  { id: 'APP-009', requestNo: 'GAP-2568-00033',     farmerName: 'นายพิชัย ชมพู',                         certType: 'มกษ. 9001', type: 'individual', submittedAt: '7 ม.ค. 68',  status: 'cert_issued',  crop: 'มะนาว',       province: 'นครปฐม'          },
+  { id: 'APP-010', requestNo: 'GAP-2568-00030',     farmerName: 'น.ส.ศิริพร เกษตรดี',                    certType: 'มกษ. 3502', type: 'individual', submittedAt: '3 ม.ค. 68',  status: 'rejected',     crop: 'ขมิ้น',       province: 'สุราษฎร์ธานี'    },
+  { id: 'GRP-001', requestNo: 'GAP-GRP-2568-00005', farmerName: 'กลุ่มเกษตรกรผู้ปลูกมะม่วงบ้านดอนแก้ว', certType: 'มกษ. 9001', type: 'group',      submittedAt: '10 ม.ค. 68', status: 'scheduling',   crop: 'มะม่วง',      province: 'เชียงใหม่'       },
+  { id: 'GRP-002', requestNo: 'GAP-GRP-2568-00004', farmerName: 'สหกรณ์การเกษตรกลุ่มลำไยเชียงราย',       certType: 'มกษ. 9001', type: 'group',      submittedAt: '5 ม.ค. 68',  status: 'pending_cc',   crop: 'ลำไย',        province: 'เชียงราย'        },
+  { id: 'GRP-003', requestNo: 'GAP-GRP-2568-00003', farmerName: 'กลุ่มเกษตรกรพริกเกษตรอินทรีย์สระแก้ว', certType: 'มกษ. 3502', type: 'group',      submittedAt: '2 ม.ค. 68',  status: 'approved',     crop: 'พริก',        province: 'สระแก้ว'         },
+  { id: 'GRP-004', requestNo: 'GAP-GRP-2568-00002', farmerName: 'กลุ่มผู้ปลูกข้าวโพดเพชรบูรณ์',          certType: 'มกษ. 9001', type: 'group',      submittedAt: '28 ธ.ค. 67', status: 'reviewing',    crop: 'ข้าวโพดหวาน', province: 'เพชรบูรณ์'       },
 ]
 
 const filteredItems = computed(() => {

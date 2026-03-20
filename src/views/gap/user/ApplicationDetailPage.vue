@@ -173,48 +173,6 @@
 
       <!-- Sidebar: Timeline + Actions -->
       <v-col cols="12" md="4">
-        <!-- Status Action Card -->
-        <v-card class="mb-4">
-          <div class="d-flex align-center ga-2 px-4 py-3 border-b">
-            <v-icon icon="fas fa-bolt" color="gap-user" size="15" />
-            <span class="text-subtitle-2 font-weight-bold">การดำเนินการ</span>
-          </div>
-          <v-card-text class="pa-4 d-flex flex-column ga-2">
-            <v-btn
-              color="gap-user"
-              block
-              prepend-icon="fas fa-calendar-check"
-              variant="tonal"
-            >
-              นัดตรวจแปลง
-            </v-btn>
-            <v-btn
-              color="success"
-              block
-              prepend-icon="fas fa-circle-check"
-              variant="tonal"
-            >
-              อนุมัติคำขอ
-            </v-btn>
-            <v-btn
-              color="error"
-              block
-              prepend-icon="fas fa-circle-xmark"
-              variant="tonal"
-            >
-              ไม่ผ่านการรับรอง
-            </v-btn>
-            <v-btn
-              color="warning"
-              block
-              prepend-icon="fas fa-file-pen"
-              variant="outlined"
-            >
-              ขอเอกสารเพิ่มเติม
-            </v-btn>
-          </v-card-text>
-        </v-card>
-
         <!-- Timeline -->
         <v-card>
           <div class="d-flex align-center ga-2 px-4 py-3 border-b">
@@ -314,8 +272,25 @@ const timelineItems: TimelineItem[] = [
   border-radius: 10px;
   background: rgba(var(--v-theme-surface-variant), 1);
 }
-.info-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
-.info-item { display: flex; flex-direction: column; gap: 2px; }
-.info-label { font-size: 12px; font-weight: 600; color: rgba(var(--v-theme-on-surface), 0.55); text-transform: uppercase; letter-spacing: 0.4px; }
-.info-value { font-size: 14px; color: rgba(var(--v-theme-on-surface), 0.87); }
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+}
+.info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.info-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(var(--v-theme-on-surface), 0.55);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+.info-value {
+  font-size: 14px;
+  color: rgba(var(--v-theme-on-surface), 0.87);
+}
 </style>

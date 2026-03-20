@@ -1,110 +1,33 @@
 <template>
   <div>
-    <!-- Header -->
-    <div class="d-flex align-center justify-space-between mb-6 flex-wrap ga-3">
+    <div class="d-flex align-center justify-space-between flex-wrap ga-3 mb-6">
       <div>
-        <h1 class="page-title mb-1">แดชบอร์ด</h1>
+        <h1 class="page-title mb-1">แดชบอร์ด GAP (เจ้าหน้าที่)</h1>
         <p class="text-body-2 text-medium-emphasis mb-0">
           ภาพรวมระบบการรับรองมาตรฐาน GAP (Good Agricultural Practices)
         </p>
       </div>
-      <v-btn
-        color="gap-staff"
-        prepend-icon="fas fa-file-pen"
-        @click="router.push('/gap/staff/applications/new')"
-      >
-        ยื่นคำขอรับรองใหม่
-      </v-btn>
     </div>
 
     <!-- Stat Cards -->
     <v-row class="mb-6">
       <v-col v-for="stat in stats" :key="stat.label" cols="6" sm="4" md="2">
-        <v-card
-          rounded="xl"
-          elevation="0"
-          class="stat-card h-100"
-          :style="`border-top: 3px solid rgb(var(--v-theme-${stat.color}))`"
-        >
-          <v-card-text class="pa-4">
-            <div class="d-flex align-center justify-space-between mb-2">
-              <div
-                class="stat-icon-box"
-                :style="`background: rgba(var(--v-theme-${stat.color}), 0.12)`"
-              >
-                <v-icon :icon="stat.icon" :color="stat.color" size="18" />
-              </div>
-              <span
-                class="text-h5 font-weight-bold"
-                :class="`text-${stat.color}`"
-                >{{ stat.value }}</span
-              >
-            </div>
-            <p
-              class="text-caption text-medium-emphasis mb-0"
-              style="line-height: 1.4"
-            >
-              {{ stat.label }}
-            </p>
-          </v-card-text>
-        </v-card>
+        <AppStatCard v-bind="stat" />
       </v-col>
     </v-row>
 
     <v-row>
-      <!-- Work Queue -->
-      <v-col cols="12" md="7">
-        <v-card rounded="xl" elevation="0" class="stat-card">
+      <!-- Recent Applications -->
+      <v-col cols="12" md="8">
+        <v-card rounded="xl" elevation="0">
           <v-card-title class="d-flex align-center ga-2 pa-4 pb-3">
-            <v-icon icon="fas fa-list-check" color="gap-staff" size="18" />
-            <span class="text-body-1 font-weight-bold"
-              >งานที่ต้องดำเนินการ</span
-            >
-            <v-chip size="x-small" color="error" variant="flat" class="ml-auto">
-              {{ workQueue.length }} รายการ
-            </v-chip>
-          </v-card-title>
-          <v-divider />
-          <v-list lines="two" class="pa-0">
-            <template v-for="(item, i) in workQueue" :key="item.id">
-              <v-list-item
-                :prepend-icon="item.icon"
-                :active="false"
-                class="queue-item"
-                @click="router.push(`/staff/applications/${item.id}`)"
-              >
-                <template v-slot:prepend>
-                  <div
-                    class="app-icon-box mr-3"
-                    :style="`background:rgba(var(--v-theme-${item.color}),0.12)`"
-                  >
-                    <v-icon :icon="item.icon" :color="item.color" size="16" />
-                  </div>
-                </template>
-                <v-list-item-title class="text-body-2 font-weight-medium">{{
-                  item.title
-                }}</v-list-item-title>
-                <v-list-item-subtitle class="text-caption">{{
-                  item.subtitle
-                }}</v-list-item-subtitle>
-                <template v-slot:append>
-                  <div class="text-right">
-                    <v-chip
-                      size="x-small"
-                      :color="item.color"
-                      variant="tonal"
-                      >{{ item.statusLabel }}</v-chip
-                    >
-                    <div class="text-caption text-medium-emphasis mt-1">
-                      {{ item.date }}
-                    </div>
-                  </div>
-                </template>
-              </v-list-item>
-              <v-divider v-if="i < workQueue.length - 1" />
-            </template>
-          </v-list>
-          <v-card-actions class="pa-3">
+            <v-icon
+              icon="fas fa-clock-rotate-left"
+              color="gap-staff"
+              size="16"
+            />
+            <span class="text-body-1 font-weight-bold">คำขอรอดำเนินการ</span>
+            <v-spacer />
             <v-btn
               variant="text"
               color="gap-staff"
@@ -112,49 +35,71 @@
               append-icon="fas fa-arrow-right"
               @click="router.push('/gap/staff/applications')"
             >
-              ดูรายการทั้งหมด
+              ดูทั้งหมด
             </v-btn>
-          </v-card-actions>
+          </v-card-title>
+          <v-divider />
+          <v-list lines="two" class="pa-0">
+            <template v-for="(app, i) in workQueue" :key="app.id">
+              <v-list-item
+                class="pa-3"
+                @click="router.push(`/gap/staff/applications/${app.id}`)"
+              >
+                <template #prepend>
+                  <v-avatar
+                    :color="app.color"
+                    variant="tonal"
+                    size="40"
+                    rounded="lg"
+                    class="mr-3"
+                  >
+                    <v-icon :icon="app.icon" size="18" />
+                  </v-avatar>
+                </template>
+                <v-list-item-title class="text-body-2 font-weight-medium">{{
+                  app.title
+                }}</v-list-item-title>
+                <v-list-item-subtitle class="text-caption">{{
+                  app.subtitle
+                }}</v-list-item-subtitle>
+                <template #append>
+                  <div class="d-flex flex-column align-end ga-1">
+                    <v-chip :color="app.color" size="x-small" variant="tonal">{{
+                      app.statusLabel
+                    }}</v-chip>
+                    <span class="text-caption text-medium-emphasis">{{
+                      app.date
+                    }}</span>
+                  </div>
+                </template>
+              </v-list-item>
+              <v-divider v-if="i < workQueue.length - 1" />
+            </template>
+          </v-list>
         </v-card>
       </v-col>
 
-      <!-- Right column -->
-      <v-col cols="12" md="5">
-        <!-- Quick Actions -->
-        <v-card rounded="xl" elevation="0" class="stat-card mb-4">
-          <v-card-title class="d-flex align-center ga-2 pa-4 pb-3">
-            <v-icon icon="fas fa-bolt" color="warning" size="18" />
-            <span class="text-body-1 font-weight-bold">ดำเนินการด่วน</span>
-          </v-card-title>
-          <v-divider />
-          <v-list density="compact" nav class="pa-2">
-            <v-list-item
-              v-for="qa in quickActions"
-              :key="qa.label"
-              :prepend-icon="qa.icon"
-              :title="qa.label"
-              rounded="lg"
-              class="mb-1"
-              @click="router.push(qa.to)"
-            >
-              <template v-slot:append>
-                <v-chip
-                  v-if="qa.count"
-                  size="x-small"
-                  :color="qa.color"
-                  variant="flat"
-                  >{{ qa.count }}</v-chip
-                >
-              </template>
-            </v-list-item>
-          </v-list>
-        </v-card>
-
+      <!-- Info Alert + Quick Actions -->
+      <v-col cols="12" md="4">
+        <v-alert
+          color="gap-staff"
+          variant="tonal"
+          rounded="xl"
+          class="mb-4"
+          prepend-icon="fas fa-circle-info"
+        >
+          <div class="text-body-2 font-weight-medium mb-1">
+            สรุปงานที่รอดำเนินการ
+          </div>
+          <div class="text-body-2">
+            มีคำขอรอดำเนินการทั้งหมด 7 รายการ รวมถึงรอนัดตรวจแปลง 5 รายการ
+          </div>
+        </v-alert>
         <!-- Status Summary -->
-        <v-card rounded="xl" elevation="0" class="stat-card">
+        <v-card rounded="xl" elevation="0" class="mt-4">
           <v-card-title class="d-flex align-center ga-2 pa-4 pb-3">
-            <v-icon icon="fas fa-chart-pie" color="info" size="18" />
-            <span class="text-body-1 font-weight-bold">สัดส่วนสถานะคำขอ</span>
+            <v-icon icon="fas fa-chart-pie" color="info" size="16" />
+            <span class="text-body-1 font-weight-bold">สัดส่วนสถานะ</span>
           </v-card-title>
           <v-divider />
           <v-card-text class="pa-4">
@@ -180,50 +125,41 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
 import { useRouter } from "vue-router";
+import AppStatCard from "@/components/common/AppStatCard.vue";
 
 const router = useRouter();
-
-const currentDate = computed(() =>
-  new Date().toLocaleDateString("th-TH", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-    weekday: "long",
-  }),
-);
 
 const stats = [
   {
     label: "คำขอทั้งหมด",
     icon: "fas fa-file-lines",
-    color: "gap-staff",
+    iconColor: "gap-staff",
     value: 48,
   },
   {
     label: "รอตรวจคำขอ",
     icon: "fas fa-magnifying-glass",
-    color: "warning",
+    iconColor: "warning",
     value: 7,
   },
   {
     label: "รอนัดตรวจแปลง",
     icon: "fas fa-calendar-clock",
-    color: "info",
+    iconColor: "info",
     value: 5,
   },
   {
     label: "อยู่ระหว่างตรวจ",
     icon: "fas fa-person-walking",
-    color: "secondary",
+    iconColor: "secondary",
     value: 4,
   },
-  { label: "รอพิจารณา CC", icon: "fas fa-gavel", color: "error", value: 6 },
+  { label: "รอพิจารณา CC", icon: "fas fa-gavel", iconColor: "error", value: 6 },
   {
     label: "ออกใบรับรองแล้ว",
     icon: "fas fa-certificate",
-    color: "success",
+    iconColor: "success",
     value: 26,
   },
 ];
@@ -276,54 +212,11 @@ const workQueue = [
   },
 ];
 
-const quickActions = [
-  {
-    label: "นัดตรวจแปลง (5 รายการ)",
-    icon: "fas fa-calendar-check",
-    color: "info",
-    count: 5,
-    to: "/gap/staff/schedule",
-  },
-  {
-    label: "บันทึกผลตรวจ (4 รายการ)",
-    icon: "fas fa-clipboard-check",
-    color: "secondary",
-    count: 4,
-    to: "/gap/staff/inspection-results",
-  },
-  {
-    label: "เสนอแปลงต่อ CC (3 รายการ)",
-    icon: "fas fa-paper-plane",
-    color: "gap-staff",
-    count: 3,
-    to: "/gap/staff/propose-cc",
-  },
-  {
-    label: "บันทึกผล CC (6 รายการ)",
-    icon: "fas fa-gavel",
-    color: "error",
-    count: 6,
-    to: "/gap/staff/cc-results",
-  },
-];
-
 const statusBars = [
   { label: "ออกใบรับรองแล้ว", value: 26, pct: 54, color: "success" },
-  { label: "รอพิจารณา CC", value: 6, pct: 13, color: "error" },
   { label: "รอตรวจคำขอ", value: 7, pct: 15, color: "warning" },
+  { label: "รอพิจารณา CC", value: 6, pct: 13, color: "error" },
   { label: "รอนัดตรวจแปลง", value: 5, pct: 10, color: "info" },
   { label: "อยู่ระหว่างตรวจ", value: 4, pct: 8, color: "secondary" },
 ];
 </script>
-
-<style scoped>
-.stat-card {
-  transition: transform 0.15s;
-}
-.stat-card:hover {
-  transform: translateY(-2px);
-}
-.queue-item:hover {
-  background: rgba(var(--v-theme-gap-staff), 0.04);
-}
-</style>

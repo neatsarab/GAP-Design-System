@@ -78,6 +78,15 @@
       </v-card-text>
     </v-card>
 
+    <!-- Status tabs -->
+    <v-chip-group v-model="activeTab" class="mb-4" mandatory>
+      <v-chip v-for="tab in statusTabs" :key="tab.value" :value="tab.value" :color="tab.color" variant="tonal" filter size="small">
+        <v-icon start :icon="tab.icon" size="12" />
+        {{ tab.label }}
+        <v-badge v-if="tab.count" :content="tab.count" inline color="error" class="ml-1" />
+      </v-chip>
+    </v-chip-group>
+
     <!-- Table -->
     <v-card rounded="xl" elevation="0" class="data-card">
       <v-data-table
@@ -116,10 +125,11 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, computed } from "vue";
+import { ref, reactive, computed } from "vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
+const activeTab = ref("all");
 
 const filters = reactive({
   dateFrom: "",
@@ -205,8 +215,9 @@ const allItems = [
 
 const filteredItems = computed(() => {
   let items = allItems;
-  if (filters.type) items = items.filter((i) => i.type === filters.type);
-  if (filters.status) items = items.filter((i) => i.status === filters.status);
+  if (filters.type)   items = items.filter(i => i.type   === filters.type);
+  if (filters.status) items = items.filter(i => i.status === filters.status);
+  if (activeTab.value !== "all") items = items.filter(i => i.status === activeTab.value);
   return items;
 });
 
@@ -215,7 +226,17 @@ function clearFilters() {
   filters.dateTo = "";
   filters.type = null;
   filters.status = null;
+  activeTab.value = "all";
 }
+
+const statusTabs = [
+  { label: "ทั้งหมด",       value: "all",       color: "export-staff", icon: "fas fa-list",          count: 0  },
+  { label: "รอตรวจสอบ",     value: "pending",   color: "warning",      icon: "fas fa-clock",         count: 2  },
+  { label: "รอแก้ไขคำขอ",   value: "need_edit", color: "warning",      icon: "fas fa-pen",           count: 1  },
+  { label: "รอพิจารณา",     value: "reviewing", color: "info",         icon: "fas fa-magnifying-glass", count: 1 },
+  { label: "รอลงนาม",       value: "signing",   color: "secondary",    icon: "fas fa-pen-nib",       count: 1  },
+  { label: "ได้รับอนุญาต",  value: "approved",  color: "success",      icon: "fas fa-circle-check",  count: 1  },
+];
 
 function typeLabel(t: string) {
   return (

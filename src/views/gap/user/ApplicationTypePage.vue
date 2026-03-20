@@ -25,15 +25,24 @@
           class="type-card h-100"
           hover
           :ripple="false"
-          @click="router.push(type.route)"
+          :disabled="type.disabled"
+          @click="!type.disabled && router.push(type.route)"
         >
           <v-card-text class="pa-7 d-flex flex-column align-center text-center">
             <!-- Icon -->
             <div
               class="type-icon-box mb-5"
-              :style="`background:rgba(var(--v-theme-${type.color}),0.1)`"
+              :style="
+                type.disabled
+                  ? 'background:rgba(var(--v-border-color),0.08)'
+                  : `background:rgba(var(--v-theme-${type.color}),0.1)`
+              "
             >
-              <v-icon :icon="type.icon" :color="type.color" size="40" />
+              <v-icon
+                :icon="type.icon"
+                :color="type.disabled ? 'medium-emphasis' : type.color"
+                size="40"
+              />
             </div>
 
             <!-- Title & Badge -->
@@ -42,7 +51,7 @@
               <v-chip
                 v-if="type.badge"
                 size="x-small"
-                :color="type.color"
+                :color="type.disabled ? 'grey' : type.color"
                 variant="tonal"
                 >{{ type.badge }}</v-chip
               >
@@ -60,21 +69,28 @@
               <v-list-item
                 v-for="f in type.features"
                 :key="f"
-                :prepend-icon="`fas fa-circle-check`"
+                prepend-icon="fas fa-circle-check"
                 :title="f"
-                :base-color="type.color"
+                :base-color="type.disabled ? 'grey' : type.color"
                 class="px-0"
                 density="compact"
               />
             </v-list>
 
             <v-btn
-              :color="type.color"
+              :color="type.disabled ? 'grey' : type.color"
+              :disabled="type.disabled"
               block
               rounded="lg"
               append-icon="fas fa-arrow-right"
             >
-              เลือกประเภทนี้
+              {{
+                type.disabled
+                  ? sessionStore.isGroupMode
+                    ? "ใช้ได้เฉพาะโหมดเดี่ยว"
+                    : "ต้องเข้าโหมดกลุ่มก่อน"
+                  : "เลือกประเภทนี้"
+              }}
             </v-btn>
           </v-card-text>
         </v-card>
@@ -98,17 +114,21 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from "vue";
 import { useRouter } from "vue-router";
+import { useSessionStore } from "@/stores/session.store";
 
 const router = useRouter();
+const sessionStore = useSessionStore();
 
-const appTypes = [
+const appTypes = computed(() => [
   {
     route: "/gap/user/applications/new/individual",
     title: "คำขอรายเดี่ยว",
     badge: "ทั่วไป",
     icon: "fas fa-user",
     color: "gap-user",
+    disabled: sessionStore.isGroupMode,
     description:
       "สำหรับเกษตรกรรายบุคคลที่ต้องการขอรับรองแหล่งผลิต GAP สำหรับแปลงของตนเอง",
     features: [
@@ -118,11 +138,12 @@ const appTypes = [
     ],
   },
   {
-    route: "/gap/user/applications/new/group",
+    route: "/gap/user/applications/new/group/new",
     title: "คำขอรายกลุ่ม",
     badge: "กลุ่มเกษตรกร",
     icon: "fas fa-users",
     color: "info",
+    disabled: !sessionStore.isGroupMode,
     description:
       "สำหรับกลุ่มเกษตรกร วิสาหกิจชุมชน หรือสหกรณ์ที่ต้องการยื่นคำขอพร้อมกัน",
     features: [
@@ -137,6 +158,7 @@ const appTypes = [
     badge: null,
     icon: "fas fa-file-pen",
     color: "warning",
+    disabled: sessionStore.isGroupMode,
     description:
       "สำหรับผู้ที่ต้องการแก้ไขข้อมูลในใบรับรองที่ออกแล้ว หรือขอยกเลิกใบรับรอง",
     features: [
@@ -145,7 +167,7 @@ const appTypes = [
       "ระบุเหตุผลและแนบเอกสาร",
     ],
   },
-];
+]);
 </script>
 
 <style scoped>
@@ -158,7 +180,7 @@ const appTypes = [
     transform 0.2s ease,
     box-shadow 0.2s ease;
 }
-.type-card:hover {
+.type-card:hover:not(.v-card--disabled) {
   transform: translateY(-4px);
   box-shadow: 0 12px 32px rgba(var(--v-theme-gap-user), 0.1) !important;
 }

@@ -36,16 +36,14 @@
       <div v-if="!rail" class="px-4 mb-2">
         <div class="user-card rounded-lg pa-3 d-flex align-center ga-2">
           <v-avatar color="gap-user" size="32" variant="tonal">
-            <v-icon icon="fas fa-building" size="16" color="gap-user" />
+            <v-icon :icon="sessionStore.entityIcon" size="16" color="gap-user" />
           </v-avatar>
           <div class="flex-grow-1 overflow-hidden">
-            <div
-              class="text-truncate text-body-2 font-weight-medium text-gap-user"
-            >
-              บริษัท ไทยฟรุ๊ต จำกัด
+            <div class="text-truncate text-body-2 font-weight-medium text-gap-user">
+              {{ sessionStore.displayName }}
             </div>
             <div class="text-caption text-medium-emphasis">
-              เลขนิติบุคล : 1100090000001
+              {{ sessionStore.entityLabel }}
             </div>
           </div>
         </div>
@@ -195,6 +193,7 @@
 import { ref, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useThemeStore } from "@/stores/theme.store";
+import { useSessionStore } from "@/stores/session.store";
 
 const themeStore = useThemeStore();
 const isDark = computed(() => themeStore.isDark);
@@ -207,42 +206,95 @@ const drawer = ref(true);
 const rail = ref(false);
 const route = useRoute();
 const logoutDialog = ref(false);
+const sessionStore = useSessionStore();
 
 function doLogout() {
   logoutDialog.value = false;
   router.push("/login");
 }
 
-const navGroups = [
-  {
-    label: "ภาพรวม",
-    divider: true,
-    items: [
-      { title: "แดชบอร์ด", icon: "fas fa-gauge", to: "/gap/user/dashboard" },
-    ],
-  },
-  {
-    label: "คำขอ GAP",
-    divider: true,
-    items: [
+const navGroups = computed(() => {
+  if (sessionStore.isGroupMode) {
+    return [
       {
-        title: "ยื่นคำขอใหม่",
-        icon: "fas fa-file-pen",
-        to: "/gap/user/applications/new",
+        label: "ภาพรวม",
+        divider: true,
+        items: [
+          {
+            title: "แดชบอร์ด",
+            icon: "fas fa-gauge",
+            to: "/gap/user/dashboard",
+          },
+        ],
       },
       {
-        title: "รายการคำขอ",
-        icon: "fas fa-file-lines",
-        to: "/gap/user/applications",
+        label: "คำขอ GAP (กลุ่ม)",
+        divider: true,
+        items: [
+          {
+            title: "ยื่นคำขอ",
+            icon: "fas fa-file-pen",
+            to: "/gap/user/applications/new",
+          },
+        ],
       },
-    ],
-  },
-];
+      {
+        label: "ใบทะเบียน",
+        divider: false,
+        items: [
+          {
+            title: "ใบรับรอง GAP",
+            icon: "fas fa-certificate",
+            to: "/gap/user/certificates",
+          },
+        ],
+      },
+    ];
+  }
+  return [
+    {
+      label: "ภาพรวม",
+      divider: true,
+      items: [
+        { title: "แดชบอร์ด", icon: "fas fa-gauge", to: "/gap/user/dashboard" },
+      ],
+    },
+    {
+      label: "คำขอ GAP",
+      divider: true,
+      items: [
+        {
+          title: "ยื่นคำขอใหม่",
+          icon: "fas fa-file-pen",
+          to: "/gap/user/applications/new",
+        },
+        {
+          title: "รายการคำขอ",
+          icon: "fas fa-file-lines",
+          to: "/gap/user/applications",
+        },
+      ],
+    },
+    {
+      label: "ใบรับรอง",
+      divider: false,
+      items: [
+        {
+          title: "ใบรับรอง GAP",
+          icon: "fas fa-certificate",
+          to: "/gap/user/certificates",
+        },
+      ],
+    },
+  ];
+});
 
 const routeTitleMap: Record<string, string> = {
   "/gap/user/dashboard": "แดชบอร์ด",
   "/gap/user/applications": "รายการคำขอ",
   "/gap/user/applications/new": "ยื่นคำขอใหม่",
+  "/gap/user/applications/new/group/new": "ยื่นคำขอแบบกลุ่ม",
+  "/gap/user/certificates": "ใบรับรอง GAP",
 };
 
 const breadcrumbs = computed(() => {

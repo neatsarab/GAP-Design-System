@@ -13,7 +13,7 @@
     <!-- Stats -->
     <v-row class="mb-5">
       <v-col v-for="s in certStats" :key="s.label" cols="6" sm="3">
-        <v-card>
+        <v-card rounded="xl" elevation="0">
           <v-card-text class="pa-4 d-flex align-center ga-3">
             <div class="cert-stat-icon" :style="`background:rgba(var(--v-theme-${s.color}),0.12)`">
               <v-icon :icon="s.icon" :color="s.color" size="20" />
@@ -28,24 +28,46 @@
     </v-row>
 
     <!-- Filter -->
-    <v-card class="mb-4">
+    <v-card rounded="xl" elevation="0" class="mb-4 filter-card">
       <v-card-text class="pa-4">
-        <v-row dense>
-          <v-col cols="12" sm="4">
-            <v-text-field v-model="search" label="ค้นหาเลขที่ใบรับรอง / ชื่อ" prepend-inner-icon="fas fa-search" clearable hide-details />
+        <v-row dense align="center">
+          <v-col cols="12" sm="5">
+            <div class="field-label"><div>ค้นหา</div><div class="field-label-en">Search</div></div>
+            <v-text-field v-model="search" placeholder="ค้นหาเลขที่ใบรับรอง / ชื่อ" prepend-inner-icon="fas fa-search" variant="outlined" density="compact" rounded="lg" hide-details clearable />
           </v-col>
-          <v-col cols="6" sm="2">
-            <v-autocomplete v-model="filterStatus" label="สถานะ" :items="['มีผล', 'ใกล้หมดอายุ', 'หมดอายุ']" clearable hide-details />
+          <v-col cols="6" sm="3">
+            <div class="field-label"><div>ประเภทใบรับรอง</div><div class="field-label-en">Certificate Type</div></div>
+            <v-autocomplete v-model="filterCert" :items="['มกษ. 9001', 'มกษ. 3502']" placeholder="ทั้งหมด" variant="outlined" density="compact" rounded="lg" hide-details clearable />
           </v-col>
-          <v-col cols="6" sm="2">
-            <v-autocomplete v-model="filterCert" label="ประเภทใบรับรอง" :items="['มกษ. 9001', 'มกษ. 3502']" clearable hide-details />
+          <v-col cols="auto" class="ml-auto d-flex align-self-end">
+            <v-btn variant="tonal" color="grey" size="small" prepend-icon="fas fa-rotate-left" @click="clearFilters">ล้างตัวกรอง</v-btn>
           </v-col>
         </v-row>
       </v-card-text>
     </v-card>
 
+    <!-- Chip tabs -->
+    <v-chip-group v-model="filterStatus" class="mb-4" mandatory>
+      <v-chip value="all" color="gap-staff" variant="tonal" filter size="small">
+        <v-icon start icon="fas fa-list" size="12" /> ทั้งหมด
+        <v-badge :content="certificates.length" inline color="gap-staff" class="ml-1" />
+      </v-chip>
+      <v-chip value="มีผล" color="success" variant="tonal" filter size="small">
+        <v-icon start icon="fas fa-circle-check" size="12" /> มีผล
+        <v-badge :content="countByStatus('มีผล')" inline color="success" class="ml-1" />
+      </v-chip>
+      <v-chip value="ใกล้หมดอายุ" color="warning" variant="tonal" filter size="small">
+        <v-icon start icon="fas fa-clock" size="12" /> ใกล้หมดอายุ
+        <v-badge :content="countByStatus('ใกล้หมดอายุ')" inline color="warning" class="ml-1" />
+      </v-chip>
+      <v-chip value="หมดอายุ" color="error" variant="tonal" filter size="small">
+        <v-icon start icon="fas fa-circle-xmark" size="12" /> หมดอายุ
+        <v-badge :content="countByStatus('หมดอายุ')" inline color="error" class="ml-1" />
+      </v-chip>
+    </v-chip-group>
+
     <!-- Table -->
-    <v-card>
+    <v-card rounded="xl" elevation="0" class="data-card">
       <v-data-table :headers="headers" :items="filteredCerts" :search="search" hover>
         <template #item.certNo="{ item }">
           <span class="text-body-2 font-weight-medium text-primary">{{ item.certNo }}</span>
@@ -58,8 +80,7 @@
         <template #item.actions="{ item }">
           <div class="d-flex ga-1">
             <v-btn size="small" variant="text" color="gap-staff" icon="fas fa-eye" />
-            <v-btn size="small" variant="text" color="success" icon="fas fa-download" />
-            <v-btn size="small" variant="text" color="warning" icon="fas fa-print" />
+            <v-btn size="small" variant="text" color="success" icon="fas fa-download" :disabled="item.status === 'หมดอายุ'" />
           </div>
         </template>
       </v-data-table>
@@ -71,15 +92,8 @@
 import { ref, computed } from 'vue'
 
 const search       = ref('')
-const filterStatus = ref<string | null>(null)
+const filterStatus = ref<string>('all')
 const filterCert   = ref<string | null>(null)
-
-const certStats = [
-  { label: 'ใบรับรองทั้งหมด',   icon: 'fas fa-certificate',          color: 'primary',  value: 42 },
-  { label: 'มีผล',               icon: 'fas fa-circle-check',         color: 'success',  value: 35 },
-  { label: 'ใกล้หมดอายุ (30 วัน)', icon: 'fas fa-triangle-exclamation', color: 'warning',  value: 4  },
-  { label: 'หมดอายุ',            icon: 'fas fa-clock',                color: 'error',    value: 3  },
-]
 
 const certificates = [
   { certNo: 'GAP-CERT-2568-0035', farmerName: 'นายสมชาย ใจดี',       crop: 'มะม่วง',     area: 12, province: 'เชียงใหม่',    certType: 'มกษ. 9001', issuedDate: '20 พ.ย. 67', expiryDate: '19 พ.ย. 68', status: 'มีผล' },
@@ -91,10 +105,27 @@ const certificates = [
   { certNo: 'GAP-CERT-2568-0031', farmerName: 'นายชัยพร ดีงาม',      crop: 'ส้มโอ',       area: 15, province: 'นครศรีธรรมราช', certType: 'มกษ. 9001', issuedDate: '8 พ.ย. 67',  expiryDate: '7 ก.พ. 68',  status: 'ใกล้หมดอายุ' },
 ]
 
+function countByStatus(s: string) {
+  return certificates.filter(i => i.status === s).length
+}
+
+const certStats = [
+  { label: 'ทั้งหมด',      icon: 'fas fa-certificate',  color: 'gap-staff', value: certificates.length },
+  { label: 'มีผล',          icon: 'fas fa-circle-check', color: 'success',   value: countByStatus('มีผล') },
+  { label: 'ใกล้หมดอายุ',  icon: 'fas fa-clock',        color: 'warning',   value: countByStatus('ใกล้หมดอายุ') },
+  { label: 'หมดอายุ',       icon: 'fas fa-circle-xmark', color: 'error',     value: countByStatus('หมดอายุ') },
+]
+
+function clearFilters() {
+  search.value = ''
+  filterCert.value = null
+  filterStatus.value = 'all'
+}
+
 const filteredCerts = computed(() => {
   let items = certificates
-  if (filterStatus.value) items = items.filter(i => i.status === filterStatus.value)
-  if (filterCert.value)   items = items.filter(i => i.certType === filterCert.value)
+  if (filterStatus.value && filterStatus.value !== 'all') items = items.filter(i => i.status === filterStatus.value)
+  if (filterCert.value) items = items.filter(i => i.certType === filterCert.value)
   return items
 })
 
