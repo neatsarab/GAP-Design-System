@@ -209,7 +209,7 @@
 
             <v-form ref="formRef" @submit.prevent="doLogin">
               <div class="field-label">
-                ชื่อผู้ใช้งาน<span class="req">*</span>
+                ชื่อผู้ใช้งาน <span class="req">*</span>
                 <div class="field-label-en">Username</div>
               </div>
               <v-text-field
@@ -224,7 +224,7 @@
                 class="mb-4"
               />
               <div class="field-label">
-                รหัสผ่าน<span class="req">*</span>
+                รหัสผ่าน <span class="req">*</span>
                 <div class="field-label-en">Password</div>
               </div>
               <v-text-field
@@ -309,7 +309,7 @@
 
             <v-form ref="staffFormRef" @submit.prevent="doStaffLogin">
               <div class="field-label">
-                ชื่อผู้ใช้งาน<span class="req">*</span>
+                ชื่อผู้ใช้งาน <span class="req">*</span>
                 <div class="field-label-en">Username</div>
               </div>
               <v-text-field
@@ -746,7 +746,6 @@ function doSsoLogin() {
   font-size: 11px;
   font-weight: 400;
   color: rgba(var(--v-theme-on-surface), 0.4);
-  margin-left: 4px;
 }
 .req {
   color: rgb(var(--v-theme-error));

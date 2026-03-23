@@ -185,7 +185,7 @@
             <v-row dense>
               <v-col cols="12" sm="4">
                 <div class="field-label">
-                  คำนำหน้า<span class="req">*</span>
+                  คำนำหน้า <span class="req">*</span>
                   <div class="field-label-en">Title</div>
                 </div>
                 <v-autocomplete
@@ -202,8 +202,7 @@
               </v-col>
               <v-col cols="12" sm="8">
                 <div class="field-label">
-                  เลขบัตรประชาชน
-                  <span class="req">*</span>
+                  เลขบัตรประชาชน <span class="req">*</span>
                   <div class="field-label-en">National ID No.</div>
                 </div>
                 <v-text-field
@@ -220,7 +219,7 @@
               </v-col>
               <v-col cols="6">
                 <div class="field-label mt-3">
-                  ชื่อ<span class="req">*</span>
+                  ชื่อ <span class="req">*</span>
                   <div class="field-label-en">First Name</div>
                 </div>
                 <v-text-field
@@ -236,8 +235,7 @@
               </v-col>
               <v-col cols="6">
                 <div class="field-label mt-3">
-                  นามสกุล
-                  <span class="req">*</span>
+                  นามสกุล <span class="req">*</span>
                   <div class="field-label-en">Last Name</div>
                 </div>
                 <v-text-field
@@ -261,8 +259,7 @@
             <v-row dense>
               <v-col cols="12" sm="6">
                 <div class="field-label">
-                  อีเมล
-                  <span class="req">*</span>
+                  อีเมล <span class="req">*</span>
                   <div class="field-label-en">Email</div>
                 </div>
                 <v-text-field
@@ -278,8 +275,7 @@
               </v-col>
               <v-col cols="12" sm="6">
                 <div class="field-label">
-                  เบอร์โทรศัพท์
-                  <span class="req">*</span>
+                  เบอร์โทรศัพท์ <span class="req">*</span>
                   <div class="field-label-en">Phone Number</div>
                 </div>
                 <v-text-field
@@ -295,8 +291,7 @@
               </v-col>
               <v-col cols="12">
                 <div class="field-label mt-3">
-                  ที่อยู่
-                  <span class="req">*</span>
+                  ที่อยู่ <span class="req">*</span>
                   <div class="field-label-en">Address</div>
                 </div>
                 <v-text-field
@@ -311,8 +306,7 @@
               </v-col>
               <v-col cols="12" sm="6">
                 <div class="field-label mt-3">
-                  จังหวัด
-                  <span class="req">*</span>
+                  จังหวัด <span class="req">*</span>
                   <div class="field-label-en">Province</div>
                 </div>
                 <v-autocomplete
@@ -327,8 +321,7 @@
               </v-col>
               <v-col cols="12" sm="6">
                 <div class="field-label mt-3">
-                  รหัสไปรษณีย์
-                  <span class="req">*</span>
+                  รหัสไปรษณีย์ <span class="req">*</span>
                   <div class="field-label-en">Postal Code</div>
                 </div>
                 <v-text-field
@@ -351,8 +344,7 @@
             <v-row dense>
               <v-col cols="12">
                 <div class="field-label">
-                  สำเนาบัตรประชาชน
-                  <span class="req">*</span>
+                  สำเนาบัตรประชาชน <span class="req">*</span>
                   <div class="field-label-en">ID Card Copy</div>
                 </div>
                 <v-file-input

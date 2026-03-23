@@ -73,7 +73,7 @@
               <v-row dense>
                 <v-col cols="12" sm="6">
                   <div class="field-label mb-1">
-                    ชื่อ-นามสกุล<span class="req">*</span>
+                    ชื่อ-นามสกุล <span class="req">*</span>
                     <span class="field-label-en">Full Name</span>
                   </div>
                   <v-text-field
@@ -87,7 +87,7 @@
                 </v-col>
                 <v-col cols="12" sm="6">
                   <div class="field-label mb-1">
-                    เลขบัตรประชาชน<span class="req">*</span>
+                    เลขบัตรประชาชน <span class="req">*</span>
                     <span class="field-label-en">National ID</span>
                   </div>
                   <v-text-field
@@ -101,7 +101,7 @@
                 </v-col>
                 <v-col cols="12" sm="6">
                   <div class="field-label mb-1 mt-3">
-                    เบอร์โทรศัพท์<span class="req">*</span>
+                    เบอร์โทรศัพท์ <span class="req">*</span>
                     <span class="field-label-en">Phone</span>
                   </div>
                   <v-text-field
@@ -130,7 +130,7 @@
                 </v-col>
                 <v-col cols="12">
                   <div class="field-label mb-1 mt-3">
-                    ที่อยู่<span class="req">*</span>
+                    ที่อยู่ <span class="req">*</span>
                     <span class="field-label-en">Address</span>
                   </div>
                   <v-text-field
@@ -144,7 +144,7 @@
                 </v-col>
                 <v-col cols="12" sm="4">
                   <div class="field-label mb-1 mt-3">
-                    ตำบล<span class="req">*</span>
+                    ตำบล <span class="req">*</span>
                   </div>
                   <v-text-field
                     v-model="form.subdistrict"
@@ -156,7 +156,7 @@
                 </v-col>
                 <v-col cols="12" sm="4">
                   <div class="field-label mb-1 mt-3">
-                    อำเภอ<span class="req">*</span>
+                    อำเภอ <span class="req">*</span>
                   </div>
                   <v-text-field
                     v-model="form.district"
@@ -168,7 +168,7 @@
                 </v-col>
                 <v-col cols="12" sm="4">
                   <div class="field-label mb-1 mt-3">
-                    จังหวัด<span class="req">*</span>
+                    จังหวัด <span class="req">*</span>
                   </div>
                   <v-autocomplete
                     v-model="form.province"
@@ -195,7 +195,7 @@
               <v-row dense>
                 <v-col cols="12" sm="6">
                   <div class="field-label mb-1">
-                    ชนิดพืช<span class="req">*</span>
+                    ชนิดพืช <span class="req">*</span>
                     <span class="field-label-en">Crop Type</span>
                   </div>
                   <v-text-field
@@ -209,7 +209,7 @@
                 </v-col>
                 <v-col cols="12" sm="6">
                   <div class="field-label mb-1">
-                    มาตรฐานที่ขอ<span class="req">*</span>
+                    มาตรฐานที่ขอ <span class="req">*</span>
                     <span class="field-label-en">Standard</span>
                   </div>
                   <v-select
@@ -223,7 +223,7 @@
                 </v-col>
                 <v-col cols="12" sm="6">
                   <div class="field-label mb-1 mt-3">
-                    จำนวนแปลง<span class="req">*</span>
+                    จำนวนแปลง <span class="req">*</span>
                     <span class="field-label-en">No. of Plots</span>
                   </div>
                   <v-text-field
@@ -238,7 +238,7 @@
                 </v-col>
                 <v-col cols="12" sm="6">
                   <div class="field-label mb-1 mt-3">
-                    พื้นที่รวม (ไร่)<span class="req">*</span>
+                    พื้นที่รวม (ไร่) <span class="req">*</span>
                     <span class="field-label-en">Total Area</span>
                   </div>
                   <v-text-field
@@ -253,7 +253,7 @@
                 </v-col>
                 <v-col cols="12">
                   <div class="field-label mb-1 mt-3">
-                    ที่ตั้งแปลง<span class="req">*</span>
+                    ที่ตั้งแปลง <span class="req">*</span>
                     <span class="field-label-en">Plot Location</span>
                   </div>
                   <v-text-field

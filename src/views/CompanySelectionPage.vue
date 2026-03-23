@@ -109,9 +109,7 @@
                   >บุคคลธรรมดา</v-chip
                 >
               </div>
-              <div class="text-caption text-medium-emphasis">
-                เลขบัตรประชาชน: 3 1001 00123 45 6
-              </div>
+              <span class="detail-pill">เลขบัตรประชาชน: 3 1001 00123 45 6</span>
             </div>
 
             <!-- Right -->
@@ -214,7 +212,7 @@
               </div>
               <div class="d-flex align-center ga-2 mt-1 flex-wrap">
                 <span class="detail-pill"
-                  >เลขผู้เสียภาษี: {{ company.taxId }}</span
+                  >เลขทะเบียนนิติบุคคล: {{ company.taxId }}</span
                 >
                 <!-- <span v-if="!company.isOwner" class="detail-pill"
                   >มอบอำนาจถึง
@@ -361,7 +359,6 @@
                 {{ group.nameEn }}
               </div>
               <div class="d-flex align-center ga-2 mt-1 flex-wrap">
-                <span class="detail-pill">เลขทะเบียน: {{ group.regNo }}</span>
                 <span class="detail-pill"
                   >สมาชิก {{ group.memberCount }} ราย</span
                 >
@@ -558,8 +555,7 @@
             </v-col>
             <v-col cols="12" sm="6">
               <div class="field-label mt-3">
-                อีเมล <span class="field-label-en">Email</span>
-                <span class="req">*</span>
+                อีเมล <span class="req">*</span> <span class="field-label-en">Email</span>
               </div>
               <v-text-field
                 v-model="personalForm.email"
@@ -573,8 +569,7 @@
             </v-col>
             <v-col cols="12" sm="6">
               <div class="field-label mt-3">
-                เบอร์โทรศัพท์ <span class="field-label-en">Phone Number</span>
-                <span class="req">*</span>
+                เบอร์โทรศัพท์ <span class="req">*</span> <span class="field-label-en">Phone Number</span>
               </div>
               <v-text-field
                 v-model="personalForm.phone"
@@ -592,9 +587,8 @@
 
           <!-- เลือกระบบ -->
           <div class="field-label mb-2">
-            ระบบที่ต้องการขอใช้งาน
+            ระบบที่ต้องการขอใช้งาน <span class="req">*</span>
             <span class="field-label-en">Requested Systems</span>
-            <span class="req">*</span>
           </div>
           <div class="sys-checkbox-list">
             <v-checkbox
@@ -750,7 +744,7 @@
       </v-card-title>
 
       <!-- Step indicator -->
-      <div class="dialog-step-bar px-6 pb-4">
+      <div class="dialog-step-bar dialog-step-bar--info px-6 pb-4">
         <div
           class="dialog-step-item"
           :class="juristicStep >= 1 ? 'dialog-step-item--active' : ''"
@@ -790,11 +784,23 @@
       <v-card-text class="pa-6">
         <!-- ── Step 1 ── -->
         <div v-if="juristicStep === 1">
+          <!-- ขอใช้ในนามตัวแทน -->
+          <v-checkbox
+            v-model="juristicAsAgent"
+            color="info"
+            density="compact"
+            hide-details
+            class="mb-4"
+          >
+            <template #label>
+              <span class="text-body-2">ขอใช้ในนามตัวแทน</span>
+            </template>
+          </v-checkbox>
+
           <!-- ค้นหา DBD -->
           <div class="field-label mb-2">
-            เลขทะเบียนนิติบุคคล
+            เลขทะเบียนนิติบุคคล <span class="req">*</span>
             <span class="field-label-en">Registration No.</span>
-            <span class="req">*</span>
           </div>
           <div class="d-flex ga-2 mb-4">
             <v-text-field
@@ -920,9 +926,8 @@
               <v-row dense>
                 <v-col cols="12" sm="6">
                   <div class="field-label">
-                    อีเมลติดต่อ
+                    อีเมลติดต่อ <span class="req">*</span>
                     <span class="field-label-en">Contact Email</span>
-                    <span class="req">*</span>
                   </div>
                   <v-text-field
                     v-model="juristicForm.email"
@@ -936,9 +941,8 @@
                 </v-col>
                 <v-col cols="12" sm="6">
                   <div class="field-label">
-                    เบอร์โทรศัพท์
+                    เบอร์โทรศัพท์ <span class="req">*</span>
                     <span class="field-label-en">Phone Number</span>
-                    <span class="req">*</span>
                   </div>
                   <v-text-field
                     v-model="juristicForm.phone"
@@ -1725,6 +1729,7 @@ function submitPersonal() {
 // ── Juristic dialog ──
 const juristicDialog = ref(false);
 const juristicStep = ref(1);
+const juristicAsAgent = ref(false);
 const dbdLoading = ref(false);
 const dbdResult = ref(false);
 const dbdNotFound = ref(false);
@@ -1770,6 +1775,7 @@ function enterPortal() {
   juristicSystemError.value = false;
   juristicDocError.value = false;
   juristicStep.value = 1;
+  juristicAsAgent.value = false;
   juristicDocs.id_card = null;
   juristicDocs.passport = null;
   juristicDocs.poa = null;
@@ -2249,6 +2255,17 @@ watch(
 }
 .dialog-step-bar--warning .dialog-step-line--active {
   background: rgb(var(--v-theme-warning));
+}
+.dialog-step-bar--info .dialog-step-node--active {
+  border-color: rgb(var(--v-theme-info));
+  color: rgb(var(--v-theme-info));
+  background: rgba(var(--v-theme-info), 0.08);
+}
+.dialog-step-bar--info .dialog-step-node--done {
+  background: rgb(var(--v-theme-info));
+}
+.dialog-step-bar--info .dialog-step-line--active {
+  background: rgb(var(--v-theme-info));
 }
 
 /* Doc item */

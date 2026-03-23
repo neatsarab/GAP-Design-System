@@ -72,7 +72,7 @@
               <v-row dense>
                 <v-col cols="12">
                   <div class="field-label mb-1">
-                    ชื่อกลุ่ม<span class="req">*</span>
+                    ชื่อกลุ่ม <span class="req">*</span>
                     <span class="field-label-en">Group Name</span>
                   </div>
                   <v-text-field
@@ -86,7 +86,7 @@
                 </v-col>
                 <v-col cols="12" sm="6">
                   <div class="field-label mb-1 mt-3">
-                    ประเภทกลุ่ม<span class="req">*</span>
+                    ประเภทกลุ่ม <span class="req">*</span>
                   </div>
                   <v-select
                     v-model="form.groupType"
@@ -111,7 +111,7 @@
                 </v-col>
                 <v-col cols="12" sm="6">
                   <div class="field-label mb-1 mt-3">
-                    ชื่อประธานกลุ่ม<span class="req">*</span>
+                    ชื่อประธานกลุ่ม <span class="req">*</span>
                   </div>
                   <v-text-field
                     v-model="form.presidentName"
@@ -123,7 +123,7 @@
                 </v-col>
                 <v-col cols="12" sm="6">
                   <div class="field-label mb-1 mt-3">
-                    เบอร์โทรศัพท์<span class="req">*</span>
+                    เบอร์โทรศัพท์ <span class="req">*</span>
                   </div>
                   <v-text-field
                     v-model="form.phone"
@@ -136,7 +136,7 @@
                 </v-col>
                 <v-col cols="12" sm="6">
                   <div class="field-label mb-1 mt-3">
-                    ชนิดพืช<span class="req">*</span>
+                    ชนิดพืช <span class="req">*</span>
                   </div>
                   <v-text-field
                     v-model="form.cropType"
@@ -148,7 +148,7 @@
                 </v-col>
                 <v-col cols="12" sm="6">
                   <div class="field-label mb-1 mt-3">
-                    มาตรฐานที่ขอ<span class="req">*</span>
+                    มาตรฐานที่ขอ <span class="req">*</span>
                   </div>
                   <v-select
                     v-model="form.standard"
@@ -161,7 +161,7 @@
                 </v-col>
                 <v-col cols="12" sm="6">
                   <div class="field-label mb-1 mt-3">
-                    พื้นที่รวม (ไร่)<span class="req">*</span>
+                    พื้นที่รวม (ไร่) <span class="req">*</span>
                   </div>
                   <v-text-field
                     v-model="form.totalArea"
@@ -175,7 +175,7 @@
                 </v-col>
                 <v-col cols="12" sm="6">
                   <div class="field-label mb-1 mt-3">
-                    จังหวัด<span class="req">*</span>
+                    จังหวัด <span class="req">*</span>
                   </div>
                   <v-autocomplete
                     v-model="form.province"
@@ -240,7 +240,7 @@
             <v-row dense>
               <v-col cols="12" sm="4">
                 <div class="field-label mb-1">
-                  ชื่อ-นามสกุล<span class="req">*</span>
+                  ชื่อ-นามสกุล <span class="req">*</span>
                 </div>
                 <v-text-field
                   v-model="m.name"
@@ -252,7 +252,7 @@
               </v-col>
               <v-col cols="12" sm="3">
                 <div class="field-label mb-1">
-                  เลขบัตรประชาชน<span class="req">*</span>
+                  เลขบัตรประชาชน <span class="req">*</span>
                 </div>
                 <v-text-field
                   v-model="m.idCard"
@@ -264,7 +264,7 @@
               </v-col>
               <v-col cols="12" sm="3">
                 <div class="field-label mb-1">
-                  พื้นที่ (ไร่)<span class="req">*</span>
+                  พื้นที่ (ไร่) <span class="req">*</span>
                 </div>
                 <v-text-field
                   v-model="m.area"

@@ -489,6 +489,24 @@ const mockGroups: GroupData[] = [
       },
     ],
   },
+  {
+    id: "gr3",
+    nameTh: "กลุ่มเกษตรกรแปลงใหญ่มะม่วง จ.ฉะเชิงเทรา",
+    nameEn: "Chachoengsao Large-Scale Mango Farmers Group",
+    regNo: "GRP-68-0087",
+    memberCount: 1,
+    systems: ["GAP"],
+    leaderId: "j1",
+    creatorId: "j1",
+    members: [
+      {
+        id: "j1",
+        name: "บริษัท ฉะเชิงเทราการเกษตร จำกัด",
+        idNo: "0105565012345",
+        isJuristic: true,
+      },
+    ],
+  },
 ];
 
 // Current user mock — เป็นหัวหน้าของ gr1

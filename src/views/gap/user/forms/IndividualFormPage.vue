@@ -18,9 +18,7 @@
             >รายเดี่ยว</v-chip
           >
         </div>
-        <h1 class="page-title mb-0">
-          คำขอรับรองแหล่งผลิต GAP พืช (รายเดี่ยว)
-        </h1>
+        <h1 class="page-title mb-0">คำขอรับรองแหล่งผลิต GAP พืช (รายเดี่ยว)</h1>
         <p class="text-body-2 text-medium-emphasis mb-0">
           กรอกข้อมูลให้ครบถ้วน แล้วยื่นเพื่อรับการตรวจสอบ
         </p>
@@ -573,7 +571,7 @@
                   density="compact"
                   rounded="lg"
                   v-model="form.juristicRegNo"
-                  placeholder="เลขทะเบียน / เลขผู้เสียภาษี"
+                  placeholder="เลขทะเบียนนิติบุคคล"
                   :rules="[rules.required]"
                   hide-details="auto"
                 />
@@ -1363,7 +1361,9 @@ function stepClass(v: number) {
   return "step-pending";
 }
 
-function saveDraft() { draftSnackbar.value = true; }
+function saveDraft() {
+  draftSnackbar.value = true;
+}
 
 interface CropRow {
   type: string;

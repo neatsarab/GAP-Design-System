@@ -42,6 +42,9 @@
             <div class="text-truncate text-body-2 font-weight-medium text-gap-user">
               {{ sessionStore.displayName }}
             </div>
+            <div v-if="sessionStore.entityType === 'juristic' && sessionStore.taxId" class="text-truncate text-caption text-gap-user" style="opacity: 0.75;">
+              {{ sessionStore.taxId }}
+            </div>
             <div class="text-caption text-medium-emphasis">
               {{ sessionStore.entityLabel }}
             </div>

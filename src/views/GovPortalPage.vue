@@ -11,10 +11,7 @@
             <v-icon icon="fas fa-leaf" size="20" color="white" />
           </div>
           <div>
-            <div
-              class="text-body-2 font-weight-bold text-white lh-tight"
-              
-            >
+            <div class="text-body-2 font-weight-bold text-white lh-tight">
               กรมวิชาการเกษตร
             </div>
             <div
@@ -88,7 +85,6 @@
                 <div class="d-none d-sm-block">
                   <div
                     class="text-caption font-weight-semibold text-white lh-tight"
-                    
                   >
                     {{ user.name }}
                   </div>
@@ -143,7 +139,7 @@
                 <v-list-item
                   v-if="mode === 'user'"
                   prepend-icon="fas fa-arrow-left"
-                  title="ย้อนกลับเลือกประเภท"
+                  title="ย้อนกลับไปเลือกบัญชี"
                   subtitle="บุคคล / นิติบุคคล / กลุ่ม"
                   rounded="lg"
                   @click="router.push('/select-company')"
@@ -453,9 +449,14 @@
                   {{ system.desc }}
                 </p>
 
-                <div v-if="system.noAccess" class="coming-soon-bar coming-soon-bar--noaccess">
+                <div
+                  v-if="system.noAccess"
+                  class="coming-soon-bar coming-soon-bar--noaccess"
+                >
                   <v-icon icon="fas fa-ban" size="12" class="mr-1" />
-                  <span class="text-caption">กลุ่มนี้ยังไม่ได้รับสิทธิ์ — ยื่นคำขอเพิ่มสิทธิ์</span>
+                  <span class="text-caption"
+                    >กลุ่มนี้ยังไม่ได้รับสิทธิ์ — ยื่นคำขอเพิ่มสิทธิ์</span
+                  >
                 </div>
                 <div v-else class="coming-soon-bar">
                   <v-icon icon="fas fa-clock" size="12" class="mr-1" />
@@ -525,6 +526,7 @@ const entityType = computed(
 );
 const personalName = computed(() => (route.query.personalName as string) || "");
 const companyName = computed(() => (route.query.companyName as string) || "");
+const taxId = computed(() => (route.query.taxId as string) || "");
 const groupName = computed(() => (route.query.groupName as string) || "");
 const groupId = computed(() => (route.query.groupId as string) || "");
 const groupSystems = computed(() => {
@@ -534,8 +536,17 @@ const groupSystems = computed(() => {
 
 // sync session store when entering portal
 watch(
-  () => [entityType.value, personalName.value, companyName.value, groupName.value, groupId.value, groupSystems.value] as const,
-  ([type, pName, cName, gName, gId, gSystems]) => {
+  () =>
+    [
+      entityType.value,
+      personalName.value,
+      companyName.value,
+      taxId.value,
+      groupName.value,
+      groupId.value,
+      groupSystems.value,
+    ] as const,
+  ([type, pName, cName, tId, gName, gId, gSystems]) => {
     if (mode.value === "user") {
       const name =
         type === "juristic" ? cName : type === "group" ? gName : pName;
@@ -544,6 +555,7 @@ watch(
         name,
         type === "group" ? (gId as string) : "",
         type === "group" ? (gSystems as string[]) : [],
+        type === "juristic" ? (tId as string) : "",
       );
     }
   },
@@ -833,7 +845,12 @@ const inactiveSystems = computed(() => {
       })
       .map((id) => {
         const base = systems.value.find((s) => s.id === id)!;
-        return { ...base, active: false, noAccess: true, eta: "ไม่มีสิทธิ์เข้าถึง" };
+        return {
+          ...base,
+          active: false,
+          noAccess: true,
+          eta: "ไม่มีสิทธิ์เข้าถึง",
+        };
       });
   }
   return systems.value.filter((s) => !s.active);

@@ -407,7 +407,7 @@
           <v-row dense>
             <v-col cols="12" sm="7">
               <div class="field-label">
-                ชื่อ-นามสกุล<span class="req">*</span>
+                ชื่อ-นามสกุล <span class="req">*</span>
                 <span class="field-label-en">Full Name</span>
               </div>
               <v-text-field
@@ -421,7 +421,7 @@
             </v-col>
             <v-col cols="12" sm="5">
               <div class="field-label">
-                เลขบัตรประชาชน<span class="req">*</span>
+                เลขบัตรประชาชน <span class="req">*</span>
                 <span class="field-label-en">National ID No.</span>
               </div>
               <v-text-field
@@ -435,7 +435,7 @@
             </v-col>
             <v-col cols="12" sm="7">
               <div class="field-label mt-3">
-                อีเมล<span class="req">*</span>
+                อีเมล <span class="req">*</span>
                 <span class="field-label-en">Email</span>
               </div>
               <v-text-field
@@ -469,7 +469,7 @@
 
             <v-col cols="12">
               <div class="field-label mt-3">
-                ระบบที่อนุญาตให้เข้าใช้งาน<span class="req">*</span>
+                ระบบที่อนุญาตให้เข้าใช้งาน <span class="req">*</span>
                 <span class="field-label-en">Authorized Systems</span>
               </div>
               <div class="system-checkbox-grid mt-1">

@@ -8,6 +8,7 @@ export const useSessionStore = defineStore('session', () => {
   const personalName = ref('')
   const groupName = ref('')
   const companyName = ref('')
+  const taxId = ref('')
   const groupId = ref('')
   const groupSystems = ref<string[]>([])
 
@@ -31,24 +32,27 @@ export const useSessionStore = defineStore('session', () => {
     return personalName.value
   })
 
-  function setContext(type: EntityType, name = '', id = '', systems: string[] = []) {
+  function setContext(type: EntityType, name = '', id = '', systems: string[] = [], juristicTaxId = '') {
     entityType.value = type
     if (type === 'group') {
       groupName.value = name
       companyName.value = ''
       personalName.value = ''
+      taxId.value = ''
     } else if (type === 'juristic') {
       companyName.value = name
       groupName.value = ''
       personalName.value = ''
+      taxId.value = juristicTaxId
     } else {
       personalName.value = name
       groupName.value = ''
       companyName.value = ''
+      taxId.value = ''
     }
     groupId.value = id
     groupSystems.value = systems
   }
 
-  return { entityType, personalName, groupName, companyName, groupId, groupSystems, isGroupMode, entityLabel, entityIcon, displayName, setContext }
+  return { entityType, personalName, groupName, companyName, taxId, groupId, groupSystems, isGroupMode, entityLabel, entityIcon, displayName, setContext }
 })
