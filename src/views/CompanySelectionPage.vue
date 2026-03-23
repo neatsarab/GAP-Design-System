@@ -136,12 +136,7 @@
               size="small"
               append-icon="fas fa-arrow-right"
               class="flex-shrink-0"
-              @click="
-                router.push({
-                  path: '/portal',
-                  query: { mode: 'user', entityType: 'personal', personalName },
-                })
-              "
+              @click="selectPersonal()"
             >
               เข้าใช้งาน
             </v-btn>
@@ -264,16 +259,7 @@
                 size="small"
                 append-icon="fas fa-arrow-right"
                 style="min-width: 110px"
-                @click="
-                  router.push({
-                    path: '/portal',
-                    query: {
-                      mode: 'user',
-                      entityType: 'juristic',
-                      companyName: company.nameTh,
-                    },
-                  })
-                "
+                @click="selectJuristic(company)"
               >
                 เข้าใช้งาน
               </v-btn>
@@ -400,18 +386,7 @@
                 size="small"
                 append-icon="fas fa-arrow-right"
                 style="min-width: 110px"
-                @click="
-                  router.push({
-                    path: '/portal',
-                    query: {
-                      mode: 'user',
-                      entityType: 'group',
-                      groupName: group.nameTh,
-                      groupId: group.id,
-                      groupSystems: group.systems.join(','),
-                    },
-                  })
-                "
+                @click="selectGroup(group)"
               >
                 เข้าใช้งาน
               </v-btn>
@@ -1506,9 +1481,26 @@
 import { ref, reactive, computed, watch } from "vue";
 import { useRouter } from "vue-router";
 import { useThemeStore } from "@/stores/theme.store";
+import { useSessionStore } from "@/stores/session.store";
 
 const themeStore = useThemeStore();
 const router = useRouter();
+const sessionStore = useSessionStore();
+
+function selectPersonal() {
+  sessionStore.setContext('personal', personalName, '', [], '', personalName)
+  router.push({ path: '/portal', query: { mode: 'user', entityType: 'personal', personalName } })
+}
+
+function selectJuristic(company) {
+  sessionStore.setContext('juristic', company.nameTh, '', [], company.taxId, personalName)
+  router.push({ path: '/portal', query: { mode: 'user', entityType: 'juristic', companyName: company.nameTh, taxId: company.taxId, personalName } })
+}
+
+function selectGroup(group) {
+  sessionStore.setContext('group', group.nameTh, group.id, group.systems, '', personalName)
+  router.push({ path: '/portal', query: { mode: 'user', entityType: 'group', groupName: group.nameTh, groupId: group.id, groupSystems: group.systems.join(','), personalName } })
+}
 
 
 const personalName = "นิธิพร เทิบจันทึก";

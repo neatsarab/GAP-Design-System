@@ -2,9 +2,9 @@
   <div>
     <div class="d-flex align-center justify-space-between flex-wrap ga-3 mb-6">
       <div>
-        <h1 class="page-title mb-1">แดชบอร์ด CB หน่วยรับรอง</h1>
+        <h1 class="page-title mb-1">แดชบอร์ด</h1>
         <p class="text-body-2 text-medium-emphasis mb-0">
-          ภาพรวมคำขอขึ้นทะเบียนหน่วยรับรองของคุณ
+          ภาพรวมระบบขึ้นทะเบียนหน่วยรับรอง (Certification Body)
         </p>
       </div>
       <v-btn
@@ -62,7 +62,7 @@
                   app.requestNo
                 }}</v-list-item-title>
                 <v-list-item-subtitle class="text-caption"
-                  >{{ app.cbName }} · {{ app.scope }}</v-list-item-subtitle
+                  >ยื่นเมื่อ {{ app.submittedDate }}</v-list-item-subtitle
                 >
                 <template #append>
                   <div class="d-flex flex-column align-end ga-1">
@@ -95,7 +95,7 @@
         >
           <div class="text-body-2 font-weight-medium mb-1">อัพเดทสถานะ</div>
           <div class="text-body-2">
-            คำขอ CB-2568-00001 อยู่ระหว่างการตรวจประเมิน
+            คำขอ CB-2568-00002 อยู่ระหว่างการตรวจประเมิน CB
           </div>
         </v-alert>
         <v-card rounded="xl" elevation="0">
@@ -129,64 +129,21 @@ import AppStatCard from "@/components/common/AppStatCard.vue";
 const router = useRouter();
 
 const stats = [
-  {
-    label: "คำขอทั้งหมด",
-    value: 2,
-    icon: "fas fa-file-lines",
-    iconColor: "primary",
-  },
-  {
-    label: "อยู่ระหว่างตรวจสอบ",
-    value: 1,
-    icon: "fas fa-magnifying-glass",
-    iconColor: "info",
-  },
-  {
-    label: "อนุมัติแล้ว",
-    value: 1,
-    icon: "fas fa-circle-check",
-    iconColor: "success",
-  },
-  {
-    label: "ขอบข่ายที่ขึ้นทะเบียน",
-    value: 3,
-    icon: "fas fa-list-check",
-    iconColor: "primary",
-  },
+  { label: "คำขอทั้งหมด", value: 4, icon: "fas fa-file-lines", iconColor: "cb-user" },
+  { label: "อยู่ระหว่างตรวจสอบ", value: 1, icon: "fas fa-magnifying-glass", iconColor: "info" },
+  { label: "อนุมัติแล้ว", value: 2, icon: "fas fa-circle-check", iconColor: "success" },
+  { label: "รอแก้ไข", value: 1, icon: "fas fa-triangle-exclamation", iconColor: "warning" },
 ];
 
 const recentApplications = [
-  {
-    id: "CB-2568-00002",
-    requestNo: "CB-2568-00002",
-    cbName: "บ.ไทยเซอร์ติฟาย จก.",
-    scope: "ผลไม้สด",
-    submittedDate: "5 มี.ค. 2568",
-    status: "under_review",
-  },
-  {
-    id: "CB-2568-00001",
-    requestNo: "CB-2568-00001",
-    cbName: "บ.ไทยเซอร์ติฟาย จก.",
-    scope: "ผักสด",
-    submittedDate: "20 ม.ค. 2568",
-    status: "approved",
-  },
+  { id: "CB-2568-00003", requestNo: "CB-2568-00003", submittedDate: "5 มี.ค. 2568", status: "under_review" },
+  { id: "CB-2568-00002", requestNo: "CB-2568-00002", submittedDate: "20 ก.พ. 2568", status: "inspection_scheduled" },
+  { id: "CB-2568-00001", requestNo: "CB-2568-00001", submittedDate: "10 ม.ค. 2568", status: "approved" },
 ];
 
 const quickActions = [
-  {
-    title: "ยื่นคำขอขึ้นทะเบียนใหม่",
-    icon: "fas fa-file-pen",
-    color: "primary",
-    to: "/cb/user/applications/new",
-  },
-  {
-    title: "รายการคำขอ",
-    icon: "fas fa-file-lines",
-    color: "primary",
-    to: "/cb/user/applications",
-  },
+  { title: "ยื่นคำขอใหม่", icon: "fas fa-file-pen", color: "primary", to: "/cb/user/applications/new" },
+  { title: "รายการคำขอ", icon: "fas fa-file-lines", color: "primary", to: "/cb/user/applications" },
 ];
 
 function statusColor(status) {

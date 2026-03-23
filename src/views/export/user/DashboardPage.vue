@@ -2,9 +2,9 @@
   <div>
     <div class="d-flex align-center justify-space-between flex-wrap ga-3 mb-6">
       <div>
-        <h1 class="page-title mb-1">แดชบอร์ด จดทะเบียนผู้ส่งออก</h1>
+        <h1 class="page-title mb-1">แดชบอร์ด</h1>
         <p class="text-body-2 text-medium-emphasis mb-0">
-          ภาพรวมคำขอจดทะเบียนผู้ส่งออกสินค้าพืชของคุณ
+          ภาพรวมระบบจดทะเบียนผู้ส่งออกสินค้าพืช
         </p>
       </div>
       <v-btn
@@ -27,11 +27,7 @@
       <v-col cols="12" md="8">
         <v-card rounded="xl" elevation="0">
           <v-card-title class="d-flex align-center ga-2 pa-4 pb-3">
-            <v-icon
-              icon="fas fa-clock-rotate-left"
-              color="export-user"
-              size="16"
-            />
+            <v-icon icon="fas fa-clock-rotate-left" color="export-user" size="16" />
             <span class="text-body-1 font-weight-bold">คำขอล่าสุด</span>
             <v-spacer />
             <v-btn
@@ -66,8 +62,7 @@
                   app.requestNo
                 }}</v-list-item-title>
                 <v-list-item-subtitle class="text-caption"
-                  >{{ app.companyName }} ·
-                  {{ app.productCategory }}</v-list-item-subtitle
+                  >ยื่นเมื่อ {{ app.submittedDate }}</v-list-item-subtitle
                 >
                 <template #append>
                   <div class="d-flex flex-column align-end ga-1">
@@ -100,7 +95,7 @@
         >
           <div class="text-body-2 font-weight-medium mb-1">อัพเดทสถานะ</div>
           <div class="text-body-2">
-            คำขอ EXP-2568-00001 ได้รับการอนุมัติแล้ว
+            คำขอ EXP-2568-00002 อยู่ระหว่างการตรวจสอบเอกสาร
           </div>
         </v-alert>
         <v-card rounded="xl" elevation="0">
@@ -134,72 +129,21 @@ import AppStatCard from "@/components/common/AppStatCard.vue";
 const router = useRouter();
 
 const stats = [
-  {
-    label: "คำขอทั้งหมด",
-    value: 3,
-    icon: "fas fa-file-lines",
-    iconColor: "primary",
-  },
-  {
-    label: "อยู่ระหว่างตรวจสอบ",
-    value: 1,
-    icon: "fas fa-magnifying-glass",
-    iconColor: "info",
-  },
-  {
-    label: "อนุมัติแล้ว",
-    value: 2,
-    icon: "fas fa-circle-check",
-    iconColor: "success",
-  },
-  {
-    label: "ใบอนุญาตที่ยังมีผล",
-    value: 2,
-    icon: "fas fa-id-card",
-    iconColor: "primary",
-  },
+  { label: "คำขอทั้งหมด", value: 4, icon: "fas fa-file-lines", iconColor: "export-user" },
+  { label: "อยู่ระหว่างตรวจสอบ", value: 1, icon: "fas fa-magnifying-glass", iconColor: "info" },
+  { label: "อนุมัติแล้ว", value: 2, icon: "fas fa-circle-check", iconColor: "success" },
+  { label: "รอแก้ไข", value: 1, icon: "fas fa-triangle-exclamation", iconColor: "warning" },
 ];
 
 const recentApplications = [
-  {
-    id: "EXP-2568-00003",
-    requestNo: "EXP-2568-00003",
-    companyName: "บ.ไทย เอ็กซ์พอร์ต จก.",
-    productCategory: "ผลไม้สด",
-    submittedDate: "8 มี.ค. 2568",
-    status: "under_review",
-  },
-  {
-    id: "EXP-2568-00002",
-    requestNo: "EXP-2568-00002",
-    companyName: "บ.ไทย เอ็กซ์พอร์ต จก.",
-    productCategory: "ผักสด",
-    submittedDate: "1 ก.พ. 2568",
-    status: "approved",
-  },
-  {
-    id: "EXP-2568-00001",
-    requestNo: "EXP-2568-00001",
-    companyName: "บ.ไทย เอ็กซ์พอร์ต จก.",
-    productCategory: "ผลไม้แปรรูป",
-    submittedDate: "10 ม.ค. 2568",
-    status: "approved",
-  },
+  { id: "EXP-2568-00003", requestNo: "EXP-2568-00003", submittedDate: "5 มี.ค. 2568", status: "under_review" },
+  { id: "EXP-2568-00002", requestNo: "EXP-2568-00002", submittedDate: "20 ก.พ. 2568", status: "inspection_scheduled" },
+  { id: "EXP-2568-00001", requestNo: "EXP-2568-00001", submittedDate: "10 ม.ค. 2568", status: "approved" },
 ];
 
 const quickActions = [
-  {
-    title: "จดทะเบียนผู้ส่งออกใหม่",
-    icon: "fas fa-file-pen",
-    color: "primary",
-    to: "/export/user/applications/new",
-  },
-  {
-    title: "รายการคำขอ",
-    icon: "fas fa-file-lines",
-    color: "primary",
-    to: "/export/user/applications",
-  },
+  { title: "ยื่นคำขอใหม่", icon: "fas fa-file-pen", color: "primary", to: "/export/user/applications/new" },
+  { title: "รายการคำขอ", icon: "fas fa-file-lines", color: "primary", to: "/export/user/applications" },
 ];
 
 function statusColor(status) {

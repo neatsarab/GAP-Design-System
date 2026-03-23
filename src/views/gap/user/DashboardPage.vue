@@ -2,7 +2,7 @@
   <div>
     <div class="d-flex align-center justify-space-between flex-wrap ga-3 mb-6">
       <div>
-        <h1 class="page-title mb-1">แดชบอร์ด GAP เกษตรกร</h1>
+        <h1 class="page-title mb-1">แดชบอร์ด</h1>
         <p class="text-body-2 text-medium-emphasis mb-0">
           ภาพรวมระบบการรับรองมาตรฐาน GAP (Good Agricultural Practices)
         </p>
@@ -59,7 +59,7 @@
               >
                 <template #prepend>
                   <v-avatar
-                    color="gap-user"
+                    :color="statusColor(item.status)"
                     variant="tonal"
                     size="40"
                     rounded="lg"
@@ -72,10 +72,20 @@
                   item.no
                 }}</v-list-item-title>
                 <v-list-item-subtitle class="text-caption"
-                  >{{ item.farmer }} · {{ item.crop }}</v-list-item-subtitle
+                  >ยื่นเมื่อ {{ item.submittedDate }}</v-list-item-subtitle
                 >
                 <template #append>
-                  <AppStatusChip :status="item.status" size="x-small" />
+                  <div class="d-flex flex-column align-end ga-1">
+                    <v-chip
+                      :color="statusColor(item.status)"
+                      size="x-small"
+                      variant="tonal"
+                      >{{ statusLabel(item.status) }}</v-chip
+                    >
+                    <span class="text-caption text-medium-emphasis">{{
+                      item.submittedDate
+                    }}</span>
+                  </div>
                 </template>
               </v-list-item>
               <v-divider v-if="i < recentItems.length - 1" />
@@ -125,34 +135,33 @@
 <script setup>
 import { useRouter } from "vue-router";
 import AppStatCard from "@/components/common/AppStatCard.vue";
-import AppStatusChip from "@/components/common/AppStatusChip.vue";
 
 const router = useRouter();
 
 const statCards = [
   {
     label: "คำขอทั้งหมด",
-    value: 128,
-    icon: "fas fa-copy",
-    iconColor: "primary",
+    value: 4,
+    icon: "fas fa-file-lines",
+    iconColor: "gap-user",
   },
   {
-    label: "รอดำเนินการ",
-    value: 34,
-    icon: "fas fa-clock",
-    iconColor: "warning",
+    label: "อยู่ระหว่างตรวจสอบ",
+    value: 1,
+    icon: "fas fa-magnifying-glass",
+    iconColor: "info",
   },
   {
-    label: "ผ่านการรับรอง",
-    value: 82,
+    label: "อนุมัติแล้ว",
+    value: 2,
     icon: "fas fa-circle-check",
     iconColor: "success",
   },
   {
-    label: "ใบรับรองที่ใช้งานอยู่",
-    value: 76,
-    icon: "fas fa-certificate",
-    iconColor: "info",
+    label: "รอแก้ไข",
+    value: 1,
+    icon: "fas fa-triangle-exclamation",
+    iconColor: "warning",
   },
 ];
 
@@ -162,30 +171,35 @@ const recentItems = [
     farmer: "นาย สมชาย ใจดี",
     crop: "ข้าวหอมมะลิ",
     status: "DOC_REVIEW",
+    submittedDate: "15 มี.ค. 2568",
   },
   {
     no: "GAP-2567-002",
     farmer: "นาง มาลี เกษตรกิจ",
     crop: "มันสำปะหลัง",
     status: "APPROVED",
+    submittedDate: "10 มี.ค. 2568",
   },
   {
     no: "GAP-2567-003",
     farmer: "นาย วิชัย ทำนา",
     crop: "อ้อย",
     status: "INSPECTING",
+    submittedDate: "5 มี.ค. 2568",
   },
   {
     no: "GAP-2567-004",
     farmer: "นาง สมศรี ปลูกผัก",
     crop: "ผักกาดขาว",
     status: "SUBMITTED",
+    submittedDate: "1 มี.ค. 2568",
   },
   {
     no: "GAP-2567-005",
     farmer: "นาย ประสิทธิ์ ไร่ดี",
     crop: "ข้าวโพด",
     status: "CERT_ISSUED",
+    submittedDate: "20 ก.พ. 2568",
   },
 ];
 
@@ -203,4 +217,32 @@ const quickActions = [
     to: "/gap/user/applications",
   },
 ];
+
+function statusColor(status) {
+  const map = {
+    DRAFT: "grey",
+    SUBMITTED: "primary",
+    DOC_REVIEW: "info",
+    INSPECTING: "secondary",
+    APPROVED: "success",
+    REJECTED: "error",
+    CERT_ISSUED: "teal",
+    REVISION_REQUIRED: "warning",
+  };
+  return map[status] ?? "grey";
+}
+
+function statusLabel(status) {
+  const map = {
+    DRAFT: "แบบร่าง",
+    SUBMITTED: "ยื่นแล้ว",
+    DOC_REVIEW: "อยู่ระหว่างตรวจสอบ",
+    INSPECTING: "อยู่ระหว่างตรวจแปลง",
+    APPROVED: "อนุมัติแล้ว",
+    REJECTED: "ไม่ผ่าน",
+    CERT_ISSUED: "ออกใบรับรองแล้ว",
+    REVISION_REQUIRED: "รอแก้ไข",
+  };
+  return map[status] ?? status;
+}
 </script>

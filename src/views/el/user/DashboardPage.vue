@@ -2,10 +2,16 @@
   <div>
     <div class="d-flex align-center justify-space-between flex-wrap ga-3 mb-6">
       <div>
-        <h1 class="page-title mb-1">แดชบอร์ด EL โรงคัดบรรจุ</h1>
-        <p class="text-body-2 text-medium-emphasis mb-0">ภาพรวมคำขอขึ้นทะเบียนโรงคัดบรรจุของคุณ</p>
+        <h1 class="page-title mb-1">แดชบอร์ด</h1>
+        <p class="text-body-2 text-medium-emphasis mb-0">
+          ภาพรวมระบบบัญชีรายชื่อโรงคัดบรรจุ (Establishment List)
+        </p>
       </div>
-      <v-btn color="el-user" prepend-icon="fas fa-file-pen" @click="router.push('/el/user/applications/new')">
+      <v-btn
+        color="el-user"
+        prepend-icon="fas fa-file-pen"
+        @click="router.push('/el/user/applications/new')"
+      >
         ยื่นคำขอใหม่
       </v-btn>
     </div>
@@ -24,25 +30,51 @@
             <v-icon icon="fas fa-clock-rotate-left" color="el-user" size="16" />
             <span class="text-body-1 font-weight-bold">คำขอล่าสุด</span>
             <v-spacer />
-            <v-btn variant="text" color="el-user" size="small" append-icon="fas fa-arrow-right" @click="router.push('/el/user/applications')">
+            <v-btn
+              variant="text"
+              color="el-user"
+              size="small"
+              append-icon="fas fa-arrow-right"
+              @click="router.push('/el/user/applications')"
+            >
               ดูทั้งหมด
             </v-btn>
           </v-card-title>
           <v-divider />
           <v-list lines="two" class="pa-0">
             <template v-for="(app, i) in recentApplications" :key="app.id">
-              <v-list-item class="pa-3" @click="router.push(`/el/user/applications/${app.id}`)">
+              <v-list-item
+                class="pa-3"
+                @click="router.push(`/el/user/applications/${app.id}`)"
+              >
                 <template #prepend>
-                  <v-avatar :color="statusColor(app.status)" variant="tonal" size="40" rounded="lg" class="mr-3">
+                  <v-avatar
+                    :color="statusColor(app.status)"
+                    variant="tonal"
+                    size="40"
+                    rounded="lg"
+                    class="mr-3"
+                  >
                     <v-icon icon="fas fa-warehouse" size="18" />
                   </v-avatar>
                 </template>
-                <v-list-item-title class="text-body-2 font-weight-medium">{{ app.requestNo }}</v-list-item-title>
-                <v-list-item-subtitle class="text-caption">{{ app.establishmentName }} · {{ app.cropType }}</v-list-item-subtitle>
+                <v-list-item-title class="text-body-2 font-weight-medium">{{
+                  app.requestNo
+                }}</v-list-item-title>
+                <v-list-item-subtitle class="text-caption"
+                  >ยื่นเมื่อ {{ app.submittedDate }}</v-list-item-subtitle
+                >
                 <template #append>
                   <div class="d-flex flex-column align-end ga-1">
-                    <v-chip :color="statusColor(app.status)" size="x-small" variant="tonal">{{ statusLabel(app.status) }}</v-chip>
-                    <span class="text-caption text-medium-emphasis">{{ app.submittedDate }}</span>
+                    <v-chip
+                      :color="statusColor(app.status)"
+                      size="x-small"
+                      variant="tonal"
+                      >{{ statusLabel(app.status) }}</v-chip
+                    >
+                    <span class="text-caption text-medium-emphasis">{{
+                      app.submittedDate
+                    }}</span>
                   </div>
                 </template>
               </v-list-item>
@@ -54,9 +86,17 @@
 
       <!-- Info Alert + Quick Actions -->
       <v-col cols="12" md="4">
-        <v-alert color="el-user" variant="tonal" rounded="xl" class="mb-4" prepend-icon="fas fa-circle-info">
+        <v-alert
+          color="el-user"
+          variant="tonal"
+          rounded="xl"
+          class="mb-4"
+          prepend-icon="fas fa-circle-info"
+        >
           <div class="text-body-2 font-weight-medium mb-1">อัพเดทสถานะ</div>
-          <div class="text-body-2">คำขอ EL-2568-00002 อยู่ระหว่างการตรวจประเมิน</div>
+          <div class="text-body-2">
+            คำขอ EL-2568-00002 อยู่ระหว่างการตรวจสอบโรงคัดบรรจุ
+          </div>
         </v-alert>
         <v-card rounded="xl" elevation="0">
           <v-card-title class="d-flex align-center ga-2 pa-4 pb-3">
@@ -89,37 +129,45 @@ import AppStatCard from "@/components/common/AppStatCard.vue";
 const router = useRouter();
 
 const stats = [
-  { label: "คำขอทั้งหมด", value: 3, icon: "fas fa-file-lines", iconColor: "primary" },
+  { label: "คำขอทั้งหมด", value: 4, icon: "fas fa-file-lines", iconColor: "el-user" },
   { label: "อยู่ระหว่างตรวจสอบ", value: 1, icon: "fas fa-magnifying-glass", iconColor: "info" },
-  { label: "อนุมัติแล้ว", value: 1, icon: "fas fa-circle-check", iconColor: "success" },
+  { label: "อนุมัติแล้ว", value: 2, icon: "fas fa-circle-check", iconColor: "success" },
   { label: "รอแก้ไข", value: 1, icon: "fas fa-triangle-exclamation", iconColor: "warning" },
 ];
 
 const recentApplications = [
-  { id: "EL-2568-00002", requestNo: "EL-2568-00002", establishmentName: "บ.ไทยฟรุ๊ตส์ เอ็กซ์พอร์ต จก.", cropType: "ทุเรียน", submittedDate: "10 ก.พ. 2568", status: "under_review" },
-  { id: "EL-2568-00001", requestNo: "EL-2568-00001", establishmentName: "บ.ไทยฟรุ๊ตส์ เอ็กซ์พอร์ต จก.", cropType: "มังคุด", submittedDate: "15 ม.ค. 2568", status: "approved" },
-  { id: "EL-2567-00015", requestNo: "EL-2567-00015", establishmentName: "บ.ไทยฟรุ๊ตส์ เอ็กซ์พอร์ต จก.", cropType: "ลำไย", submittedDate: "20 ธ.ค. 2567", status: "revision_required" },
+  { id: "EL-2568-00003", requestNo: "EL-2568-00003", submittedDate: "5 มี.ค. 2568", status: "under_review" },
+  { id: "EL-2568-00002", requestNo: "EL-2568-00002", submittedDate: "20 ก.พ. 2568", status: "inspection_scheduled" },
+  { id: "EL-2568-00001", requestNo: "EL-2568-00001", submittedDate: "10 ม.ค. 2568", status: "approved" },
 ];
 
 const quickActions = [
-  { title: "ยื่นคำขอ EL ใหม่", icon: "fas fa-file-pen", color: "primary", to: "/el/user/applications/new" },
+  { title: "ยื่นคำขอใหม่", icon: "fas fa-file-pen", color: "primary", to: "/el/user/applications/new" },
   { title: "รายการคำขอ", icon: "fas fa-file-lines", color: "primary", to: "/el/user/applications" },
 ];
 
 function statusColor(status) {
   const map = {
-    draft: "grey", submitted: "primary", under_review: "info",
-    inspection_scheduled: "secondary", approved: "success",
-    rejected: "error", revision_required: "warning",
+    draft: "grey",
+    submitted: "primary",
+    under_review: "info",
+    inspection_scheduled: "secondary",
+    approved: "success",
+    rejected: "error",
+    revision_required: "warning",
   };
   return map[status] ?? "grey";
 }
 
 function statusLabel(status) {
   const map = {
-    draft: "แบบร่าง", submitted: "ยื่นแล้ว", under_review: "อยู่ระหว่างตรวจสอบ",
-    inspection_scheduled: "นัดตรวจแล้ว", approved: "อนุมัติแล้ว",
-    rejected: "ไม่ผ่าน", revision_required: "รอแก้ไข",
+    draft: "แบบร่าง",
+    submitted: "ยื่นแล้ว",
+    under_review: "อยู่ระหว่างตรวจสอบ",
+    inspection_scheduled: "นัดตรวจแล้ว",
+    approved: "อนุมัติแล้ว",
+    rejected: "ไม่ผ่าน",
+    revision_required: "รอแก้ไข",
   };
   return map[status] ?? status;
 }

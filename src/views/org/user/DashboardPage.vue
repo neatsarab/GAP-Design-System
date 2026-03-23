@@ -2,9 +2,9 @@
   <div>
     <div class="d-flex align-center justify-space-between flex-wrap ga-3 mb-6">
       <div>
-        <h1 class="page-title mb-1">แดชบอร์ด ORG เกษตรอินทรีย์</h1>
+        <h1 class="page-title mb-1">แดชบอร์ด</h1>
         <p class="text-body-2 text-medium-emphasis mb-0">
-          ภาพรวมคำขอรับรองมาตรฐานเกษตรอินทรีย์ของคุณ
+          ภาพรวมระบบการรับรองมาตรฐาน ORG (Organic Agricultural)
         </p>
       </div>
       <v-btn
@@ -66,7 +66,7 @@
                   app.requestNo
                 }}</v-list-item-title>
                 <v-list-item-subtitle class="text-caption"
-                  >{{ app.farmName }} · {{ app.area }} ไร่</v-list-item-subtitle
+                  >ยื่นเมื่อ {{ app.submittedDate }}</v-list-item-subtitle
                 >
                 <template #append>
                   <div class="d-flex flex-column align-end ga-1">
@@ -137,7 +137,7 @@ const stats = [
     label: "คำขอทั้งหมด",
     value: 4,
     icon: "fas fa-file-lines",
-    iconColor: "primary",
+    iconColor: "org-user",
   },
   {
     label: "อยู่ระหว่างตรวจสอบ",

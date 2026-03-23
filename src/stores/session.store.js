@@ -3,6 +3,7 @@ import { ref, computed } from 'vue'
 
 export const useSessionStore = defineStore('session', () => {
   const entityType = ref('personal')
+  const loginName = ref('')
   const personalName = ref('')
   const groupName = ref('')
   const companyName = ref('')
@@ -30,20 +31,22 @@ export const useSessionStore = defineStore('session', () => {
     return personalName.value
   })
 
-  function setContext(type, name = '', id = '', systems = [], juristicTaxId = '') {
+  function setContext(type, name = '', id = '', systems = [], juristicTaxId = '', personName = '') {
     entityType.value = type
+    if (personName) loginName.value = personName
     if (type === 'group') {
       groupName.value = name
       companyName.value = ''
-      personalName.value = ''
+      personalName.value = personName || personalName.value
       taxId.value = ''
     } else if (type === 'juristic') {
       companyName.value = name
       groupName.value = ''
-      personalName.value = ''
+      personalName.value = personName || personalName.value
       taxId.value = juristicTaxId
     } else {
       personalName.value = name
+      loginName.value = name
       groupName.value = ''
       companyName.value = ''
       taxId.value = ''
@@ -52,5 +55,5 @@ export const useSessionStore = defineStore('session', () => {
     groupSystems.value = systems
   }
 
-  return { entityType, personalName, groupName, companyName, taxId, groupId, groupSystems, isGroupMode, entityLabel, entityIcon, displayName, setContext }
+  return { entityType, loginName, personalName, groupName, companyName, taxId, groupId, groupSystems, isGroupMode, entityLabel, entityIcon, displayName, setContext }
 })

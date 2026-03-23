@@ -2,10 +2,9 @@
   <div>
     <div class="d-flex align-center justify-space-between flex-wrap ga-3 mb-6">
       <div>
-        <h1 class="page-title mb-1">แดชบอร์ด HC สินค้าแปรรูป</h1>
+        <h1 class="page-title mb-1">แดชบอร์ด</h1>
         <p class="text-body-2 text-medium-emphasis mb-0">
-          ภาพรวมระบบออกใบรับรองสุขอนามัย (Health Certificate)
-          สินค้าแปรรูปด้านพืช
+          ภาพรวมระบบออกใบรับรองสุขอนามัยพืชสินค้าแปรรูป
         </p>
       </div>
       <v-btn
@@ -28,11 +27,7 @@
       <v-col cols="12" md="8">
         <v-card rounded="xl" elevation="0">
           <v-card-title class="d-flex align-center ga-2 pa-4 pb-3">
-            <v-icon
-              icon="fas fa-clock-rotate-left"
-              color="hcex-user"
-              size="16"
-            />
+            <v-icon icon="fas fa-clock-rotate-left" color="hcex-user" size="16" />
             <span class="text-body-1 font-weight-bold">คำขอล่าสุด</span>
             <v-spacer />
             <v-btn
@@ -47,44 +42,43 @@
           </v-card-title>
           <v-divider />
           <v-list lines="two" class="pa-0">
-            <template v-for="(app, i) in recentApps" :key="app.id">
+            <template v-for="(app, i) in recentApplications" :key="app.id">
               <v-list-item
                 class="pa-3"
                 @click="router.push(`/hcex/user/applications/${app.id}`)"
               >
                 <template #prepend>
                   <v-avatar
-                    :color="getStatusColor(app.status)"
+                    :color="statusColor(app.status)"
                     variant="tonal"
                     size="40"
                     rounded="lg"
                     class="mr-3"
                   >
-                    <v-icon :icon="getStatusIcon(app.status)" size="18" />
+                    <v-icon icon="fas fa-file-medical" size="18" />
                   </v-avatar>
                 </template>
                 <v-list-item-title class="text-body-2 font-weight-medium">{{
                   app.requestNo
                 }}</v-list-item-title>
                 <v-list-item-subtitle class="text-caption"
-                  >{{ app.certType }} →
-                  {{ app.destination }}</v-list-item-subtitle
+                  >ยื่นเมื่อ {{ app.submittedDate }}</v-list-item-subtitle
                 >
                 <template #append>
                   <div class="d-flex flex-column align-end ga-1">
                     <v-chip
-                      :color="getStatusColor(app.status)"
+                      :color="statusColor(app.status)"
                       size="x-small"
                       variant="tonal"
-                      >{{ getStatusLabel(app.status) }}</v-chip
+                      >{{ statusLabel(app.status) }}</v-chip
                     >
                     <span class="text-caption text-medium-emphasis">{{
-                      app.submittedAt
+                      app.submittedDate
                     }}</span>
                   </div>
                 </template>
               </v-list-item>
-              <v-divider v-if="i < recentApps.length - 1" />
+              <v-divider v-if="i < recentApplications.length - 1" />
             </template>
           </v-list>
         </v-card>
@@ -97,10 +91,12 @@
           variant="tonal"
           rounded="xl"
           class="mb-4"
-          prepend-icon="fas fa-triangle-exclamation"
+          prepend-icon="fas fa-circle-info"
         >
           <div class="text-body-2 font-weight-medium mb-1">อัพเดทสถานะ</div>
-          <div class="text-caption">คำขอ HCEX-2568-00008 รอเลือกผล Lab</div>
+          <div class="text-body-2">
+            คำขอ HCEX-2568-00002 อยู่ระหว่างการพิจารณาผล Lab
+          </div>
         </v-alert>
         <v-card rounded="xl" elevation="0">
           <v-card-title class="d-flex align-center ga-2 pa-4 pb-3">
@@ -133,124 +129,46 @@ import AppStatCard from "@/components/common/AppStatCard.vue";
 const router = useRouter();
 
 const stats = [
-  {
-    label: "คำขอทั้งหมด",
-    value: "6",
-    icon: "fas fa-file-lines",
-    iconColor: "primary",
-  },
-  {
-    label: "รอดำเนินการ",
-    value: "2",
-    icon: "fas fa-hourglass-half",
-    iconColor: "info",
-  },
-  {
-    label: "อนุมัติแล้ว",
-    value: "3",
-    icon: "fas fa-circle-check",
-    iconColor: "success",
-  },
-  {
-    label: "ใบรับรองมีผล",
-    value: "3",
-    icon: "fas fa-industry",
-    iconColor: "primary",
-  },
+  { label: "คำขอทั้งหมด", value: 4, icon: "fas fa-file-lines", iconColor: "hcex-user" },
+  { label: "อยู่ระหว่างตรวจสอบ", value: 1, icon: "fas fa-magnifying-glass", iconColor: "info" },
+  { label: "อนุมัติแล้ว", value: 2, icon: "fas fa-circle-check", iconColor: "success" },
+  { label: "รอแก้ไข", value: 1, icon: "fas fa-triangle-exclamation", iconColor: "warning" },
 ];
 
-const recentApps = [
-  {
-    id: "HCEX-001",
-    requestNo: "HCEX-2568-00012",
-    certType: "กมพ.1",
-    destination: "ญี่ปุ่น",
-    submittedAt: "10 ม.ค. 68",
-    status: "under_review",
-  },
-  {
-    id: "HCEX-002",
-    requestNo: "HCEX-2568-00010",
-    certType: "กมพ.1-1",
-    destination: "จีน",
-    submittedAt: "5 ม.ค. 68",
-    status: "lab_verification",
-  },
-  {
-    id: "HCEX-003",
-    requestNo: "HCEX-2568-00008",
-    certType: "กมพ.1",
-    destination: "เกาหลีใต้",
-    submittedAt: "2 ม.ค. 68",
-    status: "approved",
-  },
-  {
-    id: "HCEX-004",
-    requestNo: "HCEX-2568-00005",
-    certType: "กมพ.1-3",
-    destination: "สิงคโปร์",
-    submittedAt: "20 ธ.ค. 67",
-    status: "completed",
-  },
+const recentApplications = [
+  { id: "HCEX-2568-00003", requestNo: "HCEX-2568-00003", submittedDate: "5 มี.ค. 2568", status: "under_review" },
+  { id: "HCEX-2568-00002", requestNo: "HCEX-2568-00002", submittedDate: "20 ก.พ. 2568", status: "inspection_scheduled" },
+  { id: "HCEX-2568-00001", requestNo: "HCEX-2568-00001", submittedDate: "10 ม.ค. 2568", status: "approved" },
 ];
 
 const quickActions = [
-  {
-    title: "ยื่นคำขอใบรับรองใหม่",
-    icon: "fas fa-file-pen",
-    color: "primary",
-    to: "/hcex/user/applications/new",
-  },
-  {
-    title: "ยื่นคำขอแก้ไขใบรับรอง",
-    icon: "fas fa-pen-to-square",
-    color: "secondary",
-    to: "/hcex/user/applications/new?type=correction",
-  },
-  {
-    title: "รายการใบรับรอง",
-    icon: "fas fa-industry",
-    color: "primary",
-    to: "/hcex/user/certificates",
-  },
+  { title: "ยื่นคำขอใหม่", icon: "fas fa-file-pen", color: "primary", to: "/hcex/user/applications/new" },
+  { title: "รายการคำขอ", icon: "fas fa-file-lines", color: "primary", to: "/hcex/user/applications" },
 ];
 
-function getStatusColor(s) {
-  const m = {
+function statusColor(status) {
+  const map = {
     draft: "grey",
     submitted: "primary",
     under_review: "info",
-    lab_verification: "secondary",
+    inspection_scheduled: "secondary",
     approved: "success",
     rejected: "error",
-    completed: "success",
+    revision_required: "warning",
   };
-  return m[s] ?? "grey";
+  return map[status] ?? "grey";
 }
 
-function getStatusIcon(s) {
-  const m = {
-    draft: "fas fa-pen",
-    submitted: "fas fa-paper-plane",
-    under_review: "fas fa-magnifying-glass",
-    lab_verification: "fas fa-flask-vial",
-    approved: "fas fa-circle-check",
-    completed: "fas fa-industry",
-    rejected: "fas fa-circle-xmark",
-  };
-  return m[s] ?? "fas fa-circle";
-}
-
-function getStatusLabel(s) {
-  const m = {
-    draft: "ฉบับร่าง",
+function statusLabel(status) {
+  const map = {
+    draft: "แบบร่าง",
     submitted: "ยื่นแล้ว",
     under_review: "อยู่ระหว่างตรวจสอบ",
-    lab_verification: "รอพิจารณา Lab",
+    inspection_scheduled: "นัดตรวจแล้ว",
     approved: "อนุมัติแล้ว",
-    completed: "รับใบรับรองแล้ว",
-    rejected: "ไม่อนุมัติ",
+    rejected: "ไม่ผ่าน",
+    revision_required: "รอแก้ไข",
   };
-  return m[s] ?? s;
+  return map[status] ?? status;
 }
 </script>

@@ -556,6 +556,7 @@ watch(
         type === "group" ? gId : "",
         type === "group" ? gSystems : [],
         type === "juristic" ? tId : "",
+        pName,
       );
     }
   },
