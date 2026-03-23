@@ -6,10 +6,7 @@
         <div class="brand-icon-ring mb-8">
           <v-icon icon="fas fa-leaf" size="36" color="white" />
         </div>
-        <h1
-          class="text-h4 font-weight-bold text-white mb-3 lh-tight"
-          
-        >
+        <h1 class="text-h4 font-weight-bold text-white mb-3 lh-tight">
           กรมวิชาการเกษตร
         </h1>
         <p class="text-body-1 mb-1" style="color: rgba(255, 255, 255, 0.75)">
@@ -53,10 +50,7 @@
             <v-icon icon="fas fa-leaf" size="20" color="white" />
           </div>
           <div>
-            <div
-              class="text-body-1 font-weight-bold text-primary lh-tight"
-              
-            >
+            <div class="text-body-1 font-weight-bold text-primary lh-tight">
               กรมวิชาการเกษตร
             </div>
             <div class="text-caption text-medium-emphasis">
@@ -215,7 +209,8 @@
 
             <v-form ref="formRef" @submit.prevent="doLogin">
               <div class="field-label">
-                ชื่อผู้ใช้งาน <span class="field-label-en">Username</span> <span class="req">*</span>
+                ชื่อผู้ใช้งาน<span class="req">*</span>
+                <div class="field-label-en">Username</div>
               </div>
               <v-text-field
                 v-model="username"
@@ -228,7 +223,10 @@
                 hide-details="auto"
                 class="mb-4"
               />
-              <div class="field-label">รหัสผ่าน <span class="field-label-en">Password</span> <span class="req">*</span></div>
+              <div class="field-label">
+                รหัสผ่าน<span class="req">*</span>
+                <div class="field-label-en">Password</div>
+              </div>
               <v-text-field
                 v-model="password"
                 :type="showPassword ? 'text' : 'password'"
@@ -311,7 +309,8 @@
 
             <v-form ref="staffFormRef" @submit.prevent="doStaffLogin">
               <div class="field-label">
-                ชื่อผู้ใช้งาน <span class="field-label-en">Username</span> <span class="req">*</span>
+                ชื่อผู้ใช้งาน<span class="req">*</span>
+                <div class="field-label-en">Username</div>
               </div>
               <v-text-field
                 v-model="staffUsername"
@@ -324,7 +323,10 @@
                 hide-details="auto"
                 class="mb-4"
               />
-              <div class="field-label">รหัสผ่าน <span class="field-label-en">Password</span> <span class="req">*</span></div>
+              <div class="field-label">
+                รหัสผ่าน <span class="req">*</span>
+                <div class="field-label-en">Password</div>
+              </div>
               <v-text-field
                 v-model="staffPassword"
                 :type="showStaffPassword ? 'text' : 'password'"
@@ -370,7 +372,9 @@
             </v-form>
 
             <div class="register-row mt-6">
-              <span class="text-body-2 text-medium-emphasis">ยังไม่มีบัญชี?</span>
+              <span class="text-body-2 text-medium-emphasis"
+                >ยังไม่มีบัญชี?</span
+              >
               <v-btn
                 variant="text"
                 size="small"
@@ -458,11 +462,35 @@ const staffError = ref("");
 const staffFormRef = ref();
 
 const features = [
-  { icon: "fas fa-seedling", text: "ระบบรับรองมาตรฐาน GAP พืช" },
-  { icon: "fas fa-leaf", text: "ระบบรับรองมาตรฐานเกษตรอินทรีย์" },
-  { icon: "fas fa-file-shield", text: "ระบบออกใบรับรองสุขอนามัยพืช" },
+  {
+    icon: "fas fa-seedling",
+    text: "ระบบการรับรองมาตรฐาน GAP",
+  },
+  {
+    icon: "fas fa-leaf",
+    text: "ระบบการรับรองมาตรฐาน ORG",
+  },
+  {
+    icon: "fas fa-industry",
+    text: "ระบบการขึ้นทะเบียนโรงงานผลิตสินค้าพืช",
+  },
+  {
+    icon: "fas fa-certificate",
+    text: "ระบบการขึ้นทะเบียนหน่วยรับรองโรงงานผลิตสินค้าพืช",
+  },
   { icon: "fas fa-ship", text: "ระบบจดทะเบียนผู้ส่งออก" },
-  { icon: "fas fa-flask-vial", text: "ระบบ DOA & CB" },
+  {
+    icon: "fas fa-virus",
+    text: "ระบบ Health Certificate ตามประกาศพืชควบคุมเฉพาะ",
+  },
+  {
+    icon: "fas fa-file-medical",
+    text: "ระบบ Health Certificate สินค้าแปรรูปด้านพืช",
+  },
+  {
+    icon: "fas fa-warehouse",
+    text: "ระบบการควบคุมพิเศษระบบบัญชีรายชื่อโรงคัดบรรจุ",
+  },
 ];
 
 const rules = {
@@ -504,7 +532,10 @@ async function doStaffLogin() {
 
 function doSsoLogin() {
   ssoLoading.value = true;
-  setTimeout(() => router.push({ path: "/portal", query: { mode: "staff" } }), 800);
+  setTimeout(
+    () => router.push({ path: "/portal", query: { mode: "staff" } }),
+    800,
+  );
 }
 </script>
 
@@ -516,7 +547,7 @@ function doSsoLogin() {
 
 /* ─── Left Panel ─── */
 .login-left {
-  width: 420px;
+  width: 520px;
   flex-shrink: 0;
   position: relative;
   background: linear-gradient(
@@ -711,7 +742,12 @@ function doSsoLogin() {
   color: rgba(var(--v-theme-on-surface), 0.75);
   margin-bottom: 6px;
 }
-.field-label-en { font-size: 11px; font-weight: 400; color: rgba(var(--v-theme-on-surface), 0.4); margin-left: 4px; }
+.field-label-en {
+  font-size: 11px;
+  font-weight: 400;
+  color: rgba(var(--v-theme-on-surface), 0.4);
+  margin-left: 4px;
+}
 .req {
   color: rgb(var(--v-theme-error));
 }
