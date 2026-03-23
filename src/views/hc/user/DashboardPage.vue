@@ -135,7 +135,7 @@ const stats = [
     label: "คำขอทั้งหมด",
     value: "8",
     icon: "fas fa-file-lines",
-    iconColor: "hc-user",
+    iconColor: "primary",
   },
   {
     label: "อยู่ระหว่างดำเนินการ",
@@ -191,7 +191,7 @@ const quickActions = [
   {
     title: "ยื่นคำขอใบรับรองใหม่",
     icon: "fas fa-file-pen",
-    color: "hc-user",
+    color: "primary",
     to: "/hc/user/applications/new",
   },
   {
@@ -203,14 +203,14 @@ const quickActions = [
   {
     title: "รายการใบรับรอง",
     icon: "fas fa-file-shield",
-    color: "hc-user",
+    color: "primary",
     to: "/hc/user/certificates",
   },
 ];
 
 function getStatusColor(s: string) {
   const m: Record<string, string> = {
-    submitted: "hc-user",
+    submitted: "primary",
     under_review: "warning",
     testing: "secondary",
     pending_approval: "primary",

@@ -37,8 +37,10 @@
             <div class="field-label mb-1"><div>ประเภท</div><div class="field-label-en">Type</div></div>
             <v-select v-model="filterType" :items="typeOptions" variant="outlined" density="compact" rounded="lg" clearable hide-details />
           </v-col>
-          <v-col cols="auto" class="ml-auto d-flex align-self-end">
-            <v-btn variant="tonal" color="grey" size="small" prepend-icon="fas fa-rotate-left" @click="search = ''; filterType = null; filterTab = 'all'">ล้างตัวกรอง</v-btn>
+        </v-row>
+        <v-row dense>
+          <v-col cols="auto" class="ml-auto">
+          <v-btn variant="tonal" color="grey" size="small" prepend-icon="fas fa-rotate-left" @click="search = ''; filterType = null; filterTab = 'all'">ล้างตัวกรอง</v-btn>
           </v-col>
         </v-row>
       </v-card-text>
@@ -125,7 +127,7 @@ function countByStatus(status: string) {
 }
 
 const stats = [
-  { label: "ทั้งหมด", icon: "fas fa-seedling", color: "org-staff", value: items.length },
+  { label: "ทั้งหมด", icon: "fas fa-seedling", color: "primary", value: items.length },
   { label: "มีผล", icon: "fas fa-circle-check", color: "success", value: countByStatus("active") },
   { label: "ใกล้หมดอายุ", icon: "fas fa-clock", color: "warning", value: countByStatus("expiring") },
   { label: "หมดอายุแล้ว", icon: "fas fa-circle-xmark", color: "error", value: countByStatus("expired") },

@@ -368,7 +368,7 @@ function actionReject() { /* ไม่อนุมัติ */ }
 function issueCert() { certDialog.value = true }
 
 function statusColor(s: string) {
-  const m: Record<string, string> = { submitted: 'primary', doc_review: 'info', revision_required: 'warning', inspection_scheduled: 'secondary', inspected: 'secondary', pending_cc: 'warning', cc_reviewing: 'error', approved: 'success', rejected: 'error' }
+  const m: Record<string, string> = { submitted: 'org-staff', doc_review: 'info', revision_required: 'warning', inspection_scheduled: 'secondary', inspected: 'secondary', pending_cc: 'warning', cc_reviewing: 'error', approved: 'success', rejected: 'error' }
   return m[s] ?? 'grey'
 }
 function statusIcon(s: string) {

@@ -137,7 +137,7 @@ const stats = [
     label: "คำขอทั้งหมด",
     value: 4,
     icon: "fas fa-file-lines",
-    iconColor: "org-user",
+    iconColor: "primary",
   },
   {
     label: "อยู่ระหว่างตรวจสอบ",
@@ -190,13 +190,13 @@ const quickActions = [
   {
     title: "ยื่นคำขอ ORG ใหม่",
     icon: "fas fa-file-pen",
-    color: "org-user",
+    color: "primary",
     to: "/org/user/applications/new",
   },
   {
     title: "รายการคำขอ",
     icon: "fas fa-file-lines",
-    color: "org-user",
+    color: "primary",
     to: "/org/user/applications",
   },
 ];

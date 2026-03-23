@@ -134,7 +134,7 @@ const stats = [
   {
     label: "คำขอทั้งหมด",
     icon: "fas fa-file-lines",
-    iconColor: "gap-staff",
+    iconColor: "primary",
     value: 48,
   },
   {

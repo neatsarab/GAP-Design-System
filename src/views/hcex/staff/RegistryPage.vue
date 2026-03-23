@@ -43,8 +43,10 @@
                 <div class="field-label mb-1"><div>ค้นหา</div><div class="field-label-en">Search</div></div>
                 <v-text-field v-model="exporterSearch" placeholder="ค้นหาชื่อบริษัท / เลขทะเบียน" prepend-inner-icon="fas fa-search" variant="outlined" density="compact" rounded="lg" hide-details clearable />
               </v-col>
-              <v-col cols="auto" class="ml-auto d-flex align-self-end">
-                <v-btn variant="tonal" color="grey" size="small" prepend-icon="fas fa-rotate-left" @click="exporterSearch = ''; exporterTabFilter = 'all'">ล้างตัวกรอง</v-btn>
+            </v-row>
+            <v-row dense>
+              <v-col cols="auto" class="ml-auto">
+              <v-btn variant="tonal" color="grey" size="small" prepend-icon="fas fa-rotate-left" @click="exporterSearch = ''; exporterTabFilter = 'all'">ล้างตัวกรอง</v-btn>
               </v-col>
             </v-row>
           </v-card-text>
@@ -103,8 +105,10 @@
                 <div class="field-label mb-1"><div>ค้นหา</div><div class="field-label-en">Search</div></div>
                 <v-text-field v-model="factorySearch" placeholder="ค้นหาชื่อโรงงาน / เลขทะเบียน" prepend-inner-icon="fas fa-search" variant="outlined" density="compact" rounded="lg" hide-details clearable />
               </v-col>
-              <v-col cols="auto" class="ml-auto d-flex align-self-end">
-                <v-btn variant="tonal" color="grey" size="small" prepend-icon="fas fa-rotate-left" @click="factorySearch = ''; factoryTabFilter = 'all'">ล้างตัวกรอง</v-btn>
+            </v-row>
+            <v-row dense>
+              <v-col cols="auto" class="ml-auto">
+              <v-btn variant="tonal" color="grey" size="small" prepend-icon="fas fa-rotate-left" @click="factorySearch = ''; factoryTabFilter = 'all'">ล้างตัวกรอง</v-btn>
               </v-col>
             </v-row>
           </v-card-text>
@@ -202,7 +206,7 @@ const factories: Factory[] = [
 ];
 
 const stats = computed(() => [
-  { label: "ทั้งหมด",     icon: "fas fa-building-wheat", color: "hcex-staff", value: exporters.length + factories.length },
+  { label: "ทั้งหมด",     icon: "fas fa-building-wheat", color: "primary", value: exporters.length + factories.length },
   { label: "มีผล",         icon: "fas fa-circle-check",   color: "success",    value: countExporterByStatus("active") + countFactoryByStatus("active") },
   { label: "ใกล้หมดอายุ", icon: "fas fa-clock",           color: "warning",    value: countExporterByStatus("expiring") + countFactoryByStatus("expiring") },
   { label: "หมดอายุ",      icon: "fas fa-circle-xmark",   color: "error",      value: countExporterByStatus("expired") + countFactoryByStatus("expired") },

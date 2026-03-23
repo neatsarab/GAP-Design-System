@@ -1,6 +1,12 @@
 <template>
-  <div>
+  <div style="--v-theme-primary: var(--v-theme-hcex-user)">
     <div class="d-flex align-center ga-3 mb-6">
+      <v-btn
+        icon="fas fa-arrow-left"
+        variant="text"
+        size="small"
+        @click="router.push('/hcex/user/applications/new')"
+      />
       <div>
         <h1 class="page-title mb-1">
           ยื่นคำขอใบรับรองสุขอนามัยสินค้าแปรรูปด้านพืช
@@ -36,7 +42,7 @@
         "
       >
         <div class="text-center mb-6">
-          <div class="lab-check-icon mx-auto mb-3">
+          <div class="confirm-ring mx-auto mb-3">
             <v-icon icon="fas fa-flask-vial" color="hcex-user" size="32" />
           </div>
           <h2 class="text-h6 font-weight-bold mb-2">
@@ -138,6 +144,9 @@
                 <div class="field-label-en">Product Type</div>
               </div>
               <v-text-field
+                variant="outlined"
+                density="compact"
+                rounded="lg"
                 v-model="labRequestForm.productType"
                 placeholder="เช่น มันฝรั่งทอดกรอบ"
                 hide-details="auto"
@@ -149,6 +158,9 @@
                 <div class="field-label-en">Quantity</div>
               </div>
               <v-text-field
+                variant="outlined"
+                density="compact"
+                rounded="lg"
                 v-model="labRequestForm.sampleCount"
                 placeholder="เช่น 5 ตัวอย่าง"
                 hide-details="auto"
@@ -160,6 +172,9 @@
                 <div class="field-label-en">Description</div>
               </div>
               <v-textarea
+                variant="outlined"
+                density="compact"
+                rounded="lg"
                 v-model="labRequestForm.productDesc"
                 placeholder="อธิบายรายละเอียดสินค้าที่ต้องการทดสอบ"
                 rows="2"
@@ -172,6 +187,9 @@
                 <div class="field-label-en">Remarks</div>
               </div>
               <v-textarea
+                variant="outlined"
+                density="compact"
+                rounded="lg"
                 v-model="labRequestForm.note"
                 placeholder="หมายเหตุเพิ่มเติม (ถ้ามี)"
                 rows="2"
@@ -207,7 +225,7 @@
     <!-- Form Steps (hasLab === true) -->
     <template v-else-if="hasLab === true">
       <!-- Step Indicator -->
-      <v-card class="mb-5">
+      <v-card rounded="xl" elevation="0" class="mb-6 section-card">
         <v-card-text class="pa-5">
           <div class="d-flex align-center">
             <template v-for="(step, idx) in formSteps" :key="step.key">
@@ -267,6 +285,9 @@
                     <div class="field-label-en">Company Name</div>
                   </div>
                   <v-text-field
+                    variant="outlined"
+                    density="compact"
+                    rounded="lg"
                     v-model="form.exporterName"
                     placeholder="ชื่อบริษัทผู้ส่งออก"
                     hide-details="auto"
@@ -279,6 +300,9 @@
                     <div class="field-label-en">Address</div>
                   </div>
                   <v-text-field
+                    variant="outlined"
+                    density="compact"
+                    rounded="lg"
                     v-model="form.exporterAddress"
                     placeholder="ที่อยู่บริษัท"
                     hide-details="auto"
@@ -291,6 +315,9 @@
                     <div class="field-label-en">Country</div>
                   </div>
                   <v-text-field
+                    variant="outlined"
+                    density="compact"
+                    rounded="lg"
                     v-model="form.exporterCountry"
                     placeholder="ประเทศ"
                     hide-details="auto"
@@ -320,6 +347,9 @@
                     <div class="field-label-en">Consignee Name</div>
                   </div>
                   <v-text-field
+                    variant="outlined"
+                    density="compact"
+                    rounded="lg"
                     v-model="form.consigneeName"
                     placeholder="Consignee name"
                     hide-details="auto"
@@ -332,6 +362,9 @@
                     <div class="field-label-en">Address</div>
                   </div>
                   <v-text-field
+                    variant="outlined"
+                    density="compact"
+                    rounded="lg"
                     v-model="form.consigneeAddress"
                     placeholder="Consignee address"
                     hide-details="auto"
@@ -344,6 +377,9 @@
                     <div class="field-label-en">Destination Country</div>
                   </div>
                   <v-autocomplete
+                    variant="outlined"
+                    density="compact"
+                    rounded="lg"
                     v-model="form.destination"
                     :items="countries"
                     placeholder="เลือกประเทศ"
@@ -374,6 +410,9 @@
                     <div class="field-label-en">Shipping Date</div>
                   </div>
                   <v-text-field
+                    variant="outlined"
+                    density="compact"
+                    rounded="lg"
                     v-model="form.shipDate"
                     type="date"
                     hide-details="auto"
@@ -386,6 +425,9 @@
                     <div class="field-label-en">Shipping Method</div>
                   </div>
                   <v-autocomplete
+                    variant="outlined"
+                    density="compact"
+                    rounded="lg"
                     v-model="form.shipMethod"
                     :items="shipMethods"
                     placeholder="เลือกวิธีการขนส่ง"
@@ -399,6 +441,9 @@
                     <div class="field-label-en">Port/Airport of Loading</div>
                   </div>
                   <v-text-field
+                    variant="outlined"
+                    density="compact"
+                    rounded="lg"
                     v-model="form.portOfLoading"
                     placeholder="เช่น ท่าเรือแหลมฉบัง"
                     hide-details="auto"
@@ -445,6 +490,8 @@
                   <tr v-for="(p, idx) in form.products" :key="idx">
                     <td class="py-2">
                       <v-text-field
+                        variant="outlined"
+                        rounded="lg"
                         v-model="p.shippingMark"
                         density="compact"
                         hide-details
@@ -453,6 +500,8 @@
                     </td>
                     <td class="py-2">
                       <v-text-field
+                        variant="outlined"
+                        rounded="lg"
                         v-model="p.description"
                         density="compact"
                         hide-details
@@ -462,6 +511,8 @@
                     </td>
                     <td class="py-2">
                       <v-text-field
+                        variant="outlined"
+                        rounded="lg"
                         v-model="p.quantity"
                         density="compact"
                         hide-details
@@ -471,6 +522,8 @@
                     </td>
                     <td class="py-2">
                       <v-text-field
+                        variant="outlined"
+                        rounded="lg"
                         v-model="p.netWeight"
                         density="compact"
                         hide-details
@@ -479,6 +532,8 @@
                     </td>
                     <td class="py-2">
                       <v-text-field
+                        variant="outlined"
+                        rounded="lg"
                         v-model="p.totalAmount"
                         density="compact"
                         hide-details
@@ -578,55 +633,52 @@
         </div>
 
         <!-- Nav Buttons -->
-        <div class="d-flex ga-3 mt-6">
-          <v-btn
-            v-if="currentStep > 0"
-            variant="tonal"
-            color="grey"
-            size="large"
-            prepend-icon="fas fa-chevron-left"
-            @click="currentStep--"
-          >
-            ย้อนกลับ
-          </v-btn>
-          <v-btn
-            v-if="currentStep === 0"
-            variant="tonal"
-            color="grey"
-            size="large"
-            @click="hasLab = null"
-          >
-            ย้อนกลับ
-          </v-btn>
-          <v-spacer />
-          <v-btn
-            variant="tonal"
-            color="secondary"
-            size="large"
-            prepend-icon="fas fa-floppy-disk"
-          >
-            บันทึกแบบร่าง
-          </v-btn>
-          <v-btn
-            v-if="currentStep < formSteps.length - 1"
-            color="hcex-user"
-            size="large"
-            append-icon="fas fa-chevron-right"
-            type="submit"
-          >
-            ถัดไป
-          </v-btn>
-          <v-btn
-            v-else
-            color="hcex-user"
-            size="large"
-            prepend-icon="fas fa-paper-plane"
-            :loading="submitting"
-            :disabled="selectedLabs.length === 0"
-            @click="handleSubmit"
-          >
-            ยืนยันคำขอ
-          </v-btn>
+        <div class="d-flex justify-space-between align-center mt-6">
+          <div class="d-flex ga-2">
+            <v-btn
+              variant="tonal"
+              color="grey"
+              @click="router.push('/hcex/user/applications')"
+            >
+              ยกเลิก
+            </v-btn>
+            <v-btn
+              v-if="currentStep > 0"
+              variant="tonal"
+              color="grey"
+              prepend-icon="fas fa-arrow-left"
+              @click="currentStep--"
+              >ย้อนกลับ</v-btn
+            >
+          </div>
+          <div class="d-flex ga-2">
+            <v-btn
+              variant="tonal"
+              color="hcex-user"
+              prepend-icon="fas fa-floppy-disk"
+              @click="saveDraft"
+            >
+              บันทึกแบบร่าง
+            </v-btn>
+            <v-btn
+              v-if="currentStep < formSteps.length - 1"
+              color="hcex-user"
+              append-icon="fas fa-arrow-right"
+              type="submit"
+            >
+              ถัดไป
+            </v-btn>
+            <v-btn
+              v-else
+              color="hcex-user"
+              prepend-icon="fas fa-paper-plane"
+              :loading="submitting"
+              :disabled="selectedLabs.length === 0"
+              @click="handleSubmit"
+            >
+              ยื่นคำขอ
+            </v-btn>
+          </div>
         </div>
       </v-form>
     </template>
@@ -696,6 +748,18 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+
+    <!-- Draft Snackbar -->
+    <v-snackbar
+      v-model="draftSnackbar"
+      color="success"
+      rounded="lg"
+      timeout="2500"
+      location="top right"
+    >
+      <v-icon icon="fas fa-floppy-disk" class="mr-2" />
+      บันทึกแบบร่างแล้ว
+    </v-snackbar>
   </div>
 </template>
 
@@ -710,11 +774,11 @@ const hasLab = ref<boolean | null>(null);
 const currentStep = ref(0);
 const submitting = ref(false);
 const successDialog = ref(false);
+const draftSnackbar = ref(false);
 const labRequestDialog = ref(false);
 const newRequestNo = ref("");
 const formRef = ref();
 const selectedLabs = ref<string[]>([]);
-
 
 const formSteps = [
   { key: "details", label: "ข้อมูลรายละเอียด" },
@@ -835,6 +899,10 @@ async function handleNext() {
   }
 }
 
+function saveDraft() {
+  draftSnackbar.value = true;
+}
+
 async function handleSubmit() {
   if (selectedLabs.value.length === 0) return;
   submitting.value = true;
@@ -846,11 +914,6 @@ async function handleSubmit() {
 </script>
 
 <style scoped>
-div {
-  --step-color: rgb(var(--v-theme-hcex-user));
-  --step-color-tint: rgba(var(--v-theme-hcex-user), 0.2);
-}
-
 /* Lab Option Card */
 .lab-option-card {
   transition:
@@ -869,19 +932,24 @@ div {
   align-items: center;
   justify-content: center;
 }
-.lab-check-icon {
-  width: 72px;
-  height: 72px;
-  border-radius: 50%;
-  background: rgba(var(--v-theme-hcex-user), 0.1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 
 /* Selected row */
 .selected-row {
-  background: rgba(var(--v-theme-hcex-user), 0.06);
+  background: rgba(var(--v-theme-primary), 0.06);
 }
 
+.step-done,
+.step-active {
+  background: rgb(var(--v-theme-hcex-user)) !important;
+  color: white !important;
+}
+.step-active {
+  box-shadow: 0 0 0 4px rgba(var(--v-theme-hcex-user), 0.2) !important;
+}
+.step-line--done {
+  background: rgb(var(--v-theme-hcex-user)) !important;
+}
+.field-section-label {
+  color: rgb(var(--v-theme-hcex-user)) !important;
+}
 </style>

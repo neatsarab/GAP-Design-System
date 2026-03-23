@@ -516,7 +516,7 @@ const app: AppDetail = {
       status: "ยื่นแล้ว",
       date: "10 ม.ค. 2568 09:30",
       note: "ยื่นคำขอผ่านระบบออนไลน์",
-      color: "hcex-user",
+      color: "primary",
       icon: "fas fa-paper-plane",
     },
     {
@@ -540,7 +540,7 @@ const app: AppDetail = {
       status: "รอยืนยัน",
       date: "13 ม.ค. 2568 10:30",
       note: "เจ้าหน้าที่สร้าง Preview ใบรับรองแล้ว รอผู้ประกอบการยืนยัน",
-      color: "hcex-user",
+      color: "primary",
       icon: "fas fa-file-lines",
     },
   ],
@@ -577,11 +577,11 @@ const isApprovedOrCompleted = computed(
 function getStatusColor(s: string) {
   const m: Record<string, string> = {
     draft: "grey",
-    submitted: "hcex-user",
+    submitted: "primary",
     under_review: "info",
-    preview_review: "hcex-user",
+    preview_review: "primary",
     pending_signing: "secondary",
-    pending_payment: "hcex-user",
+    pending_payment: "primary",
     approved: "success",
     rejected: "error",
     completed: "success",

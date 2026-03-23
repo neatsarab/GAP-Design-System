@@ -142,7 +142,7 @@
                 <v-divider class="my-1" />
                 <v-list-item
                   v-if="mode === 'user'"
-                  prepend-icon="fas fa-arrow-left""
+                  prepend-icon="fas fa-arrow-left"
                   title="ย้อนกลับเลือกประเภท"
                   subtitle="บุคคล / นิติบุคคล / กลุ่ม"
                   rounded="lg"
@@ -526,6 +526,7 @@ const entityType = computed(
 const personalName = computed(() => (route.query.personalName as string) || "");
 const companyName = computed(() => (route.query.companyName as string) || "");
 const groupName = computed(() => (route.query.groupName as string) || "");
+const groupId = computed(() => (route.query.groupId as string) || "");
 const groupSystems = computed(() => {
   const raw = route.query.groupSystems as string;
   return raw ? raw.split(",").map((s) => s.trim()) : [];
@@ -533,15 +534,15 @@ const groupSystems = computed(() => {
 
 // sync session store when entering portal
 watch(
-  () => [entityType.value, personalName.value, companyName.value, groupName.value, groupSystems.value] as const,
-  ([type, pName, cName, gName, gSystems]) => {
+  () => [entityType.value, personalName.value, companyName.value, groupName.value, groupId.value, groupSystems.value] as const,
+  ([type, pName, cName, gName, gId, gSystems]) => {
     if (mode.value === "user") {
       const name =
         type === "juristic" ? cName : type === "group" ? gName : pName;
       sessionStore.setContext(
         type as "personal" | "juristic" | "group",
         name,
-        "",
+        type === "group" ? (gId as string) : "",
         type === "group" ? (gSystems as string[]) : [],
       );
     }

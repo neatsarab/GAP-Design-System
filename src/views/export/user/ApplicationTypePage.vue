@@ -85,7 +85,7 @@ const appTypes = [
     title: "ก.ก.1",
     badge: "เกาหลี",
     icon: "fas fa-warehouse",
-    color: "export-user",
+    color: "primary",
     description:
       "คำร้องขอขึ้นทะเบียนโรงบรรจุสินค้า โรงรมทรีทเม้นต์ และสวนส่งออกไปประเทศเกาหลี",
     features: [
@@ -99,7 +99,7 @@ const appTypes = [
     title: "สมพ.5",
     badge: "ทั่วไป",
     icon: "fas fa-truck-ramp-box",
-    color: "export-user",
+    color: "primary",
     description:
       "คำร้องขอหนังสือสำคัญแสดงการจดทะเบียนเป็นผู้ส่งออกผักและผลไม้",
     features: [

@@ -135,7 +135,7 @@ const statCards = [
     label: "คำขอทั้งหมด",
     value: 128,
     icon: "fas fa-copy",
-    iconColor: "gap-user",
+    iconColor: "primary",
   },
   {
     label: "รอดำเนินการ",
@@ -199,13 +199,13 @@ const quickActions = [
   {
     title: "ยื่นคำขอใหม่",
     icon: "fas fa-file-pen",
-    color: "gap-user",
+    color: "primary",
     to: "/gap/user/applications/new",
   },
   {
     title: "รายการคำขอ",
     icon: "fas fa-file-lines",
-    color: "gap-user",
+    color: "primary",
     to: "/gap/user/applications",
   },
 ];

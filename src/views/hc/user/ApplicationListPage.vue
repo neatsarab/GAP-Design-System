@@ -17,48 +17,62 @@
     </div>
 
     <!-- Filters -->
-    <v-card class="mb-4">
+    <v-card rounded="xl" elevation="0" class="mb-4 filter-card">
       <v-card-text class="pa-4">
-        <v-row dense>
+        <v-row dense align="center">
           <v-col cols="12" sm="5">
-            <div class="field-label mb-1"><div>ค้นหา</div><div class="field-label-en">Search</div></div>
+            <div class="field-label"><div>ค้นหา</div><div class="field-label-en">Search</div></div>
             <v-text-field
               v-model="search"
+              placeholder="ค้นหาเลขคำขอ / ผู้รับสินค้า"
               prepend-inner-icon="fas fa-search"
+              variant="outlined"
+              density="compact"
+              rounded="lg"
               clearable
               hide-details
             />
           </v-col>
           <v-col cols="6" sm="3">
-            <div class="field-label mb-1"><div>ประเภทคำขอ</div><div class="field-label-en">Request Type</div></div>
+            <div class="field-label"><div>ประเภทคำขอ</div><div class="field-label-en">Request Type</div></div>
             <v-autocomplete
               v-model="filterType"
               :items="typeOptions"
+              placeholder="ทั้งหมด"
+              variant="outlined"
+              density="compact"
+              rounded="lg"
               hide-details
               clearable
             />
           </v-col>
           <v-col cols="6" sm="3">
-            <div class="field-label mb-1"><div>สถานะ</div><div class="field-label-en">Status</div></div>
+            <div class="field-label"><div>สถานะ</div><div class="field-label-en">Status</div></div>
             <v-autocomplete
               v-model="filterStatus"
               :items="statusOptions"
               item-title="label"
               item-value="value"
+              placeholder="สถานะทั้งหมด"
+              variant="outlined"
+              density="compact"
+              rounded="lg"
               hide-details
               clearable
             />
           </v-col>
-          <v-col cols="auto" class="ml-auto d-flex align-self-center">
-            <v-btn
-              variant="tonal"
-              color="grey"
-              size="small"
-              prepend-icon="fas fa-rotate-left"
-              @click="clearFilters"
-            >
-              ล้างตัวกรอง
-            </v-btn>
+        </v-row>
+        <v-row dense>
+          <v-col cols="auto" class="ml-auto">
+          <v-btn
+            variant="tonal"
+            color="grey"
+            size="small"
+            prepend-icon="fas fa-rotate-left"
+            @click="clearFilters"
+          >
+            ล้างตัวกรอง
+          </v-btn>
           </v-col>
         </v-row>
       </v-card-text>
@@ -316,7 +330,7 @@ const headers = [
 
 function getStatusColor(s: string) {
   const m: Record<string, string> = {
-    submitted: "hc-user",
+    submitted: "primary",
     under_review: "warning",
     testing: "secondary",
     pending_approval: "primary",

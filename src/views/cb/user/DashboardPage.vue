@@ -133,7 +133,7 @@ const stats = [
     label: "คำขอทั้งหมด",
     value: 2,
     icon: "fas fa-file-lines",
-    iconColor: "cb-user",
+    iconColor: "primary",
   },
   {
     label: "อยู่ระหว่างตรวจสอบ",
@@ -151,7 +151,7 @@ const stats = [
     label: "ขอบข่ายที่ขึ้นทะเบียน",
     value: 3,
     icon: "fas fa-list-check",
-    iconColor: "cb-user",
+    iconColor: "primary",
   },
 ];
 
@@ -178,13 +178,13 @@ const quickActions = [
   {
     title: "ยื่นคำขอขึ้นทะเบียนใหม่",
     icon: "fas fa-file-pen",
-    color: "cb-user",
+    color: "primary",
     to: "/cb/user/applications/new",
   },
   {
     title: "รายการคำขอ",
     icon: "fas fa-file-lines",
-    color: "cb-user",
+    color: "primary",
     to: "/cb/user/applications",
   },
 ];

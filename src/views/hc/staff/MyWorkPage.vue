@@ -32,16 +32,18 @@
               clearable
             />
           </v-col>
-          <v-col cols="auto" class="ml-auto d-flex align-self-center">
-            <v-btn
-              variant="tonal"
-              color="grey"
-              size="small"
-              prepend-icon="fas fa-rotate-left"
-              @click="clearFilters"
-            >
-              ล้างตัวกรอง
-            </v-btn>
+        </v-row>
+        <v-row dense>
+          <v-col cols="auto" class="ml-auto">
+          <v-btn
+            variant="tonal"
+            color="grey"
+            size="small"
+            prepend-icon="fas fa-rotate-left"
+            @click="clearFilters"
+          >
+            ล้างตัวกรอง
+          </v-btn>
           </v-col>
         </v-row>
       </v-card-text>
@@ -176,7 +178,7 @@ const roles: Role[] = [
     value: "intake",
     label: "เจ้าหน้าที่รับเรื่อง",
     icon: "fas fa-inbox",
-    color: "hc-staff",
+    color: "primary",
     desc: "รับและตรวจสอบความครบถ้วนของคำขอที่ยื่นเข้ามา",
     statuses: ["submitted"],
     actionLabel: "รับเรื่อง",

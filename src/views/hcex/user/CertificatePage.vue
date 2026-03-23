@@ -41,8 +41,10 @@
             <div class="field-label mb-1"><div>ค้นหา</div><div class="field-label-en">Search</div></div>
             <v-text-field v-model="search" placeholder="ค้นหาเลขใบรับรอง / ผู้รับสินค้า" prepend-inner-icon="fas fa-search" variant="outlined" density="compact" rounded="lg" clearable hide-details />
           </v-col>
-          <v-col cols="auto" class="ml-auto d-flex align-self-end">
-            <v-btn variant="tonal" color="grey" size="small" prepend-icon="fas fa-rotate-left" @click="search = ''; filterTab = 'all'">ล้างตัวกรอง</v-btn>
+        </v-row>
+        <v-row dense>
+          <v-col cols="auto" class="ml-auto">
+          <v-btn variant="tonal" color="grey" size="small" prepend-icon="fas fa-rotate-left" @click="search = ''; filterTab = 'all'">ล้างตัวกรอง</v-btn>
           </v-col>
         </v-row>
       </v-card-text>
@@ -139,14 +141,14 @@ const certStats = [
     color: "success",
     value: 3,
   },
-  { label: "ใกล้หมดอายุ", icon: "fas fa-clock", color: "hcex-user", value: 1 },
+  { label: "ใกล้หมดอายุ", icon: "fas fa-clock", color: "primary", value: 1 },
   {
     label: "หมดอายุแล้ว",
     icon: "fas fa-circle-xmark",
     color: "error",
     value: 1,
   },
-  { label: "ทั้งหมด", icon: "fas fa-industry", color: "hcex-user", value: 5 },
+  { label: "ทั้งหมด", icon: "fas fa-industry", color: "primary", value: 5 },
 ];
 
 interface Cert {
@@ -231,7 +233,7 @@ const headers = [
 
 function statusColor(s: string) {
   return (
-    { active: "success", expiring: "hcex-user", expired: "error" }[s] ?? "grey"
+    { active: "success", expiring: "primary", expired: "error" }[s] ?? "grey"
   );
 }
 function statusIcon(s: string) {

@@ -66,16 +66,18 @@
               hide-details
             />
           </v-col>
-          <v-col cols="auto" class="ml-auto d-flex align-self-center">
-            <v-btn
-              variant="tonal"
-              color="grey"
-              size="small"
-              prepend-icon="fas fa-rotate-left"
-              @click="search = ''"
-            >
-              ล้างตัวกรอง
-            </v-btn>
+        </v-row>
+        <v-row dense>
+          <v-col cols="auto" class="ml-auto">
+          <v-btn
+            variant="tonal"
+            color="grey"
+            size="small"
+            prepend-icon="fas fa-rotate-left"
+            @click="search = ''"
+          >
+            ล้างตัวกรอง
+          </v-btn>
           </v-col>
         </v-row>
       </v-card-text>
@@ -347,7 +349,7 @@ const statusTabs = computed(() => [
   {
     label: "รอลงนาม",
     value: "pending",
-    color: "hcex-staff",
+    color: "primary",
     icon: "fas fa-hourglass-half",
     count: pendingCount.value,
   },

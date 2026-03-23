@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="--v-theme-primary: var(--v-theme-gap-staff)">
     <!-- Back + Header -->
     <div class="d-flex align-center ga-3 mb-5 flex-wrap">
       <v-btn variant="text" prepend-icon="fas fa-arrow-left" size="small" @click="router.push('/gap/staff/applications')">
@@ -575,7 +575,7 @@ const statusMap: Record<string, { color: string; icon: string; label: string }> 
   scheduling:   { color: 'info',      icon: 'fas fa-calendar-clock',   label: 'รอนัดตรวจแปลง'       },
   inspecting:   { color: 'secondary', icon: 'fas fa-person-walking',   label: 'อยู่ระหว่างตรวจแปลง' },
   inspected:    { color: 'secondary', icon: 'fas fa-clipboard-check',  label: 'ตรวจแปลงแล้ว'        },
-  pending_cc:   { color: 'primary',   icon: 'fas fa-paper-plane',      label: 'รอเสนอ CC'            },
+  pending_cc:   { color: 'gap-staff',   icon: 'fas fa-paper-plane',      label: 'รอเสนอ CC'            },
   cc_reviewing: { color: 'error',     icon: 'fas fa-gavel',            label: 'อยู่ระหว่าง CC'       },
   approved:     { color: 'success',   icon: 'fas fa-circle-check',     label: 'อนุมัติแล้ว'          },
   cert_issued:  { color: 'success',   icon: 'fas fa-certificate',      label: 'ออกใบรับรองแล้ว'     },

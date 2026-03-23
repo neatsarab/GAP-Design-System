@@ -85,7 +85,7 @@ const router = useRouter();
 
 const stats = [
   { label: "รายการรอตรวจสอบ", value: 7, icon: "fas fa-file-lines", iconColor: "warning" },
-  { label: "นัดตรวจแล้ว", value: 3, icon: "fas fa-calendar-check", iconColor: "el-staff" },
+  { label: "นัดตรวจแล้ว", value: 3, icon: "fas fa-calendar-check", iconColor: "primary" },
   { label: "รอ กตม. พิจารณา", value: 2, icon: "fas fa-users-gear", iconColor: "secondary" },
   { label: "ขึ้นทะเบียนแล้ว", value: 45, icon: "fas fa-warehouse", iconColor: "success" },
 ];
@@ -101,7 +101,7 @@ const recentApplications = [
 const statusBars = [
   { label: "ขึ้นทะเบียนแล้ว", value: 45, pct: 79, color: "success" },
   { label: "รอตรวจสอบเอกสาร", value: 7, pct: 12, color: "warning" },
-  { label: "นัดตรวจแล้ว", value: 3, pct: 5, color: "el-staff" },
+  { label: "นัดตรวจแล้ว", value: 3, pct: 5, color: "primary" },
   { label: "รอ กตม. พิจารณา", value: 2, pct: 4, color: "secondary" },
 ];
 

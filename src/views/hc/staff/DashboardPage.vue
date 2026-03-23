@@ -85,7 +85,7 @@ import AppStatCard from "@/components/common/AppStatCard.vue";
 const router = useRouter();
 
 const stats = [
-  { label: "คำขอทั้งหมด", value: "148", icon: "fas fa-file-lines", iconColor: "hc-staff" },
+  { label: "คำขอทั้งหมด", value: "148", icon: "fas fa-file-lines", iconColor: "primary" },
   { label: "รอตรวจสอบ", value: "12", icon: "fas fa-magnifying-glass", iconColor: "warning" },
   { label: "ตรวจ Lab", value: "8", icon: "fas fa-flask", iconColor: "warning" },
   { label: "รอพิจารณา", value: "5", icon: "fas fa-gavel", iconColor: "warning" },

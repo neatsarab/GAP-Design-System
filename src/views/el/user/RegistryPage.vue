@@ -56,18 +56,20 @@
               hide-details
             />
           </v-col>
-          <v-col cols="auto" class="ml-auto d-flex align-self-end">
-            <v-btn
-              variant="tonal"
-              color="grey"
-              size="small"
-              prepend-icon="fas fa-rotate-left"
-              @click="
-                search = '';
-                filterTab = 'all';
-              "
-              >ล้างตัวกรอง</v-btn
-            >
+        </v-row>
+        <v-row dense>
+          <v-col cols="auto" class="ml-auto">
+          <v-btn
+            variant="tonal"
+            color="grey"
+            size="small"
+            prepend-icon="fas fa-rotate-left"
+            @click="
+              search = '';
+              filterTab = 'all';
+            "
+            >ล้างตัวกรอง</v-btn
+          >
           </v-col>
         </v-row>
       </v-card-text>
@@ -246,7 +248,7 @@ const stats = [
   {
     label: "ทั้งหมด",
     icon: "fas fa-warehouse",
-    color: "el-user",
+    color: "primary",
     value: items.length,
   },
   {

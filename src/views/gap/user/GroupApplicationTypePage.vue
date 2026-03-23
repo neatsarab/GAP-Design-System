@@ -138,7 +138,7 @@ const appTypes = computed(() => [
     title: "คำขอรายเดี่ยว",
     badge: "ใหม่",
     icon: "fas fa-users",
-    color: "gap-user",
+    color: "primary",
     disabled: !sessionStore.isGroupMode,
     description:
       "สำหรับเกษตรกรรายบุคคลที่ต้องการขอรับรองแหล่งผลิต GAP สำหรับแปลงของคนเอง",
@@ -153,7 +153,7 @@ const appTypes = computed(() => [
     title: "ต่ออายุใบรับรองกลุ่ม",
     badge: "เร็วๆ นี้",
     icon: "fas fa-rotate",
-    color: "gap-user",
+    color: "primary",
     disabled: true,
     description:
       "สำหรับกลุ่มเกษตรกรที่ใบรับรองใกล้หมดอายุและต้องการต่ออายุพร้อมกันทั้งกลุ่ม",

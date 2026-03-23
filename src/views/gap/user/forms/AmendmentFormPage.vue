@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="--v-theme-primary: var(--v-theme-gap-user)">
     <!-- Header -->
     <div class="d-flex align-center ga-3 mb-6">
       <v-btn
@@ -85,6 +85,9 @@
                   <div class="field-label-en">GAP Certificate No.</div>
                 </div>
                 <v-text-field
+                  variant="outlined"
+                  density="compact"
+                  rounded="lg"
                   v-model="form.certNo"
                   placeholder="เช่น GAP-C-2567-0089"
                   prepend-inner-icon="fas fa-certificate"
@@ -95,6 +98,9 @@
               <!-- <v-col cols="12" sm="6">
                 <div class="field-label">เลขที่คำขอเดิม <span class="req">*</span></div>
                 <v-text-field v-model="form.originalAppNo" placeholder="เช่น GAP-2567-001"
+                  variant="outlined"
+                  density="compact"
+                  rounded="lg"
                   prepend-inner-icon="fas fa-file-lines" :rules="[rules.required]" hide-details="auto" />
               </v-col> -->
 
@@ -142,24 +148,39 @@
               <v-col cols="12" sm="2">
                 <div class="field-label">คำนำหน้า</div>
                 <v-autocomplete v-model="form.namePrefix" :items="['นาย','นาง','นางสาว']" hide-details="auto" />
+                  variant="outlined"
+                  density="compact"
+                  rounded="lg"
               </v-col>
               <v-col cols="12" sm="5">
                 <div class="field-label">ชื่อ <span class="req">*</span></div>
                 <v-text-field v-model="form.firstName" :rules="[rules.required]" hide-details="auto" />
+                  variant="outlined"
+                  density="compact"
+                  rounded="lg"
               </v-col>
               <v-col cols="12" sm="5">
                 <div class="field-label">นามสกุล <span class="req">*</span></div>
                 <v-text-field v-model="form.lastName" :rules="[rules.required]" hide-details="auto" />
+                  variant="outlined"
+                  density="compact"
+                  rounded="lg"
               </v-col>
               <v-col cols="12" sm="4">
                 <div class="field-label">เลขบัตรประชาชน <span class="req">*</span></div>
                 <v-text-field v-model="form.idCard" placeholder="X-XXXX-XXXXX-XX-X"
+                  variant="outlined"
+                  density="compact"
+                  rounded="lg"
                   prepend-inner-icon="fas fa-id-card" :rules="[rules.required, rules.idCard]"
                   maxlength="13" counter hint="13 หลัก" persistent-hint />
               </v-col>
               <v-col cols="12" sm="4">
                 <div class="field-label">เบอร์โทรศัพท์ <span class="req">*</span></div>
                 <v-text-field v-model="form.phone" prepend-inner-icon="fas fa-phone"
+                  variant="outlined"
+                  density="compact"
+                  rounded="lg"
                   :rules="[rules.required, rules.phone]" hide-details="auto" />
               </v-col> -->
             </v-row>
@@ -258,6 +279,9 @@
                     <div class="field-label-en">Cancellation Reason</div>
                   </div>
                   <v-autocomplete
+                    variant="outlined"
+                    density="compact"
+                    rounded="lg"
                     v-model="form.cancelReason"
                     :items="cancelReasons"
                     item-title="label"
@@ -274,6 +298,9 @@
                     <div class="field-label-en">Additional Details</div>
                   </div>
                   <v-textarea
+                    variant="outlined"
+                    density="compact"
+                    rounded="lg"
                     v-model="form.cancelDetail"
                     placeholder="อธิบายเหตุผลการยกเลิกเพิ่มเติม (ถ้ามี)"
                     rows="3"
@@ -642,5 +669,20 @@ div {
 }
 .amend-detail-field {
   padding: 8px 4px 4px 32px;
+}
+
+.step-done,
+.step-active {
+  background: rgb(var(--v-theme-gap-user)) !important;
+  color: white !important;
+}
+.step-active {
+  box-shadow: 0 0 0 4px rgba(var(--v-theme-gap-user), 0.2) !important;
+}
+.step-line--done {
+  background: rgb(var(--v-theme-gap-user)) !important;
+}
+.field-section-label {
+  color: rgb(var(--v-theme-gap-user)) !important;
 }
 </style>

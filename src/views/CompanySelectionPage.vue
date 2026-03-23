@@ -393,7 +393,7 @@
                 size="small"
                 append-icon="fas fa-arrow-right"
                 style="min-width: 110px"
-                @click="router.push({ path: '/portal', query: { mode: 'user', entityType: 'group', groupName: group.nameTh, groupSystems: group.systems.join(',') } })"
+                @click="router.push({ path: '/portal', query: { mode: 'user', entityType: 'group', groupName: group.nameTh, groupId: group.id, groupSystems: group.systems.join(',') } })"
               >
                 เข้าใช้งาน
               </v-btn>

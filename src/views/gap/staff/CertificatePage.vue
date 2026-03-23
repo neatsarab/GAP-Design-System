@@ -39,8 +39,10 @@
             <div class="field-label"><div>ประเภทใบรับรอง</div><div class="field-label-en">Certificate Type</div></div>
             <v-autocomplete v-model="filterCert" :items="['มกษ. 9001', 'มกษ. 3502']" placeholder="ทั้งหมด" variant="outlined" density="compact" rounded="lg" hide-details clearable />
           </v-col>
-          <v-col cols="auto" class="ml-auto d-flex align-self-end">
-            <v-btn variant="tonal" color="grey" size="small" prepend-icon="fas fa-rotate-left" @click="clearFilters">ล้างตัวกรอง</v-btn>
+        </v-row>
+        <v-row dense>
+          <v-col cols="auto" class="ml-auto">
+          <v-btn variant="tonal" color="grey" size="small" prepend-icon="fas fa-rotate-left" @click="clearFilters">ล้างตัวกรอง</v-btn>
           </v-col>
         </v-row>
       </v-card-text>
@@ -70,7 +72,7 @@
     <v-card rounded="xl" elevation="0" class="data-card">
       <v-data-table :headers="headers" :items="filteredCerts" :search="search" hover>
         <template #item.certNo="{ item }">
-          <span class="text-body-2 font-weight-medium text-primary">{{ item.certNo }}</span>
+          <span class="text-body-2 font-weight-medium text-gap-staff">{{ item.certNo }}</span>
         </template>
         <template #item.status="{ item }">
           <v-chip size="small" :color="getCertStatusColor(item.status)" variant="tonal" :prepend-icon="getCertStatusIcon(item.status)">

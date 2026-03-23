@@ -38,8 +38,10 @@
             <div class="field-label"><div>ประเภทคำขอ</div><div class="field-label-en">Request Type</div></div>
             <v-autocomplete v-model="filterType" :items="typeOptions" item-title="label" item-value="value" placeholder="ทั้งหมด" variant="outlined" density="compact" rounded="lg" hide-details clearable />
           </v-col>
-          <v-col cols="auto" class="ml-auto d-flex align-self-end">
-            <v-btn variant="tonal" color="grey" size="small" prepend-icon="fas fa-rotate-left" @click="clearFilters">ล้างตัวกรอง</v-btn>
+        </v-row>
+        <v-row dense>
+          <v-col cols="auto" class="ml-auto">
+          <v-btn variant="tonal" color="grey" size="small" prepend-icon="fas fa-rotate-left" @click="clearFilters">ล้างตัวกรอง</v-btn>
           </v-col>
         </v-row>
       </v-card-text>
@@ -122,7 +124,7 @@ const allItems: CertItem[] = [
 ];
 
 const stats = computed(() => [
-  { label: "ทั้งหมด",      icon: "fas fa-file-certificate", color: "export-user", value: allItems.length },
+  { label: "ทั้งหมด",      icon: "fas fa-file-certificate", color: "primary", value: allItems.length },
   { label: "มีผล",          icon: "fas fa-circle-check",     color: "success",     value: countByStatus("active") },
   { label: "ใกล้หมดอายุ",  icon: "fas fa-clock",            color: "warning",     value: countByStatus("expiring") },
   { label: "หมดอายุ",       icon: "fas fa-circle-xmark",     color: "error",       value: countByStatus("expired") },

@@ -41,8 +41,10 @@
             <div class="field-label mb-1"><div>ค้นหา</div><div class="field-label-en">Search</div></div>
             <v-text-field v-model="search" prepend-inner-icon="fas fa-search" variant="outlined" density="compact" rounded="lg" clearable hide-details />
           </v-col>
-          <v-col cols="auto" class="ml-auto d-flex align-self-end">
-            <v-btn variant="tonal" color="grey" size="small" prepend-icon="fas fa-rotate-left" @click="search = ''; filterTab = 'all'">ล้างตัวกรอง</v-btn>
+        </v-row>
+        <v-row dense>
+          <v-col cols="auto" class="ml-auto">
+          <v-btn variant="tonal" color="grey" size="small" prepend-icon="fas fa-rotate-left" @click="search = ''; filterTab = 'all'">ล้างตัวกรอง</v-btn>
           </v-col>
         </v-row>
       </v-card-text>
@@ -140,7 +142,7 @@ const certStats = [
     color: "error",
     value: 2,
   },
-  { label: "ทั้งหมด", icon: "fas fa-certificate", color: "hc-user", value: 7 },
+  { label: "ทั้งหมด", icon: "fas fa-certificate", color: "primary", value: 7 },
 ];
 
 interface Cert {

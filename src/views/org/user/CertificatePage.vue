@@ -56,18 +56,20 @@
               hide-details
             />
           </v-col>
-          <v-col cols="auto" class="ml-auto d-flex align-self-end">
-            <v-btn
-              variant="tonal"
-              color="grey"
-              size="small"
-              prepend-icon="fas fa-rotate-left"
-              @click="
-                search = '';
-                filterTab = 'all';
-              "
-              >ล้างตัวกรอง</v-btn
-            >
+        </v-row>
+        <v-row dense>
+          <v-col cols="auto" class="ml-auto">
+          <v-btn
+            variant="tonal"
+            color="grey"
+            size="small"
+            prepend-icon="fas fa-rotate-left"
+            @click="
+              search = '';
+              filterTab = 'all';
+            "
+            >ล้างตัวกรอง</v-btn
+          >
           </v-col>
         </v-row>
       </v-card-text>
@@ -257,7 +259,7 @@ const certStats = [
   {
     label: "ทั้งหมด",
     icon: "fas fa-seedling",
-    color: "org-user",
+    color: "primary",
     value: certs.length,
   },
   {

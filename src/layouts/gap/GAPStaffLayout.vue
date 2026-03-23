@@ -11,7 +11,7 @@
       <!-- Brand -->
       <v-list-item nav class="py-4 px-4">
         <template v-slot:prepend>
-          <div class="logo-icon-box rounded-lg mr-3">
+          <div class="logo-icon-box rounded-lg mr-3" style="background: rgba(var(--v-theme-gap-staff), 0.12); border: 1px solid rgba(var(--v-theme-gap-staff), 0.2);">
             <v-icon icon="fas fa-seedling" color="gap-staff" size="20" />
           </div>
         </template>
@@ -36,7 +36,7 @@
 
       <!-- User Card -->
       <div v-if="!rail" class="px-4 mb-2">
-        <div class="user-card rounded-lg pa-3 d-flex align-center ga-2">
+        <div class="user-card rounded-lg pa-3 d-flex align-center ga-2" style="background: rgba(var(--v-theme-gap-staff), 0.06); border: 1px solid rgba(var(--v-theme-gap-staff), 0.12);">
           <v-avatar color="gap-staff" size="32">
             <v-icon icon="fas fa-user-tie" size="16" color="white" />
           </v-avatar>
@@ -100,7 +100,7 @@
     </v-navigation-drawer>
 
     <!-- ── App Bar ── -->
-    <v-app-bar flat height="64" class="app-bar">
+    <v-app-bar flat height="64" class="app-bar" :style="{ '--v-theme-primary': 'var(--v-theme-gap-staff)' }">
       <v-btn
         icon="fas fa-bars"
         variant="text"
@@ -162,6 +162,7 @@
     <!-- ── Logout Dialog ── -->
     <v-dialog v-model="logoutDialog" max-width="360" persistent>
       <v-card rounded="xl">
+        <v-btn icon="fas fa-xmark" variant="text" size="small" color="grey" class="position-absolute top-0 right-0 ma-2" @click="logoutDialog = false" />
         <v-card-text class="pa-6 text-center">
           <div class="logout-icon-ring mx-auto mb-4">
             <v-icon icon="fas fa-right-from-bracket" size="28" color="error" />
@@ -189,7 +190,7 @@
 
     <!-- ── Content ── -->
     <v-main class="bg-background">
-      <v-container fluid class="pa-5 pa-md-7" style="max-width: 1320px">
+      <v-container fluid class="pa-5 pa-md-7" style="max-width: 1320px; --v-theme-primary: var(--v-theme-gap-staff)">
         <router-view />
       </v-container>
     </v-main>
@@ -311,49 +312,3 @@ const breadcrumbs = computed(() => {
 });
 </script>
 
-<style scoped>
-.app-sidebar {
-  border-right: 1px solid rgba(var(--v-border-color), var(--v-border-opacity)) !important;
-}
-.app-bar {
-  backdrop-filter: blur(8px) !important;
-  -webkit-backdrop-filter: blur(8px) !important;
-  background: rgba(var(--v-theme-surface), 0.92) !important;
-  border-bottom: 1px solid rgba(var(--v-border-color), var(--v-border-opacity)) !important;
-}
-.logo-icon-box {
-  width: 36px;
-  height: 36px;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(var(--v-theme-gap-staff), 0.12);
-  border: 1px solid rgba(var(--v-theme-gap-staff), 0.2);
-}
-.user-card {
-  background: rgba(var(--v-theme-gap-staff), 0.08);
-  border: 1px solid rgba(var(--v-theme-gap-staff), 0.25);
-}
-.user-chip {
-  background: rgba(var(--v-theme-gap-staff), 0.06);
-  font-size: 12px;
-}
-.logout-icon-ring {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  background: rgba(var(--v-theme-error), 0.1);
-  border: 1px solid rgba(var(--v-theme-error), 0.2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.sidebar-group-label {
-  font-size: 10px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  padding: 8px 12px 4px;
-}
-</style>

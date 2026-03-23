@@ -27,8 +27,10 @@
             <div class="field-label mb-1"><div>สถานะ</div><div class="field-label-en">Status</div></div>
             <v-select v-model="filterStatus" :items="statusOptions" item-title="label" item-value="value" variant="outlined" density="compact" rounded="lg" hide-details clearable />
           </v-col>
-          <v-col cols="auto" class="ml-auto d-flex align-self-end">
-            <v-btn variant="tonal" color="grey" size="small" prepend-icon="fas fa-rotate-left" @click="clearFilters">ล้างตัวกรอง</v-btn>
+        </v-row>
+        <v-row dense>
+          <v-col cols="auto" class="ml-auto">
+          <v-btn variant="tonal" color="grey" size="small" prepend-icon="fas fa-rotate-left" @click="clearFilters">ล้างตัวกรอง</v-btn>
           </v-col>
         </v-row>
       </v-card-text>
@@ -112,7 +114,7 @@ const statusOptions = [
 
 const statusTabs = [
   { value: 'all',                   label: 'ทั้งหมด',               color: 'org-staff', icon: 'fas fa-list' },
-  { value: 'submitted',             label: 'ยื่นแล้ว',               color: 'primary',   icon: 'fas fa-paper-plane' },
+  { value: 'submitted',             label: 'ยื่นแล้ว',               color: 'org-staff',   icon: 'fas fa-paper-plane' },
   { value: 'doc_review',            label: 'ตรวจเอกสาร',            color: 'info',      icon: 'fas fa-magnifying-glass' },
   { value: 'inspection_scheduled',  label: 'นัดตรวจแล้ว',           color: 'secondary', icon: 'fas fa-calendar-check' },
   { value: 'pending_cc',            label: 'รอ CC',                  color: 'warning',   icon: 'fas fa-gavel' },
@@ -172,7 +174,7 @@ function onRowClick(_e: unknown, row: { item: Application }) {
 }
 
 function statusColor(s: string) {
-  const m: Record<string, string> = { submitted: 'primary', doc_review: 'info', revision_required: 'warning', inspection_scheduled: 'secondary', inspected: 'secondary', pending_cc: 'warning', cc_reviewing: 'error', approved: 'success', rejected: 'error' }
+  const m: Record<string, string> = { submitted: 'org-staff', doc_review: 'info', revision_required: 'warning', inspection_scheduled: 'secondary', inspected: 'secondary', pending_cc: 'warning', cc_reviewing: 'error', approved: 'success', rejected: 'error' }
   return m[s] ?? 'grey'
 }
 function statusIcon(s: string) {

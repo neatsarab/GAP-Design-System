@@ -158,7 +158,7 @@
                       <td class="text-body-2">{{ p.sampleNo }}</td>
                       <td class="text-body-2">{{ p.name }}</td>
                       <td class="text-body-2">{{ p.weight }}</td>
-                      <td class="text-body-2 text-primary">{{ p.gapCode }}</td>
+                      <td class="text-body-2 text-hc-user">{{ p.gapCode }}</td>
                     </tr>
                   </tbody>
                 </v-table>
@@ -435,7 +435,7 @@ function isTimelinePending(idx: number) {
 
 function getStatusColor(s: string) {
   const m: Record<string, string> = {
-    submitted: "hc-user",
+    submitted: "primary",
     under_review: "warning",
     testing: "secondary",
     pending_approval: "primary",

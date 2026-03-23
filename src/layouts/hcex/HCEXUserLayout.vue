@@ -11,7 +11,7 @@
       <!-- Brand -->
       <v-list-item nav class="py-4 px-4">
         <template v-slot:prepend>
-          <div class="logo-icon-box rounded-lg mr-3">
+          <div class="logo-icon-box rounded-lg mr-3" style="background: rgba(var(--v-theme-hcex-user), 0.12); border: 1px solid rgba(var(--v-theme-hcex-user), 0.2);">
             <v-icon icon="fas fa-industry" color="hcex-user" size="20" />
           </div>
         </template>
@@ -36,7 +36,7 @@
 
       <!-- User Card -->
       <div v-if="!rail" class="px-4 mb-2">
-        <div class="user-card rounded-lg pa-3 d-flex align-center ga-2">
+        <div class="user-card rounded-lg pa-3 d-flex align-center ga-2" style="background: rgba(var(--v-theme-hcex-user), 0.06); border: 1px solid rgba(var(--v-theme-hcex-user), 0.12);">
           <v-avatar color="hcex-user" size="32" variant="tonal">
             <v-icon :icon="sessionStore.entityIcon" size="16" color="hcex-user" />
           </v-avatar>
@@ -95,7 +95,7 @@
     </v-navigation-drawer>
 
     <!-- ── App Bar ── -->
-    <v-app-bar flat height="64" class="app-bar">
+    <v-app-bar flat height="64" class="app-bar" :style="{ '--v-theme-primary': 'var(--v-theme-hcex-user)' }">
       <v-btn
         icon="fas fa-bars"
         variant="text"
@@ -151,6 +151,7 @@
     <!-- ── Logout Dialog ── -->
     <v-dialog v-model="logoutDialog" max-width="360" persistent>
       <v-card rounded="xl">
+        <v-btn icon="fas fa-xmark" variant="text" size="small" color="grey" class="position-absolute top-0 right-0 ma-2" @click="logoutDialog = false" />
         <v-card-text class="pa-6 text-center">
           <div class="logout-icon-ring mx-auto mb-4">
             <v-icon icon="fas fa-right-from-bracket" size="28" color="error" />
@@ -178,7 +179,7 @@
 
     <!-- ── Content ── -->
     <v-main class="bg-background">
-      <v-container fluid class="pa-5 pa-md-7" style="max-width: 1320px">
+      <v-container fluid class="pa-5 pa-md-7" style="max-width: 1320px; --v-theme-primary: var(--v-theme-hcex-user)">
         <router-view />
       </v-container>
     </v-main>
@@ -252,45 +253,3 @@ const navGroups = [
 ];
 </script>
 
-<style scoped>
-.app-sidebar {
-  border-right: 1px solid rgba(var(--v-border-color), var(--v-border-opacity)) !important;
-}
-.logo-icon-box {
-  width: 36px;
-  height: 36px;
-  background: rgba(var(--v-theme-hcex-user), 0.12);
-  border: 1px solid rgba(var(--v-theme-hcex-user), 0.2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-.user-card {
-  background: rgba(var(--v-theme-hcex-user), 0.06);
-  border: 1px solid rgba(var(--v-theme-hcex-user), 0.12);
-}
-.sidebar-group-label {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.8px;
-  text-transform: uppercase;
-  padding: 8px 12px 4px;
-}
-.app-bar {
-  border-bottom: 1px solid rgba(var(--v-border-color), var(--v-border-opacity)) !important;
-}
-.user-chip {
-  font-size: 12px;
-  background: rgba(var(--v-theme-hcex-user), 0.06);
-}
-.logout-icon-ring {
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  background: rgba(var(--v-theme-error), 0.1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-</style>

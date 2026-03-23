@@ -63,10 +63,12 @@
               clearable
             />
           </v-col>
-          <v-col cols="auto" class="ml-auto d-flex align-self-end">
-            <v-btn variant="tonal" color="grey" size="small" prepend-icon="fas fa-rotate-left" @click="clearFilters">
-              ล้างตัวกรอง
-            </v-btn>
+        </v-row>
+        <v-row dense>
+          <v-col cols="auto" class="ml-auto">
+          <v-btn variant="tonal" color="grey" size="small" prepend-icon="fas fa-rotate-left" @click="clearFilters">
+            ล้างตัวกรอง
+          </v-btn>
           </v-col>
         </v-row>
       </v-card-text>
@@ -99,12 +101,12 @@
       >
         <!-- Request No -->
         <template #item.requestNo="{ item }">
-          <span class="text-body-2 font-weight-medium text-primary">{{ item.requestNo }}</span>
+          <span class="text-body-2 font-weight-medium text-gap-staff">{{ item.requestNo }}</span>
         </template>
 
         <!-- Type -->
         <template #item.type="{ item }">
-          <v-chip size="x-small" :color="item.type === 'individual' ? 'primary' : 'secondary'" variant="tonal">
+          <v-chip size="x-small" :color="item.type === 'individual' ? 'gap-staff' : 'secondary'" variant="tonal">
             <v-icon start :icon="item.type === 'individual' ? 'fas fa-user' : 'fas fa-users'" size="10" />
             {{ item.type === 'individual' ? 'เดี่ยว' : 'กลุ่ม' }}
           </v-chip>
@@ -256,7 +258,7 @@ function getStatusColor(status: string): string {
     scheduling:   'info',
     inspecting:   'secondary',
     inspected:    'secondary',
-    pending_cc:   'primary',
+    pending_cc:   'gap-staff',
     cc_reviewing: 'error',
     approved:     'success',
     cert_issued:  'success',

@@ -86,7 +86,7 @@ const appTypes = [
     title: "ขอใบรับรองสุขอนามัยพืช",
     badge: "ทั่วไป",
     icon: "fas fa-file-shield",
-    color: "hc-user",
+    color: "primary",
     description:
       "สำหรับผู้ส่งออกที่ต้องการขอใบรับรองสุขอนามัยพืชเพื่อประกอบการส่งออกสินค้าพืชควบคุมเฉพาะ",
     features: [

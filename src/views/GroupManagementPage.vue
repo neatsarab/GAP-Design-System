@@ -126,7 +126,6 @@
             color="warning"
             rounded="lg"
             prepend-icon="fas fa-user-plus"
-            :disabled="juristicInGroup"
             @click="showAddMember = !showAddMember"
             >เพิ่มสมาชิก</v-btn
           >
@@ -144,83 +143,107 @@
               ค้นหาสมาชิกที่ต้องการเพิ่ม
             </div>
 
-            <!-- เงื่อนไขข้อ 2: เมื่อมีนิติบุคคลแล้ว lock การเพิ่มสมาชิกทั้งหมด -->
             <v-alert
               v-if="juristicInGroup"
-              color="error"
+              color="warning"
               variant="tonal"
               density="compact"
               rounded="lg"
-              prepend-icon="fas fa-lock"
+              prepend-icon="fas fa-triangle-exclamation"
               class="mb-3"
             >
-              <span class="text-caption">
-                กลุ่มนี้มีนิติบุคคลเป็นสมาชิกแล้ว — ไม่สามารถเพิ่มสมาชิกใหม่ได้อีก
-              </span>
+              <span class="text-caption"
+                >มีนิติบุคคลในกลุ่มแล้ว 1 ราย —
+                ไม่สามารถเพิ่มนิติบุคคลอื่นได้อีก</span
+              >
             </v-alert>
 
-            <template v-else>
-              <div class="d-flex ga-2 mb-3">
-                <v-text-field
-                  v-model="memberSearch"
-                  variant="outlined"
-                  density="compact"
-                  rounded="lg"
-                  hide-details
-                  placeholder="ค้นหาด้วยเลขบัตรประชาชน หรือเลขทะเบียนนิติบุคคล"
-                  prepend-inner-icon="fas fa-magnifying-glass"
-                  style="flex: 1"
-                  @keyup.enter="searchMember"
-                />
-                <v-btn
-                  color="warning"
-                  rounded="lg"
-                  :loading="memberLoading"
-                  @click="searchMember"
-                  >ค้นหา</v-btn
-                >
-              </div>
+            <div class="d-flex ga-2 mb-3">
+              <v-text-field
+                v-model="memberSearch"
+                variant="outlined"
+                density="compact"
+                rounded="lg"
+                hide-details
+                placeholder="ค้นหาด้วยเลขบัตรประชาชน หรือเลขทะเบียนนิติบุคคล"
+                prepend-inner-icon="fas fa-magnifying-glass"
+                style="flex: 1"
+                @keyup.enter="searchMember"
+              />
+              <v-btn
+                color="warning"
+                rounded="lg"
+                :loading="memberLoading"
+                @click="searchMember"
+                >ค้นหา</v-btn
+              >
+            </div>
 
-              <v-expand-transition>
-                <div v-if="memberResult">
-                  <v-card
-                    rounded="lg"
-                    variant="outlined"
-                    class="mb-2 pa-3 d-flex align-center ga-3"
-                  >
-                    <div class="flex-grow-1">
-                      <div class="text-body-2 font-weight-medium">
-                        {{ memberResult.name }}
-                      </div>
-                      <div class="text-caption text-medium-emphasis">
-                        {{ memberResult.idNo }}
-                      </div>
+            <v-expand-transition>
+              <div v-if="memberResult">
+                <v-card
+                  rounded="lg"
+                  variant="outlined"
+                  class="mb-2 pa-3 d-flex align-center ga-3"
+                >
+                  <v-icon
+                    :icon="
+                      memberResult.isJuristic
+                        ? 'fas fa-building'
+                        : 'fas fa-user'
+                    "
+                    :color="memberResult.isJuristic ? 'info' : 'success'"
+                    size="16"
+                  />
+                  <div class="flex-grow-1">
+                    <div class="text-body-2 font-weight-medium">
+                      {{ memberResult.name }}
                     </div>
-                    <v-chip
-                      v-if="memberResult.isJuristic"
-                      size="x-small"
-                      color="info"
-                      variant="tonal"
-                      >นิติบุคคล</v-chip
-                    >
-                    <v-btn
-                      size="small"
-                      color="warning"
-                      rounded="lg"
-                      :disabled="alreadyInGroup(memberResult.idNo)"
-                      @click="addMember"
-                      >เพิ่ม</v-btn
-                    >
-                  </v-card>
-                  <div
-                    v-if="alreadyInGroup(memberResult.idNo)"
-                    class="text-caption text-error mb-2"
-                  >
-                    <v-icon icon="fas fa-circle-xmark" size="11" class="mr-1" />บุคคลนี้เป็นสมาชิกอยู่แล้ว
+                    <div class="text-caption text-medium-emphasis">
+                      {{ memberResult.idNo }}
+                    </div>
                   </div>
+                  <v-chip
+                    v-if="memberResult.isJuristic"
+                    size="x-small"
+                    color="info"
+                    variant="tonal"
+                    >นิติบุคคล</v-chip
+                  >
+                  <v-btn
+                    size="small"
+                    color="warning"
+                    rounded="lg"
+                    :disabled="
+                      (memberResult.isJuristic && juristicInGroup) ||
+                      alreadyInGroup(memberResult.idNo)
+                    "
+                    @click="addMember"
+                    >เพิ่ม</v-btn
+                  >
+                </v-card>
+                <div
+                  v-if="memberResult.isJuristic && juristicInGroup"
+                  class="text-caption text-error mb-2"
+                >
+                  <v-icon
+                    icon="fas fa-circle-xmark"
+                    size="11"
+                    class="mr-1"
+                  />ไม่สามารถเพิ่มนิติบุคคลซ้ำได้
                 </div>
-              </v-expand-transition>
-            </template>
+                <div
+                  v-else-if="alreadyInGroup(memberResult.idNo)"
+                  class="text-caption text-error mb-2"
+                >
+                  <v-icon
+                    icon="fas fa-circle-xmark"
+                    size="11"
+                    class="mr-1"
+                  />บุคคลนี้เป็นสมาชิกอยู่แล้ว
+                </div>
+              </div>
+            </v-expand-transition>
           </v-card>
         </v-expand-transition>
 
@@ -272,9 +295,8 @@
                 {{ member.idNo }}
               </div>
             </div>
-            <!-- เงื่อนไขข้อ 3: สมาชิกทุกคนจัดการกลุ่มได้ รวมถึงตั้งหัวหน้า -->
             <v-btn
-              v-if="member.id !== currentLeaderId"
+              v-if="isCurrentUserCreator && member.id !== currentLeaderId"
               size="small"
               variant="tonal"
               color="warning"
@@ -388,7 +410,7 @@ const mockGroups: GroupData[] = [
     nameTh: "กลุ่มเกษตรกรอินทรีย์บ้านนาดี",
     nameEn: "Ban Na Di Organic Farmers Group",
     regNo: "GRP-68-0001",
-    memberCount: 5,
+    memberCount: 24,
     systems: ["ORG", "GAP"],
     leaderId: "u2",
     creatorId: "u1",
@@ -430,9 +452,9 @@ const mockGroups: GroupData[] = [
     nameTh: "วิสาหกิจชุมชนสวนผักปลอดภัย อ.แม่ริม",
     nameEn: "Mae Rim Safe Vegetable Community Enterprise",
     regNo: "GRP-68-0034",
-    memberCount: 5,
+    memberCount: 12,
     systems: ["GAP"],
-    leaderId: "u11",
+    leaderId: "u10",
     creatorId: "u10",
     members: [
       {
@@ -465,20 +487,6 @@ const mockGroups: GroupData[] = [
         idNo: "1 5001 00014 55 6",
         isJuristic: false,
       },
-    ],
-  },
-  {
-    id: "gr3",
-    nameTh: "กลุ่มเกษตรกรแปลงใหญ่มะม่วง จ.ฉะเชิงเทรา",
-    nameEn: "Chachoengsao Large-Scale Mango Farmers Group",
-    regNo: "GRP-68-0087",
-    memberCount: 1,
-    systems: ["GAP"],
-    // นิติบุคคลเป็นสมาชิกเดียว — เงื่อนไขข้อ 2: เพิ่มสมาชิกอื่นไม่ได้อีก
-    leaderId: "u25",
-    creatorId: "u20",
-    members: [
-      { id: "u25", name: "บริษัท ไทยฟาร์มเอ็กซ์พอร์ต จำกัด", idNo: "0245566001234", isJuristic: true },
     ],
   },
 ];
@@ -536,7 +544,7 @@ function searchMember() {
 
 function addMember() {
   if (!memberResult.value) return;
-  if (juristicInGroup.value) return; // เงื่อนไขข้อ 2: lock เมื่อมี juristic
+  if (memberResult.value.isJuristic && juristicInGroup.value) return;
   if (alreadyInGroup(memberResult.value.idNo)) return;
   members.value.push({ ...memberResult.value });
   memberResult.value = null;

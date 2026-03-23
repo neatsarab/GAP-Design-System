@@ -138,7 +138,7 @@ const allItems = [
 ];
 
 const stats = [
-  { label: "ทั้งหมด",      value: allItems.length, icon: "fas fa-warehouse",    color: "el-staff" },
+  { label: "ทั้งหมด",      value: allItems.length, icon: "fas fa-warehouse",    color: "primary" },
   { label: "มีผล",          value: allItems.filter(i => i.status === "active").length,        icon: "fas fa-circle-check", color: "success" },
   { label: "ใกล้หมดอายุ",  value: allItems.filter(i => i.status === "expiring_soon").length, icon: "fas fa-clock",        color: "warning" },
   { label: "หมดอายุ",       value: allItems.filter(i => i.status === "expired").length,       icon: "fas fa-circle-xmark", color: "error" },

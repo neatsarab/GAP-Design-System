@@ -1,10 +1,14 @@
 <template>
-  <div>
+  <div style="--v-theme-primary: var(--v-theme-hc-user)">
     <div class="d-flex align-center ga-3 mb-6">
+      <v-btn
+        icon="fas fa-arrow-left"
+        variant="text"
+        size="small"
+        @click="router.push('/hc/user/applications/new')"
+      />
       <div>
-        <h1 class="page-title mb-1">
-          ยื่นคำขอใบรับรองสุขอนามัยพืช
-        </h1>
+        <h1 class="page-title mb-1">ยื่นคำขอใบรับรองสุขอนามัยพืช</h1>
         <p class="text-body-2 text-medium-emphasis mb-0">
           กรอกข้อมูลตามขั้นตอนให้ครบถ้วน
         </p>
@@ -12,76 +16,237 @@
     </div>
 
     <!-- Form Steps -->
-    <template>
-      <!-- Step Indicator -->
-      <v-card class="mb-5">
-        <v-card-text class="pa-5">
-          <div class="d-flex align-center">
-            <template v-for="(step, idx) in formSteps" :key="step.key">
-              <div
-                class="step-item d-flex flex-column align-center"
-                style="min-width: 80px"
-              >
-                <div class="step-circle mb-1" :class="stepClass(idx)">
-                  <v-icon
-                    v-if="currentStep > idx"
-                    icon="fas fa-check"
-                    size="14"
-                    color="white"
-                  />
-                  <span v-else class="text-caption font-weight-bold">{{
-                    idx + 1
-                  }}</span>
-                </div>
-                <div
-                  class="text-caption text-center"
-                  :class="
-                    currentStep >= idx
-                      ? 'text-hc-user font-weight-bold'
-                      : 'text-medium-emphasis'
-                  "
-                >
-                  {{ step.label }}
-                </div>
+    <!-- Step Indicator -->
+    <v-card rounded="xl" elevation="0" class="mb-6 section-card">
+      <v-card-text class="pa-5">
+        <div class="d-flex align-center">
+          <template v-for="(step, idx) in formSteps" :key="step.key">
+            <div
+              class="step-item d-flex flex-column align-center"
+              style="min-width: 80px"
+            >
+              <div class="step-circle mb-1" :class="stepClass(idx)">
+                <v-icon
+                  v-if="currentStep > idx"
+                  icon="fas fa-check"
+                  size="14"
+                  color="white"
+                />
+                <span v-else class="text-caption font-weight-bold">{{
+                  idx + 1
+                }}</span>
               </div>
               <div
-                v-if="idx < formSteps.length - 1"
-                class="step-line flex-grow-1"
-                :class="{ 'step-line--done': currentStep > idx }"
+                class="text-caption text-center"
+                :class="
+                  currentStep >= idx
+                    ? 'text-hc-user font-weight-bold'
+                    : 'text-medium-emphasis'
+                "
+              >
+                {{ step.label }}
+              </div>
+            </div>
+            <div
+              v-if="idx < formSteps.length - 1"
+              class="step-line flex-grow-1"
+              :class="{ 'step-line--done': currentStep > idx }"
+            />
+          </template>
+        </div>
+      </v-card-text>
+    </v-card>
+
+    <v-form ref="formRef" @submit.prevent="handleNext">
+      <!-- Step 1: ข้อมูลผู้ส่งออก -->
+      <v-card
+        v-if="currentStep === 0"
+        elevation="0"
+        border
+        rounded="xl"
+        class="mb-4"
+      >
+        <div class="d-flex align-center ga-2 px-4 py-3 border-b">
+          <v-icon icon="fas fa-building" color="hc-user" size="15" />
+          <span class="text-subtitle-2 font-weight-bold"
+            >ข้อมูลผู้ส่งออก (Exporter)</span
+          >
+        </div>
+        <v-card-text class="pt-5">
+          <div class="field-section-label mb-3">ข้อมูลบริษัท</div>
+          <v-row dense>
+            <v-col cols="12" sm="6">
+              <div class="field-label">
+                <div>ชื่อผู้ส่งออก <span class="req">*</span></div>
+                <div class="field-label-en">Exporter Name</div>
+              </div>
+              <v-text-field
+                variant="outlined"
+                density="compact"
+                rounded="lg"
+                v-model="form.exporterName"
+                placeholder="ชื่อบริษัท / ชื่อผู้ส่งออก"
+                hide-details
+                :rules="[rules.required]"
               />
-            </template>
-          </div>
+            </v-col>
+            <v-col cols="12">
+              <div class="field-section-label mt-2 mb-2">
+                ที่ตั้งและการติดต่อ
+              </div>
+            </v-col>
+            <v-col cols="12" sm="6">
+              <div class="field-label">
+                <div>ที่อยู่ <span class="req">*</span></div>
+                <div class="field-label-en">Address</div>
+              </div>
+              <v-text-field
+                variant="outlined"
+                density="compact"
+                rounded="lg"
+                v-model="form.exporterAddress"
+                placeholder="ที่อยู่"
+                hide-details
+                :rules="[rules.required]"
+              />
+            </v-col>
+            <v-col cols="12" sm="4">
+              <div class="field-label">
+                <div>จังหวัด <span class="req">*</span></div>
+                <div class="field-label-en">Province</div>
+              </div>
+              <v-autocomplete
+                variant="outlined"
+                density="compact"
+                rounded="lg"
+                v-model="form.exporterProvince"
+                :items="provinces"
+                placeholder="เลือกจังหวัด"
+                hide-details
+                :rules="[rules.required]"
+              />
+            </v-col>
+            <v-col cols="12" sm="4">
+              <div class="field-label">
+                <div>รหัสไปรษณีย์</div>
+                <div class="field-label-en">Postal Code</div>
+              </div>
+              <v-text-field
+                variant="outlined"
+                density="compact"
+                rounded="lg"
+                v-model="form.exporterZip"
+                placeholder="XXXXX"
+                hide-details
+                maxlength="5"
+              />
+            </v-col>
+            <v-col cols="12" sm="4">
+              <div class="field-label">
+                <div>โทรศัพท์ <span class="req">*</span></div>
+                <div class="field-label-en">Phone Number</div>
+              </div>
+              <v-text-field
+                variant="outlined"
+                density="compact"
+                rounded="lg"
+                v-model="form.exporterPhone"
+                placeholder="0X-XXXX-XXXX"
+                hide-details
+                :rules="[rules.required]"
+              />
+            </v-col>
+          </v-row>
         </v-card-text>
       </v-card>
 
-      <v-form ref="formRef" @submit.prevent="handleNext">
-        <!-- Step 1: ข้อมูลผู้ส่งออก -->
-        <v-card v-if="currentStep === 0" class="mb-4">
-          <v-card-title
-            class="pa-4 pb-2 text-body-1 font-weight-bold d-flex align-center ga-2"
-          >
-            <v-icon icon="fas fa-building" color="hc-user" size="16" />
-            ข้อมูลผู้ส่งออก (Exporter)
-          </v-card-title>
-          <v-card-text class="pa-4 pt-0">
-            <div class="field-section-label mb-3 mt-2">ข้อมูลบริษัท</div>
+      <!-- Step 2: โรงคัดบรรจุ + ผู้รับสินค้า -->
+      <div v-if="currentStep === 1">
+        <v-card elevation="0" border rounded="xl" class="mb-4">
+          <div class="d-flex align-center ga-2 px-4 py-3 border-b">
+            <v-icon icon="fas fa-warehouse" color="hc-user" size="15" />
+            <span class="text-subtitle-2 font-weight-bold"
+              >โรงคัดบรรจุ (Packing House)</span
+            >
+          </div>
+          <v-card-text class="pt-5">
+            <div class="field-section-label mb-3">ข้อมูลโรงคัดบรรจุ</div>
+            <v-row dense>
+              <v-col cols="12" sm="4">
+                <div class="field-label">
+                  <div>รหัสโรงคัดบรรจุ <span class="req">*</span></div>
+                  <div class="field-label-en">Packing House Code</div>
+                </div>
+                <v-autocomplete
+                  variant="outlined"
+                  density="compact"
+                  rounded="lg"
+                  v-model="form.packingHouseCode"
+                  :items="packingHouseOptions"
+                  item-title="label"
+                  item-value="code"
+                  placeholder="เลือกโรงคัดบรรจุ"
+                  hide-details
+                  :rules="[rules.required]"
+                  @update:model-value="fillPackingHouse"
+                />
+              </v-col>
+              <v-col cols="12" sm="4">
+                <div class="field-label">
+                  <div>ชื่อโรงคัดบรรจุ</div>
+                  <div class="field-label-en">Packing House Name</div>
+                </div>
+                <v-text-field
+                  variant="outlined"
+                  density="compact"
+                  rounded="lg"
+                  v-model="form.packingHouseName"
+                  readonly
+                  hide-details
+                />
+              </v-col>
+              <v-col cols="12" sm="4">
+                <div class="field-label">
+                  <div>จังหวัด</div>
+                  <div class="field-label-en">Province</div>
+                </div>
+                <v-text-field
+                  variant="outlined"
+                  density="compact"
+                  rounded="lg"
+                  v-model="form.packingHouseProvince"
+                  readonly
+                  hide-details
+                />
+              </v-col>
+            </v-row>
+          </v-card-text>
+        </v-card>
+
+        <v-card elevation="0" border rounded="xl">
+          <div class="d-flex align-center ga-2 px-4 py-3 border-b">
+            <v-icon icon="fas fa-user-tie" color="hc-user" size="15" />
+            <span class="text-subtitle-2 font-weight-bold"
+              >ผู้รับสินค้า (Consignee)</span
+            >
+          </div>
+          <v-card-text class="pt-5">
+            <div class="field-section-label mb-3">ข้อมูลผู้รับสินค้า</div>
             <v-row dense>
               <v-col cols="12" sm="6">
                 <div class="field-label">
-                  <div>ชื่อผู้ส่งออก <span class="req">*</span></div>
-                  <div class="field-label-en">Exporter Name</div>
+                  <div>ชื่อผู้รับสินค้า <span class="req">*</span></div>
+                  <div class="field-label-en">Consignee Name</div>
                 </div>
                 <v-text-field
-                  v-model="form.exporterName"
-                  placeholder="ชื่อบริษัท / ชื่อผู้ส่งออก"
-                  hide-details="auto"
+                  variant="outlined"
+                  density="compact"
+                  rounded="lg"
+                  v-model="form.consigneeName"
+                  placeholder="Consignee name"
+                  hide-details
                   :rules="[rules.required]"
                 />
-              </v-col>
-              <v-col cols="12">
-                <div class="field-section-label mt-3 mb-2">
-                  ที่ตั้งและการติดต่อ
-                </div>
               </v-col>
               <v-col cols="12" sm="6">
                 <div class="field-label">
@@ -89,418 +254,303 @@
                   <div class="field-label-en">Address</div>
                 </div>
                 <v-text-field
-                  v-model="form.exporterAddress"
-                  placeholder="ที่อยู่"
-                  hide-details="auto"
+                  variant="outlined"
+                  density="compact"
+                  rounded="lg"
+                  v-model="form.consigneeAddress"
+                  placeholder="Address"
+                  hide-details
                   :rules="[rules.required]"
                 />
               </v-col>
               <v-col cols="12" sm="4">
                 <div class="field-label">
-                  <div>จังหวัด <span class="req">*</span></div>
-                  <div class="field-label-en">Province</div>
+                  <div>ประเทศปลายทาง <span class="req">*</span></div>
+                  <div class="field-label-en">Destination Country</div>
                 </div>
                 <v-autocomplete
-                  v-model="form.exporterProvince"
-                  :items="provinces"
-                  placeholder="เลือกจังหวัด"
-                  hide-details="auto"
-                  :rules="[rules.required]"
-                />
-              </v-col>
-              <v-col cols="12" sm="4">
-                <div class="field-label">
-                  <div>รหัสไปรษณีย์</div>
-                  <div class="field-label-en">Postal Code</div>
-                </div>
-                <v-text-field
-                  v-model="form.exporterZip"
-                  placeholder="XXXXX"
-                  hide-details="auto"
-                  maxlength="5"
-                />
-              </v-col>
-              <v-col cols="12" sm="4">
-                <div class="field-label">
-                  <div>โทรศัพท์ <span class="req">*</span></div>
-                  <div class="field-label-en">Phone Number</div>
-                </div>
-                <v-text-field
-                  v-model="form.exporterPhone"
-                  placeholder="0X-XXXX-XXXX"
-                  hide-details="auto"
+                  variant="outlined"
+                  density="compact"
+                  rounded="lg"
+                  v-model="form.destination"
+                  :items="countries"
+                  placeholder="เลือกประเทศ"
+                  hide-details
                   :rules="[rules.required]"
                 />
               </v-col>
             </v-row>
           </v-card-text>
         </v-card>
+      </div>
 
-        <!-- Step 2: โรงคัดบรรจุ + ผู้รับสินค้า -->
-        <div v-if="currentStep === 1">
-          <v-card class="mb-4">
-            <v-card-title
-              class="pa-4 pb-2 text-body-1 font-weight-bold d-flex align-center ga-2"
-            >
-              <v-icon icon="fas fa-warehouse" color="hc-user" size="16" />
-              โรงคัดบรรจุ (Packing House)
-            </v-card-title>
-            <v-card-text class="pa-4 pt-0">
-              <div class="field-section-label mb-3 mt-2">ข้อมูลโรงคัดบรรจุ</div>
-              <v-row dense>
-                <v-col cols="12" sm="4">
-                  <div class="field-label">
-                    <div>รหัสโรงคัดบรรจุ <span class="req">*</span></div>
-                    <div class="field-label-en">Packing House Code</div>
-                  </div>
-                  <v-autocomplete
-                    v-model="form.packingHouseCode"
-                    :items="packingHouseOptions"
-                    item-title="label"
-                    item-value="code"
-                    placeholder="เลือกโรงคัดบรรจุ"
-                    hide-details="auto"
+      <!-- Step 3: รายละเอียดสินค้า -->
+      <v-card
+        v-if="currentStep === 2"
+        elevation="0"
+        border
+        rounded="xl"
+        class="mb-4"
+      >
+        <div class="d-flex align-center ga-2 px-4 py-3 border-b">
+          <v-icon icon="fas fa-box" color="hc-user" size="15" />
+          <span class="text-subtitle-2 font-weight-bold">รายละเอียดสินค้า</span>
+          <v-spacer />
+          <v-btn
+            color="hc-user"
+            size="small"
+            variant="tonal"
+            prepend-icon="fas fa-plus"
+            @click="addProduct"
+            >เพิ่มสินค้า</v-btn
+          >
+        </div>
+        <v-card-text class="pt-5">
+          <v-table density="comfortable">
+            <thead>
+              <tr>
+                <th style="width: 130px">
+                  Sample No <span class="req">*</span>
+                </th>
+                <th>ชื่อพืช <span class="req">*</span></th>
+                <th style="width: 130px">
+                  น้ำหนัก (kg) <span class="req">*</span>
+                </th>
+                <th style="width: 180px">GAP Code</th>
+                <th style="width: 50px"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(p, idx) in form.products" :key="idx">
+                <td class="py-2">
+                  <v-text-field
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="p.sampleNo"
+                    density="compact"
+                    hide-details
+                    placeholder="S-001"
                     :rules="[rules.required]"
-                    @update:model-value="fillPackingHouse"
                   />
-                </v-col>
-                <v-col cols="12" sm="4">
-                  <div class="field-label">
-                    <div>ชื่อโรงคัดบรรจุ</div>
-                    <div class="field-label-en">Packing House Name</div>
-                  </div>
+                </td>
+                <td class="py-2">
+                  <v-autocomplete
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="p.name"
+                    :items="cropOptions"
+                    density="compact"
+                    hide-details
+                    :rules="[rules.required]"
+                  />
+                </td>
+                <td class="py-2">
                   <v-text-field
-                    v-model="form.packingHouseName"
-                    readonly
-                    hide-details="auto"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="p.weight"
+                    density="compact"
+                    hide-details
+                    placeholder="1,000"
+                    :rules="[rules.required]"
                   />
-                </v-col>
-                <v-col cols="12" sm="4">
-                  <div class="field-label">
-                    <div>จังหวัด</div>
-                    <div class="field-label-en">Province</div>
-                  </div>
+                </td>
+                <td class="py-2">
                   <v-text-field
-                    v-model="form.packingHouseProvince"
-                    readonly
-                    hide-details="auto"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="p.gapCode"
+                    density="compact"
+                    hide-details
+                    placeholder="GAP-XX-2568-XXX"
                   />
-                </v-col>
-              </v-row>
-            </v-card-text>
-          </v-card>
+                </td>
+                <td class="py-2">
+                  <v-btn
+                    icon="fas fa-trash"
+                    size="small"
+                    variant="text"
+                    color="error"
+                    :disabled="form.products.length === 1"
+                    @click="removeProduct(idx)"
+                  />
+                </td>
+              </tr>
+            </tbody>
+          </v-table>
+        </v-card-text>
+      </v-card>
 
-          <v-card>
-            <v-card-title
-              class="pa-4 pb-2 text-body-1 font-weight-bold d-flex align-center ga-2"
-            >
-              <v-icon icon="fas fa-user-tie" color="hc-user" size="16" />
-              ผู้รับสินค้า (Consignee)
-            </v-card-title>
-            <v-card-text class="pa-4 pt-0">
-              <div class="field-section-label mb-3 mt-2">
-                ข้อมูลผู้รับสินค้า
+      <!-- Step 4: เอกสารแนบ -->
+      <v-card
+        v-if="currentStep === 3"
+        elevation="0"
+        border
+        rounded="xl"
+        class="mb-4"
+      >
+        <div class="d-flex align-center ga-2 px-4 py-3 border-b">
+          <v-icon icon="fas fa-paperclip" color="hc-user" size="15" />
+          <span class="text-subtitle-2 font-weight-bold">เอกสารประกอบ</span>
+        </div>
+        <v-card-text class="pt-5">
+          <v-row>
+            <v-col v-for="doc in requiredDocs" :key="doc.key" cols="12" sm="6">
+              <div class="doc-upload-box">
+                <div class="d-flex align-start ga-3">
+                  <v-icon
+                    icon="fas fa-file-arrow-up"
+                    color="hc-user"
+                    size="20"
+                    class="mt-1 flex-shrink-0"
+                  />
+                  <div class="flex-grow-1">
+                    <div class="text-body-2 font-weight-medium mb-1">
+                      {{ doc.label }}
+                      <v-chip
+                        v-if="doc.required"
+                        size="x-small"
+                        color="error"
+                        variant="tonal"
+                        class="ml-1"
+                        >จำเป็น</v-chip
+                      >
+                    </div>
+                    <v-file-input
+                      v-model="form.documents[doc.key]"
+                      :placeholder="`เลือกไฟล์ ${doc.label}`"
+                      variant="outlined"
+                      density="compact"
+                      hide-details
+                      accept=".pdf,.jpg,.png"
+                      :rules="doc.required ? [rules.required] : []"
+                      prepend-icon=""
+                      prepend-inner-icon="fas fa-file"
+                    />
+                  </div>
+                </div>
               </div>
-              <v-row dense>
-                <v-col cols="12" sm="6">
-                  <div class="field-label">
-                    <div>ชื่อผู้รับสินค้า <span class="req">*</span></div>
-                    <div class="field-label-en">Consignee Name</div>
-                  </div>
-                  <v-text-field
-                    v-model="form.consigneeName"
-                    placeholder="Consignee name"
-                    hide-details="auto"
-                    :rules="[rules.required]"
-                  />
-                </v-col>
-                <v-col cols="12" sm="6">
-                  <div class="field-label">
-                    <div>ที่อยู่ <span class="req">*</span></div>
-                    <div class="field-label-en">Address</div>
-                  </div>
-                  <v-text-field
-                    v-model="form.consigneeAddress"
-                    placeholder="Address"
-                    hide-details="auto"
-                    :rules="[rules.required]"
-                  />
-                </v-col>
-                <v-col cols="12" sm="4">
-                  <div class="field-label">
-                    <div>ประเทศปลายทาง <span class="req">*</span></div>
-                    <div class="field-label-en">Destination Country</div>
-                  </div>
-                  <v-autocomplete
-                    v-model="form.destination"
-                    :items="countries"
-                    placeholder="เลือกประเทศ"
-                    hide-details="auto"
-                    :rules="[rules.required]"
-                  />
-                </v-col>
-              </v-row>
-            </v-card-text>
-          </v-card>
-        </div>
+            </v-col>
+          </v-row>
+        </v-card-text>
+      </v-card>
 
-        <!-- Step 3: รายละเอียดสินค้า -->
-        <v-card v-if="currentStep === 2" class="mb-4">
-          <v-card-title
-            class="pa-4 pb-2 text-body-1 font-weight-bold d-flex align-center justify-space-between"
-          >
-            <div class="d-flex align-center ga-2">
-              <v-icon icon="fas fa-box" color="hc-user" size="16" />
-              รายละเอียดสินค้า
-            </div>
-            <v-btn
-              color="hc-user"
-              size="small"
-              variant="tonal"
-              prepend-icon="fas fa-plus"
-              @click="addProduct"
-            >
-              เพิ่มสินค้า
-            </v-btn>
-          </v-card-title>
-          <v-card-text class="pa-4 pt-0">
-            <v-table density="comfortable">
-              <thead>
-                <tr>
-                  <th style="width: 130px">
-                    Sample No <span class="req">*</span>
-                  </th>
-                  <th>ชื่อพืช <span class="req">*</span></th>
-                  <th style="width: 130px">
-                    น้ำหนัก (kg) <span class="req">*</span>
-                  </th>
-                  <th style="width: 180px">GAP Code</th>
-                  <th style="width: 50px"></th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="(p, idx) in form.products" :key="idx">
-                  <td class="py-2">
-                    <v-text-field
-                      v-model="p.sampleNo"
-                      density="compact"
-                      hide-details
-                      placeholder="S-001"
-                      :rules="[rules.required]"
-                    />
-                  </td>
-                  <td class="py-2">
-                    <v-autocomplete
-                      v-model="p.name"
-                      :items="cropOptions"
-                      density="compact"
-                      hide-details
-                      :rules="[rules.required]"
-                    />
-                  </td>
-                  <td class="py-2">
-                    <v-text-field
-                      v-model="p.weight"
-                      density="compact"
-                      hide-details
-                      placeholder="1,000"
-                      :rules="[rules.required]"
-                    />
-                  </td>
-                  <td class="py-2">
-                    <v-text-field
-                      v-model="p.gapCode"
-                      density="compact"
-                      hide-details
-                      placeholder="GAP-XX-2568-XXX"
-                    />
-                  </td>
-                  <td class="py-2">
-                    <v-btn
-                      icon="fas fa-trash"
-                      size="small"
-                      variant="text"
-                      color="error"
-                      :disabled="form.products.length === 1"
-                      @click="removeProduct(idx)"
-                    />
-                  </td>
-                </tr>
-              </tbody>
-            </v-table>
-          </v-card-text>
-        </v-card>
-
-        <!-- Step 4: เอกสารแนบ -->
-        <v-card v-if="currentStep === 3" class="mb-4">
-          <v-card-title
-            class="pa-4 pb-2 text-body-1 font-weight-bold d-flex align-center ga-2"
-          >
-            <v-icon icon="fas fa-paperclip" color="hc-user" size="16" />
-            เอกสารประกอบ
-          </v-card-title>
-          <v-card-text class="pa-4 pt-0">
+      <!-- Step 5: ตรวจสอบ & ยืนยัน -->
+      <div v-if="currentStep === 4">
+        <v-card elevation="0" border rounded="xl" class="mb-4">
+          <div class="d-flex align-center ga-2 px-4 py-3 border-b">
+            <v-icon icon="fas fa-clipboard-check" color="hc-user" size="15" />
+            <span class="text-subtitle-2 font-weight-bold">สรุปข้อมูลคำขอ</span>
+          </div>
+          <v-card-text class="pt-5">
             <v-row>
-              <v-col
-                v-for="doc in requiredDocs"
-                :key="doc.key"
-                cols="12"
-                sm="6"
-              >
-                <div class="doc-upload-box">
-                  <div class="d-flex align-start ga-3">
-                    <v-icon
-                      icon="fas fa-file-arrow-up"
-                      color="hc-user"
-                      size="20"
-                      class="mt-1 flex-shrink-0"
-                    />
-                    <div class="flex-grow-1">
-                      <div class="text-body-2 font-weight-medium mb-1">
-                        {{ doc.label }}
-                        <v-chip
-                          v-if="doc.required"
-                          size="x-small"
-                          color="error"
-                          variant="tonal"
-                          class="ml-1"
-                          >จำเป็น</v-chip
-                        >
-                      </div>
-                      <v-file-input
-                        v-model="form.documents[doc.key]"
-                        :placeholder="`เลือกไฟล์ ${doc.label}`"
-                        variant="outlined"
-                        density="compact"
-                        hide-details="auto"
-                        accept=".pdf,.jpg,.png"
-                        :rules="doc.required ? [rules.required] : []"
-                        prepend-icon=""
-                        prepend-inner-icon="fas fa-file"
-                      />
+              <v-col cols="12" md="6">
+                <div class="confirm-section mb-4">
+                  <div class="confirm-section-title">ผู้ส่งออก</div>
+                  <div class="confirm-grid">
+                    <div class="confirm-item">
+                      <span class="label">ชื่อ</span
+                      ><span class="value">{{ form.exporterName || "—" }}</span>
+                    </div>
+                    <div class="confirm-item">
+                      <span class="label">จังหวัด</span
+                      ><span class="value">{{
+                        form.exporterProvince || "—"
+                      }}</span>
+                    </div>
+                    <div class="confirm-item">
+                      <span class="label">โทรศัพท์</span
+                      ><span class="value">{{
+                        form.exporterPhone || "—"
+                      }}</span>
                     </div>
                   </div>
+                </div>
+                <div class="confirm-section">
+                  <div class="confirm-section-title">ผู้รับสินค้า</div>
+                  <div class="confirm-grid">
+                    <div class="confirm-item">
+                      <span class="label">ชื่อ</span
+                      ><span class="value">{{
+                        form.consigneeName || "—"
+                      }}</span>
+                    </div>
+                    <div class="confirm-item">
+                      <span class="label">ประเทศ</span
+                      ><span class="value">{{ form.destination || "—" }}</span>
+                    </div>
+                  </div>
+                </div>
+              </v-col>
+              <v-col cols="12" md="6">
+                <div class="confirm-section">
+                  <div class="confirm-section-title">
+                    สินค้า ({{ form.products.length }} รายการ)
+                  </div>
+                  <v-table density="compact" class="mt-2">
+                    <tbody>
+                      <tr v-for="p in form.products" :key="p.sampleNo">
+                        <td class="text-body-2">{{ p.sampleNo }}</td>
+                        <td class="text-body-2">{{ p.name }}</td>
+                        <td class="text-body-2 text-right">
+                          {{ p.weight }} kg
+                        </td>
+                      </tr>
+                    </tbody>
+                  </v-table>
                 </div>
               </v-col>
             </v-row>
           </v-card-text>
         </v-card>
 
-        <!-- Step 5: ตรวจสอบ & ยืนยัน -->
-        <div v-if="currentStep === 4">
-          <v-card class="mb-4">
-            <v-card-title
-              class="pa-4 pb-2 text-body-1 font-weight-bold d-flex align-center ga-2"
+        <v-checkbox
+          v-model="form.confirmed"
+          :rules="[(v) => !!v || 'กรุณายืนยันข้อมูล']"
+          hide-details
+          class="mb-3"
+        >
+          <template #label>
+            <span class="text-body-2"
+              >ข้าพเจ้าขอรับรองว่าข้อมูลในคำขอนี้ถูกต้องครบถ้วนและเป็นความจริงทุกประการ</span
             >
-              <v-icon icon="fas fa-clipboard-check" color="hc-user" size="16" />
-              สรุปข้อมูลคำขอ
-            </v-card-title>
-            <v-card-text class="pa-4 pt-0">
-              <v-row>
-                <v-col cols="12" md="6">
-                  <div class="confirm-section mb-4">
-                    <div class="confirm-section-title">ผู้ส่งออก</div>
-                    <div class="confirm-grid">
-                      <div class="confirm-item">
-                        <span class="label">ชื่อ</span
-                        ><span class="value">{{
-                          form.exporterName || "—"
-                        }}</span>
-                      </div>
-                      <div class="confirm-item">
-                        <span class="label">จังหวัด</span
-                        ><span class="value">{{
-                          form.exporterProvince || "—"
-                        }}</span>
-                      </div>
-                      <div class="confirm-item">
-                        <span class="label">โทรศัพท์</span
-                        ><span class="value">{{
-                          form.exporterPhone || "—"
-                        }}</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="confirm-section">
-                    <div class="confirm-section-title">ผู้รับสินค้า</div>
-                    <div class="confirm-grid">
-                      <div class="confirm-item">
-                        <span class="label">ชื่อ</span
-                        ><span class="value">{{
-                          form.consigneeName || "—"
-                        }}</span>
-                      </div>
-                      <div class="confirm-item">
-                        <span class="label">ประเทศ</span
-                        ><span class="value">{{
-                          form.destination || "—"
-                        }}</span>
-                      </div>
-                    </div>
-                  </div>
-                </v-col>
-                <v-col cols="12" md="6">
-                  <div class="confirm-section">
-                    <div class="confirm-section-title">
-                      สินค้า ({{ form.products.length }} รายการ)
-                    </div>
-                    <v-table density="compact" class="mt-2">
-                      <tbody>
-                        <tr v-for="p in form.products" :key="p.sampleNo">
-                          <td class="text-body-2">{{ p.sampleNo }}</td>
-                          <td class="text-body-2">{{ p.name }}</td>
-                          <td class="text-body-2 text-right">
-                            {{ p.weight }} kg
-                          </td>
-                        </tr>
-                      </tbody>
-                    </v-table>
-                  </div>
-                </v-col>
-              </v-row>
-            </v-card-text>
-          </v-card>
+          </template>
+        </v-checkbox>
+      </div>
 
-          <v-checkbox
-            v-model="form.confirmed"
-            :rules="[(v) => !!v || 'กรุณายืนยันข้อมูล']"
-            hide-details="auto"
-            class="mb-3"
+      <!-- Actions -->
+      <div class="d-flex justify-space-between align-center mt-6">
+        <div class="d-flex ga-2">
+          <v-btn
+            variant="tonal"
+            color="grey"
+            @click="router.push('/hc/user/applications')"
           >
-            <template #label>
-              <span class="text-body-2"
-                >ข้าพเจ้าขอรับรองว่าข้อมูลในคำขอนี้ถูกต้องครบถ้วนและเป็นความจริงทุกประการ</span
-              >
-            </template>
-          </v-checkbox>
-        </div>
-
-        <!-- Nav Buttons -->
-        <div class="d-flex ga-3 mt-6">
+            ยกเลิก
+          </v-btn>
           <v-btn
             v-if="currentStep > 0"
             variant="tonal"
             color="grey"
-            size="large"
-            prepend-icon="fas fa-chevron-left"
+            prepend-icon="fas fa-arrow-left"
             @click="currentStep--"
           >
             ย้อนกลับ
           </v-btn>
+        </div>
+        <div class="d-flex ga-2">
           <v-btn
-            v-if="currentStep === 0"
             variant="tonal"
-            color="grey"
-            size="large"
-            @click="router.push('/hc/user/applications/new')"
+            color="hc-user"
+            prepend-icon="fas fa-floppy-disk"
+            @click="saveDraft"
           >
-            เปลี่ยนประเภท
+            บันทึกแบบร่าง
           </v-btn>
           <v-btn
             v-if="currentStep < formSteps.length - 1"
             color="hc-user"
-            size="large"
-            append-icon="fas fa-chevron-right"
+            append-icon="fas fa-arrow-right"
             type="submit"
           >
             ถัดไป
@@ -508,7 +558,6 @@
           <v-btn
             v-else
             color="hc-user"
-            size="large"
             prepend-icon="fas fa-paper-plane"
             :loading="submitting"
             type="submit"
@@ -516,8 +565,8 @@
             ยื่นคำขอ
           </v-btn>
         </div>
-      </v-form>
-    </template>
+      </div>
+    </v-form>
 
     <!-- Success Dialog -->
     <v-dialog v-model="successDialog" max-width="420" persistent>
@@ -538,14 +587,12 @@
           <v-btn
             variant="tonal"
             color="grey"
-            rounded="lg"
             block
             @click="router.push('/hc/user/applications')"
             >ดูรายการคำขอ</v-btn
           >
           <v-btn
             color="hc-user"
-            rounded="lg"
             block
             @click="router.push(`/hc/user/applications/HC-NEW`)"
             >ติดตามสถานะ</v-btn
@@ -553,6 +600,18 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+
+    <!-- Draft Snackbar -->
+    <v-snackbar
+      v-model="draftSnackbar"
+      color="success"
+      rounded="lg"
+      timeout="2500"
+      location="top right"
+    >
+      <v-icon icon="fas fa-floppy-disk" class="mr-2" />
+      บันทึกแบบร่างแล้ว
+    </v-snackbar>
   </div>
 </template>
 
@@ -565,6 +624,7 @@ const router = useRouter();
 const currentStep = ref(0);
 const submitting = ref(false);
 const successDialog = ref(false);
+const draftSnackbar = ref(false);
 const newRequestNo = ref("");
 const formRef = ref();
 
@@ -682,6 +742,10 @@ const rules = {
     !!v || (Array.isArray(v) && v.length > 0) || "กรุณากรอกข้อมูล",
 };
 
+function saveDraft() {
+  draftSnackbar.value = true;
+}
+
 async function handleNext() {
   const { valid } = await formRef.value.validate();
   if (!valid) return;
@@ -700,11 +764,6 @@ async function handleNext() {
 </script>
 
 <style scoped>
-div {
-  --step-color: rgb(var(--v-theme-hc-user));
-  --step-color-tint: rgba(var(--v-theme-hc-user), 0.2);
-}
-
 /* Doc Upload */
 .doc-upload-box {
   border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
@@ -745,4 +804,18 @@ div {
   font-weight: 500;
 }
 
+.step-done,
+.step-active {
+  background: rgb(var(--v-theme-hc-user)) !important;
+  color: white !important;
+}
+.step-active {
+  box-shadow: 0 0 0 4px rgba(var(--v-theme-hc-user), 0.2) !important;
+}
+.step-line--done {
+  background: rgb(var(--v-theme-hc-user)) !important;
+}
+.field-section-label {
+  color: rgb(var(--v-theme-hc-user)) !important;
+}
 </style>

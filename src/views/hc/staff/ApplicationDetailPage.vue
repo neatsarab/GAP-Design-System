@@ -193,7 +193,7 @@
             <v-textarea v-model="labNote" rows="3" class="mb-3" />
 
             <div class="d-flex ga-3" v-if="app.status === 'testing'">
-              <v-btn color="primary" prepend-icon="fas fa-gavel" @click="updateStatus('pending_approval')">
+              <v-btn color="hc-staff" prepend-icon="fas fa-gavel" @click="updateStatus('pending_approval')">
                 ส่งพิจารณาผล
               </v-btn>
               <v-btn variant="tonal" color="warning" prepend-icon="fas fa-rotate-left" @click="updateStatus('correction_required')">
@@ -210,7 +210,7 @@
           <v-col cols="12" md="7">
             <v-card class="mb-4">
               <v-card-title class="pa-4 pb-2 text-body-1 font-weight-bold d-flex align-center ga-2">
-                <v-icon icon="fas fa-file-shield" color="primary" size="16" />
+                <v-icon icon="fas fa-file-shield" color="hc-staff" size="16" />
                 แบบร่างใบรับรองสุขอนามัยพืช
               </v-card-title>
               <v-card-text class="pa-4 pt-0">
@@ -412,7 +412,7 @@ function updateStatus(newStatus: string) {
 function getStatusColor(s: string) {
   const m: Record<string, string> = {
     draft: 'grey', submitted: 'info', under_review: 'warning', testing: 'secondary',
-    pending_approval: 'primary', approved: 'success', correction_required: 'error',
+    pending_approval: 'hc-staff', approved: 'success', correction_required: 'error',
     completed: 'success', rejected: 'error',
   }
   return m[s] ?? 'grey'

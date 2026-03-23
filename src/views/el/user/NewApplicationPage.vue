@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="--v-theme-primary: var(--v-theme-el-user)">
     <!-- Header -->
     <div class="d-flex align-center ga-3 mb-6">
       <v-btn
@@ -235,7 +235,7 @@
           <div
             v-for="(farmer, idx) in farmers"
             :key="idx"
-            class="farmer-row rounded-lg pa-4 mb-3"
+            class="item-row rounded-lg pa-4 mb-3"
           >
             <v-row dense align="center">
               <v-col cols="12" sm="6" md="2">
@@ -346,7 +346,7 @@
           <div
             v-for="(farm, idx) in farms"
             :key="idx"
-            class="farmer-row rounded-lg pa-4 mb-3"
+            class="item-row rounded-lg pa-4 mb-3"
           >
             <v-row dense align="center">
               <v-col cols="12" sm="6" md="2">
@@ -710,6 +710,18 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+
+    <!-- Draft Snackbar -->
+    <v-snackbar
+      v-model="draftSnackbar"
+      color="success"
+      rounded="lg"
+      timeout="2500"
+      location="top right"
+    >
+      <v-icon icon="fas fa-floppy-disk" class="mr-2" />
+      บันทึกแบบร่างแล้ว
+    </v-snackbar>
   </div>
 </template>
 
@@ -720,6 +732,7 @@ import { useRouter } from "vue-router";
 const router = useRouter();
 const currentStep = ref(0);
 const successDialog = ref(false);
+const draftSnackbar = ref(false);
 
 const steps = ["ข้อมูลรายละเอียด", "ไฟล์แนบ"];
 
@@ -848,7 +861,7 @@ const uploadSections = [
 ];
 
 function saveDraft() {
-  // mock save draft
+  draftSnackbar.value = true;
 }
 
 function submitApplication() {
@@ -862,22 +875,29 @@ function goToApplicationList() {
 </script>
 
 <style scoped>
-div {
-  --step-color: rgb(var(--v-theme-el-user));
-  --step-color-tint: rgba(var(--v-theme-el-user), 0.2);
-}
-.farmer-row {
-  background: rgba(var(--v-theme-el-user), 0.03);
-  border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
-}
 .upload-area {
-  border: 2px dashed rgba(var(--v-theme-el-user), 0.35);
-  background: rgba(var(--v-theme-el-user), 0.03);
+  border: 2px dashed rgba(var(--v-theme-primary), 0.35);
+  background: rgba(var(--v-theme-primary), 0.03);
   cursor: pointer;
   transition: background 0.15s;
   min-height: 100px;
 }
 .upload-area:hover {
-  background: rgba(var(--v-theme-el-user), 0.07);
+  background: rgba(var(--v-theme-primary), 0.07);
+}
+
+.step-done,
+.step-active {
+  background: rgb(var(--v-theme-el-user)) !important;
+  color: white !important;
+}
+.step-active {
+  box-shadow: 0 0 0 4px rgba(var(--v-theme-el-user), 0.2) !important;
+}
+.step-line--done {
+  background: rgb(var(--v-theme-el-user)) !important;
+}
+.field-section-label {
+  color: rgb(var(--v-theme-el-user)) !important;
 }
 </style>

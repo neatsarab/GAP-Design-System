@@ -126,7 +126,7 @@ const applicationTypes = computed(() => [
     title: "คำขอรับรอง (รายเดี่ยว)",
     badge: "ทั่วไป",
     icon: "fas fa-user",
-    color: "org-user",
+    color: "primary",
     disabled: sessionStore.isGroupMode,
     desc: "สำหรับเกษตรกรรายบุคคลที่ต้องการขอรับรองแปลงเพาะปลูกเกษตรอินทรีย์",
     features: ["เกษตรกรรายบุคคล", "ระบุพิกัดแปลง", "มาตรฐาน มกษ.9000"],

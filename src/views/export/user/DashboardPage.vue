@@ -138,7 +138,7 @@ const stats = [
     label: "คำขอทั้งหมด",
     value: 3,
     icon: "fas fa-file-lines",
-    iconColor: "export-user",
+    iconColor: "primary",
   },
   {
     label: "อยู่ระหว่างตรวจสอบ",
@@ -156,7 +156,7 @@ const stats = [
     label: "ใบอนุญาตที่ยังมีผล",
     value: 2,
     icon: "fas fa-id-card",
-    iconColor: "export-user",
+    iconColor: "primary",
   },
 ];
 
@@ -191,13 +191,13 @@ const quickActions = [
   {
     title: "จดทะเบียนผู้ส่งออกใหม่",
     icon: "fas fa-file-pen",
-    color: "export-user",
+    color: "primary",
     to: "/export/user/applications/new",
   },
   {
     title: "รายการคำขอ",
     icon: "fas fa-file-lines",
-    color: "export-user",
+    color: "primary",
     to: "/export/user/applications",
   },
 ];

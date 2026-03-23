@@ -153,7 +153,7 @@ const filteredGroups = computed(() => {
 })
 
 function getStatusColor(s: string) {
-  const m: Record<string, string> = { reviewing: 'warning', scheduling: 'info', pending_cc: 'primary', cc_reviewing: 'error', approved: 'success', cert_issued: 'success' }
+  const m: Record<string, string> = { reviewing: 'warning', scheduling: 'info', pending_cc: 'gap-staff', cc_reviewing: 'error', approved: 'success', cert_issued: 'success' }
   return m[s] ?? 'grey'
 }
 function getStatusIcon(s: string) {

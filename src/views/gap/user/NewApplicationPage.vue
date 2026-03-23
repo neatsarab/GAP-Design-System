@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="--v-theme-primary: var(--v-theme-gap-user)">
     <!-- Header -->
     <div class="d-flex align-center ga-3 mb-6">
       <v-btn
@@ -9,9 +9,7 @@
         @click="router.back()"
       />
       <div>
-        <h1 class="page-title mb-0">
-          ยื่นคำขอรับรองแหล่งผลิต GAP
-        </h1>
+        <h1 class="page-title mb-0">ยื่นคำขอรับรองแหล่งผลิต GAP</h1>
         <p class="text-body-2 text-medium-emphasis mb-0">
           กรอกข้อมูลให้ครบถ้วน แล้วยื่นเพื่อรับการตรวจสอบ
         </p>
@@ -19,23 +17,15 @@
     </div>
 
     <!-- Stepper Header -->
-    <v-card class="mb-5">
+    <v-card rounded="xl" elevation="0" class="mb-6 section-card">
       <v-card-text class="pa-5">
         <div class="d-flex align-center">
           <template v-for="(step, i) in steps" :key="step.value">
-            <!-- Step -->
             <div
               class="step-item d-flex flex-column align-center"
               style="min-width: 80px"
             >
-              <div
-                class="step-circle mb-1"
-                :class="{
-                  'step-done': currentStep > step.value,
-                  'step-active': currentStep === step.value,
-                  'step-pending': currentStep < step.value,
-                }"
-              >
+              <div class="step-circle mb-1" :class="stepClass(step.value)">
                 <v-icon
                   v-if="currentStep > step.value"
                   icon="fas fa-check"
@@ -43,7 +33,7 @@
                   color="white"
                 />
                 <span v-else class="text-caption font-weight-bold">{{
-                  step.value
+                  step.value + 1
                 }}</span>
               </div>
               <div
@@ -57,11 +47,10 @@
                 {{ step.title }}
               </div>
             </div>
-            <!-- Connector -->
             <div
               v-if="i < steps.length - 1"
               class="step-line flex-grow-1"
-              :class="currentStep > step.value ? 'step-line--done' : ''"
+              :class="{ 'step-line--done': currentStep > step.value }"
             />
           </template>
         </div>
@@ -71,7 +60,7 @@
     <!-- Step Content -->
     <v-window v-model="currentStep">
       <!-- Step 1: ข้อมูลผู้ยื่นคำขอ -->
-      <v-window-item :value="1">
+      <v-window-item :value="0">
         <v-card elevation="0" border rounded="xl" class="mb-4">
           <div class="d-flex align-center ga-2 px-4 py-3 border-b">
             <v-icon size="15" color="gap-user">fas fa-user</v-icon>
@@ -164,7 +153,7 @@
       </v-window-item>
 
       <!-- Step 2: ที่อยู่ + ข้อมูลแปลง -->
-      <v-window-item :value="2">
+      <v-window-item :value="1">
         <v-card elevation="0" border rounded="xl" class="mb-4">
           <div class="d-flex align-center ga-2 px-4 py-3 border-b">
             <v-icon size="15" color="gap-user">fas fa-location-dot</v-icon>
@@ -408,7 +397,7 @@
       </v-window-item>
 
       <!-- Step 3: เอกสาร -->
-      <v-window-item :value="3">
+      <v-window-item :value="2">
         <v-card elevation="0" border rounded="xl">
           <div class="d-flex align-center ga-2 px-4 py-3 border-b">
             <v-icon size="15" color="gap-user">fas fa-paperclip</v-icon>
@@ -490,7 +479,7 @@
       </v-window-item>
 
       <!-- Step 4: ตรวจสอบ & ยื่น -->
-      <v-window-item :value="4">
+      <v-window-item :value="3">
         <v-card elevation="0" border rounded="xl">
           <div class="d-flex align-center ga-2 px-4 py-3 border-b">
             <v-icon size="15" color="gap-user">fas fa-clipboard-check</v-icon>
@@ -566,38 +555,47 @@
       </v-window-item>
     </v-window>
 
-    <!-- Navigation Buttons -->
-    <div class="d-flex align-center ga-3 mt-5">
-      <v-btn
-        v-if="currentStep > 1"
-        variant="outlined"
-        color="grey-darken-1"
-        prepend-icon="fas fa-arrow-left"
-        @click="currentStep--"
-        >ย้อนกลับ</v-btn
-      >
-      <v-btn
-        variant="tonal"
-        color="grey-darken-1"
-        prepend-icon="fas fa-floppy-disk"
-        >บันทึกร่าง</v-btn
-      >
-      <v-spacer />
-      <v-btn
-        v-if="currentStep < steps.length"
-        color="gap-user"
-        append-icon="fas fa-arrow-right"
-        @click="currentStep++"
-        >ถัดไป</v-btn
-      >
-      <v-btn
-        v-else
-        color="success"
-        prepend-icon="fas fa-paper-plane"
-        size="large"
-        @click="submitForm"
-        >ยื่นคำขอ</v-btn
-      >
+    <!-- Actions -->
+    <div class="d-flex justify-space-between align-center mt-6">
+      <div class="d-flex ga-2">
+        <v-btn
+          variant="tonal"
+          color="grey"
+          @click="router.push('/gap/user/applications')"
+          >ยกเลิก</v-btn
+        >
+        <v-btn
+          v-if="currentStep > 0"
+          variant="tonal"
+          color="grey"
+          prepend-icon="fas fa-arrow-left"
+          @click="currentStep--"
+          >ย้อนกลับ</v-btn
+        >
+      </div>
+      <div class="d-flex ga-2">
+        <v-btn
+          variant="tonal"
+          color="gap-user"
+          prepend-icon="fas fa-floppy-disk"
+          @click="saveDraft"
+          >บันทึกแบบร่าง</v-btn
+        >
+        <v-btn
+          v-if="currentStep < steps.length - 1"
+          color="gap-user"
+          append-icon="fas fa-arrow-right"
+          @click="currentStep++"
+          >ถัดไป</v-btn
+        >
+        <v-btn
+          v-else
+          color="gap-user"
+          prepend-icon="fas fa-paper-plane"
+          @click="submitForm"
+          >ยื่นคำขอ</v-btn
+        >
+      </div>
     </div>
 
     <!-- Success Dialog -->
@@ -623,6 +621,18 @@
         </v-card-text>
       </v-card>
     </v-dialog>
+
+    <!-- Draft Snackbar -->
+    <v-snackbar
+      v-model="draftSnackbar"
+      color="success"
+      rounded="lg"
+      timeout="2500"
+      location="top right"
+    >
+      <v-icon icon="fas fa-floppy-disk" class="mr-2" />
+      บันทึกแบบร่างแล้ว
+    </v-snackbar>
   </div>
 </template>
 
@@ -631,14 +641,15 @@ import { ref, watch, onUnmounted } from "vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
-const currentStep = ref(1);
+const currentStep = ref(0);
 const successDialog = ref(false);
+const draftSnackbar = ref(false);
 
 const steps = [
-  { value: 1, title: "ข้อมูลผู้ขอ" },
-  { value: 2, title: "ข้อมูลแปลง" },
-  { value: 3, title: "เอกสารแนบ" },
-  { value: 4, title: "ตรวจสอบ & ยื่น" },
+  { value: 0, title: "ข้อมูลผู้ขอ" },
+  { value: 1, title: "ข้อมูลแปลง" },
+  { value: 2, title: "เอกสารแนบ" },
+  { value: 3, title: "ตรวจสอบ & ยื่น" },
 ];
 
 const form = ref({
@@ -709,14 +720,35 @@ const inspectors = [
 ];
 const suggestedTags = ["เกษตรอินทรีย์", "ปลอดสาร", "GAP", "พืชส่งออก"];
 
+function stepClass(v: number) {
+  if (currentStep.value > v) return "step-done";
+  if (currentStep.value === v) return "step-active";
+  return "step-pending";
+}
+
+function saveDraft() {
+  draftSnackbar.value = true;
+}
+
 function submitForm() {
   successDialog.value = true;
 }
 </script>
 
+
 <style scoped>
-div {
-  --step-color: rgb(var(--v-theme-gap-user));
-  --step-color-tint: rgba(var(--v-theme-gap-user), 0.2);
+.step-done,
+.step-active {
+  background: rgb(var(--v-theme-gap-user)) !important;
+  color: white !important;
+}
+.step-active {
+  box-shadow: 0 0 0 4px rgba(var(--v-theme-gap-user), 0.2) !important;
+}
+.step-line--done {
+  background: rgb(var(--v-theme-gap-user)) !important;
+}
+.field-section-label {
+  color: rgb(var(--v-theme-gap-user)) !important;
 }
 </style>

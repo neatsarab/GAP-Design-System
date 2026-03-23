@@ -21,8 +21,10 @@
             <div class="field-label"><div>สถานะ</div><div class="field-label-en">Status</div></div>
             <v-autocomplete v-model="filterStatus" :items="statusOptions" item-title="label" item-value="value" placeholder="ทั้งหมด" variant="outlined" density="compact" rounded="lg" hide-details clearable />
           </v-col>
-          <v-col cols="auto" class="ml-auto d-flex align-self-end">
-            <v-btn variant="tonal" color="grey" size="small" prepend-icon="fas fa-rotate-left" @click="clearFilters">ล้างตัวกรอง</v-btn>
+        </v-row>
+        <v-row dense>
+          <v-col cols="auto" class="ml-auto">
+          <v-btn variant="tonal" color="grey" size="small" prepend-icon="fas fa-rotate-left" @click="clearFilters">ล้างตัวกรอง</v-btn>
           </v-col>
         </v-row>
       </v-card-text>
@@ -89,7 +91,7 @@ const statusOptions = [
   { label: "ไม่ผ่าน", value: "rejected" },
 ];
 const statusTabs = [
-  { label: "ทั้งหมด",             value: "all",       color: "cb-staff", icon: "fas fa-list",          count: 0 },
+  { label: "ทั้งหมด",             value: "all",       color: "primary", icon: "fas fa-list",          count: 0 },
   { label: "รอพิจารณา",           value: "pending",   color: "warning",  icon: "fas fa-clock",         count: 1 },
   { label: "อยู่ระหว่างพิจารณา", value: "reviewing", color: "info",     icon: "fas fa-magnifying-glass", count: 1 },
   { label: "ผ่าน",                value: "approved",  color: "success",  icon: "fas fa-circle-check",  count: 1 },

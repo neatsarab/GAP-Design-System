@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="--v-theme-primary: var(--v-theme-export-user)">
     <!-- Header -->
     <div class="d-flex align-center ga-3 mb-6">
       <v-btn
@@ -33,7 +33,7 @@
                   color="white"
                 />
                 <span v-else class="text-caption font-weight-bold">{{
-                  step.value
+                  step.value + 1
                 }}</span>
               </div>
               <div
@@ -58,20 +58,14 @@
     </v-card>
 
     <!-- ─── STEP 1: ข้อมูลรายละเอียด ─── -->
-    <template v-if="currentStep === 1">
+    <template v-if="currentStep === 0">
       <!-- ประเภทคำขอ -->
-      <v-card rounded="xl" elevation="0" class="section-card mb-5">
-        <v-card-title class="pa-5 pb-3 section-title">
-          <v-icon
-            icon="fas fa-list-check"
-            color="export-user"
-            class="mr-2"
-            size="18"
-          />
-          ประเภทคำขอ
-        </v-card-title>
-        <v-divider />
-        <v-card-text class="pa-5">
+      <v-card elevation="0" border rounded="xl" class="mb-5">
+        <div class="d-flex align-center ga-2 px-4 py-3 border-b">
+          <v-icon icon="fas fa-list-check" color="export-user" size="15" />
+          <span class="text-subtitle-2 font-weight-bold">ประเภทคำขอ</span>
+        </div>
+        <v-card-text class="pt-5">
           <v-radio-group v-model="form.requestType" color="export-user" inline>
             <v-radio value="register" label="ขอขึ้นทะเบียน" class="mr-8" />
             <v-radio value="renew" label="ขอต่ออายุ" />
@@ -80,18 +74,14 @@
       </v-card>
 
       <!-- ข้อมูลผู้ยื่นคำขอ -->
-      <v-card rounded="xl" elevation="0" class="section-card mb-5">
-        <v-card-title class="pa-5 pb-3 section-title">
-          <v-icon
-            icon="fas fa-user"
-            color="export-user"
-            class="mr-2"
-            size="18"
-          />
-          ข้อมูลผู้ยื่นคำขอ
-        </v-card-title>
-        <v-divider />
-        <v-card-text class="pa-5">
+      <v-card elevation="0" border rounded="xl" class="mb-5">
+        <div class="d-flex align-center ga-2 px-4 py-3 border-b">
+          <v-icon icon="fas fa-user" color="export-user" size="15" />
+          <span class="text-subtitle-2 font-weight-bold"
+            >ข้อมูลผู้ยื่นคำขอ</span
+          >
+        </div>
+        <v-card-text class="pt-5">
           <div class="field-section-label mb-2">ข้อมูลส่วนตัว</div>
           <v-row dense>
             <v-col cols="12" md="6">
@@ -99,26 +89,14 @@
                 <div>ชื่อ-นามสกุล (ภาษาไทย) <span class="req">*</span></div>
                 <div class="field-label-en">Full Name (Thai)</div>
               </div>
-              <v-text-field
-                v-model="form.applicantNameTh"
-                variant="outlined"
-                density="compact"
-                rounded="lg"
-                hide-details
-              />
+              <v-text-field v-model="form.applicantNameTh" hide-details />
             </v-col>
             <v-col cols="12" md="6">
               <div class="field-label">
                 <div>Name-Surname (English) <span class="req">*</span></div>
                 <div class="field-label-en">Full Name (English)</div>
               </div>
-              <v-text-field
-                v-model="form.applicantNameEn"
-                variant="outlined"
-                density="compact"
-                rounded="lg"
-                hide-details
-              />
+              <v-text-field v-model="form.applicantNameEn" hide-details />
             </v-col>
             <v-col cols="12">
               <div class="field-section-label mt-3 mb-2">
@@ -132,9 +110,6 @@
               </div>
               <v-textarea
                 v-model="form.applicantAddress"
-                variant="outlined"
-                density="compact"
-                rounded="lg"
                 hide-details
                 rows="2"
               />
@@ -144,13 +119,7 @@
                 <div>เบอร์โทรศัพท์</div>
                 <div class="field-label-en">Phone Number</div>
               </div>
-              <v-text-field
-                v-model="form.applicantPhone"
-                variant="outlined"
-                density="compact"
-                rounded="lg"
-                hide-details
-              />
+              <v-text-field v-model="form.applicantPhone" hide-details />
             </v-col>
             <v-col cols="12" md="4">
               <div class="field-label">
@@ -160,9 +129,6 @@
               <v-text-field
                 v-model="form.applicantEmail"
                 type="email"
-                variant="outlined"
-                density="compact"
-                rounded="lg"
                 hide-details
               />
             </v-col>
@@ -174,9 +140,6 @@
               <v-autocomplete
                 v-model="form.submitterStatus"
                 :items="['เจ้าของ', 'ตัวแทน']"
-                variant="outlined"
-                density="compact"
-                rounded="lg"
                 hide-details
               />
             </v-col>
@@ -185,18 +148,12 @@
       </v-card>
 
       <!-- วัตถุประสงค์ -->
-      <v-card rounded="xl" elevation="0" class="section-card mb-5">
-        <v-card-title class="pa-5 pb-3 section-title">
-          <v-icon
-            icon="fas fa-bullseye"
-            color="export-user"
-            class="mr-2"
-            size="18"
-          />
-          วัตถุประสงค์
-        </v-card-title>
-        <v-divider />
-        <v-card-text class="pa-5">
+      <v-card elevation="0" border rounded="xl" class="mb-5">
+        <div class="d-flex align-center ga-2 px-4 py-3 border-b">
+          <v-icon icon="fas fa-bullseye" color="export-user" size="15" />
+          <span class="text-subtitle-2 font-weight-bold">วัตถุประสงค์</span>
+        </div>
+        <v-card-text class="pt-5">
           <v-radio-group v-model="form.objective" color="export-user">
             <v-radio value="register" label="ขึ้นทะเบียน" class="mb-2" />
             <v-radio value="renew" label="ต่ออายุทะเบียน" />
@@ -205,21 +162,16 @@
       </v-card>
 
       <!-- ประเทศปลายทาง -->
-      <v-card rounded="xl" elevation="0" class="section-card mb-5">
-        <v-card-title class="pa-5 pb-3 section-title">
-          <v-icon
-            icon="fas fa-earth-asia"
-            color="export-user"
-            class="mr-2"
-            size="18"
-          />
-          ประเทศปลายทาง
-        </v-card-title>
-        <v-divider />
-        <v-card-text class="pa-5">
+      <v-card elevation="0" border rounded="xl" class="mb-5">
+        <div class="d-flex align-center ga-2 px-4 py-3 border-b">
+          <v-icon icon="fas fa-earth-asia" color="export-user" size="15" />
+          <span class="text-subtitle-2 font-weight-bold">ประเทศปลายทาง</span>
+        </div>
+        <v-card-text class="pt-5">
           <div class="field-label mb-2">
             <div>
-              เลือกประเทศปลายทาง (เลือกได้หลายประเทศ) <span class="req">*</span>
+              เลือกประเทศปลายทาง (เลือกได้หลายประเทศ)
+              <span class="req">*</span>
             </div>
             <div class="field-label-en">Destination Country (Multiple)</div>
           </div>
@@ -229,9 +181,6 @@
             multiple
             chips
             closable-chips
-            variant="outlined"
-            density="compact"
-            rounded="lg"
             hide-details
             placeholder="เลือกประเทศปลายทาง"
           />
@@ -239,18 +188,14 @@
       </v-card>
 
       <!-- ข้อมูลสถานประกอบการ -->
-      <v-card rounded="xl" elevation="0" class="section-card mb-5">
-        <v-card-title class="pa-5 pb-3 section-title">
-          <v-icon
-            icon="fas fa-building"
-            color="export-user"
-            class="mr-2"
-            size="18"
-          />
-          ข้อมูลสถานประกอบการ
-        </v-card-title>
-        <v-divider />
-        <v-card-text class="pa-5">
+      <v-card elevation="0" border rounded="xl" class="mb-5">
+        <div class="d-flex align-center ga-2 px-4 py-3 border-b">
+          <v-icon icon="fas fa-building" color="export-user" size="15" />
+          <span class="text-subtitle-2 font-weight-bold"
+            >ข้อมูลสถานประกอบการ</span
+          >
+        </div>
+        <v-card-text class="pt-5">
           <div class="field-section-label mb-2">ชื่อบริษัท</div>
           <v-row dense>
             <v-col cols="12" md="6">
@@ -258,26 +203,14 @@
                 <div>ชื่อบริษัท (ภาษาไทย) <span class="req">*</span></div>
                 <div class="field-label-en">Company Name (Thai)</div>
               </div>
-              <v-text-field
-                v-model="form.companyNameTh"
-                variant="outlined"
-                density="compact"
-                rounded="lg"
-                hide-details
-              />
+              <v-text-field v-model="form.companyNameTh" hide-details />
             </v-col>
             <v-col cols="12" md="6">
               <div class="field-label">
                 <div>Company Name (English) <span class="req">*</span></div>
                 <div class="field-label-en">Company Name (English)</div>
               </div>
-              <v-text-field
-                v-model="form.companyNameEn"
-                variant="outlined"
-                density="compact"
-                rounded="lg"
-                hide-details
-              />
+              <v-text-field v-model="form.companyNameEn" hide-details />
             </v-col>
             <v-col cols="12">
               <div class="field-section-label mt-3 mb-2">ที่ตั้ง</div>
@@ -287,39 +220,21 @@
                 <div>ซอย / ตรอก (Alley)</div>
                 <div class="field-label-en">Alley</div>
               </div>
-              <v-text-field
-                v-model="form.alley"
-                variant="outlined"
-                density="compact"
-                rounded="lg"
-                hide-details
-              />
+              <v-text-field v-model="form.alley" hide-details />
             </v-col>
             <v-col cols="12" md="6">
               <div class="field-label">
                 <div>ตำบล / แขวง (Tambol)</div>
                 <div class="field-label-en">Sub-district</div>
               </div>
-              <v-text-field
-                v-model="form.tambol"
-                variant="outlined"
-                density="compact"
-                rounded="lg"
-                hide-details
-              />
+              <v-text-field v-model="form.tambol" hide-details />
             </v-col>
             <v-col cols="12" md="6">
               <div class="field-label">
                 <div>อำเภอ / เขต (District)</div>
                 <div class="field-label-en">District</div>
               </div>
-              <v-text-field
-                v-model="form.district"
-                variant="outlined"
-                density="compact"
-                rounded="lg"
-                hide-details
-              />
+              <v-text-field v-model="form.district" hide-details />
             </v-col>
             <v-col cols="12" md="6">
               <div class="field-label">
@@ -329,9 +244,6 @@
               <v-autocomplete
                 v-model="form.province"
                 :items="provinceOptions"
-                variant="outlined"
-                density="compact"
-                rounded="lg"
                 hide-details
                 placeholder="เลือกจังหวัด"
               />
@@ -344,26 +256,14 @@
                 <div>เบอร์โทรศัพท์</div>
                 <div class="field-label-en">Phone Number</div>
               </div>
-              <v-text-field
-                v-model="form.companyPhone"
-                variant="outlined"
-                density="compact"
-                rounded="lg"
-                hide-details
-              />
+              <v-text-field v-model="form.companyPhone" hide-details />
             </v-col>
             <v-col cols="12" md="4">
               <div class="field-label">
                 <div>โทรสาร</div>
                 <div class="field-label-en">Fax</div>
               </div>
-              <v-text-field
-                v-model="form.companyFax"
-                variant="outlined"
-                density="compact"
-                rounded="lg"
-                hide-details
-              />
+              <v-text-field v-model="form.companyFax" hide-details />
             </v-col>
             <v-col cols="12" md="4">
               <div class="field-label">
@@ -373,9 +273,6 @@
               <v-text-field
                 v-model="form.companyEmail"
                 type="email"
-                variant="outlined"
-                density="compact"
-                rounded="lg"
                 hide-details
               />
             </v-col>
@@ -384,32 +281,21 @@
       </v-card>
 
       <!-- ข้อมูลโรงงาน DOA -->
-      <v-card rounded="xl" elevation="0" class="section-card mb-5">
-        <v-card-title
-          class="pa-5 pb-3 d-flex align-center justify-space-between section-title"
-        >
-          <span>
-            <v-icon
-              icon="fas fa-industry"
-              color="export-user"
-              class="mr-2"
-              size="18"
-            />
-            ข้อมูลโรงงาน DOA
-          </span>
+      <v-card elevation="0" border rounded="xl" class="mb-5">
+        <div class="d-flex align-center ga-2 px-4 py-3 border-b">
+          <v-icon icon="fas fa-industry" color="export-user" size="15" />
+          <span class="text-subtitle-2 font-weight-bold">ข้อมูลโรงงาน DOA</span>
+          <v-spacer />
           <v-btn
             color="export-user"
             variant="tonal"
             size="small"
-            rounded="lg"
             prepend-icon="fas fa-plus"
             @click="addFactory"
+            >เพิ่ม</v-btn
           >
-            เพิ่ม
-          </v-btn>
-        </v-card-title>
-        <v-divider />
-        <v-card-text class="pa-5">
+        </div>
+        <v-card-text class="pt-5">
           <div
             v-if="form.factories.length === 0"
             class="text-center text-medium-emphasis text-body-2 py-4"
@@ -419,7 +305,7 @@
           <div
             v-for="(factory, idx) in form.factories"
             :key="idx"
-            class="factory-row rounded-lg pa-4 mb-3"
+            class="item-row rounded-lg pa-4 mb-3"
           >
             <div class="d-flex align-center justify-space-between mb-3">
               <div class="text-body-2 font-weight-semibold">
@@ -439,13 +325,7 @@
                   <div>ชื่อโรงงาน <span class="req">*</span></div>
                   <div class="field-label-en">Factory Name</div>
                 </div>
-                <v-text-field
-                  v-model="factory.name"
-                  variant="outlined"
-                  density="compact"
-                  rounded="lg"
-                  hide-details
-                />
+                <v-text-field v-model="factory.name" hide-details />
               </v-col>
               <v-col cols="12" md="4">
                 <div class="field-label">
@@ -456,7 +336,6 @@
                   :color="factory.file ? 'success' : 'export-user'"
                   variant="tonal"
                   size="small"
-                  rounded="lg"
                   prepend-icon="fas fa-upload"
                   block
                   @click="mockUpload('factory_' + idx, factory)"
@@ -470,32 +349,21 @@
       </v-card>
 
       <!-- ข้อมูล GAP -->
-      <v-card rounded="xl" elevation="0" class="section-card mb-5">
-        <v-card-title
-          class="pa-5 pb-3 d-flex align-center justify-space-between section-title"
-        >
-          <span>
-            <v-icon
-              icon="fas fa-seedling"
-              color="export-user"
-              class="mr-2"
-              size="18"
-            />
-            ข้อมูล GAP
-          </span>
+      <v-card elevation="0" border rounded="xl" class="mb-5">
+        <div class="d-flex align-center ga-2 px-4 py-3 border-b">
+          <v-icon icon="fas fa-seedling" color="export-user" size="15" />
+          <span class="text-subtitle-2 font-weight-bold">ข้อมูล GAP</span>
+          <v-spacer />
           <v-btn
             color="export-user"
             variant="tonal"
             size="small"
-            rounded="lg"
             prepend-icon="fas fa-plus"
             @click="addGap"
+            >เพิ่ม</v-btn
           >
-            เพิ่ม
-          </v-btn>
-        </v-card-title>
-        <v-divider />
-        <v-card-text class="pa-5">
+        </div>
+        <v-card-text class="pt-5">
           <div
             v-if="form.gaps.length === 0"
             class="text-center text-medium-emphasis text-body-2 py-4"
@@ -505,7 +373,7 @@
           <div
             v-for="(gap, idx) in form.gaps"
             :key="idx"
-            class="factory-row rounded-lg pa-4 mb-3"
+            class="item-row rounded-lg pa-4 mb-3"
           >
             <div class="d-flex align-center justify-space-between mb-3">
               <div class="text-body-2 font-weight-semibold">
@@ -525,13 +393,7 @@
                   <div>ชื่อแหล่งผลิต <span class="req">*</span></div>
                   <div class="field-label-en">Production Site Name</div>
                 </div>
-                <v-text-field
-                  v-model="gap.name"
-                  variant="outlined"
-                  density="compact"
-                  rounded="lg"
-                  hide-details
-                />
+                <v-text-field v-model="gap.name" hide-details />
               </v-col>
               <v-col cols="12" md="4">
                 <div class="field-label">
@@ -541,9 +403,6 @@
                 <v-autocomplete
                   v-model="gap.certBody"
                   :items="certBodyOptions"
-                  variant="outlined"
-                  density="compact"
-                  rounded="lg"
                   hide-details
                   placeholder="เลือกหน่วยงาน"
                 />
@@ -557,7 +416,6 @@
                   :color="gap.file ? 'success' : 'export-user'"
                   variant="tonal"
                   size="small"
-                  rounded="lg"
                   prepend-icon="fas fa-upload"
                   block
                   @click="mockUpload('gap_' + idx, gap)"
@@ -569,55 +427,19 @@
           </div>
         </v-card-text>
       </v-card>
-
-      <!-- Buttons Step 1 -->
-      <div class="d-flex justify-space-between align-center mt-2">
-        <v-btn
-          variant="tonal"
-          color="grey"
-          rounded="lg"
-          prepend-icon="fas fa-arrow-left"
-          @click="router.back()"
-        >
-          ย้อนกลับ
-        </v-btn>
-        <div class="d-flex ga-2">
-          <v-btn
-            variant="tonal"
-            color="export-user"
-            rounded="lg"
-            prepend-icon="fas fa-floppy-disk"
-            @click="saveDraft"
-          >
-            บันทึกแบบร่าง
-          </v-btn>
-          <v-btn
-            color="export-user"
-            rounded="lg"
-            append-icon="fas fa-arrow-right"
-            @click="currentStep = 2"
-          >
-            ถัดไป
-          </v-btn>
-        </div>
-      </div>
     </template>
 
     <!-- ─── STEP 2: ไฟล์แนบ ─── -->
-    <template v-if="currentStep === 2">
-      <!-- ประเภทผู้ยื่น toggle -->
-      <v-card rounded="xl" elevation="0" class="section-card mb-5">
-        <v-card-title class="pa-5 pb-3 section-title">
-          <v-icon
-            icon="fas fa-users"
-            color="export-user"
-            class="mr-2"
-            size="18"
-          />
-          ประเภทผู้ประกอบการ
-        </v-card-title>
-        <v-divider />
-        <v-card-text class="pa-5">
+    <template v-if="currentStep === 1">
+      <!-- ประเภทผู้ยื่น -->
+      <v-card elevation="0" border rounded="xl" class="mb-5">
+        <div class="d-flex align-center ga-2 px-4 py-3 border-b">
+          <v-icon icon="fas fa-users" color="export-user" size="15" />
+          <span class="text-subtitle-2 font-weight-bold"
+            >ประเภทผู้ประกอบการ</span
+          >
+        </div>
+        <v-card-text class="pt-5">
           <v-radio-group v-model="entityType" color="export-user" inline>
             <v-radio value="natural" label="บุคคลธรรมดา" class="mr-8" />
             <v-radio value="juristic" label="นิติบุคคล" />
@@ -628,25 +450,22 @@
       <!-- เอกสารบุคคลธรรมดา -->
       <v-card
         v-if="entityType === 'natural'"
-        rounded="xl"
         elevation="0"
-        class="section-card mb-5"
+        border
+        rounded="xl"
+        class="mb-5"
       >
-        <v-card-title class="pa-5 pb-3 section-title">
-          <v-icon
-            icon="fas fa-user"
-            color="export-user"
-            class="mr-2"
-            size="18"
-          />
-          เอกสารกรณีบุคคลธรรมดา
-        </v-card-title>
-        <v-divider />
-        <v-card-text class="pa-5">
+        <div class="d-flex align-center ga-2 px-4 py-3 border-b">
+          <v-icon icon="fas fa-user" color="export-user" size="15" />
+          <span class="text-subtitle-2 font-weight-bold"
+            >เอกสารกรณีบุคคลธรรมดา</span
+          >
+        </div>
+        <v-card-text class="pt-5">
           <v-row dense>
             <v-col v-for="doc in docNatural" :key="doc.key" cols="12">
               <div
-                class="upload-row rounded-lg pa-4 mb-2 d-flex align-center justify-space-between flex-wrap ga-3"
+                class="item-row rounded-lg pa-4 mb-2 d-flex align-center justify-space-between flex-wrap ga-3"
               >
                 <div>
                   <div class="text-body-2 font-weight-medium">
@@ -668,14 +487,12 @@
                     size="x-small"
                     variant="tonal"
                     prepend-icon="fas fa-check"
+                    >{{ uploadedFiles[doc.key] }}</v-chip
                   >
-                    {{ uploadedFiles[doc.key] }}
-                  </v-chip>
                   <v-btn
                     :color="uploadedFiles[doc.key] ? 'success' : 'export-user'"
                     variant="tonal"
                     size="small"
-                    rounded="lg"
                     prepend-icon="fas fa-upload"
                     @click="mockUploadFile(doc.key)"
                   >
@@ -691,25 +508,22 @@
       <!-- เอกสารนิติบุคคล -->
       <v-card
         v-if="entityType === 'juristic'"
-        rounded="xl"
         elevation="0"
-        class="section-card mb-5"
+        border
+        rounded="xl"
+        class="mb-5"
       >
-        <v-card-title class="pa-5 pb-3 section-title">
-          <v-icon
-            icon="fas fa-building"
-            color="export-user"
-            class="mr-2"
-            size="18"
-          />
-          เอกสารกรณีนิติบุคคล
-        </v-card-title>
-        <v-divider />
-        <v-card-text class="pa-5">
+        <div class="d-flex align-center ga-2 px-4 py-3 border-b">
+          <v-icon icon="fas fa-building" color="export-user" size="15" />
+          <span class="text-subtitle-2 font-weight-bold"
+            >เอกสารกรณีนิติบุคคล</span
+          >
+        </div>
+        <v-card-text class="pt-5">
           <v-row dense>
             <v-col v-for="doc in docJuristic" :key="doc.key" cols="12">
               <div
-                class="upload-row rounded-lg pa-4 mb-2 d-flex align-center justify-space-between flex-wrap ga-3"
+                class="item-row rounded-lg pa-4 mb-2 d-flex align-center justify-space-between flex-wrap ga-3"
               >
                 <div>
                   <div class="text-body-2 font-weight-medium">
@@ -723,14 +537,12 @@
                     size="x-small"
                     variant="tonal"
                     prepend-icon="fas fa-check"
+                    >{{ uploadedFiles[doc.key] }}</v-chip
                   >
-                    {{ uploadedFiles[doc.key] }}
-                  </v-chip>
                   <v-btn
                     :color="uploadedFiles[doc.key] ? 'success' : 'export-user'"
                     variant="tonal"
                     size="small"
-                    rounded="lg"
                     prepend-icon="fas fa-upload"
                     @click="mockUploadFile(doc.key)"
                   >
@@ -744,22 +556,16 @@
       </v-card>
 
       <!-- เอกสารเพิ่มเติม -->
-      <v-card rounded="xl" elevation="0" class="section-card mb-5">
-        <v-card-title class="pa-5 pb-3 section-title">
-          <v-icon
-            icon="fas fa-paperclip"
-            color="export-user"
-            class="mr-2"
-            size="18"
-          />
-          เอกสารเพิ่มเติม
-        </v-card-title>
-        <v-divider />
-        <v-card-text class="pa-5">
+      <v-card elevation="0" border rounded="xl" class="mb-5">
+        <div class="d-flex align-center ga-2 px-4 py-3 border-b">
+          <v-icon icon="fas fa-paperclip" color="export-user" size="15" />
+          <span class="text-subtitle-2 font-weight-bold">เอกสารเพิ่มเติม</span>
+        </div>
+        <v-card-text class="pt-5">
           <v-row dense>
             <v-col v-for="doc in docExtra" :key="doc.key" cols="12">
               <div
-                class="upload-row rounded-lg pa-4 mb-2 d-flex align-center justify-space-between flex-wrap ga-3"
+                class="item-row rounded-lg pa-4 mb-2 d-flex align-center justify-space-between flex-wrap ga-3"
               >
                 <div>
                   <div class="text-body-2 font-weight-medium">
@@ -773,14 +579,12 @@
                     size="x-small"
                     variant="tonal"
                     prepend-icon="fas fa-check"
+                    >{{ uploadedFiles[doc.key] }}</v-chip
                   >
-                    {{ uploadedFiles[doc.key] }}
-                  </v-chip>
                   <v-btn
                     :color="uploadedFiles[doc.key] ? 'success' : 'export-user'"
                     variant="tonal"
                     size="small"
-                    rounded="lg"
                     prepend-icon="fas fa-upload"
                     @click="mockUploadFile(doc.key)"
                   >
@@ -792,39 +596,50 @@
           </v-row>
         </v-card-text>
       </v-card>
+    </template>
 
-      <!-- Buttons Step 2 -->
-      <div class="d-flex justify-space-between align-center mt-2">
+    <!-- Navigation Buttons -->
+    <div class="d-flex justify-space-between align-center mt-6">
+      <div class="d-flex ga-2">
         <v-btn
           variant="tonal"
           color="grey"
-          rounded="lg"
-          prepend-icon="fas fa-arrow-left"
-          @click="currentStep = 1"
+          @click="router.push('/export/user/applications')"
+          >ยกเลิก</v-btn
         >
-          ย้อนกลับ
-        </v-btn>
-        <div class="d-flex ga-2">
-          <v-btn
-            variant="tonal"
-            color="export-user"
-            rounded="lg"
-            prepend-icon="fas fa-floppy-disk"
-            @click="saveDraft"
-          >
-            บันทึกแบบร่าง
-          </v-btn>
-          <v-btn
-            color="export-user"
-            rounded="lg"
-            prepend-icon="fas fa-paper-plane"
-            @click="confirmDialog = true"
-          >
-            ยื่นคำขอ
-          </v-btn>
-        </div>
+        <v-btn
+          v-if="currentStep > 0"
+          variant="tonal"
+          color="grey"
+          prepend-icon="fas fa-arrow-left"
+          @click="currentStep--"
+          >ย้อนกลับ</v-btn
+        >
       </div>
-    </template>
+      <div class="d-flex ga-2">
+        <v-btn
+          variant="tonal"
+          color="export-user"
+          prepend-icon="fas fa-floppy-disk"
+          @click="saveDraft"
+          >บันทึกแบบร่าง</v-btn
+        >
+        <v-btn
+          v-if="currentStep < steps.length - 1"
+          color="export-user"
+          append-icon="fas fa-arrow-right"
+          @click="currentStep++"
+          >ถัดไป</v-btn
+        >
+        <v-btn
+          v-else
+          color="export-user"
+          prepend-icon="fas fa-paper-plane"
+          @click="confirmDialog = true"
+          >ยื่นคำขอ</v-btn
+        >
+      </div>
+    </div>
 
     <!-- Confirm Dialog -->
     <v-dialog v-model="confirmDialog" max-width="420">
@@ -842,16 +657,11 @@
           <v-btn
             variant="tonal"
             color="grey"
-            rounded="lg"
             block
             @click="confirmDialog = false"
             >ยกเลิก</v-btn
           >
-          <v-btn
-            color="export-user"
-            rounded="lg"
-            block
-            @click="submitApplication"
+          <v-btn color="export-user" block @click="submitApplication"
             >ยืนยัน</v-btn
           >
         </v-card-actions>
@@ -873,12 +683,10 @@
         <v-card-actions class="px-6 pb-5">
           <v-btn
             color="export-user"
-            rounded="lg"
             block
             @click="router.push('/export/user/applications')"
+            >ดูรายการคำขอ</v-btn
           >
-            ดูรายการคำขอ
-          </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -889,7 +697,7 @@
       color="success"
       rounded="lg"
       timeout="2500"
-      location="bottom right"
+      location="top right"
     >
       <v-icon icon="fas fa-floppy-disk" class="mr-2" />
       บันทึกแบบร่างแล้ว
@@ -914,15 +722,15 @@ const pageTitle = computed(
   () => typeTitles[route.params.type as string] ?? "คำขอจดทะเบียนผู้ส่งออก",
 );
 
-const currentStep = ref(1);
+const currentStep = ref(0);
 const confirmDialog = ref(false);
 const successDialog = ref(false);
 const draftSnackbar = ref(false);
 const entityType = ref<"natural" | "juristic">("juristic");
 
 const steps = [
-  { value: 1, title: "ข้อมูลรายละเอียด" },
-  { value: 2, title: "ไฟล์แนบ" },
+  { value: 0, title: "ข้อมูลรายละเอียด" },
+  { value: 1, title: "ไฟล์แนบ" },
 ];
 
 const form = reactive({
@@ -1004,7 +812,6 @@ function mockUpload(key: string, obj: { file: string }) {
   obj.file = "เอกสาร.pdf";
 }
 
-// File upload (mock)
 const uploadedFiles = reactive<Record<string, string>>({});
 function mockUploadFile(key: string) {
   uploadedFiles[key] = "เอกสาร.pdf";
@@ -1026,7 +833,7 @@ const docJuristic = [
 
 const docExtra = [
   { key: "doa_factory_cert", label: "หนังสือสำคัญขึ้นทะเบียนโรงงาน (DOA)" },
-  { key: "gap_cert", label: "หนังสือรับรอง GAP" },
+  { key: "gap_cert", label: "หนังสือรับรับรอง GAP" },
   { key: "factory_cert", label: "เอกสารรับรองโรงงาน" },
 ];
 
@@ -1040,26 +847,20 @@ function submitApplication() {
 }
 </script>
 
+
 <style scoped>
-div {
-  --step-color: rgb(var(--v-theme-export-user));
-  --step-color-tint: rgba(var(--v-theme-export-user), 0.2);
+.step-done,
+.step-active {
+  background: rgb(var(--v-theme-export-user)) !important;
+  color: white !important;
 }
-.factory-row {
-  background: rgba(var(--v-theme-export-user), 0.03);
-  border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
+.step-active {
+  box-shadow: 0 0 0 4px rgba(var(--v-theme-export-user), 0.2) !important;
 }
-.upload-row {
-  background: rgba(var(--v-theme-export-user), 0.03);
-  border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
+.step-line--done {
+  background: rgb(var(--v-theme-export-user)) !important;
 }
-.confirm-ring {
-  width: 72px;
-  height: 72px;
-  border-radius: 50%;
-  background: rgba(var(--v-theme-export-user), 0.1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.field-section-label {
+  color: rgb(var(--v-theme-export-user)) !important;
 }
 </style>

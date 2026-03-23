@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="--v-theme-primary: var(--v-theme-doa-staff)">
     <!-- Header -->
     <div class="d-flex align-center ga-3 mb-6">
       <v-btn icon="fas fa-arrow-left" variant="text" size="small" @click="goBack" />
@@ -450,4 +450,19 @@ div {
 .forward-ring { width: 64px; height: 64px; border-radius: 50%; background: rgba(var(--v-theme-doa-staff), 0.1); display: flex; align-items: center; justify-content: center; }
 .confirm-ring { width: 64px; height: 64px; border-radius: 50%; background: rgba(var(--v-theme-doa-staff), 0.1); display: flex; align-items: center; justify-content: center; }
 .success-ring { width: 64px; height: 64px; border-radius: 50%; background: rgba(var(--v-theme-success), 0.1); display: flex; align-items: center; justify-content: center; }
+
+.step-done,
+.step-active {
+  background: rgb(var(--v-theme-doa-staff)) !important;
+  color: white !important;
+}
+.step-active {
+  box-shadow: 0 0 0 4px rgba(var(--v-theme-doa-staff), 0.2) !important;
+}
+.step-line--done {
+  background: rgb(var(--v-theme-doa-staff)) !important;
+}
+.field-section-label {
+  color: rgb(var(--v-theme-doa-staff)) !important;
+}
 </style>

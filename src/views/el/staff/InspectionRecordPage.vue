@@ -66,16 +66,18 @@
             clearable
           />
         </v-col>
-        <v-col cols="auto" class="ml-auto d-flex align-self-center">
-          <v-btn
-            variant="tonal"
-            color="grey"
-            size="small"
-            prepend-icon="fas fa-rotate-left"
-            @click="clearFilters"
-          >
-            ล้างตัวกรอง
-          </v-btn>
+      </v-row>
+      <v-row dense>
+        <v-col cols="auto" class="ml-auto">
+        <v-btn
+          variant="tonal"
+          color="grey"
+          size="small"
+          prepend-icon="fas fa-rotate-left"
+          @click="clearFilters"
+        >
+          ล้างตัวกรอง
+        </v-btn>
         </v-col>
       </v-row>
     </v-card-text>
@@ -304,7 +306,7 @@ function statusColor(status: string): string {
     draft: "grey",
     submitted: "warning",
     under_review: "info",
-    inspection_scheduled: "el-staff",
+    inspection_scheduled: "primary",
     pending_committee: "warning",
     approved: "success",
     rejected: "error",

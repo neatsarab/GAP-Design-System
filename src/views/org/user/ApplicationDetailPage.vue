@@ -185,7 +185,7 @@ const timeline = [
 ]
 
 function statusColor(s: string) {
-  const m: Record<string, string> = { submitted: 'primary', under_review: 'info', inspection_scheduled: 'secondary', revision_required: 'warning', approved: 'success', rejected: 'error' }
+  const m: Record<string, string> = { submitted: 'org-user', under_review: 'info', inspection_scheduled: 'secondary', revision_required: 'warning', approved: 'success', rejected: 'error' }
   return m[s] ?? 'grey'
 }
 function statusIcon(s: string) {

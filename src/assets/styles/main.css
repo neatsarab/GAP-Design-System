@@ -51,11 +51,56 @@
 .sidebar-group-label {
   font-size: 10px;
   font-weight: 700;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  opacity: 0.55;
-  padding: 12px 12px 4px;
-  line-height: 1;
+  padding: 8px 12px 4px;
+}
+
+/* ── Layout shared: sidebar border ── */
+.app-sidebar {
+  border-right: 1px solid rgba(var(--v-border-color), var(--v-border-opacity)) !important;
+}
+
+/* ── Layout shared: app bar (backdrop handled globally by .v-app-bar) ── */
+.app-bar {
+  background: rgba(var(--v-theme-surface), 0.92) !important;
+  border-bottom: 1px solid rgba(var(--v-border-color), var(--v-border-opacity)) !important;
+}
+
+/* ── Layout shared: logo icon box (color from --v-theme-primary override) ── */
+.logo-icon-box {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(var(--v-theme-primary), 0.12);
+  border: 1px solid rgba(var(--v-theme-primary), 0.2);
+}
+
+/* ── Layout shared: user info card ── */
+.user-card {
+  background: rgba(var(--v-theme-primary), 0.06);
+  border: 1px solid rgba(var(--v-theme-primary), 0.12);
+}
+
+/* ── Layout shared: user chip ── */
+.user-chip {
+  font-size: 12px;
+  background: rgba(var(--v-theme-primary), 0.06);
+}
+
+/* ── Layout shared: logout dialog ring ── */
+.logout-icon-ring {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(var(--v-theme-error), 0.1);
+  border: 1px solid rgba(var(--v-theme-error), 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* ── Table ── */
@@ -170,15 +215,15 @@
   transition: background 0.15s;
 }
 
-/* ── Module step colors (set --step-color / --step-color-tint on root element) ── */
+/* ── Module step colors (use --v-theme-primary which is overridden per layout/module) ── */
 .step-done {
-  background: var(--step-color, rgb(var(--v-theme-primary)));
+  background: rgb(var(--v-theme-primary));
   color: white;
 }
 .step-active {
-  background: var(--step-color, rgb(var(--v-theme-primary)));
+  background: rgb(var(--v-theme-primary));
   color: white;
-  box-shadow: 0 0 0 4px var(--step-color-tint, rgba(var(--v-theme-primary), 0.2));
+  box-shadow: 0 0 0 4px rgba(var(--v-theme-primary), 0.2);
 }
 /* ── Field section label ── */
 .field-section-label {
@@ -187,7 +232,7 @@
   text-transform: uppercase;
   letter-spacing: 0.07em;
   margin-bottom: 8px;
-  color: var(--step-color, rgb(var(--v-theme-primary)));
+  color: rgb(var(--v-theme-primary));
 }
 
 /* ── Application type selection card ── */
@@ -326,6 +371,7 @@
   align-items: center;
   gap: 8px;
   padding: 12px 16px;
+  border-bottom: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
 }
 .section-title {
   font-size: 14px !important;
@@ -359,7 +405,7 @@
   transition: background 0.3s ease;
 }
 .step-line--done {
-  background: var(--step-color, rgb(var(--v-theme-primary)));
+  background: rgb(var(--v-theme-primary));
 }
 .step-bar .step-line {
   flex: 1;
@@ -391,6 +437,23 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+/* ── Confirm/complete ring (uses module primary color) ── */
+.confirm-ring {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: rgba(var(--v-theme-primary), 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Item/upload row (document list rows in form pages) ── */
+.item-row {
+  background: rgba(var(--v-theme-primary), 0.03);
+  border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
 }
 
 /* ── Scrollbar — light mode ── */

@@ -89,7 +89,7 @@ import AppStatCard from "@/components/common/AppStatCard.vue";
 const router = useRouter();
 
 const stats = [
-  { label: "คำขอทั้งหมด", value: 3, icon: "fas fa-file-lines", iconColor: "el-user" },
+  { label: "คำขอทั้งหมด", value: 3, icon: "fas fa-file-lines", iconColor: "primary" },
   { label: "อยู่ระหว่างตรวจสอบ", value: 1, icon: "fas fa-magnifying-glass", iconColor: "info" },
   { label: "อนุมัติแล้ว", value: 1, icon: "fas fa-circle-check", iconColor: "success" },
   { label: "รอแก้ไข", value: 1, icon: "fas fa-triangle-exclamation", iconColor: "warning" },
@@ -102,8 +102,8 @@ const recentApplications = [
 ];
 
 const quickActions = [
-  { title: "ยื่นคำขอ EL ใหม่", icon: "fas fa-file-pen", color: "el-user", to: "/el/user/applications/new" },
-  { title: "รายการคำขอ", icon: "fas fa-file-lines", color: "el-user", to: "/el/user/applications" },
+  { title: "ยื่นคำขอ EL ใหม่", icon: "fas fa-file-pen", color: "primary", to: "/el/user/applications/new" },
+  { title: "รายการคำขอ", icon: "fas fa-file-lines", color: "primary", to: "/el/user/applications" },
 ];
 
 function statusColor(status: string): string {

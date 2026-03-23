@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="--v-theme-primary: var(--v-theme-doa-user)">
     <!-- Header -->
     <div class="d-flex align-center ga-3 mb-6">
       <v-btn
@@ -25,17 +25,17 @@
           <template v-for="(step, i) in steps" :key="step.value">
             <div
               class="step-item d-flex flex-column align-center"
-              style="min-width: 90px"
+              style="min-width: 80px"
             >
               <div class="step-circle mb-1" :class="stepClass(step.value)">
                 <v-icon
                   v-if="currentStep > step.value"
                   icon="fas fa-check"
-                  size="13"
+                  size="14"
                   color="white"
                 />
                 <span v-else class="text-caption font-weight-bold">{{
-                  step.value
+                  step.value + 1
                 }}</span>
               </div>
               <div
@@ -60,7 +60,7 @@
     </v-card>
 
     <!-- ─── STEP 1: ข้อมูลรายละเอียด ─── -->
-    <template v-if="currentStep === 1">
+    <template v-if="currentStep === 0">
       <!-- ข้อมูลผู้ยื่นคำขอ -->
       <v-card rounded="xl" elevation="0" class="section-card mb-5">
         <v-card-title class="pa-5 pb-3 section-title">
@@ -421,41 +421,10 @@
         </v-table>
       </v-card>
 
-      <!-- Buttons Step 1 -->
-      <div class="d-flex justify-space-between align-center mt-2">
-        <v-btn
-          variant="tonal"
-          color="grey"
-          rounded="lg"
-          prepend-icon="fas fa-arrow-left"
-          @click="router.back()"
-        >
-          ย้อนกลับ
-        </v-btn>
-        <div class="d-flex ga-2">
-          <v-btn
-            variant="tonal"
-            color="doa-user"
-            rounded="lg"
-            prepend-icon="fas fa-floppy-disk"
-            @click="saveDraft"
-          >
-            แบบร่าง
-          </v-btn>
-          <v-btn
-            color="doa-user"
-            rounded="lg"
-            append-icon="fas fa-arrow-right"
-            @click="currentStep = 2"
-          >
-            ถัดไป
-          </v-btn>
-        </div>
-      </div>
     </template>
 
     <!-- ─── STEP 2: ไฟล์แนบ ─── -->
-    <template v-if="currentStep === 2">
+    <template v-if="currentStep === 1">
       <!-- เอกสารบุคคลธรรมดา -->
       <v-card rounded="xl" elevation="0" class="section-card mb-5">
         <v-card-title class="pa-5 pb-3 section-title">
@@ -467,7 +436,7 @@
           <v-row dense>
             <v-col v-for="doc in docNatural" :key="doc.key" cols="12">
               <div
-                class="upload-row rounded-lg pa-4 mb-2 d-flex align-center justify-space-between flex-wrap ga-3"
+                class="item-row rounded-lg pa-4 mb-2 d-flex align-center justify-space-between flex-wrap ga-3"
               >
                 <div>
                   <div class="text-body-2 font-weight-medium">
@@ -523,7 +492,7 @@
           <v-row dense>
             <v-col v-for="doc in docJuristic" :key="doc.key" cols="12">
               <div
-                class="upload-row rounded-lg pa-4 mb-2 d-flex align-center justify-space-between flex-wrap ga-3"
+                class="item-row rounded-lg pa-4 mb-2 d-flex align-center justify-space-between flex-wrap ga-3"
               >
                 <div>
                   <div class="text-body-2 font-weight-medium">
@@ -589,7 +558,7 @@
           <v-row dense>
             <v-col v-for="doc in docExtra" :key="doc.key" cols="12">
               <div
-                class="upload-row rounded-lg pa-4 mb-2 d-flex align-center justify-space-between flex-wrap ga-3"
+                class="item-row rounded-lg pa-4 mb-2 d-flex align-center justify-space-between flex-wrap ga-3"
               >
                 <div>
                   <div class="text-body-2 font-weight-medium">
@@ -623,38 +592,55 @@
         </v-card-text>
       </v-card>
 
-      <!-- Buttons Step 2 -->
-      <div class="d-flex justify-space-between align-center mt-2">
+    </template>
+
+    <!-- Navigation Buttons -->
+    <div class="d-flex justify-space-between align-center mt-6">
+      <div class="d-flex ga-2">
         <v-btn
           variant="tonal"
           color="grey"
-          rounded="lg"
+          @click="router.push('/doa/user/applications')"
+        >
+          ยกเลิก
+        </v-btn>
+        <v-btn
+          v-if="currentStep > 0"
+          variant="tonal"
+          color="grey"
           prepend-icon="fas fa-arrow-left"
-          @click="currentStep = 1"
+          @click="currentStep--"
         >
           ย้อนกลับ
         </v-btn>
-        <div class="d-flex ga-2">
-          <v-btn
-            variant="tonal"
-            color="doa-user"
-            rounded="lg"
-            prepend-icon="fas fa-floppy-disk"
-            @click="saveDraft"
-          >
-            แบบร่าง
-          </v-btn>
-          <v-btn
-            color="doa-user"
-            rounded="lg"
-            prepend-icon="fas fa-paper-plane"
-            @click="confirmDialog = true"
-          >
-            ยืนยันคำขอ
-          </v-btn>
-        </div>
       </div>
-    </template>
+      <div class="d-flex ga-2">
+        <v-btn
+          variant="tonal"
+          color="doa-user"
+          prepend-icon="fas fa-floppy-disk"
+          @click="saveDraft"
+        >
+          บันทึกแบบร่าง
+        </v-btn>
+        <v-btn
+          v-if="currentStep < steps.length - 1"
+          color="doa-user"
+          append-icon="fas fa-arrow-right"
+          @click="currentStep++"
+        >
+          ถัดไป
+        </v-btn>
+        <v-btn
+          v-else
+          color="doa-user"
+          prepend-icon="fas fa-paper-plane"
+          @click="confirmDialog = true"
+        >
+          ยื่นคำขอ
+        </v-btn>
+      </div>
+    </div>
 
     <!-- Standard Dialog -->
     <v-dialog v-model="standardDialog" max-width="560">
@@ -818,7 +804,7 @@
       color="success"
       rounded="lg"
       timeout="2500"
-      location="bottom right"
+      location="top right"
     >
       <v-icon icon="fas fa-floppy-disk" class="mr-2" />
       บันทึกแบบร่างแล้ว
@@ -842,14 +828,14 @@ const pageTitle = computed(
   () => typeTitles[route.params.type as string] ?? "คำขอ DOA",
 );
 const isRegister = computed(() => route.params.type === "register");
-const currentStep = ref(1);
+const currentStep = ref(0);
 const confirmDialog = ref(false);
 const successDialog = ref(false);
 const draftSnackbar = ref(false);
 
 const steps = [
-  { value: 1, title: "ข้อมูลรายละเอียด" },
-  { value: 2, title: "ไฟล์แนบ" },
+  { value: 0, title: "ข้อมูลรายละเอียด" },
+  { value: 1, title: "ไฟล์แนบ" },
 ];
 
 const form = reactive({
@@ -1011,22 +997,20 @@ function submitApplication() {
 }
 </script>
 
+
 <style scoped>
-div {
-  --step-color: rgb(var(--v-theme-doa-user));
-  --step-color-tint: rgba(var(--v-theme-doa-user), 0.2);
+.step-done,
+.step-active {
+  background: rgb(var(--v-theme-doa-user)) !important;
+  color: white !important;
 }
-.upload-row {
-  background: rgba(var(--v-theme-doa-user), 0.03);
-  border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
+.step-active {
+  box-shadow: 0 0 0 4px rgba(var(--v-theme-doa-user), 0.2) !important;
 }
-.confirm-ring {
-  width: 72px;
-  height: 72px;
-  border-radius: 50%;
-  background: rgba(var(--v-theme-doa-user), 0.1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.step-line--done {
+  background: rgb(var(--v-theme-doa-user)) !important;
+}
+.field-section-label {
+  color: rgb(var(--v-theme-doa-user)) !important;
 }
 </style>

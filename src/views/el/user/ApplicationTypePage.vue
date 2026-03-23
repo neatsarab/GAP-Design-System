@@ -107,7 +107,7 @@ const appTypes = [
     title: "ขึ้นทะเบียนใหม่",
     badge: "ทั่วไป",
     icon: "fas fa-warehouse",
-    color: "el-user",
+    color: "primary",
     disabled: false,
     description:
       "สำหรับโรงคัดบรรจุที่ต้องการขึ้นทะเบียนกับกรมวิชาการเกษตรเป็นครั้งแรก",

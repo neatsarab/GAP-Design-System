@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="--v-theme-primary: var(--v-theme-el-staff)">
     <!-- Back + Header -->
     <div class="d-flex align-center ga-3 mb-6">
       <v-btn

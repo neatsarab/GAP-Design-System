@@ -127,7 +127,7 @@ const appTypes = computed(() => [
     title: "คำขอรายเดี่ยว",
     badge: "ทั่วไป",
     icon: "fas fa-user",
-    color: "gap-user",
+    color: "primary",
     disabled: sessionStore.isGroupMode,
     description:
       "สำหรับเกษตรกรรายบุคคลที่ต้องการขอรับรองแหล่งผลิต GAP สำหรับแปลงของตนเอง",

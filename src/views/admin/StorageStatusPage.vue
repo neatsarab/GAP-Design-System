@@ -72,7 +72,7 @@ const headers = [
 ];
 
 function usageColor(p: number) {
-  return p >= 80 ? "error" : p >= 60 ? "warning" : "admin";
+  return p >= 80 ? "error" : p >= 60 ? "warning" : "primary";
 }
 </script>
 

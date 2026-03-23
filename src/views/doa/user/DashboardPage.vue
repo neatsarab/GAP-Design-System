@@ -89,10 +89,10 @@ import AppStatCard from "@/components/common/AppStatCard.vue";
 const router = useRouter();
 
 const stats = [
-  { label: "คำขอทั้งหมด", value: 2, icon: "fas fa-file-lines", iconColor: "doa-user" },
+  { label: "คำขอทั้งหมด", value: 2, icon: "fas fa-file-lines", iconColor: "primary" },
   { label: "อยู่ระหว่างตรวจสอบ", value: 1, icon: "fas fa-magnifying-glass", iconColor: "info" },
   { label: "อนุมัติแล้ว", value: 1, icon: "fas fa-circle-check", iconColor: "success" },
-  { label: "โรงงานที่ขึ้นทะเบียน", value: 1, icon: "fas fa-industry", iconColor: "doa-user" },
+  { label: "โรงงานที่ขึ้นทะเบียน", value: 1, icon: "fas fa-industry", iconColor: "primary" },
 ];
 
 const recentApplications = [
@@ -101,8 +101,8 @@ const recentApplications = [
 ];
 
 const quickActions = [
-  { title: "ยื่นคำขอ DOA ใหม่", icon: "fas fa-file-pen", color: "doa-user", to: "/doa/user/applications/new" },
-  { title: "รายการคำขอ", icon: "fas fa-file-lines", color: "doa-user", to: "/doa/user/applications" },
+  { title: "ยื่นคำขอ DOA ใหม่", icon: "fas fa-file-pen", color: "primary", to: "/doa/user/applications/new" },
+  { title: "รายการคำขอ", icon: "fas fa-file-lines", color: "primary", to: "/doa/user/applications" },
 ];
 
 function statusColor(status: string): string {

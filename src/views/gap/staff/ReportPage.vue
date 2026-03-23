@@ -112,7 +112,7 @@ interface ReportType {
 }
 
 const reportTypes: ReportType[] = [
-  { id: 'applications', name: 'รายงานคำขอ',          desc: 'สรุปจำนวนคำขอตามสถานะและช่วงเวลา',         icon: 'fas fa-file-lines',    color: 'primary',  hasStatusFilter: true, hasProvinceFilter: true  },
+  { id: 'applications', name: 'รายงานคำขอ',          desc: 'สรุปจำนวนคำขอตามสถานะและช่วงเวลา',         icon: 'fas fa-file-lines',    color: 'gap-staff',  hasStatusFilter: true, hasProvinceFilter: true  },
   { id: 'inspection',   name: 'รายงานการตรวจแปลง',   desc: 'ผลการตรวจประเมินแปลงและการวิเคราะห์ตัวอย่าง', icon: 'fas fa-clipboard-list', color: 'secondary', hasStatusFilter: false, hasProvinceFilter: true },
   { id: 'certificate',  name: 'รายงานใบรับรอง',       desc: 'รายการใบรับรองที่ออกแล้ว สถานะ หมดอายุ',    icon: 'fas fa-certificate',   color: 'success',  hasStatusFilter: false, hasProvinceFilter: true  },
   { id: 'statistics',   name: 'รายงานสถิติระบบ',      desc: 'ภาพรวมสถิติการใช้งานระบบและแนวโน้ม',        icon: 'fas fa-chart-bar',     color: 'info',     hasStatusFilter: false, hasProvinceFilter: false },

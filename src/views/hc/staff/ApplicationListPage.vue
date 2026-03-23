@@ -43,16 +43,18 @@
               clearable
             />
           </v-col>
-          <v-col cols="auto" class="ml-auto d-flex align-self-center">
-            <v-btn
-              variant="tonal"
-              color="grey"
-              size="small"
-              prepend-icon="fas fa-rotate-left"
-              @click="clearFilters"
-            >
-              ล้างตัวกรอง
-            </v-btn>
+        </v-row>
+        <v-row dense>
+          <v-col cols="auto" class="ml-auto">
+          <v-btn
+            variant="tonal"
+            color="grey"
+            size="small"
+            prepend-icon="fas fa-rotate-left"
+            @click="clearFilters"
+          >
+            ล้างตัวกรอง
+          </v-btn>
           </v-col>
         </v-row>
       </v-card-text>
@@ -183,7 +185,7 @@ const statusTabs = [
   {
     label: "ทั้งหมด",
     value: "all",
-    color: "hc-staff",
+    color: "primary",
     icon: "fas fa-list",
     count: 0,
   },

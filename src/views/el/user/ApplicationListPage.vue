@@ -51,6 +51,11 @@
             />
           </v-col>
         </v-row>
+        <v-row dense>
+          <v-col cols="auto" class="ml-auto">
+          <v-btn variant="tonal" color="grey" size="small" prepend-icon="fas fa-rotate-left" @click="clearFilters">ล้างตัวกรอง</v-btn>
+          </v-col>
+        </v-row>
       </v-card-text>
     </v-card>
 
@@ -112,6 +117,12 @@ const router = useRouter();
 const search = ref("");
 const statusFilter = ref<string | null>(null);
 const activeTab = ref("all");
+
+function clearFilters() {
+  search.value = "";
+  statusFilter.value = null;
+  activeTab.value = "all";
+}
 
 const statusOptions = [
   { label: "แบบร่าง", value: "draft" },

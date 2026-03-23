@@ -137,7 +137,7 @@ const stats = [
     label: "คำขอทั้งหมด",
     value: "6",
     icon: "fas fa-file-lines",
-    iconColor: "hcex-user",
+    iconColor: "primary",
   },
   {
     label: "รอดำเนินการ",
@@ -155,7 +155,7 @@ const stats = [
     label: "ใบรับรองมีผล",
     value: "3",
     icon: "fas fa-industry",
-    iconColor: "hcex-user",
+    iconColor: "primary",
   },
 ];
 
@@ -198,7 +198,7 @@ const quickActions = [
   {
     title: "ยื่นคำขอใบรับรองใหม่",
     icon: "fas fa-file-pen",
-    color: "hcex-user",
+    color: "primary",
     to: "/hcex/user/applications/new",
   },
   {
@@ -210,7 +210,7 @@ const quickActions = [
   {
     title: "รายการใบรับรอง",
     icon: "fas fa-industry",
-    color: "hcex-user",
+    color: "primary",
     to: "/hcex/user/certificates",
   },
 ];
@@ -218,7 +218,7 @@ const quickActions = [
 function getStatusColor(s: string) {
   const m: Record<string, string> = {
     draft: "grey",
-    submitted: "hcex-user",
+    submitted: "primary",
     under_review: "info",
     lab_verification: "secondary",
     approved: "success",

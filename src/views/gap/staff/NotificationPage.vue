@@ -72,7 +72,7 @@ const notifications = ref<Notif[]>([
   { id: 4,  title: 'คำขอรอนัดตรวจแปลง (5 รายการ)', message: 'มีคำขอ 5 รายการที่ตรวจสอบเอกสารผ่านแล้ว รอการนัดหมายตรวจแปลง',                     time: '14 ม.ค. 68 10:00',  icon: 'fas fa-calendar-clock','color': 'info',   tag: 'ตรวจแปลง',         read: false, actionRequired: true  },
   { id: 5,  title: 'บันทึกผลตรวจแล้ว',             message: 'GAP-2568-00039 · น.ส.วิไล สุขใส ผลการตรวจแปลงถูกบันทึกแล้ว รอเสนอ CC',              time: '13 ม.ค. 68 14:20',  icon: 'fas fa-clipboard-check', color: 'secondary', tag: 'ผลตรวจ',          read: true,  actionRequired: false },
   { id: 6,  title: 'ออกใบรับรองสำเร็จ',            message: 'GAP-CERT-2568-0035 · นายสมชาย ใจดี ออกใบรับรองมาตรฐาน GAP เรียบร้อยแล้ว',           time: '12 ม.ค. 68 11:05',  icon: 'fas fa-certificate',   color: 'success',  tag: 'ใบรับรอง',         read: true,  actionRequired: false },
-  { id: 7,  title: 'คำขอกลุ่มใหม่',               message: 'GAP-GRP-2568-00005 · กลุ่มเกษตรกรผู้ปลูกมะม่วงบ้านดอนแก้ว ยื่นคำขอกลุ่ม 18 สมาชิก', time: '11 ม.ค. 68 09:00',  icon: 'fas fa-users',         color: 'primary',  tag: 'คำขอกลุ่ม',         read: true,  actionRequired: false },
+  { id: 7,  title: 'คำขอกลุ่มใหม่',               message: 'GAP-GRP-2568-00005 · กลุ่มเกษตรกรผู้ปลูกมะม่วงบ้านดอนแก้ว ยื่นคำขอกลุ่ม 18 สมาชิก', time: '11 ม.ค. 68 09:00',  icon: 'fas fa-users',         color: 'gap-staff',  tag: 'คำขอกลุ่ม',         read: true,  actionRequired: false },
   { id: 8,  title: 'ส่งกลับแก้ไขสำเร็จ',          message: 'GAP-2568-00040 · นายชัยพร ดีงาม ได้รับการแจ้งให้แก้ไขเอกสารแล้ว',                    time: '10 ม.ค. 68 15:45',  icon: 'fas fa-arrow-rotate-left', color: 'warning',  tag: 'แก้ไขเอกสาร',      read: true,  actionRequired: false },
 ])
 

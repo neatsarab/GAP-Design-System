@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="--v-theme-primary: var(--v-theme-gap-user)">
     <!-- Header -->
     <div class="d-flex align-center ga-3 mb-6">
       <v-btn
@@ -28,7 +28,7 @@
     </div>
 
     <!-- Stepper -->
-    <v-card class="mb-5">
+    <v-card rounded="xl" elevation="0" class="mb-6 section-card">
       <v-card-text class="pa-5">
         <div class="d-flex align-center">
           <template v-for="(step, i) in steps" :key="step.value">
@@ -44,7 +44,7 @@
                   color="white"
                 />
                 <span v-else class="text-caption font-weight-bold">{{
-                  step.value
+                  step.value + 1
                 }}</span>
               </div>
               <div
@@ -70,7 +70,7 @@
 
     <v-window v-model="currentStep">
       <!-- ═══ Step 1: ประเภทมาตรฐาน + ข้อมูลเกษตรกร ═══ -->
-      <v-window-item :value="1">
+      <v-window-item :value="0">
         <!-- 1.0 ประเภทคำขอ -->
         <v-card elevation="0" border rounded="xl" class="mb-4">
           <div class="section-header border-b">
@@ -107,6 +107,9 @@
                       >
                     </div>
                     <v-text-field
+                      variant="outlined"
+                      density="compact"
+                      rounded="lg"
                       v-model="form.existingCertNo"
                       placeholder="เช่น GAP-2566-XXXXX"
                       prepend-inner-icon="fas fa-certificate"
@@ -121,6 +124,9 @@
                       <div class="field-label-en">Expiry Date</div>
                     </div>
                     <v-text-field
+                      variant="outlined"
+                      density="compact"
+                      rounded="lg"
                       v-model="form.existingCertExpiry"
                       placeholder="วว/ดด/ปปปป"
                       prepend-inner-icon="fas fa-calendar-xmark"
@@ -180,6 +186,9 @@
               </v-radio>
             </v-radio-group>
             <v-text-field
+              variant="outlined"
+              density="compact"
+              rounded="lg"
               v-if="form.standardType === 'other'"
               v-model="form.standardOther"
               placeholder="ระบุมาตรฐาน"
@@ -205,6 +214,9 @@
                   <div class="field-label-en">Title</div>
                 </div>
                 <v-autocomplete
+                  variant="outlined"
+                  density="compact"
+                  rounded="lg"
                   v-model="form.namePrefix"
                   :items="['นาย', 'นาง', 'นางสาว', 'เด็กชาย', 'เด็กหญิง']"
                   hide-details="auto"
@@ -216,6 +228,9 @@
                   <div class="field-label-en">First Name (Thai)</div>
                 </div>
                 <v-text-field
+                  variant="outlined"
+                  density="compact"
+                  rounded="lg"
                   v-model="form.firstName"
                   placeholder="ชื่อจริง"
                   :rules="[rules.required]"
@@ -228,6 +243,9 @@
                   <div class="field-label-en">Last Name (Thai)</div>
                 </div>
                 <v-text-field
+                  variant="outlined"
+                  density="compact"
+                  rounded="lg"
                   v-model="form.lastName"
                   placeholder="นามสกุล"
                   :rules="[rules.required]"
@@ -237,6 +255,9 @@
               <v-col cols="12" sm="4">
                 <div class="field-label">Firstname</div>
                 <v-text-field
+                  variant="outlined"
+                  density="compact"
+                  rounded="lg"
                   v-model="form.firstNameEn"
                   placeholder="Firstname"
                   hide-details="auto"
@@ -245,6 +266,9 @@
               <v-col cols="12" sm="4">
                 <div class="field-label">Middlename</div>
                 <v-text-field
+                  variant="outlined"
+                  density="compact"
+                  rounded="lg"
                   v-model="form.middleNameEn"
                   placeholder="Middlename (ถ้ามี)"
                   hide-details="auto"
@@ -253,6 +277,9 @@
               <v-col cols="12" sm="4">
                 <div class="field-label">Lastname</div>
                 <v-text-field
+                  variant="outlined"
+                  density="compact"
+                  rounded="lg"
                   v-model="form.lastNameEn"
                   placeholder="Lastname"
                   hide-details="auto"
@@ -271,6 +298,9 @@
                   <div class="field-label-en">National ID No.</div>
                 </div>
                 <v-text-field
+                  variant="outlined"
+                  density="compact"
+                  rounded="lg"
                   v-model="form.idCard"
                   placeholder="X-XXXX-XXXXX-XX-X"
                   prepend-inner-icon="fas fa-id-card"
@@ -288,6 +318,9 @@
                   <div class="field-label-en">House Registration Code</div>
                 </div>
                 <v-text-field
+                  variant="outlined"
+                  density="compact"
+                  rounded="lg"
                   v-model="form.houseRegCode"
                   placeholder="รหัสทะเบียนบ้าน"
                   prepend-inner-icon="fas fa-house-circle-check"
@@ -308,6 +341,9 @@
                   <div class="field-label-en">House No.</div>
                 </div>
                 <v-text-field
+                  variant="outlined"
+                  density="compact"
+                  rounded="lg"
                   v-model="form.houseNo"
                   placeholder="บ้านเลขที่"
                   :rules="[rules.required]"
@@ -320,6 +356,9 @@
                   <div class="field-label-en">Village</div>
                 </div>
                 <v-text-field
+                  variant="outlined"
+                  density="compact"
+                  rounded="lg"
                   v-model="form.village"
                   placeholder="ชื่อหมู่บ้าน (Village)"
                   hide-details="auto"
@@ -331,6 +370,9 @@
                   <div class="field-label-en">Moo</div>
                 </div>
                 <v-text-field
+                  variant="outlined"
+                  density="compact"
+                  rounded="lg"
                   v-model="form.moo"
                   placeholder="หมู่ที่"
                   type="number"
@@ -343,6 +385,9 @@
                   <div class="field-label-en">Road</div>
                 </div>
                 <v-text-field
+                  variant="outlined"
+                  density="compact"
+                  rounded="lg"
                   v-model="form.road"
                   placeholder="ถนน (Road)"
                   hide-details="auto"
@@ -354,6 +399,9 @@
                   <div class="field-label-en">Lane / Alley</div>
                 </div>
                 <v-text-field
+                  variant="outlined"
+                  density="compact"
+                  rounded="lg"
                   v-model="form.lane"
                   placeholder="ตรอก / ซอย (Lane / Alley)"
                   hide-details="auto"
@@ -365,6 +413,9 @@
                   <div class="field-label-en">Sub-district</div>
                 </div>
                 <v-text-field
+                  variant="outlined"
+                  density="compact"
+                  rounded="lg"
                   v-model="form.subDistrict"
                   placeholder="ตำบล / แขวง"
                   :rules="[rules.required]"
@@ -377,6 +428,9 @@
                   <div class="field-label-en">District</div>
                 </div>
                 <v-text-field
+                  variant="outlined"
+                  density="compact"
+                  rounded="lg"
                   v-model="form.district"
                   placeholder="อำเภอ / เขต"
                   :rules="[rules.required]"
@@ -389,6 +443,9 @@
                   <div class="field-label-en">Province</div>
                 </div>
                 <v-autocomplete
+                  variant="outlined"
+                  density="compact"
+                  rounded="lg"
                   v-model="form.province"
                   :items="provinces"
                   prepend-inner-icon="fas fa-map"
@@ -402,6 +459,9 @@
                   <div class="field-label-en">Postal Code</div>
                 </div>
                 <v-text-field
+                  variant="outlined"
+                  density="compact"
+                  rounded="lg"
                   v-model="form.postalCode"
                   placeholder="XXXXX"
                   maxlength="5"
@@ -422,6 +482,9 @@
                   <div class="field-label-en">Phone Number</div>
                 </div>
                 <v-text-field
+                  variant="outlined"
+                  density="compact"
+                  rounded="lg"
                   v-model="form.tel"
                   placeholder="02X-XXX-XXXX"
                   prepend-inner-icon="fas fa-phone"
@@ -434,6 +497,9 @@
                   <div class="field-label-en">Mobile No.</div>
                 </div>
                 <v-text-field
+                  variant="outlined"
+                  density="compact"
+                  rounded="lg"
                   v-model="form.mobile"
                   placeholder="0XX-XXX-XXXX"
                   prepend-inner-icon="fas fa-mobile-screen"
@@ -447,6 +513,9 @@
                   <div class="field-label-en">Email</div>
                 </div>
                 <v-text-field
+                  variant="outlined"
+                  density="compact"
+                  rounded="lg"
                   v-model="form.email"
                   placeholder="example@email.com"
                   prepend-inner-icon="fas fa-envelope"
@@ -460,7 +529,7 @@
       </v-window-item>
 
       <!-- ═══ Step 2: ข้อมูลนิติบุคคล + ที่ตั้งฟาร์ม ═══ -->
-      <v-window-item :value="2">
+      <v-window-item :value="1">
         <!-- 2.1 ข้อมูลนิติบุคคล (ถ้ามี) -->
         <v-card elevation="0" border rounded="xl" class="mb-4">
           <div class="section-header border-b">
@@ -484,6 +553,9 @@
                   <div class="field-label-en">Juristic Person Name</div>
                 </div>
                 <v-text-field
+                  variant="outlined"
+                  density="compact"
+                  rounded="lg"
                   v-model="form.juristicName"
                   placeholder="ชื่อบริษัท / ห้างหุ้นส่วน / องค์กร"
                   prepend-inner-icon="fas fa-building"
@@ -497,6 +569,9 @@
                   <div class="field-label-en">Registration No.</div>
                 </div>
                 <v-text-field
+                  variant="outlined"
+                  density="compact"
+                  rounded="lg"
                   v-model="form.juristicRegNo"
                   placeholder="เลขทะเบียน / เลขผู้เสียภาษี"
                   :rules="[rules.required]"
@@ -509,6 +584,9 @@
                   <div class="field-label-en">Authorized Signatory</div>
                 </div>
                 <v-text-field
+                  variant="outlined"
+                  density="compact"
+                  rounded="lg"
                   v-model="form.juristicSignatory"
                   placeholder="ชื่อ-นามสกุล"
                   prepend-inner-icon="fas fa-signature"
@@ -523,6 +601,9 @@
                   <div class="field-label-en">Juristic Address</div>
                 </div>
                 <v-textarea
+                  variant="outlined"
+                  density="compact"
+                  rounded="lg"
                   v-model="form.juristicAddress"
                   placeholder="ที่อยู่สำนักงาน"
                   rows="2"
@@ -545,6 +626,9 @@
                   <div class="field-label-en">Farm Manager Name</div>
                 </div>
                 <v-text-field
+                  variant="outlined"
+                  density="compact"
+                  rounded="lg"
                   v-model="form.farmManager"
                   placeholder="ชื่อ-นามสกุล"
                   hide-details="auto"
@@ -557,6 +641,9 @@
                   <div class="field-label-en">Manager ID No.</div>
                 </div>
                 <v-text-field
+                  variant="outlined"
+                  density="compact"
+                  rounded="lg"
                   v-model="form.farmManagerIdCard"
                   placeholder="13 หลัก"
                   maxlength="13"
@@ -606,6 +693,9 @@
                   <div class="field-label-en">Village</div>
                 </div>
                 <v-text-field
+                  variant="outlined"
+                  density="compact"
+                  rounded="lg"
                   v-model="form.farmVillage"
                   placeholder="ชื่อหมู่บ้าน"
                   hide-details="auto"
@@ -617,6 +707,9 @@
                   <div class="field-label-en">Moo</div>
                 </div>
                 <v-text-field
+                  variant="outlined"
+                  density="compact"
+                  rounded="lg"
                   v-model="form.farmMoo"
                   placeholder="หมู่ที่"
                   type="number"
@@ -629,6 +722,9 @@
                   <div class="field-label-en">Road</div>
                 </div>
                 <v-text-field
+                  variant="outlined"
+                  density="compact"
+                  rounded="lg"
                   v-model="form.farmRoad"
                   placeholder="ถนน"
                   hide-details="auto"
@@ -640,6 +736,9 @@
                   <div class="field-label-en">Lane / Alley</div>
                 </div>
                 <v-text-field
+                  variant="outlined"
+                  density="compact"
+                  rounded="lg"
                   v-model="form.farmLane"
                   placeholder="ตรอก / ซอย"
                   hide-details="auto"
@@ -651,6 +750,9 @@
                   <div class="field-label-en">Sub-district</div>
                 </div>
                 <v-text-field
+                  variant="outlined"
+                  density="compact"
+                  rounded="lg"
                   v-model="form.farmSubDistrict"
                   placeholder="ตำบล / แขวง"
                   :rules="[rules.required]"
@@ -663,6 +765,9 @@
                   <div class="field-label-en">District</div>
                 </div>
                 <v-text-field
+                  variant="outlined"
+                  density="compact"
+                  rounded="lg"
                   v-model="form.farmDistrict"
                   placeholder="อำเภอ / เขต"
                   :rules="[rules.required]"
@@ -675,6 +780,9 @@
                   <div class="field-label-en">Province</div>
                 </div>
                 <v-autocomplete
+                  variant="outlined"
+                  density="compact"
+                  rounded="lg"
                   v-model="form.farmProvince"
                   :items="provinces"
                   prepend-inner-icon="fas fa-map"
@@ -688,6 +796,9 @@
                   <div class="field-label-en">Certified Area (Rai)</div>
                 </div>
                 <v-text-field
+                  variant="outlined"
+                  density="compact"
+                  rounded="lg"
                   v-model.number="form.farmArea"
                   placeholder="ระบุพื้นที่"
                   type="number"
@@ -703,7 +814,7 @@
       </v-window-item>
 
       <!-- ═══ Step 3: ข้อมูลพืชที่ขอรับรอง ═══ -->
-      <v-window-item :value="3">
+      <v-window-item :value="2">
         <v-card elevation="0" border rounded="xl">
           <div class="section-header border-b">
             <v-icon size="15" color="gap-user">fas fa-seedling</v-icon>
@@ -753,6 +864,9 @@
                     <div class="field-label-en">Area (Rai)</div>
                   </div>
                   <v-text-field
+                    variant="outlined"
+                    density="compact"
+                    rounded="lg"
                     v-model.number="crop.area"
                     type="number"
                     suffix="ไร่"
@@ -766,6 +880,9 @@
                     <div class="field-label-en">Plant Age</div>
                   </div>
                   <v-text-field
+                    variant="outlined"
+                    density="compact"
+                    rounded="lg"
                     v-model="crop.age"
                     placeholder="เช่น 2 ปี / 180 วัน"
                     hide-details="auto"
@@ -779,6 +896,9 @@
                     >
                   </div>
                   <v-text-field
+                    variant="outlined"
+                    density="compact"
+                    rounded="lg"
                     v-model.number="crop.treeCount"
                     type="number"
                     suffix="ต้น"
@@ -793,6 +913,9 @@
                     >
                   </div>
                   <v-text-field
+                    variant="outlined"
+                    density="compact"
+                    rounded="lg"
                     v-model="crop.productionPeriod"
                     placeholder="เช่น ม.ค.–มี.ค."
                     hide-details="auto"
@@ -805,6 +928,9 @@
                     <div class="field-label-en">Expected Harvest Period</div>
                   </div>
                   <v-text-field
+                    variant="outlined"
+                    density="compact"
+                    rounded="lg"
                     v-model="crop.harvestPeriod"
                     placeholder="รอบเดือน"
                     hide-details="auto"
@@ -817,6 +943,9 @@
                     <div class="field-label-en">Expected Total Yield</div>
                   </div>
                   <v-text-field
+                    variant="outlined"
+                    density="compact"
+                    rounded="lg"
                     v-model="crop.expectedYield"
                     placeholder="กก./ตัน ต่อปี"
                     hide-details="auto"
@@ -828,6 +957,9 @@
                     <div class="field-label-en">Plot No.</div>
                   </div>
                   <v-text-field
+                    variant="outlined"
+                    density="compact"
+                    rounded="lg"
                     v-model="crop.plotNo"
                     placeholder="หมายเลขแปลง"
                     hide-details="auto"
@@ -841,7 +973,7 @@
       </v-window-item>
 
       <!-- ═══ Step 4: เอกสารประกอบคำขอ ═══ -->
-      <v-window-item :value="4">
+      <v-window-item :value="3">
         <v-card elevation="0" border rounded="xl">
           <div class="section-header border-b">
             <v-icon size="15" color="gap-user">fas fa-paperclip</v-icon>
@@ -1015,7 +1147,7 @@
       </v-window-item>
 
       <!-- ═══ Step 5: ตรวจสอบ & ยื่น ═══ -->
-      <v-window-item :value="5">
+      <v-window-item :value="4">
         <v-card elevation="0" border rounded="xl">
           <div class="section-header border-b">
             <v-icon size="15" color="success">fas fa-clipboard-check</v-icon>
@@ -1124,38 +1256,47 @@
       </v-window-item>
     </v-window>
 
-    <!-- Nav buttons -->
-    <div class="d-flex align-center ga-3 mt-5">
-      <v-btn
-        v-if="currentStep > 1"
-        variant="outlined"
-        color="grey-darken-1"
-        prepend-icon="fas fa-arrow-left"
-        @click="currentStep--"
-        >ย้อนกลับ</v-btn
-      >
-      <v-btn
-        variant="tonal"
-        color="grey-darken-1"
-        prepend-icon="fas fa-floppy-disk"
-        >บันทึกร่าง</v-btn
-      >
-      <v-spacer />
-      <v-btn
-        v-if="currentStep < steps.length"
-        color="gap-user"
-        append-icon="fas fa-arrow-right"
-        @click="currentStep++"
-        >ถัดไป</v-btn
-      >
-      <v-btn
-        v-else
-        color="success"
-        prepend-icon="fas fa-paper-plane"
-        size="large"
-        @click="successDialog = true"
-        >ยื่นคำขอ</v-btn
-      >
+    <!-- Navigation Buttons -->
+    <div class="d-flex justify-space-between align-center mt-6">
+      <div class="d-flex ga-2">
+        <v-btn
+          variant="tonal"
+          color="grey"
+          @click="router.push('/gap/user/applications')"
+          >ยกเลิก</v-btn
+        >
+        <v-btn
+          v-if="currentStep > 0"
+          variant="tonal"
+          color="grey"
+          prepend-icon="fas fa-arrow-left"
+          @click="currentStep--"
+          >ย้อนกลับ</v-btn
+        >
+      </div>
+      <div class="d-flex ga-2">
+        <v-btn
+          variant="tonal"
+          color="gap-user"
+          prepend-icon="fas fa-floppy-disk"
+          @click="saveDraft"
+          >บันทึกแบบร่าง</v-btn
+        >
+        <v-btn
+          v-if="currentStep < steps.length - 1"
+          color="gap-user"
+          append-icon="fas fa-arrow-right"
+          @click="currentStep++"
+          >ถัดไป</v-btn
+        >
+        <v-btn
+          v-else
+          color="gap-user"
+          prepend-icon="fas fa-paper-plane"
+          @click="successDialog = true"
+          >ยื่นคำขอ</v-btn
+        >
+      </div>
     </div>
 
     <!-- Success Dialog -->
@@ -1184,6 +1325,18 @@
         </v-card-text>
       </v-card>
     </v-dialog>
+
+    <!-- Draft Snackbar -->
+    <v-snackbar
+      v-model="draftSnackbar"
+      color="success"
+      rounded="lg"
+      timeout="2500"
+      location="top right"
+    >
+      <v-icon icon="fas fa-floppy-disk" class="mr-2" />
+      บันทึกแบบร่างแล้ว
+    </v-snackbar>
   </div>
 </template>
 
@@ -1192,15 +1345,16 @@ import { ref, computed, watch, onUnmounted } from "vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
-const currentStep = ref(1);
+const currentStep = ref(0);
 const successDialog = ref(false);
+const draftSnackbar = ref(false);
 
 const steps = [
-  { value: 1, title: "ผู้ยื่น / มาตรฐาน" },
-  { value: 2, title: "ที่ตั้งฟาร์ม" },
-  { value: 3, title: "ข้อมูลพืช" },
-  { value: 4, title: "เอกสารแนบ" },
-  { value: 5, title: "ตรวจสอบ & ยื่น" },
+  { value: 0, title: "ผู้ยื่น / มาตรฐาน" },
+  { value: 1, title: "ที่ตั้งฟาร์ม" },
+  { value: 2, title: "ข้อมูลพืช" },
+  { value: 3, title: "เอกสารแนบ" },
+  { value: 4, title: "ตรวจสอบ & ยื่น" },
 ];
 
 function stepClass(v: number) {
@@ -1208,6 +1362,8 @@ function stepClass(v: number) {
   if (currentStep.value === v) return "step-active";
   return "step-pending";
 }
+
+function saveDraft() { draftSnackbar.value = true; }
 
 interface CropRow {
   type: string;
@@ -1390,5 +1546,20 @@ div {
   border-radius: 12px;
   background: rgba(var(--v-theme-gap-user), 0.03);
   border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
+}
+
+.step-done,
+.step-active {
+  background: rgb(var(--v-theme-gap-user)) !important;
+  color: white !important;
+}
+.step-active {
+  box-shadow: 0 0 0 4px rgba(var(--v-theme-gap-user), 0.2) !important;
+}
+.step-line--done {
+  background: rgb(var(--v-theme-gap-user)) !important;
+}
+.field-section-label {
+  color: rgb(var(--v-theme-gap-user)) !important;
 }
 </style>

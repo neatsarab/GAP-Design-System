@@ -135,7 +135,7 @@ const summaryCards = [
   { label: "Services Running", value: "4/4", icon: "fas fa-server", color: "success", chipColor: "success", chipLabel: "ปกติ" },
   { label: "APIs Connected", value: "3/3", icon: "fas fa-plug", color: "info", chipColor: "info", chipLabel: "ปกติ" },
   { label: "Certificates (หมดเร็ว ๆ นี้)", value: "1", icon: "fas fa-shield-halved", color: "warning", chipColor: "warning", chipLabel: "แจ้งเตือน" },
-  { label: "Login วันนี้", value: "24", icon: "fas fa-clipboard-list", color: "admin", chipColor: "admin", chipLabel: "ปกติ" },
+  { label: "Login วันนี้", value: "24", icon: "fas fa-clipboard-list", color: "primary", chipColor: "primary", chipLabel: "ปกติ" },
 ];
 
 const services = [

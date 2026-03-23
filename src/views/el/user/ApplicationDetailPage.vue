@@ -56,7 +56,7 @@
                 class="text-caption text-center mt-2"
                 :class="
                   idx <= activeTrackerStep
-                    ? 'font-weight-medium text-primary'
+                    ? 'font-weight-medium text-el-user'
                     : 'text-medium-emphasis'
                 "
                 style="max-width: 80px; line-height: 1.3"
@@ -270,7 +270,7 @@ const statusHistory = [
   {
     label: "ส่งให้ สวพ. ตรวจประเมิน",
     date: "15 ก.พ. 2568 10:00",
-    color: "el-user",
+    color: "primary",
     note: "อยู่ระหว่างการนัดหมายการตรวจ",
   },
 ];

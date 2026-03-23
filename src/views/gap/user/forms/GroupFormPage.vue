@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="--v-theme-primary: var(--v-theme-gap-user)">
     <!-- Header -->
     <div class="d-flex align-center ga-3 mb-6">
       <v-btn
@@ -28,7 +28,7 @@
     </div>
 
     <!-- Stepper -->
-    <v-card class="mb-5">
+    <v-card rounded="xl" elevation="0" class="mb-6 section-card">
       <v-card-text class="pa-5">
         <div class="d-flex align-center">
           <template v-for="(step, i) in steps" :key="step.value">
@@ -44,7 +44,7 @@
                   color="white"
                 />
                 <span v-else class="text-caption font-weight-bold">{{
-                  step.value
+                  step.value + 1
                 }}</span>
               </div>
               <div
@@ -71,7 +71,7 @@
 
     <v-window v-model="currentStep">
       <!-- Step 1: ข้อมูลกลุ่ม -->
-      <v-window-item :value="1">
+      <v-window-item :value="0">
         <v-card elevation="0" border rounded="xl" class="mb-4">
           <div class="section-header border-b">
             <v-icon size="15" color="gap-user">fas fa-users</v-icon>
@@ -86,6 +86,9 @@
                   <div class="field-label-en">Group Name</div>
                 </div>
                 <v-text-field
+                  variant="outlined"
+                  density="compact"
+                  rounded="lg"
                   v-model="form.groupName"
                   placeholder="เช่น กลุ่มเกษตรกรทำนาบ้านทุ่งสวรรค์"
                   prepend-inner-icon="fas fa-users"
@@ -100,6 +103,9 @@
                   <div class="field-label-en">Group Registration No.</div>
                 </div>
                 <v-text-field
+                  variant="outlined"
+                  density="compact"
+                  rounded="lg"
                   v-model="form.groupRegNo"
                   placeholder="เลขทะเบียน (ถ้ามี)"
                   prepend-inner-icon="fas fa-hashtag"
@@ -112,6 +118,9 @@
                   <div class="field-label-en">Group Type</div>
                 </div>
                 <v-autocomplete
+                  variant="outlined"
+                  density="compact"
+                  rounded="lg"
                   v-model="form.groupType"
                   :items="[
                     'กลุ่มเกษตรกร',
@@ -132,6 +141,9 @@
                   <div class="field-label-en">No. of Members</div>
                 </div>
                 <v-text-field
+                  variant="outlined"
+                  density="compact"
+                  rounded="lg"
                   v-model.number="form.memberCount"
                   type="number"
                   :min="2"
@@ -152,6 +164,9 @@
                   <div class="field-label-en">Title</div>
                 </div>
                 <v-autocomplete
+                  variant="outlined"
+                  density="compact"
+                  rounded="lg"
                   v-model="form.repPrefix"
                   :items="['นาย', 'นาง', 'นางสาว']"
                   hide-details="auto"
@@ -163,6 +178,9 @@
                   <div class="field-label-en">First Name</div>
                 </div>
                 <v-text-field
+                  variant="outlined"
+                  density="compact"
+                  rounded="lg"
                   v-model="form.repFirstName"
                   placeholder="ชื่อจริง"
                   :rules="[rules.required]"
@@ -175,6 +193,9 @@
                   <div class="field-label-en">Last Name</div>
                 </div>
                 <v-text-field
+                  variant="outlined"
+                  density="compact"
+                  rounded="lg"
                   v-model="form.repLastName"
                   placeholder="นามสกุล"
                   :rules="[rules.required]"
@@ -187,6 +208,9 @@
                   <div class="field-label-en">National ID No.</div>
                 </div>
                 <v-text-field
+                  variant="outlined"
+                  density="compact"
+                  rounded="lg"
                   v-model="form.repIdCard"
                   placeholder="X-XXXX-XXXXX-XX-X"
                   prepend-inner-icon="fas fa-id-card"
@@ -203,6 +227,9 @@
                   <div class="field-label-en">Phone Number</div>
                 </div>
                 <v-text-field
+                  variant="outlined"
+                  density="compact"
+                  rounded="lg"
                   v-model="form.repPhone"
                   placeholder="0XX-XXX-XXXX"
                   prepend-inner-icon="fas fa-phone"
@@ -216,6 +243,9 @@
                   <div class="field-label-en">Email</div>
                 </div>
                 <v-text-field
+                  variant="outlined"
+                  density="compact"
+                  rounded="lg"
                   v-model="form.repEmail"
                   placeholder="example@email.com"
                   prepend-inner-icon="fas fa-envelope"
@@ -229,7 +259,7 @@
       </v-window-item>
 
       <!-- Step 2: รายชื่อสมาชิก -->
-      <v-window-item :value="2">
+      <v-window-item :value="1">
         <v-card elevation="0" border rounded="xl">
           <div class="section-header border-b">
             <v-icon size="15" color="gap-user">fas fa-list-ul</v-icon>
@@ -286,6 +316,8 @@
                     <div class="field-label-en">Title</div>
                   </div>
                   <v-autocomplete
+                    variant="outlined"
+                    rounded="lg"
                     v-model="m.prefix"
                     :items="['นาย', 'นาง', 'นางสาว']"
                     density="compact"
@@ -298,6 +330,8 @@
                     <div class="field-label-en">First Name</div>
                   </div>
                   <v-text-field
+                    variant="outlined"
+                    rounded="lg"
                     v-model="m.firstName"
                     placeholder="ชื่อจริง"
                     density="compact"
@@ -310,6 +344,8 @@
                     <div class="field-label-en">Last Name</div>
                   </div>
                   <v-text-field
+                    variant="outlined"
+                    rounded="lg"
                     v-model="m.lastName"
                     placeholder="นามสกุล"
                     density="compact"
@@ -323,6 +359,8 @@
                     <div class="field-label-en">National ID No.</div>
                   </div>
                   <v-text-field
+                    variant="outlined"
+                    rounded="lg"
                     v-model="m.idCard"
                     placeholder="13 หลัก"
                     maxlength="13"
@@ -336,6 +374,8 @@
                     <div class="field-label-en">Crop Type</div>
                   </div>
                   <v-autocomplete
+                    variant="outlined"
+                    rounded="lg"
                     v-model="m.crops"
                     :items="cropTypes"
                     multiple
@@ -350,6 +390,8 @@
                     <div class="field-label-en">Area (Rai)</div>
                   </div>
                   <v-text-field
+                    variant="outlined"
+                    rounded="lg"
                     v-model.number="m.area"
                     type="number"
                     suffix="ไร่"
@@ -377,7 +419,7 @@
       </v-window-item>
 
       <!-- Step 3: ที่อยู่ + แปลง (รวม) -->
-      <v-window-item :value="3">
+      <v-window-item :value="2">
         <v-card elevation="0" border rounded="xl" class="mb-4">
           <div class="section-header border-b">
             <v-icon size="15" color="gap-user">fas fa-location-dot</v-icon>
@@ -393,6 +435,9 @@
                   <div class="field-label-en">Address</div>
                 </div>
                 <v-textarea
+                  variant="outlined"
+                  density="compact"
+                  rounded="lg"
                   v-model="form.address"
                   placeholder="บ้านเลขที่ / หมู่ที่ / ซอย / ถนน"
                   prepend-inner-icon="fas fa-house"
@@ -408,6 +453,9 @@
                   <div class="field-label-en">Postal Code</div>
                 </div>
                 <v-text-field
+                  variant="outlined"
+                  density="compact"
+                  rounded="lg"
                   v-model="form.postalCode"
                   maxlength="5"
                   prepend-inner-icon="fas fa-map-pin"
@@ -420,6 +468,9 @@
                   <div class="field-label-en">Province</div>
                 </div>
                 <v-autocomplete
+                  variant="outlined"
+                  density="compact"
+                  rounded="lg"
                   v-model="form.province"
                   :items="provinces"
                   prepend-inner-icon="fas fa-map"
@@ -433,6 +484,9 @@
                   <div class="field-label-en">District</div>
                 </div>
                 <v-autocomplete
+                  variant="outlined"
+                  density="compact"
+                  rounded="lg"
                   v-model="form.district"
                   :items="['อำเภอเมือง', 'อำเภอปากช่อง']"
                   prepend-inner-icon="fas fa-city"
@@ -445,6 +499,9 @@
                   <div class="field-label-en">Sub-district</div>
                 </div>
                 <v-autocomplete
+                  variant="outlined"
+                  density="compact"
+                  rounded="lg"
                   v-model="form.subDistrict"
                   :items="['ตำบลในเมือง', 'ตำบลโพธิ์กลาง']"
                   prepend-inner-icon="fas fa-map-pin"
@@ -469,6 +526,9 @@
                   <div class="field-label-en">Main Crop Type (Group)</div>
                 </div>
                 <v-autocomplete
+                  variant="outlined"
+                  density="compact"
+                  rounded="lg"
                   v-model="form.cropTypes"
                   :items="cropTypes"
                   prepend-inner-icon="fas fa-seedling"
@@ -485,6 +545,9 @@
                   <div class="field-label-en">Inspector</div>
                 </div>
                 <v-autocomplete
+                  variant="outlined"
+                  density="compact"
+                  rounded="lg"
                   v-model="form.inspector"
                   :items="inspectors"
                   prepend-inner-icon="fas fa-user-check"
@@ -499,6 +562,9 @@
                   <div class="field-label-en">Total Group Area (Rai)</div>
                 </div>
                 <v-text-field
+                  variant="outlined"
+                  density="compact"
+                  rounded="lg"
                   v-model.number="form.totalArea"
                   type="number"
                   suffix="ไร่"
@@ -545,7 +611,7 @@
       </v-window-item>
 
       <!-- Step 4: เอกสาร -->
-      <v-window-item :value="4">
+      <v-window-item :value="3">
         <v-card elevation="0" border rounded="xl">
           <div class="section-header border-b">
             <v-icon size="15" color="gap-user">fas fa-paperclip</v-icon>
@@ -611,7 +677,7 @@
       </v-window-item>
 
       <!-- Step 5: ตรวจสอบ -->
-      <v-window-item :value="5">
+      <v-window-item :value="4">
         <v-card elevation="0" border rounded="xl">
           <div class="section-header border-b">
             <v-icon size="15" color="success">fas fa-clipboard-check</v-icon>
@@ -684,38 +750,47 @@
       </v-window-item>
     </v-window>
 
-    <!-- Nav buttons -->
-    <div class="d-flex align-center ga-3 mt-5">
-      <v-btn
-        v-if="currentStep > 1"
-        variant="outlined"
-        color="grey-darken-1"
-        prepend-icon="fas fa-arrow-left"
-        @click="currentStep--"
-        >ย้อนกลับ</v-btn
-      >
-      <v-btn
-        variant="tonal"
-        color="grey-darken-1"
-        prepend-icon="fas fa-floppy-disk"
-        >บันทึกร่าง</v-btn
-      >
-      <v-spacer />
-      <v-btn
-        v-if="currentStep < steps.length"
-        color="gap-user"
-        append-icon="fas fa-arrow-right"
-        @click="currentStep++"
-        >ถัดไป</v-btn
-      >
-      <v-btn
-        v-else
-        color="success"
-        prepend-icon="fas fa-paper-plane"
-        size="large"
-        @click="successDialog = true"
-        >ยื่นคำขอ</v-btn
-      >
+    <!-- Navigation Buttons -->
+    <div class="d-flex justify-space-between align-center mt-6">
+      <div class="d-flex ga-2">
+        <v-btn
+          variant="tonal"
+          color="grey"
+          @click="router.push('/gap/user/applications')"
+          >ยกเลิก</v-btn
+        >
+        <v-btn
+          v-if="currentStep > 0"
+          variant="tonal"
+          color="grey"
+          prepend-icon="fas fa-arrow-left"
+          @click="currentStep--"
+          >ย้อนกลับ</v-btn
+        >
+      </div>
+      <div class="d-flex ga-2">
+        <v-btn
+          variant="tonal"
+          color="gap-user"
+          prepend-icon="fas fa-floppy-disk"
+          @click="saveDraft"
+          >บันทึกแบบร่าง</v-btn
+        >
+        <v-btn
+          v-if="currentStep < steps.length - 1"
+          color="gap-user"
+          append-icon="fas fa-arrow-right"
+          @click="currentStep++"
+          >ถัดไป</v-btn
+        >
+        <v-btn
+          v-else
+          color="gap-user"
+          prepend-icon="fas fa-paper-plane"
+          @click="successDialog = true"
+          >ยื่นคำขอ</v-btn
+        >
+      </div>
     </div>
 
     <!-- Success Dialog -->
@@ -745,6 +820,18 @@
         </v-card-text>
       </v-card>
     </v-dialog>
+
+    <!-- Draft Snackbar -->
+    <v-snackbar
+      v-model="draftSnackbar"
+      color="success"
+      rounded="lg"
+      timeout="2500"
+      location="top right"
+    >
+      <v-icon icon="fas fa-floppy-disk" class="mr-2" />
+      บันทึกแบบร่างแล้ว
+    </v-snackbar>
   </div>
 </template>
 
@@ -753,15 +840,16 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
-const currentStep = ref(1);
+const currentStep = ref(0);
 const successDialog = ref(false);
+const draftSnackbar = ref(false);
 
 const steps = [
-  { value: 1, title: "ข้อมูลกลุ่ม" },
-  { value: 2, title: "รายชื่อสมาชิก" },
-  { value: 3, title: "แปลงผลิต" },
-  { value: 4, title: "เอกสารแนบ" },
-  { value: 5, title: "ตรวจสอบ & ยื่น" },
+  { value: 0, title: "ข้อมูลกลุ่ม" },
+  { value: 1, title: "รายชื่อสมาชิก" },
+  { value: 2, title: "แปลงผลิต" },
+  { value: 3, title: "เอกสารแนบ" },
+  { value: 4, title: "ตรวจสอบ & ยื่น" },
 ];
 
 function stepClass(v: number) {
@@ -769,6 +857,8 @@ function stepClass(v: number) {
   if (currentStep.value === v) return "step-active";
   return "step-pending";
 }
+
+function saveDraft() { draftSnackbar.value = true; }
 
 interface Member {
   prefix: string;
@@ -855,5 +945,20 @@ div {
 .member-row {
   border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
   background: rgba(var(--v-theme-surface-variant), 0.5);
+}
+
+.step-done,
+.step-active {
+  background: rgb(var(--v-theme-gap-user)) !important;
+  color: white !important;
+}
+.step-active {
+  box-shadow: 0 0 0 4px rgba(var(--v-theme-gap-user), 0.2) !important;
+}
+.step-line--done {
+  background: rgb(var(--v-theme-gap-user)) !important;
+}
+.field-section-label {
+  color: rgb(var(--v-theme-gap-user)) !important;
 }
 </style>

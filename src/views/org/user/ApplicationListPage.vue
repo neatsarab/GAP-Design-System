@@ -22,8 +22,10 @@
             <div class="field-label mb-1"><div>ประเภทคำขอ</div><div class="field-label-en">Type</div></div>
             <v-select v-model="filterType" :items="typeOptions" variant="outlined" density="compact" rounded="lg" clearable hide-details />
           </v-col>
-          <v-col cols="auto" class="ml-auto d-flex align-self-end">
-            <v-btn variant="tonal" color="grey" size="small" prepend-icon="fas fa-rotate-left" @click="search = ''; filterType = null; activeTab = 'all'">ล้างตัวกรอง</v-btn>
+        </v-row>
+        <v-row dense>
+          <v-col cols="auto" class="ml-auto">
+          <v-btn variant="tonal" color="grey" size="small" prepend-icon="fas fa-rotate-left" @click="search = ''; filterType = null; activeTab = 'all'">ล้างตัวกรอง</v-btn>
           </v-col>
         </v-row>
       </v-card-text>
@@ -84,7 +86,7 @@ const typeOptions = ['รายเดี่ยว', 'รายกลุ่ม']
 
 const statusTabs = [
   { value: 'all',               label: 'ทั้งหมด',               color: 'org-user',  icon: 'fas fa-list' },
-  { value: 'submitted',         label: 'ยื่นแล้ว',               color: 'primary',   icon: 'fas fa-paper-plane' },
+  { value: 'submitted',         label: 'ยื่นแล้ว',               color: 'org-user',   icon: 'fas fa-paper-plane' },
   { value: 'under_review',      label: 'อยู่ระหว่างตรวจสอบ',    color: 'info',      icon: 'fas fa-magnifying-glass' },
   { value: 'inspection_scheduled', label: 'นัดตรวจแล้ว',        color: 'secondary', icon: 'fas fa-calendar-check' },
   { value: 'revision_required', label: 'รอแก้ไข',               color: 'warning',   icon: 'fas fa-pen-to-square' },
@@ -132,7 +134,7 @@ function onRowClick(_e: unknown, row: { item: Application }) {
 }
 
 function statusColor(s: string) {
-  const map: Record<string, string> = { submitted: 'primary', under_review: 'info', inspection_scheduled: 'secondary', revision_required: 'warning', approved: 'success', rejected: 'error' }
+  const map: Record<string, string> = { submitted: 'org-user', under_review: 'info', inspection_scheduled: 'secondary', revision_required: 'warning', approved: 'success', rejected: 'error' }
   return map[s] ?? 'grey'
 }
 function statusIcon(s: string) {

@@ -85,7 +85,7 @@ const appTypes = [
     title: "ขึ้น / ต่ออายุทะเบียน",
     badge: "ทั่วไป",
     icon: "fas fa-industry",
-    color: "doa-user",
+    color: "primary",
     description:
       "สำหรับผู้ประกอบการที่ต้องการขึ้นทะเบียนโรงงานผลิตสินค้าพืชใหม่ หรือต่ออายุการขึ้นทะเบียนที่หมดอายุแล้ว",
     features: [
@@ -113,7 +113,7 @@ const appTypes = [
     title: "เพิ่ม / ลดขอบข่ายมาตรฐาน",
     badge: null,
     icon: "fas fa-sliders",
-    color: "doa-user",
+    color: "primary",
     description: "สำหรับผู้ประกอบการที่ต้องการเพิ่มหรือลดขอบข่ายมาตรฐานในทะเบียนโรงงานที่ได้รับรองแล้ว",
     features: [
       "เพิ่มมาตรฐาน มกษ. ใหม่",

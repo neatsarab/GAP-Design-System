@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="--v-theme-primary: var(--v-theme-cb-staff)">
     <!-- Header -->
     <div class="d-flex align-center ga-3 mb-6">
       <v-btn icon="fas fa-arrow-left" variant="text" size="small" @click="router.push('/cb/staff/applications')" />

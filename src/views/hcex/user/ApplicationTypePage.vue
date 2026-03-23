@@ -87,7 +87,7 @@ const appTypes = [
     title: "กมพ.1",
     badge: "ทั่วไป",
     icon: "fas fa-file-circle-check",
-    color: "hcex-user",
+    color: "primary",
     description: "ใบรับรองสุขอนามัยสำหรับสินค้าแปรรูปด้านพืชทั่วไป",
     features: [
       "สินค้าแปรรูปด้านพืชทั่วไป",
@@ -126,7 +126,7 @@ const appTypes = [
     title: "กมพ.1-3",
     badge: "เครื่องเทศ",
     icon: "fas fa-mortar-pestle",
-    color: "hc-staff",
+    color: "primary",
     description: "ใบรับรองสำหรับเครื่องเทศและสมุนไพรแปรรูป",
     features: [
       "เครื่องเทศและสมุนไพรแปรรูป",

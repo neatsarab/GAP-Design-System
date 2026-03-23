@@ -84,7 +84,7 @@ import AppStatCard from "@/components/common/AppStatCard.vue";
 const router = useRouter();
 
 const stats = [
-  { label: "คำขอรอตรวจสอบ", value: "9", icon: "fas fa-magnifying-glass", iconColor: "hcex-staff" },
+  { label: "คำขอรอตรวจสอบ", value: "9", icon: "fas fa-magnifying-glass", iconColor: "primary" },
   { label: "รอพิจารณา Lab", value: "5", icon: "fas fa-flask-vial", iconColor: "info" },
   { label: "รอลงนาม", value: "3", icon: "fas fa-signature", iconColor: "secondary" },
   { label: "ออกใบรับรองแล้ว", value: "87", icon: "fas fa-industry", iconColor: "success" },
@@ -100,7 +100,7 @@ const recentApplications = [
 
 const statusBars = [
   { label: "ออกใบรับรองแล้ว", value: 87, pct: 84, color: "success" },
-  { label: "รอตรวจสอบ", value: 9, pct: 9, color: "hcex-staff" },
+  { label: "รอตรวจสอบ", value: 9, pct: 9, color: "primary" },
   { label: "รอพิจารณา Lab", value: 5, pct: 5, color: "info" },
   { label: "รอลงนาม", value: 3, pct: 3, color: "error" },
 ];

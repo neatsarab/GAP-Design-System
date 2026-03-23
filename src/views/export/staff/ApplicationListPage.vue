@@ -63,16 +63,18 @@
               clearable
             />
           </v-col>
-          <v-col cols="auto" class="ml-auto d-flex align-self-center">
-            <v-btn
-              variant="tonal"
-              color="grey"
-              size="small"
-              prepend-icon="fas fa-rotate-left"
-              @click="clearFilters"
-            >
-              ล้างตัวกรอง
-            </v-btn>
+        </v-row>
+        <v-row dense>
+          <v-col cols="auto" class="ml-auto">
+          <v-btn
+            variant="tonal"
+            color="grey"
+            size="small"
+            prepend-icon="fas fa-rotate-left"
+            @click="clearFilters"
+          >
+            ล้างตัวกรอง
+          </v-btn>
           </v-col>
         </v-row>
       </v-card-text>
@@ -230,7 +232,7 @@ function clearFilters() {
 }
 
 const statusTabs = [
-  { label: "ทั้งหมด",       value: "all",       color: "export-staff", icon: "fas fa-list",          count: 0  },
+  { label: "ทั้งหมด",       value: "all",       color: "primary", icon: "fas fa-list",          count: 0  },
   { label: "รอตรวจสอบ",     value: "pending",   color: "warning",      icon: "fas fa-clock",         count: 2  },
   { label: "รอแก้ไขคำขอ",   value: "need_edit", color: "warning",      icon: "fas fa-pen",           count: 1  },
   { label: "รอพิจารณา",     value: "reviewing", color: "info",         icon: "fas fa-magnifying-glass", count: 1 },
