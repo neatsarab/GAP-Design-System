@@ -376,7 +376,7 @@
   </v-dialog>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, computed, watch } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { useThemeStore } from "@/stores/theme.store";
@@ -385,26 +385,9 @@ const themeStore = useThemeStore();
 const router = useRouter();
 const route = useRoute();
 
-interface Member {
-  id: string;
-  name: string;
-  idNo: string;
-  isJuristic: boolean;
-}
 
-interface GroupData {
-  id: string;
-  nameTh: string;
-  nameEn: string;
-  regNo: string;
-  memberCount: number;
-  systems: string[];
-  leaderId: string;
-  creatorId: string;
-  members: Member[];
-}
 
-const mockGroups: GroupData[] = [
+const mockGroups = [
   {
     id: "gr1",
     nameTh: "กลุ่มเกษตรกรอินทรีย์บ้านนาดี",
@@ -512,12 +495,12 @@ const mockGroups: GroupData[] = [
 // Current user mock — เป็นหัวหน้าของ gr1
 const currentUserId = "u1";
 
-const groupId = computed(() => (route.query.groupId as string) ?? "gr1");
+const groupId = computed(() => (route.query.groupId) ?? "gr1");
 const currentGroup = computed(
   () => mockGroups.find((g) => g.id === groupId.value) ?? mockGroups[0],
 );
 
-const members = ref<Member[]>([...currentGroup.value.members]);
+const members = ref([...currentGroup.value.members]);
 const currentLeaderId = ref(currentGroup.value.leaderId);
 
 const isCurrentUserCreator = computed(
@@ -528,11 +511,11 @@ const isCurrentUserCreator = computed(
 const showAddMember = ref(false);
 const memberSearch = ref("");
 const memberLoading = ref(false);
-const memberResult = ref<Member | null>(null);
+const memberResult = ref(null);
 
 const juristicInGroup = computed(() => members.value.some((m) => m.isJuristic));
 
-function alreadyInGroup(idNo: string) {
+function alreadyInGroup(idNo) {
   return members.value.some((m) => m.idNo === idNo);
 }
 
@@ -576,7 +559,7 @@ const removeTarget = computed(() =>
   removeIndex.value >= 0 ? members.value[removeIndex.value] : null,
 );
 
-function confirmRemove(i: number) {
+function confirmRemove(i) {
   removeIndex.value = i;
   removeDialog.value = true;
 }
@@ -597,7 +580,7 @@ const newLeaderName = computed(
   () => members.value.find((m) => m.id === newLeaderId.value)?.name ?? "",
 );
 
-function confirmChangeLeader(memberId: string) {
+function confirmChangeLeader(memberId) {
   newLeaderId.value = memberId;
   leaderDialog.value = true;
 }

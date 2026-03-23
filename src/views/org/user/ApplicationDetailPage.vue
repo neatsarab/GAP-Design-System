@@ -145,7 +145,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
@@ -184,16 +184,16 @@ const timeline = [
   { label: 'อนุมัติ / ออกใบรับรอง', done: false, active: false },
 ]
 
-function statusColor(s: string) {
-  const m: Record<string, string> = { submitted: 'org-user', under_review: 'info', inspection_scheduled: 'secondary', revision_required: 'warning', approved: 'success', rejected: 'error' }
+function statusColor(s) {
+  const m = { submitted: 'org-user', under_review: 'info', inspection_scheduled: 'secondary', revision_required: 'warning', approved: 'success', rejected: 'error' }
   return m[s] ?? 'grey'
 }
-function statusIcon(s: string) {
-  const m: Record<string, string> = { submitted: 'fas fa-paper-plane', under_review: 'fas fa-magnifying-glass', inspection_scheduled: 'fas fa-calendar-check', revision_required: 'fas fa-pen-to-square', approved: 'fas fa-circle-check', rejected: 'fas fa-circle-xmark' }
+function statusIcon(s) {
+  const m = { submitted: 'fas fa-paper-plane', under_review: 'fas fa-magnifying-glass', inspection_scheduled: 'fas fa-calendar-check', revision_required: 'fas fa-pen-to-square', approved: 'fas fa-circle-check', rejected: 'fas fa-circle-xmark' }
   return m[s] ?? 'fas fa-circle'
 }
-function statusLabel(s: string) {
-  const m: Record<string, string> = { submitted: 'ยื่นแล้ว', under_review: 'อยู่ระหว่างตรวจสอบ', inspection_scheduled: 'นัดตรวจแล้ว', revision_required: 'รอแก้ไข', approved: 'อนุมัติแล้ว', rejected: 'ไม่ผ่าน' }
+function statusLabel(s) {
+  const m = { submitted: 'ยื่นแล้ว', under_review: 'อยู่ระหว่างตรวจสอบ', inspection_scheduled: 'นัดตรวจแล้ว', revision_required: 'รอแก้ไข', approved: 'อนุมัติแล้ว', rejected: 'ไม่ผ่าน' }
   return m[s] ?? s
 }
 </script>

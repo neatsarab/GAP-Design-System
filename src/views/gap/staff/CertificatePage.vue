@@ -90,12 +90,12 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, computed } from 'vue'
 
 const search       = ref('')
-const filterStatus = ref<string>('all')
-const filterCert   = ref<string | null>(null)
+const filterStatus = ref('all')
+const filterCert   = ref(null)
 
 const certificates = [
   { certNo: 'GAP-CERT-2568-0035', farmerName: 'นายสมชาย ใจดี',       crop: 'มะม่วง',     area: 12, province: 'เชียงใหม่',    certType: 'มกษ. 9001', issuedDate: '20 พ.ย. 67', expiryDate: '19 พ.ย. 68', status: 'มีผล' },
@@ -107,7 +107,7 @@ const certificates = [
   { certNo: 'GAP-CERT-2568-0031', farmerName: 'นายชัยพร ดีงาม',      crop: 'ส้มโอ',       area: 15, province: 'นครศรีธรรมราช', certType: 'มกษ. 9001', issuedDate: '8 พ.ย. 67',  expiryDate: '7 ก.พ. 68',  status: 'ใกล้หมดอายุ' },
 ]
 
-function countByStatus(s: string) {
+function countByStatus(s) {
   return certificates.filter(i => i.status === s).length
 }
 
@@ -144,10 +144,10 @@ const headers = [
   { title: '',                    key: 'actions',     width: 120, sortable: false },
 ]
 
-function getCertStatusColor(s: string) {
+function getCertStatusColor(s) {
   return s === 'มีผล' ? 'success' : s === 'ใกล้หมดอายุ' ? 'warning' : 'error'
 }
-function getCertStatusIcon(s: string) {
+function getCertStatusIcon(s) {
   return s === 'มีผล' ? 'fas fa-circle-check' : s === 'ใกล้หมดอายุ' ? 'fas fa-triangle-exclamation' : 'fas fa-clock'
 }
 </script>

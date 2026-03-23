@@ -150,17 +150,17 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
 const search = ref("");
-const filterType = ref<string | null>(null);
-const filterStatus = ref<string | null>(null);
-const activeTab = ref<string>("all");
+const filterType = ref(null);
+const filterStatus = ref(null);
+const activeTab = ref("all");
 
-function onRowClick(_e: unknown, row: { item: HCApp }) {
+function onRowClick(_e, row) {
   router.push(`/hc/user/applications/${row.item.id}`);
 }
 function clearFilters() {
@@ -212,17 +212,8 @@ const statusTabs = [
   },
 ];
 
-interface HCApp {
-  id: string;
-  requestNo: string;
-  product: string;
-  destination: string;
-  type: "new" | "correction";
-  submittedAt: string;
-  status: string;
-}
 
-const allApplications: HCApp[] = [
+const allApplications = [
   {
     id: "HC-001",
     requestNo: "HC-2568-00041",
@@ -328,8 +319,8 @@ const headers = [
   { title: "", key: "actions", width: 140, sortable: false },
 ];
 
-function getStatusColor(s: string) {
-  const m: Record<string, string> = {
+function getStatusColor(s) {
+  const m = {
     submitted: "primary",
     under_review: "warning",
     testing: "secondary",
@@ -341,8 +332,8 @@ function getStatusColor(s: string) {
   };
   return m[s] ?? "grey";
 }
-function getStatusIcon(s: string) {
-  const m: Record<string, string> = {
+function getStatusIcon(s) {
+  const m = {
     submitted: "fas fa-paper-plane",
     under_review: "fas fa-magnifying-glass",
     testing: "fas fa-flask",
@@ -354,8 +345,8 @@ function getStatusIcon(s: string) {
   };
   return m[s] ?? "fas fa-circle";
 }
-function getStatusLabel(s: string) {
-  const m: Record<string, string> = {
+function getStatusLabel(s) {
+  const m = {
     submitted: "ยื่นแล้ว",
     under_review: "อยู่ระหว่างตรวจสอบ",
     testing: "ตรวจ Lab",

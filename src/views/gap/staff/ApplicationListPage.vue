@@ -136,7 +136,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
@@ -145,7 +145,7 @@ const route  = useRoute()
 
 // Page title from route meta
 const pageTitle = computed(() => {
-  const meta = route.meta as Record<string, unknown>
+  const meta = route.meta
   if (meta.statusFilter === 'scheduling')  return 'นัดตรวจแปลง'
   if (meta.statusFilter === 'inspected')   return 'ผลการตรวจแปลง'
   if (meta.statusFilter === 'pending_cc')  return 'เสนอแปลงต่อ CC'
@@ -155,12 +155,12 @@ const pageTitle = computed(() => {
 
 // Filters
 const search       = ref('')
-const filterType   = ref<string | null>(null)
-const filterCert   = ref<string | null>(null)
-const filterStatus = ref<string | null>((route.meta as Record<string, unknown>).statusFilter as string | null ?? null)
-const activeTab    = ref<string>('all')
+const filterType   = ref(null)
+const filterCert   = ref(null)
+const filterStatus = ref((route.meta).statusFilter ?? null)
+const activeTab    = ref('all')
 
-function onRowClick(_e: unknown, row: { item: ApplicationRow }) {
+function onRowClick(_e, row) {
   router.push(`/staff/applications/${row.item.id}`)
 }
 
@@ -196,19 +196,8 @@ const statusTabs = [
 ]
 
 // Mock data
-interface ApplicationRow {
-  id: string
-  requestNo: string
-  farmerName: string
-  certType: string
-  type: 'individual' | 'group'
-  submittedAt: string
-  status: string
-  crop: string
-  province: string
-}
 
-const allApplications: ApplicationRow[] = [
+const allApplications = [
   { id: 'APP-001', requestNo: 'GAP-2568-00041',     farmerName: 'นายสมชาย ใจดี',                         certType: 'มกษ. 9001', type: 'individual', submittedAt: '15 ม.ค. 68', status: 'reviewing',    crop: 'มะม่วง',      province: 'เชียงใหม่'       },
   { id: 'APP-002', requestNo: 'GAP-2568-00039',     farmerName: 'น.ส.วิไล สุขใส',                        certType: 'มกษ. 9001', type: 'individual', submittedAt: '13 ม.ค. 68', status: 'scheduling',   crop: 'ข้าวโพดหวาน', province: 'เพชรบูรณ์'       },
   { id: 'APP-003', requestNo: 'GAP-2568-00036',     farmerName: 'นายประสิทธิ์ มั่นคง',                   certType: 'มกษ. 9001', type: 'individual', submittedAt: '10 ม.ค. 68', status: 'pending_cc',   crop: 'กล้วยหอม',   province: 'นครปฐม'          },
@@ -252,8 +241,8 @@ const headers = [
   { title: '',               key: 'actions',     width: 130, sortable: false },
 ]
 
-function getStatusColor(status: string): string {
-  const map: Record<string, string> = {
+function getStatusColor(status) {
+  const map = {
     reviewing:    'warning',
     scheduling:   'info',
     inspecting:   'secondary',
@@ -267,8 +256,8 @@ function getStatusColor(status: string): string {
   return map[status] ?? 'grey'
 }
 
-function getStatusIcon(status: string): string {
-  const map: Record<string, string> = {
+function getStatusIcon(status) {
+  const map = {
     reviewing:    'fas fa-magnifying-glass',
     scheduling:   'fas fa-calendar-clock',
     inspecting:   'fas fa-person-walking',
@@ -282,8 +271,8 @@ function getStatusIcon(status: string): string {
   return map[status] ?? 'fas fa-circle'
 }
 
-function getStatusLabel(status: string): string {
-  const map: Record<string, string> = {
+function getStatusLabel(status) {
+  const map = {
     reviewing:    'รอตรวจคำขอ',
     scheduling:   'รอนัดตรวจแปลง',
     inspecting:   'อยู่ระหว่างตรวจแปลง',

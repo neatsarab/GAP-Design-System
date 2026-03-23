@@ -78,7 +78,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
@@ -86,16 +86,16 @@ const router = useRouter()
 const route = useRoute()
 
 const pageTitle = computed(() => {
-  const sf = (route.meta as Record<string, unknown>).statusFilter
+  const sf = (route.meta).statusFilter
   if (sf === 'inspection') return 'นัดตรวจแปลง ORG'
   if (sf === 'pending_cc') return 'เสนอแปลงต่อ CC'
   return 'รายการคำขอ ORG'
 })
 
 const search = ref('')
-const filterType = ref<string | null>(null)
-const filterProvince = ref<string | null>(null)
-const filterStatus = ref<string | null>(null)
+const filterType = ref(null)
+const filterProvince = ref(null)
+const filterStatus = ref(null)
 const activeTab = ref('all')
 
 const typeOptions = ['รายเดี่ยว', 'รายกลุ่ม']
@@ -121,13 +121,8 @@ const statusTabs = [
   { value: 'approved',              label: 'อนุมัติ',               color: 'success',   icon: 'fas fa-circle-check' },
 ]
 
-interface Application {
-  id: string; requestNo: string; applicantName: string; farmName: string;
-  crop: string; area: string; type: 'individual' | 'group'; province: string;
-  submittedDate: string; status: string;
-}
 
-const allApplications: Application[] = [
+const allApplications = [
   { id: 'ORG-2568-00010', requestNo: 'ORG-2568-00010', applicantName: 'นายสมศักดิ์ นาดี',      farmName: 'แปลงข้าวอินทรีย์',      crop: 'ข้าว',      area: '20', type: 'individual', province: 'สุรินทร์',     submittedDate: '8 มี.ค. 2568',  status: 'submitted' },
   { id: 'ORG-2568-00009', requestNo: 'ORG-2568-00009', applicantName: 'นางมาลี พืชผล',          farmName: 'สวนผักอินทรีย์',          crop: 'ผัก',       area: '8',  type: 'individual', province: 'อุบลราชธานี',  submittedDate: '6 มี.ค. 2568',  status: 'doc_review' },
   { id: 'ORG-2568-00008', requestNo: 'ORG-2568-00008', applicantName: 'นายวีรชัย เกษตร',         farmName: 'สวนไม้ผลอินทรีย์',        crop: 'ลำไย',     area: '15', type: 'individual', province: 'เชียงราย',      submittedDate: '1 มี.ค. 2568',  status: 'inspection_scheduled' },
@@ -139,7 +134,7 @@ const allApplications: Application[] = [
   { id: 'ORG-GRP-2568-00003', requestNo: 'ORG-GRP-2568-00003', applicantName: 'วิสาหกิจชุมชนเกษตรอินทรีย์', farmName: 'กลุ่มข้าวอินทรีย์', crop: 'ข้าว', area: '350', type: 'group', province: 'ยโสธร', submittedDate: '20 ก.พ. 2568', status: 'approved' },
 ]
 
-function countByStatus(status: string) {
+function countByStatus(status) {
   return allApplications.filter(a => a.status === status).length
 }
 
@@ -169,20 +164,20 @@ const headers = [
   { title: '',              key: 'actions',        width: 130, sortable: false },
 ]
 
-function onRowClick(_e: unknown, row: { item: Application }) {
+function onRowClick(_e, row) {
   router.push(`/org/staff/applications/${row.item.id}`)
 }
 
-function statusColor(s: string) {
-  const m: Record<string, string> = { submitted: 'org-staff', doc_review: 'info', revision_required: 'warning', inspection_scheduled: 'secondary', inspected: 'secondary', pending_cc: 'warning', cc_reviewing: 'error', approved: 'success', rejected: 'error' }
+function statusColor(s) {
+  const m = { submitted: 'org-staff', doc_review: 'info', revision_required: 'warning', inspection_scheduled: 'secondary', inspected: 'secondary', pending_cc: 'warning', cc_reviewing: 'error', approved: 'success', rejected: 'error' }
   return m[s] ?? 'grey'
 }
-function statusIcon(s: string) {
-  const m: Record<string, string> = { submitted: 'fas fa-paper-plane', doc_review: 'fas fa-magnifying-glass', revision_required: 'fas fa-pen-to-square', inspection_scheduled: 'fas fa-calendar-check', inspected: 'fas fa-clipboard-check', pending_cc: 'fas fa-paper-plane', cc_reviewing: 'fas fa-gavel', approved: 'fas fa-circle-check', rejected: 'fas fa-circle-xmark' }
+function statusIcon(s) {
+  const m = { submitted: 'fas fa-paper-plane', doc_review: 'fas fa-magnifying-glass', revision_required: 'fas fa-pen-to-square', inspection_scheduled: 'fas fa-calendar-check', inspected: 'fas fa-clipboard-check', pending_cc: 'fas fa-paper-plane', cc_reviewing: 'fas fa-gavel', approved: 'fas fa-circle-check', rejected: 'fas fa-circle-xmark' }
   return m[s] ?? 'fas fa-circle'
 }
-function statusLabel(s: string) {
-  const m: Record<string, string> = { submitted: 'ยื่นแล้ว', doc_review: 'อยู่ระหว่างตรวจสอบ', revision_required: 'รอแก้ไข', inspection_scheduled: 'นัดตรวจแล้ว', inspected: 'ตรวจแปลงแล้ว', pending_cc: 'รอเสนอ CC', cc_reviewing: 'อยู่ระหว่าง CC', approved: 'อนุมัติแล้ว', rejected: 'ไม่อนุมัติ' }
+function statusLabel(s) {
+  const m = { submitted: 'ยื่นแล้ว', doc_review: 'อยู่ระหว่างตรวจสอบ', revision_required: 'รอแก้ไข', inspection_scheduled: 'นัดตรวจแล้ว', inspected: 'ตรวจแปลงแล้ว', pending_cc: 'รอเสนอ CC', cc_reviewing: 'อยู่ระหว่าง CC', approved: 'อนุมัติแล้ว', rejected: 'ไม่อนุมัติ' }
   return m[s] ?? s
 }
 </script>

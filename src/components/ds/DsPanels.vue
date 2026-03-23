@@ -71,30 +71,30 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref } from 'vue'
 
 const gapChecklist = ref([
   {
     title: '1. แหล่งน้ำ',
     items: [
-      { label: 'แหล่งน้ำไม่มีการปนเปื้อนสารเคมี', result: 'PASS' as string | null },
-      { label: 'มีระบบการจัดการน้ำอย่างเหมาะสม',   result: 'PASS' as string | null },
-      { label: 'มีการตรวจวิเคราะห์คุณภาพน้ำ',      result: null   as string | null },
+      { label: 'แหล่งน้ำไม่มีการปนเปื้อนสารเคมี', result: 'PASS' },
+      { label: 'มีระบบการจัดการน้ำอย่างเหมาะสม',   result: 'PASS' },
+      { label: 'มีการตรวจวิเคราะห์คุณภาพน้ำ',      result: null   },
     ],
   },
   {
     title: '2. พื้นที่ปลูก',
     items: [
-      { label: 'พื้นที่ไม่มีสารปนเปื้อนในดิน', result: 'PASS' as string | null },
-      { label: 'ไม่อยู่ใกล้แหล่งมลพิษ',        result: null   as string | null },
+      { label: 'พื้นที่ไม่มีสารปนเปื้อนในดิน', result: 'PASS' },
+      { label: 'ไม่อยู่ใกล้แหล่งมลพิษ',        result: null   },
     ],
   },
   {
     title: '3. วัตถุอันตรายทางการเกษตร',
     items: [
-      { label: 'ใช้สารเคมีตามคำแนะนำ',              result: null as string | null },
-      { label: 'มีการเก็บรักษาสารเคมีอย่างปลอดภัย', result: null as string | null },
+      { label: 'ใช้สารเคมีตามคำแนะนำ',              result: null },
+      { label: 'มีการเก็บรักษาสารเคมีอย่างปลอดภัย', result: null },
     ],
   },
 ])

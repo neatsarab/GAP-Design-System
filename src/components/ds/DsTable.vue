@@ -52,7 +52,7 @@
   </v-card>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref } from 'vue'
 
 const tableSearch = ref('')
@@ -75,18 +75,18 @@ const tableItems = [
   { no: 'GAP-2567-005', farmer: 'นาย ประสิทธิ์ ไร่ดี',  crop: 'ข้าวโพด',    province: 'เพชรบูรณ์',  date: '9 มี.ค. 67', status: 'CERT_ISSUED' },
 ]
 
-const statusColorMap: Record<string, string> = {
+const statusColorMap = {
   DRAFT: 'grey', SUBMITTED: 'blue', DOC_REVIEW: 'orange',
   INSPECTION_SCHEDULED: 'purple', INSPECTING: 'indigo',
   APPROVED: 'green', REJECTED: 'red', CERT_ISSUED: 'teal', CERT_EXPIRED: 'brown',
 }
-const statusIconMap: Record<string, string> = {
+const statusIconMap = {
   DRAFT: 'fas fa-pencil', SUBMITTED: 'fas fa-paper-plane',
   DOC_REVIEW: 'fas fa-file-magnifying-glass', INSPECTION_SCHEDULED: 'fas fa-calendar-days',
   INSPECTING: 'fas fa-clipboard-check', APPROVED: 'fas fa-circle-check',
   REJECTED: 'fas fa-circle-xmark', CERT_ISSUED: 'fas fa-certificate', CERT_EXPIRED: 'fas fa-clock',
 }
-const statusLabelMap: Record<string, string> = {
+const statusLabelMap = {
   DRAFT: 'ร่าง', SUBMITTED: 'ยื่นแล้ว', DOC_REVIEW: 'ตรวจเอกสาร',
   INSPECTION_SCHEDULED: 'นัดตรวจ', INSPECTING: 'กำลังตรวจ',
   APPROVED: 'อนุมัติ', REJECTED: 'ไม่ผ่าน', CERT_ISSUED: 'ออกใบรับรอง', CERT_EXPIRED: 'หมดอายุ',

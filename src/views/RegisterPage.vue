@@ -573,7 +573,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useThemeStore } from "@/stores/theme.store";
@@ -604,7 +604,7 @@ const form = ref({
   address: "",
   province: "",
   zipCode: "",
-  idDoc: null as File | File[] | null,
+  idDoc: null,
   acceptTerms: false,
 });
 
@@ -654,9 +654,9 @@ const provinces = [
 ];
 
 const rules = {
-  required: (v: string) => !!v || "กรุณากรอกข้อมูล",
-  email: (v: string) => /.+@.+\..+/.test(v) || "รูปแบบอีเมลไม่ถูกต้อง",
-  requiredFile: (v: File | File[] | null) => {
+  required: (v) => !!v || "กรุณากรอกข้อมูล",
+  email: (v) => /.+@.+\..+/.test(v) || "รูปแบบอีเมลไม่ถูกต้อง",
+  requiredFile: (v) => {
     if (!v) return "กรุณาแนบเอกสาร";
     if (Array.isArray(v)) return v.length > 0 || "กรุณาแนบเอกสาร";
     return true;
@@ -699,7 +699,7 @@ async function doSubmit() {
   successDialog.value = true;
 }
 
-function maskIdCard(v: string) {
+function maskIdCard(v) {
   if (v.length < 5) return v;
   return v.slice(0, 1) + "-XXXX-XXXXX-" + v.slice(-2);
 }

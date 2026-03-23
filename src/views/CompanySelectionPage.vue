@@ -1502,7 +1502,7 @@
   </v-dialog>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, reactive, computed, watch } from "vue";
 import { useRouter } from "vue-router";
 import { useThemeStore } from "@/stores/theme.store";
@@ -1510,22 +1510,11 @@ import { useThemeStore } from "@/stores/theme.store";
 const themeStore = useThemeStore();
 const router = useRouter();
 
-interface Company {
-  id: string;
-  nameTh: string;
-  nameEn: string;
-  taxId: string;
-  businessType: string;
-  poaExpiry: string;
-  expireSoon: boolean;
-  isOwner: boolean;
-  systems: string[];
-}
 
 const personalName = "นิธิพร เทิบจันทึก";
 const personalSystems = ["GAP", "DOA"];
 
-const companies: Company[] = [
+const companies = [
   {
     id: "co1",
     nameTh: "บริษัท ไทยเกษตรอินเตอร์ จำกัด",
@@ -1561,18 +1550,8 @@ const companies: Company[] = [
   },
 ];
 
-interface Group {
-  id: string;
-  nameTh: string;
-  nameEn: string;
-  regNo: string;
-  memberCount: number;
-  isLeader: boolean;
-  isCreator: boolean;
-  systems: string[];
-}
 
-const groups: Group[] = [
+const groups = [
   {
     id: "gr1",
     nameTh: "กลุ่มเกษตรกรอินทรีย์บ้านนาดี",
@@ -1630,15 +1609,8 @@ const availableSystems = [
 ];
 
 // ── Document definitions ──
-interface DocDef {
-  id: string;
-  label: string;
-  note?: string;
-  required: boolean;
-  fromSSO?: boolean;
-}
 
-const personalDocDefs: DocDef[] = [
+const personalDocDefs = [
   {
     id: "id_card",
     label: "บัตรประจำตัวประชาชน",
@@ -1647,7 +1619,7 @@ const personalDocDefs: DocDef[] = [
   },
 ];
 
-const juristicDocDefs: DocDef[] = [
+const juristicDocDefs = [
   {
     id: "cert",
     label: "หนังสือรับรองนิติบุคคล",
@@ -1683,13 +1655,13 @@ const personalDocError = ref(false);
 const personalForm = reactive({
   email: "",
   phone: "",
-  systems: [] as string[],
+  systems: [],
 });
-const personalDocs = reactive<Record<string, File | null>>({
+const personalDocs = reactive({
   id_card: null,
 });
 
-const personalRequiredDocs = computed<DocDef[]>(() => personalDocDefs);
+const personalRequiredDocs = computed(() => personalDocDefs);
 
 const personalDocsComplete = computed(() =>
   personalRequiredDocs.value
@@ -1744,15 +1716,15 @@ const juristicForm = reactive({
   authorized: "",
   email: "",
   phone: "",
-  systems: [] as string[],
+  systems: [],
 });
-const juristicDocs = reactive<Record<string, File | null>>({
+const juristicDocs = reactive({
   id_card: null,
   passport: null,
   poa: null,
 });
 
-const juristicRequiredDocs = computed<DocDef[]>(() => juristicDocDefs);
+const juristicRequiredDocs = computed(() => juristicDocDefs);
 
 const juristicDocsComplete = computed(() =>
   juristicRequiredDocs.value
@@ -1828,27 +1800,21 @@ function submitJuristic() {
 }
 
 // ── Group dialog ──
-interface GroupMember {
-  id: string;
-  name: string;
-  idNo: string;
-  isJuristic: boolean;
-}
 
 const groupDialog = ref(false);
 const groupStep = ref(1);
 const groupMemberSearch = ref("");
 const groupMemberLoading = ref(false);
-const groupMemberResult = ref<GroupMember | null>(null);
+const groupMemberResult = ref(null);
 const groupMemberError = ref("");
 const groupLeaderError = ref(false);
 const groupSystemError = ref(false);
 const groupForm = reactive({
   nameTh: "",
   nameEn: "",
-  members: [] as GroupMember[],
+  members: [],
   leader: "",
-  systems: [] as string[],
+  systems: [],
 });
 
 const groupJuristicCount = computed(
@@ -1899,14 +1865,14 @@ function addGroupMember() {
   if (!groupMemberResult.value) return;
   if (groupMemberResult.value.isJuristic && groupJuristicCount.value >= 1)
     return;
-  if (groupForm.members.some((m) => m.idNo === groupMemberResult.value!.idNo))
+  if (groupForm.members.some((m) => m.idNo === groupMemberResult.value.idNo))
     return;
   groupForm.members.push({ ...groupMemberResult.value });
   groupMemberResult.value = null;
   groupMemberSearch.value = "";
 }
 
-function removeGroupMember(index: number) {
+function removeGroupMember(index) {
   const removed = groupForm.members[index];
   groupForm.members.splice(index, 1);
   if (groupForm.leader === removed.id) groupForm.leader = "";

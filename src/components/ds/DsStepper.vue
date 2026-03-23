@@ -73,14 +73,14 @@
   </v-card>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref } from 'vue'
-import AppStepper, { type StepItem } from '@/components/common/AppStepper.vue'
+import AppStepper from '@/components/common/AppStepper.vue'
 
 const step      = ref(1)
 const submitted = ref(false)
 
-const steps: StepItem[] = [
+const steps = [
   { title: 'ข้อมูลผู้ขอ',    subtitle: 'ชื่อ-นามสกุล, บัตรประชาชน', icon: 'fas fa-user' },
   { title: 'ข้อมูลแปลง',     subtitle: 'ชื่อแปลง, พื้นที่, จังหวัด',  icon: 'fas fa-map-location-dot' },
   { title: 'เอกสารแนบ',      subtitle: 'PDF, DOC',                    icon: 'fas fa-paperclip' },

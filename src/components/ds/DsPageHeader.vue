@@ -112,16 +112,9 @@
   </div>
 </template>
 
-<script setup lang="ts">
-export interface SummaryCard {
-  title: string;
-  value: number;
-  icon: string;
-  color: string;
-  trend: number;
-}
+<script setup>
 
-defineProps<{ summaryCards: SummaryCard[] }>();
+defineProps({ summaryCards: Array });
 </script>
 
 <style scoped>

@@ -140,14 +140,14 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
 const search = ref("");
-const typeFilter = ref<string | null>(null);
-const statusFilter = ref<string | null>(null);
+const typeFilter = ref(null);
+const statusFilter = ref(null);
 const activeTab = ref("all");
 
 const typeOptions = [
@@ -176,7 +176,7 @@ const headers = [
   { title: "ผลสอบ", key: "resaulttest", sortable: true },
   { title: "วันที่ยื่น", key: "submittedDate", sortable: true },
   { title: "สถานะ", key: "status", sortable: false },
-  { title: "", key: "actions", sortable: false, align: "end" as const },
+  { title: "", key: "actions", sortable: false, align: "end" },
 ];
 
 const allItems = [
@@ -313,8 +313,8 @@ function clearFilters() {
   activeTab.value = "all";
 }
 
-function statusColor(status: string): string {
-  const map: Record<string, string> = {
+function statusColor(status) {
+  const map = {
     draft: "grey",
     submitted: "warning",
     under_review: "info",
@@ -327,8 +327,8 @@ function statusColor(status: string): string {
   return map[status] ?? "grey";
 }
 
-function statusLabel(status: string): string {
-  const map: Record<string, string> = {
+function statusLabel(status) {
+  const map = {
     draft: "แบบร่าง",
     submitted: "รอตรวจสอบ",
     under_review: "อยู่ระหว่างตรวจสอบ",

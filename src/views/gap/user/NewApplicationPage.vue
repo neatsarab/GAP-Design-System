@@ -636,7 +636,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, watch, onUnmounted } from "vue";
 import { useRouter } from "vue-router";
 
@@ -664,9 +664,9 @@ const form = ref({
   province: null,
   district: null,
   subDistrict: null,
-  cropTypes: [] as string[],
+  cropTypes: [],
   inspector: null,
-  tags: [] as string[],
+  tags: [],
   water: true,
   record: false,
   chemical: false,
@@ -675,11 +675,11 @@ const form = ref({
   appType: "single",
   area: 12,
   elevRange: [100, 500],
-  docs: [] as File[],
-  photos: [] as File[],
+  docs: [],
+  photos: [],
 });
 
-const photoPreviewUrls = ref<string[]>([]);
+const photoPreviewUrls = ref([]);
 watch(
   () => form.value.photos,
   (files) => {
@@ -692,9 +692,9 @@ onUnmounted(() =>
 );
 
 const rules = {
-  required: (v: string) => !!v || "กรุณากรอกข้อมูล",
-  idCard: (v: string) => /^\d{13}$/.test(v) || "เลขบัตรประชาชน 13 หลัก",
-  phone: (v: string) => /^0\d{8,9}$/.test(v) || "รูปแบบเบอร์โทรไม่ถูกต้อง",
+  required: (v) => !!v || "กรุณากรอกข้อมูล",
+  idCard: (v) => /^\d{13}$/.test(v) || "เลขบัตรประชาชน 13 หลัก",
+  phone: (v) => /^0\d{8,9}$/.test(v) || "รูปแบบเบอร์โทรไม่ถูกต้อง",
 };
 
 const provinces = [
@@ -720,7 +720,7 @@ const inspectors = [
 ];
 const suggestedTags = ["เกษตรอินทรีย์", "ปลอดสาร", "GAP", "พืชส่งออก"];
 
-function stepClass(v: number) {
+function stepClass(v) {
   if (currentStep.value > v) return "step-done";
   if (currentStep.value === v) return "step-active";
   return "step-pending";

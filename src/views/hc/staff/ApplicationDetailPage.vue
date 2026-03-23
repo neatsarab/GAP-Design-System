@@ -304,24 +304,15 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 const router = useRouter()
 const route  = useRoute()
 
-interface Product { sampleNo: string; name: string; weight: string; gapCode: string }
-interface HCAppDetail {
-  id: string; requestNo: string; status: string; type: string
-  exporter: string; exporterAddress: string; exporterProvince: string; exporterPhone: string
-  packingHouseCode: string; packingHouseName: string; packingHouseProvince: string
-  consignee: string; consigneeAddress: string; destination: string
-  product: string; products: Product[]
-  labName: string; labSentAt: string; labResultAt: string
-}
 
-const mockApps: Record<string, HCAppDetail> = {
+const mockApps = {
   'HC-001': {
     id: 'HC-001', requestNo: 'HC-2568-00041', status: 'under_review', type: 'new',
     exporter: 'บริษัท ไทยฟรุ๊ต จำกัด', exporterAddress: '123 ถ.พระราม 9 แขวงบางกะปิ', exporterProvince: 'กรุงเทพมหานคร', exporterPhone: '02-123-4567',
@@ -355,8 +346,8 @@ const mockApps: Record<string, HCAppDetail> = {
   },
 }
 
-const appId = route.params.id as string
-const app   = ref<HCAppDetail>(mockApps[appId] ?? mockApps['HC-001'])
+const appId = route.params.id
+const app   = ref(mockApps[appId] ?? mockApps['HC-001'])
 
 const reviewNote   = ref('')
 const labNote      = ref('')
@@ -381,19 +372,19 @@ const workflowSteps = [
   { key: 'sign',     label: 'ลงนาม',                icon: 'fas fa-signature' },
 ]
 
-const stepKeyToOrderIdx: Record<string, number> = {
+const stepKeyToOrderIdx = {
   info: 1, lab: 2, approval: 3, sign: 4
 }
 
-function isStepDone(stepIdx: number) {
+function isStepDone(stepIdx) {
   const needed = stepIdx + 1
   return currentStepIdx.value >= needed
 }
-function isStepActive(stepIdx: number) {
+function isStepActive(stepIdx) {
   return currentStepIdx.value === stepIdx
 }
 
-function stepClass(i: number) {
+function stepClass(i) {
   if (currentStepIdx.value > i) return 'step-node--done'
   if (currentStepIdx.value === i) return 'step-node--active'
   return ''
@@ -401,24 +392,24 @@ function stepClass(i: number) {
 
 const activeStep = ref(workflowSteps[Math.min(currentStepIdx.value, workflowSteps.length - 1)].key)
 
-function updateStatus(newStatus: string) {
+function updateStatus(newStatus) {
   app.value.status = newStatus
-  const nextStepMap: Record<string, string> = {
+  const nextStepMap = {
     testing: 'lab', pending_approval: 'approval', approved: 'sign', completed: 'sign',
   }
   if (nextStepMap[newStatus]) activeStep.value = nextStepMap[newStatus]
 }
 
-function getStatusColor(s: string) {
-  const m: Record<string, string> = {
+function getStatusColor(s) {
+  const m = {
     draft: 'grey', submitted: 'info', under_review: 'warning', testing: 'secondary',
     pending_approval: 'hc-staff', approved: 'success', correction_required: 'error',
     completed: 'success', rejected: 'error',
   }
   return m[s] ?? 'grey'
 }
-function getStatusLabel(s: string) {
-  const m: Record<string, string> = {
+function getStatusLabel(s) {
+  const m = {
     draft: 'ฉบับร่าง', submitted: 'ยื่นแล้ว', under_review: 'รอตรวจสอบ', testing: 'ตรวจ Lab',
     pending_approval: 'รอพิจารณา', approved: 'อนุมัติแล้ว', correction_required: 'ต้องแก้ไข',
     completed: 'เสร็จสิ้น', rejected: 'ไม่อนุมัติ',

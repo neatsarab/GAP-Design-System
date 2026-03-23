@@ -238,30 +238,19 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, computed } from "vue";
 
 const search = ref("");
-const activeTab = ref<string>("all");
+const activeTab = ref("all");
 const signDialog = ref(false);
 const successDialog = ref(false);
 const lastSignedCertNo = ref("");
 
-interface SignItem {
-  id: string;
-  requestNo: string;
-  certNo: string;
-  certType: string;
-  exporter: string;
-  consignee: string;
-  destination: string;
-  date: string;
-  status: string;
-}
 
-const selectedItem = ref<SignItem | null>(null);
+const selectedItem = ref(null);
 
-function openSignDialog(item: SignItem) {
+function openSignDialog(item) {
   selectedItem.value = item;
   signDialog.value = true;
 }
@@ -283,7 +272,7 @@ const today = computed(() =>
   }),
 );
 
-const allItems: SignItem[] = [
+const allItems = [
   {
     id: "sign-001",
     requestNo: "HCEX-2568-00012",

@@ -77,7 +77,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, reactive } from "vue";
 
 const backupDialog = ref(false);
@@ -104,7 +104,7 @@ const headers = [
   { title: "Date", key: "date", sortable: true },
   { title: "Size", key: "size" },
   { title: "Status", key: "status", sortable: true },
-  { title: "", key: "actions", sortable: false, align: "end" as const },
+  { title: "", key: "actions", sortable: false, align: "end" },
 ];
 
 function startBackup() {

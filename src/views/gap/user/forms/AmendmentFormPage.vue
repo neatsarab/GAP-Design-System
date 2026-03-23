@@ -531,7 +531,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 
@@ -546,7 +546,7 @@ const steps = [
   { value: 4, title: "ตรวจสอบ & ยื่น" },
 ];
 
-function stepClass(v: number) {
+function stepClass(v) {
   if (currentStep.value > v) return "step-done";
   if (currentStep.value === v) return "step-active";
   return "step-pending";
@@ -623,24 +623,24 @@ const cancelReasons = [
 const form = ref({
   certNo: "",
   originalAppNo: "",
-  requestType: "amend" as "amend" | "cancel",
+  requestType: "amend",
   namePrefix: "นาย",
   firstName: "",
   lastName: "",
   idCard: "",
   phone: "",
-  amendFields: [] as string[],
-  amendDetails: {} as Record<string, string>,
-  cancelReason: null as string | null,
+  amendFields: [],
+  amendDetails: {},
+  cancelReason: null,
   cancelDetail: "",
-  certCopy: null as File | null,
-  docs: [] as File[],
+  certCopy: null,
+  docs: [],
 });
 
 const rules = {
-  required: (v: string) => !!v || "กรุณากรอกข้อมูล",
-  idCard: (v: string) => /^\d{13}$/.test(v) || "เลขบัตรประชาชน 13 หลัก",
-  phone: (v: string) => /^0\d{8,9}$/.test(v) || "รูปแบบเบอร์โทรไม่ถูกต้อง",
+  required: (v) => !!v || "กรุณากรอกข้อมูล",
+  idCard: (v) => /^\d{13}$/.test(v) || "เลขบัตรประชาชน 13 หลัก",
+  phone: (v) => /^0\d{8,9}$/.test(v) || "รูปแบบเบอร์โทรไม่ถูกต้อง",
 };
 </script>
 

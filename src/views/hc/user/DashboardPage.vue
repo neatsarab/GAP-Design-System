@@ -124,7 +124,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { useRouter } from "vue-router";
 import AppStatCard from "@/components/common/AppStatCard.vue";
 
@@ -208,8 +208,8 @@ const quickActions = [
   },
 ];
 
-function getStatusColor(s: string) {
-  const m: Record<string, string> = {
+function getStatusColor(s) {
+  const m = {
     submitted: "primary",
     under_review: "warning",
     testing: "secondary",
@@ -222,8 +222,8 @@ function getStatusColor(s: string) {
   return m[s] ?? "grey";
 }
 
-function getStatusIcon(s: string) {
-  const m: Record<string, string> = {
+function getStatusIcon(s) {
+  const m = {
     submitted: "fas fa-paper-plane",
     under_review: "fas fa-magnifying-glass",
     testing: "fas fa-flask",
@@ -236,8 +236,8 @@ function getStatusIcon(s: string) {
   return m[s] ?? "fas fa-circle";
 }
 
-function getStatusLabel(s: string) {
-  const m: Record<string, string> = {
+function getStatusLabel(s) {
+  const m = {
     submitted: "ยื่นแล้ว",
     under_review: "อยู่ระหว่างตรวจสอบ",
     testing: "ตรวจ Lab",

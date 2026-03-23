@@ -304,7 +304,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, reactive } from "vue";
 import { useRouter } from "vue-router";
 
@@ -313,8 +313,8 @@ const activeTab = ref("individual");
 const snackbar = ref(false);
 
 // ── Validation ──
-const required = (v: unknown) => !!v || "จำเป็นต้องกรอก";
-const idCardRule = (v: string) => /^\d{13}$/.test(v) || "เลขบัตรต้องมี 13 หลัก";
+const required = (v) => !!v || "จำเป็นต้องกรอก";
+const idCardRule = (v) => /^\d{13}$/.test(v) || "เลขบัตรต้องมี 13 หลัก";
 
 // ── Options ──
 const titleOptions = ["นาย", "นาง", "น.ส.", "ด.ช.", "ด.ญ.", "อื่น ๆ"];
@@ -359,7 +359,7 @@ const ind = reactive({
 });
 
 function resetIndividual() {
-  Object.keys(ind).forEach(k => { (ind as Record<string, string>)[k] = ""; });
+  Object.keys(ind).forEach(k => { (ind)[k] = ""; });
 }
 function submitIndividual() {
   snackbar.value = true;
@@ -373,7 +373,7 @@ const grp = reactive({
 });
 
 function resetGroup() {
-  Object.keys(grp).forEach(k => { (grp as Record<string, string>)[k] = ""; });
+  Object.keys(grp).forEach(k => { (grp)[k] = ""; });
 }
 function submitGroup() {
   snackbar.value = true;
@@ -386,7 +386,7 @@ const cor = reactive({
 });
 
 function resetCorrection() {
-  Object.keys(cor).forEach(k => { (cor as Record<string, string>)[k] = ""; });
+  Object.keys(cor).forEach(k => { (cor)[k] = ""; });
 }
 function submitCorrection() {
   snackbar.value = true;

@@ -435,7 +435,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, reactive, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
@@ -455,22 +455,22 @@ const steps = [
   { value: 3, title: "ลงนาม" },
 ];
 
-const pageTitles: Record<number, string> = {
+const pageTitles = {
   1: "ตรวจสอบคำขอ",
   2: "พิจารณาคำขอ",
   3: "ลงนามอนุมัติ",
 };
 const pageTitle = computed(() => pageTitles[currentStep.value] ?? "รายละเอียดคำขอ");
 
-const successMessages: Record<number, string> = {
+const successMessages = {
   1: "ส่งต่อคำขอเพื่อพิจารณาเรียบร้อยแล้ว",
   2: "บันทึกผลการพิจารณาและส่งต่อให้เจ้าหน้าที่ลงนามเรียบร้อยแล้ว",
   3: "ลงนามอนุมัติคำขอเรียบร้อยแล้ว",
 };
 const successMessage = computed(() => successMessages[currentStep.value] ?? "ดำเนินการสำเร็จ");
 
-const step1Review = reactive({ result: "pass" as "pass" | "improve" | "fail", remark: "" });
-const review = reactive({ result: "approved" as "approved" | "improve" | "rejected", remark: "", regNo: "" });
+const step1Review = reactive({ result: "pass", remark: "" });
+const review = reactive({ result: "approved", remark: "", regNo: "" });
 const sign = reactive({ signerName: "", signDate: "", remark: "" });
 
 const mockFactories = [
@@ -490,7 +490,7 @@ const attachments = [
   { label: "หนังสือรับรอง GAP" },
 ];
 
-function stepClass(value: number) {
+function stepClass(value) {
   if (currentStep.value > value) return 'step-node--done'
   if (currentStep.value === value) return 'step-node--active'
   return ''

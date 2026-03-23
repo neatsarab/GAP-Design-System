@@ -106,13 +106,13 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, reactive, computed } from "vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
 
-const filters = reactive({ dateFrom: "", dateTo: "", type: null as string | null, certType: null as string | null });
+const filters = reactive({ dateFrom: "", dateTo: "", type: null, certType: null });
 
 const typeOptions = [
   { label: "ขึ้นทะเบียน", value: "register" },
@@ -131,7 +131,7 @@ const headers = [
   { title: "ประเภทใบรับรอง", key: "certType", sortable: false },
   { title: "วันที่ยื่น", key: "submittedDate", sortable: true },
   { title: "สถานะ", key: "status", sortable: false },
-  { title: "", key: "actions", sortable: false, align: "end" as const },
+  { title: "", key: "actions", sortable: false, align: "end" },
 ];
 
 const allItems = [
@@ -154,17 +154,17 @@ function clearFilters() {
   filters.certType = null;
 }
 
-function statusColor(s: string) {
-  const m: Record<string, string> = { draft: "grey", under_review: "warning", approved: "success", rejected: "error", revision_required: "orange" };
+function statusColor(s) {
+  const m = { draft: "grey", under_review: "warning", approved: "success", rejected: "error", revision_required: "orange" };
   return m[s] ?? "grey";
 }
-function statusLabel(s: string) {
-  const m: Record<string, string> = { draft: "แบบร่าง", under_review: "อยู่ระหว่างพิจารณา", approved: "อนุมัติแล้ว", rejected: "ไม่ผ่าน", revision_required: "รอแก้ไข" };
+function statusLabel(s) {
+  const m = { draft: "แบบร่าง", under_review: "อยู่ระหว่างพิจารณา", approved: "อนุมัติแล้ว", rejected: "ไม่ผ่าน", revision_required: "รอแก้ไข" };
   return m[s] ?? s;
 }
 
-function typeLabel(t: string) {
-  const m: Record<string, string> = { register: "ขึ้นทะเบียน", renew: "ต่ออายุ", scope: "เพิ่ม/ลดขอบข่าย", other: "อื่น ๆ" };
+function typeLabel(t) {
+  const m = { register: "ขึ้นทะเบียน", renew: "ต่ออายุ", scope: "เพิ่ม/ลดขอบข่าย", other: "อื่น ๆ" };
   return m[t] ?? t;
 }
 </script>

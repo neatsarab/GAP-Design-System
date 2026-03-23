@@ -454,7 +454,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, reactive } from "vue";
 import { useRouter } from "vue-router";
 
@@ -468,7 +468,7 @@ const steps = [
   { key: "docs", label: "แนบเอกสาร" },
 ];
 
-function stepClass(i: number) {
+function stepClass(i) {
   if (currentStep.value > i) return "step-done";
   if (currentStep.value === i) return "step-active";
   return "step-pending";
@@ -492,7 +492,7 @@ const form = reactive({
   lng: "",
 });
 
-const uploadedFiles = reactive<Record<string, File | null>>({
+const uploadedFiles = reactive({
   idCard: null,
   householdReg: null,
   landDoc: null,

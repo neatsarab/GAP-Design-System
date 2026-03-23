@@ -47,22 +47,13 @@
   </div>
 </template>
 
-<script setup lang="ts">
-export interface BreadcrumbItem {
-  title: string
-  to?: string
-}
-
-interface Props {
-  title: string
-  subtitle?: string
-  icon?: string
-  breadcrumbs?: BreadcrumbItem[]
-  loading?: boolean
-}
-
-withDefaults(defineProps<Props>(), {
-  loading: false,
+<script setup>
+defineProps({
+  title: String,
+  subtitle: String,
+  icon: String,
+  breadcrumbs: Array,
+  loading: { type: Boolean, default: false },
 })
 </script>
 

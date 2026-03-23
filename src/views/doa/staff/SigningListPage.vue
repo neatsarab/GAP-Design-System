@@ -106,17 +106,17 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, reactive, computed } from "vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
-const selected = ref<string[]>([]);
+const selected = ref([]);
 
 const filters = reactive({
   dateFrom: "",
   dateTo: "",
-  type: null as string | null,
+  type: null,
 });
 
 const typeOptions = [
@@ -132,7 +132,7 @@ const headers = [
   { title: "ผู้ยื่นคำขอ", key: "applicant", sortable: true },
   { title: "วันที่ยื่น", key: "submittedDate", sortable: true },
   { title: "ผลพิจารณา", key: "reviewResult", sortable: false },
-  { title: "", key: "actions", sortable: false, align: "end" as const },
+  { title: "", key: "actions", sortable: false, align: "end" },
 ];
 
 const allItems = [
@@ -168,7 +168,7 @@ function clearFilters() {
   filters.type = null;
 }
 
-function typeLabel(t: string) {
+function typeLabel(t) {
   return (
     {
       register: "ขึ้นทะเบียน / ต่ออายุ",

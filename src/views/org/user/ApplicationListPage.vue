@@ -73,13 +73,13 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
 const search = ref('')
-const filterType = ref<string | null>(null)
+const filterType = ref(null)
 const activeTab = ref('all')
 
 const typeOptions = ['รายเดี่ยว', 'รายกลุ่ม']
@@ -94,19 +94,15 @@ const statusTabs = [
   { value: 'rejected',          label: 'ไม่ผ่าน',               color: 'error',     icon: 'fas fa-circle-xmark' },
 ]
 
-interface Application {
-  id: string; requestNo: string; farmName: string; crop: string;
-  area: string; type: 'individual' | 'group'; submittedDate: string; status: string;
-}
 
-const applications: Application[] = [
+const applications = [
   { id: 'ORG-2568-00003', requestNo: 'ORG-2568-00003', farmName: 'แปลงสวนอินทรีย์ A', crop: 'ข้าว',      area: '15', type: 'individual', submittedDate: '5 มี.ค. 2568',  status: 'under_review' },
   { id: 'ORG-2568-00002', requestNo: 'ORG-2568-00002', farmName: 'แปลงสวนอินทรีย์ B', crop: 'ผัก',      area: '8',  type: 'individual', submittedDate: '20 ก.พ. 2568', status: 'inspection_scheduled' },
   { id: 'ORG-2568-00001', requestNo: 'ORG-2568-00001', farmName: 'แปลงสวนอินทรีย์ A', crop: 'สมุนไพร', area: '15', type: 'individual', submittedDate: '10 ม.ค. 2568', status: 'approved' },
   { id: 'ORG-GRP-2568-00001', requestNo: 'ORG-GRP-2568-00001', farmName: 'กลุ่มเกษตรอินทรีย์บ้านโนน', crop: 'ผักรวม', area: '120', type: 'group', submittedDate: '1 มี.ค. 2568', status: 'revision_required' },
 ]
 
-function countByStatus(status: string) {
+function countByStatus(status) {
   if (status === 'all') return applications.length
   return applications.filter(a => a.status === status).length
 }
@@ -129,20 +125,20 @@ const headers = [
   { title: '',             key: 'actions',      width: 140, sortable: false },
 ]
 
-function onRowClick(_e: unknown, row: { item: Application }) {
+function onRowClick(_e, row) {
   router.push(`/org/user/applications/${row.item.id}`)
 }
 
-function statusColor(s: string) {
-  const map: Record<string, string> = { submitted: 'org-user', under_review: 'info', inspection_scheduled: 'secondary', revision_required: 'warning', approved: 'success', rejected: 'error' }
+function statusColor(s) {
+  const map = { submitted: 'org-user', under_review: 'info', inspection_scheduled: 'secondary', revision_required: 'warning', approved: 'success', rejected: 'error' }
   return map[s] ?? 'grey'
 }
-function statusIcon(s: string) {
-  const map: Record<string, string> = { submitted: 'fas fa-paper-plane', under_review: 'fas fa-magnifying-glass', inspection_scheduled: 'fas fa-calendar-check', revision_required: 'fas fa-pen-to-square', approved: 'fas fa-circle-check', rejected: 'fas fa-circle-xmark' }
+function statusIcon(s) {
+  const map = { submitted: 'fas fa-paper-plane', under_review: 'fas fa-magnifying-glass', inspection_scheduled: 'fas fa-calendar-check', revision_required: 'fas fa-pen-to-square', approved: 'fas fa-circle-check', rejected: 'fas fa-circle-xmark' }
   return map[s] ?? 'fas fa-circle'
 }
-function statusLabel(s: string) {
-  const map: Record<string, string> = { submitted: 'ยื่นแล้ว', under_review: 'อยู่ระหว่างตรวจสอบ', inspection_scheduled: 'นัดตรวจแล้ว', revision_required: 'รอแก้ไข', approved: 'อนุมัติแล้ว', rejected: 'ไม่ผ่าน' }
+function statusLabel(s) {
+  const map = { submitted: 'ยื่นแล้ว', under_review: 'อยู่ระหว่างตรวจสอบ', inspection_scheduled: 'นัดตรวจแล้ว', revision_required: 'รอแก้ไข', approved: 'อนุมัติแล้ว', rejected: 'ไม่ผ่าน' }
   return map[s] ?? s
 }
 </script>

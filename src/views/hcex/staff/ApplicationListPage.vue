@@ -131,18 +131,18 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
 
 const search = ref("");
-const filterType = ref<string | null>(null);
-const filterStatus = ref<string | null>(null);
-const activeTab = ref<string>("all");
+const filterType = ref(null);
+const filterStatus = ref(null);
+const activeTab = ref("all");
 
-function onRowClick(_e: unknown, row: { item: HCEXApp }) {
+function onRowClick(_e, row) {
   router.push(`/hcex/staff/applications/${row.item.id}`);
 }
 function clearFilters() {
@@ -200,17 +200,8 @@ const statusTabs = [
   },
 ];
 
-interface HCEXApp {
-  id: string;
-  requestNo: string;
-  certType: string;
-  exporter: string;
-  destination: string;
-  submittedAt: string;
-  status: string;
-}
 
-const allApplications: HCEXApp[] = [
+const allApplications = [
   {
     id: "HCEX-001",
     requestNo: "HCEX-2568-00012",
@@ -326,8 +317,8 @@ const headers = [
   { title: "", key: "actions", width: 140, sortable: false },
 ];
 
-function getStatusColor(s: string) {
-  const m: Record<string, string> = {
+function getStatusColor(s) {
+  const m = {
     submitted: "warning",
     under_review: "warning",
     lab_verification: "info",
@@ -337,8 +328,8 @@ function getStatusColor(s: string) {
   };
   return m[s] ?? "grey";
 }
-function getStatusIcon(s: string) {
-  const m: Record<string, string> = {
+function getStatusIcon(s) {
+  const m = {
     submitted: "fas fa-paper-plane",
     under_review: "fas fa-magnifying-glass",
     lab_verification: "fas fa-flask-vial",
@@ -348,8 +339,8 @@ function getStatusIcon(s: string) {
   };
   return m[s] ?? "fas fa-circle";
 }
-function getStatusLabel(s: string) {
-  const m: Record<string, string> = {
+function getStatusLabel(s) {
+  const m = {
     submitted: "ยื่นแล้ว",
     under_review: "รอตรวจสอบ",
     lab_verification: "รอพิจารณา Lab",

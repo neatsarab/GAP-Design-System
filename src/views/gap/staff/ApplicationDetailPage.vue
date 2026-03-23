@@ -486,7 +486,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, computed, defineComponent, h } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
@@ -505,22 +505,9 @@ const InfoField = defineComponent({
 })
 
 // ── Mock application data ──
-interface Plot { crop: string; variety: string; area: number; province: string; age: string; plotId: string }
-interface Doc  { name: string; uploaded: boolean }
-interface App  {
-  id: string; requestNo: string; submittedAt: string; certType: string; province: string
-  status: string; currentStep: number
-  farmer: { name: string; idCard: string; phone: string; email: string; address: string }
-  plots: Plot[]
-  documents: Doc[]
-  inspection?: { dateFrom: string; dateTo: string; inspector?: string; result?: string; defects?: string; labResult?: string }
-  committee?: { round?: number; meetingDate?: string; decision?: string; notes?: string }
-  certificate?: { certNo: string; issuedDate: string; expiryDate: string; signedBy: string }
-}
+const appId = route.params.id
 
-const appId = route.params.id as string
-
-const mockApps: Record<string, App> = {
+const mockApps = {
   'APP-001': {
     id: 'APP-001', requestNo: 'GAP-2568-00041', submittedAt: '15 ม.ค. 2568',
     certType: 'มกษ. 9001', province: 'เชียงใหม่', status: 'reviewing', currentStep: 1,
@@ -555,7 +542,7 @@ const mockApps: Record<string, App> = {
 }
 
 // Fallback for unknown IDs
-const app = ref<App>(mockApps[appId] ?? mockApps['APP-001'])
+const app = ref(mockApps[appId] ?? mockApps['APP-001'])
 
 const viewStep = ref(app.value.currentStep)
 
@@ -570,7 +557,7 @@ const workflowSteps = [
 ]
 
 // Status display
-const statusMap: Record<string, { color: string; icon: string; label: string }> = {
+const statusMap = {
   reviewing:    { color: 'warning',   icon: 'fas fa-magnifying-glass', label: 'รอตรวจคำขอ'          },
   scheduling:   { color: 'info',      icon: 'fas fa-calendar-clock',   label: 'รอนัดตรวจแปลง'       },
   inspecting:   { color: 'secondary', icon: 'fas fa-person-walking',   label: 'อยู่ระหว่างตรวจแปลง' },
@@ -592,7 +579,7 @@ const rejectNote    = ref('')
 
 // Snackbar
 const snackbar = ref({ show: false, message: '', color: 'success', icon: 'fas fa-check' })
-function showSnack(message: string, color = 'success', icon = 'fas fa-circle-check') {
+function showSnack(message, color = 'success', icon = 'fas fa-circle-check') {
   snackbar.value = { show: true, message, color, icon }
 }
 
@@ -615,7 +602,7 @@ const ccDecisionOptions = [
   { label: 'ยกเลิกคำขอ',           value: 'cancel'     },
   { label: 'เสนอแก้ไขข้อมูล',     value: 'revise'     },
 ]
-function getCCDecisionLabel(val: string): string {
+function getCCDecisionLabel(val) {
   return ccDecisionOptions.find(o => o.value === val)?.label ?? val
 }
 
@@ -644,9 +631,9 @@ function saveSchedule() {
     showSnack('กรุณาระบุวันที่ตรวจ', 'error', 'fas fa-triangle-exclamation'); return
   }
   if (!app.value.inspection) app.value.inspection = { dateFrom: '', dateTo: '' }
-  app.value.inspection!.dateFrom  = scheduleForm.value.dateFrom
-  app.value.inspection!.dateTo    = scheduleForm.value.dateTo
-  app.value.inspection!.inspector = scheduleForm.value.inspector
+  app.value.inspection.dateFrom  = scheduleForm.value.dateFrom
+  app.value.inspection.dateTo    = scheduleForm.value.dateTo
+  app.value.inspection.inspector = scheduleForm.value.inspector
   app.value.status = 'inspecting'
   app.value.currentStep = 3
   viewStep.value = 3
@@ -655,9 +642,9 @@ function saveSchedule() {
 
 function saveInspection() {
   if (!app.value.inspection) app.value.inspection = { dateFrom: '', dateTo: '' }
-  app.value.inspection!.result    = inspectionForm.value.result
-  app.value.inspection!.defects   = inspectionForm.value.defects
-  app.value.inspection!.labResult = inspectionForm.value.labResult
+  app.value.inspection.result    = inspectionForm.value.result
+  app.value.inspection.defects   = inspectionForm.value.defects
+  app.value.inspection.labResult = inspectionForm.value.labResult
   app.value.status = 'inspected'
   app.value.currentStep = 4
   viewStep.value = 4

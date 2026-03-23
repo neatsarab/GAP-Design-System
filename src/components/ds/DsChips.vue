@@ -67,9 +67,8 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import AppStatusChip from '@/components/common/AppStatusChip.vue'
-import type { GapStatus } from '@/types/gap-status.types'
 
 const allStatuses = [
   { status: 'DRAFT',                color: 'grey',   icon: 'fas fa-pencil',               label: 'ร่าง' },
@@ -84,7 +83,7 @@ const allStatuses = [
   { status: 'CERT_EXPIRED',         color: 'brown',  icon: 'fas fa-clock',                label: 'หมดอายุ' },
 ]
 
-const gapStatusList: GapStatus[] = [
+const gapStatusList = [
   'DRAFT', 'SUBMITTED', 'DOC_REVIEW', 'INSPECTION_SCHEDULED',
   'INSPECTING', 'APPROVED', 'REJECTED', 'CANCELLED', 'CERT_ISSUED', 'CERT_EXPIRED',
 ]

@@ -1,16 +1,14 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 
-export type EntityType = 'personal' | 'juristic' | 'group'
-
 export const useSessionStore = defineStore('session', () => {
-  const entityType = ref<EntityType>('personal')
+  const entityType = ref('personal')
   const personalName = ref('')
   const groupName = ref('')
   const companyName = ref('')
   const taxId = ref('')
   const groupId = ref('')
-  const groupSystems = ref<string[]>([])
+  const groupSystems = ref([])
 
   const isGroupMode = computed(() => entityType.value === 'group')
 
@@ -32,7 +30,7 @@ export const useSessionStore = defineStore('session', () => {
     return personalName.value
   })
 
-  function setContext(type: EntityType, name = '', id = '', systems: string[] = [], juristicTaxId = '') {
+  function setContext(type, name = '', id = '', systems = [], juristicTaxId = '') {
     entityType.value = type
     if (type === 'group') {
       groupName.value = name

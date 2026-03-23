@@ -54,7 +54,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 const linearItems = [
   { label: 'ขั้นตอนการอนุมัติ',    value: 65, color: 'primary', striped: false },
   { label: 'เอกสารที่ตรวจสอบแล้ว', value: 82, color: 'success', striped: false },

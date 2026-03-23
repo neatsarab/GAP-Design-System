@@ -128,7 +128,7 @@
 
           <!-- Footer -->
           <div class="d-flex align-center justify-space-between mt-4">
-            <v-btn
+            <!-- <v-btn
               variant="text"
               size="small"
               color="medium-emphasis"
@@ -136,7 +136,7 @@
               @click="router.push('/')"
             >
               กลับหน้าหลัก
-            </v-btn>
+            </v-btn> -->
             <span class="text-caption text-medium-emphasis"
               >© 2568 กรมวิชาการเกษตร</span
             >
@@ -424,7 +424,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useThemeStore } from "@/stores/theme.store";
@@ -433,10 +433,10 @@ const router = useRouter();
 const themeStore = useThemeStore();
 
 // ── Role selection ──
-const step = ref<0 | 1>(0);
-const selectedRole = ref<"operator" | "staff">("operator");
+const step = ref(0);
+const selectedRole = ref("operator");
 
-function selectRole(role: "operator" | "staff") {
+function selectRole(role) {
   selectedRole.value = role;
   step.value = 1;
   error.value = "";
@@ -494,7 +494,7 @@ const features = [
 ];
 
 const rules = {
-  required: (v: string) => !!v || "กรุณากรอกข้อมูล",
+  required: (v) => !!v || "กรุณากรอกข้อมูล",
 };
 
 async function doLogin() {
@@ -757,6 +757,21 @@ function doSsoLogin() {
   justify-content: center;
   padding: 12px 0;
   border-top: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
+}
+
+/* ─── Typography ─── */
+.page-title {
+  font-size: 1.375rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+.lh-tight {
+  line-height: 1.25;
+}
+
+/* ─── Admin Entry ─── */
+.admin-entry {
+  text-align: center;
 }
 
 .admin-link {

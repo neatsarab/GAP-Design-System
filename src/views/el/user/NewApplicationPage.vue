@@ -725,7 +725,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, reactive } from "vue";
 import { useRouter } from "vue-router";
 
@@ -743,24 +743,7 @@ const farmerTypeOptions = [
   { label: "กลุ่มเกษตรกร", value: "group" },
 ];
 
-interface Farmer {
-  type: string;
-  idNo: string;
-  name: string;
-  province: string;
-  phone: string;
-}
 
-interface Farm {
-  farmerName: string;
-  cropType: string;
-  gapCertNo: string;
-  area: string;
-  yield: string;
-  province: string;
-  coordX: string;
-  coordY: string;
-}
 
 const form = reactive({
   establishmentName: "",
@@ -781,11 +764,11 @@ const form = reactive({
   haccpExpireDate: "",
 });
 
-const farmers = ref<Farmer[]>([
+const farmers = ref([
   { type: "individual", idNo: "", name: "", province: "", phone: "" },
 ]);
 
-const farms = ref<Farm[]>([
+const farms = ref([
   {
     farmerName: "",
     cropType: "",
@@ -798,7 +781,7 @@ const farms = ref<Farm[]>([
   },
 ]);
 
-function stepClass(idx: number) {
+function stepClass(idx) {
   if (currentStep.value > idx) return "step-done";
   if (currentStep.value === idx) return "step-active";
   return "step-pending";
@@ -813,7 +796,7 @@ function addFarmer() {
     phone: "",
   });
 }
-function removeFarmer(idx: number) {
+function removeFarmer(idx) {
   if (farmers.value.length > 1) farmers.value.splice(idx, 1);
 }
 function addFarm() {
@@ -828,7 +811,7 @@ function addFarm() {
     coordY: "",
   });
 }
-function removeFarm(idx: number) {
+function removeFarm(idx) {
   if (farms.value.length > 1) farms.value.splice(idx, 1);
 }
 

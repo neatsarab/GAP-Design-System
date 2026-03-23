@@ -357,43 +357,26 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, computed } from "vue";
 
 const mainTab = ref("reviewed");
 const search = ref("");
-const filterStatus = ref<string | null>(null);
+const filterStatus = ref(null);
 const filterDateFrom = ref("");
-const activeTab = ref<string>("all");
+const activeTab = ref("all");
 const reviewDialog = ref(false);
 const decision = ref("pass");
 const reviewNote = ref("");
 const requestSearch = ref("");
 const acceptDialog = ref(false);
 
-interface LabResult {
-  id: string;
-  labNo: string;
-  productType: string;
-  testDate: string;
-  result: string;
-  status: string;
-  labName: string;
-}
 
-interface LabRequest {
-  id: string;
-  requestNo: string;
-  operator: string;
-  productType: string;
-  requestDate: string;
-  status: string;
-}
 
-const selectedLab = ref<LabResult | null>(null);
-const selectedRequest = ref<LabRequest | null>(null);
+const selectedLab = ref(null);
+const selectedRequest = ref(null);
 
-function openReviewDialog(item: LabResult) {
+function openReviewDialog(item) {
   selectedLab.value = item;
   decision.value = "pass";
   reviewNote.value = "";
@@ -407,7 +390,7 @@ function confirmReview() {
   reviewDialog.value = false;
 }
 
-function openAcceptDialog(item: LabRequest) {
+function openAcceptDialog(item) {
   selectedRequest.value = item;
   acceptDialog.value = true;
 }
@@ -432,7 +415,7 @@ const statusOptions = [
   { label: "ไม่ผ่าน", value: "failed" },
 ];
 
-const labResults: LabResult[] = [
+const labResults = [
   {
     id: "lab-001",
     labNo: "LAB-2568-00089",
@@ -489,7 +472,7 @@ const labResults: LabResult[] = [
   },
 ];
 
-const labRequests = ref<LabRequest[]>([
+const labRequests = ref([
   {
     id: "req-001",
     requestNo: "LAB-REQ-2568-001",
@@ -579,24 +562,24 @@ const requestHeaders = [
   { title: "", key: "actions", width: 150, sortable: false },
 ];
 
-function getStatusColor(s: string) {
-  const m: Record<string, string> = {
+function getStatusColor(s) {
+  const m = {
     pending: "warning",
     passed: "success",
     failed: "error",
   };
   return m[s] ?? "grey";
 }
-function getStatusIcon(s: string) {
-  const m: Record<string, string> = {
+function getStatusIcon(s) {
+  const m = {
     pending: "fas fa-hourglass-half",
     passed: "fas fa-circle-check",
     failed: "fas fa-circle-xmark",
   };
   return m[s] ?? "fas fa-circle";
 }
-function getStatusLabel(s: string) {
-  const m: Record<string, string> = {
+function getStatusLabel(s) {
+  const m = {
     pending: "รอพิจารณา",
     passed: "ผ่าน",
     failed: "ไม่ผ่าน",
@@ -604,16 +587,16 @@ function getStatusLabel(s: string) {
   return m[s] ?? s;
 }
 
-function getRequestStatusColor(s: string) {
-  const m: Record<string, string> = {
+function getRequestStatusColor(s) {
+  const m = {
     "รอดำเนินการ": "warning",
     "กำลังดำเนินการ": "info",
     "เสร็จสิ้น": "success",
   };
   return m[s] ?? "grey";
 }
-function getRequestStatusIcon(s: string) {
-  const m: Record<string, string> = {
+function getRequestStatusIcon(s) {
+  const m = {
     "รอดำเนินการ": "fas fa-hourglass-half",
     "กำลังดำเนินการ": "fas fa-spinner",
     "เสร็จสิ้น": "fas fa-circle-check",

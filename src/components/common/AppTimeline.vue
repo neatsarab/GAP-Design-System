@@ -47,27 +47,11 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import AppEmptyState from './AppEmptyState.vue'
 
-export interface TimelineItem {
-  id: string
-  title: string
-  description?: string
-  date: string
-  time?: string
-  icon: string
-  iconColor?: string
-  user?: string
-}
-
-interface Props {
-  items: TimelineItem[]
-  loading?: boolean
-}
-
-withDefaults(defineProps<Props>(), {
-  items: () => [],
-  loading: false,
+defineProps({
+  items: { type: Array, default: () => [] },
+  loading: { type: Boolean, default: false },
 })
 </script>

@@ -772,21 +772,21 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, reactive, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
 const router = useRouter();
 const route = useRoute();
 
-const typeTitles: Record<string, string> = {
+const typeTitles = {
   register: "คำขอขึ้นทะเบียนหน่วยรับรองโรงงานผลิตสินค้าพืช (CB)",
   renew: "คำขอต่ออายุทะเบียนหน่วยรับรองโรงงานผลิตสินค้าพืช (CB)",
   scope: "คำขอเพิ่ม / ลดขอบข่าย",
   other: "คำขออื่น ๆ",
 };
 const pageTitle = computed(
-  () => typeTitles[route.params.type as string] ?? "ยื่นคำขอ CB",
+  () => typeTitles[route.params.type] ?? "ยื่นคำขอ CB",
 );
 
 const currentStep = ref(0);
@@ -822,7 +822,7 @@ const form = reactive({
   email: "",
   purpose: "register",
   office: { ...addrTemplate(), phone: "", fax: "" },
-  standards: [] as string[],
+  standards: [],
 });
 
 const nationalityOptions = ["ไทย", "ต่างชาติ"];
@@ -841,14 +841,14 @@ const standardOptions = [
   { value: "other_std", label: "มาตรฐานอื่น ๆ ที่กรมวิชาการเกษตรกำหนด" },
 ];
 
-const files = reactive<Record<string, string>>({});
-function stepClass(v: number) {
+const files = reactive({});
+function stepClass(v) {
   if (currentStep.value > v) return "step-done";
   if (currentStep.value === v) return "step-active";
   return "step-pending";
 }
 
-function mockUpload(key: string) {
+function mockUpload(key) {
   files[key] = "เอกสาร.pdf";
 }
 

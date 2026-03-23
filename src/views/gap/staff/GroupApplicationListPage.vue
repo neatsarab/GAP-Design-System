@@ -88,12 +88,12 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, computed, defineComponent, h } from 'vue'
 
 const search       = ref('')
-const filterStatus = ref<string | null>(null)
-const filterCert   = ref<string | null>(null)
+const filterStatus = ref(null)
+const filterCert   = ref(null)
 
 const statusOptions = [
   { label: 'รอตรวจคำขอ',    value: 'reviewing'    },
@@ -152,16 +152,16 @@ const filteredGroups = computed(() => {
   return items
 })
 
-function getStatusColor(s: string) {
-  const m: Record<string, string> = { reviewing: 'warning', scheduling: 'info', pending_cc: 'gap-staff', cc_reviewing: 'error', approved: 'success', cert_issued: 'success' }
+function getStatusColor(s) {
+  const m = { reviewing: 'warning', scheduling: 'info', pending_cc: 'gap-staff', cc_reviewing: 'error', approved: 'success', cert_issued: 'success' }
   return m[s] ?? 'grey'
 }
-function getStatusIcon(s: string) {
-  const m: Record<string, string> = { reviewing: 'fas fa-magnifying-glass', scheduling: 'fas fa-calendar-clock', pending_cc: 'fas fa-paper-plane', cc_reviewing: 'fas fa-gavel', approved: 'fas fa-circle-check', cert_issued: 'fas fa-certificate' }
+function getStatusIcon(s) {
+  const m = { reviewing: 'fas fa-magnifying-glass', scheduling: 'fas fa-calendar-clock', pending_cc: 'fas fa-paper-plane', cc_reviewing: 'fas fa-gavel', approved: 'fas fa-circle-check', cert_issued: 'fas fa-certificate' }
   return m[s] ?? 'fas fa-circle'
 }
-function getStatusLabel(s: string) {
-  const m: Record<string, string> = { reviewing: 'รอตรวจคำขอ', scheduling: 'รอนัดตรวจแปลง', pending_cc: 'รอเสนอ CC', cc_reviewing: 'อยู่ระหว่าง CC', approved: 'อนุมัติแล้ว', cert_issued: 'ออกใบรับรองแล้ว' }
+function getStatusLabel(s) {
+  const m = { reviewing: 'รอตรวจคำขอ', scheduling: 'รอนัดตรวจแปลง', pending_cc: 'รอเสนอ CC', cc_reviewing: 'อยู่ระหว่าง CC', approved: 'อนุมัติแล้ว', cert_issued: 'ออกใบรับรองแล้ว' }
   return m[s] ?? s
 }
 </script>

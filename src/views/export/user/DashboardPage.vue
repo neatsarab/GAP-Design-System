@@ -127,7 +127,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { useRouter } from "vue-router";
 import AppStatCard from "@/components/common/AppStatCard.vue";
 
@@ -202,8 +202,8 @@ const quickActions = [
   },
 ];
 
-function statusColor(status: string): string {
-  const map: Record<string, string> = {
+function statusColor(status) {
+  const map = {
     draft: "grey",
     submitted: "primary",
     under_review: "info",
@@ -215,8 +215,8 @@ function statusColor(status: string): string {
   return map[status] ?? "grey";
 }
 
-function statusLabel(status: string): string {
-  const map: Record<string, string> = {
+function statusLabel(status) {
+  const map = {
     draft: "แบบร่าง",
     submitted: "ยื่นแล้ว",
     under_review: "อยู่ระหว่างตรวจสอบ",

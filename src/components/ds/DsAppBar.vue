@@ -64,18 +64,12 @@
   </v-app-bar>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { computed } from 'vue'
 
-const props = defineProps<{
-  isDark: boolean
-  rail: boolean
-}>()
+const props = defineProps({ isDark: Boolean, rail: Boolean })
 
-defineEmits<{
-  'update:rail': [value: boolean]
-  'toggle-theme': []
-}>()
+defineEmits(['update:rail', 'toggle-theme'])
 
 const appBarStyle = computed(() => ({
   backdropFilter: 'blur(8px)',

@@ -436,7 +436,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, computed } from "vue";
 import { useThemeStore } from "@/stores/theme.store";
 
@@ -470,7 +470,7 @@ const drawer = ref(true);
 const rail = ref(false);
 const activeSection = ref("colors");
 
-function scrollTo(id: string) {
+function scrollTo(id) {
   activeSection.value = id;
   document
     .getElementById(id)

@@ -372,7 +372,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, watch, onUnmounted } from "vue";
 
 const form = ref({
@@ -402,10 +402,10 @@ const form = ref({
   photos: [],
 });
 
-const photoPreviewUrls = ref<string[]>([]);
+const photoPreviewUrls = ref([]);
 
 watch(
-  () => form.value.photos as File[],
+  () => form.value.photos,
   (files) => {
     photoPreviewUrls.value.forEach((url) => URL.revokeObjectURL(url));
     photoPreviewUrls.value = (files ?? []).map((f) => URL.createObjectURL(f));
@@ -417,9 +417,9 @@ onUnmounted(() => {
 });
 
 const rules = {
-  required: (v: string) => !!v || "กรุณากรอกข้อมูล",
-  idCard: (v: string) => /^\d{13}$/.test(v) || "เลขบัตรประชาชน 13 หลัก",
-  phone: (v: string) => /^0\d{8,9}$/.test(v) || "รูปแบบเบอร์โทรไม่ถูกต้อง",
+  required: (v) => !!v || "กรุณากรอกข้อมูล",
+  idCard: (v) => /^\d{13}$/.test(v) || "เลขบัตรประชาชน 13 หลัก",
+  phone: (v) => /^0\d{8,9}$/.test(v) || "รูปแบบเบอร์โทรไม่ถูกต้อง",
 };
 
 const provinces = [

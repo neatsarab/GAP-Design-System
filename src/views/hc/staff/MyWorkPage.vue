@@ -147,13 +147,13 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
 const search = ref("");
-const filterType = ref<string | null>(null);
+const filterType = ref(null);
 
 const typeOptions = ["ขอใบรับรอง", "แก้ไขใบรับรอง"];
 
@@ -162,18 +162,8 @@ function clearFilters() {
   filterType.value = null;
 }
 
-interface Role {
-  value: string;
-  label: string;
-  icon: string;
-  color: string;
-  desc: string;
-  statuses: string[];
-  actionLabel: string;
-  actionIcon: string;
-}
 
-const roles: Role[] = [
+const roles = [
   {
     value: "intake",
     label: "เจ้าหน้าที่รับเรื่อง",
@@ -216,23 +206,13 @@ const roles: Role[] = [
   },
 ];
 
-const selectedRole = ref<string>("intake");
+const selectedRole = ref("intake");
 const currentRole = computed(
-  () => roles.find((r) => r.value === selectedRole.value)!,
+  () => roles.find((r) => r.value === selectedRole.value),
 );
 
-interface HCApp {
-  id: string;
-  requestNo: string;
-  exporter: string;
-  product: string;
-  destination: string;
-  type: "new" | "correction";
-  submittedAt: string;
-  status: string;
-}
 
-const allApplications: HCApp[] = [
+const allApplications = [
   {
     id: "HC-001",
     requestNo: "HC-2568-00041",
@@ -375,7 +355,7 @@ const allApplications: HCApp[] = [
   },
 ];
 
-function countByStatus(statuses: string[]) {
+function countByStatus(statuses) {
   return allApplications.filter((a) => statuses.includes(a.status)).length;
 }
 
@@ -390,7 +370,7 @@ const filteredItems = computed(() => {
   return items;
 });
 
-function onRowClick(_e: unknown, row: { item: HCApp }) {
+function onRowClick(_e, row) {
   router.push(`/hc/staff/applications/${row.item.id}`);
 }
 
@@ -405,8 +385,8 @@ const headers = [
   { title: "", key: "actions", width: 140, sortable: false },
 ];
 
-function getStatusColor(s: string) {
-  const m: Record<string, string> = {
+function getStatusColor(s) {
+  const m = {
     submitted: "info",
     under_review: "warning",
     testing: "secondary",
@@ -419,8 +399,8 @@ function getStatusColor(s: string) {
   };
   return m[s] ?? "grey";
 }
-function getStatusIcon(s: string) {
-  const m: Record<string, string> = {
+function getStatusIcon(s) {
+  const m = {
     submitted: "fas fa-paper-plane",
     under_review: "fas fa-magnifying-glass",
     testing: "fas fa-flask",
@@ -433,8 +413,8 @@ function getStatusIcon(s: string) {
   };
   return m[s] ?? "fas fa-circle";
 }
-function getStatusLabel(s: string) {
-  const m: Record<string, string> = {
+function getStatusLabel(s) {
+  const m = {
     submitted: "ยื่นแล้ว",
     under_review: "รอตรวจสอบ",
     testing: "ตรวจ Lab",

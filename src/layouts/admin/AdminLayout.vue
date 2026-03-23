@@ -188,7 +188,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useThemeStore } from "@/stores/theme.store";
@@ -214,7 +214,7 @@ function doLogout() {
 
 const breadcrumbs = computed(() => [
   { title: "Admin", to: "/admin/dashboard" },
-  { title: route.meta.title as string },
+  { title: route.meta.title },
 ]);
 
 const navGroups = computed(() => {

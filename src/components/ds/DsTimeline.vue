@@ -50,13 +50,13 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref } from 'vue'
-import AppTimeline, { type TimelineItem } from '@/components/common/AppTimeline.vue'
+import AppTimeline from '@/components/common/AppTimeline.vue'
 
 const rating = ref(4)
 
-const timelineItems: TimelineItem[] = [
+const timelineItems = [
   { id: '1', title: 'ยื่นคำขอ',            description: 'สร้างคำขอ GAP-2567-001234',     date: '1 มี.ค. 67',  icon: 'fas fa-paper-plane',  iconColor: 'grey' },
   { id: '2', title: 'ตรวจเอกสาร',          description: 'เจ้าหน้าที่รับเรื่องแล้ว',        date: '3 มี.ค. 67',  icon: 'fas fa-file-magnifying-glass', iconColor: 'orange' },
   { id: '3', title: 'นัดตรวจแปลง',         description: 'วันที่ 15 มี.ค. เวลา 09:00',     date: '8 มี.ค. 67',  icon: 'fas fa-calendar-check', iconColor: 'purple' },

@@ -166,7 +166,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
@@ -210,20 +210,20 @@ const timeline = [
   { label: 'ลงนาม / ออกทะเบียน',      date: '',           by: '',                      done: false, active: false },
 ]
 
-function statusColor(s: string) {
-  const m: Record<string, string> = { pending: 'warning', reviewing: 'info', inspection: 'secondary', approved: 'success', rejected: 'error' }
+function statusColor(s) {
+  const m = { pending: 'warning', reviewing: 'info', inspection: 'secondary', approved: 'success', rejected: 'error' }
   return m[s] ?? 'grey'
 }
-function statusIcon(s: string) {
-  const m: Record<string, string> = { pending: 'fas fa-clock', reviewing: 'fas fa-magnifying-glass', inspection: 'fas fa-person-walking', approved: 'fas fa-circle-check', rejected: 'fas fa-circle-xmark' }
+function statusIcon(s) {
+  const m = { pending: 'fas fa-clock', reviewing: 'fas fa-magnifying-glass', inspection: 'fas fa-person-walking', approved: 'fas fa-circle-check', rejected: 'fas fa-circle-xmark' }
   return m[s] ?? 'fas fa-circle'
 }
-function statusLabel(s: string) {
-  const m: Record<string, string> = { pending: 'รอพิจารณา', reviewing: 'อยู่ระหว่างพิจารณา', inspection: 'ลงพื้นที่ตรวจ', approved: 'ผ่าน', rejected: 'ไม่ผ่าน' }
+function statusLabel(s) {
+  const m = { pending: 'รอพิจารณา', reviewing: 'อยู่ระหว่างพิจารณา', inspection: 'ลงพื้นที่ตรวจ', approved: 'ผ่าน', rejected: 'ไม่ผ่าน' }
   return m[s] ?? s
 }
-function typeLabel(t: string) {
-  const m: Record<string, string> = { register: 'ขึ้นทะเบียน / ต่ออายุ', amendment: 'เปลี่ยนแปลงทะเบียน', scope: 'เพิ่ม / ลดขอบข่าย' }
+function typeLabel(t) {
+  const m = { register: 'ขึ้นทะเบียน / ต่ออายุ', amendment: 'เปลี่ยนแปลงทะเบียน', scope: 'เพิ่ม / ลดขอบข่าย' }
   return m[t] ?? t
 }
 </script>

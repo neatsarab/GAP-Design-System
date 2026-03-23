@@ -296,7 +296,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, reactive } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
@@ -319,18 +319,18 @@ const app = {
 };
 
 const review = reactive({ decision: "approved", remark: "" });
-const sign = reactive({ actionStatus: "", countries: [] as string[], cropType: "", remark: "", active: true });
+const sign = reactive({ actionStatus: "", countries: [], cropType: "", remark: "", active: true });
 
 const countryOptions = ["ไทย", "จีน", "ญี่ปุ่น", "เกาหลีใต้", "สหรัฐอเมริกา", "สหภาพยุโรป", "ออสเตรเลีย", "อาเซียน"];
 const cropOptions = ["ทุเรียน", "มังคุด", "ลำไย", "ลิ้นจี่", "มะม่วง", "กล้วย", "สับปะรด"];
 
-function typeLabel(t: string) {
+function typeLabel(t) {
   return { register: "ขึ้นทะเบียน", renew: "ต่ออายุ", scope: "เพิ่ม/ลดขอบข่าย", other: "อื่น ๆ" }[t] ?? t;
 }
-function statusColor(s: string) {
+function statusColor(s) {
   return { pending: "warning", reviewing: "info", approved: "success", improve: "orange", rejected: "error" }[s] ?? "grey";
 }
-function statusLabel(s: string) {
+function statusLabel(s) {
   return { pending: "รอพิจารณา", reviewing: "อยู่ระหว่างพิจารณา", approved: "ผ่าน", improve: "ปรับปรุง", rejected: "ไม่ผ่าน" }[s] ?? s;
 }
 

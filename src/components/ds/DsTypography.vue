@@ -22,7 +22,7 @@
   </v-card>
 </template>
 
-<script setup lang="ts">
+<script setup>
 const typographyList = [
   { class: 'text-h4 font-weight-bold',        sample: 'Heading 4 — ชื่อหน้า Dashboard',              desc: 'Font size 34px · Bold' },
   { class: 'text-h5',                          sample: 'Heading 5 — ชื่อ Card หลัก',                  desc: 'Font size 24px' },

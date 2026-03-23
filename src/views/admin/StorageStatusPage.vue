@@ -57,7 +57,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 const storages = [
   { type: "Database Storage", used: "120 GB", available: "380 GB", total: "500 GB", percent: 24 },
   { type: "File Storage", used: "80 GB", available: "220 GB", total: "300 GB", percent: 27 },
@@ -71,7 +71,7 @@ const headers = [
   { title: "Usage", key: "percent", sortable: true },
 ];
 
-function usageColor(p: number) {
+function usageColor(p) {
   return p >= 80 ? "error" : p >= 60 ? "warning" : "primary";
 }
 </script>

@@ -91,7 +91,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useThemeStore } from "@/stores/theme.store";
@@ -115,7 +115,7 @@ function doLogout() {
 
 const breadcrumbs = computed(() => [
   { title: "ระบบผู้ส่งออก (ผู้ประกอบการ)", to: "/export/user" },
-  { title: route.meta.title as string },
+  { title: route.meta.title },
 ]);
 
 const navGroups = [

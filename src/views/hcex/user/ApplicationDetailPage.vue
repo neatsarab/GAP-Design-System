@@ -430,7 +430,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
 
@@ -444,42 +444,10 @@ function doConfirmPreview() {
   successPreviewDialog.value = true;
 }
 
-interface Product {
-  shippingMark: string;
-  description: string;
-  quantity: string;
-  netWeight: string;
-  totalAmount: string;
-}
 
-interface HistoryEntry {
-  label: string;
-  status: string;
-  date: string;
-  note?: string;
-  color: string;
-  icon: string;
-}
 
-interface AppDetail {
-  id: string;
-  requestNo: string;
-  certType: string;
-  status: string;
-  exporterName: string;
-  exporterAddress: string;
-  consigneeName: string;
-  consigneeAddress: string;
-  destination: string;
-  shipDate: string;
-  shipMethod: string;
-  portOfLoading: string;
-  selectedLabs: string[];
-  products: Product[];
-  history: HistoryEntry[];
-}
 
-const app: AppDetail = {
+const app = {
   id: "HCEX-001",
   requestNo: "HCEX-2568-00012",
   certType: "กมพ.1",
@@ -557,7 +525,7 @@ const workflowSteps = [
   { key: "cert", label: "รับใบรับรอง" },
 ];
 
-const statusStepMap: Record<string, number> = {
+const statusStepMap = {
   draft: 0,
   submitted: 0,
   under_review: 1,
@@ -574,8 +542,8 @@ const isApprovedOrCompleted = computed(
   () => app.status === "approved" || app.status === "completed",
 );
 
-function getStatusColor(s: string) {
-  const m: Record<string, string> = {
+function getStatusColor(s) {
+  const m = {
     draft: "grey",
     submitted: "primary",
     under_review: "info",
@@ -588,8 +556,8 @@ function getStatusColor(s: string) {
   };
   return m[s] ?? "grey";
 }
-function getStatusIcon(s: string) {
-  const m: Record<string, string> = {
+function getStatusIcon(s) {
+  const m = {
     draft: "fas fa-pen",
     submitted: "fas fa-paper-plane",
     under_review: "fas fa-magnifying-glass",
@@ -602,8 +570,8 @@ function getStatusIcon(s: string) {
   };
   return m[s] ?? "fas fa-circle";
 }
-function getStatusLabel(s: string) {
-  const m: Record<string, string> = {
+function getStatusLabel(s) {
+  const m = {
     draft: "ฉบับร่าง",
     submitted: "ยื่นแล้ว",
     under_review: "อยู่ระหว่างตรวจสอบ",

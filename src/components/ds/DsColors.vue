@@ -28,11 +28,10 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { computed } from 'vue'
 
-interface Props { isDark?: boolean }
-const props = withDefaults(defineProps<Props>(), { isDark: false })
+const props = defineProps({ isDark: { type: Boolean, default: false } })
 
 const lightThemeColors = [
   { key: 'primary',         label: 'primary',         hex: '#4CAF6E' },

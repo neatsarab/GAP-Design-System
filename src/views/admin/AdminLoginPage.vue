@@ -110,7 +110,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useThemeStore } from "@/stores/theme.store";
@@ -128,7 +128,7 @@ const error = ref("");
 const formRef = ref();
 
 const rules = {
-  required: (v: string) => !!v || "กรุณากรอกข้อมูล",
+  required: (v) => !!v || "กรุณากรอกข้อมูล",
 };
 
 async function doLogin() {

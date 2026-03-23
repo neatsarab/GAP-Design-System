@@ -26,24 +26,18 @@
   </div>
 </template>
 
-<script setup lang="ts">
-interface Props {
-  icon?: string
-  iconColor?: string
-  title?: string
-  message?: string
-  actionLabel?: string
-  actionColor?: string
-}
+<script setup>
 
-withDefaults(defineProps<Props>(), {
-  icon: 'fas fa-inbox',
-  iconColor: 'grey-lighten-1',
-  title: 'ไม่พบข้อมูล',
-  actionColor: 'primary',
+defineProps({
+  icon: { type: String, default: 'fas fa-inbox' },
+  iconColor: { type: String, default: 'grey-lighten-1' },
+  title: { type: String, default: 'ไม่พบข้อมูล' },
+  message: String,
+  actionLabel: String,
+  actionColor: { type: String, default: 'primary' },
 })
 
-defineEmits<{ action: [] }>()
+defineEmits(['action'])
 </script>
 
 <style scoped>

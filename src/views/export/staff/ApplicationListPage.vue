@@ -97,7 +97,7 @@
         rounded="xl"
         hover
         @click:row="
-          (_event: unknown, { item }: any) =>
+          (_event, { item }) =>
             router.push(`/export/staff/applications/${item.id}`)
         "
       >
@@ -126,7 +126,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, reactive, computed } from "vue";
 import { useRouter } from "vue-router";
 
@@ -136,8 +136,8 @@ const activeTab = ref("all");
 const filters = reactive({
   dateFrom: "",
   dateTo: "",
-  type: null as string | null,
-  status: null as string | null,
+  type: null,
+  status: null,
 });
 
 const typeOptions = [
@@ -161,7 +161,7 @@ const headers = [
   { title: "ผู้ยื่นคำขอ", key: "applicant", sortable: true },
   { title: "วันที่ยื่น", key: "submittedDate", sortable: true },
   { title: "สถานะ", key: "status", sortable: false },
-  { title: "", key: "actions", sortable: false, align: "end" as const },
+  { title: "", key: "actions", sortable: false, align: "end" },
 ];
 
 const allItems = [
@@ -240,7 +240,7 @@ const statusTabs = [
   { label: "ได้รับอนุญาต",  value: "approved",  color: "success",      icon: "fas fa-circle-check",  count: 1  },
 ];
 
-function typeLabel(t: string) {
+function typeLabel(t) {
   return (
     {
       kk1: "ก.ก.1",
@@ -251,7 +251,7 @@ function typeLabel(t: string) {
   );
 }
 
-function statusColor(s: string) {
+function statusColor(s) {
   return (
     {
       pending: "warning",
@@ -263,7 +263,7 @@ function statusColor(s: string) {
   );
 }
 
-function statusLabel(s: string) {
+function statusLabel(s) {
   return (
     {
       pending: "รอตรวจสอบ",

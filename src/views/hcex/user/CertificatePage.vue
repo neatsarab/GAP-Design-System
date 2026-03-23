@@ -126,7 +126,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
 
@@ -151,18 +151,8 @@ const certStats = [
   { label: "ทั้งหมด", icon: "fas fa-industry", color: "primary", value: 5 },
 ];
 
-interface Cert {
-  certNo: string;
-  requestNo: string;
-  certType: string;
-  consignee: string;
-  destination: string;
-  issuedAt: string;
-  expiry: string;
-  certStatus: "active" | "expiring" | "expired";
-}
 
-const certs: Cert[] = [
+const certs = [
   {
     certNo: "THHCEX-2568-00008",
     requestNo: "HCEX-2568-00008",
@@ -231,12 +221,12 @@ const headers = [
   { title: "", key: "actions", width: 150, sortable: false },
 ];
 
-function statusColor(s: string) {
+function statusColor(s) {
   return (
     { active: "success", expiring: "primary", expired: "error" }[s] ?? "grey"
   );
 }
-function statusIcon(s: string) {
+function statusIcon(s) {
   return (
     {
       active: "fas fa-circle-check",
@@ -245,7 +235,7 @@ function statusIcon(s: string) {
     }[s] ?? "fas fa-circle"
   );
 }
-function statusLabel(s: string) {
+function statusLabel(s) {
   return (
     { active: "มีผล", expiring: "ใกล้หมดอายุ", expired: "หมดอายุ" }[s] ?? s
   );

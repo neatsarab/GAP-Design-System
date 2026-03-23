@@ -69,7 +69,7 @@
 
     <!-- Table -->
     <v-card rounded="xl" elevation="0" class="data-card">
-      <v-data-table :headers="headers" :items="filteredItems" :search="search" hover @click:row="(_e: unknown, row: any) => openDetail(row.item)">
+      <v-data-table :headers="headers" :items="filteredItems" :search="search" hover @click:row="(_e, row) => openDetail(row.item)">
         <template #item.factoryName="{ item }">
           <span class="text-body-2 font-weight-medium text-doa-staff">{{ item.factoryName }}</span>
         </template>
@@ -122,28 +122,18 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, computed } from "vue";
 
 const search = ref("");
-const filterType = ref<string | null>(null);
+const filterType = ref(null);
 const activeTab = ref("all");
 const detailDialog = ref(false);
 
-interface RegItem {
-  id: string;
-  factoryName: string;
-  factoryType: string;
-  address: string;
-  standards: string[];
-  issueDate: string;
-  expireDate: string;
-  status: "active" | "expiring" | "expired";
-}
 
 const factoryTypeOptions = ["โรงงานแปรรูป", "โรงคัดบรรจุ"];
 
-const allItems: RegItem[] = [
+const allItems = [
   { id: "r1", factoryName: "บ.สยามฟู้ด จก.",     factoryType: "โรงงานแปรรูป", address: "88/1 ต.บางปะกง อ.บางปะกง จ.ฉะเชิงเทรา",        standards: ["มกษ. 9023-2550", "มกษ. 9024-2550"], issueDate: "01/01/2566", expireDate: "01/01/2569", status: "active"   },
   { id: "r2", factoryName: "บ.ไทยโปรเซส จก.",    factoryType: "โรงคัดบรรจุ",  address: "200 ถ.มิตรภาพ อ.เมือง จ.นครราชสีมา",            standards: ["มกษ. 9023-2550"],                    issueDate: "15/03/2565", expireDate: "15/03/2568", status: "expiring" },
   { id: "r3", factoryName: "บ.กรีนฟู้ด จก.",     factoryType: "โรงงานแปรรูป", address: "55 ม.4 ต.สระแก้ว อ.เมือง จ.สระแก้ว",           standards: ["ISO 22000"],                          issueDate: "10/01/2563", expireDate: "10/01/2566", status: "expired"  },
@@ -158,7 +148,7 @@ const stats = computed(() => [
   { label: "หมดอายุ",       icon: "fas fa-circle-xmark", color: "error",     value: countByStatus("expired") },
 ]);
 
-function countByStatus(s: string) {
+function countByStatus(s) {
   return allItems.filter((i) => i.status === s).length;
 }
 
@@ -181,19 +171,19 @@ const headers = [
   { title: "วันที่ออกใบรับรอง",    key: "issueDate",    sortable: true },
   { title: "วันหมดอายุ",           key: "expireDate",   sortable: true },
   { title: "สถานะ",                key: "status",       sortable: false },
-  { title: "",                     key: "actions",      sortable: false, align: "end" as const },
+  { title: "",                     key: "actions",      sortable: false, align: "end" },
 ];
 
-const selected = ref<RegItem | null>(null);
-function openDetail(item: RegItem) { selected.value = item; detailDialog.value = true; }
+const selected = ref(null);
+function openDetail(item) { selected.value = item; detailDialog.value = true; }
 
-function statusColor(s: string) {
+function statusColor(s) {
   return { active: "success", expiring: "warning", expired: "error" }[s] ?? "grey";
 }
-function statusIcon(s: string) {
+function statusIcon(s) {
   return { active: "fas fa-circle-check", expiring: "fas fa-clock", expired: "fas fa-circle-xmark" }[s] ?? "fas fa-circle";
 }
-function statusLabel(s: string) {
+function statusLabel(s) {
   return { active: "มีผล", expiring: "ใกล้หมดอายุ", expired: "หมดอายุ" }[s] ?? s;
 }
 </script>

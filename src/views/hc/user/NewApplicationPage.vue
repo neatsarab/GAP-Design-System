@@ -615,7 +615,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, reactive } from "vue";
 import { useRouter } from "vue-router";
 
@@ -649,7 +649,7 @@ const form = reactive({
   consigneeAddress: "",
   destination: "",
   products: [{ sampleNo: "", name: "", weight: "", gapCode: "" }],
-  documents: {} as Record<string, File[]>,
+  documents: {},
   confirmed: false,
 });
 
@@ -673,13 +673,13 @@ const packingHouseOptions = [
     province: "น่าน",
   },
 ];
-function stepClass(idx: number) {
+function stepClass(idx) {
   if (currentStep.value > idx) return "step-done";
   if (currentStep.value === idx) return "step-active";
   return "step-pending";
 }
 
-function fillPackingHouse(code: string) {
+function fillPackingHouse(code) {
   const ph = packingHouseOptions.find((p) => p.code === code);
   if (ph) {
     form.packingHouseName = ph.name;
@@ -733,12 +733,12 @@ const cropOptions = [
 function addProduct() {
   form.products.push({ sampleNo: "", name: "", weight: "", gapCode: "" });
 }
-function removeProduct(idx: number) {
+function removeProduct(idx) {
   form.products.splice(idx, 1);
 }
 
 const rules = {
-  required: (v: unknown) =>
+  required: (v) =>
     !!v || (Array.isArray(v) && v.length > 0) || "กรุณากรอกข้อมูล",
 };
 

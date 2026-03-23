@@ -193,7 +193,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useThemeStore } from "@/stores/theme.store";
@@ -215,18 +215,16 @@ function doLogout() {
   router.push("/login");
 }
 
-function isNavActive(to: string): boolean {
+function isNavActive(to) {
   return route.path === to || route.path.startsWith(to + '/');
 }
 
 const breadcrumbs = computed(() => [
   { title: "ระบบ EL (เจ้าหน้าที่)", to: "/el/staff" },
-  { title: route.meta.title as string },
+  { title: route.meta.title },
 ]);
 
-type NavItem = { title: string; icon: string; to: string; count?: number }
-type NavGroup = { label: string; divider: boolean; items: NavItem[] }
-const navGroups: NavGroup[] = [
+const navGroups = [
   {
     label: "ภาพรวม",
     divider: true,

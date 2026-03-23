@@ -103,11 +103,11 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, computed } from "vue";
 
 const search = ref("");
-const statusFilter = ref<string | null>(null);
+const statusFilter = ref(null);
 const activeTab = ref("all");
 
 const statusOptions = [
@@ -124,7 +124,7 @@ const headers = [
   { title: "วันที่ขึ้นทะเบียน", key: "registeredDate", sortable: true },
   { title: "วันหมดอายุ", key: "expireDate", sortable: true },
   { title: "สถานะ", key: "status", sortable: false },
-  { title: "", key: "actions", sortable: false, align: "end" as const },
+  { title: "", key: "actions", sortable: false, align: "end" },
 ];
 
 const allItems = [
@@ -155,8 +155,8 @@ const filteredItems = computed(() => {
   return items;
 });
 
-function statusColor(status: string): string {
-  const map: Record<string, string> = {
+function statusColor(status) {
+  const map = {
     active: "success",
     expiring_soon: "warning",
     expired: "error",
@@ -164,8 +164,8 @@ function statusColor(status: string): string {
   return map[status] ?? "grey";
 }
 
-function statusLabel(status: string): string {
-  const map: Record<string, string> = {
+function statusLabel(status) {
+  const map = {
     active: "มีผล",
     expiring_soon: "ใกล้หมดอายุ",
     expired: "หมดอายุ",

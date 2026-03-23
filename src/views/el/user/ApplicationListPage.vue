@@ -109,13 +109,13 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
 const search = ref("");
-const statusFilter = ref<string | null>(null);
+const statusFilter = ref(null);
 const activeTab = ref("all");
 
 function clearFilters() {
@@ -140,7 +140,7 @@ const headers = [
   { title: "ชนิดพืช", key: "cropType", sortable: true },
   { title: "วันที่ยื่น", key: "submittedDate", sortable: true },
   { title: "สถานะ", key: "status", sortable: false },
-  { title: "", key: "actions", sortable: false, align: "end" as const },
+  { title: "", key: "actions", sortable: false, align: "end" },
 ];
 
 const allItems = [
@@ -203,8 +203,8 @@ const filteredItems = computed(() => {
   return items;
 });
 
-function statusColor(status: string): string {
-  const map: Record<string, string> = {
+function statusColor(status) {
+  const map = {
     draft: "grey",
     submitted: "primary",
     under_review: "info",
@@ -216,8 +216,8 @@ function statusColor(status: string): string {
   return map[status] ?? "grey";
 }
 
-function statusLabel(status: string): string {
-  const map: Record<string, string> = {
+function statusLabel(status) {
+  const map = {
     draft: "แบบร่าง",
     submitted: "ยื่นแล้ว",
     under_review: "อยู่ระหว่างตรวจสอบ",

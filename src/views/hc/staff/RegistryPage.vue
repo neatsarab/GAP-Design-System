@@ -188,7 +188,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, computed } from "vue";
 
 const searchRegNo = ref("");
@@ -221,18 +221,8 @@ const stats = [
   },
 ];
 
-interface Cert {
-  certNo: string;
-  requestNo: string;
-  exporter: string;
-  product: string;
-  destination: string;
-  issuedAt: string;
-  expiry: string;
-  certStatus: "active" | "expiring" | "expired";
-}
 
-const allCerts: Cert[] = [
+const allCerts = [
   {
     certNo: "THHC-2568-00041",
     requestNo: "HC-2568-00041",
@@ -358,7 +348,7 @@ const allCerts: Cert[] = [
 const destinations = [...new Set(allCerts.map((c) => c.destination))].sort();
 const productOptions = [...new Set(allCerts.map((c) => c.product))].sort();
 
-function countByStatus(s: string) {
+function countByStatus(s) {
   return allCerts.filter((c) => c.certStatus === s).length;
 }
 
@@ -380,12 +370,12 @@ const headers = [
   { title: "", key: "actions", width: 90, sortable: false },
 ];
 
-function statusColor(s: string) {
+function statusColor(s) {
   return (
     { active: "success", expiring: "warning", expired: "error" }[s] ?? "grey"
   );
 }
-function statusIcon(s: string) {
+function statusIcon(s) {
   return (
     {
       active: "fas fa-circle-check",
@@ -394,7 +384,7 @@ function statusIcon(s: string) {
     }[s] ?? "fas fa-circle"
   );
 }
-function statusLabel(s: string) {
+function statusLabel(s) {
   return (
     { active: "มีผล", expiring: "ใกล้หมดอายุ", expired: "หมดอายุ" }[s] ?? s
   );

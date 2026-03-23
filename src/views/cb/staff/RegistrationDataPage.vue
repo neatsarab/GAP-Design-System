@@ -69,7 +69,7 @@
 
     <!-- Table -->
     <v-card rounded="xl" elevation="0" class="data-card">
-      <v-data-table :headers="headers" :items="filteredItems" :search="search" hover @click:row="(_e: unknown, row: any) => openDetail(row.item)">
+      <v-data-table :headers="headers" :items="filteredItems" :search="search" hover @click:row="(_e, row) => openDetail(row.item)">
         <template #item.cbName="{ item }">
           <span class="text-body-2 font-weight-medium text-cb-staff">{{ item.cbName }}</span>
         </template>
@@ -125,28 +125,18 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, computed } from "vue";
 
 const search = ref("");
-const filterType = ref<string | null>(null);
+const filterType = ref(null);
 const activeTab = ref("all");
 const detailDialog = ref(false);
 
-interface CertRecord {
-  id: string;
-  cbName: string;
-  certType: string;
-  issueDate: string;
-  expireDate: string;
-  status: "active" | "expiring" | "expired";
-  countries?: string[];
-  cropType?: string;
-}
 
 const certTypeOptions = ["Certification Body"];
 
-const allItems: CertRecord[] = [
+const allItems = [
   { id: "c1", cbName: "บ.ไทยเซอร์ติฟาย จก.",   certType: "Certification Body", issueDate: "01/01/2566", expireDate: "01/01/2569", status: "active",   countries: ["ไทย", "จีน"],   cropType: "ทุเรียน" },
   { id: "c2", cbName: "บ.สยามแล็บ จก.",         certType: "Certification Body", issueDate: "15/03/2566", expireDate: "15/03/2569", status: "active",   countries: ["ญี่ปุ่น"],      cropType: "มังคุด" },
   { id: "c3", cbName: "บ.กรีนเซิร์ต จก.",      certType: "Certification Body", issueDate: "01/06/2565", expireDate: "01/06/2568", status: "expiring", countries: ["เกาหลีใต้"],    cropType: "ลำไย" },
@@ -161,7 +151,7 @@ const stats = computed(() => [
   { label: "หมดอายุ",       icon: "fas fa-circle-xmark", color: "error",    value: countByStatus("expired") },
 ]);
 
-function countByStatus(s: string) {
+function countByStatus(s) {
   return allItems.filter((i) => i.status === s).length;
 }
 
@@ -184,19 +174,19 @@ const headers = [
   { title: "วันที่ออกใบรับรอง", key: "issueDate",  sortable: true },
   { title: "วันหมดอายุ",        key: "expireDate", sortable: true },
   { title: "สถานะ",             key: "status",     sortable: false },
-  { title: "",                  key: "actions",    sortable: false, align: "end" as const },
+  { title: "",                  key: "actions",    sortable: false, align: "end" },
 ];
 
-const selected = ref<CertRecord | null>(null);
-function openDetail(item: CertRecord) { selected.value = item; detailDialog.value = true; }
+const selected = ref(null);
+function openDetail(item) { selected.value = item; detailDialog.value = true; }
 
-function statusColor(s: string) {
+function statusColor(s) {
   return { active: "success", expiring: "warning", expired: "error" }[s] ?? "grey";
 }
-function statusIcon(s: string) {
+function statusIcon(s) {
   return { active: "fas fa-circle-check", expiring: "fas fa-clock", expired: "fas fa-circle-xmark" }[s] ?? "fas fa-circle";
 }
-function statusLabel(s: string) {
+function statusLabel(s) {
   return { active: "มีผล", expiring: "ใกล้หมดอายุ", expired: "หมดอายุ" }[s] ?? s;
 }
 </script>

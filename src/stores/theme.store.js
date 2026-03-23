@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 
 export const useThemeStore = defineStore('theme', () => {
-  const isDark = ref<boolean>(
+  const isDark = ref(
     localStorage.getItem('gap-theme') === 'dark'
   )
 
@@ -15,7 +15,7 @@ export const useThemeStore = defineStore('theme', () => {
     localStorage.setItem('gap-theme', isDark.value ? 'dark' : 'light')
   }
 
-  function setDark(value: boolean) {
+  function setDark(value) {
     isDark.value = value
     localStorage.setItem('gap-theme', value ? 'dark' : 'light')
   }

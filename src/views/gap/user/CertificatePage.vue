@@ -172,7 +172,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
 
@@ -180,18 +180,8 @@ const router = useRouter();
 const filterTab = ref("all");
 const search = ref("");
 
-interface Cert {
-  certNo: string;
-  requestNo: string;
-  plotName: string;
-  cropType: string;
-  plotProvince: string;
-  issuedAt: string;
-  expiry: string;
-  certStatus: "active" | "expiring" | "expired";
-}
 
-const certs: Cert[] = [
+const certs = [
   {
     certNo: "THGAP-2568-00142",
     requestNo: "GAP-2568-00142",
@@ -244,7 +234,7 @@ const certs: Cert[] = [
   },
 ];
 
-function countByStatus(status: string) {
+function countByStatus(status) {
   return certs.filter((c) => c.certStatus === status).length;
 }
 
@@ -291,12 +281,12 @@ const headers = [
   { title: "", key: "actions", width: 150, sortable: false },
 ];
 
-function statusColor(s: string) {
+function statusColor(s) {
   return (
     { active: "success", expiring: "warning", expired: "error" }[s] ?? "grey"
   );
 }
-function statusIcon(s: string) {
+function statusIcon(s) {
   return (
     {
       active: "fas fa-circle-check",
@@ -305,7 +295,7 @@ function statusIcon(s: string) {
     }[s] ?? "fas fa-circle"
   );
 }
-function statusLabel(s: string) {
+function statusLabel(s) {
   return (
     { active: "มีผล", expiring: "ใกล้หมดอายุ", expired: "หมดอายุ" }[s] ?? s
   );

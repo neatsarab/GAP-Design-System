@@ -109,32 +109,24 @@
         <v-card-actions class="px-5 pb-5">
           <v-spacer />
           <v-btn variant="tonal" color="grey" rounded="lg" @click="viewDialog = false">ปิด</v-btn>
-          <v-btn color="cb-user" rounded="lg" prepend-icon="fas fa-download" @click="downloadCert(selectedCert!)">ดาวน์โหลด</v-btn>
+          <v-btn color="cb-user" rounded="lg" prepend-icon="fas fa-download" @click="downloadCert(selectedCert)">ดาวน์โหลด</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, computed } from "vue";
 
 const search = ref("");
-const filterCertType = ref<string | null>(null);
+const filterCertType = ref(null);
 const activeTab = ref("all");
 
-interface CertItem {
-  id: string;
-  cbName: string;
-  certType: string;
-  issueDate: string;
-  expireDate: string;
-  status: "active" | "expiring" | "expired";
-}
 
 const certTypeOptions = ["CB"];
 
-const allItems: CertItem[] = [
+const allItems = [
   { id: "cert-001", cbName: "บ.ไทยเซอร์ติฟาย จก.", certType: "CB", issueDate: "18/02/2566", expireDate: "18/02/2569", status: "active"   },
   { id: "cert-002", cbName: "บ.สยามแล็บ จก.",       certType: "CB", issueDate: "01/06/2564", expireDate: "01/06/2567", status: "expired"  },
 ];
@@ -146,7 +138,7 @@ const stats = computed(() => [
   { label: "หมดอายุ",       icon: "fas fa-circle-xmark", color: "error",   value: countByStatus("expired") },
 ]);
 
-function countByStatus(s: string) {
+function countByStatus(s) {
   return allItems.filter((i) => i.status === s).length;
 }
 
@@ -169,21 +161,21 @@ const headers = [
   { title: "วันที่ออก",        key: "issueDate",  sortable: true },
   { title: "วันหมดอายุ",       key: "expireDate", sortable: true },
   { title: "สถานะ",            key: "status",     sortable: false },
-  { title: "",                 key: "actions",    sortable: false, align: "end" as const },
+  { title: "",                 key: "actions",    sortable: false, align: "end" },
 ];
 
 const viewDialog = ref(false);
-const selectedCert = ref<CertItem | null>(null);
-function viewCert(item: CertItem) { selectedCert.value = item; viewDialog.value = true; }
-function downloadCert(_item: CertItem | null) { /* mock */ }
+const selectedCert = ref(null);
+function viewCert(item) { selectedCert.value = item; viewDialog.value = true; }
+function downloadCert(_item) { /* mock */ }
 
-function statusColor(s: string) {
+function statusColor(s) {
   return { active: "success", expiring: "warning", expired: "error" }[s] ?? "grey";
 }
-function statusIcon(s: string) {
+function statusIcon(s) {
   return { active: "fas fa-circle-check", expiring: "fas fa-clock", expired: "fas fa-circle-xmark" }[s] ?? "fas fa-circle";
 }
-function statusLabel(s: string) {
+function statusLabel(s) {
   return { active: "มีผล", expiring: "ใกล้หมดอายุ", expired: "หมดอายุ" }[s] ?? s;
 }
 </script>

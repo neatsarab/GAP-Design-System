@@ -934,7 +934,7 @@ const router = createRouter({
 
 // Update page title from route meta
 router.afterEach((to) => {
-  const title = to.meta?.title as string | undefined;
+  const title = to.meta?.title;
   document.title = title ? `${title} · GAP พืช` : "ระบบรับรองแหล่งผลิต GAP พืช";
 });
 

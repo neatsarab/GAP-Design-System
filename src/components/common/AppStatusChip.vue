@@ -47,26 +47,14 @@
   </v-chip>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { computed } from 'vue'
 import { useTheme } from 'vuetify'
 import { getStatusDef } from '@/config/gap-status.config'
-import type { GapStatus } from '@/types/gap-status.types'
 
 // ── Status Config (UX spec — ใช้ Vuetify named colors) ───────────────────────
 
-type ChipVariant = 'flat' | 'tonal' | 'outlined' | 'text' | 'elevated' | 'plain'
-
-interface StatusConfig {
-  color:       string
-  colorDark?:  string   // override สำหรับ dark mode
-  icon:        string
-  label:       string
-  variant:     ChipVariant
-  variantDark?: ChipVariant
-}
-
-const STATUS_CONFIG: Record<string, StatusConfig> = {
+const STATUS_CONFIG = {
   //                                        ── Light ────────────────────  ── Dark override ───────────
   DRAFT:                { color: 'blue-grey-darken-1', colorDark: 'blue-grey-lighten-2', icon: 'fas fa-file-pen',                  label: 'ร่าง',               variant: 'tonal', variantDark: 'flat' },
   SUBMITTED:            { color: 'blue-darken-2',      colorDark: 'blue-lighten-2',      icon: 'fas fa-paper-plane',               label: 'ยื่นคำขอแล้ว',        variant: 'tonal', variantDark: 'flat' },
@@ -80,7 +68,7 @@ const STATUS_CONFIG: Record<string, StatusConfig> = {
   CERT_EXPIRED:         { color: 'amber-darken-3',     colorDark: 'amber-lighten-1',     icon: 'fas fa-clock-rotate-left',         label: 'ใบรับรองหมดอายุ',     variant: 'tonal', variantDark: 'flat' },
 }
 
-const FALLBACK_CONFIG: StatusConfig = {
+const FALLBACK_CONFIG = {
   color:   'grey',
   icon:    'fas fa-circle-question',
   label:   'ไม่ทราบสถานะ',
@@ -92,26 +80,21 @@ const isDark = computed(() => currentTheme.value.dark)
 
 // ── Props ────────────────────────────────────────────────────────────────────
 
-const props = withDefaults(defineProps<{
+const props = defineProps({
   /** Status code จาก API หรือ store */
-  status: GapStatus | string
+  status: String,
 
   /** Vuetify chip size */
-  size?: 'x-small' | 'small' | 'default' | 'large'
+  size: { type: String, default: 'small' },
 
   /** แสดง icon หน้า label หรือไม่ */
-  showIcon?: boolean
+  showIcon: { type: Boolean, default: true },
 
   /** แสดง label text หรือไม่ */
-  showLabel?: boolean
+  showLabel: { type: Boolean, default: true },
 
   /** แสดง tooltip คำอธิบายสถานะเมื่อ hover */
-  showTooltip?: boolean
-}>(), {
-  size:        'small',
-  showIcon:    true,
-  showLabel:   true,
-  showTooltip: false,
+  showTooltip: { type: Boolean, default: false },
 })
 
 // ── Computed ─────────────────────────────────────────────────────────────────

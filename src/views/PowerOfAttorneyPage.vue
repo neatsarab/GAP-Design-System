@@ -636,7 +636,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, reactive, computed } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { useThemeStore } from "@/stores/theme.store";
@@ -645,35 +645,8 @@ const router = useRouter();
 const route = useRoute();
 const themeStore = useThemeStore();
 
-interface Company {
-  id: string;
-  nameTh: string;
-  nameEn: string;
-}
-interface Delegate {
-  id: number;
-  companyId: string;
-  name: string;
-  idCard: string;
-  email: string;
-  expiry: string;
-  status: "active" | "inactive";
-  systems: string[];
-}
-interface PoaRequest {
-  id: number;
-  companyId: string;
-  name: string;
-  idCard: string;
-  email: string;
-  requestedExpiry: string;
-  requestedSystems: string[];
-  requestedAt: string;
-  status: "pending" | "approved" | "rejected";
-  rejectReason?: string;
-}
 
-const companies: Company[] = [
+const companies = [
   {
     id: "co1",
     nameTh: "บริษัท ไทยเกษตรอินเตอร์ จำกัด",
@@ -704,14 +677,14 @@ const availableSystems = [
 
 const activeTab = ref("grant");
 const selectedCompany = computed(
-  () => (route.query.companyId as string) || "co1",
+  () => (route.query.companyId) || "co1",
 );
 const currentCompany = computed(
   () => companies.find((c) => c.id === selectedCompany.value) ?? companies[0],
 );
 
 // ── Delegates (Tab 1) ──
-const delegates = ref<Delegate[]>([
+const delegates = ref([
   {
     id: 1,
     companyId: "co1",
@@ -750,7 +723,7 @@ const filteredDelegates = computed(() =>
 );
 
 // ── POA Requests (Tab 2) ──
-const poaRequests = ref<PoaRequest[]>([
+const poaRequests = ref([
   {
     id: 1,
     companyId: "co1",
@@ -814,7 +787,7 @@ const filteredRequests = computed(() =>
 
 // table filter state
 const requestSearch = ref("");
-const requestStatusFilter = ref<"all" | "pending" | "approved" | "rejected">(
+const requestStatusFilter = ref(
   "all",
 );
 
@@ -838,7 +811,7 @@ const statusFilters = [
     color: "error",
     icon: "fas fa-circle-xmark",
   },
-] as const;
+];
 
 const requestHeaders = [
   { title: "ผู้ขอรับมอบอำนาจ", key: "name", sortable: true, width: "260px" },
@@ -860,7 +833,7 @@ const tableRequests = computed(() => {
   return base.filter((r) => r.status === requestStatusFilter.value);
 });
 
-function countByStatus(status: string) {
+function countByStatus(status) {
   const base = filteredRequests.value;
   if (status === "all") return base.length;
   return base.filter((r) => r.status === status).length;
@@ -868,14 +841,14 @@ function countByStatus(status: string) {
 
 // ── Form (Tab 1) ──
 const formDialog = ref(false);
-const editingItem = ref<Delegate | null>(null);
+const editingItem = ref(null);
 const form = reactive({
   name: "",
   idCard: "",
   email: "",
   expiry: "",
-  status: "active" as "active" | "inactive",
-  systems: [] as string[],
+  status: "active",
+  systems: [],
 });
 
 function openAdd() {
@@ -889,7 +862,7 @@ function openAdd() {
   formDialog.value = true;
 }
 
-function openEdit(item: Delegate) {
+function openEdit(item) {
   editingItem.value = item;
   form.name = item.name;
   form.idCard = item.idCard;
@@ -903,7 +876,7 @@ function openEdit(item: Delegate) {
 function saveForm() {
   if (editingItem.value) {
     const idx = delegates.value.findIndex(
-      (d) => d.id === editingItem.value!.id,
+      (d) => d.id === editingItem.value.id,
     );
     if (idx !== -1) {
       delegates.value[idx] = {
@@ -933,8 +906,8 @@ function saveForm() {
 
 // ── Delete (Tab 1) ──
 const deleteDialog = ref(false);
-const deletingItem = ref<Delegate | null>(null);
-function openDelete(item: Delegate) {
+const deletingItem = ref(null);
+function openDelete(item) {
   deletingItem.value = item;
   deleteDialog.value = true;
 }
@@ -948,14 +921,14 @@ function confirmDelete() {
 // ── Approve / Reject (Tab 2) ──
 const approveDialog = ref(false);
 const rejectDialog = ref(false);
-const actionRequest = ref<PoaRequest | null>(null);
+const actionRequest = ref(null);
 const rejectReason = ref("");
 
-function openApprove(req: PoaRequest) {
+function openApprove(req) {
   actionRequest.value = req;
   approveDialog.value = true;
 }
-function openReject(req: PoaRequest) {
+function openReject(req) {
   actionRequest.value = req;
   rejectReason.value = "";
   rejectDialog.value = true;
@@ -981,7 +954,7 @@ function confirmReject() {
 }
 
 // ── Helpers ──
-function initials(name: string) {
+function initials(name) {
   const parts = name.replace(/^(นาย|นาง|นางสาว)\s*/, "").split(" ");
   return parts
     .map((p) => p[0])
@@ -989,7 +962,7 @@ function initials(name: string) {
     .join("");
 }
 
-function isExpiringSoon(expiry: string) {
+function isExpiringSoon(expiry) {
   const diff = new Date(expiry).getTime() - Date.now();
   return diff > 0 && diff < 30 * 24 * 60 * 60 * 1000;
 }

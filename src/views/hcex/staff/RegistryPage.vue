@@ -160,7 +160,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, computed } from "vue";
 
 const activeTab = ref("exporters");
@@ -169,28 +169,9 @@ const exporterTabFilter = ref("all");
 const factorySearch = ref("");
 const factoryTabFilter = ref("all");
 
-interface Exporter {
-  id: string;
-  regNo: string;
-  companyName: string;
-  taxId: string;
-  registeredDate: string;
-  expireDate: string;
-  certStatus: "active" | "expiring" | "expired";
-}
 
-interface Factory {
-  id: string;
-  regNo: string;
-  factoryName: string;
-  location: string;
-  productType: string;
-  registeredDate: string;
-  expireDate: string;
-  certStatus: "active" | "expiring" | "expired";
-}
 
-const exporters: Exporter[] = [
+const exporters = [
   { id: "exp-001", regNo: "EXP-2568-00001", companyName: "บริษัท ไทยฟู้ดโปรเซส จำกัด",    taxId: "0105560012345", registeredDate: "01/01/2568", expireDate: "01/01/2571", certStatus: "active"   },
   { id: "exp-002", regNo: "EXP-2568-00002", companyName: "บริษัท เกษตรแปรรูปไทย จำกัด",   taxId: "0105561023456", registeredDate: "15/02/2568", expireDate: "15/02/2571", certStatus: "active"   },
   { id: "exp-003", regNo: "EXP-2568-00003", companyName: "ห้างหุ้นส่วน สินทวีผลผลิต",     taxId: "0993562034567", registeredDate: "10/06/2567", expireDate: "01/04/2568", certStatus: "expiring" },
@@ -198,7 +179,7 @@ const exporters: Exporter[] = [
   { id: "exp-005", regNo: "EXP-2567-00098", companyName: "บริษัท สยามผลผลิตพืช จำกัด",    taxId: "0105554056789", registeredDate: "01/01/2565", expireDate: "01/01/2568", certStatus: "expired"  },
 ];
 
-const factories: Factory[] = [
+const factories = [
   { id: "fac-001", regNo: "FAC-2568-00001", factoryName: "โรงงานแปรรูปอาหาร ไทยฟู้ดโปรเซส สาขา 1", location: "นิคมอุตสาหกรรมอมตะซิตี้ ชลบุรี",   productType: "อาหารกระป๋อง/อาหารแช่แข็ง", registeredDate: "01/01/2568", expireDate: "01/01/2571", certStatus: "active"   },
   { id: "fac-002", regNo: "FAC-2568-00002", factoryName: "โรงงานแปรรูปผลไม้ เกษตรแปรรูปไทย",       location: "นิคมอุตสาหกรรมบ้านโพธิ์ ฉะเชิงเทรา", productType: "ผลไม้แปรรูป/น้ำผลไม้",        registeredDate: "15/02/2568", expireDate: "15/02/2571", certStatus: "active"   },
   { id: "fac-003", regNo: "FAC-2568-00003", factoryName: "โรงงานผักอบแห้ง สินทวีผลผลิต",           location: "ต.หนองจ๊อม อ.สันทราย เชียงใหม่",    productType: "ผักอบแห้ง/สมุนไพรแห้ง",       registeredDate: "10/06/2567", expireDate: "01/04/2568", certStatus: "expiring" },
@@ -212,8 +193,8 @@ const stats = computed(() => [
   { label: "หมดอายุ",      icon: "fas fa-circle-xmark",   color: "error",      value: countExporterByStatus("expired") + countFactoryByStatus("expired") },
 ]);
 
-function countExporterByStatus(s: string) { return exporters.filter((i) => i.certStatus === s).length; }
-function countFactoryByStatus(s: string) { return factories.filter((i) => i.certStatus === s).length; }
+function countExporterByStatus(s) { return exporters.filter((i) => i.certStatus === s).length; }
+function countFactoryByStatus(s) { return factories.filter((i) => i.certStatus === s).length; }
 
 const filteredExporters = computed(() => {
   let items = exporters;
@@ -255,13 +236,13 @@ const factoryHeaders = [
   { title: "",                 key: "actions",        width: 150, sortable: false },
 ];
 
-function statusColor(s: string) {
+function statusColor(s) {
   return { active: "success", expiring: "warning", expired: "error" }[s] ?? "grey";
 }
-function statusIcon(s: string) {
+function statusIcon(s) {
   return { active: "fas fa-circle-check", expiring: "fas fa-clock", expired: "fas fa-circle-xmark" }[s] ?? "fas fa-circle";
 }
-function statusLabel(s: string) {
+function statusLabel(s) {
   return { active: "มีผล", expiring: "ใกล้หมดอายุ", expired: "หมดอายุ" }[s] ?? s;
 }
 </script>

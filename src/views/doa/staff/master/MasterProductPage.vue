@@ -156,22 +156,13 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, reactive, computed } from "vue";
 
-interface Product {
-  id: number;
-  code: string;
-  nameTh: string;
-  nameEn: string;
-  type: string;
-  unit: string;
-  status: "active" | "inactive";
-}
 
 const search = ref("");
-const filterType = ref<string | null>(null);
-const filterStatus = ref<string | null>(null);
+const filterType = ref(null);
+const filterStatus = ref(null);
 
 const typeOptions = [
   { label: "พืชผัก", value: "vegetable" },
@@ -194,10 +185,10 @@ const headers = [
   { title: "ประเภท", key: "type", sortable: true },
   { title: "หน่วย", key: "unit", sortable: false },
   { title: "สถานะ", key: "status", sortable: false },
-  { title: "", key: "actions", sortable: false, align: "end" as const },
+  { title: "", key: "actions", sortable: false, align: "end" },
 ];
 
-const items = ref<Product[]>([
+const items = ref([
   { id: 1, code: "PRD-001", nameTh: "มะม่วง", nameEn: "Mango", type: "fruit", unit: "กก.", status: "active" },
   { id: 2, code: "PRD-002", nameTh: "กล้วยหอม", nameEn: "Banana", type: "fruit", unit: "กก.", status: "active" },
   { id: 3, code: "PRD-003", nameTh: "ข้าวโพดฝักอ่อน", nameEn: "Baby Corn", type: "vegetable", unit: "กก.", status: "active" },
@@ -214,13 +205,13 @@ const filteredItems = computed(() => {
   return result;
 });
 
-function typeLabel(t: string) {
+function typeLabel(t) {
   return typeOptions.find((o) => o.value === t)?.label ?? t;
 }
 
 // Form
 const formDialog = ref(false);
-const editingItem = ref<Product | null>(null);
+const editingItem = ref(null);
 const form = reactive({ code: "", nameTh: "", nameEn: "", type: "", unit: "", isActive: true });
 
 function openAdd() {
@@ -229,7 +220,7 @@ function openAdd() {
   formDialog.value = true;
 }
 
-function openEdit(item: Product) {
+function openEdit(item) {
   editingItem.value = item;
   form.code = item.code; form.nameTh = item.nameTh; form.nameEn = item.nameEn;
   form.type = item.type; form.unit = item.unit; form.isActive = item.status === "active";
@@ -238,7 +229,7 @@ function openEdit(item: Product) {
 
 function saveForm() {
   if (editingItem.value) {
-    const idx = items.value.findIndex((i) => i.id === editingItem.value!.id);
+    const idx = items.value.findIndex((i) => i.id === editingItem.value.id);
     if (idx !== -1) {
       items.value[idx] = { ...editingItem.value, code: form.code, nameTh: form.nameTh, nameEn: form.nameEn, type: form.type, unit: form.unit, status: form.isActive ? "active" : "inactive" };
     }
@@ -250,9 +241,9 @@ function saveForm() {
 
 // Delete
 const deleteDialog = ref(false);
-const deletingItem = ref<Product | null>(null);
+const deletingItem = ref(null);
 
-function openDelete(item: Product) {
+function openDelete(item) {
   deletingItem.value = item;
   deleteDialog.value = true;
 }

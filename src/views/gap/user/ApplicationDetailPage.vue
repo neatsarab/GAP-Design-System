@@ -190,14 +190,11 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { computed } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import AppStatusChip from "@/components/common/AppStatusChip.vue";
-import AppTimeline, {
-  type TimelineItem,
-} from "@/components/common/AppTimeline.vue";
-import type { GapStatus } from "@/types/gap-status.types";
+import AppTimeline from "@/components/common/AppTimeline.vue";
 
 const router = useRouter();
 const route = useRoute();
@@ -210,7 +207,7 @@ const application = computed(() => ({
   province: "นครราชสีมา",
   area: "15 ไร่",
   appType: "รายเดี่ยว",
-  status: "DOC_REVIEW" as GapStatus,
+  status: "DOC_REVIEW",
   submittedDate: "1 มี.ค. 67",
   updatedDate: "3 มี.ค. 67",
 }));
@@ -221,7 +218,7 @@ const documents = [
   { name: "แผนที่แปลงปลูก.jpg", icon: "fas fa-image", size: "3.8 MB" },
 ];
 
-const timelineItems: TimelineItem[] = [
+const timelineItems = [
   {
     id: "1",
     title: "ยื่นคำขอ",

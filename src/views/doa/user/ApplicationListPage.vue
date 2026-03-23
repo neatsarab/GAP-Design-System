@@ -113,7 +113,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { reactive, computed } from "vue";
 import { useRouter } from "vue-router";
 
@@ -122,8 +122,8 @@ const router = useRouter();
 const filters = reactive({
   dateFrom: "",
   dateTo: "",
-  type: null as string | null,
-  certType: null as string | null,
+  type: null,
+  certType: null,
 });
 
 const typeOptions = [
@@ -144,7 +144,7 @@ const headers = [
   { title: "ประเภทใบรับรอง", key: "certType", sortable: false },
   { title: "วันที่ยื่น", key: "submittedDate", sortable: true },
   { title: "สถานะ", key: "status", sortable: false },
-  { title: "", key: "actions", sortable: false, align: "end" as const },
+  { title: "", key: "actions", sortable: false, align: "end" },
 ];
 
 const allItems = [
@@ -189,7 +189,7 @@ function clearFilters() {
   filters.certType = null;
 }
 
-function typeLabel(t: string) {
+function typeLabel(t) {
   return (
     {
       register: "ขึ้นทะเบียน / ต่ออายุ",
@@ -198,7 +198,7 @@ function typeLabel(t: string) {
     }[t] ?? t
   );
 }
-function statusColor(s: string) {
+function statusColor(s) {
   return (
     {
       pending: "warning",
@@ -208,7 +208,7 @@ function statusColor(s: string) {
     }[s] ?? "grey"
   );
 }
-function statusLabel(s: string) {
+function statusLabel(s) {
   return (
     {
       pending: "รอพิจารณา",

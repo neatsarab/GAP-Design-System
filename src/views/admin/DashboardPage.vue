@@ -126,7 +126,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { useRouter } from "vue-router";
 
 const router = useRouter();
@@ -162,10 +162,10 @@ const storages = [
   { type: "File Storage", used: "80 GB", available: "220 GB", total: "300 GB", percent: 27 },
 ];
 
-function statusColor(s: string) {
+function statusColor(s) {
   return s === "Running" ? "success" : s === "Error" ? "error" : s === "Maintenance" ? "warning" : "default";
 }
-function statusIcon(s: string) {
+function statusIcon(s) {
   return s === "Running" ? "fas fa-circle-check" : s === "Error" ? "fas fa-circle-xmark" : s === "Maintenance" ? "fas fa-triangle-exclamation" : "fas fa-circle-minus";
 }
 </script>

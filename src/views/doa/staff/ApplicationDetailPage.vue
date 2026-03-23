@@ -360,7 +360,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, reactive, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
@@ -378,14 +378,14 @@ const steps = [
   { value: 3, title: "ลงนาม" },
 ];
 
-const pageTitles: Record<number, string> = {
+const pageTitles = {
   1: "ตรวจสอบคำขอ DOA",
   2: "พิจารณาทะเบียน DOA",
   3: "ลงนาม DOA",
 };
 const pageTitle = computed(() => pageTitles[currentStep.value] ?? "คำขอ DOA");
 
-const backRoutes: Record<number, string> = {
+const backRoutes = {
   1: "/doa/staff/applications",
   2: "/doa/staff/review",
   3: "/doa/staff/signing",
@@ -394,11 +394,11 @@ function goBack() {
   router.push(backRoutes[currentStep.value] ?? "/doa/staff/applications");
 }
 
-const successMessages: Record<number, string> = {
+const successMessages = {
   2: "บันทึกผลการพิจารณาและส่งต่อให้เจ้าหน้าที่ลงนามเรียบร้อยแล้ว",
   3: "ลงนามอนุมัติคำขอเรียบร้อยแล้ว",
 };
-const successBackLabels: Record<number, string> = {
+const successBackLabels = {
   2: "กลับรายการพิจารณา",
   3: "กลับรายการลงนาม",
 };
@@ -410,11 +410,11 @@ function goBackFromSuccess() {
   router.push(backRoutes[currentStep.value] ?? "/doa/staff/applications");
 }
 
-const review = reactive({ result: "approved" as "approved" | "improve" | "rejected", remark: "", deadline: "" });
-const sign = reactive({ decision: "approved" as "approved" | "rejected", signerName: "", signDate: "", remark: "" });
+const review = reactive({ result: "approved", remark: "", deadline: "" });
+const sign = reactive({ decision: "approved", signerName: "", signDate: "", remark: "" });
 
 // Mock review result shown in step 3 (would come from API in production)
-const mockReviewResult = { result: "approved" as "approved" | "improve" | "rejected", remark: "เอกสารครบถ้วน ขอบข่ายมาตรฐานถูกต้อง" };
+const mockReviewResult = { result: "approved", remark: "เอกสารครบถ้วน ขอบข่ายมาตรฐานถูกต้อง" };
 
 const standards = [
   { standard: "มกษ. 9023-2550 (GMP)", certBody: "บ.ไทยเซอร์ติฟาย จก.", certNo: "CB-0023-2566" },

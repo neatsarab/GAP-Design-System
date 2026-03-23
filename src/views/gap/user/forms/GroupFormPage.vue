@@ -835,7 +835,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 
@@ -852,7 +852,7 @@ const steps = [
   { value: 4, title: "ตรวจสอบ & ยื่น" },
 ];
 
-function stepClass(v: number) {
+function stepClass(v) {
   if (currentStep.value > v) return "step-done";
   if (currentStep.value === v) return "step-active";
   return "step-pending";
@@ -860,16 +860,8 @@ function stepClass(v: number) {
 
 function saveDraft() { draftSnackbar.value = true; }
 
-interface Member {
-  prefix: string;
-  firstName: string;
-  lastName: string;
-  idCard: string;
-  crops: string[];
-  area: number;
-}
 
-const members = ref<Member[]>([]);
+const members = ref([]);
 function addMember() {
   members.value.push({
     prefix: "นาย",
@@ -884,7 +876,7 @@ function addMember() {
 const form = ref({
   groupName: "",
   groupRegNo: "",
-  groupType: null as string | null,
+  groupType: null,
   memberCount: 2,
   repPrefix: "นาย",
   repFirstName: "",
@@ -894,24 +886,24 @@ const form = ref({
   repEmail: "",
   address: "",
   postalCode: "",
-  province: null as string | null,
-  district: null as string | null,
-  subDistrict: null as string | null,
-  cropTypes: [] as string[],
-  inspector: null as string | null,
+  province: null,
+  district: null,
+  subDistrict: null,
+  cropTypes: [],
+  inspector: null,
   totalArea: 0,
   water: true,
   record: false,
   chemical: false,
-  docs: [] as File[],
-  groupDocs: [] as File[],
-  photos: [] as File[],
+  docs: [],
+  groupDocs: [],
+  photos: [],
 });
 
 const rules = {
-  required: (v: string) => !!v || "กรุณากรอกข้อมูล",
-  idCard: (v: string) => /^\d{13}$/.test(v) || "เลขบัตรประชาชน 13 หลัก",
-  phone: (v: string) => /^0\d{8,9}$/.test(v) || "รูปแบบเบอร์โทรไม่ถูกต้อง",
+  required: (v) => !!v || "กรุณากรอกข้อมูล",
+  idCard: (v) => /^\d{13}$/.test(v) || "เลขบัตรประชาชน 13 หลัก",
+  phone: (v) => /^0\d{8,9}$/.test(v) || "รูปแบบเบอร์โทรไม่ถูกต้อง",
 };
 
 const provinces = [

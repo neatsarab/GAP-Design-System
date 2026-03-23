@@ -148,7 +148,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { reactive, computed } from "vue";
 import { useRouter } from "vue-router";
 
@@ -157,8 +157,8 @@ const router = useRouter();
 const filters = reactive({
   dateFrom: "",
   dateTo: "",
-  type: null as string | null,
-  status: null as string | null,
+  type: null,
+  status: null,
 });
 
 const typeOptions = [
@@ -184,7 +184,7 @@ const headers = [
   { title: "ผู้มอบอำนาจ", key: "principal", sortable: false },
   { title: "วันที่ยื่น", key: "submittedDate", sortable: true },
   { title: "สถานะคำขอ", key: "status", sortable: false },
-  { title: "", key: "actions", sortable: false, align: "end" as const },
+  { title: "", key: "actions", sortable: false, align: "end" },
 ];
 
 const allItems = [
@@ -264,7 +264,7 @@ function clearFilters() {
   filters.status = null;
 }
 
-function typeLabel(t: string) {
+function typeLabel(t) {
   return (
     {
       kk1: "ก.ก.1",
@@ -275,7 +275,7 @@ function typeLabel(t: string) {
   );
 }
 
-function statusColor(s: string) {
+function statusColor(s) {
   return (
     {
       pending: "warning",
@@ -287,7 +287,7 @@ function statusColor(s: string) {
   );
 }
 
-function statusLabel(s: string) {
+function statusLabel(s) {
   return (
     {
       pending: "รอตรวจสอบ",

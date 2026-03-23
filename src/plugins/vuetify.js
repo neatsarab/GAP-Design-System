@@ -1,4 +1,4 @@
-import { createVuetify, type IconSet, type IconProps } from "vuetify";
+import { createVuetify } from "vuetify";
 import { h } from "vue";
 import * as components from "vuetify/components";
 import * as directives from "vuetify/directives";
@@ -51,16 +51,7 @@ const light = {
   "el-user": colors.indigo.lighten1,
   "el-staff": colors.lime.darken3,
   "admin": colors.blueGrey.darken3,
-} as const;
-
-// "gap-user": "#4CAF6E", // GAP User  — green (alias of primary)
-// "gap-staff": "#2E7D32", // GAP Staff — deep green
-// "hc-user": "#1565C0", // HC User   — blue darken-3
-// "hc-staff": "#0D47A1", // HC Staff  — dark blue
-// "hcex-staff": "#BF360C", // HCEX Staff — deep orange
-// "el-user": "#6A1B9A", // EL User   — purple
-// "el-staff": "#283593", // EL Staff  — indigo
-// } as const;
+};
 
 /** Dark theme palette tokens (เทาดำ ไม่ใช่สีกรม) */
 const dark = {
@@ -108,37 +99,28 @@ const dark = {
   "el-user": colors.indigo.lighten3,
   "el-staff": colors.lime.lighten3,
   "admin": colors.blueGrey.lighten2,
-} as const;
-
-// "gap-user": "#A5D6A7", // GAP User dark  — green lighten2
-// "gap-staff": "#66BB6A", // GAP Staff dark — green lighten1
-// "hc-user": "#90CAF9", // HC User dark   — blue lighten3
-// "hc-staff": "#82B1FF", // HC Staff dark  — blue accent1
-// "hcex-staff": "#FF8A65", // HCEX Staff dark — deep orange lighten2
-// "el-user": "#CE93D8", // EL User dark   — purple lighten2
-// "el-staff": "#9FA8DA", // EL Staff dark  — indigo lighten2
-// } as const;
+};
 
 // ── Custom Font Awesome iconset for Vuetify ──────────────
-const fa: IconSet = {
-  component: (props: IconProps) => {
+const fa = {
+  component: (props) => {
     const icon = props.icon;
     if (Array.isArray(icon)) {
-      return h(FontAwesomeIcon as any, { icon });
+      return h(FontAwesomeIcon, { icon });
     }
-    const str = (icon as string).trim();
+    const str = String(icon).trim();
     const parts = str.split(/\s+/);
     if (parts.length === 2) {
-      return h(FontAwesomeIcon as any, {
+      return h(FontAwesomeIcon, {
         icon: [parts[0], parts[1].replace("fa-", "")],
       });
     }
-    return h(FontAwesomeIcon as any, { icon: ["fas", str.replace("fa-", "")] });
+    return h(FontAwesomeIcon, { icon: ["fas", str.replace("fa-", "")] });
   },
 };
 
 // ── Vuetify internal icon aliases (FA replacements) ──────
-const faAliases: Record<string, string> = {
+const faAliases = {
   complete: "fas fa-check",
   cancel: "fas fa-circle-xmark",
   close: "fas fa-xmark",

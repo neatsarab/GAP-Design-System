@@ -112,7 +112,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { computed } from "vue";
 import { useRouter } from "vue-router";
 import { useSessionStore } from "@/stores/session.store";
@@ -161,7 +161,7 @@ const applicationTypes = computed(() => [
   },
 ]);
 
-function selectType(value: string) {
+function selectType(value) {
   if (value === "individual")
     router.push("/org/user/applications/new/individual");
   else if (value === "group") router.push("/org/user/applications/new/group");

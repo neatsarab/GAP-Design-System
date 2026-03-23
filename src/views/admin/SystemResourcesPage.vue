@@ -51,7 +51,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 const resources = [
   { label: "CPU Usage", value: "45%", percent: 45, icon: "fas fa-microchip", color: "success", detail: "8 Cores / 16 Threads" },
   { label: "Memory Usage", value: "60%", percent: 60, icon: "fas fa-memory", color: "warning", detail: "19.2 GB / 32 GB" },

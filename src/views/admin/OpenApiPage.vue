@@ -91,12 +91,11 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, reactive } from "vue";
 
-interface ApiItem { id: number; name: string; endpoint: string; method: string; description: string; status: string; active: boolean; }
 
-const items = ref<ApiItem[]>([
+const items = ref([
   { id: 1, name: "Get Factory Data", endpoint: "/api/factory", method: "GET", description: "ดึงข้อมูลโรงงาน", status: "Active", active: true },
   { id: 2, name: "Submit Request", endpoint: "/api/request", method: "POST", description: "ยื่นคำขอ", status: "Active", active: true },
   { id: 3, name: "Update Certificate", endpoint: "/api/certificate", method: "PUT", description: "อัปเดตใบรับรอง", status: "Inactive", active: false },
@@ -110,16 +109,16 @@ const headers = [
   { title: "Method", key: "method", sortable: true },
   { title: "Description", key: "description" },
   { title: "สถานะ", key: "status", sortable: true },
-  { title: "", key: "actions", sortable: false, align: "end" as const },
+  { title: "", key: "actions", sortable: false, align: "end" },
 ];
 
-function methodColor(m: string) {
+function methodColor(m) {
   return m === "GET" ? "success" : m === "POST" ? "info" : m === "PUT" ? "warning" : "error";
 }
 
 // Form
 const formDialog = ref(false);
-const editingItem = ref<ApiItem | null>(null);
+const editingItem = ref(null);
 const form = reactive({ name: "", endpoint: "", method: "GET", description: "", isActive: true });
 
 function openAdd() {
@@ -127,7 +126,7 @@ function openAdd() {
   form.name = ""; form.endpoint = ""; form.method = "GET"; form.description = ""; form.isActive = true;
   formDialog.value = true;
 }
-function openEdit(item: ApiItem) {
+function openEdit(item) {
   editingItem.value = item;
   form.name = item.name; form.endpoint = item.endpoint; form.method = item.method;
   form.description = item.description; form.isActive = item.active;
@@ -136,7 +135,7 @@ function openEdit(item: ApiItem) {
 function saveForm() {
   const status = form.isActive ? "Active" : "Inactive";
   if (editingItem.value) {
-    const idx = items.value.findIndex(i => i.id === editingItem.value!.id);
+    const idx = items.value.findIndex(i => i.id === editingItem.value.id);
     if (idx !== -1) items.value[idx] = { ...editingItem.value, name: form.name, endpoint: form.endpoint, method: form.method, description: form.description, status, active: form.isActive };
   } else {
     items.value.push({ id: nextId++, name: form.name, endpoint: form.endpoint, method: form.method, description: form.description, status, active: form.isActive });
@@ -146,8 +145,8 @@ function saveForm() {
 
 // Delete
 const deleteDialog = ref(false);
-const deletingItem = ref<ApiItem | null>(null);
-function openDelete(item: ApiItem) { deletingItem.value = item; deleteDialog.value = true; }
+const deletingItem = ref(null);
+function openDelete(item) { deletingItem.value = item; deleteDialog.value = true; }
 function confirmDelete() { items.value = items.value.filter(i => i.id !== deletingItem.value?.id); deleteDialog.value = false; }
 </script>
 

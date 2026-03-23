@@ -267,24 +267,15 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
 const activeTab = ref("gmp-haccp");
 
-interface InspectionRecord {
-  id: number;
-  round: number;
-  scheduledDate: string;
-  inspectedDate: string;
-  inspector: string;
-  result: string;
-  remark: string;
-}
 
-const gmpRecords = ref<InspectionRecord[]>([
+const gmpRecords = ref([
   {
     id: 1,
     round: 1,
@@ -296,7 +287,7 @@ const gmpRecords = ref<InspectionRecord[]>([
   },
 ]);
 
-const haccpRecords = ref<InspectionRecord[]>([
+const haccpRecords = ref([
   {
     id: 1,
     round: 1,
@@ -315,10 +306,10 @@ const inspectorOptions = [
 ];
 
 const dialog = ref(false);
-const dialogMode = ref<"add" | "edit">("add");
-const dialogType = ref<"gmp" | "haccp">("gmp");
+const dialogMode = ref("add");
+const dialogType = ref("gmp");
 const dialogIndex = ref(-1);
-const dialogItem = ref<Omit<InspectionRecord, "id">>({
+const dialogItem = ref({
   round: 1,
   scheduledDate: "",
   inspectedDate: "",
@@ -329,7 +320,7 @@ const dialogItem = ref<Omit<InspectionRecord, "id">>({
 
 let idCounter = 100;
 
-function openDialog(type: "gmp" | "haccp") {
+function openDialog(type) {
   dialogType.value = type;
   dialogMode.value = "add";
   const list = type === "gmp" ? gmpRecords.value : haccpRecords.value;
@@ -345,7 +336,7 @@ function openDialog(type: "gmp" | "haccp") {
   dialog.value = true;
 }
 
-function openEditDialog(type: "gmp" | "haccp", index: number) {
+function openEditDialog(type, index) {
   dialogType.value = type;
   dialogMode.value = "edit";
   dialogIndex.value = index;

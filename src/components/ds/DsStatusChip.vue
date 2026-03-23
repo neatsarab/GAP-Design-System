@@ -18,8 +18,8 @@
             <AppStatusChip
               v-for="s in ['DRAFT','APPROVED','REJECTED','CERT_ISSUED']"
               :key="s"
-              :status="(s as GapStatus)"
-              :size="(size as any)"
+              :status="s"
+              :size="size"
             />
           </div>
         </div>
@@ -68,16 +68,15 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import AppStatusChip from '@/components/common/AppStatusChip.vue'
-import type { GapStatus } from '@/types/gap-status.types'
 
-const gapStatusList: GapStatus[] = [
+const gapStatusList = [
   'DRAFT', 'SUBMITTED', 'DOC_REVIEW', 'INSPECTION_SCHEDULED',
   'INSPECTING', 'APPROVED', 'REJECTED', 'CANCELLED', 'CERT_ISSUED', 'CERT_EXPIRED',
 ]
 
-const sampleStatuses: GapStatus[] = ['DRAFT', 'APPROVED', 'REJECTED', 'CERT_ISSUED', 'CERT_EXPIRED']
+const sampleStatuses = ['DRAFT', 'APPROVED', 'REJECTED', 'CERT_ISSUED', 'CERT_EXPIRED']
 
 const sizes = ['x-small', 'small', 'default', 'large']
 
@@ -88,12 +87,12 @@ const headers = [
 ]
 
 const rows = [
-  { no: 'GAP-2567-001', farmer: 'นาย สมชาย ใจดี',    status: 'DOC_REVIEW'   as GapStatus },
-  { no: 'GAP-2567-002', farmer: 'นาง มาลี เกษตรกิจ', status: 'APPROVED'     as GapStatus },
-  { no: 'GAP-2567-003', farmer: 'นาย วิชัย ทำนา',    status: 'CERT_EXPIRED' as GapStatus },
-  { no: 'GAP-2567-004', farmer: 'นาง สมศรี ปลูกผัก', status: 'REJECTED'     as GapStatus },
-  { no: 'GAP-2567-005', farmer: 'นาย ประสิทธิ์ ไร่ดี', status: 'CERT_ISSUED' as GapStatus },
-  { no: 'GAP-2567-006', farmer: 'นาย อภิชาติ นาดี',  status: 'INSPECTING'   as GapStatus },
+  { no: 'GAP-2567-001', farmer: 'นาย สมชาย ใจดี',    status: 'DOC_REVIEW'   },
+  { no: 'GAP-2567-002', farmer: 'นาง มาลี เกษตรกิจ', status: 'APPROVED'     },
+  { no: 'GAP-2567-003', farmer: 'นาย วิชัย ทำนา',    status: 'CERT_EXPIRED' },
+  { no: 'GAP-2567-004', farmer: 'นาง สมศรี ปลูกผัก', status: 'REJECTED'     },
+  { no: 'GAP-2567-005', farmer: 'นาย ประสิทธิ์ ไร่ดี', status: 'CERT_ISSUED' },
+  { no: 'GAP-2567-006', farmer: 'นาย อภิชาติ นาดี',  status: 'INSPECTING'   },
 ]
 </script>
 

@@ -1,5 +1,5 @@
 /**
- * gap-status.config.ts
+ * gap-status.config.js
  * ─────────────────────────────────────────────────────────────────────────────
  * Status Mapping Table + Business Rules สำหรับระบบ GAP
  *
@@ -10,25 +10,23 @@
  * ─────────────────────────────────────────────────────────────────────────────
  */
 
-import type { GapStatus, GapStatusDefinition, GapRole } from '@/types/gap-status.types'
-
 // ══════════════════════════════════════════════════════════════════════════════
 // 2. STATUS MAPPING TABLE
 // ══════════════════════════════════════════════════════════════════════════════
 
 /** Role shorthand สำหรับความกระชับ */
-const ALL_ROLES: GapRole[] = ['FARMER', 'staff', 'INSPECTOR', 'SUPERVISOR', 'ADMIN']
-const STAFF_ROLES: GapRole[] = ['staff', 'INSPECTOR', 'SUPERVISOR', 'ADMIN']
+const ALL_ROLES = ['FARMER', 'staff', 'INSPECTOR', 'SUPERVISOR', 'ADMIN']
+const STAFF_ROLES = ['staff', 'INSPECTOR', 'SUPERVISOR', 'ADMIN']
 
 /**
  * GAP_STATUS_MAP — ตาราง mapping สมบูรณ์ทุกสถานะ
  *
  * หมายเหตุ color tokens:
- *   - ตรงกับ semantic color ที่กำหนดใน vuetify.ts (gapLight / gapDark)
+ *   - ตรงกับ semantic color ที่กำหนดใน vuetify.js (gapLight / gapDark)
  *   - info, success, warning, error — ใช้ Vuetify semantic token โดยตรง
  *   - neutral/muted — ใช้ 'default' (surface-variant) ของ Vuetify chip
  */
-export const GAP_STATUS_MAP: Record<GapStatus, GapStatusDefinition> = {
+export const GAP_STATUS_MAP = {
 
   // ────────────────────────────────────────────────────────────────────────────
   // DRAFT — ร่างคำขอ
@@ -217,23 +215,8 @@ export const GAP_STATUS_MAP: Record<GapStatus, GapStatusDefinition> = {
 
 /**
  * TRANSITION_RULES — เงื่อนไขการเปลี่ยนสถานะ (Business Rules)
- *
- * โครงสร้าง:
- *   from: สถานะต้นทาง
- *   to:   สถานะปลายทาง
- *   by:   บทบาทที่มีสิทธิ์
- *   conditions: เงื่อนไขที่ต้องครบก่อนเปลี่ยนสถานะ (ภาษาไทย)
- *   notes: หมายเหตุเพิ่มเติม
  */
-export interface GapTransitionRule {
-  from: GapStatus
-  to: GapStatus
-  by: GapRole[]
-  conditions: string[]
-  notes?: string
-}
-
-export const TRANSITION_RULES: GapTransitionRule[] = [
+export const TRANSITION_RULES = [
 
   // ── DRAFT → SUBMITTED ──────────────────────────────────────────────────────
   {
@@ -427,13 +410,13 @@ export const TRANSITION_RULES: GapTransitionRule[] = [
  * ดึง StatusDefinition จาก status code
  * ส่ง fallback กลับถ้า code ไม่รู้จัก (ป้องกัน runtime crash)
  */
-export function getStatusDef(status: string): GapStatusDefinition {
-  const def = GAP_STATUS_MAP[status as GapStatus]
+export function getStatusDef(status) {
+  const def = GAP_STATUS_MAP[status]
   if (def) return def
 
   // Fallback — สำหรับ status ที่ไม่รู้จัก (เช่นมาจาก API version เก่า)
   return {
-    code:            status as GapStatus,
+    code:            status,
     labelTh:         status,
     labelEn:         status,
     descriptionTh:   'ไม่ทราบสถานะ',
@@ -451,7 +434,7 @@ export function getStatusDef(status: string): GapStatusDefinition {
 /**
  * กรองสถานะที่บทบาทนั้นมองเห็นได้
  */
-export function getStatusesForRole(role: GapRole): GapStatusDefinition[] {
+export function getStatusesForRole(role) {
   return Object.values(GAP_STATUS_MAP).filter(def =>
     def.visibleTo.includes(role)
   )
@@ -460,10 +443,7 @@ export function getStatusesForRole(role: GapRole): GapStatusDefinition[] {
 /**
  * ดึงสถานะที่สามารถเปลี่ยนจาก current status ได้ โดย role ที่ระบุ
  */
-export function getValidTransitions(
-  currentStatus: GapStatus,
-  role: GapRole
-): GapStatusDefinition[] {
+export function getValidTransitions(currentStatus, role) {
   const currentDef = GAP_STATUS_MAP[currentStatus]
   if (!currentDef) return []
 
@@ -480,11 +460,7 @@ export function getValidTransitions(
 /**
  * ตรวจสอบว่า role มีสิทธิ์เปลี่ยน status นี้ไปยัง target หรือไม่
  */
-export function canTransition(
-  from: GapStatus,
-  to: GapStatus,
-  role: GapRole
-): boolean {
+export function canTransition(from, to, role) {
   const rule = TRANSITION_RULES.find(r => r.from === from && r.to === to)
   return rule?.by.includes(role) ?? false
 }
@@ -493,7 +469,7 @@ export function canTransition(
  * ดึงสถานะ Happy Path (ไม่รวม terminal special states)
  * เรียงตาม order สำหรับ Progress Stepper
  */
-export const HAPPY_PATH_STATUSES: GapStatus[] = [
+export const HAPPY_PATH_STATUSES = [
   'DRAFT',
   'SUBMITTED',
   'DOC_REVIEW',
@@ -507,4 +483,4 @@ export const HAPPY_PATH_STATUSES: GapStatus[] = [
 /**
  * สถานะพิเศษ (ออกนอก Happy Path)
  */
-export const SPECIAL_STATUSES: GapStatus[] = ['REJECTED', 'CANCELLED']
+export const SPECIAL_STATUSES = ['REJECTED', 'CANCELLED']

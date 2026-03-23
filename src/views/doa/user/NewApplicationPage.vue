@@ -812,20 +812,20 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, reactive, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
 const router = useRouter();
 const route = useRoute();
 
-const typeTitles: Record<string, string> = {
+const typeTitles = {
   register: "คำขอขึ้น / ต่ออายุทะเบียนโรงงานผลิตสินค้าพืช DOA",
   amendment: "คำขอเปลี่ยนแปลงทะเบียนโรงงานผลิตสินค้าพืช DOA",
   scope: "คำขอเพิ่ม / ลดขอบข่ายมาตรฐาน",
 };
 const pageTitle = computed(
-  () => typeTitles[route.params.type as string] ?? "คำขอ DOA",
+  () => typeTitles[route.params.type] ?? "คำขอ DOA",
 );
 const isRegister = computed(() => route.params.type === "register");
 const currentStep = ref(0);
@@ -846,22 +846,16 @@ const form = reactive({
   applicantPhone: "",
   applicantFax: "",
   applicantEmail: "",
-  purpose: "register" as "register" | "renew",
+  purpose: "register",
   factoryNameTh: "",
   factoryNameEn: "",
   factoryAddress: "",
   factoryPhone: "",
   factoryFax: "",
   factoryEmail: "",
-  factoryType: "packing" as "packing" | "processing",
-  standards: [] as {
-    standard: string;
-    certBody: string;
-    certNo: string;
-    issueDate: string;
-    expireDate: string;
-  }[],
-  objectives: [] as string[],
+  factoryType: "packing",
+  standards: [],
+  objectives: [],
   objectiveOther: "",
 });
 
@@ -904,7 +898,7 @@ const standardOptions = [
   "IFS Food",
 ];
 
-function stepClass(v: number) {
+function stepClass(v) {
   if (currentStep.value > v) return "step-done";
   if (currentStep.value === v) return "step-active";
   return "step-pending";
@@ -935,14 +929,14 @@ function saveStandard() {
   standardDialog.value = false;
 }
 
-function removeStandard(idx: number) {
+function removeStandard(idx) {
   form.standards.splice(idx, 1);
 }
 
 // File upload (mock)
-const uploadedFiles = reactive<Record<string, string>>({});
+const uploadedFiles = reactive({});
 
-function mockUpload(key: string) {
+function mockUpload(key) {
   uploadedFiles[key] = "เอกสาร.pdf";
 }
 

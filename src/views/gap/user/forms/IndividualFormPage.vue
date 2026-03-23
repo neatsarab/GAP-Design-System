@@ -1338,7 +1338,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, computed, watch, onUnmounted } from "vue";
 import { useRouter } from "vue-router";
 
@@ -1355,7 +1355,7 @@ const steps = [
   { value: 4, title: "ตรวจสอบ & ยื่น" },
 ];
 
-function stepClass(v: number) {
+function stepClass(v) {
   if (currentStep.value > v) return "step-done";
   if (currentStep.value === v) return "step-active";
   return "step-pending";
@@ -1365,18 +1365,8 @@ function saveDraft() {
   draftSnackbar.value = true;
 }
 
-interface CropRow {
-  type: string;
-  area: number | null;
-  age: string;
-  treeCount: number | null;
-  productionPeriod: string;
-  harvestPeriod: string;
-  expectedYield: string;
-  plotNo: string;
-}
 
-function newCropRow(): CropRow {
+function newCropRow() {
   return {
     type: "",
     area: null,
@@ -1391,7 +1381,7 @@ function newCropRow(): CropRow {
 
 const form = ref({
   // ประเภทคำขอ
-  requestType: "new" as "new" | "renew",
+  requestType: "new",
   existingCertNo: "",
   existingCertExpiry: "",
   // หมวด 1 — มาตรฐาน
@@ -1413,7 +1403,7 @@ const form = ref({
   lane: "",
   subDistrict: "",
   district: "",
-  province: null as string | null,
+  province: null,
   postalCode: "",
   tel: "",
   mobile: "",
@@ -1433,25 +1423,25 @@ const form = ref({
   farmLane: "",
   farmSubDistrict: "",
   farmDistrict: "",
-  farmProvince: null as string | null,
-  farmArea: null as number | null,
+  farmProvince: null,
+  farmArea: null,
   // หมวด 5 — พืช
-  crops: [newCropRow()] as CropRow[],
+  crops: [newCropRow()],
   // หมวด 7 — เอกสาร
-  docIdCard: [] as File[],
-  docHouseReg: [] as File[],
-  docJuristic: [] as File[],
-  docPowerOfAttorney: [] as File[],
-  docSpecialLicense: [] as File[],
-  docFarmMap: [] as File[],
-  photos: [] as File[],
-  docExtra: [] as File[],
+  docIdCard: [],
+  docHouseReg: [],
+  docJuristic: [],
+  docPowerOfAttorney: [],
+  docSpecialLicense: [],
+  docFarmMap: [],
+  photos: [],
+  docExtra: [],
 });
 
 function addCropRow() {
   form.value.crops.push(newCropRow());
 }
-function removeCropRow(i: number) {
+function removeCropRow(i) {
   form.value.crops.splice(i, 1);
 }
 
@@ -1474,7 +1464,7 @@ const farmLocationSummary = computed(() => {
   return parts.join(", ") || "-";
 });
 
-const photoPreviewUrls = ref<string[]>([]);
+const photoPreviewUrls = ref([]);
 watch(
   () => form.value.photos,
   (files) => {
@@ -1487,9 +1477,9 @@ onUnmounted(() =>
 );
 
 const rules = {
-  required: (v: unknown) => !!v || "กรุณากรอกข้อมูล",
-  idCard: (v: string) => /^\d{13}$/.test(v) || "เลขบัตรประชาชน 13 หลัก",
-  phone: (v: string) => /^0\d{8,9}$/.test(v) || "รูปแบบเบอร์โทรไม่ถูกต้อง",
+  required: (v) => !!v || "กรุณากรอกข้อมูล",
+  idCard: (v) => /^\d{13}$/.test(v) || "เลขบัตรประชาชน 13 หลัก",
+  phone: (v) => /^0\d{8,9}$/.test(v) || "รูปแบบเบอร์โทรไม่ถูกต้อง",
 };
 
 const provinces = [

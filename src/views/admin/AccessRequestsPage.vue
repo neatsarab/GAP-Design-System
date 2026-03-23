@@ -371,13 +371,13 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, computed } from "vue";
 import { useAdminStore } from "@/stores/admin.store";
 
 const adminStore = useAdminStore();
 
-const officerSystemMap: Record<string, string> = {
+const officerSystemMap = {
   adminsso01: "GAP",
   adminsso02: "ORG",
 };
@@ -386,35 +386,14 @@ const restrictedSystem = computed(
   () => officerSystemMap[adminStore.username] ?? null,
 );
 
-interface SystemApproval {
-  [system: string]: "pending" | "approved" | "rejected";
-}
 
-interface Attachment {
-  name: string;
-  size: string;
-  type: "pdf" | "image" | "doc";
-  url: string;
-}
 
-interface AccessRequest {
-  id: number;
-  operatorName: string;
-  taxId: string;
-  entityType: "personal" | "juristic";
-  systems: string[];
-  systemApprovals: SystemApproval;
-  requestDate: string;
-  requesterName: string;
-  requesterPhone: string;
-  attachments: Attachment[];
-}
 
 const search = ref("");
-const filterSystem = ref<string | null>(null);
-const filterStatus = ref<string | null>(null);
+const filterSystem = ref(null);
+const filterStatus = ref(null);
 const detailDialog = ref(false);
-const selectedItem = ref<AccessRequest | null>(null);
+const selectedItem = ref(null);
 
 const systemOptions = [
   { label: "GAP", value: "GAP" },
@@ -439,10 +418,10 @@ const headers = [
   { title: "สถานะ", key: "status", sortable: false },
   { title: "ผู้ยื่นคำขอ", key: "officers", sortable: false },
   { title: "วันที่ยื่น", key: "requestDate", sortable: true },
-  { title: "", key: "actions", sortable: false, align: "end" as const },
+  { title: "", key: "actions", sortable: false, align: "end" },
 ];
 
-const requests = ref<AccessRequest[]>([
+const requests = ref([
   {
     id: 1,
     operatorName: "บริษัท ไทยเกษตรอินเตอร์ จำกัด",
@@ -559,7 +538,7 @@ const requests = ref<AccessRequest[]>([
 ]);
 
 // helper: ระบบที่ต้องตรวจสอบของ item ตาม role
-function visibleSystems(item: AccessRequest) {
+function visibleSystems(item) {
   return restrictedSystem.value
     ? item.systems.filter((s) => s === restrictedSystem.value)
     : item.systems;
@@ -569,7 +548,7 @@ function visibleSystems(item: AccessRequest) {
 const visibleRequests = computed(() => {
   if (restrictedSystem.value) {
     return requests.value.filter((r) =>
-      r.systems.includes(restrictedSystem.value!),
+      r.systems.includes(restrictedSystem.value),
     );
   }
   return requests.value;
@@ -600,28 +579,28 @@ const filteredRequests = computed(() => {
   });
 });
 
-function attachmentIcon(type: Attachment["type"]) {
+function attachmentIcon(type) {
   return type === "pdf"
     ? "fas fa-file-pdf"
     : type === "image"
       ? "fas fa-file-image"
       : "fas fa-file-word";
 }
-function attachmentColor(type: Attachment["type"]) {
+function attachmentColor(type) {
   return type === "pdf" ? "error" : type === "image" ? "success" : "info";
 }
 
-function statusColor(s: string) {
+function statusColor(s) {
   return s === "pending" ? "warning" : s === "approved" ? "success" : "error";
 }
-function statusIcon(s: string) {
+function statusIcon(s) {
   return s === "pending"
     ? "fas fa-clock"
     : s === "approved"
       ? "fas fa-check"
       : "fas fa-xmark";
 }
-function statusLabel(s: string) {
+function statusLabel(s) {
   return s === "pending"
     ? "รอพิจารณา"
     : s === "approved"
@@ -629,32 +608,32 @@ function statusLabel(s: string) {
       : "ปฏิเสธ";
 }
 
-function openDetail(item: AccessRequest) {
+function openDetail(item) {
   selectedItem.value = item;
   detailDialog.value = true;
 }
 
-function approveSystem(item: AccessRequest, sys: string) {
+function approveSystem(item, sys) {
   item.systemApprovals[sys] = "approved";
 }
 
-function rejectSystem(item: AccessRequest, sys: string) {
+function rejectSystem(item, sys) {
   item.systemApprovals[sys] = "rejected";
 }
 
-function hasPending(item: AccessRequest) {
+function hasPending(item) {
   return visibleSystems(item).some(
     (s) => item.systemApprovals[s] === "pending",
   );
 }
 
-function approveAll(item: AccessRequest) {
+function approveAll(item) {
   visibleSystems(item).forEach((s) => {
     item.systemApprovals[s] = "approved";
   });
 }
 
-function rejectAll(item: AccessRequest) {
+function rejectAll(item) {
   visibleSystems(item).forEach((s) => {
     item.systemApprovals[s] = "rejected";
   });

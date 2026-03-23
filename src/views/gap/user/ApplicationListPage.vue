@@ -232,18 +232,17 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
 import AppStatusChip from "@/components/common/AppStatusChip.vue";
 import AppEmptyState from "@/components/common/AppEmptyState.vue";
-import type { GapStatus } from "@/types/gap-status.types";
 
 const router = useRouter();
 const search = ref("");
-const filterStatus = ref<string | null>(null);
-const filterProvince = ref<string | null>(null);
-const viewMode = ref<"table" | "card">("table");
+const filterStatus = ref(null);
+const filterProvince = ref(null);
+const viewMode = ref("table");
 const activeTab = ref("all");
 
 function clearFilters() {
@@ -284,14 +283,7 @@ const tableHeaders = [
   { title: "", key: "actions", sortable: false },
 ];
 
-const items: {
-  no: string;
-  farmer: string;
-  crop: string;
-  province: string;
-  date: string;
-  status: GapStatus;
-}[] = [
+const items = [
   {
     no: "GAP-2567-001",
     farmer: "นาย สมชาย ใจดี",
@@ -374,14 +366,14 @@ const items: {
   },
 ];
 
-const pendingStatuses: GapStatus[] = [
+const pendingStatuses = [
   "SUBMITTED",
   "DOC_REVIEW",
   "INSPECTION_SCHEDULED",
   "INSPECTING",
 ];
-const approvedStatuses: GapStatus[] = ["APPROVED", "CERT_ISSUED"];
-const expiredStatuses: GapStatus[] = ["CERT_EXPIRED", "REJECTED", "CANCELLED"];
+const approvedStatuses = ["APPROVED", "CERT_ISSUED"];
+const expiredStatuses = ["CERT_EXPIRED", "REJECTED", "CANCELLED"];
 
 const pendingCount = computed(
   () => items.filter((i) => pendingStatuses.includes(i.status)).length,

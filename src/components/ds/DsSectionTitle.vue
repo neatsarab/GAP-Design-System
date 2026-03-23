@@ -13,6 +13,6 @@
   </div>
 </template>
 
-<script setup lang="ts">
-defineProps<{ icon: string; title: string }>()
+<script setup>
+defineProps({ icon: String, title: String })
 </script>

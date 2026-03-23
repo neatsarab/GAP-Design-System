@@ -18,7 +18,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 const iconList = [
   'fas fa-leaf',               'fas fa-seedling',          'fas fa-file-lines',         'fas fa-file-pen',
   'fas fa-certificate',        'fas fa-clipboard-check',   'fas fa-calendar-days',      'fas fa-location-dot',

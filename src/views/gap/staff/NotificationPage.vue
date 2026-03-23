@@ -56,16 +56,13 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, computed } from 'vue'
 
 const activeFilter = ref('all')
 
-interface Notif {
-  id: number; title: string; message: string; time: string; icon: string; color: string; tag: string; read: boolean; actionRequired: boolean
-}
 
-const notifications = ref<Notif[]>([
+const notifications = ref([
   { id: 1,  title: 'คำขอใหม่รอตรวจสอบ',          message: 'GAP-2568-00042 · นายอำนาจ วีระชัย ยื่นคำขอรับรองแบบเดี่ยว (พริก · สระแก้ว)',     time: '15 ม.ค. 68 09:15',  icon: 'fas fa-file-pen',      color: 'warning',  tag: 'คำขอใหม่',         read: false, actionRequired: true  },
   { id: 2,  title: 'ใบรับรองใกล้หมดอายุ',          message: 'GAP-CERT-2568-0034 · น.ส.รัตนา พงศ์ไพร จะหมดอายุใน 30 วัน (17 ก.พ. 68)',          time: '15 ม.ค. 68 08:00',  icon: 'fas fa-triangle-exclamation', color: 'warning',  tag: 'ใบรับรอง',         read: false, actionRequired: true  },
   { id: 3,  title: 'ผลการประชุม CC รอบันทึก',      message: 'GAP-2568-00034 · น.ส.มาลี รุ่งเรือง ประชุม CC เสร็จสิ้นแล้ว รอบันทึกผล',           time: '14 ม.ค. 68 16:30',  icon: 'fas fa-gavel',         color: 'error',    tag: 'CC',               read: false, actionRequired: true  },
@@ -84,7 +81,7 @@ const filteredNotifs = computed(() => {
   return notifications.value
 })
 
-function markRead(notif: Notif) {
+function markRead(notif) {
   notif.read = true
 }
 

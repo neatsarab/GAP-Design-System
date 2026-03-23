@@ -125,26 +125,11 @@
   </v-navigation-drawer>
 </template>
 
-<script setup lang="ts">
-export interface NavSection {
-  id: string
-  icon: string
-  title: string
-}
+<script setup>
 
-defineProps<{
-  isDark: boolean
-  drawer: boolean
-  rail: boolean
-  navSections: NavSection[]
-  activeSection: string
-}>()
+defineProps({ isDark: Boolean, drawer: Boolean, rail: Boolean, navSections: Array, activeSection: String })
 
-defineEmits<{
-  'update:drawer': [value: boolean]
-  'update:rail': [value: boolean]
-  'navigate': [id: string]
-}>()
+defineEmits(['update:drawer', 'update:rail', 'navigate'])
 </script>
 
 <style scoped>

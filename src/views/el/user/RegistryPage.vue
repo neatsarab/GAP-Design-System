@@ -183,7 +183,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
 
@@ -191,17 +191,8 @@ const router = useRouter();
 const filterTab = ref("all");
 const search = ref("");
 
-interface Item {
-  regNo: string;
-  packingHouseName: string;
-  location: string;
-  capacity: string;
-  registeredDate: string;
-  expireDate: string;
-  certStatus: "active" | "expiring" | "expired";
-}
 
-const items: Item[] = [
+const items = [
   {
     regNo: "EL-2568-00038",
     packingHouseName: "โรงคัดบรรจุไทยฟรุ๊ตส์ สาขา 1",
@@ -240,7 +231,7 @@ const items: Item[] = [
   },
 ];
 
-function countByStatus(status: string) {
+function countByStatus(status) {
   return items.filter((i) => i.certStatus === status).length;
 }
 
@@ -287,12 +278,12 @@ const headers = [
   { title: "", key: "actions", width: 130, sortable: false },
 ];
 
-function statusColor(s: string) {
+function statusColor(s) {
   return (
     { active: "success", expiring: "warning", expired: "error" }[s] ?? "grey"
   );
 }
-function statusIcon(s: string) {
+function statusIcon(s) {
   return (
     {
       active: "fas fa-circle-check",
@@ -301,7 +292,7 @@ function statusIcon(s: string) {
     }[s] ?? "fas fa-circle"
   );
 }
-function statusLabel(s: string) {
+function statusLabel(s) {
   return (
     { active: "มีผล", expiring: "ใกล้หมดอายุ", expired: "หมดอายุ" }[s] ?? s
   );

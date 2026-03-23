@@ -191,7 +191,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useThemeStore } from "@/stores/theme.store";
@@ -213,13 +213,13 @@ function doLogout() {
   router.push("/login");
 }
 
-function isNavActive(to: string): boolean {
+function isNavActive(to) {
   return route.path === to || route.path.startsWith(to + '/');
 }
 
 const breadcrumbs = computed(() => [
   { title: "ระบบ HC (เจ้าหน้าที่)", to: "/hc/staff" },
-  { title: route.meta.title as string },
+  { title: route.meta.title },
 ]);
 
 const navGroups = [

@@ -28,11 +28,10 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref } from "vue";
 
-interface Api { name: string; endpoint: string; status: string; responseTime: number; }
-const apis = ref<Api[]>([
+const apis = ref([
   { name: "DOA API", endpoint: "/api/doa", status: "Connected", responseTime: 120 },
   { name: "GAP API", endpoint: "/api/gap", status: "Connected", responseTime: 140 },
   { name: "External Auth API", endpoint: "/api/auth", status: "Connected", responseTime: 90 },
@@ -43,16 +42,16 @@ const headers = [
   { title: "Endpoint", key: "endpoint", sortable: false },
   { title: "Status", key: "status", sortable: true },
   { title: "Response Time", key: "responseTime", sortable: true },
-  { title: "", key: "actions", sortable: false, align: "end" as const },
+  { title: "", key: "actions", sortable: false, align: "end" },
 ];
 
-function apiStatusColor(s: string) {
+function apiStatusColor(s) {
   return s === "Connected" ? "success" : s === "Timeout" ? "warning" : s === "Error" ? "error" : "default";
 }
-function apiStatusIcon(s: string) {
+function apiStatusIcon(s) {
   return s === "Connected" ? "fas fa-circle-check" : s === "Timeout" ? "fas fa-clock" : s === "Error" ? "fas fa-circle-xmark" : "fas fa-circle-minus";
 }
-function pingApi(api: Api) {
+function pingApi(api) {
   api.responseTime = Math.floor(Math.random() * 200 + 80);
   api.status = "Connected";
 }

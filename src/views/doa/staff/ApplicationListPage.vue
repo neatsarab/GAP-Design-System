@@ -57,17 +57,17 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
 const search = ref("");
-const filterType = ref<string | null>(null);
-const filterStatus = ref<string | null>(null);
+const filterType = ref(null);
+const filterStatus = ref(null);
 const activeTab = ref("all");
 
-function onRowClick(_e: unknown, row: { item: typeof allItems[0] }) {
+function onRowClick(_e, row) {
   router.push(`/doa/staff/applications/${row.item.id}`);
 }
 function clearFilters() {
@@ -123,13 +123,13 @@ const filteredItems = computed(() => {
   return items;
 });
 
-function typeLabel(t: string) {
+function typeLabel(t) {
   return { register: "ขึ้นทะเบียน / ต่ออายุ", amendment: "เปลี่ยนแปลงทะเบียน", scope: "เพิ่ม / ลดขอบข่าย" }[t] ?? t;
 }
-function statusColor(s: string) {
+function statusColor(s) {
   return { pending: "warning", reviewing: "info", signing: "secondary", approved: "success", improve: "warning", rejected: "error" }[s] ?? "grey";
 }
-function statusLabel(s: string) {
+function statusLabel(s) {
   return { pending: "รอพิจารณา", reviewing: "อยู่ระหว่างพิจารณา", signing: "รอลงนาม", approved: "ผ่าน", improve: "ปรับปรุง", rejected: "ไม่ผ่าน" }[s] ?? s;
 }
 </script>

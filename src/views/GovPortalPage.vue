@@ -502,7 +502,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, computed, watch } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { useThemeStore } from "@/stores/theme.store";
@@ -514,24 +514,24 @@ const themeStore = useThemeStore();
 const sessionStore = useSessionStore();
 
 const initialMode =
-  (route.query.mode as string) === "admin"
+  route.query.mode === "admin"
     ? "admin"
-    : (route.query.mode as string) === "user"
+    : route.query.mode === "user"
       ? "user"
       : "staff";
-const mode = ref<"staff" | "user" | "admin">(initialMode);
+const mode = ref(initialMode);
 
 const entityType = computed(
-  () => (route.query.entityType as string) || "personal",
+  () => route.query.entityType || sessionStore.entityType || "personal",
 );
-const personalName = computed(() => (route.query.personalName as string) || "");
-const companyName = computed(() => (route.query.companyName as string) || "");
-const taxId = computed(() => (route.query.taxId as string) || "");
-const groupName = computed(() => (route.query.groupName as string) || "");
-const groupId = computed(() => (route.query.groupId as string) || "");
+const personalName = computed(() => route.query.personalName || sessionStore.personalName || "");
+const companyName = computed(() => route.query.companyName || sessionStore.companyName || "");
+const taxId = computed(() => route.query.taxId || sessionStore.taxId || "");
+const groupName = computed(() => route.query.groupName || sessionStore.groupName || "");
+const groupId = computed(() => route.query.groupId || sessionStore.groupId || "");
 const groupSystems = computed(() => {
-  const raw = route.query.groupSystems as string;
-  return raw ? raw.split(",").map((s) => s.trim()) : [];
+  const raw = route.query.groupSystems;
+  return raw ? raw.split(",").map((s) => s.trim()) : sessionStore.groupSystems || [];
 });
 
 // sync session store when entering portal
@@ -545,17 +545,17 @@ watch(
       groupName.value,
       groupId.value,
       groupSystems.value,
-    ] as const,
+    ],
   ([type, pName, cName, tId, gName, gId, gSystems]) => {
     if (mode.value === "user") {
       const name =
         type === "juristic" ? cName : type === "group" ? gName : pName;
       sessionStore.setContext(
-        type as "personal" | "juristic" | "group",
+        type,
         name,
-        type === "group" ? (gId as string) : "",
-        type === "group" ? (gSystems as string[]) : [],
-        type === "juristic" ? (tId as string) : "",
+        type === "group" ? gId : "",
+        type === "group" ? gSystems : [],
+        type === "juristic" ? tId : "",
       );
     }
   },
@@ -606,20 +606,7 @@ const currentDate = computed(() =>
   }),
 );
 
-interface SystemItem {
-  id: number;
-  name: string;
-  desc: string;
-  icon: string;
-  color: string;
-  active: boolean;
-  route: string;
-  tags?: string[];
-  eta?: string;
-  noAccess?: boolean;
-}
-
-const systems = computed<SystemItem[]>(() => [
+const systems = computed(() => [
   {
     id: 1,
     name: "ระบบการรับรองมาตรฐาน GAP (Good Agricultural Practices)",
@@ -823,7 +810,7 @@ const systems = computed<SystemItem[]>(() => [
 ]);
 
 // Map system id → systems key used in group.systems
-const groupSystemKey: Record<number, string> = { 1: "GAP", 2: "ORG" };
+const groupSystemKey = { 1: "GAP", 2: "ORG" };
 
 const activeSystems = computed(() => {
   if (isGroupMode.value) {
@@ -844,7 +831,7 @@ const inactiveSystems = computed(() => {
         return !groupSystems.value.includes(key);
       })
       .map((id) => {
-        const base = systems.value.find((s) => s.id === id)!;
+        const base = systems.value.find((s) => s.id === id);
         return {
           ...base,
           active: false,

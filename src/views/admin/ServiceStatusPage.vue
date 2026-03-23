@@ -43,13 +43,12 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, computed } from "vue";
 
 const lastCheck = ref(new Date().toLocaleTimeString("th-TH", { hour: "2-digit", minute: "2-digit" }));
 
-interface Service { name: string; status: string; desc: string; }
-const services = ref<Service[]>([
+const services = ref([
   { name: "Auth Service", status: "Running", desc: "ระบบยืนยันตัวตน" },
   { name: "Database Service", status: "Running", desc: "ระบบฐานข้อมูล" },
   { name: "File Service", status: "Running", desc: "ระบบจัดเก็บไฟล์" },
@@ -61,7 +60,7 @@ const headers = [
   { title: "Description", key: "desc", sortable: false },
   { title: "Status", key: "status", sortable: true },
   { title: "Last Check", key: "lastCheck", sortable: false },
-  { title: "", key: "actions", sortable: false, align: "end" as const },
+  { title: "", key: "actions", sortable: false, align: "end" },
 ];
 
 const statusSummary = computed(() => [
@@ -71,12 +70,12 @@ const statusSummary = computed(() => [
   { label: "Maintenance", color: "warning", count: services.value.filter(s => s.status === "Maintenance").length },
 ]);
 
-function statusColor(s: string) {
+function statusColor(s) {
   return s === "Running" ? "success" : s === "Error" ? "error" : s === "Maintenance" ? "warning" : "default";
 }
-function statusIcon(s: string) {
+function statusIcon(s) {
   return s === "Running" ? "fas fa-circle-check" : s === "Error" ? "fas fa-circle-xmark" : s === "Maintenance" ? "fas fa-triangle-exclamation" : "fas fa-circle-minus";
 }
-function setStatus(item: Service, status: string) { item.status = status; }
+function setStatus(item, status) { item.status = status; }
 </script>
 

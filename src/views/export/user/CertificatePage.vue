@@ -93,22 +93,13 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, computed } from "vue";
 
 const search = ref("");
-const filterType = ref<string | null>(null);
+const filterType = ref(null);
 const activeTab = ref("all");
 
-interface CertItem {
-  id: string;
-  requestNo: string;
-  type: string;
-  applicant: string;
-  issueDate: string;
-  expireDate: string;
-  status: "active" | "expiring" | "expired";
-}
 
 const typeOptions = [
   { label: "ก.ก.1",            value: "kk1" },
@@ -117,7 +108,7 @@ const typeOptions = [
   { label: "ขอแก้ไขใบรับรอง",  value: "amendment" },
 ];
 
-const allItems: CertItem[] = [
+const allItems = [
   { id: "EXP-2568-005", requestNo: "EXP-0005", type: "amendment", applicant: "บ.ไทย เอ็กซ์พอร์ต จก.", issueDate: "15/03/2568", expireDate: "14/03/2571", status: "active"   },
   { id: "EXP-2567-010", requestNo: "EXP-0010", type: "smpv5",     applicant: "บ.ไทย เอ็กซ์พอร์ต จก.", issueDate: "01/06/2567", expireDate: "01/03/2568", status: "expiring" },
   { id: "EXP-2567-003", requestNo: "EXP-0003", type: "kk1",       applicant: "บ.ไทย เอ็กซ์พอร์ต จก.", issueDate: "20/02/2566", expireDate: "19/02/2566", status: "expired"  },
@@ -130,7 +121,7 @@ const stats = computed(() => [
   { label: "หมดอายุ",       icon: "fas fa-circle-xmark",     color: "error",       value: countByStatus("expired") },
 ]);
 
-function countByStatus(s: string) {
+function countByStatus(s) {
   return allItems.filter((i) => i.status === s).length;
 }
 
@@ -154,19 +145,19 @@ const headers = [
   { title: "วันที่ออก",   key: "issueDate",  sortable: true },
   { title: "วันหมดอายุ",  key: "expireDate", sortable: true },
   { title: "สถานะ",       key: "status",     sortable: false },
-  { title: "",            key: "actions",    sortable: false, align: "end" as const },
+  { title: "",            key: "actions",    sortable: false, align: "end" },
 ];
 
-function typeLabel(t: string) {
+function typeLabel(t) {
   return { kk1: "ก.ก.1", smpv5: "สมพ.5", smpv5_other: "สมพ.5 (กรณีอื่น)", amendment: "ขอแก้ไขใบรับรอง" }[t] ?? t;
 }
-function statusColor(s: string) {
+function statusColor(s) {
   return { active: "success", expiring: "warning", expired: "error" }[s] ?? "grey";
 }
-function statusIcon(s: string) {
+function statusIcon(s) {
   return { active: "fas fa-circle-check", expiring: "fas fa-clock", expired: "fas fa-circle-xmark" }[s] ?? "fas fa-circle";
 }
-function statusLabel(s: string) {
+function statusLabel(s) {
   return { active: "มีผล", expiring: "ใกล้หมดอายุ", expired: "หมดอายุ" }[s] ?? s;
 }
 </script>

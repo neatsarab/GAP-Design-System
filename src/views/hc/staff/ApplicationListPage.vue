@@ -135,7 +135,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
@@ -143,7 +143,7 @@ const router = useRouter();
 const route = useRoute();
 
 const pageTitle = computed(() => {
-  const meta = route.meta as Record<string, unknown>;
+  const meta = route.meta;
   if (meta.statusFilter === "under_review") return "ตรวจสอบคำขอ";
   if (meta.statusFilter === "testing") return "ผลตรวจตัวอย่าง";
   if (meta.statusFilter === "pending_approval") return "พิจารณาออกใบรับรอง";
@@ -151,14 +151,14 @@ const pageTitle = computed(() => {
 });
 
 const search = ref("");
-const filterType = ref<string | null>(null);
-const filterStatus = ref<string | null>(
-  ((route.meta as Record<string, unknown>).statusFilter as string | null) ??
+const filterType = ref(null);
+const filterStatus = ref(
+  ((route.meta).statusFilter) ??
     null,
 );
-const activeTab = ref<string>("all");
+const activeTab = ref("all");
 
-function onRowClick(_e: unknown, row: { item: HCApp }) {
+function onRowClick(_e, row) {
   router.push(`/hc/applications/${row.item.id}`);
 }
 function clearFilters() {
@@ -226,18 +226,8 @@ const statusTabs = [
   },
 ];
 
-interface HCApp {
-  id: string;
-  requestNo: string;
-  exporter: string;
-  product: string;
-  destination: string;
-  type: "new" | "correction";
-  submittedAt: string;
-  status: string;
-}
 
-const allApplications: HCApp[] = [
+const allApplications = [
   {
     id: "HC-001",
     requestNo: "HC-2568-00041",
@@ -366,8 +356,8 @@ const headers = [
   { title: "", key: "actions", width: 130, sortable: false },
 ];
 
-function getStatusColor(s: string) {
-  const m: Record<string, string> = {
+function getStatusColor(s) {
+  const m = {
     draft: "grey",
     submitted: "info",
     under_review: "warning",
@@ -380,8 +370,8 @@ function getStatusColor(s: string) {
   };
   return m[s] ?? "grey";
 }
-function getStatusIcon(s: string) {
-  const m: Record<string, string> = {
+function getStatusIcon(s) {
+  const m = {
     draft: "fas fa-pen",
     submitted: "fas fa-paper-plane",
     under_review: "fas fa-magnifying-glass",
@@ -394,8 +384,8 @@ function getStatusIcon(s: string) {
   };
   return m[s] ?? "fas fa-circle";
 }
-function getStatusLabel(s: string) {
-  const m: Record<string, string> = {
+function getStatusLabel(s) {
+  const m = {
     draft: "ฉบับร่าง",
     submitted: "ยื่นแล้ว",
     under_review: "รอตรวจสอบ",

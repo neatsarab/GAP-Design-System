@@ -93,26 +93,17 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, computed } from "vue";
 
 const search = ref("");
 const filterTab = ref("all");
-const filterProduct = ref<string | null>(null);
+const filterProduct = ref(null);
 
 const productOptions = ["พืชสด", "สินค้าแปรรูป", "เมล็ดพันธุ์", "ปุ๋ย/สารเคมี"];
 
-interface Item {
-  regNo: string;
-  companyName: string;
-  productType: string;
-  exportCountry: string;
-  registeredDate: string;
-  expireDate: string;
-  certStatus: "active" | "expiring" | "expired";
-}
 
-const items: Item[] = [
+const items = [
   { regNo: "EXP-2568-00025", companyName: "บริษัท ไทยฟรุ๊ต เอ็กซ์พอร์ต จำกัด", productType: "พืชสด", exportCountry: "จีน, ญี่ปุ่น", registeredDate: "10 ม.ค. 68", expireDate: "10 ม.ค. 71", certStatus: "active" },
   { regNo: "EXP-2568-00021", companyName: "บริษัท สยามอะกรี จำกัด", productType: "สินค้าแปรรูป", exportCountry: "เกาหลีใต้", registeredDate: "5 ม.ค. 68", expireDate: "5 ม.ค. 71", certStatus: "active" },
   { regNo: "EXP-2568-00018", companyName: "ห้างหุ้นส่วนจำกัด ทวีผล", productType: "พืชสด", exportCountry: "สิงคโปร์", registeredDate: "20 ธ.ค. 67", expireDate: "20 ธ.ค. 68", certStatus: "expiring" },
@@ -121,7 +112,7 @@ const items: Item[] = [
   { regNo: "EXP-2568-00010", companyName: "บริษัท ออร์กาสยาม จำกัด", productType: "พืชสด", exportCountry: "ฮ่องกง", registeredDate: "8 ม.ค. 68", expireDate: "8 ม.ค. 71", certStatus: "active" },
 ];
 
-function countByStatus(status: string) {
+function countByStatus(status) {
   return items.filter((i) => i.certStatus === status).length;
 }
 
@@ -149,13 +140,13 @@ const headers = [
   { title: "สถานะ", key: "certStatus", width: 150 },
 ];
 
-function statusColor(s: string) {
+function statusColor(s) {
   return { active: "success", expiring: "warning", expired: "error" }[s] ?? "grey";
 }
-function statusIcon(s: string) {
+function statusIcon(s) {
   return { active: "fas fa-circle-check", expiring: "fas fa-clock", expired: "fas fa-circle-xmark" }[s] ?? "fas fa-circle";
 }
-function statusLabel(s: string) {
+function statusLabel(s) {
   return { active: "มีผล", expiring: "ใกล้หมดอายุ", expired: "หมดอายุ" }[s] ?? s;
 }
 </script>

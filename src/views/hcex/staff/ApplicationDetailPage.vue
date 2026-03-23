@@ -507,7 +507,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
 
@@ -515,8 +515,8 @@ const router = useRouter();
 const currentWorkflowStep = ref(0);
 const previewIssueDate = ref("");
 const previewNote = ref("");
-const operatorConfirmStatus = ref<string | null>(null);
-const selectedSigner = ref<string | null>(null);
+const operatorConfirmStatus = ref(null);
+const selectedSigner = ref(null);
 const signDialog = ref(false);
 const successDialog = ref(false);
 const returnDialog = ref(false);
@@ -590,8 +590,8 @@ function completeSigning() {
   successDialog.value = true;
 }
 
-function getStatusColor(s: string) {
-  const m: Record<string, string> = {
+function getStatusColor(s) {
+  const m = {
     submitted: "warning",
     under_review: "warning",
     preview_draft: "info",
@@ -602,8 +602,8 @@ function getStatusColor(s: string) {
   };
   return m[s] ?? "grey";
 }
-function getStatusIcon(s: string) {
-  const m: Record<string, string> = {
+function getStatusIcon(s) {
+  const m = {
     submitted: "fas fa-paper-plane",
     under_review: "fas fa-magnifying-glass",
     preview_draft: "fas fa-file-pen",
@@ -614,8 +614,8 @@ function getStatusIcon(s: string) {
   };
   return m[s] ?? "fas fa-circle";
 }
-function getStatusLabel(s: string) {
-  const m: Record<string, string> = {
+function getStatusLabel(s) {
+  const m = {
     submitted: "ยื่นแล้ว",
     under_review: "ตรวจสอบคำขอ",
     preview_draft: "สร้าง Preview",

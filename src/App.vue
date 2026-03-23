@@ -4,7 +4,7 @@
   </v-app>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { useThemeStore } from '@/stores/theme.store'
 
 const themeStore = useThemeStore()

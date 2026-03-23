@@ -156,22 +156,13 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, reactive, computed } from "vue";
 
-interface StandardScope {
-  id: number;
-  code: string;
-  nameTh: string;
-  nameEn: string;
-  category: string;
-  description: string;
-  status: "active" | "inactive";
-}
 
 const search = ref("");
-const filterCategory = ref<string | null>(null);
-const filterStatus = ref<string | null>(null);
+const filterCategory = ref(null);
+const filterStatus = ref(null);
 
 const categoryOptions = [
   { label: "GMP", value: "GMP" },
@@ -192,10 +183,10 @@ const headers = [
   { title: "Standard Name", key: "nameEn", sortable: false },
   { title: "หมวดหมู่", key: "category", sortable: true },
   { title: "สถานะ", key: "status", sortable: false },
-  { title: "", key: "actions", sortable: false, align: "end" as const },
+  { title: "", key: "actions", sortable: false, align: "end" },
 ];
 
-const items = ref<StandardScope[]>([
+const items = ref([
   { id: 1, code: "มกษ. 9023-2550", nameTh: "การปฏิบัติที่ดีสำหรับโรงคัดบรรจุผักและผลไม้สด", nameEn: "Good Manufacturing Practice for Fresh Fruit and Vegetable Packing Houses", category: "GMP", description: "", status: "active" },
   { id: 2, code: "มกษ. 9041-2556", nameTh: "การปฏิบัติที่ดีสำหรับโรงงานผลิตสินค้าเกษตรอินทรีย์", nameEn: "Good Manufacturing Practice for Organic Agricultural Products", category: "GMP", description: "", status: "active" },
   { id: 3, code: "มกษ. 4402-2552", nameTh: "การปฏิบัติทางการเกษตรที่ดีสำหรับข้าว", nameEn: "Good Agricultural Practice for Rice", category: "GAP", description: "", status: "active" },
@@ -213,7 +204,7 @@ const filteredItems = computed(() => {
 
 // Form
 const formDialog = ref(false);
-const editingItem = ref<StandardScope | null>(null);
+const editingItem = ref(null);
 const form = reactive({ code: "", nameTh: "", nameEn: "", category: "", description: "", isActive: true });
 
 function openAdd() {
@@ -222,7 +213,7 @@ function openAdd() {
   formDialog.value = true;
 }
 
-function openEdit(item: StandardScope) {
+function openEdit(item) {
   editingItem.value = item;
   form.code = item.code; form.nameTh = item.nameTh; form.nameEn = item.nameEn;
   form.category = item.category; form.description = item.description; form.isActive = item.status === "active";
@@ -231,7 +222,7 @@ function openEdit(item: StandardScope) {
 
 function saveForm() {
   if (editingItem.value) {
-    const idx = items.value.findIndex((i) => i.id === editingItem.value!.id);
+    const idx = items.value.findIndex((i) => i.id === editingItem.value.id);
     if (idx !== -1) {
       items.value[idx] = { ...editingItem.value, code: form.code, nameTh: form.nameTh, nameEn: form.nameEn, category: form.category, description: form.description, status: form.isActive ? "active" : "inactive" };
     }
@@ -243,9 +234,9 @@ function saveForm() {
 
 // Delete
 const deleteDialog = ref(false);
-const deletingItem = ref<StandardScope | null>(null);
+const deletingItem = ref(null);
 
-function openDelete(item: StandardScope) {
+function openDelete(item) {
   deletingItem.value = item;
   deleteDialog.value = true;
 }

@@ -84,7 +84,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import AppStatCard from "@/components/common/AppStatCard.vue";
 
 const summaryCards = [

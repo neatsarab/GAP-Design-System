@@ -77,7 +77,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { useRouter } from "vue-router";
 import AppStatCard from "@/components/common/AppStatCard.vue";
 
@@ -105,8 +105,8 @@ const statusBars = [
   { label: "รอลงนาม", value: 3, pct: 3, color: "error" },
 ];
 
-function getStatusColor(s: string) {
-  const m: Record<string, string> = {
+function getStatusColor(s) {
+  const m = {
     draft: "grey", submitted: "warning", under_review: "info",
     lab_verification: "secondary", pending_signing: "primary",
     completed: "success", rejected: "error",
@@ -114,8 +114,8 @@ function getStatusColor(s: string) {
   return m[s] ?? "grey";
 }
 
-function getStatusLabel(s: string) {
-  const m: Record<string, string> = {
+function getStatusLabel(s) {
+  const m = {
     draft: "ฉบับร่าง", submitted: "ยื่นแล้ว", under_review: "รอตรวจสอบ",
     lab_verification: "รอพิจารณา Lab", pending_signing: "รอลงนาม",
     completed: "เสร็จสิ้น", rejected: "ไม่อนุมัติ",

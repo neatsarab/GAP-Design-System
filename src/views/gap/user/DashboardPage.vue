@@ -122,11 +122,10 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { useRouter } from "vue-router";
 import AppStatCard from "@/components/common/AppStatCard.vue";
 import AppStatusChip from "@/components/common/AppStatusChip.vue";
-import type { GapStatus } from "@/types/gap-status.types";
 
 const router = useRouter();
 
@@ -157,12 +156,7 @@ const statCards = [
   },
 ];
 
-const recentItems: {
-  no: string;
-  farmer: string;
-  crop: string;
-  status: GapStatus;
-}[] = [
+const recentItems = [
   {
     no: "GAP-2567-001",
     farmer: "นาย สมชาย ใจดี",

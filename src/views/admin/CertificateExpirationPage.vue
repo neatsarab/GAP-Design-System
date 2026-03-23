@@ -30,7 +30,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { computed } from "vue";
 
 const certificates = [
@@ -45,15 +45,15 @@ const headers = [
   { title: "Expiration Date", key: "expiry", sortable: true },
   { title: "เหลือ", key: "daysLeft", sortable: true },
   { title: "Status", key: "status", sortable: true },
-  { title: "", key: "actions", sortable: false, align: "end" as const },
+  { title: "", key: "actions", sortable: false, align: "end" },
 ];
 
 const expiringSoon = computed(() => certificates.filter(c => c.daysLeft <= 30 && c.daysLeft >= 0));
 
-function certStatusColor(s: string) {
+function certStatusColor(s) {
   return s === "Valid" ? "success" : s === "Expiring Soon" ? "warning" : "error";
 }
-function certStatusIcon(s: string) {
+function certStatusIcon(s) {
   return s === "Valid" ? "fas fa-circle-check" : s === "Expiring Soon" ? "fas fa-clock" : "fas fa-circle-xmark";
 }
 </script>

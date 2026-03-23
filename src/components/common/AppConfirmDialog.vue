@@ -39,35 +39,20 @@
   </v-dialog>
 </template>
 
-<script setup lang="ts">
-interface Props {
-  modelValue: boolean
-  title?: string
-  message?: string
-  confirmText?: string
-  cancelText?: string
-  confirmColor?: string
-  icon?: string
-  iconColor?: string
-  loading?: boolean
-}
-
-withDefaults(defineProps<Props>(), {
-  title: 'ยืนยันการดำเนินการ',
-  message: 'คุณต้องการดำเนินการนี้ใช่หรือไม่?',
-  confirmText: 'ยืนยัน',
-  cancelText: 'ยกเลิก',
-  confirmColor: 'error',
-  icon: 'fas fa-circle-exclamation',
-  iconColor: 'error',
-  loading: false,
+<script setup>
+defineProps({
+  modelValue: Boolean,
+  title: { type: String, default: 'ยืนยันการดำเนินการ' },
+  message: { type: String, default: 'คุณต้องการดำเนินการนี้ใช่หรือไม่?' },
+  confirmText: { type: String, default: 'ยืนยัน' },
+  cancelText: { type: String, default: 'ยกเลิก' },
+  confirmColor: { type: String, default: 'error' },
+  icon: { type: String, default: 'fas fa-circle-exclamation' },
+  iconColor: { type: String, default: 'error' },
+  loading: { type: Boolean, default: false },
 })
 
-const emit = defineEmits<{
-  'update:modelValue': [value: boolean]
-  confirm: []
-  cancel: []
-}>()
+const emit = defineEmits(['update:modelValue', 'confirm', 'cancel'])
 
 function handleCancel() {
   emit('cancel')

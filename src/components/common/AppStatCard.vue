@@ -47,21 +47,16 @@
   </v-card>
 </template>
 
-<script setup lang="ts">
-interface Props {
-  icon: string
-  iconColor?: string
-  label: string
-  value: string | number
-  trend?: number
-  trendLabel?: string
-  loading?: boolean
-  to?: string
-}
-
-withDefaults(defineProps<Props>(), {
-  iconColor: 'primary',
-  loading: false,
+<script setup>
+defineProps({
+  icon: String,
+  iconColor: { type: String, default: 'primary' },
+  label: String,
+  value: [String, Number],
+  trend: Number,
+  trendLabel: String,
+  loading: { type: Boolean, default: false },
+  to: String,
 })
 </script>
 

@@ -197,7 +197,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useThemeStore } from "@/stores/theme.store";
@@ -219,7 +219,7 @@ function doLogout() {
   router.push("/login");
 }
 
-function isNavActive(to: string): boolean {
+function isNavActive(to) {
   return route.path === to || route.path.startsWith(to + '/');
 }
 
@@ -285,7 +285,7 @@ const navGroups = [
   },
 ];
 
-const routeTitleMap: Record<string, string> = {
+const routeTitleMap = {
   "/gap/staff/dashboard": "แดชบอร์ด",
   "/gap/staff/applications/new": "ยื่นคำขอ",
   "/gap/staff/applications": "รายการคำขอ",

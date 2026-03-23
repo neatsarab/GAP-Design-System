@@ -705,28 +705,28 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, reactive, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
 const router = useRouter();
 const route = useRoute();
 
-const typeTitles: Record<string, string> = {
+const typeTitles = {
   kk1: "คำร้องขอขึ้นทะเบียน ก.ก.1 (โรงบรรจุ/โรงรมทรีทเม้นต์/สวนส่งออก เกาหลี)",
   smpv5: "คำร้องขอ สมพ.5 (จดทะเบียนผู้ส่งออกผักและผลไม้)",
   smpv5_other: "คำร้องขอ สมพ.5 (กรณีอื่น)",
   amendment: "คำขอแก้ไขใบรับรองผู้ส่งออก",
 };
 const pageTitle = computed(
-  () => typeTitles[route.params.type as string] ?? "คำขอจดทะเบียนผู้ส่งออก",
+  () => typeTitles[route.params.type] ?? "คำขอจดทะเบียนผู้ส่งออก",
 );
 
 const currentStep = ref(0);
 const confirmDialog = ref(false);
 const successDialog = ref(false);
 const draftSnackbar = ref(false);
-const entityType = ref<"natural" | "juristic">("juristic");
+const entityType = ref("juristic");
 
 const steps = [
   { value: 0, title: "ข้อมูลรายละเอียด" },
@@ -734,26 +734,26 @@ const steps = [
 ];
 
 const form = reactive({
-  requestType: "register" as "register" | "renew",
+  requestType: "register",
   applicantNameTh: "นายสมชาย ใจดี",
   applicantNameEn: "Mr. Somchai Jaidee",
   applicantAddress: "123 ถ.พหลโยธิน แขวงลาดยาว เขตจตุจักร กรุงเทพมหานคร 10900",
   applicantPhone: "02-123-4567",
   applicantEmail: "somchai@example.com",
   submitterStatus: "เจ้าของ",
-  objective: "register" as "register" | "renew",
-  countries: [] as string[],
+  objective: "register",
+  countries: [],
   companyNameTh: "",
   companyNameEn: "",
   alley: "",
   tambol: "",
   district: "",
-  province: null as string | null,
+  province: null,
   companyPhone: "",
   companyFax: "",
   companyEmail: "",
-  factories: [] as { name: string; file: string }[],
-  gaps: [] as { name: string; certBody: string; file: string }[],
+  factories: [],
+  gaps: [],
 });
 
 const countryOptions = [
@@ -790,7 +790,7 @@ const certBodyOptions = [
   "หน่วยรับรองเอกชน",
 ];
 
-function stepClass(value: number) {
+function stepClass(value) {
   if (currentStep.value > value) return "step-done";
   if (currentStep.value === value) return "step-active";
   return "step-pending";
@@ -799,21 +799,21 @@ function stepClass(value: number) {
 function addFactory() {
   form.factories.push({ name: "", file: "" });
 }
-function removeFactory(idx: number) {
+function removeFactory(idx) {
   form.factories.splice(idx, 1);
 }
 function addGap() {
   form.gaps.push({ name: "", certBody: "", file: "" });
 }
-function removeGap(idx: number) {
+function removeGap(idx) {
   form.gaps.splice(idx, 1);
 }
-function mockUpload(key: string, obj: { file: string }) {
+function mockUpload(key, obj) {
   obj.file = "เอกสาร.pdf";
 }
 
-const uploadedFiles = reactive<Record<string, string>>({});
-function mockUploadFile(key: string) {
+const uploadedFiles = reactive({});
+function mockUploadFile(key) {
   uploadedFiles[key] = "เอกสาร.pdf";
 }
 

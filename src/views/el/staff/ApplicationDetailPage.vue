@@ -866,7 +866,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, reactive, computed } from "vue";
 import { useRouter } from "vue-router";
 
@@ -879,24 +879,17 @@ const returnReason = ref("");
 const inspectionDecision = ref("pass");
 const inspectionNote = ref("");
 const inspectionSuggestion = ref("");
-const selectedCommittee = ref<string | null>(null);
+const selectedCommittee = ref(null);
 
 // Test result tables
-interface TestResult {
-  id: number;
-  subject: string;
-  value: string;
-  pass: string;
-  remark: string;
-}
 
-const microResults = ref<TestResult[]>([]);
-const residueResults = ref<TestResult[]>([]);
-const insectResults = ref<TestResult[]>([]);
+const microResults = ref([]);
+const residueResults = ref([]);
+const insectResults = ref([]);
 
 const testDialog = ref(false);
-const testDialogMode = ref<"add" | "edit">("add");
-const testDialogType = ref<"micro" | "residue" | "insect">("micro");
+const testDialogMode = ref("add");
+const testDialogType = ref("micro");
 const testDialogItem = ref({ subject: "", value: "", pass: "pass", remark: "" });
 const testDialogIndex = ref(-1);
 
@@ -913,13 +906,13 @@ const testDialogOptions = computed(() =>
 
 let testIdCounter = 1;
 
-function getResultList(type: "micro" | "residue" | "insect") {
+function getResultList(type) {
   if (type === "micro") return microResults.value;
   if (type === "residue") return residueResults.value;
   return insectResults.value;
 }
 
-function openAddTest(type: "micro" | "residue" | "insect") {
+function openAddTest(type) {
   testDialogType.value = type;
   testDialogMode.value = "add";
   testDialogItem.value = { subject: "", value: "", pass: "pass", remark: "" };
@@ -927,7 +920,7 @@ function openAddTest(type: "micro" | "residue" | "insect") {
   testDialog.value = true;
 }
 
-function openEditTest(type: "micro" | "residue" | "insect", index: number) {
+function openEditTest(type, index) {
   testDialogType.value = type;
   testDialogMode.value = "edit";
   const item = getResultList(type)[index];
@@ -946,7 +939,7 @@ function saveTest() {
   testDialog.value = false;
 }
 
-function deleteTest(type: "micro" | "residue" | "insect", index: number) {
+function deleteTest(type, index) {
   getResultList(type).splice(index, 1);
 }
 
@@ -1071,7 +1064,7 @@ const inspectionChecklist = reactive([
 const schedule = reactive({
   date: "",
   time: "",
-  inspector: null as string | null,
+  inspector: null,
   note: "",
 });
 

@@ -62,7 +62,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref } from 'vue'
 import AppEmptyState from '@/components/common/AppEmptyState.vue'
 
@@ -78,7 +78,7 @@ const snackConfig = {
   warning: { color: 'warning', icon: 'fas fa-triangle-exclamation',   message: 'ใบรับรองใกล้หมดอายุ' },
 }
 
-function showSnack(type: 'success' | 'error' | 'info' | 'warning') {
+function showSnack(type) {
   const cfg = snackConfig[type]
   snackColor.value   = cfg.color
   snackIcon.value    = cfg.icon

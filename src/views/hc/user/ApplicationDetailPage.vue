@@ -292,7 +292,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
@@ -301,30 +301,8 @@ const route = useRoute();
 
 const detailTab = ref("exporter");
 
-interface Product {
-  sampleNo: string;
-  name: string;
-  weight: string;
-  gapCode: string;
-}
-interface AppDetail {
-  id: string;
-  requestNo: string;
-  status: string;
-  submittedAt: string;
-  product: string;
-  destination: string;
-  exporter: string;
-  exporterAddress: string;
-  exporterProvince: string;
-  packingHouseName: string;
-  consignee: string;
-  consigneeAddress: string;
-  products: Product[];
-  correctionNote?: string;
-}
 
-const mockApps: Record<string, AppDetail> = {
+const mockApps = {
   "HC-001": {
     id: "HC-001",
     requestNo: "HC-2568-00041",
@@ -371,8 +349,8 @@ const mockApps: Record<string, AppDetail> = {
   },
 };
 
-const appId = route.params.id as string;
-const app = ref<AppDetail>(mockApps[appId] ?? mockApps["HC-001"]);
+const appId = route.params.id;
+const app = ref(mockApps[appId] ?? mockApps["HC-001"]);
 
 const statusOrder = [
   "submitted",
@@ -423,18 +401,18 @@ const timeline = computed(() => [
   },
 ]);
 
-function isTimelineDone(idx: number) {
+function isTimelineDone(idx) {
   return currentStatusIdx.value > idx;
 }
-function isTimelineActive(idx: number) {
+function isTimelineActive(idx) {
   return currentStatusIdx.value === idx;
 }
-function isTimelinePending(idx: number) {
+function isTimelinePending(idx) {
   return currentStatusIdx.value < idx;
 }
 
-function getStatusColor(s: string) {
-  const m: Record<string, string> = {
+function getStatusColor(s) {
+  const m = {
     submitted: "primary",
     under_review: "warning",
     testing: "secondary",
@@ -446,8 +424,8 @@ function getStatusColor(s: string) {
   };
   return m[s] ?? "grey";
 }
-function getStatusIcon(s: string) {
-  const m: Record<string, string> = {
+function getStatusIcon(s) {
+  const m = {
     submitted: "fas fa-paper-plane",
     under_review: "fas fa-magnifying-glass",
     testing: "fas fa-flask",
@@ -459,8 +437,8 @@ function getStatusIcon(s: string) {
   };
   return m[s] ?? "fas fa-circle";
 }
-function getStatusLabel(s: string) {
-  const m: Record<string, string> = {
+function getStatusLabel(s) {
+  const m = {
     submitted: "ยื่นแล้ว",
     under_review: "อยู่ระหว่างตรวจสอบ",
     testing: "ตรวจ Lab",

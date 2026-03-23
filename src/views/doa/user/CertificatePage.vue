@@ -122,25 +122,15 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, computed } from "vue";
 
 const search = ref("");
-const filterType = ref<string | null>(null);
-const filterStandard = ref<string | null>(null);
+const filterType = ref(null);
+const filterStandard = ref(null);
 const activeTab = ref("all");
 const detailDialog = ref(false);
 
-interface CertItem {
-  id: string;
-  factoryName: string;
-  type: string;
-  standard: string;
-  certType: string;
-  issueDate: string;
-  expireDate: string;
-  status: "active" | "expiring" | "expired";
-}
 
 const typeOptions = [
   { label: "ขึ้นทะเบียน / ต่ออายุ", value: "register" },
@@ -149,7 +139,7 @@ const typeOptions = [
 ];
 const standardOptions = ["มกษ. 9023-2550", "มกษ. 9024-2550", "ISO 22000", "GMP", "HACCP"];
 
-const allItems: CertItem[] = [
+const allItems = [
   { id: "c1", factoryName: "โรงงานไทยเกษตรอินเตอร์",    type: "register",  standard: "มกษ. 9023-2550", certType: "DOA", issueDate: "01/01/2566", expireDate: "01/01/2569", status: "active"   },
   { id: "c2", factoryName: "โรงงานสยามฟาร์มโปรดักส์",   type: "register",  standard: "มกษ. 9024-2550", certType: "DOA", issueDate: "15/03/2565", expireDate: "15/03/2568", status: "expiring" },
   { id: "c3", factoryName: "โรงงานกรีนโปรเซส",          type: "scope",     standard: "ISO 22000",       certType: "GMP", issueDate: "10/01/2563", expireDate: "10/01/2566", status: "expired"  },
@@ -162,7 +152,7 @@ const stats = computed(() => [
   { label: "หมดอายุ",       icon: "fas fa-circle-xmark", color: "error",    value: countByStatus("expired") },
 ]);
 
-function countByStatus(s: string) {
+function countByStatus(s) {
   return allItems.filter((i) => i.status === s).length;
 }
 
@@ -187,22 +177,22 @@ const headers = [
   { title: "วันที่ออกใบรับรอง",    key: "issueDate",   sortable: true },
   { title: "วันหมดอายุ",           key: "expireDate",  sortable: true },
   { title: "สถานะ",                key: "status",      sortable: false },
-  { title: "",                     key: "actions",     sortable: false, align: "end" as const },
+  { title: "",                     key: "actions",     sortable: false, align: "end" },
 ];
 
-const selected = ref<CertItem | null>(null);
-function openDetail(item: CertItem) { selected.value = item; detailDialog.value = true; }
+const selected = ref(null);
+function openDetail(item) { selected.value = item; detailDialog.value = true; }
 
-function typeLabel(t: string) {
+function typeLabel(t) {
   return { register: "ขึ้นทะเบียน / ต่ออายุ", amendment: "เปลี่ยนแปลงทะเบียน", scope: "เพิ่ม / ลดขอบข่าย" }[t] ?? t;
 }
-function statusColor(s: string) {
+function statusColor(s) {
   return { active: "success", expiring: "warning", expired: "error" }[s] ?? "grey";
 }
-function statusIcon(s: string) {
+function statusIcon(s) {
   return { active: "fas fa-circle-check", expiring: "fas fa-clock", expired: "fas fa-circle-xmark" }[s] ?? "fas fa-circle";
 }
-function statusLabel(s: string) {
+function statusLabel(s) {
   return { active: "มีผล", expiring: "ใกล้หมดอายุ", expired: "หมดอายุ" }[s] ?? s;
 }
 </script>

@@ -86,50 +86,28 @@
   </v-menu>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, computed } from 'vue'
 
-export interface Notification {
-  id: string
-  title: string
-  message: string
-  time: string
-  read: boolean
-  type: 'info' | 'success' | 'warning' | 'error'
-  icon?: string
-}
-
-interface Props {
-  notifications?: Notification[]
-  loading?: boolean
-}
-
-withDefaults(defineProps<Props>(), {
-  notifications: () => [],
-  loading: false,
+const props = defineProps({
+  notifications: { type: Array, default: () => [] },
+  loading: { type: Boolean, default: false },
 })
 
-defineEmits<{
-  'mark-all-read': []
-  'click-item': [id: string]
-}>()
+defineEmits(['mark-all-read', 'click-item'])
 
 const menuOpen = ref(false)
 
 const unreadCount = computed(() =>
-  (useProps().notifications ?? []).filter(n => !n.read).length
+  (props.notifications ?? []).filter(n => !n.read).length
 )
 
-function useProps() {
-  return { notifications: [] as Notification[] }
-}
-
-function typeColor(type: Notification['type']) {
+function typeColor(type) {
   const map = { info: 'info', success: 'success', warning: 'warning', error: 'error' }
   return map[type]
 }
 
-function typeIcon(type: Notification['type']) {
+function typeIcon(type) {
   const map = {
     info:    'fas fa-circle-info',
     success: 'fas fa-circle-check',

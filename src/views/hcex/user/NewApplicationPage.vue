@@ -763,14 +763,14 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, reactive } from "vue";
 import { useRouter, useRoute } from "vue-router";
 
 const router = useRouter();
 const route = useRoute();
 
-const hasLab = ref<boolean | null>(null);
+const hasLab = ref(null);
 const currentStep = ref(0);
 const submitting = ref(false);
 const successDialog = ref(false);
@@ -778,7 +778,7 @@ const draftSnackbar = ref(false);
 const labRequestDialog = ref(false);
 const newRequestNo = ref("");
 const formRef = ref();
-const selectedLabs = ref<string[]>([]);
+const selectedLabs = ref([]);
 
 const formSteps = [
   { key: "details", label: "ข้อมูลรายละเอียด" },
@@ -859,7 +859,7 @@ const labResults = [
   },
 ];
 
-function stepClass(idx: number) {
+function stepClass(idx) {
   if (currentStep.value > idx) return "step-done";
   if (currentStep.value === idx) return "step-active";
   return "step-pending";
@@ -874,10 +874,10 @@ function addProduct() {
     totalAmount: "",
   });
 }
-function removeProduct(idx: number) {
+function removeProduct(idx) {
   form.products.splice(idx, 1);
 }
-function toggleLab(id: string) {
+function toggleLab(id) {
   const idx = selectedLabs.value.indexOf(id);
   if (idx === -1) {
     selectedLabs.value.push(id);
@@ -887,7 +887,7 @@ function toggleLab(id: string) {
 }
 
 const rules = {
-  required: (v: unknown) =>
+  required: (v) =>
     !!v || (Array.isArray(v) && v.length > 0) || "กรุณากรอกข้อมูล",
 };
 

@@ -719,7 +719,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, reactive } from "vue";
 import { useRouter } from "vue-router";
 
@@ -745,7 +745,7 @@ const app = {
   phone: "082-345-6789",
   email: "malee@example.com",
   province: "อุบลราชธานี",
-  type: "individual" as const,
+  type: "individual",
   area: "8",
   cropType: "ผัก",
   plotCount: "2",
@@ -819,8 +819,8 @@ function issueCert() {
   certDialog.value = true;
 }
 
-function statusColor(s: string) {
-  const m: Record<string, string> = {
+function statusColor(s) {
+  const m = {
     submitted: "org-staff",
     doc_review: "info",
     revision_required: "warning",
@@ -833,8 +833,8 @@ function statusColor(s: string) {
   };
   return m[s] ?? "grey";
 }
-function statusIcon(s: string) {
-  const m: Record<string, string> = {
+function statusIcon(s) {
+  const m = {
     submitted: "fas fa-paper-plane",
     doc_review: "fas fa-magnifying-glass",
     revision_required: "fas fa-pen-to-square",
@@ -847,8 +847,8 @@ function statusIcon(s: string) {
   };
   return m[s] ?? "fas fa-circle";
 }
-function statusLabel(s: string) {
-  const m: Record<string, string> = {
+function statusLabel(s) {
+  const m = {
     submitted: "ยื่นแล้ว",
     doc_review: "อยู่ระหว่างตรวจสอบ",
     revision_required: "รอแก้ไข",

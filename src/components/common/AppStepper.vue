@@ -87,42 +87,21 @@
   </div>
 </template>
 
-<script setup lang="ts">
-export interface StepItem {
-  title: string
-  subtitle?: string
-  icon: string
-  complete?: boolean
-  error?: boolean
-}
-
-interface Props {
-  modelValue: number
-  steps: StepItem[]
-  linear?: boolean
-  hideActions?: boolean
-  nextText?: string
-  backText?: string
-  submitText?: string
-  loading?: boolean
-}
-
-const props = withDefaults(defineProps<Props>(), {
-  linear: true,
-  hideActions: false,
-  nextText: 'ถัดไป',
-  backText: 'ย้อนกลับ',
-  submitText: 'ยืนยัน',
-  loading: false,
+<script setup>
+const props = defineProps({
+  modelValue: Number,
+  steps: Array,
+  linear: { type: Boolean, default: true },
+  hideActions: { type: Boolean, default: false },
+  nextText: { type: String, default: 'ถัดไป' },
+  backText: { type: String, default: 'ย้อนกลับ' },
+  submitText: { type: String, default: 'ยืนยัน' },
+  loading: { type: Boolean, default: false },
 })
 
-const emit = defineEmits<{
-  'update:modelValue': [value: number]
-  submit: []
-  'step-change': [step: number]
-}>()
+const emit = defineEmits(['update:modelValue', 'submit', 'step-change'])
 
-function stepState(idx: number) {
+function stepState(idx) {
   const step = props.steps[idx]
   const stepNum = idx + 1
   if (step.error) return 'step-circle--error'
@@ -131,7 +110,7 @@ function stepState(idx: number) {
   return 'step-circle--pending'
 }
 
-function stepTextColor(idx: number) {
+function stepTextColor(idx) {
   const stepNum = idx + 1
   if (props.steps[idx].error) return 'text-error'
   if (stepNum === props.modelValue) return 'text-primary'

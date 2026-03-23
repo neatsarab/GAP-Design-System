@@ -147,9 +147,9 @@
           variant="outlined"
           color="gap-user"
           class="user-chip mr-2 ml-1"
-          prepend-icon="fas fa-user"
+          :prepend-icon="sessionStore.entityIcon"
         >
-          นิธิพร เทิบจันทึก
+          {{ sessionStore.displayName }}
         </v-chip>
       </div>
     </v-app-bar>
@@ -193,7 +193,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useThemeStore } from "@/stores/theme.store";
@@ -293,7 +293,7 @@ const navGroups = computed(() => {
   ];
 });
 
-const routeTitleMap: Record<string, string> = {
+const routeTitleMap = {
   "/gap/user/dashboard": "แดชบอร์ด",
   "/gap/user/applications": "รายการคำขอ",
   "/gap/user/applications/new": "เลือกประเภทคำขอ",

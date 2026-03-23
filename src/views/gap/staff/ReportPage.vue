@@ -101,31 +101,27 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref } from 'vue'
 
 const snack = ref(false)
 
-interface ReportType {
-  id: string; name: string; desc: string; icon: string; color: string
-  hasStatusFilter?: boolean; hasProvinceFilter?: boolean
-}
 
-const reportTypes: ReportType[] = [
+const reportTypes = [
   { id: 'applications', name: 'รายงานคำขอ',          desc: 'สรุปจำนวนคำขอตามสถานะและช่วงเวลา',         icon: 'fas fa-file-lines',    color: 'gap-staff',  hasStatusFilter: true, hasProvinceFilter: true  },
   { id: 'inspection',   name: 'รายงานการตรวจแปลง',   desc: 'ผลการตรวจประเมินแปลงและการวิเคราะห์ตัวอย่าง', icon: 'fas fa-clipboard-list', color: 'secondary', hasStatusFilter: false, hasProvinceFilter: true },
   { id: 'certificate',  name: 'รายงานใบรับรอง',       desc: 'รายการใบรับรองที่ออกแล้ว สถานะ หมดอายุ',    icon: 'fas fa-certificate',   color: 'success',  hasStatusFilter: false, hasProvinceFilter: true  },
   { id: 'statistics',   name: 'รายงานสถิติระบบ',      desc: 'ภาพรวมสถิติการใช้งานระบบและแนวโน้ม',        icon: 'fas fa-chart-bar',     color: 'info',     hasStatusFilter: false, hasProvinceFilter: false },
 ]
 
-const selectedReport = ref<ReportType | null>(null)
+const selectedReport = ref(null)
 
 const reportForm = ref({
   dateFrom: '',
   dateTo: '',
   format: 'PDF',
-  status: null as string | null,
-  province: null as string | null,
+  status: null,
+  province: null,
 })
 
 const statusOptions = [
@@ -137,7 +133,7 @@ const statusOptions = [
 
 const provinces = ['เชียงใหม่', 'เชียงราย', 'นครปฐม', 'เพชรบูรณ์', 'สระแก้ว', 'กาญจนบุรี', 'นครศรีธรรมราช', 'สุราษฎร์ธานี']
 
-function selectReport(rpt: ReportType) {
+function selectReport(rpt) {
   selectedReport.value = rpt
 }
 

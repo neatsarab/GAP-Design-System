@@ -440,7 +440,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, reactive } from "vue";
 import { useRouter } from "vue-router";
 
@@ -455,7 +455,7 @@ const steps = [
   { key: "docs", label: "แนบเอกสาร" },
 ];
 
-function stepClass(i: number) {
+function stepClass(i) {
   if (currentStep.value > i) return "step-done";
   if (currentStep.value === i) return "step-active";
   return "step-pending";
@@ -473,22 +473,16 @@ const form = reactive({
   province: "",
 });
 
-interface Member {
-  name: string;
-  idCard: string;
-  area: string;
-  plots: string;
-}
-const members = ref<Member[]>([]);
+const members = ref([]);
 
 function addMember() {
   members.value.push({ name: "", idCard: "", area: "", plots: "" });
 }
-function removeMember(i: number) {
+function removeMember(i) {
   members.value.splice(i, 1);
 }
 
-const uploadedFiles = reactive<Record<string, File | null>>({
+const uploadedFiles = reactive({
   groupDoc: null,
   presidentId: null,
   memberList: null,
