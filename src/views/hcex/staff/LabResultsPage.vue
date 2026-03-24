@@ -37,7 +37,10 @@
           <v-card-text class="pa-4">
             <v-row dense>
               <v-col cols="12" sm="4">
-                <div class="field-label mb-1"><div>ค้นหา</div><div class="field-label-en">Search</div></div>
+                <div class="field-label mb-1">
+                  <div>ค้นหา</div>
+                  <div class="field-label-en">Search</div>
+                </div>
                 <v-text-field
                   v-model="search"
                   prepend-inner-icon="fas fa-search"
@@ -46,7 +49,10 @@
                 />
               </v-col>
               <v-col cols="6" sm="3">
-                <div class="field-label mb-1"><div>สถานะ</div><div class="field-label-en">Status</div></div>
+                <div class="field-label mb-1">
+                  <div>สถานะ</div>
+                  <div class="field-label-en">Status</div>
+                </div>
                 <v-autocomplete
                   v-model="filterStatus"
                   :items="statusOptions"
@@ -57,7 +63,10 @@
                 />
               </v-col>
               <v-col cols="6" sm="3">
-                <div class="field-label mb-1"><div>วันที่ทดสอบ (จาก)</div><div class="field-label-en">Test Date From</div></div>
+                <div class="field-label mb-1">
+                  <div>วันที่ทดสอบ (จาก)</div>
+                  <div class="field-label-en">Test Date From</div>
+                </div>
                 <v-text-field
                   v-model="filterDateFrom"
                   type="date"
@@ -67,15 +76,15 @@
             </v-row>
             <v-row dense>
               <v-col cols="auto" class="ml-auto">
-              <v-btn
-                variant="tonal"
-                color="grey"
-                size="small"
-                prepend-icon="fas fa-rotate-left"
-                @click="clearFilters"
-              >
-                ล้างตัวกรอง
-              </v-btn>
+                <v-btn
+                  variant="tonal"
+                  color="grey"
+                  size="small"
+                  prepend-icon="fas fa-rotate-left"
+                  @click="clearFilters"
+                >
+                  ล้างตัวกรอง
+                </v-btn>
               </v-col>
             </v-row>
           </v-card-text>
@@ -106,18 +115,22 @@
 
         <!-- Table -->
         <v-card>
-          <v-data-table
-            :headers="headers"
-            :items="filteredItems"
-            hover
-          >
+          <v-data-table :headers="headers" :items="filteredItems" hover>
             <template #item.labNo="{ item }">
-              <span class="text-body-2 font-weight-medium text-warning">{{ item.labNo }}</span>
+              <span class="text-body-2 font-weight-medium text-warning">{{
+                item.labNo
+              }}</span>
             </template>
             <template #item.result="{ item }">
               <v-chip
                 size="x-small"
-                :color="item.result === 'ผ่าน' ? 'success' : item.result === 'ไม่ผ่าน' ? 'error' : 'warning'"
+                :color="
+                  item.result === 'ผ่าน'
+                    ? 'success'
+                    : item.result === 'ไม่ผ่าน'
+                      ? 'error'
+                      : 'warning'
+                "
                 variant="tonal"
               >
                 {{ item.result }}
@@ -166,7 +179,10 @@
           <v-card-text class="pa-4">
             <v-row dense>
               <v-col cols="12" sm="4">
-                <div class="field-label mb-1"><div>ค้นหา</div><div class="field-label-en">Search</div></div>
+                <div class="field-label mb-1">
+                  <div>ค้นหา</div>
+                  <div class="field-label-en">Search</div>
+                </div>
                 <v-text-field
                   v-model="requestSearch"
                   prepend-inner-icon="fas fa-search"
@@ -186,7 +202,9 @@
             hover
           >
             <template #item.requestNo="{ item }">
-              <span class="text-body-2 font-weight-medium text-warning">{{ item.requestNo }}</span>
+              <span class="text-body-2 font-weight-medium text-warning">{{
+                item.requestNo
+              }}</span>
             </template>
             <template #item.status="{ item }">
               <v-chip
@@ -231,7 +249,12 @@
           <v-icon icon="fas fa-flask-vial" color="hcex-staff" size="18" />
           <span class="text-body-1 font-weight-bold">พิจารณาผล Lab</span>
           <v-spacer />
-          <v-btn icon="fas fa-xmark" variant="text" size="small" @click="reviewDialog = false" />
+          <v-btn
+            icon="fas fa-xmark"
+            variant="text"
+            size="small"
+            @click="closeReviewDialog"
+          />
         </v-card-title>
         <v-divider />
         <v-card-text class="pa-5">
@@ -240,7 +263,9 @@
             <div class="info-grid">
               <div class="info-item">
                 <span class="info-label">เลขที่ผล Lab</span>
-                <span class="info-value text-warning font-weight-bold">{{ selectedLab.labNo }}</span>
+                <span class="info-value text-warning font-weight-bold">{{
+                  selectedLab.labNo
+                }}</span>
               </div>
               <div class="info-item">
                 <span class="info-label">ชนิดสินค้า</span>
@@ -254,7 +279,13 @@
                 <span class="info-label">ผลการทดสอบ</span>
                 <v-chip
                   size="x-small"
-                  :color="selectedLab.result === 'ผ่าน' ? 'success' : selectedLab.result === 'ไม่ผ่าน' ? 'error' : 'warning'"
+                  :color="
+                    selectedLab.result === 'ผ่าน'
+                      ? 'success'
+                      : selectedLab.result === 'ไม่ผ่าน'
+                        ? 'error'
+                        : 'warning'
+                  "
                   variant="tonal"
                 >
                   {{ selectedLab.result }}
@@ -268,13 +299,18 @@
           </div>
 
           <!-- Decision -->
-          <div class="field-label mb-2"><div>ผลการพิจารณา <span class="req">*</span></div><div class="field-label-en">Review Result</div></div>
+          <div class="field-label mb-2">
+            <div>ผลการพิจารณา <span class="req">*</span></div>
+            <div class="field-label-en">Review Result</div>
+          </div>
           <v-radio-group v-model="decision" class="mb-4">
             <v-radio value="pass" color="success">
               <template #label>
                 <div>
                   <div class="text-body-2 font-weight-medium">ผ่าน</div>
-                  <div class="text-caption text-medium-emphasis">ผล Lab เป็นไปตามเกณฑ์ที่กำหนด</div>
+                  <div class="text-caption text-medium-emphasis">
+                    ผล Lab เป็นไปตามเกณฑ์ที่กำหนด
+                  </div>
                 </div>
               </template>
             </v-radio>
@@ -282,13 +318,18 @@
               <template #label>
                 <div>
                   <div class="text-body-2 font-weight-medium">ไม่ผ่าน</div>
-                  <div class="text-caption text-medium-emphasis">ผล Lab ไม่เป็นไปตามเกณฑ์ที่กำหนด</div>
+                  <div class="text-caption text-medium-emphasis">
+                    ผล Lab ไม่เป็นไปตามเกณฑ์ที่กำหนด
+                  </div>
                 </div>
               </template>
             </v-radio>
           </v-radio-group>
 
-          <div class="field-label mb-2"><div>หมายเหตุ</div><div class="field-label-en">Remarks</div></div>
+          <div class="field-label mb-2">
+            <div>หมายเหตุ</div>
+            <div class="field-label-en">Remarks</div>
+          </div>
           <v-textarea
             v-model="reviewNote"
             placeholder="ระบุหมายเหตุหรือเหตุผลประกอบการพิจารณา"
@@ -297,11 +338,21 @@
           />
         </v-card-text>
         <v-card-actions class="px-5 pb-5 ga-2">
-          <v-btn variant="tonal" color="grey" rounded="lg" @click="reviewDialog = false">
+          <v-btn
+            variant="tonal"
+            color="grey"
+            rounded="lg"
+            @click="closeReviewDialog"
+          >
             ยกเลิก
           </v-btn>
           <v-spacer />
-          <v-btn color="hcex-staff" rounded="lg" prepend-icon="fas fa-floppy-disk" @click="confirmReview">
+          <v-btn
+            color="hcex-staff"
+            rounded="lg"
+            prepend-icon="fas fa-floppy-disk"
+            @click="confirmReview"
+          >
             ยืนยันการพิจารณา
           </v-btn>
         </v-card-actions>
@@ -315,7 +366,12 @@
           <v-icon icon="fas fa-vial" color="hcex-staff" size="18" />
           <span class="text-body-1 font-weight-bold">รับคำขอผล Lab</span>
           <v-spacer />
-          <v-btn icon="fas fa-xmark" variant="text" size="small" @click="acceptDialog = false" />
+          <v-btn
+            icon="fas fa-xmark"
+            variant="text"
+            size="small"
+            @click="closeAcceptDialog"
+          />
         </v-card-title>
         <v-divider />
         <v-card-text class="pa-5">
@@ -323,7 +379,9 @@
             <div class="info-grid">
               <div class="info-item">
                 <span class="info-label">เลขคำขอ Lab</span>
-                <span class="info-value text-warning font-weight-bold">{{ selectedRequest.requestNo }}</span>
+                <span class="info-value text-warning font-weight-bold">{{
+                  selectedRequest.requestNo
+                }}</span>
               </div>
               <div class="info-item">
                 <span class="info-label">ผู้ประกอบการ</span>
@@ -331,24 +389,39 @@
               </div>
               <div class="info-item">
                 <span class="info-label">ชนิดสินค้า</span>
-                <span class="info-value">{{ selectedRequest.productType }}</span>
+                <span class="info-value">{{
+                  selectedRequest.productType
+                }}</span>
               </div>
               <div class="info-item">
                 <span class="info-label">วันที่ขอ</span>
-                <span class="info-value">{{ selectedRequest.requestDate }}</span>
+                <span class="info-value">{{
+                  selectedRequest.requestDate
+                }}</span>
               </div>
             </div>
           </div>
           <p class="text-body-2 text-medium-emphasis mb-0">
-            ยืนยันการรับคำขอทดสอบ Lab สำหรับรายการนี้ใช่หรือไม่? ระบบจะเปลี่ยนสถานะเป็น "กำลังดำเนินการ"
+            ยืนยันการรับคำขอทดสอบ Lab สำหรับรายการนี้ใช่หรือไม่?
+            ระบบจะเปลี่ยนสถานะเป็น "กำลังดำเนินการ"
           </p>
         </v-card-text>
         <v-card-actions class="px-5 pb-5 ga-2">
-          <v-btn variant="tonal" color="grey" rounded="lg" @click="acceptDialog = false">
+          <v-btn
+            variant="tonal"
+            color="grey"
+            rounded="lg"
+            @click="closeAcceptDialog"
+          >
             ยกเลิก
           </v-btn>
           <v-spacer />
-          <v-btn color="hcex-staff" rounded="lg" prepend-icon="fas fa-circle-check" @click="confirmAccept">
+          <v-btn
+            color="hcex-staff"
+            rounded="lg"
+            prepend-icon="fas fa-circle-check"
+            @click="confirmAccept"
+          >
             ยืนยันรับคำขอ
           </v-btn>
         </v-card-actions>
@@ -366,12 +439,16 @@ const filterStatus = ref(null);
 const filterDateFrom = ref("");
 const activeTab = ref("all");
 const reviewDialog = ref(false);
+function closeReviewDialog() {
+  reviewDialog.value = false;
+}
+function closeAcceptDialog() {
+  acceptDialog.value = false;
+}
 const decision = ref("pass");
 const reviewNote = ref("");
 const requestSearch = ref("");
 const acceptDialog = ref(false);
-
-
 
 const selectedLab = ref(null);
 const selectedRequest = ref(null);
@@ -418,54 +495,54 @@ const statusOptions = [
 const labResults = [
   {
     id: "lab-001",
-    labNo: "LAB-2568-00089",
+    labNo: "LAB-2569-00089",
     productType: "มันฝรั่งทอดกรอบ",
-    testDate: "8 ม.ค. 2568",
+    testDate: "8 ม.ค. 2569",
     result: "ผ่าน",
     status: "pending",
     labName: "ห้องปฏิบัติการกลาง กรมวิทยาศาสตร์การแพทย์",
   },
   {
     id: "lab-002",
-    labNo: "LAB-2568-00085",
+    labNo: "LAB-2569-00085",
     productType: "ข้าวกล้องบรรจุสุญญากาศ",
-    testDate: "7 ม.ค. 2568",
+    testDate: "7 ม.ค. 2569",
     result: "ผ่าน",
     status: "pending",
     labName: "ห้องปฏิบัติการกลาง กรมวิทยาศาสตร์การแพทย์",
   },
   {
     id: "lab-003",
-    labNo: "LAB-2568-00080",
+    labNo: "LAB-2569-00080",
     productType: "ผักแปรรูปอบแห้ง",
-    testDate: "5 ม.ค. 2568",
+    testDate: "5 ม.ค. 2569",
     result: "ผ่าน",
     status: "passed",
     labName: "ศูนย์วิทยาศาสตร์การแพทย์ที่ 1",
   },
   {
     id: "lab-004",
-    labNo: "LAB-2568-00075",
+    labNo: "LAB-2569-00075",
     productType: "ผลไม้กระป๋อง",
-    testDate: "3 ม.ค. 2568",
+    testDate: "3 ม.ค. 2569",
     result: "ไม่ผ่าน",
     status: "failed",
     labName: "ศูนย์วิทยาศาสตร์การแพทย์ที่ 3",
   },
   {
     id: "lab-005",
-    labNo: "LAB-2568-00070",
+    labNo: "LAB-2569-00070",
     productType: "น้ำผลไม้แปรรูป",
-    testDate: "28 ธ.ค. 2567",
+    testDate: "28 ธ.ค. 2569",
     result: "ผ่าน",
     status: "passed",
     labName: "ห้องปฏิบัติการกลาง กรมวิทยาศาสตร์การแพทย์",
   },
   {
     id: "lab-006",
-    labNo: "LAB-2568-00065",
+    labNo: "LAB-2569-00065",
     productType: "พืชสมุนไพรแห้ง",
-    testDate: "25 ธ.ค. 2567",
+    testDate: "25 ธ.ค. 2569",
     result: "ผ่าน",
     status: "pending",
     labName: "ศูนย์วิทยาศาสตร์การแพทย์ที่ 2",
@@ -475,7 +552,7 @@ const labResults = [
 const labRequests = ref([
   {
     id: "req-001",
-    requestNo: "LAB-REQ-2568-001",
+    requestNo: "LAB-REQ-2569-001",
     operator: "บ.ไทยฟู้ดโปรเซส จก.",
     productType: "มันฝรั่งทอดกรอบ",
     requestDate: "8 ม.ค. 68",
@@ -483,7 +560,7 @@ const labRequests = ref([
   },
   {
     id: "req-002",
-    requestNo: "LAB-REQ-2568-002",
+    requestNo: "LAB-REQ-2569-002",
     operator: "บ.สยามแปรรูป จก.",
     productType: "แป้งมันสำปะหลัง",
     requestDate: "9 ม.ค. 68",
@@ -491,7 +568,7 @@ const labRequests = ref([
   },
   {
     id: "req-003",
-    requestNo: "LAB-REQ-2568-003",
+    requestNo: "LAB-REQ-2569-003",
     operator: "บ.กรีนโปรดักส์ จก.",
     productType: "พริกแห้งบด",
     requestDate: "10 ม.ค. 68",
@@ -504,7 +581,13 @@ const pendingRequestCount = computed(
 );
 
 const statusTabs = computed(() => [
-  { label: "ทั้งหมด", value: "all", color: "default", icon: "fas fa-list", count: 0 },
+  {
+    label: "ทั้งหมด",
+    value: "all",
+    color: "default",
+    icon: "fas fa-list",
+    count: 0,
+  },
   {
     label: "รอพิจารณา",
     value: "pending",
@@ -512,19 +595,34 @@ const statusTabs = computed(() => [
     icon: "fas fa-hourglass-half",
     count: labResults.filter((l) => l.status === "pending").length,
   },
-  { label: "ผ่าน", value: "passed", color: "success", icon: "fas fa-circle-check", count: 0 },
-  { label: "ไม่ผ่าน", value: "failed", color: "error", icon: "fas fa-circle-xmark", count: 0 },
+  {
+    label: "ผ่าน",
+    value: "passed",
+    color: "success",
+    icon: "fas fa-circle-check",
+    count: 0,
+  },
+  {
+    label: "ไม่ผ่าน",
+    value: "failed",
+    color: "error",
+    icon: "fas fa-circle-xmark",
+    count: 0,
+  },
 ]);
 
 const filteredItems = computed(() => {
   let items = labResults;
-  if (filterStatus.value) items = items.filter((i) => i.status === filterStatus.value);
-  if (activeTab.value !== "all") items = items.filter((i) => i.status === activeTab.value);
+  if (filterStatus.value)
+    items = items.filter((i) => i.status === filterStatus.value);
+  if (activeTab.value !== "all")
+    items = items.filter((i) => i.status === activeTab.value);
   if (search.value) {
     const q = search.value.toLowerCase();
     items = items.filter(
       (i) =>
-        i.labNo.toLowerCase().includes(q) || i.productType.toLowerCase().includes(q),
+        i.labNo.toLowerCase().includes(q) ||
+        i.productType.toLowerCase().includes(q),
     );
   }
   return items;
@@ -589,17 +687,17 @@ function getStatusLabel(s) {
 
 function getRequestStatusColor(s) {
   const m = {
-    "รอดำเนินการ": "warning",
-    "กำลังดำเนินการ": "info",
-    "เสร็จสิ้น": "success",
+    รอดำเนินการ: "warning",
+    กำลังดำเนินการ: "info",
+    เสร็จสิ้น: "success",
   };
   return m[s] ?? "grey";
 }
 function getRequestStatusIcon(s) {
   const m = {
-    "รอดำเนินการ": "fas fa-hourglass-half",
-    "กำลังดำเนินการ": "fas fa-spinner",
-    "เสร็จสิ้น": "fas fa-circle-check",
+    รอดำเนินการ: "fas fa-hourglass-half",
+    กำลังดำเนินการ: "fas fa-spinner",
+    เสร็จสิ้น: "fas fa-circle-check",
   };
   return m[s] ?? "fas fa-circle";
 }

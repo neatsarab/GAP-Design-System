@@ -6,7 +6,7 @@
         icon="fas fa-arrow-left"
         variant="text"
         size="small"
-        @click="router.push('/el/user/applications')"
+        @click="goToApplicationList"
       />
       <div>
         <h1 class="page-title mb-0">ยื่นคำขอ EL</h1>
@@ -24,10 +24,7 @@
           hover
           :ripple="false"
           :disabled="type.disabled"
-          @click="
-            !type.disabled &&
-            router.push(`/el/user/applications/new/${type.key}`)
-          "
+          @click="!type.disabled && goToNewApplication(type.key)"
         >
           <v-card-text class="pa-8 d-flex flex-column align-center text-center">
             <div
@@ -100,6 +97,14 @@
 import { useRouter } from "vue-router";
 
 const router = useRouter();
+
+function goToApplicationList() {
+  router.push({ name: "ELUserApplicationList" });
+}
+
+function goToNewApplication(key) {
+  router.push({ name: "ELUserNewApplication", params: { key } });
+}
 
 const appTypes = [
   {

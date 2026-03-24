@@ -6,7 +6,7 @@
         icon="fas fa-arrow-left"
         variant="text"
         size="small"
-        @click="router.push('/gap/user/applications/new')"
+        @click="goToNewApplication"
       />
       <div>
         <h1 class="page-title mb-0">ยื่นคำขอ GAP รายกลุ่ม</h1>
@@ -37,10 +37,7 @@
           hover
           :ripple="false"
           :disabled="type.disabled"
-          @click="
-            !type.disabled &&
-            router.push(`/gap/user/applications/new/group/${type.key}`)
-          "
+          @click="!type.disabled && goToGroupAppType(type.key)"
         >
           <v-card-text class="pa-8 d-flex flex-column align-center text-center">
             <div
@@ -131,6 +128,14 @@ import { useSessionStore } from "@/stores/session.store";
 
 const router = useRouter();
 const sessionStore = useSessionStore();
+
+function goToNewApplication() {
+  router.push({ name: "ApplicationType" });
+}
+
+function goToGroupAppType(key) {
+  router.push(`/gap/user/applications/new/group/${key}`);
+}
 
 const appTypes = computed(() => [
   {

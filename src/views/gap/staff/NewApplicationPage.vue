@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="d-flex align-center ga-3 mb-6">
-      <v-btn variant="text" prepend-icon="fas fa-arrow-left" size="small" @click="router.push('/gap/staff/applications')">
+      <v-btn variant="text" prepend-icon="fas fa-arrow-left" size="small" @click="goToApplicationList">
         กลับ
       </v-btn>
       <v-divider vertical style="height:24px" />
@@ -26,7 +26,7 @@
                 <v-card
                   class="type-card"
                   variant="outlined"
-                  @click="router.push('/gap/user/applications/new/individual')"
+                  @click="goToNewIndividual"
                 >
                   <v-card-text class="pa-6 text-center">
                     <v-icon icon="fas fa-user" color="gap-staff" size="32" class="mb-3" />
@@ -41,7 +41,7 @@
                 <v-card
                   class="type-card"
                   variant="outlined"
-                  @click="router.push('/gap/user/applications/new/group')"
+                  @click="goToNewGroup"
                 >
                   <v-card-text class="pa-6 text-center">
                     <v-icon icon="fas fa-users" color="secondary" size="32" class="mb-3" />
@@ -67,6 +67,18 @@
 <script setup>
 import { useRouter } from 'vue-router'
 const router = useRouter()
+
+function goToApplicationList() {
+  router.push({ name: "staffApplicationList" });
+}
+
+function goToNewIndividual() {
+  router.push({ name: "NewApplicationIndividual" });
+}
+
+function goToNewGroup() {
+  router.push({ name: "NewApplicationGroup" });
+}
 </script>
 
 <style scoped>

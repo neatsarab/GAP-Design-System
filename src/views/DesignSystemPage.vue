@@ -18,7 +18,7 @@
           </div>
         </template>
         <v-list-item-title class="font-weight-medium text-body-2">
-          ระบบรับรองแหล่งผลิต GAP พืช
+          ระบบการให้บริการทางอิเล็กทรอนิกส์
         </v-list-item-title>
         <v-list-item-subtitle class="text-caption">
           กรมวิชาการเกษตร
@@ -29,7 +29,7 @@
             variant="text"
             color="on-surface-variant"
             size="small"
-            @click="rail = !rail"
+            @click="toggleRail"
           />
         </template>
       </v-list-item>
@@ -121,7 +121,7 @@
         variant="text"
         size="small"
         class="ml-2"
-        @click="rail = !rail"
+        @click="toggleRail"
       />
 
       <div class="d-none d-sm-block ml-3" style="width: 210px">
@@ -196,8 +196,8 @@
             </div>
             <h1 class="text-h4 font-weight-medium mb-1">GAP Design System</h1>
             <p class="text-body-1 text-medium-emphasis mb-0">
-              คู่มือ UI components และ design tokens สำหรับระบบรับรองแหล่งผลิต
-              GAP พืช
+              คู่มือ UI components และ design tokens
+              สำหรับระบบการให้บริการทางอิเล็กทรอนิกส์ของกรมวิชาการเกษตร
             </p>
           </div>
           <div class="d-flex flex-wrap ga-2">
@@ -469,6 +469,10 @@ function toggleTheme() {
 const drawer = ref(true);
 const rail = ref(false);
 const activeSection = ref("colors");
+
+function toggleRail() {
+  rail.value = !rail.value;
+}
 
 function scrollTo(id) {
   activeSection.value = id;

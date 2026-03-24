@@ -4,7 +4,11 @@
     :rail="rail"
     permanent
     :color="isDark ? '#1e1e1e' : 'white'"
-    :style="isDark ? 'border-right:1px solid #2a2a2a' : 'border-right:1px solid #E0E0E0'"
+    :style="
+      isDark
+        ? 'border-right:1px solid #2a2a2a'
+        : 'border-right:1px solid #E0E0E0'
+    "
     @update:model-value="$emit('update:drawer', $event)"
   >
     <!-- Brand / Logo -->
@@ -21,9 +25,11 @@
         class="font-weight-medium"
         :style="`font-size:14px;line-height:1.4;color:${isDark ? '#EEEEEE' : '#424242'}`"
       >
-        ระบบรับรองแหล่งผลิต GAP พืช
+        ระบบการให้บริการทางอิเล็กทรอนิกส์
       </v-list-item-title>
-      <v-list-item-subtitle :style="`font-size:10px;color:${isDark ? '#757575' : '#616161'}`">
+      <v-list-item-subtitle
+        :style="`font-size:10px;color:${isDark ? '#757575' : '#616161'}`"
+      >
         กรมวิชาการเกษตร
       </v-list-item-subtitle>
       <template v-slot:append>
@@ -41,9 +47,11 @@
     <div v-if="!rail" class="px-4 mb-2">
       <div
         class="rounded-lg pa-3 d-flex align-center ga-2"
-        :style="isDark
-          ? 'background:rgba(76,175,110,0.1);border:1px solid rgba(76,175,110,0.35)'
-          : 'background:#E9F7EF;border:1px solid #4CAF6E'"
+        :style="
+          isDark
+            ? 'background:rgba(76,175,110,0.1);border:1px solid rgba(76,175,110,0.35)'
+            : 'background:#E9F7EF;border:1px solid #4CAF6E'
+        "
       >
         <v-avatar color="primary" size="32">
           <v-icon icon="fas fa-user" size="16" color="white" />
@@ -52,8 +60,14 @@
           <div
             class="text-truncate font-weight-medium"
             :style="`font-size:14px;color:${isDark ? '#4CAF6E' : '#357E4E'}`"
-          >นิธิพร เทิบจันทึก</div>
-          <div :style="`font-size:11px;color:${isDark ? '#616161' : '#757575'}`">เลขทะเบียน : 19903004</div>
+          >
+            นิธิพร เทิบจันทึก
+          </div>
+          <div
+            :style="`font-size:11px;color:${isDark ? '#616161' : '#757575'}`"
+          >
+            เลขทะเบียน : 19903004
+          </div>
         </div>
         <v-icon icon="fas fa-chevron-down" size="12" color="primary" />
       </div>
@@ -62,9 +76,10 @@
     <v-divider class="mx-3" :color="isDark ? '#2a2a2a' : '#E0E0E0'" />
 
     <v-list density="compact" nav class="mt-1 px-2">
-
       <!-- Design Tokens -->
-      <div v-if="!rail" class="sidebar-group-label text-medium-emphasis">Design Tokens</div>
+      <div v-if="!rail" class="sidebar-group-label text-medium-emphasis">
+        Design Tokens
+      </div>
       <v-list-item
         v-for="section in navSections.slice(0, 2)"
         :key="section.id"
@@ -76,15 +91,21 @@
         :color="isDark ? '#9E9E9E' : '#616161'"
         rounded="lg"
         class="mb-1"
-        :style="activeSection === section.id
-          ? (isDark ? 'background:rgba(76,175,110,0.15)' : 'background:#E9F7EF')
-          : ''"
+        :style="
+          activeSection === section.id
+            ? isDark
+              ? 'background:rgba(76,175,110,0.15)'
+              : 'background:#E9F7EF'
+            : ''
+        "
         @click="$emit('navigate', section.id)"
       />
 
       <!-- Components -->
       <v-divider class="mx-2 my-2" :color="isDark ? '#2a2a2a' : '#E0E0E0'" />
-      <div v-if="!rail" class="sidebar-group-label text-medium-emphasis">Components</div>
+      <div v-if="!rail" class="sidebar-group-label text-medium-emphasis">
+        Components
+      </div>
       <v-list-item
         v-for="section in navSections.slice(2, 9)"
         :key="section.id"
@@ -96,15 +117,21 @@
         :color="isDark ? '#9E9E9E' : '#616161'"
         rounded="lg"
         class="mb-1"
-        :style="activeSection === section.id
-          ? (isDark ? 'background:rgba(76,175,110,0.15)' : 'background:#E9F7EF')
-          : ''"
+        :style="
+          activeSection === section.id
+            ? isDark
+              ? 'background:rgba(76,175,110,0.15)'
+              : 'background:#E9F7EF'
+            : ''
+        "
         @click="$emit('navigate', section.id)"
       />
 
       <!-- Patterns -->
       <v-divider class="mx-2 my-2" :color="isDark ? '#2a2a2a' : '#E0E0E0'" />
-      <div v-if="!rail" class="sidebar-group-label text-medium-emphasis">Patterns</div>
+      <div v-if="!rail" class="sidebar-group-label text-medium-emphasis">
+        Patterns
+      </div>
       <v-list-item
         v-for="section in navSections.slice(9)"
         :key="section.id"
@@ -116,9 +143,13 @@
         :color="isDark ? '#9E9E9E' : '#616161'"
         rounded="lg"
         class="mb-1"
-        :style="activeSection === section.id
-          ? (isDark ? 'background:rgba(76,175,110,0.15)' : 'background:#E9F7EF')
-          : ''"
+        :style="
+          activeSection === section.id
+            ? isDark
+              ? 'background:rgba(76,175,110,0.15)'
+              : 'background:#E9F7EF'
+            : ''
+        "
         @click="$emit('navigate', section.id)"
       />
     </v-list>
@@ -126,10 +157,15 @@
 </template>
 
 <script setup>
+defineProps({
+  isDark: Boolean,
+  drawer: Boolean,
+  rail: Boolean,
+  navSections: Array,
+  activeSection: String,
+});
 
-defineProps({ isDark: Boolean, drawer: Boolean, rail: Boolean, navSections: Array, activeSection: String })
-
-defineEmits(['update:drawer', 'update:rail', 'navigate'])
+defineEmits(["update:drawer", "update:rail", "navigate"]);
 </script>
 
 <style scoped>

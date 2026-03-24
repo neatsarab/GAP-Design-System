@@ -4,25 +4,26 @@
     <div class="d-flex align-center justify-space-between mb-5 flex-wrap ga-3">
       <div>
         <h1 class="page-title mb-1">ทะเบียนโรงคัดบรรจุ EL</h1>
-        <p class="text-body-2 text-medium-emphasis mb-0">รายชื่อโรงคัดบรรจุที่ขึ้นทะเบียนในระบบ Establishment List</p>
+        <p class="text-body-2 text-medium-emphasis mb-0">
+          รายชื่อโรงคัดบรรจุที่ขึ้นทะเบียนในระบบ Establishment List
+        </p>
       </div>
-      <v-btn variant="tonal" color="el-staff" prepend-icon="fas fa-download">ส่งออก Excel</v-btn>
+      <v-btn variant="tonal" color="el-staff" prepend-icon="fas fa-download"
+        >ส่งออก Excel</v-btn
+      >
     </div>
 
     <!-- Stats -->
     <v-row class="mb-6">
-      <v-col
-        v-for="stat in stats"
-        :key="stat.label"
-        cols="6"
-        sm="3"
-      >
+      <v-col v-for="stat in stats" :key="stat.label" cols="6" sm="3">
         <v-card rounded="xl" elevation="0" class="stat-card">
           <v-card-text class="pa-5">
             <div class="d-flex align-center justify-space-between mb-2">
               <div
                 class="stat-icon-box rounded-xl"
-                :style="{ background: `rgba(var(--v-theme-${stat.color}), 0.1)` }"
+                :style="{
+                  background: `rgba(var(--v-theme-${stat.color}), 0.1)`,
+                }"
               >
                 <v-icon :icon="stat.icon" :color="stat.color" size="20" />
               </div>
@@ -39,7 +40,10 @@
       <v-card-text class="pa-4">
         <v-row dense align="center">
           <v-col cols="12" sm="6" md="5">
-            <div class="field-label mb-1"><div>ค้นหา</div><div class="field-label-en">Search</div></div>
+            <div class="field-label mb-1">
+              <div>ค้นหา</div>
+              <div class="field-label-en">Search</div>
+            </div>
             <v-text-field
               v-model="search"
               placeholder="ค้นหาเลขทะเบียน / ชื่อโรงคัดบรรจุ"
@@ -52,7 +56,10 @@
             />
           </v-col>
           <v-col cols="12" sm="6" md="4">
-            <div class="field-label mb-1"><div>สถานะ</div><div class="field-label-en">Status</div></div>
+            <div class="field-label mb-1">
+              <div>สถานะ</div>
+              <div class="field-label-en">Status</div>
+            </div>
             <v-autocomplete
               v-model="statusFilter"
               :items="statusOptions"
@@ -74,7 +81,9 @@
     <v-chip-group v-model="activeTab" mandatory color="el-staff" class="mb-4">
       <v-chip value="all" variant="tonal" rounded="lg">ทั้งหมด</v-chip>
       <v-chip value="active" variant="tonal" rounded="lg">มีผล</v-chip>
-      <v-chip value="expiring_soon" variant="tonal" rounded="lg">ใกล้หมดอายุ</v-chip>
+      <v-chip value="expiring_soon" variant="tonal" rounded="lg"
+        >ใกล้หมดอายุ</v-chip
+      >
       <v-chip value="expired" variant="tonal" rounded="lg">หมดอายุ</v-chip>
     </v-chip-group>
 
@@ -88,14 +97,29 @@
         hover
       >
         <template #item.status="{ item }">
-          <v-chip :color="statusColor(item.status)" size="small" variant="tonal">
+          <v-chip
+            :color="statusColor(item.status)"
+            size="small"
+            variant="tonal"
+          >
             {{ statusLabel(item.status) }}
           </v-chip>
         </template>
         <template #item.actions="{ item }">
           <div class="d-flex ga-1">
-            <v-btn size="small" variant="text" color="el-staff" icon="fas fa-eye" />
-            <v-btn size="small" variant="text" color="success" icon="fas fa-download" :disabled="item.status === 'expired'" />
+            <v-btn
+              size="small"
+              variant="text"
+              color="el-staff"
+              icon="fas fa-eye"
+            />
+            <v-btn
+              size="small"
+              variant="text"
+              color="success"
+              icon="fas fa-download"
+              :disabled="item.status === 'expired'"
+            />
           </div>
         </template>
       </v-data-table>
@@ -128,20 +152,103 @@ const headers = [
 ];
 
 const allItems = [
-  { id: 1, regNo: "EL-REG-2568-00045", establishmentName: "บ.ไทยฟรุ๊ตส์ เอ็กซ์พอร์ต จก.", cropType: "ทุเรียน", province: "กรุงเทพฯ", registeredDate: "15 ม.ค. 2568", expireDate: "14 ม.ค. 2570", status: "active" },
-  { id: 2, regNo: "EL-REG-2568-00044", establishmentName: "บ.สยามฟาร์ม จก.", cropType: "มังคุด", province: "จันทบุรี", registeredDate: "10 ม.ค. 2568", expireDate: "09 ม.ค. 2570", status: "active" },
-  { id: 3, regNo: "EL-REG-2567-00038", establishmentName: "บ.เชียงใหม่ฟรุ๊ต จก.", cropType: "ลำไย", province: "เชียงใหม่", registeredDate: "20 มิ.ย. 2567", expireDate: "01 เม.ย. 2568", status: "expiring_soon" },
-  { id: 4, regNo: "EL-REG-2567-00032", establishmentName: "บ.อีสานโปรดิ๊วซ จก.", cropType: "ทุเรียน", province: "ระยอง", registeredDate: "05 มี.ค. 2567", expireDate: "15 มี.ค. 2568", status: "expiring_soon" },
-  { id: 5, regNo: "EL-REG-2566-00020", establishmentName: "บ.กรีนฟาร์ม จก.", cropType: "ลิ้นจี่", province: "ลำพูน", registeredDate: "10 ส.ค. 2566", expireDate: "09 ส.ค. 2568", status: "expiring_soon" },
-  { id: 6, regNo: "EL-REG-2565-00015", establishmentName: "บ.นครปฐมฟาร์ม จก.", cropType: "ทุเรียน", province: "นครปฐม", registeredDate: "12 พ.ค. 2565", expireDate: "11 พ.ค. 2567", status: "expired" },
-  { id: 7, regNo: "EL-REG-2565-00010", establishmentName: "บ.ภาคใต้โปรดิ๊วซ จก.", cropType: "มังคุด", province: "สุราษฎร์ธานี", registeredDate: "03 ม.ค. 2565", expireDate: "02 ม.ค. 2567", status: "expired" },
+  {
+    id: 1,
+    regNo: "EL-REG-2569-00045",
+    establishmentName: "บ.ไทยฟรุ๊ตส์ เอ็กซ์พอร์ต จก.",
+    cropType: "ทุเรียน",
+    province: "กรุงเทพฯ",
+    registeredDate: "15 ม.ค. 2569",
+    expireDate: "14 ม.ค. 2570",
+    status: "active",
+  },
+  {
+    id: 2,
+    regNo: "EL-REG-2569-00044",
+    establishmentName: "บ.สยามฟาร์ม จก.",
+    cropType: "มังคุด",
+    province: "จันทบุรี",
+    registeredDate: "10 ม.ค. 2569",
+    expireDate: "09 ม.ค. 2570",
+    status: "active",
+  },
+  {
+    id: 3,
+    regNo: "EL-REG-2569-00038",
+    establishmentName: "บ.เชียงใหม่ฟรุ๊ต จก.",
+    cropType: "ลำไย",
+    province: "เชียงใหม่",
+    registeredDate: "20 มิ.ย. 2569",
+    expireDate: "01 เม.ย. 2569",
+    status: "expiring_soon",
+  },
+  {
+    id: 4,
+    regNo: "EL-REG-2569-00032",
+    establishmentName: "บ.อีสานโปรดิ๊วซ จก.",
+    cropType: "ทุเรียน",
+    province: "ระยอง",
+    registeredDate: "05 มี.ค. 2569",
+    expireDate: "15 มี.ค. 2569",
+    status: "expiring_soon",
+  },
+  {
+    id: 5,
+    regNo: "EL-REG-2566-00020",
+    establishmentName: "บ.กรีนฟาร์ม จก.",
+    cropType: "ลิ้นจี่",
+    province: "ลำพูน",
+    registeredDate: "10 ส.ค. 2566",
+    expireDate: "09 ส.ค. 2569",
+    status: "expiring_soon",
+  },
+  {
+    id: 6,
+    regNo: "EL-REG-2565-00015",
+    establishmentName: "บ.นครปฐมฟาร์ม จก.",
+    cropType: "ทุเรียน",
+    province: "นครปฐม",
+    registeredDate: "12 พ.ค. 2565",
+    expireDate: "11 พ.ค. 2569",
+    status: "expired",
+  },
+  {
+    id: 7,
+    regNo: "EL-REG-2565-00010",
+    establishmentName: "บ.ภาคใต้โปรดิ๊วซ จก.",
+    cropType: "มังคุด",
+    province: "สุราษฎร์ธานี",
+    registeredDate: "03 ม.ค. 2565",
+    expireDate: "02 ม.ค. 2569",
+    status: "expired",
+  },
 ];
 
 const stats = [
-  { label: "ทั้งหมด",      value: allItems.length, icon: "fas fa-warehouse",    color: "primary" },
-  { label: "มีผล",          value: allItems.filter(i => i.status === "active").length,        icon: "fas fa-circle-check", color: "success" },
-  { label: "ใกล้หมดอายุ",  value: allItems.filter(i => i.status === "expiring_soon").length, icon: "fas fa-clock",        color: "warning" },
-  { label: "หมดอายุ",       value: allItems.filter(i => i.status === "expired").length,       icon: "fas fa-circle-xmark", color: "error" },
+  {
+    label: "ทั้งหมด",
+    value: allItems.length,
+    icon: "fas fa-warehouse",
+    color: "primary",
+  },
+  {
+    label: "มีผล",
+    value: allItems.filter((i) => i.status === "active").length,
+    icon: "fas fa-circle-check",
+    color: "success",
+  },
+  {
+    label: "ใกล้หมดอายุ",
+    value: allItems.filter((i) => i.status === "expiring_soon").length,
+    icon: "fas fa-clock",
+    color: "warning",
+  },
+  {
+    label: "หมดอายุ",
+    value: allItems.filter((i) => i.status === "expired").length,
+    icon: "fas fa-circle-xmark",
+    color: "error",
+  },
 ];
 
 const filteredItems = computed(() => {
@@ -173,4 +280,3 @@ function statusLabel(status) {
   return map[status] ?? status;
 }
 </script>
-

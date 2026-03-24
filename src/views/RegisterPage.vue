@@ -1,23 +1,23 @@
 <template>
-  <div class="reg-root" :class="{ 'is-dark': themeStore.isDark }">
+  <div class="page-root" :class="{ 'is-dark': themeStore.isDark }">
     <!-- ═══ Left Panel ═══ -->
-    <div class="reg-left d-none d-md-flex">
-      <div class="reg-left-inner">
+    <div class="left-panel d-none d-md-flex">
+      <div class="left-panel-inner">
         <div class="brand-ring mb-8">
           <v-icon icon="fas fa-leaf" size="36" color="white" />
         </div>
-        <h1 class="text-h4 font-weight-bold text-white mb-2 lh-tight">
-          กรมวิชาการเกษตร
+        <h1 class="text-h5 font-weight-bold text-white mb-3 lh-tight">
+          ระบบการให้บริการทางอิเล็กทรอนิกส์
         </h1>
-        <p class="text-body-1 mb-1" style="color: rgba(255, 255, 255, 0.75)">
-          Department of Agriculture
+        <p class="text-body-1 mb-10" style="color: rgba(255, 255, 255, 0.75)">
+          กรมวิชาการเกษตร กระทรวงเกษตรและสหกรณ์
         </p>
-        <p class="text-body-2 mb-10" style="color: rgba(255, 255, 255, 0.5)">
+        <!-- <p class="text-body-2 mb-10" style="color: rgba(255, 255, 255, 0.5)">
           กระทรวงเกษตรและสหกรณ์
-        </p>
+        </p> -->
         <div class="feature-list">
           <div v-for="f in features" :key="f.text" class="feature-item">
-            <div class="feature-icon-box">
+            <div class="feature-icon">
               <v-icon :icon="f.icon" size="15" color="white" />
             </div>
             <span
@@ -27,8 +27,8 @@
             >
           </div>
         </div>
-        <div class="reg-left-footer">
-          <v-chip
+        <div class="left-panel-footer">
+          <!-- <v-chip
             size="small"
             color="white"
             variant="outlined"
@@ -36,14 +36,14 @@
           >
             <v-icon start icon="fas fa-shield-halved" size="12" />
             ระบบมาตรฐาน SSL/TLS ปลอดภัย
-          </v-chip>
+          </v-chip> -->
         </div>
       </div>
     </div>
 
     <!-- ═══ Right Panel ═══ -->
-    <div class="reg-right">
-      <div class="reg-form-wrapper">
+    <div class="right-panel">
+      <div class="page-form-wrapper">
         <!-- Top bar -->
         <div class="d-flex align-center justify-space-between mb-6">
           <div class="d-flex d-md-none align-center ga-2">
@@ -55,7 +55,7 @@
                 กรมวิชาการเกษตร
               </div>
               <div class="text-caption text-medium-emphasis">
-                ระบบบริการออนไลน์
+                ระบบการให้บริการทางอิเล็กทรอนิกส์
               </div>
             </div>
           </div>
@@ -370,7 +370,7 @@
               size="large"
               rounded="lg"
               prepend-icon="fas fa-chevron-left"
-              @click="currentStep--"
+              @click="prevStep"
             >
               ย้อนกลับ
             </v-btn>
@@ -472,7 +472,7 @@
               size="large"
               rounded="lg"
               prepend-icon="fas fa-chevron-left"
-              @click="currentStep--"
+              @click="prevStep"
             >
               ย้อนกลับ
             </v-btn>
@@ -498,7 +498,7 @@
             size="small"
             color="primary"
             class="ml-1 pa-0"
-            @click="router.push('/login')"
+            @click="goToLogin"
           >
             เข้าสู่ระบบ
           </v-btn>
@@ -511,12 +511,12 @@
             size="small"
             color="medium-emphasis"
             prepend-icon="fas fa-arrow-left"
-            @click="router.push('/')"
+            @click="goToPortal"
           >
             กลับหน้าหลัก
           </v-btn>
           <span class="text-caption text-medium-emphasis"
-            >© 2568 กรมวิชาการเกษตร</span
+            >© 2569 กรมวิชาการเกษตร</span
           >
         </div>
       </div>
@@ -563,7 +563,7 @@
             color="primary"
             block
             rounded="lg"
-            @click="router.push('/login')"
+            @click="goToLogin"
           >
             กลับหน้าเข้าสู่ระบบ
           </v-btn>
@@ -611,33 +611,27 @@ const form = ref({
 const features = [
   {
     icon: "fas fa-seedling",
-    text: "ระบบการรับรองมาตรฐาน GAP",
+    text: "ระบบการรับรองมาตรฐานการปฏิบัติทางการเกษตรที่ดีสำหรับพืช",
   },
-  {
-    icon: "fas fa-leaf",
-    text: "ระบบการรับรองมาตรฐาน ORG",
-  },
+  { icon: "fas fa-leaf", text: "ระบบการรับรองมาตรฐานเกษตรอินทรีย์" },
   {
     icon: "fas fa-industry",
-    text: "ระบบการขึ้นทะเบียนโรงงานผลิตสินค้าพืช",
+    text: "ระบบการขึ้นทะเบียนโรงงานผลิตสินค้าพืช กรมวิชาการเกษตร",
   },
   {
     icon: "fas fa-certificate",
     text: "ระบบการขึ้นทะเบียนหน่วยรับรองโรงงานผลิตสินค้าพืช",
   },
-  { icon: "fas fa-ship", text: "ระบบจดทะเบียนผู้ส่งออก" },
+  { icon: "fas fa-ship", text: "ระบบการจดทะเบียนผู้ส่งออกสินค้าพืช" },
   {
     icon: "fas fa-virus",
-    text: "ระบบ Health Certificate ตามประกาศพืชควบคุมเฉพาะ",
+    text: "ระบบการออกหนังสือรับรองสุขอนามัยพืชสำหรับพืชควบคุมเฉพาะ",
   },
   {
     icon: "fas fa-file-medical",
-    text: "ระบบ Health Certificate สินค้าแปรรูปด้านพืช",
+    text: "ระบบการขึ้นทะเบียนหน่วยรับรองโรงงานผลิตสินค้าพืช",
   },
-  {
-    icon: "fas fa-warehouse",
-    text: "ระบบการควบคุมพิเศษระบบบัญชีรายชื่อโรงคัดบรรจุ",
-  },
+  { icon: "fas fa-warehouse", text: "ระบบบัญชีรายชื่อโรงคัดบรรจุสินค้าพืช" },
 ];
 
 const provinces = [
@@ -699,6 +693,18 @@ async function doSubmit() {
   successDialog.value = true;
 }
 
+function prevStep() {
+  currentStep.value--;
+}
+
+function goToLogin() {
+  router.push({ name: "Login" });
+}
+
+function goToPortal() {
+  router.push({ name: "Portal" });
+}
+
 function maskIdCard(v) {
   if (v.length < 5) return v;
   return v.slice(0, 1) + "-XXXX-XXXXX-" + v.slice(-2);
@@ -706,172 +712,29 @@ function maskIdCard(v) {
 </script>
 
 <style scoped>
-/* ═══ Root ═══ */
-.reg-root {
-  min-height: 100vh;
-  display: flex;
-}
-
-/* ═══ Left Panel ═══ */
-.reg-left {
-  width: 520px;
-  flex-shrink: 0;
-  background: linear-gradient(
-    145deg,
-    rgb(var(--v-theme-primary)) 0%,
-    rgba(var(--v-theme-primary), 0.6) 100%
-  );
-  flex-direction: column;
-  overflow: hidden;
-  position: relative;
-}
-.reg-left::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background:
-    radial-gradient(
-      ellipse at 80% 15%,
-      rgba(255, 255, 255, 0.08) 0%,
-      transparent 55%
-    ),
-    radial-gradient(
-      ellipse at 10% 85%,
-      rgba(255, 255, 255, 0.05) 0%,
-      transparent 50%
-    );
-}
-.is-dark .reg-left {
-  background:
-    linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.68)),
-    linear-gradient(
-      145deg,
-      rgb(var(--v-theme-primary)) 0%,
-      rgba(var(--v-theme-primary), 0.5) 100%
-    );
-}
-.reg-left-inner {
-  position: relative;
-  z-index: 1;
-  padding: 52px 44px;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-.brand-ring {
-  width: 72px;
-  height: 72px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.15);
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  backdrop-filter: blur(8px);
-}
-.brand-ring-sm {
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  background: rgb(var(--v-theme-primary));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-.feature-list {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-.feature-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-.feature-icon-box {
-  width: 30px;
-  height: 30px;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.12);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-.reg-left-footer {
-  margin-top: auto;
-  padding-top: 32px;
-}
-
-/* ═══ Right Panel ═══ */
-.reg-right {
-  flex: 1;
-  background: rgb(var(--v-theme-background));
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  padding: 48px 24px;
-  overflow-y: auto;
-}
-.reg-form-wrapper {
-  width: 100%;
-  max-width: 520px;
-}
-
 /* ═══ Step Indicator ═══ */
 .step-track {
   display: flex;
   align-items: center;
 }
-.step-node {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  font-weight: 700;
-  flex-shrink: 0;
-  transition:
-    background 0.2s,
-    color 0.2s;
+
+.step-node--active {
+  border-color: rgb(var(--v-theme-primary));
+  color: white;
 }
+
 .step-node--done {
   background: rgb(var(--v-theme-success));
+  border-color: rgb(var(--v-theme-success));
   color: white;
 }
-.step-node--active {
-  background: rgb(var(--v-theme-primary));
-  color: white;
-  box-shadow: 0 0 0 4px rgba(var(--v-theme-primary), 0.15);
-}
-.step-node--pending {
-  background: rgba(var(--v-theme-on-surface), 0.08);
-  color: rgba(var(--v-theme-on-surface), 0.35);
-}
-.step-connector {
-  flex: 1;
-  height: 2px;
-  margin: 0 6px;
-  background: rgba(var(--v-border-color), var(--v-border-opacity));
-  transition: background 0.2s;
-}
-.step-connector--done {
-  background: rgb(var(--v-theme-success));
-}
+
 .step-labels {
   display: flex;
   justify-content: space-between;
   margin-top: 8px;
 }
-.step-label {
-  flex: 1;
-  text-align: center;
-  font-size: 11px;
-}
+
 .step-label:first-child {
   text-align: left;
 }

@@ -13,7 +13,10 @@
       <v-card-text class="pa-4">
         <v-row dense align="center">
           <v-col cols="12" sm="6" md="4">
-            <div class="field-label"><div>วันที่ยื่น (จาก)</div><div class="field-label-en">Submit Date (From)</div></div>
+            <div class="field-label">
+              <div>วันที่ยื่น (จาก)</div>
+              <div class="field-label-en">Submit Date (From)</div>
+            </div>
             <v-text-field
               v-model="filters.dateFrom"
               type="date"
@@ -24,7 +27,10 @@
             />
           </v-col>
           <v-col cols="12" sm="6" md="4">
-            <div class="field-label"><div>วันที่ยื่น (ถึง)</div><div class="field-label-en">Submit Date (To)</div></div>
+            <div class="field-label">
+              <div>วันที่ยื่น (ถึง)</div>
+              <div class="field-label-en">Submit Date (To)</div>
+            </div>
             <v-text-field
               v-model="filters.dateTo"
               type="date"
@@ -35,7 +41,10 @@
             />
           </v-col>
           <v-col cols="12" sm="6" md="4">
-            <div class="field-label"><div>ประเภทคำขอ</div><div class="field-label-en">Request Type</div></div>
+            <div class="field-label">
+              <div>ประเภทคำขอ</div>
+              <div class="field-label-en">Request Type</div>
+            </div>
             <v-autocomplete
               v-model="filters.type"
               :items="typeOptions"
@@ -52,15 +61,15 @@
         </v-row>
         <v-row dense>
           <v-col cols="auto" class="ml-auto">
-          <v-btn
-            variant="tonal"
-            color="grey"
-            size="small"
-            prepend-icon="fas fa-rotate-left"
-            @click="clearFilters"
-          >
-            ล้างตัวกรอง
-          </v-btn>
+            <v-btn
+              variant="tonal"
+              color="grey"
+              size="small"
+              prepend-icon="fas fa-rotate-left"
+              @click="clearFilters"
+            >
+              ล้างตัวกรอง
+            </v-btn>
           </v-col>
         </v-row>
       </v-card-text>
@@ -94,9 +103,7 @@
             variant="tonal"
             rounded="lg"
             prepend-icon="fas fa-pen-nib"
-            @click.stop="
-              router.push(`/doa/staff/applications/${item.id}?step=3`)
-            "
+            @click.stop="goToSigning(item.id)"
           >
             ลงนาม
           </v-btn>
@@ -111,6 +118,10 @@ import { ref, reactive, computed } from "vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
+
+function goToSigning(id) {
+  router.push({ name: "DOAStaffApplicationDetail", params: { id }, query: { step: 3 } });
+}
 const selected = ref([]);
 
 const filters = reactive({
@@ -137,21 +148,21 @@ const headers = [
 
 const allItems = [
   {
-    id: "DOA-2568-003",
+    id: "DOA-2569-003",
     runNo: "003",
     requestNo: "DOA-0003",
     type: "register",
     applicant: "บ.เอเชียฟาร์ม จก.",
-    submittedDate: "10/03/2568",
+    submittedDate: "10/03/2569",
     reviewResult: "approved",
   },
   {
-    id: "DOA-2568-007",
+    id: "DOA-2569-007",
     runNo: "007",
     requestNo: "DOA-0007",
     type: "scope",
     applicant: "บ.สยามกรีน จก.",
-    submittedDate: "16/03/2568",
+    submittedDate: "16/03/2569",
     reviewResult: "approved",
   },
 ];
@@ -178,4 +189,3 @@ function typeLabel(t) {
   );
 }
 </script>
-

@@ -27,7 +27,7 @@
             variant="text"
             color="on-surface-variant"
             size="small"
-            @click="rail = !rail"
+            @click="toggleRail"
           />
         </template>
       </v-list-item>
@@ -95,7 +95,7 @@
             title="ออกจากระบบ"
             base-color="error"
             rounded="lg"
-            @click="logoutDialog = true"
+            @click="openLogoutDialog"
           />
         </v-list>
       </template>
@@ -107,7 +107,7 @@
         variant="text"
         size="small"
         class="ml-2"
-        @click="rail = !rail"
+        @click="toggleRail"
       />
       <v-breadcrumbs
         :items="breadcrumbs"
@@ -154,7 +154,7 @@
 
     <v-dialog v-model="logoutDialog" max-width="360" persistent>
       <v-card rounded="xl">
-        <v-btn icon="fas fa-xmark" variant="text" size="small" color="grey" class="position-absolute top-0 right-0 ma-2" @click="logoutDialog = false" />
+        <v-btn icon="fas fa-xmark" variant="text" size="small" color="grey" class="position-absolute top-0 right-0 ma-2" @click="closeLogoutDialog" />
         <v-card-text class="pa-6 text-center">
           <div class="logout-icon-ring mx-auto mb-4">
             <v-icon icon="fas fa-right-from-bracket" size="28" color="error" />
@@ -170,7 +170,7 @@
             color="grey"
             rounded="lg"
             block
-            @click="logoutDialog = false"
+            @click="closeLogoutDialog"
             >ยกเลิก</v-btn
           >
           <v-btn color="error" rounded="lg" block @click="doLogout"
@@ -207,9 +207,21 @@ const drawer = ref(true);
 const rail = ref(false);
 const logoutDialog = ref(false);
 
+function toggleRail() {
+  rail.value = !rail.value;
+}
+
+function openLogoutDialog() {
+  logoutDialog.value = true;
+}
+
+function closeLogoutDialog() {
+  logoutDialog.value = false;
+}
+
 function doLogout() {
   logoutDialog.value = false;
-  router.push("/login");
+  router.push({ name: "Login" });
 }
 
 const breadcrumbs = computed(() => [

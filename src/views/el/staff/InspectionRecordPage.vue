@@ -2,9 +2,7 @@
   <!-- Header -->
   <div class="d-flex align-center justify-space-between mb-6 flex-wrap ga-3">
     <div>
-      <h1 class="page-title mb-1">
-        บันทึกข้อมูลผลการตรวจ GMP/HACCP
-      </h1>
+      <h1 class="page-title mb-1">บันทึกข้อมูลผลการตรวจ GMP/HACCP</h1>
       <p class="text-body-2 text-medium-emphasis mb-0">
         เลือกคำขอที่ต้องการบันทึกข้อมูลผลการตรวจ GMP/HACCP
       </p>
@@ -13,7 +11,7 @@
       color="el-staff"
       prepend-icon="fas fa-file-pen"
       rounded="lg"
-      @click="router.push('/el/staff/inspection/gmp')"
+      @click="goToGmpRecord"
     >
       บันทึกผล
     </v-btn>
@@ -24,7 +22,10 @@
     <v-card-text class="pa-4">
       <v-row dense align="center">
         <v-col cols="12" sm="6" md="4">
-          <div class="field-label mb-1"><div>ค้นหา</div><div class="field-label-en">Search</div></div>
+          <div class="field-label mb-1">
+            <div>ค้นหา</div>
+            <div class="field-label-en">Search</div>
+          </div>
           <v-text-field
             v-model="search"
             placeholder="ค้นหาเลขคำขอ / ชื่อโรงคัดบรรจุ"
@@ -37,7 +38,10 @@
           />
         </v-col>
         <v-col cols="12" sm="6" md="3">
-          <div class="field-label mb-1"><div>ชนิดพืช</div><div class="field-label-en">Crop Type</div></div>
+          <div class="field-label mb-1">
+            <div>ชนิดพืช</div>
+            <div class="field-label-en">Crop Type</div>
+          </div>
           <v-autocomplete
             v-model="typeFilter"
             :items="typeOptions"
@@ -52,7 +56,10 @@
           />
         </v-col>
         <v-col cols="12" sm="6" md="3">
-          <div class="field-label mb-1"><div>สถานะ</div><div class="field-label-en">Status</div></div>
+          <div class="field-label mb-1">
+            <div>สถานะ</div>
+            <div class="field-label-en">Status</div>
+          </div>
           <v-autocomplete
             v-model="statusFilter"
             :items="statusOptions"
@@ -69,15 +76,15 @@
       </v-row>
       <v-row dense>
         <v-col cols="auto" class="ml-auto">
-        <v-btn
-          variant="tonal"
-          color="grey"
-          size="small"
-          prepend-icon="fas fa-rotate-left"
-          @click="clearFilters"
-        >
-          ล้างตัวกรอง
-        </v-btn>
+          <v-btn
+            variant="tonal"
+            color="grey"
+            size="small"
+            prepend-icon="fas fa-rotate-left"
+            @click="clearFilters"
+          >
+            ล้างตัวกรอง
+          </v-btn>
         </v-col>
       </v-row>
     </v-card-text>
@@ -140,7 +147,7 @@
           variant="tonal"
           rounded="lg"
           prepend-icon="fas fa-eye"
-          @click.stop="router.push(`/el/staff/applications/${item.id}`)"
+          @click.stop="goToApplicationDetail(item.id)"
         >
           ดูรายละเอียด
         </v-btn>
@@ -154,6 +161,15 @@ import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
+
+function goToGmpRecord() {
+  router.push({ name: "ELStaffGmpRecord" });
+}
+
+function goToApplicationDetail(id) {
+  router.push({ name: "ELStaffApplicationDetail", params: { id } });
+}
+
 const search = ref("");
 const selected = ref([]);
 const typeFilter = ref(null);
@@ -189,93 +205,93 @@ const headers = [
 
 const allItems = [
   {
-    id: "EL-2568-00010",
-    requestNo: "EL-2568-00010",
+    id: "EL-2569-00010",
+    requestNo: "EL-2569-00010",
     establishmentName: "บ.สยามฟาร์มเอ็กซ์พอร์ต จก.",
     cropType: "ทุเรียน",
     province: "จันทบุรี",
-    submittedDate: "11 มี.ค. 2568",
+    submittedDate: "11 มี.ค. 2569",
     status: "submitted",
   },
   {
-    id: "EL-2568-00009",
-    requestNo: "EL-2568-00009",
+    id: "EL-2569-00009",
+    requestNo: "EL-2569-00009",
     establishmentName: "บ.อีสานโปรดิ๊วซ จก.",
     cropType: "มังคุด",
     province: "ระยอง",
-    submittedDate: "10 มี.ค. 2568",
+    submittedDate: "10 มี.ค. 2569",
     status: "submitted",
   },
   {
-    id: "EL-2568-00008",
-    requestNo: "EL-2568-00008",
+    id: "EL-2569-00008",
+    requestNo: "EL-2569-00008",
     establishmentName: "บ.เชียงใหม่ฟรุ๊ต จก.",
     cropType: "ลำไย",
     province: "เชียงใหม่",
-    submittedDate: "08 มี.ค. 2568",
+    submittedDate: "08 มี.ค. 2569",
     status: "inspection_scheduled",
   },
   {
-    id: "EL-2568-00007",
-    requestNo: "EL-2568-00007",
+    id: "EL-2569-00007",
+    requestNo: "EL-2569-00007",
     establishmentName: "บ.ตะวันออกการเกษตร จก.",
     cropType: "ทุเรียน",
     province: "ชลบุรี",
-    submittedDate: "07 มี.ค. 2568",
+    submittedDate: "07 มี.ค. 2569",
     status: "submitted",
   },
   {
-    id: "EL-2568-00006",
-    requestNo: "EL-2568-00006",
+    id: "EL-2569-00006",
+    requestNo: "EL-2569-00006",
     establishmentName: "บ.นครปฐมฟาร์ม จก.",
     cropType: "ลิ้นจี่",
     province: "นครปฐม",
-    submittedDate: "05 มี.ค. 2568",
+    submittedDate: "05 มี.ค. 2569",
     status: "under_review",
   },
   {
-    id: "EL-2568-00005",
-    requestNo: "EL-2568-00005",
+    id: "EL-2569-00005",
+    requestNo: "EL-2569-00005",
     establishmentName: "บ.สยามฟาร์ม จก.",
     cropType: "ทุเรียน",
     province: "จันทบุรี",
-    submittedDate: "01 มี.ค. 2568",
+    submittedDate: "01 มี.ค. 2569",
     status: "pending_committee",
   },
   {
-    id: "EL-2568-00004",
-    requestNo: "EL-2568-00004",
+    id: "EL-2569-00004",
+    requestNo: "EL-2569-00004",
     establishmentName: "บ.ภาคใต้โปรดิ๊วซ จก.",
     cropType: "มังคุด",
     province: "สุราษฎร์ธานี",
-    submittedDate: "25 ก.พ. 2568",
+    submittedDate: "25 ก.พ. 2569",
     status: "pending_committee",
   },
   {
-    id: "EL-2568-00003",
-    requestNo: "EL-2568-00003",
+    id: "EL-2569-00003",
+    requestNo: "EL-2569-00003",
     establishmentName: "บ.เชียงรายฟรุ๊ต จก.",
     cropType: "ลำไย",
     province: "เชียงราย",
-    submittedDate: "20 ก.พ. 2568",
+    submittedDate: "20 ก.พ. 2569",
     status: "inspection_scheduled",
   },
   {
-    id: "EL-2568-00002",
-    requestNo: "EL-2568-00002",
+    id: "EL-2569-00002",
+    requestNo: "EL-2569-00002",
     establishmentName: "บ.ไทยฟรุ๊ตส์ เอ็กซ์พอร์ต จก.",
     cropType: "ทุเรียน",
     province: "กรุงเทพฯ",
-    submittedDate: "10 ก.พ. 2568",
+    submittedDate: "10 ก.พ. 2569",
     status: "under_review",
   },
   {
-    id: "EL-2568-00001",
-    requestNo: "EL-2568-00001",
+    id: "EL-2569-00001",
+    requestNo: "EL-2569-00001",
     establishmentName: "บ.กรีนฟาร์ม จก.",
     cropType: "ลิ้นจี่",
     province: "ลำพูน",
-    submittedDate: "05 ก.พ. 2568",
+    submittedDate: "05 ก.พ. 2569",
     status: "approved",
   },
 ];
@@ -329,4 +345,3 @@ function statusLabel(status) {
   return map[status] ?? status;
 }
 </script>
-

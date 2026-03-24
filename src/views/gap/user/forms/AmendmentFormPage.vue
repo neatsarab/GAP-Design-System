@@ -18,9 +18,7 @@
             >แก้ไข / ยกเลิก</v-chip
           >
         </div>
-        <h1 class="page-title mb-0">
-          ใบคำขอแก้ไขและยกเลิกใบรับรอง GAP พืช
-        </h1>
+        <h1 class="page-title mb-0">ใบคำขอแก้ไขและยกเลิกใบรับรอง GAP พืช</h1>
         <p class="text-body-2 text-medium-emphasis mb-0">
           สำหรับแก้ไขข้อมูลหรือยกเลิกใบรับรองที่ออกแล้ว
         </p>
@@ -28,7 +26,7 @@
     </div>
 
     <!-- Stepper -->
-    <v-card class="mb-5">
+    <v-card rounded="xl" elevation="0" class="mb-6 section-card">
       <v-card-text class="pa-5">
         <div class="d-flex align-center">
           <template v-for="(step, i) in steps" :key="step.value">
@@ -44,7 +42,7 @@
                   color="white"
                 />
                 <span v-else class="text-caption font-weight-bold">{{
-                  step.value
+                  step.value + 1
                 }}</span>
               </div>
               <div
@@ -70,7 +68,7 @@
 
     <v-window v-model="currentStep">
       <!-- Step 1: ระบุใบรับรองที่ต้องการแก้ไข/ยกเลิก -->
-      <v-window-item :value="1">
+      <v-window-item :value="0">
         <v-card elevation="0" border rounded="xl" class="mb-4">
           <div class="section-header border-b">
             <v-icon size="15" color="gap-user">fas fa-certificate</v-icon>
@@ -89,7 +87,7 @@
                   density="compact"
                   rounded="lg"
                   v-model="form.certNo"
-                  placeholder="เช่น GAP-C-2567-0089"
+                  placeholder="เช่น GAP-C-2569-0089"
                   prepend-inner-icon="fas fa-certificate"
                   :rules="[rules.required]"
                   hide-details="auto"
@@ -97,7 +95,7 @@
               </v-col>
               <!-- <v-col cols="12" sm="6">
                 <div class="field-label">เลขที่คำขอเดิม <span class="req">*</span></div>
-                <v-text-field v-model="form.originalAppNo" placeholder="เช่น GAP-2567-001"
+                <v-text-field v-model="form.originalAppNo" placeholder="เช่น GAP-2569-001"
                   variant="outlined"
                   density="compact"
                   rounded="lg"
@@ -189,7 +187,7 @@
       </v-window-item>
 
       <!-- Step 2: รายละเอียดการแก้ไข / เหตุผลการยกเลิก -->
-      <v-window-item :value="2">
+      <v-window-item :value="1">
         <!-- แก้ไข -->
         <template v-if="form.requestType === 'amend'">
           <v-card elevation="0" border rounded="xl" class="mb-4">
@@ -327,7 +325,7 @@
       </v-window-item>
 
       <!-- Step 3: เอกสาร -->
-      <v-window-item :value="3">
+      <v-window-item :value="2">
         <v-card elevation="0" border rounded="xl">
           <div class="section-header border-b">
             <v-icon size="15" color="gap-user">fas fa-paperclip</v-icon>
@@ -379,7 +377,7 @@
       </v-window-item>
 
       <!-- Step 4: ตรวจสอบ -->
-      <v-window-item :value="4">
+      <v-window-item :value="3">
         <v-card elevation="0" border rounded="xl">
           <div class="section-header border-b">
             <v-icon size="15" color="success">fas fa-clipboard-check</v-icon>
@@ -461,19 +459,19 @@
     <!-- Nav buttons -->
     <div class="d-flex align-center ga-3 mt-5">
       <v-btn
-        v-if="currentStep > 1"
+        v-if="currentStep > 0"
         variant="outlined"
         color="grey-darken-1"
         prepend-icon="fas fa-arrow-left"
-        @click="currentStep--"
+        @click="prevStep"
         >ย้อนกลับ</v-btn
       >
       <v-spacer />
       <v-btn
-        v-if="currentStep < steps.length"
+        v-if="currentStep < steps.length - 1"
         color="gap-user"
         append-icon="fas fa-arrow-right"
-        @click="currentStep++"
+        @click="nextStep"
         >ถัดไป</v-btn
       >
       <v-btn
@@ -481,7 +479,7 @@
         :color="form.requestType === 'cancel' ? 'error' : 'gap-user'"
         prepend-icon="fas fa-paper-plane"
         size="large"
-        @click="successDialog = true"
+        @click="openSuccessDialog"
       >
         {{
           form.requestType === "cancel"
@@ -513,7 +511,7 @@
             }}
           </h2>
           <p class="text-body-2 text-medium-emphasis mb-5">
-            เลขที่คำขอ: <strong class="text-gap-user">GAP-AMD-2567-001</strong
+            เลขที่คำขอ: <strong class="text-gap-user">GAP-AMD-2569-001</strong
             ><br />
             อ้างอิงใบรับรอง: <strong>{{ form.certNo }}</strong
             ><br />
@@ -522,7 +520,7 @@
           <v-btn
             color="gap-user"
             block
-            @click="router.push('/gap/user/applications')"
+            @click="goToApplicationList"
             >ดูรายการคำขอ</v-btn
           >
         </v-card-text>
@@ -536,14 +534,29 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
-const currentStep = ref(1);
+const currentStep = ref(0);
+
+function goToApplicationList() {
+  router.push({ name: "ApplicationList" });
+}
+
+function prevStep() {
+  currentStep.value--;
+}
+
+function nextStep() {
+  currentStep.value++;
+}
 const successDialog = ref(false);
+function openSuccessDialog() {
+  successDialog.value = true;
+}
 
 const steps = [
-  { value: 1, title: "ระบุใบรับรอง" },
-  { value: 2, title: "รายละเอียด" },
-  { value: 3, title: "เอกสารแนบ" },
-  { value: 4, title: "ตรวจสอบ & ยื่น" },
+  { value: 0, title: "ระบุใบรับรอง" },
+  { value: 1, title: "รายละเอียด" },
+  { value: 2, title: "เอกสารแนบ" },
+  { value: 3, title: "ตรวจสอบ & ยื่น" },
 ];
 
 function stepClass(v) {

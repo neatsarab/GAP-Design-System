@@ -5,7 +5,7 @@
         icon="fas fa-arrow-left"
         variant="text"
         size="small"
-        @click="router.push('/hcex/user/applications/new')"
+        @click="goToApplicationType"
       />
       <div>
         <h1 class="page-title mb-1">
@@ -24,7 +24,7 @@
           icon="fas fa-arrow-left"
           variant="text"
           size="small"
-          @click="router.push('/hcex/user/applications/new')"
+          @click="goToApplicationType"
         />
         <div>
           <div class="text-body-1 font-weight-bold">ตรวจสอบผล Lab</div>
@@ -61,7 +61,7 @@
                 border: 2px solid rgba(var(--v-theme-success), 0.3);
                 cursor: pointer;
               "
-              @click="hasLab = true"
+              @click="setHasLabTrue"
             >
               <v-card-text class="pa-5 text-center">
                 <div
@@ -87,7 +87,7 @@
                 border: 2px solid rgba(var(--v-theme-hcex-user), 0.3);
                 cursor: pointer;
               "
-              @click="hasLab = false"
+              @click="setHasLabFalse"
             >
               <v-card-text class="pa-5 text-center">
                 <div
@@ -119,7 +119,7 @@
           icon="fas fa-arrow-left"
           variant="text"
           size="small"
-          @click="hasLab = null"
+          @click="clearHasLab"
         />
         <div>
           <div class="text-body-1 font-weight-bold">ยื่นขอผลการทดสอบ Lab</div>
@@ -206,7 +206,7 @@
           color="grey"
           size="large"
           prepend-icon="fas fa-chevron-left"
-          @click="hasLab = null"
+          @click="clearHasLab"
         >
           ย้อนกลับ
         </v-btn>
@@ -215,7 +215,7 @@
           color="hcex-user"
           size="large"
           prepend-icon="fas fa-paper-plane"
-          @click="labRequestDialog = true"
+          @click="openLabRequestDialog"
         >
           ยื่นขอผล Lab
         </v-btn>
@@ -228,37 +228,37 @@
       <v-card rounded="xl" elevation="0" class="mb-6 section-card">
         <v-card-text class="pa-5">
           <div class="d-flex align-center">
-            <template v-for="(step, idx) in formSteps" :key="step.key">
+            <template v-for="(step, i) in steps" :key="step.value">
               <div
                 class="step-item d-flex flex-column align-center"
                 style="min-width: 80px"
               >
-                <div class="step-circle mb-1" :class="stepClass(idx)">
+                <div class="step-circle mb-1" :class="stepClass(step.value)">
                   <v-icon
-                    v-if="currentStep > idx"
+                    v-if="currentStep > step.value"
                     icon="fas fa-check"
                     size="14"
                     color="white"
                   />
                   <span v-else class="text-caption font-weight-bold">{{
-                    idx + 1
+                    step.value + 1
                   }}</span>
                 </div>
                 <div
                   class="text-caption text-center"
                   :class="
-                    currentStep >= idx
+                    currentStep >= step.value
                       ? 'text-hcex-user font-weight-bold'
                       : 'text-medium-emphasis'
                   "
                 >
-                  {{ step.label }}
+                  {{ step.title }}
                 </div>
               </div>
               <div
-                v-if="idx < formSteps.length - 1"
+                v-if="i < steps.length - 1"
                 class="step-line flex-grow-1"
-                :class="{ 'step-line--done': currentStep > idx }"
+                :class="{ 'step-line--done': currentStep > step.value }"
               />
             </template>
           </div>
@@ -638,7 +638,7 @@
             <v-btn
               variant="tonal"
               color="grey"
-              @click="router.push('/hcex/user/applications')"
+              @click="goToApplicationList"
             >
               ยกเลิก
             </v-btn>
@@ -647,7 +647,7 @@
               variant="tonal"
               color="grey"
               prepend-icon="fas fa-arrow-left"
-              @click="currentStep--"
+              @click="prevStep"
               >ย้อนกลับ</v-btn
             >
           </div>
@@ -661,7 +661,7 @@
               บันทึกแบบร่าง
             </v-btn>
             <v-btn
-              v-if="currentStep < formSteps.length - 1"
+              v-if="currentStep < steps.length - 1"
               color="hcex-user"
               append-icon="fas fa-arrow-right"
               type="submit"
@@ -695,7 +695,7 @@
           </div>
           <h3 class="text-h6 font-weight-bold mb-2">ส่งคำขอผล Lab สำเร็จ!</h3>
           <p class="text-body-2 font-weight-bold text-hcex-user mb-1">
-            LAB-REQ-2568-{{ Math.floor(Math.random() * 900 + 100) }}
+            LAB-REQ-2569-{{ Math.floor(Math.random() * 900 + 100) }}
           </p>
           <p class="text-body-2 text-medium-emphasis mb-0">
             เมื่อผล Lab ออกแล้ว ท่านสามารถกลับมายื่นคำขอใบรับรองสุขอนามัยได้
@@ -706,7 +706,7 @@
             color="hcex-user"
             rounded="lg"
             block
-            @click="router.push('/hcex/user/dashboard')"
+            @click="goToDashboard"
           >
             กลับหน้าหลัก
           </v-btn>
@@ -735,14 +735,14 @@
             color="grey"
             rounded="lg"
             block
-            @click="router.push('/hcex/user/applications')"
+            @click="goToApplicationList"
             >ดูรายการคำขอ</v-btn
           >
           <v-btn
             color="hcex-user"
             rounded="lg"
             block
-            @click="router.push('/hcex/user/applications')"
+            @click="goToApplicationList"
             >ติดตามสถานะ</v-btn
           >
         </v-card-actions>
@@ -770,6 +770,22 @@ import { useRouter, useRoute } from "vue-router";
 const router = useRouter();
 const route = useRoute();
 
+function goToApplicationType() {
+  router.push({ name: "HCEXUserApplicationType" });
+}
+
+function goToApplicationList() {
+  router.push({ name: "HCEXUserApplicationList" });
+}
+
+function goToDashboard() {
+  router.push({ name: "HCEXUserDashboard" });
+}
+
+function prevStep() {
+  currentStep.value--;
+}
+
 const hasLab = ref(null);
 const currentStep = ref(0);
 const submitting = ref(false);
@@ -780,9 +796,9 @@ const newRequestNo = ref("");
 const formRef = ref();
 const selectedLabs = ref([]);
 
-const formSteps = [
-  { key: "details", label: "ข้อมูลรายละเอียด" },
-  { key: "lab", label: "เลือกผล Lab" },
+const steps = [
+  { value: 0, title: "ข้อมูลรายละเอียด" },
+  { value: 1, title: "เลือกผล Lab" },
 ];
 
 const form = reactive({
@@ -831,37 +847,37 @@ const countries = [
 const labResults = [
   {
     id: "LAB-001",
-    labNo: "LAB-2568-00089",
+    labNo: "LAB-2569-00089",
     productType: "มันฝรั่งทอดกรอบ",
     testDate: "5 ม.ค. 68",
     result: "ผ่าน",
   },
   {
     id: "LAB-002",
-    labNo: "LAB-2568-00085",
+    labNo: "LAB-2569-00085",
     productType: "ข้าวกล้องบรรจุถุง",
     testDate: "3 ม.ค. 68",
     result: "ผ่าน",
   },
   {
     id: "LAB-003",
-    labNo: "LAB-2568-00080",
+    labNo: "LAB-2569-00080",
     productType: "แป้งมันสำปะหลัง",
     testDate: "28 ธ.ค. 67",
     result: "ผ่าน",
   },
   {
     id: "LAB-004",
-    labNo: "LAB-2568-00076",
+    labNo: "LAB-2569-00076",
     productType: "พริกแห้งบด",
     testDate: "20 ธ.ค. 67",
     result: "ผ่าน",
   },
 ];
 
-function stepClass(idx) {
-  if (currentStep.value > idx) return "step-done";
-  if (currentStep.value === idx) return "step-active";
+function stepClass(v) {
+  if (currentStep.value > v) return "step-done";
+  if (currentStep.value === v) return "step-active";
   return "step-pending";
 }
 
@@ -894,11 +910,23 @@ const rules = {
 async function handleNext() {
   const { valid } = await formRef.value.validate();
   if (!valid) return;
-  if (currentStep.value < formSteps.length - 1) {
+  if (currentStep.value < steps.length - 1) {
     currentStep.value++;
   }
 }
 
+function setHasLabTrue() {
+  hasLab.value = true;
+}
+function setHasLabFalse() {
+  hasLab.value = false;
+}
+function clearHasLab() {
+  hasLab.value = null;
+}
+function openLabRequestDialog() {
+  labRequestDialog.value = true;
+}
 function saveDraft() {
   draftSnackbar.value = true;
 }
@@ -908,7 +936,7 @@ async function handleSubmit() {
   submitting.value = true;
   await new Promise((r) => setTimeout(r, 1200));
   submitting.value = false;
-  newRequestNo.value = `HCEX-2568-${String(Math.floor(Math.random() * 900) + 100).padStart(5, "0")}`;
+  newRequestNo.value = `HCEX-2569-${String(Math.floor(Math.random() * 900) + 100).padStart(5, "0")}`;
   successDialog.value = true;
 }
 </script>

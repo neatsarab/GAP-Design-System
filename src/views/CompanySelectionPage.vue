@@ -136,12 +136,7 @@
               size="small"
               append-icon="fas fa-arrow-right"
               class="flex-shrink-0"
-              @click="
-                router.push({
-                  path: '/portal',
-                  query: { mode: 'user', entityType: 'personal', personalName },
-                })
-              "
+              @click="selectPersonal()"
             >
               เข้าใช้งาน
             </v-btn>
@@ -172,10 +167,10 @@
 
         <v-card rounded="xl" elevation="0" class="list-card list-card--company">
           <div
-            v-for="(company, index) in companies"
+            v-for="(company, index) in pagedCompanies"
             :key="company.id"
             class="entity-row entity-row--company"
-            :class="{ 'entity-row--last': index === companies.length - 1 }"
+            :class="{ 'entity-row--last': index === pagedCompanies.length - 1 }"
           >
             <!-- Icon -->
             <div class="entity-icon-box entity-icon-box--company flex-shrink-0">
@@ -264,16 +259,7 @@
                 size="small"
                 append-icon="fas fa-arrow-right"
                 style="min-width: 110px"
-                @click="
-                  router.push({
-                    path: '/portal',
-                    query: {
-                      mode: 'user',
-                      entityType: 'juristic',
-                      companyName: company.nameTh,
-                    },
-                  })
-                "
+                @click="selectJuristic(company)"
               >
                 เข้าใช้งาน
               </v-btn>
@@ -295,6 +281,17 @@
                 จัดการมอบอำนาจ
               </v-btn>
             </div>
+          </div>
+          <div v-if="companyTotalPages > 1" class="d-flex justify-center py-3">
+            <v-pagination
+              v-model="companyPage"
+              :length="companyTotalPages"
+              :total-visible="5"
+              density="compact"
+              rounded="lg"
+              color="info"
+              class="compact-pagination"
+            />
           </div>
         </v-card>
 
@@ -320,10 +317,10 @@
 
         <v-card rounded="xl" elevation="0" class="list-card list-card--group">
           <div
-            v-for="(group, index) in groups"
+            v-for="(group, index) in pagedGroups"
             :key="group.id"
             class="entity-row entity-row--group"
-            :class="{ 'entity-row--last': index === groups.length - 1 }"
+            :class="{ 'entity-row--last': index === pagedGroups.length - 1 }"
           >
             <!-- Icon -->
             <div class="entity-icon-box entity-icon-box--group flex-shrink-0">
@@ -400,18 +397,7 @@
                 size="small"
                 append-icon="fas fa-arrow-right"
                 style="min-width: 110px"
-                @click="
-                  router.push({
-                    path: '/portal',
-                    query: {
-                      mode: 'user',
-                      entityType: 'group',
-                      groupName: group.nameTh,
-                      groupId: group.id,
-                      groupSystems: group.systems.join(','),
-                    },
-                  })
-                "
+                @click="selectGroup(group)"
               >
                 เข้าใช้งาน
               </v-btn>
@@ -433,6 +419,17 @@
               </v-btn>
             </div>
           </div>
+          <div v-if="groupTotalPages > 1" class="d-flex justify-center py-3">
+            <v-pagination
+              v-model="groupPage"
+              :length="groupTotalPages"
+              :total-visible="5"
+              density="compact"
+              rounded="lg"
+              color="warning"
+              class="compact-pagination"
+            />
+          </div>
         </v-card>
 
         <!-- Bottom action -->
@@ -442,7 +439,7 @@
             color="grey"
             rounded="lg"
             prepend-icon="fas fa-right-from-bracket"
-            @click="router.push('/login')"
+            @click="goToLogin"
           >
             ออกจากระบบ
           </v-btn>
@@ -555,7 +552,8 @@
             </v-col>
             <v-col cols="12" sm="6">
               <div class="field-label mt-3">
-                อีเมล <span class="req">*</span> <span class="field-label-en">Email</span>
+                อีเมล <span class="req">*</span>
+                <span class="field-label-en">Email</span>
               </div>
               <v-text-field
                 v-model="personalForm.email"
@@ -569,7 +567,8 @@
             </v-col>
             <v-col cols="12" sm="6">
               <div class="field-label mt-3">
-                เบอร์โทรศัพท์ <span class="req">*</span> <span class="field-label-en">Phone Number</span>
+                เบอร์โทรศัพท์ <span class="req">*</span>
+                <span class="field-label-en">Phone Number</span>
               </div>
               <v-text-field
                 v-model="personalForm.phone"
@@ -688,7 +687,7 @@
           color="grey"
           rounded="lg"
           prepend-icon="fas fa-arrow-left"
-          @click="personalStep = 1"
+          @click="resetPersonalStep"
           >ย้อนกลับ</v-btn
         >
         <v-spacer />
@@ -696,7 +695,7 @@
           variant="tonal"
           color="grey"
           rounded="lg"
-          @click="personalDialog = false"
+          @click="closePersonalDialog"
           >ยกเลิก</v-btn
         >
         <v-btn
@@ -1100,7 +1099,7 @@
           color="grey"
           rounded="lg"
           prepend-icon="fas fa-arrow-left"
-          @click="juristicStep = 1"
+          @click="resetJuristicStep"
           >ย้อนกลับ</v-btn
         >
         <v-spacer />
@@ -1449,7 +1448,7 @@
           color="grey"
           rounded="lg"
           prepend-icon="fas fa-arrow-left"
-          @click="groupStep = 1"
+          @click="resetGroupStep"
           >ย้อนกลับ</v-btn
         >
         <v-spacer />
@@ -1457,7 +1456,7 @@
           variant="tonal"
           color="grey"
           rounded="lg"
-          @click="groupDialog = false"
+          @click="closeGroupDialog"
           >ยกเลิก</v-btn
         >
         <v-btn
@@ -1494,7 +1493,7 @@
         </p>
       </v-card-text>
       <v-card-actions class="px-6 pb-6">
-        <v-btn color="primary" block rounded="lg" @click="successDialog = false"
+        <v-btn color="primary" block rounded="lg" @click="closeSuccessDialog"
           >รับทราบ</v-btn
         >
       </v-card-actions>
@@ -1506,10 +1505,81 @@
 import { ref, reactive, computed, watch } from "vue";
 import { useRouter } from "vue-router";
 import { useThemeStore } from "@/stores/theme.store";
+import { useSessionStore } from "@/stores/session.store";
 
 const themeStore = useThemeStore();
 const router = useRouter();
+const sessionStore = useSessionStore();
 
+const ITEMS_PER_PAGE = 5;
+const companyPage = ref(1);
+const groupPage = ref(1);
+
+const companyTotalPages = computed(() =>
+  Math.ceil(companies.length / ITEMS_PER_PAGE),
+);
+const groupTotalPages = computed(() =>
+  Math.ceil(groups.length / ITEMS_PER_PAGE),
+);
+
+const pagedCompanies = computed(() => {
+  const start = (companyPage.value - 1) * ITEMS_PER_PAGE;
+  return companies.slice(start, start + ITEMS_PER_PAGE);
+});
+
+const pagedGroups = computed(() => {
+  const start = (groupPage.value - 1) * ITEMS_PER_PAGE;
+  return groups.slice(start, start + ITEMS_PER_PAGE);
+});
+
+function selectPersonal() {
+  sessionStore.setContext("personal", personalName, "", [], "", personalName);
+  router.push({
+    name: "UserPortal",
+    query: { entityType: "personal", personalName },
+  });
+}
+
+function selectJuristic(company) {
+  sessionStore.setContext(
+    "juristic",
+    company.nameTh,
+    "",
+    [],
+    company.taxId,
+    personalName,
+  );
+  router.push({
+    name: "UserPortal",
+    query: {
+      entityType: "juristic",
+      companyName: company.nameTh,
+      taxId: company.taxId,
+      personalName,
+    },
+  });
+}
+
+function selectGroup(group) {
+  sessionStore.setContext(
+    "group",
+    group.nameTh,
+    group.id,
+    group.systems,
+    "",
+    personalName,
+  );
+  router.push({
+    name: "UserPortal",
+    query: {
+      entityType: "group",
+      groupName: group.nameTh,
+      groupId: group.id,
+      groupSystems: group.systems.join(","),
+      personalName,
+    },
+  });
+}
 
 const personalName = "นิธิพร เทิบจันทึก";
 const personalSystems = ["GAP", "DOA"];
@@ -1521,7 +1591,7 @@ const companies = [
     nameEn: "Thai Kaset International Co., Ltd.",
     taxId: "0105565012345",
     businessType: "ส่งออกสินค้าพืช",
-    poaExpiry: "31/12/2568",
+    poaExpiry: "31/12/2569",
     expireSoon: false,
     isOwner: true,
     systems: ["GAP", "DOA", "CB", "ส่งออก"],
@@ -1532,7 +1602,7 @@ const companies = [
     nameEn: "Siam Farm Products Ltd. Part.",
     taxId: "0303560098765",
     businessType: "โรงงานแปรรูปสินค้าพืช",
-    poaExpiry: "01/04/2568",
+    poaExpiry: "01/04/2569",
     expireSoon: true,
     isOwner: false,
     systems: ["DOA", "GAP"],
@@ -1549,7 +1619,6 @@ const companies = [
     systems: ["CB"],
   },
 ];
-
 
 const groups = [
   {
@@ -1649,6 +1718,12 @@ const juristicDocDefs = [
 
 // ── Personal dialog ──
 const personalDialog = ref(false);
+function closePersonalDialog() {
+  personalDialog.value = false;
+}
+function resetPersonalStep() {
+  personalStep.value = 1;
+}
 const personalStep = ref(1);
 const personalSystemError = ref(false);
 const personalDocError = ref(false);
@@ -1700,6 +1775,9 @@ function submitPersonal() {
 
 // ── Juristic dialog ──
 const juristicDialog = ref(false);
+function resetJuristicStep() {
+  juristicStep.value = 1;
+}
 const juristicStep = ref(1);
 const juristicAsAgent = ref(false);
 const dbdLoading = ref(false);
@@ -1731,6 +1809,10 @@ const juristicDocsComplete = computed(() =>
     .filter((d) => d.required && !d.fromSSO)
     .every((d) => !!juristicDocs[d.id]),
 );
+
+function goToLogin() {
+  router.push({ name: "Login" });
+}
 
 function enterPortal() {
   juristicForm.regNo = "";
@@ -1802,6 +1884,12 @@ function submitJuristic() {
 // ── Group dialog ──
 
 const groupDialog = ref(false);
+function closeGroupDialog() {
+  groupDialog.value = false;
+}
+function resetGroupStep() {
+  groupStep.value = 1;
+}
 const groupStep = ref(1);
 const groupMemberSearch = ref("");
 const groupMemberLoading = ref(false);
@@ -1905,6 +1993,9 @@ function submitGroup() {
 
 // ── Shared ──
 const successDialog = ref(false);
+function closeSuccessDialog() {
+  successDialog.value = false;
+}
 
 watch(
   [personalDialog, juristicDialog, groupDialog, successDialog],
@@ -1924,6 +2015,9 @@ watch(
 
 /* Top bar */
 .select-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
   background: rgb(var(--v-theme-primary));
   padding: 0 24px;
   height: 60px;
@@ -1939,33 +2033,6 @@ watch(
   margin: 0 auto;
   display: flex;
   align-items: center;
-}
-.topbar-logo {
-  width: 34px;
-  height: 34px;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.15);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-.user-pill {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 999px;
-  padding: 6px 12px 6px 6px;
-  cursor: default;
-}
-.user-avatar-sm {
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.25);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
 }
 
 /* Body */

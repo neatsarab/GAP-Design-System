@@ -5,7 +5,7 @@
         icon="fas fa-arrow-left"
         variant="text"
         size="small"
-        @click="router.push('/hc/user/applications/new')"
+        @click="goToApplicationType"
       />
       <div>
         <h1 class="page-title mb-1">ยื่นคำขอใบรับรองสุขอนามัยพืช</h1>
@@ -20,37 +20,37 @@
     <v-card rounded="xl" elevation="0" class="mb-6 section-card">
       <v-card-text class="pa-5">
         <div class="d-flex align-center">
-          <template v-for="(step, idx) in formSteps" :key="step.key">
+          <template v-for="(step, i) in steps" :key="step.value">
             <div
               class="step-item d-flex flex-column align-center"
               style="min-width: 80px"
             >
-              <div class="step-circle mb-1" :class="stepClass(idx)">
+              <div class="step-circle mb-1" :class="stepClass(step.value)">
                 <v-icon
-                  v-if="currentStep > idx"
+                  v-if="currentStep > step.value"
                   icon="fas fa-check"
                   size="14"
                   color="white"
                 />
                 <span v-else class="text-caption font-weight-bold">{{
-                  idx + 1
+                  step.value + 1
                 }}</span>
               </div>
               <div
                 class="text-caption text-center"
                 :class="
-                  currentStep >= idx
+                  currentStep >= step.value
                     ? 'text-hc-user font-weight-bold'
                     : 'text-medium-emphasis'
                 "
               >
-                {{ step.label }}
+                {{ step.title }}
               </div>
             </div>
             <div
-              v-if="idx < formSteps.length - 1"
+              v-if="i < steps.length - 1"
               class="step-line flex-grow-1"
-              :class="{ 'step-line--done': currentStep > idx }"
+              :class="{ 'step-line--done': currentStep > step.value }"
             />
           </template>
         </div>
@@ -362,7 +362,7 @@
                     v-model="p.gapCode"
                     density="compact"
                     hide-details
-                    placeholder="GAP-XX-2568-XXX"
+                    placeholder="GAP-XX-2569-XXX"
                   />
                 </td>
                 <td class="py-2">
@@ -524,7 +524,7 @@
           <v-btn
             variant="tonal"
             color="grey"
-            @click="router.push('/hc/user/applications')"
+            @click="goToApplicationList"
           >
             ยกเลิก
           </v-btn>
@@ -533,7 +533,7 @@
             variant="tonal"
             color="grey"
             prepend-icon="fas fa-arrow-left"
-            @click="currentStep--"
+            @click="prevStep"
           >
             ย้อนกลับ
           </v-btn>
@@ -548,7 +548,7 @@
             บันทึกแบบร่าง
           </v-btn>
           <v-btn
-            v-if="currentStep < formSteps.length - 1"
+            v-if="currentStep < steps.length - 1"
             color="hc-user"
             append-icon="fas fa-arrow-right"
             type="submit"
@@ -588,13 +588,13 @@
             variant="tonal"
             color="grey"
             block
-            @click="router.push('/hc/user/applications')"
+            @click="goToApplicationList"
             >ดูรายการคำขอ</v-btn
           >
           <v-btn
             color="hc-user"
             block
-            @click="router.push(`/hc/user/applications/HC-NEW`)"
+            @click="goToApplicationDetail"
             >ติดตามสถานะ</v-btn
           >
         </v-card-actions>
@@ -621,6 +621,22 @@ import { useRouter } from "vue-router";
 
 const router = useRouter();
 
+function goToApplicationType() {
+  router.push({ name: "HCUserApplicationType" });
+}
+
+function goToApplicationList() {
+  router.push({ name: "HCUserApplicationList" });
+}
+
+function goToApplicationDetail() {
+  router.push({ name: "HCUserApplicationList" });
+}
+
+function prevStep() {
+  currentStep.value--;
+}
+
 const currentStep = ref(0);
 const submitting = ref(false);
 const successDialog = ref(false);
@@ -628,12 +644,12 @@ const draftSnackbar = ref(false);
 const newRequestNo = ref("");
 const formRef = ref();
 
-const formSteps = [
-  { key: "exporter", label: "ข้อมูลผู้ส่งออก" },
-  { key: "consignee", label: "โรงคัดบรรจุ & ปลายทาง" },
-  { key: "products", label: "รายละเอียดสินค้า" },
-  { key: "documents", label: "เอกสารแนบ" },
-  { key: "confirm", label: "ตรวจสอบ & ยืนยัน" },
+const steps = [
+  { value: 0, title: "ข้อมูลผู้ส่งออก" },
+  { value: 1, title: "โรงคัดบรรจุ & ปลายทาง" },
+  { value: 2, title: "รายละเอียดสินค้า" },
+  { value: 3, title: "เอกสารแนบ" },
+  { value: 4, title: "ตรวจสอบ & ยืนยัน" },
 ];
 
 const form = reactive({
@@ -673,9 +689,9 @@ const packingHouseOptions = [
     province: "น่าน",
   },
 ];
-function stepClass(idx) {
-  if (currentStep.value > idx) return "step-done";
-  if (currentStep.value === idx) return "step-active";
+function stepClass(v) {
+  if (currentStep.value > v) return "step-done";
+  if (currentStep.value === v) return "step-active";
   return "step-pending";
 }
 
@@ -750,7 +766,7 @@ async function handleNext() {
   const { valid } = await formRef.value.validate();
   if (!valid) return;
 
-  if (currentStep.value < formSteps.length - 1) {
+  if (currentStep.value < steps.length - 1) {
     currentStep.value++;
     return;
   }
@@ -758,7 +774,7 @@ async function handleNext() {
   submitting.value = true;
   await new Promise((r) => setTimeout(r, 1200));
   submitting.value = false;
-  newRequestNo.value = `HC-2568-${String(Math.floor(Math.random() * 900) + 100).padStart(5, "0")}`;
+  newRequestNo.value = `HC-2569-${String(Math.floor(Math.random() * 900) + 100).padStart(5, "0")}`;
   successDialog.value = true;
 }
 </script>

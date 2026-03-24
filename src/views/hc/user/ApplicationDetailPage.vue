@@ -29,7 +29,7 @@
           variant="tonal"
           prepend-icon="fas fa-file-shield"
           size="small"
-          @click="router.push('/hc/user/certificates')"
+          @click="goToCertificates"
         >
           ดูใบรับรอง
         </v-btn>
@@ -211,11 +211,13 @@
             <div class="info-grid mb-3">
               <div class="info-item">
                 <span class="info-label">เลขใบรับรอง</span>
-                <span class="info-value text-success font-weight-bold">THHC-2568-00025</span>
+                <span class="info-value text-success font-weight-bold"
+                  >THHC-2569-00025</span
+                >
               </div>
               <div class="info-item">
                 <span class="info-label">วันที่ออก</span>
-                <span class="info-value">10 มกราคม 2568</span>
+                <span class="info-value">10 มกราคม 2569</span>
               </div>
               <div class="info-item">
                 <span class="info-label">วันหมดอายุ</span>
@@ -299,13 +301,16 @@ import { useRoute, useRouter } from "vue-router";
 const router = useRouter();
 const route = useRoute();
 
-const detailTab = ref("exporter");
+function goToCertificates() {
+  router.push({ name: "HCUserCertificates" });
+}
 
+const detailTab = ref("exporter");
 
 const mockApps = {
   "HC-001": {
     id: "HC-001",
-    requestNo: "HC-2568-00041",
+    requestNo: "HC-2569-00041",
     status: "under_review",
     submittedAt: "15 ม.ค. 68",
     product: "ทุเรียน",
@@ -321,13 +326,13 @@ const mockApps = {
         sampleNo: "S-001",
         name: "ทุเรียนหมอนทอง",
         weight: "5,000 kg",
-        gapCode: "GAP-CM-2568-001",
+        gapCode: "GAP-CM-2569-001",
       },
     ],
   },
   "HC-008": {
     id: "HC-008",
-    requestNo: "HC-2568-00025",
+    requestNo: "HC-2569-00025",
     status: "completed",
     submittedAt: "2 ม.ค. 68",
     product: "มังคุด",
@@ -343,7 +348,7 @@ const mockApps = {
         sampleNo: "S-010",
         name: "มังคุด",
         weight: "3,000 kg",
-        gapCode: "GAP-CM-2568-010",
+        gapCode: "GAP-CM-2569-010",
       },
     ],
   },
@@ -509,10 +514,27 @@ function getStatusLabel(s) {
 }
 
 /* Info Grid */
-.info-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
-.info-item { display: flex; flex-direction: column; gap: 2px; }
-.info-label { font-size: 12px; font-weight: 600; color: rgba(var(--v-theme-on-surface), 0.55); text-transform: uppercase; letter-spacing: 0.4px; }
-.info-value { font-size: 14px; color: rgba(var(--v-theme-on-surface), 0.87); }
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+}
+.info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.info-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(var(--v-theme-on-surface), 0.55);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+.info-value {
+  font-size: 14px;
+  color: rgba(var(--v-theme-on-surface), 0.87);
+}
 
 /* Status Icon */
 .status-icon-box {

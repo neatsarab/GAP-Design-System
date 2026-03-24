@@ -59,17 +59,17 @@
         </v-row>
         <v-row dense>
           <v-col cols="auto" class="ml-auto">
-          <v-btn
-            variant="tonal"
-            color="grey"
-            size="small"
-            prepend-icon="fas fa-rotate-left"
-            @click="
-              search = '';
-              filterTab = 'all';
-            "
-            >ล้างตัวกรอง</v-btn
-          >
+            <v-btn
+              variant="tonal"
+              color="grey"
+              size="small"
+              prepend-icon="fas fa-rotate-left"
+              @click="
+                search = '';
+                filterTab = 'all';
+              "
+              >ล้างตัวกรอง</v-btn
+            >
           </v-col>
         </v-row>
       </v-card-text>
@@ -163,8 +163,19 @@
 
         <template #item.actions="{ item }">
           <div class="d-flex ga-1">
-            <v-btn size="small" variant="text" color="gap-user" icon="fas fa-eye" />
-            <v-btn size="small" variant="text" color="success" icon="fas fa-download" :disabled="item.certStatus === 'expired'" />
+            <v-btn
+              size="small"
+              variant="text"
+              color="gap-user"
+              icon="fas fa-eye"
+            />
+            <v-btn
+              size="small"
+              variant="text"
+              color="success"
+              icon="fas fa-download"
+              :disabled="item.certStatus === 'expired'"
+            />
           </div>
         </template>
       </v-data-table>
@@ -180,11 +191,10 @@ const router = useRouter();
 const filterTab = ref("all");
 const search = ref("");
 
-
 const certs = [
   {
-    certNo: "THGAP-2568-00142",
-    requestNo: "GAP-2568-00142",
+    certNo: "THGAP-2569-00142",
+    requestNo: "GAP-2569-00142",
     plotName: "แปลงมังคุด 1",
     cropType: "มังคุด",
     plotProvince: "จันทบุรี",
@@ -193,8 +203,8 @@ const certs = [
     certStatus: "active",
   },
   {
-    certNo: "THGAP-2568-00089",
-    requestNo: "GAP-2568-00089",
+    certNo: "THGAP-2569-00089",
+    requestNo: "GAP-2569-00089",
     plotName: "แปลงทุเรียน A",
     cropType: "ทุเรียน",
     plotProvince: "ระยอง",
@@ -203,8 +213,8 @@ const certs = [
     certStatus: "active",
   },
   {
-    certNo: "THGAP-2568-00055",
-    requestNo: "GAP-2568-00055",
+    certNo: "THGAP-2569-00055",
+    requestNo: "GAP-2569-00055",
     plotName: "แปลงกล้วยหอม",
     cropType: "กล้วยหอม",
     plotProvince: "กาญจนบุรี",
@@ -213,8 +223,8 @@ const certs = [
     certStatus: "expiring",
   },
   {
-    certNo: "THGAP-2567-00210",
-    requestNo: "GAP-2567-00210",
+    certNo: "THGAP-2569-00210",
+    requestNo: "GAP-2569-00210",
     plotName: "แปลงมะม่วง 2",
     cropType: "มะม่วง",
     plotProvince: "นครราชสีมา",
@@ -223,8 +233,8 @@ const certs = [
     certStatus: "expired",
   },
   {
-    certNo: "THGAP-2568-00031",
-    requestNo: "GAP-2568-00031",
+    certNo: "THGAP-2569-00031",
+    requestNo: "GAP-2569-00031",
     plotName: "แปลงลำไย 1",
     cropType: "ลำไย",
     plotProvince: "เชียงใหม่",

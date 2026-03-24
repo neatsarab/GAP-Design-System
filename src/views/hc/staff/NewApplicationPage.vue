@@ -12,7 +12,7 @@
       <v-col cols="12" md="5">
         <v-card
           class="type-card type-card--active h-100"
-          @click="router.push('/hc/applications/new/certificate')"
+          @click="goToNewCertificate"
         >
           <div class="type-card-accent bg-info" />
           <v-card-text class="pa-6 text-center">
@@ -36,7 +36,7 @@
       <v-col cols="12" md="5">
         <v-card
           class="type-card type-card--active h-100"
-          @click="router.push('/hc/applications/new/correction')"
+          @click="goToNewCorrection"
         >
           <div class="type-card-accent bg-secondary" />
           <v-card-text class="pa-6 text-center">
@@ -77,6 +77,14 @@
 <script setup>
 import { useRouter } from 'vue-router'
 const router = useRouter()
+
+function goToNewCertificate() {
+  router.push({ name: "HCstaffNewApplication", params: { type: "certificate" } });
+}
+
+function goToNewCorrection() {
+  router.push({ name: "HCstaffNewApplication", params: { type: "correction" } });
+}
 </script>
 
 <style scoped>

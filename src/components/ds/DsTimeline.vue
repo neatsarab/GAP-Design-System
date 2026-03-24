@@ -38,11 +38,24 @@
     <v-card>
       <v-card-text class="d-flex flex-column ga-3 pa-5">
         <div class="d-flex align-center ga-4">
-          <v-rating v-model="rating" color="warning" active-color="warning" density="compact" />
-          <span class="text-body-2 text-medium-emphasis">{{ rating }} / 5 ดาว</span>
+          <v-rating
+            v-model="rating"
+            color="warning"
+            active-color="warning"
+            density="compact"
+          />
+          <span class="text-body-2 text-medium-emphasis"
+            >{{ rating }} / 5 ดาว</span
+          >
         </div>
         <div class="d-flex align-center ga-4">
-          <v-rating v-model="rating" color="warning" active-color="warning" size="small" half-increments />
+          <v-rating
+            v-model="rating"
+            color="warning"
+            active-color="warning"
+            size="small"
+            half-increments
+          />
           <span class="text-caption text-medium-emphasis">half-increments</span>
         </div>
       </v-card-text>
@@ -51,24 +64,62 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import AppTimeline from '@/components/common/AppTimeline.vue'
+import { ref } from "vue";
+import AppTimeline from "@/components/common/AppTimeline.vue";
 
-const rating = ref(4)
+const rating = ref(4);
 
 const timelineItems = [
-  { id: '1', title: 'ยื่นคำขอ',            description: 'สร้างคำขอ GAP-2567-001234',     date: '1 มี.ค. 67',  icon: 'fas fa-paper-plane',  iconColor: 'grey' },
-  { id: '2', title: 'ตรวจเอกสาร',          description: 'เจ้าหน้าที่รับเรื่องแล้ว',        date: '3 มี.ค. 67',  icon: 'fas fa-file-magnifying-glass', iconColor: 'orange' },
-  { id: '3', title: 'นัดตรวจแปลง',         description: 'วันที่ 15 มี.ค. เวลา 09:00',     date: '8 มี.ค. 67',  icon: 'fas fa-calendar-check', iconColor: 'purple' },
-  { id: '4', title: 'ตรวจประเมินแปลง',     description: 'ผ่านเกณฑ์ 7/8 หมวด',            date: '15 มี.ค. 67', icon: 'fas fa-clipboard-check', iconColor: 'indigo' },
-  { id: '5', title: 'อนุมัติ & ออกใบรับรอง', description: 'GAP-C-2567-0089 อายุ 1 ปี',  date: '20 มี.ค. 67', icon: 'fas fa-certificate',  iconColor: 'success' },
-]
+  {
+    id: "1",
+    title: "ยื่นคำขอ",
+    description: "สร้างคำขอ GAP-2569-001234",
+    date: "1 มี.ค. 67",
+    icon: "fas fa-paper-plane",
+    iconColor: "grey",
+  },
+  {
+    id: "2",
+    title: "ตรวจเอกสาร",
+    description: "เจ้าหน้าที่รับเรื่องแล้ว",
+    date: "3 มี.ค. 67",
+    icon: "fas fa-file-magnifying-glass",
+    iconColor: "orange",
+  },
+  {
+    id: "3",
+    title: "นัดตรวจแปลง",
+    description: "วันที่ 15 มี.ค. เวลา 09:00",
+    date: "8 มี.ค. 67",
+    icon: "fas fa-calendar-check",
+    iconColor: "purple",
+  },
+  {
+    id: "4",
+    title: "ตรวจประเมินแปลง",
+    description: "ผ่านเกณฑ์ 7/8 หมวด",
+    date: "15 มี.ค. 67",
+    icon: "fas fa-clipboard-check",
+    iconColor: "indigo",
+  },
+  {
+    id: "5",
+    title: "อนุมัติ & ออกใบรับรอง",
+    description: "GAP-C-2569-0089 อายุ 1 ปี",
+    date: "20 มี.ค. 67",
+    icon: "fas fa-certificate",
+    iconColor: "success",
+  },
+];
 </script>
 
 <style scoped>
 .ds-subtitle {
-  font-size: 11px; font-weight: 700;
-  text-transform: uppercase; letter-spacing: 0.1em;
-  color: rgb(var(--v-theme-primary)); opacity: 0.75;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgb(var(--v-theme-primary));
+  opacity: 0.75;
 }
 </style>

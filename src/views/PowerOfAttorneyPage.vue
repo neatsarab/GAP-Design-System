@@ -63,7 +63,7 @@
             variant="tonal"
             size="small"
             rounded="lg"
-            @click="router.push('/select-company')"
+            @click="goToSelectCompany"
           />
           <div>
             <h1 class="page-title mb-0">จัดการมอบอำนาจ</h1>
@@ -258,7 +258,7 @@
               :variant="requestStatusFilter === f.value ? 'tonal' : 'outlined'"
               size="small"
               class="filter-chip"
-              @click="requestStatusFilter = f.value"
+              @click="setRequestStatusFilter(f.value)"
             >
               <v-icon v-if="f.icon" :icon="f.icon" start size="11" />
               {{ f.label }}
@@ -494,7 +494,7 @@
             variant="tonal"
             color="grey"
             rounded="lg"
-            @click="formDialog = false"
+            @click="closeFormDialog"
             >ยกเลิก</v-btn
           >
           <v-btn
@@ -530,7 +530,7 @@
             color="grey"
             rounded="lg"
             block
-            @click="deleteDialog = false"
+            @click="closeDeleteDialog"
             >ยกเลิก</v-btn
           >
           <v-btn color="error" rounded="lg" block @click="confirmDelete"
@@ -573,7 +573,7 @@
             color="grey"
             rounded="lg"
             block
-            @click="approveDialog = false"
+            @click="closeApproveDialog"
             >ยกเลิก</v-btn
           >
           <v-btn
@@ -619,7 +619,7 @@
             color="grey"
             rounded="lg"
             block
-            @click="rejectDialog = false"
+            @click="closeRejectDialog"
             >ยกเลิก</v-btn
           >
           <v-btn
@@ -644,7 +644,6 @@ import { useThemeStore } from "@/stores/theme.store";
 const router = useRouter();
 const route = useRoute();
 const themeStore = useThemeStore();
-
 
 const companies = [
   {
@@ -676,9 +675,7 @@ const availableSystems = [
 ];
 
 const activeTab = ref("grant");
-const selectedCompany = computed(
-  () => (route.query.companyId) || "co1",
-);
+const selectedCompany = computed(() => route.query.companyId || "co1");
 const currentCompany = computed(
   () => companies.find((c) => c.id === selectedCompany.value) ?? companies[0],
 );
@@ -732,7 +729,7 @@ const poaRequests = ref([
     email: "prasit@example.com",
     requestedExpiry: "2026-12-31",
     requestedSystems: ["GAP", "ส่งออก"],
-    requestedAt: "15/03/2568",
+    requestedAt: "15/03/2569",
     status: "pending",
   },
   {
@@ -743,7 +740,7 @@ const poaRequests = ref([
     email: "orathai@example.com",
     requestedExpiry: "2026-06-30",
     requestedSystems: ["DOA", "CB", "HCEX"],
-    requestedAt: "10/03/2568",
+    requestedAt: "10/03/2569",
     status: "pending",
   },
   {
@@ -754,7 +751,7 @@ const poaRequests = ref([
     email: "kitti@example.com",
     requestedExpiry: "2025-12-31",
     requestedSystems: ["GAP"],
-    requestedAt: "01/03/2568",
+    requestedAt: "01/03/2569",
     status: "approved",
   },
   {
@@ -765,7 +762,7 @@ const poaRequests = ref([
     email: "wimon@example.com",
     requestedExpiry: "2026-03-31",
     requestedSystems: ["GAP", "DOA"],
-    requestedAt: "08/03/2568",
+    requestedAt: "08/03/2569",
     status: "pending",
   },
   {
@@ -776,7 +773,7 @@ const poaRequests = ref([
     email: "thanaphon@example.com",
     requestedExpiry: "2026-09-30",
     requestedSystems: ["HC", "HCEX"],
-    requestedAt: "12/03/2568",
+    requestedAt: "12/03/2569",
     status: "rejected",
   },
 ]);
@@ -787,9 +784,27 @@ const filteredRequests = computed(() =>
 
 // table filter state
 const requestSearch = ref("");
-const requestStatusFilter = ref(
-  "all",
-);
+const requestStatusFilter = ref("all");
+
+function setRequestStatusFilter(value) {
+  requestStatusFilter.value = value;
+}
+
+function closeFormDialog() {
+  formDialog.value = false;
+}
+
+function closeDeleteDialog() {
+  deleteDialog.value = false;
+}
+
+function closeApproveDialog() {
+  approveDialog.value = false;
+}
+
+function closeRejectDialog() {
+  rejectDialog.value = false;
+}
 
 const statusFilters = [
   { value: "all", label: "ทั้งหมด", color: "info", icon: "" },
@@ -833,6 +848,10 @@ const tableRequests = computed(() => {
   return base.filter((r) => r.status === requestStatusFilter.value);
 });
 
+function goToSelectCompany() {
+  router.push({ name: "CompanySelection" });
+}
+
 function countByStatus(status) {
   const base = filteredRequests.value;
   if (status === "all") return base.length;
@@ -875,9 +894,7 @@ function openEdit(item) {
 
 function saveForm() {
   if (editingItem.value) {
-    const idx = delegates.value.findIndex(
-      (d) => d.id === editingItem.value.id,
-    );
+    const idx = delegates.value.findIndex((d) => d.id === editingItem.value.id);
     if (idx !== -1) {
       delegates.value[idx] = {
         ...editingItem.value,
@@ -990,33 +1007,6 @@ function isExpiringSoon(expiry) {
   margin: 0 auto;
   display: flex;
   align-items: center;
-}
-
-.topbar-logo {
-  width: 34px;
-  height: 34px;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.15);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-.user-pill {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 999px;
-  padding: 6px 12px 6px 6px;
-}
-.user-avatar-sm {
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.25);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
 }
 
 .poa-body {

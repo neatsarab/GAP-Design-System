@@ -15,7 +15,10 @@
       <v-card-text class="pa-4">
         <v-row dense>
           <v-col cols="12" sm="4">
-            <div class="field-label mb-1"><div>ค้นหา</div><div class="field-label-en">Search</div></div>
+            <div class="field-label mb-1">
+              <div>ค้นหา</div>
+              <div class="field-label-en">Search</div>
+            </div>
             <v-text-field
               v-model="search"
               prepend-inner-icon="fas fa-search"
@@ -24,7 +27,10 @@
             />
           </v-col>
           <v-col cols="6" sm="3">
-            <div class="field-label mb-1"><div>ประเภทคำขอ</div><div class="field-label-en">Request Type</div></div>
+            <div class="field-label mb-1">
+              <div>ประเภทคำขอ</div>
+              <div class="field-label-en">Request Type</div>
+            </div>
             <v-autocomplete
               v-model="filterType"
               :items="typeOptions"
@@ -35,15 +41,15 @@
         </v-row>
         <v-row dense>
           <v-col cols="auto" class="ml-auto">
-          <v-btn
-            variant="tonal"
-            color="grey"
-            size="small"
-            prepend-icon="fas fa-rotate-left"
-            @click="clearFilters"
-          >
-            ล้างตัวกรอง
-          </v-btn>
+            <v-btn
+              variant="tonal"
+              color="grey"
+              size="small"
+              prepend-icon="fas fa-rotate-left"
+              @click="clearFilters"
+            >
+              ล้างตัวกรอง
+            </v-btn>
           </v-col>
         </v-row>
       </v-card-text>
@@ -137,7 +143,7 @@
             variant="tonal"
             :color="currentRole.color"
             :prepend-icon="currentRole.actionIcon"
-            @click.stop="router.push(`/hc/staff/applications/${item.id}`)"
+            @click.stop="goToApplicationDetail(item.id)"
           >
             {{ currentRole.actionLabel }}
           </v-btn>
@@ -161,7 +167,6 @@ function clearFilters() {
   search.value = "";
   filterType.value = null;
 }
-
 
 const roles = [
   {
@@ -207,15 +212,14 @@ const roles = [
 ];
 
 const selectedRole = ref("intake");
-const currentRole = computed(
-  () => roles.find((r) => r.value === selectedRole.value),
+const currentRole = computed(() =>
+  roles.find((r) => r.value === selectedRole.value),
 );
-
 
 const allApplications = [
   {
     id: "HC-001",
-    requestNo: "HC-2568-00041",
+    requestNo: "HC-2569-00041",
     exporter: "บ.ไทยฟรุ๊ต จำกัด",
     product: "ทุเรียน",
     destination: "จีน",
@@ -225,7 +229,7 @@ const allApplications = [
   },
   {
     id: "HC-002",
-    requestNo: "HC-2568-00039",
+    requestNo: "HC-2569-00039",
     exporter: "บ.สยามเอ็กซ์พอร์ต จำกัด",
     product: "มะม่วง",
     destination: "ญี่ปุ่น",
@@ -235,7 +239,7 @@ const allApplications = [
   },
   {
     id: "HC-003",
-    requestNo: "HC-2568-00036",
+    requestNo: "HC-2569-00036",
     exporter: "บ.กรีนเฟรช จำกัด",
     product: "ลำไย",
     destination: "เวียดนาม",
@@ -245,7 +249,7 @@ const allApplications = [
   },
   {
     id: "HC-004",
-    requestNo: "HC-2568-00034",
+    requestNo: "HC-2569-00034",
     exporter: "บ.ดีเอ็กซ์พอร์ต จำกัด",
     product: "กระเทียม",
     destination: "เกาหลีใต้",
@@ -255,7 +259,7 @@ const allApplications = [
   },
   {
     id: "HC-005",
-    requestNo: "HC-2568-00033",
+    requestNo: "HC-2569-00033",
     exporter: "บ.ไทยอะกริ จำกัด",
     product: "ส้มโอ",
     destination: "สิงคโปร์",
@@ -265,7 +269,7 @@ const allApplications = [
   },
   {
     id: "HC-006",
-    requestNo: "HC-2568-00031",
+    requestNo: "HC-2569-00031",
     exporter: "บ.อีสานฟาร์ม จำกัด",
     product: "มันสำปะหลัง",
     destination: "จีน",
@@ -275,7 +279,7 @@ const allApplications = [
   },
   {
     id: "HC-007",
-    requestNo: "HC-2568-00029",
+    requestNo: "HC-2569-00029",
     exporter: "บ.เอเชียแอกริ จำกัด",
     product: "ข้าว",
     destination: "ฮ่องกง",
@@ -285,7 +289,7 @@ const allApplications = [
   },
   {
     id: "HC-008",
-    requestNo: "HC-2568-00027",
+    requestNo: "HC-2569-00027",
     exporter: "บ.ไทยฟรุ๊ต จำกัด",
     product: "มังคุด",
     destination: "จีน",
@@ -295,7 +299,7 @@ const allApplications = [
   },
   {
     id: "HC-009",
-    requestNo: "HC-2568-00025",
+    requestNo: "HC-2569-00025",
     exporter: "บ.กรีนเฟรช จำกัด",
     product: "กล้วยหอม",
     destination: "ญี่ปุ่น",
@@ -305,7 +309,7 @@ const allApplications = [
   },
   {
     id: "HC-010",
-    requestNo: "HC-2568-00042",
+    requestNo: "HC-2569-00042",
     exporter: "บ.นอร์ทเทิร์นเฟรช จำกัด",
     product: "ลิ้นจี่",
     destination: "เกาหลีใต้",
@@ -315,7 +319,7 @@ const allApplications = [
   },
   {
     id: "HC-011",
-    requestNo: "HC-2568-00043",
+    requestNo: "HC-2569-00043",
     exporter: "บ.ไทยฟรุ๊ต จำกัด",
     product: "ลำไย",
     destination: "จีน",
@@ -325,7 +329,7 @@ const allApplications = [
   },
   {
     id: "HC-012",
-    requestNo: "HC-2568-00044",
+    requestNo: "HC-2569-00044",
     exporter: "บ.สยามเฟรช จำกัด",
     product: "มะพร้าว",
     destination: "อินเดีย",
@@ -335,7 +339,7 @@ const allApplications = [
   },
   {
     id: "HC-013",
-    requestNo: "HC-2568-00045",
+    requestNo: "HC-2569-00045",
     exporter: "บ.ภาคเหนือเกษตร จำกัด",
     product: "กระเทียม",
     destination: "ไต้หวัน",
@@ -345,7 +349,7 @@ const allApplications = [
   },
   {
     id: "HC-014",
-    requestNo: "HC-2568-00046",
+    requestNo: "HC-2569-00046",
     exporter: "บ.อีสานเกษตร จำกัด",
     product: "ข้าวโพด",
     destination: "มาเลเซีย",
@@ -371,7 +375,11 @@ const filteredItems = computed(() => {
 });
 
 function onRowClick(_e, row) {
-  router.push(`/hc/staff/applications/${row.item.id}`);
+  goToApplicationDetail(row.item.id);
+}
+
+function goToApplicationDetail(id) {
+  router.push({ name: "HCstaffApplicationDetail", params: { id } });
 }
 
 const headers = [
@@ -428,4 +436,3 @@ function getStatusLabel(s) {
   return m[s] ?? s;
 }
 </script>
-

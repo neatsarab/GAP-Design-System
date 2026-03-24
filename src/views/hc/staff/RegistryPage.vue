@@ -40,7 +40,10 @@
       <v-card-text class="pa-4">
         <v-row dense>
           <v-col cols="12" sm="5">
-            <div class="field-label mb-1"><div>ค้นหา</div><div class="field-label-en">Search</div></div>
+            <div class="field-label mb-1">
+              <div>ค้นหา</div>
+              <div class="field-label-en">Search</div>
+            </div>
             <v-text-field
               v-model="searchRegNo"
               prepend-inner-icon="fas fa-barcode"
@@ -51,15 +54,15 @@
         </v-row>
         <v-row dense>
           <v-col cols="auto" class="ml-auto">
-          <v-btn
-            variant="tonal"
-            color="grey"
-            size="small"
-            prepend-icon="fas fa-rotate-left"
-            @click="clearFilters"
-          >
-            ล้างตัวกรอง
-          </v-btn>
+            <v-btn
+              variant="tonal"
+              color="grey"
+              size="small"
+              prepend-icon="fas fa-rotate-left"
+              @click="clearFilters"
+            >
+              ล้างตัวกรอง
+            </v-btn>
           </v-col>
         </v-row>
       </v-card-text>
@@ -69,7 +72,12 @@
     <v-chip-group v-model="filterStatus" class="mb-4" mandatory>
       <v-chip value="all" color="hc-staff" variant="tonal" filter size="small">
         <v-icon start icon="fas fa-list" size="12" /> ทั้งหมด
-        <v-badge :content="allCerts.length" inline color="hc-staff" class="ml-1" />
+        <v-badge
+          :content="allCerts.length"
+          inline
+          color="hc-staff"
+          class="ml-1"
+        />
       </v-chip>
       <v-chip
         value="active"
@@ -173,7 +181,12 @@
 
         <template #item.actions="{ item }">
           <div class="d-flex ga-1">
-            <v-btn size="small" variant="text" color="hc-staff" icon="fas fa-eye" />
+            <v-btn
+              size="small"
+              variant="text"
+              color="hc-staff"
+              icon="fas fa-eye"
+            />
             <v-btn
               size="small"
               variant="text"
@@ -221,11 +234,10 @@ const stats = [
   },
 ];
 
-
 const allCerts = [
   {
-    certNo: "THHC-2568-00041",
-    requestNo: "HC-2568-00041",
+    certNo: "THHC-2569-00041",
+    requestNo: "HC-2569-00041",
     exporter: "บ.ไทยฟรุ๊ต จำกัด",
     product: "ทุเรียน",
     destination: "จีน",
@@ -234,8 +246,8 @@ const allCerts = [
     certStatus: "active",
   },
   {
-    certNo: "THHC-2568-00039",
-    requestNo: "HC-2568-00039",
+    certNo: "THHC-2569-00039",
+    requestNo: "HC-2569-00039",
     exporter: "บ.สยามเอ็กซ์พอร์ต จำกัด",
     product: "มะม่วง",
     destination: "ญี่ปุ่น",
@@ -244,8 +256,8 @@ const allCerts = [
     certStatus: "active",
   },
   {
-    certNo: "THHC-2568-00036",
-    requestNo: "HC-2568-00036",
+    certNo: "THHC-2569-00036",
+    requestNo: "HC-2569-00036",
     exporter: "บ.กรีนเฟรช จำกัด",
     product: "ลำไย",
     destination: "เวียดนาม",
@@ -254,8 +266,8 @@ const allCerts = [
     certStatus: "active",
   },
   {
-    certNo: "THHC-2568-00034",
-    requestNo: "HC-2568-00034",
+    certNo: "THHC-2569-00034",
+    requestNo: "HC-2569-00034",
     exporter: "บ.ดีเอ็กซ์พอร์ต จำกัด",
     product: "กระเทียม",
     destination: "เกาหลีใต้",
@@ -264,8 +276,8 @@ const allCerts = [
     certStatus: "active",
   },
   {
-    certNo: "THHC-2568-00033",
-    requestNo: "HC-2568-00033",
+    certNo: "THHC-2569-00033",
+    requestNo: "HC-2569-00033",
     exporter: "บ.ไทยอะกริ จำกัด",
     product: "ส้มโอ",
     destination: "สิงคโปร์",
@@ -274,8 +286,8 @@ const allCerts = [
     certStatus: "active",
   },
   {
-    certNo: "THHC-2568-00027",
-    requestNo: "HC-2568-00027",
+    certNo: "THHC-2569-00027",
+    requestNo: "HC-2569-00027",
     exporter: "บ.ไทยฟรุ๊ต จำกัด",
     product: "มังคุด",
     destination: "จีน",
@@ -284,8 +296,8 @@ const allCerts = [
     certStatus: "active",
   },
   {
-    certNo: "THHC-2568-00020",
-    requestNo: "HC-2568-00020",
+    certNo: "THHC-2569-00020",
+    requestNo: "HC-2569-00020",
     exporter: "บ.ภาคเหนือเกษตร จำกัด",
     product: "กระเทียม",
     destination: "ไต้หวัน",
@@ -294,8 +306,8 @@ const allCerts = [
     certStatus: "expiring",
   },
   {
-    certNo: "THHC-2568-00018",
-    requestNo: "HC-2568-00018",
+    certNo: "THHC-2569-00018",
+    requestNo: "HC-2569-00018",
     exporter: "บ.อีสานฟาร์ม จำกัด",
     product: "มันสำปะหลัง",
     destination: "จีน",
@@ -304,8 +316,8 @@ const allCerts = [
     certStatus: "expiring",
   },
   {
-    certNo: "THHC-2568-00015",
-    requestNo: "HC-2568-00015",
+    certNo: "THHC-2569-00015",
+    requestNo: "HC-2569-00015",
     exporter: "บ.นอร์ทเทิร์นเฟรช จำกัด",
     product: "ลิ้นจี่",
     destination: "เกาหลีใต้",
@@ -314,8 +326,8 @@ const allCerts = [
     certStatus: "expiring",
   },
   {
-    certNo: "THHC-2567-00098",
-    requestNo: "HC-2567-00098",
+    certNo: "THHC-2569-00098",
+    requestNo: "HC-2569-00098",
     exporter: "บ.สยามเอ็กซ์พอร์ต จำกัด",
     product: "กล้วยหอม",
     destination: "ญี่ปุ่น",
@@ -324,8 +336,8 @@ const allCerts = [
     certStatus: "expired",
   },
   {
-    certNo: "THHC-2567-00090",
-    requestNo: "HC-2567-00090",
+    certNo: "THHC-2569-00090",
+    requestNo: "HC-2569-00090",
     exporter: "บ.กรีนเฟรช จำกัด",
     product: "ทุเรียน",
     destination: "จีน",
@@ -334,8 +346,8 @@ const allCerts = [
     certStatus: "expired",
   },
   {
-    certNo: "THHC-2567-00080",
-    requestNo: "HC-2567-00080",
+    certNo: "THHC-2569-00080",
+    requestNo: "HC-2569-00080",
     exporter: "บ.เอเชียแอกริ จำกัด",
     product: "ข้าว",
     destination: "ฮ่องกง",

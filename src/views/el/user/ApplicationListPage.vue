@@ -12,7 +12,7 @@
         color="el-user"
         prepend-icon="fas fa-file-pen"
         rounded="lg"
-        @click="router.push('/el/user/applications/new')"
+        @click="goToNewApplication"
       >
         ยื่นคำขอใหม่
       </v-btn>
@@ -23,7 +23,10 @@
       <v-card-text class="pa-4">
         <v-row dense align="center">
           <v-col cols="12" sm="6" md="5">
-            <div class="field-label mb-1"><div>ค้นหา</div><div class="field-label-en">Search</div></div>
+            <div class="field-label mb-1">
+              <div>ค้นหา</div>
+              <div class="field-label-en">Search</div>
+            </div>
             <v-text-field
               v-model="search"
               placeholder="ค้นหาเลขคำขอ / ชื่อโรงคัดบรรจุ"
@@ -36,7 +39,10 @@
             />
           </v-col>
           <v-col cols="12" sm="6" md="4">
-            <div class="field-label mb-1"><div>สถานะ</div><div class="field-label-en">Status</div></div>
+            <div class="field-label mb-1">
+              <div>สถานะ</div>
+              <div class="field-label-en">Status</div>
+            </div>
             <v-autocomplete
               v-model="statusFilter"
               :items="statusOptions"
@@ -53,7 +59,14 @@
         </v-row>
         <v-row dense>
           <v-col cols="auto" class="ml-auto">
-          <v-btn variant="tonal" color="grey" size="small" prepend-icon="fas fa-rotate-left" @click="clearFilters">ล้างตัวกรอง</v-btn>
+            <v-btn
+              variant="tonal"
+              color="grey"
+              size="small"
+              prepend-icon="fas fa-rotate-left"
+              @click="clearFilters"
+              >ล้างตัวกรอง</v-btn
+            >
           </v-col>
         </v-row>
       </v-card-text>
@@ -99,7 +112,7 @@
             variant="tonal"
             rounded="lg"
             prepend-icon="fas fa-eye"
-            @click.stop="router.push(`/el/user/applications/${item.id}`)"
+            @click.stop="goToApplicationDetail(item.id)"
           >
             ติดตามสถานะ
           </v-btn>
@@ -114,6 +127,15 @@ import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
+
+function goToNewApplication() {
+  router.push({ name: "ELUserApplicationType" });
+}
+
+function goToApplicationDetail(id) {
+  router.push({ name: "ELUserApplicationDetail", params: { id } });
+}
+
 const search = ref("");
 const statusFilter = ref(null);
 const activeTab = ref("all");
@@ -145,43 +167,43 @@ const headers = [
 
 const allItems = [
   {
-    id: "EL-2568-00002",
-    requestNo: "EL-2568-00002",
+    id: "EL-2569-00002",
+    requestNo: "EL-2569-00002",
     establishmentName: "บ.ไทยฟรุ๊ตส์ เอ็กซ์พอร์ต จก.",
     cropType: "ทุเรียน",
-    submittedDate: "10 ก.พ. 2568",
+    submittedDate: "10 ก.พ. 2569",
     status: "under_review",
   },
   {
-    id: "EL-2568-00001",
-    requestNo: "EL-2568-00001",
+    id: "EL-2569-00001",
+    requestNo: "EL-2569-00001",
     establishmentName: "บ.ไทยฟรุ๊ตส์ เอ็กซ์พอร์ต จก.",
     cropType: "มังคุด",
-    submittedDate: "15 ม.ค. 2568",
+    submittedDate: "15 ม.ค. 2569",
     status: "approved",
   },
   {
-    id: "EL-2567-00015",
-    requestNo: "EL-2567-00015",
+    id: "EL-2569-00015",
+    requestNo: "EL-2569-00015",
     establishmentName: "บ.ไทยฟรุ๊ตส์ เอ็กซ์พอร์ต จก.",
     cropType: "ลำไย",
-    submittedDate: "20 ธ.ค. 2567",
+    submittedDate: "20 ธ.ค. 2569",
     status: "revision_required",
   },
   {
-    id: "EL-2567-00008",
-    requestNo: "EL-2567-00008",
+    id: "EL-2569-00008",
+    requestNo: "EL-2569-00008",
     establishmentName: "บ.ไทยฟรุ๊ตส์ เอ็กซ์พอร์ต จก.",
     cropType: "ลิ้นจี่",
-    submittedDate: "05 ส.ค. 2567",
+    submittedDate: "05 ส.ค. 2569",
     status: "approved",
   },
   {
-    id: "EL-2567-00003",
-    requestNo: "EL-2567-00003",
+    id: "EL-2569-00003",
+    requestNo: "EL-2569-00003",
     establishmentName: "บ.ไทยฟรุ๊ตส์ เอ็กซ์พอร์ต จก.",
     cropType: "ทุเรียน",
-    submittedDate: "10 เม.ย. 2567",
+    submittedDate: "10 เม.ย. 2569",
     status: "draft",
   },
 ];

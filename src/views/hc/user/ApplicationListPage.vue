@@ -10,7 +10,7 @@
       <v-btn
         color="hc-user"
         prepend-icon="fas fa-file-pen"
-        @click="router.push('/hc/user/applications/new')"
+        @click="goToNewApplication"
       >
         ยื่นคำขอใหม่
       </v-btn>
@@ -21,7 +21,10 @@
       <v-card-text class="pa-4">
         <v-row dense align="center">
           <v-col cols="12" sm="5">
-            <div class="field-label"><div>ค้นหา</div><div class="field-label-en">Search</div></div>
+            <div class="field-label">
+              <div>ค้นหา</div>
+              <div class="field-label-en">Search</div>
+            </div>
             <v-text-field
               v-model="search"
               placeholder="ค้นหาเลขคำขอ / ผู้รับสินค้า"
@@ -34,7 +37,10 @@
             />
           </v-col>
           <v-col cols="6" sm="3">
-            <div class="field-label"><div>ประเภทคำขอ</div><div class="field-label-en">Request Type</div></div>
+            <div class="field-label">
+              <div>ประเภทคำขอ</div>
+              <div class="field-label-en">Request Type</div>
+            </div>
             <v-autocomplete
               v-model="filterType"
               :items="typeOptions"
@@ -47,7 +53,10 @@
             />
           </v-col>
           <v-col cols="6" sm="3">
-            <div class="field-label"><div>สถานะ</div><div class="field-label-en">Status</div></div>
+            <div class="field-label">
+              <div>สถานะ</div>
+              <div class="field-label-en">Status</div>
+            </div>
             <v-autocomplete
               v-model="filterStatus"
               :items="statusOptions"
@@ -64,15 +73,15 @@
         </v-row>
         <v-row dense>
           <v-col cols="auto" class="ml-auto">
-          <v-btn
-            variant="tonal"
-            color="grey"
-            size="small"
-            prepend-icon="fas fa-rotate-left"
-            @click="clearFilters"
-          >
-            ล้างตัวกรอง
-          </v-btn>
+            <v-btn
+              variant="tonal"
+              color="grey"
+              size="small"
+              prepend-icon="fas fa-rotate-left"
+              @click="clearFilters"
+            >
+              ล้างตัวกรอง
+            </v-btn>
           </v-col>
         </v-row>
       </v-card-text>
@@ -140,7 +149,7 @@
             variant="tonal"
             color="hc-user"
             prepend-icon="fas fa-eye"
-            @click.stop="router.push(`/hc/user/applications/${item.id}`)"
+            @click.stop="goToApplicationDetail(item.id)"
           >
             ติดตามสถานะ
           </v-btn>
@@ -161,7 +170,15 @@ const filterStatus = ref(null);
 const activeTab = ref("all");
 
 function onRowClick(_e, row) {
-  router.push(`/hc/user/applications/${row.item.id}`);
+  goToApplicationDetail(row.item.id);
+}
+
+function goToNewApplication() {
+  router.push({ name: "HCUserApplicationType" });
+}
+
+function goToApplicationDetail(id) {
+  router.push({ name: "HCUserApplicationDetail", params: { id } });
 }
 function clearFilters() {
   search.value = "";
@@ -212,11 +229,10 @@ const statusTabs = [
   },
 ];
 
-
 const allApplications = [
   {
     id: "HC-001",
-    requestNo: "HC-2568-00041",
+    requestNo: "HC-2569-00041",
     product: "ทุเรียน",
     destination: "จีน",
     type: "new",
@@ -225,7 +241,7 @@ const allApplications = [
   },
   {
     id: "HC-003",
-    requestNo: "HC-2568-00036",
+    requestNo: "HC-2569-00036",
     product: "ลำไย",
     destination: "เวียดนาม",
     type: "correction",
@@ -234,7 +250,7 @@ const allApplications = [
   },
   {
     id: "HC-004",
-    requestNo: "HC-2568-00034",
+    requestNo: "HC-2569-00034",
     product: "กระเทียม",
     destination: "เกาหลีใต้",
     type: "new",
@@ -243,7 +259,7 @@ const allApplications = [
   },
   {
     id: "HC-008",
-    requestNo: "HC-2568-00025",
+    requestNo: "HC-2569-00025",
     product: "มังคุด",
     destination: "จีน",
     type: "new",
@@ -252,7 +268,7 @@ const allApplications = [
   },
   {
     id: "HC-010",
-    requestNo: "HC-2568-00042",
+    requestNo: "HC-2569-00042",
     product: "ลิ้นจี่",
     destination: "เกาหลีใต้",
     type: "new",
@@ -261,7 +277,7 @@ const allApplications = [
   },
   {
     id: "HC-009",
-    requestNo: "HC-2568-00022",
+    requestNo: "HC-2569-00022",
     product: "กล้วยหอม",
     destination: "ญี่ปุ่น",
     type: "new",
@@ -270,7 +286,7 @@ const allApplications = [
   },
   {
     id: "HC-011",
-    requestNo: "HC-2568-00020",
+    requestNo: "HC-2569-00020",
     product: "ส้มโอ",
     destination: "สิงคโปร์",
     type: "new",
@@ -279,7 +295,7 @@ const allApplications = [
   },
   {
     id: "HC-012",
-    requestNo: "HC-2568-00018",
+    requestNo: "HC-2569-00018",
     product: "มะม่วง",
     destination: "ญี่ปุ่น",
     type: "new",

@@ -15,7 +15,10 @@
       <v-card-text class="pa-4">
         <v-row dense>
           <v-col cols="12" sm="4">
-            <div class="field-label mb-1"><div>ค้นหา</div><div class="field-label-en">Search</div></div>
+            <div class="field-label mb-1">
+              <div>ค้นหา</div>
+              <div class="field-label-en">Search</div>
+            </div>
             <v-text-field
               v-model="search"
               prepend-inner-icon="fas fa-search"
@@ -24,7 +27,10 @@
             />
           </v-col>
           <v-col cols="6" sm="3">
-            <div class="field-label mb-1"><div>ประเภทคำขอ</div><div class="field-label-en">Request Type</div></div>
+            <div class="field-label mb-1">
+              <div>ประเภทคำขอ</div>
+              <div class="field-label-en">Request Type</div>
+            </div>
             <v-autocomplete
               v-model="filterType"
               :items="typeOptions"
@@ -33,7 +39,10 @@
             />
           </v-col>
           <v-col cols="6" sm="3">
-            <div class="field-label mb-1"><div>สถานะ</div><div class="field-label-en">Status</div></div>
+            <div class="field-label mb-1">
+              <div>สถานะ</div>
+              <div class="field-label-en">Status</div>
+            </div>
             <v-autocomplete
               v-model="filterStatus"
               :items="statusOptions"
@@ -46,15 +55,15 @@
         </v-row>
         <v-row dense>
           <v-col cols="auto" class="ml-auto">
-          <v-btn
-            variant="tonal"
-            color="grey"
-            size="small"
-            prepend-icon="fas fa-rotate-left"
-            @click="clearFilters"
-          >
-            ล้างตัวกรอง
-          </v-btn>
+            <v-btn
+              variant="tonal"
+              color="grey"
+              size="small"
+              prepend-icon="fas fa-rotate-left"
+              @click="clearFilters"
+            >
+              ล้างตัวกรอง
+            </v-btn>
           </v-col>
         </v-row>
       </v-card-text>
@@ -125,7 +134,7 @@
             variant="tonal"
             color="hc-staff"
             prepend-icon="fas fa-eye"
-            @click.stop="router.push(`/hc/applications/${item.id}`)"
+            @click.stop="goToApplicationDetail(item.id)"
           >
             ดูรายละเอียด
           </v-btn>
@@ -152,14 +161,15 @@ const pageTitle = computed(() => {
 
 const search = ref("");
 const filterType = ref(null);
-const filterStatus = ref(
-  ((route.meta).statusFilter) ??
-    null,
-);
+const filterStatus = ref(route.meta.statusFilter ?? null);
 const activeTab = ref("all");
 
 function onRowClick(_e, row) {
-  router.push(`/hc/applications/${row.item.id}`);
+  goToApplicationDetail(row.item.id);
+}
+
+function goToApplicationDetail(id) {
+  router.push({ name: "HCstaffApplicationDetail", params: { id } });
 }
 function clearFilters() {
   search.value = "";
@@ -226,11 +236,10 @@ const statusTabs = [
   },
 ];
 
-
 const allApplications = [
   {
     id: "HC-001",
-    requestNo: "HC-2568-00041",
+    requestNo: "HC-2569-00041",
     exporter: "บ.ไทยฟรุ๊ต จำกัด",
     product: "ทุเรียน",
     destination: "จีน",
@@ -240,7 +249,7 @@ const allApplications = [
   },
   {
     id: "HC-002",
-    requestNo: "HC-2568-00039",
+    requestNo: "HC-2569-00039",
     exporter: "บ.สยามเอ็กซ์พอร์ต จำกัด",
     product: "มะม่วง",
     destination: "ญี่ปุ่น",
@@ -250,7 +259,7 @@ const allApplications = [
   },
   {
     id: "HC-003",
-    requestNo: "HC-2568-00036",
+    requestNo: "HC-2569-00036",
     exporter: "บ.กรีนเฟรช จำกัด",
     product: "ลำไย",
     destination: "เวียดนาม",
@@ -260,7 +269,7 @@ const allApplications = [
   },
   {
     id: "HC-004",
-    requestNo: "HC-2568-00034",
+    requestNo: "HC-2569-00034",
     exporter: "บ.ดีเอ็กซ์พอร์ต จำกัด",
     product: "กระเทียม",
     destination: "เกาหลีใต้",
@@ -270,7 +279,7 @@ const allApplications = [
   },
   {
     id: "HC-005",
-    requestNo: "HC-2568-00033",
+    requestNo: "HC-2569-00033",
     exporter: "บ.ไทยอะกริ จำกัด",
     product: "ส้มโอ",
     destination: "สิงคโปร์",
@@ -280,7 +289,7 @@ const allApplications = [
   },
   {
     id: "HC-006",
-    requestNo: "HC-2568-00031",
+    requestNo: "HC-2569-00031",
     exporter: "บ.อีสานฟาร์ม จำกัด",
     product: "มันสำปะหลัง",
     destination: "จีน",
@@ -290,7 +299,7 @@ const allApplications = [
   },
   {
     id: "HC-007",
-    requestNo: "HC-2568-00029",
+    requestNo: "HC-2569-00029",
     exporter: "บ.เอเชียแอกริ จำกัด",
     product: "ข้าว",
     destination: "ฮ่องกง",
@@ -300,7 +309,7 @@ const allApplications = [
   },
   {
     id: "HC-008",
-    requestNo: "HC-2568-00027",
+    requestNo: "HC-2569-00027",
     exporter: "บ.ไทยฟรุ๊ต จำกัด",
     product: "มังคุด",
     destination: "จีน",
@@ -310,7 +319,7 @@ const allApplications = [
   },
   {
     id: "HC-009",
-    requestNo: "HC-2568-00025",
+    requestNo: "HC-2569-00025",
     exporter: "บ.กรีนเฟรช จำกัด",
     product: "กล้วยหอม",
     destination: "ญี่ปุ่น",
@@ -320,7 +329,7 @@ const allApplications = [
   },
   {
     id: "HC-010",
-    requestNo: "HC-2568-00042",
+    requestNo: "HC-2569-00042",
     exporter: "บ.นอร์ทเทิร์นเฟรช จำกัด",
     product: "ลิ้นจี่",
     destination: "เกาหลีใต้",

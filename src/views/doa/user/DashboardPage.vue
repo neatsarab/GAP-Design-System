@@ -2,10 +2,16 @@
   <div>
     <div class="d-flex align-center justify-space-between flex-wrap ga-3 mb-6">
       <div>
-        <h1 class="page-title mb-1">แดชบอร์ด DOA โรงงานผลิตสินค้าพืช</h1>
-        <p class="text-body-2 text-medium-emphasis mb-0">ภาพรวมคำขอขึ้นทะเบียนโรงงานของคุณ</p>
+        <h1 class="page-title mb-1">แดชบอร์ด</h1>
+        <p class="text-body-2 text-medium-emphasis mb-0">
+          ภาพรวมระบบการขึ้นทะเบียนโรงงานผลิตสินค้าพืช DOA
+        </p>
       </div>
-      <v-btn color="doa-user" prepend-icon="fas fa-file-pen" @click="router.push('/doa/user/applications/new')">
+      <v-btn
+        color="doa-user"
+        prepend-icon="fas fa-file-pen"
+        @click="goToNewApplication"
+      >
         ยื่นคำขอใหม่
       </v-btn>
     </div>
@@ -21,28 +27,58 @@
       <v-col cols="12" md="8">
         <v-card rounded="xl" elevation="0">
           <v-card-title class="d-flex align-center ga-2 pa-4 pb-3">
-            <v-icon icon="fas fa-clock-rotate-left" color="doa-user" size="16" />
+            <v-icon
+              icon="fas fa-clock-rotate-left"
+              color="doa-user"
+              size="16"
+            />
             <span class="text-body-1 font-weight-bold">คำขอล่าสุด</span>
             <v-spacer />
-            <v-btn variant="text" color="doa-user" size="small" append-icon="fas fa-arrow-right" @click="router.push('/doa/user/applications')">
+            <v-btn
+              variant="text"
+              color="doa-user"
+              size="small"
+              append-icon="fas fa-arrow-right"
+              @click="goToApplicationList"
+            >
               ดูทั้งหมด
             </v-btn>
           </v-card-title>
           <v-divider />
           <v-list lines="two" class="pa-0">
             <template v-for="(app, i) in recentApplications" :key="app.id">
-              <v-list-item class="pa-3" @click="router.push(`/doa/user/applications/${app.id}`)">
+              <v-list-item
+                class="pa-3"
+                @click="goToApplicationDetail(app.id)"
+              >
                 <template #prepend>
-                  <v-avatar :color="statusColor(app.status)" variant="tonal" size="40" rounded="lg" class="mr-3">
+                  <v-avatar
+                    :color="statusColor(app.status)"
+                    variant="tonal"
+                    size="40"
+                    rounded="lg"
+                    class="mr-3"
+                  >
                     <v-icon icon="fas fa-industry" size="18" />
                   </v-avatar>
                 </template>
-                <v-list-item-title class="text-body-2 font-weight-medium">{{ app.requestNo }}</v-list-item-title>
-                <v-list-item-subtitle class="text-caption">{{ app.factoryName }} · {{ app.productType }}</v-list-item-subtitle>
+                <v-list-item-title class="text-body-2 font-weight-medium">{{
+                  app.requestNo
+                }}</v-list-item-title>
+                <v-list-item-subtitle class="text-caption"
+                  >ยื่นเมื่อ {{ app.submittedDate }}</v-list-item-subtitle
+                >
                 <template #append>
                   <div class="d-flex flex-column align-end ga-1">
-                    <v-chip :color="statusColor(app.status)" size="x-small" variant="tonal">{{ statusLabel(app.status) }}</v-chip>
-                    <span class="text-caption text-medium-emphasis">{{ app.submittedDate }}</span>
+                    <v-chip
+                      :color="statusColor(app.status)"
+                      size="x-small"
+                      variant="tonal"
+                      >{{ statusLabel(app.status) }}</v-chip
+                    >
+                    <span class="text-caption text-medium-emphasis">{{
+                      app.submittedDate
+                    }}</span>
                   </div>
                 </template>
               </v-list-item>
@@ -54,9 +90,17 @@
 
       <!-- Info Alert + Quick Actions -->
       <v-col cols="12" md="4">
-        <v-alert color="doa-user" variant="tonal" rounded="xl" class="mb-4" prepend-icon="fas fa-circle-info">
+        <v-alert
+          color="doa-user"
+          variant="tonal"
+          rounded="xl"
+          class="mb-4"
+          prepend-icon="fas fa-circle-info"
+        >
           <div class="text-body-2 font-weight-medium mb-1">อัพเดทสถานะ</div>
-          <div class="text-body-2">คำขอ DOA-2568-00001 อยู่ระหว่างการตรวจสอบเอกสาร</div>
+          <div class="text-body-2">
+            คำขอ DOA-2569-00002 อยู่ระหว่างการตรวจสอบเอกสาร
+          </div>
         </v-alert>
         <v-card rounded="xl" elevation="0">
           <v-card-title class="d-flex align-center ga-2 pa-4 pb-3">
@@ -73,7 +117,7 @@
               rounded="lg"
               :color="action.color"
               class="mb-1"
-              @click="router.push(action.to)"
+              @click="goToAction(action.to)"
             />
           </v-list>
         </v-card>
@@ -88,37 +132,107 @@ import AppStatCard from "@/components/common/AppStatCard.vue";
 
 const router = useRouter();
 
+function goToNewApplication() {
+  router.push({ name: "DOAUserNewApplication" });
+}
+
+function goToApplicationList() {
+  router.push({ name: "DOAUserApplicationList" });
+}
+
+function goToApplicationDetail(id) {
+  router.push({ name: "DOAUserApplicationDetail", params: { id } });
+}
+
+function goToAction(to) {
+  router.push(to);
+}
+
 const stats = [
-  { label: "คำขอทั้งหมด", value: 2, icon: "fas fa-file-lines", iconColor: "primary" },
-  { label: "อยู่ระหว่างตรวจสอบ", value: 1, icon: "fas fa-magnifying-glass", iconColor: "info" },
-  { label: "อนุมัติแล้ว", value: 1, icon: "fas fa-circle-check", iconColor: "success" },
-  { label: "โรงงานที่ขึ้นทะเบียน", value: 1, icon: "fas fa-industry", iconColor: "primary" },
+  {
+    label: "คำขอทั้งหมด",
+    value: 4,
+    icon: "fas fa-file-lines",
+    iconColor: "doa-user",
+  },
+  {
+    label: "อยู่ระหว่างตรวจสอบ",
+    value: 1,
+    icon: "fas fa-magnifying-glass",
+    iconColor: "info",
+  },
+  {
+    label: "อนุมัติแล้ว",
+    value: 2,
+    icon: "fas fa-circle-check",
+    iconColor: "success",
+  },
+  {
+    label: "รอแก้ไข",
+    value: 1,
+    icon: "fas fa-triangle-exclamation",
+    iconColor: "warning",
+  },
 ];
 
 const recentApplications = [
-  { id: "DOA-2568-00002", requestNo: "DOA-2568-00002", factoryName: "บ.ไทยแลนด์ โปรดักส์ จก.", productType: "ผลไม้แปรรูป", submittedDate: "1 มี.ค. 2568", status: "under_review" },
-  { id: "DOA-2568-00001", requestNo: "DOA-2568-00001", factoryName: "บ.ไทยแลนด์ โปรดักส์ จก.", productType: "ผักแปรรูป", submittedDate: "15 ม.ค. 2568", status: "approved" },
+  {
+    id: "DOA-2569-00003",
+    requestNo: "DOA-2569-00003",
+    submittedDate: "5 มี.ค. 2569",
+    status: "under_review",
+  },
+  {
+    id: "DOA-2569-00002",
+    requestNo: "DOA-2569-00002",
+    submittedDate: "20 ก.พ. 2569",
+    status: "inspection_scheduled",
+  },
+  {
+    id: "DOA-2569-00001",
+    requestNo: "DOA-2569-00001",
+    submittedDate: "10 ม.ค. 2569",
+    status: "approved",
+  },
 ];
 
 const quickActions = [
-  { title: "ยื่นคำขอ DOA ใหม่", icon: "fas fa-file-pen", color: "primary", to: "/doa/user/applications/new" },
-  { title: "รายการคำขอ", icon: "fas fa-file-lines", color: "primary", to: "/doa/user/applications" },
+  {
+    title: "ยื่นคำขอใหม่",
+    icon: "fas fa-file-pen",
+    color: "primary",
+    to: "/doa/user/applications/new",
+  },
+  {
+    title: "รายการคำขอ",
+    icon: "fas fa-file-lines",
+    color: "primary",
+    to: "/doa/user/applications",
+  },
 ];
 
 function statusColor(status) {
   const map = {
-    draft: "grey", submitted: "primary", under_review: "info",
-    inspection_scheduled: "secondary", approved: "success",
-    rejected: "error", revision_required: "warning",
+    draft: "grey",
+    submitted: "primary",
+    under_review: "info",
+    inspection_scheduled: "secondary",
+    approved: "success",
+    rejected: "error",
+    revision_required: "warning",
   };
   return map[status] ?? "grey";
 }
 
 function statusLabel(status) {
   const map = {
-    draft: "แบบร่าง", submitted: "ยื่นแล้ว", under_review: "อยู่ระหว่างตรวจสอบ",
-    inspection_scheduled: "นัดตรวจแล้ว", approved: "อนุมัติแล้ว",
-    rejected: "ไม่ผ่าน", revision_required: "รอแก้ไข",
+    draft: "แบบร่าง",
+    submitted: "ยื่นแล้ว",
+    under_review: "อยู่ระหว่างตรวจสอบ",
+    inspection_scheduled: "นัดตรวจแล้ว",
+    approved: "อนุมัติแล้ว",
+    rejected: "ไม่ผ่าน",
+    revision_required: "รอแก้ไข",
   };
   return map[status] ?? status;
 }

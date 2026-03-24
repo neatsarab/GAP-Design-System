@@ -19,7 +19,9 @@
               <v-icon icon="fas fa-signature" color="hcex-staff" size="20" />
             </div>
             <div>
-              <div class="text-h5 font-weight-bold text-warning">{{ pendingCount }}</div>
+              <div class="text-h5 font-weight-bold text-warning">
+                {{ pendingCount }}
+              </div>
               <div class="text-caption text-medium-emphasis">รอลงนาม</div>
             </div>
           </v-card-text>
@@ -32,8 +34,12 @@
               <v-icon icon="fas fa-circle-check" color="success" size="20" />
             </div>
             <div>
-              <div class="text-h5 font-weight-bold text-success">{{ signedTodayCount }}</div>
-              <div class="text-caption text-medium-emphasis">ลงนามแล้ววันนี้</div>
+              <div class="text-h5 font-weight-bold text-success">
+                {{ signedTodayCount }}
+              </div>
+              <div class="text-caption text-medium-emphasis">
+                ลงนามแล้ววันนี้
+              </div>
             </div>
           </v-card-text>
         </v-card>
@@ -58,7 +64,10 @@
       <v-card-text class="pa-4">
         <v-row dense>
           <v-col cols="12" sm="5">
-            <div class="field-label mb-1"><div>ค้นหา</div><div class="field-label-en">Search</div></div>
+            <div class="field-label mb-1">
+              <div>ค้นหา</div>
+              <div class="field-label-en">Search</div>
+            </div>
             <v-text-field
               v-model="search"
               prepend-inner-icon="fas fa-search"
@@ -69,15 +78,15 @@
         </v-row>
         <v-row dense>
           <v-col cols="auto" class="ml-auto">
-          <v-btn
-            variant="tonal"
-            color="grey"
-            size="small"
-            prepend-icon="fas fa-rotate-left"
-            @click="search = ''"
-          >
-            ล้างตัวกรอง
-          </v-btn>
+            <v-btn
+              variant="tonal"
+              color="grey"
+              size="small"
+              prepend-icon="fas fa-rotate-left"
+              @click="clearSearch"
+            >
+              ล้างตัวกรอง
+            </v-btn>
           </v-col>
         </v-row>
       </v-card-text>
@@ -108,23 +117,27 @@
 
     <!-- Table -->
     <v-card>
-      <v-data-table
-        :headers="headers"
-        :items="filteredItems"
-        hover
-      >
+      <v-data-table :headers="headers" :items="filteredItems" hover>
         <template #item.requestNo="{ item }">
-          <span class="text-body-2 font-weight-medium text-warning">{{ item.requestNo }}</span>
+          <span class="text-body-2 font-weight-medium text-warning">{{
+            item.requestNo
+          }}</span>
         </template>
         <template #item.certType="{ item }">
-          <v-chip size="x-small" color="hcex-staff" variant="tonal">{{ item.certType }}</v-chip>
+          <v-chip size="x-small" color="hcex-staff" variant="tonal">{{
+            item.certType
+          }}</v-chip>
         </template>
         <template #item.status="{ item }">
           <v-chip
             size="small"
             :color="item.status === 'pending' ? 'warning' : 'success'"
             variant="tonal"
-            :prepend-icon="item.status === 'pending' ? 'fas fa-hourglass-half' : 'fas fa-circle-check'"
+            :prepend-icon="
+              item.status === 'pending'
+                ? 'fas fa-hourglass-half'
+                : 'fas fa-circle-check'
+            "
           >
             {{ item.status === "pending" ? "รอลงนาม" : "ลงนามแล้ว" }}
           </v-chip>
@@ -140,7 +153,13 @@
           >
             ลงนาม
           </v-btn>
-          <v-chip v-else size="x-small" color="success" variant="tonal" prepend-icon="fas fa-check">
+          <v-chip
+            v-else
+            size="x-small"
+            color="success"
+            variant="tonal"
+            prepend-icon="fas fa-check"
+          >
             ลงนามแล้ว
           </v-chip>
         </template>
@@ -152,24 +171,42 @@
       <v-card rounded="xl" v-if="selectedItem">
         <v-card-title class="pa-5 pb-3 d-flex align-center ga-2">
           <v-icon icon="fas fa-signature" color="hcex-staff" size="18" />
-          <span class="text-body-1 font-weight-bold">ยืนยันการลงนามใบรับรอง</span>
+          <span class="text-body-1 font-weight-bold"
+            >ยืนยันการลงนามใบรับรอง</span
+          >
           <v-spacer />
-          <v-btn icon="fas fa-xmark" variant="text" size="small" @click="signDialog = false" />
+          <v-btn
+            icon="fas fa-xmark"
+            variant="text"
+            size="small"
+            @click="closeSignDialog"
+          />
         </v-card-title>
         <v-divider />
         <v-card-text class="pa-5">
           <!-- Cert Preview -->
           <div class="cert-preview mb-4">
             <div class="cert-preview-header">
-              <v-icon icon="fas fa-industry" color="hcex-staff" size="20" class="mb-2" />
-              <div class="text-body-2 font-weight-bold">ใบรับรองสุขอนามัยสินค้าแปรรูปด้านพืช</div>
-              <div class="text-caption text-medium-emphasis">Health Certificate for Processed Plant Products</div>
+              <v-icon
+                icon="fas fa-industry"
+                color="hcex-staff"
+                size="20"
+                class="mb-2"
+              />
+              <div class="text-body-2 font-weight-bold">
+                ใบรับรองสุขอนามัยสินค้าแปรรูปด้านพืช
+              </div>
+              <div class="text-caption text-medium-emphasis">
+                Health Certificate for Processed Plant Products
+              </div>
             </div>
             <div class="cert-preview-body">
               <div class="info-grid">
                 <div class="info-item">
                   <span class="info-label">เลขที่ใบรับรอง</span>
-                  <span class="info-value text-warning font-weight-bold">{{ selectedItem.certNo }}</span>
+                  <span class="info-value text-warning font-weight-bold">{{
+                    selectedItem.certNo
+                  }}</span>
                 </div>
                 <div class="info-item">
                   <span class="info-label">ผู้ส่งออก</span>
@@ -197,15 +234,28 @@
             density="compact"
             prepend-icon="fas fa-triangle-exclamation"
           >
-            <span class="text-body-2">กรุณาตรวจสอบข้อมูลให้ถูกต้องก่อนลงนาม การลงนามถือเป็นการยืนยันข้อมูลทั้งหมด</span>
+            <span class="text-body-2"
+              >กรุณาตรวจสอบข้อมูลให้ถูกต้องก่อนลงนาม
+              การลงนามถือเป็นการยืนยันข้อมูลทั้งหมด</span
+            >
           </v-alert>
         </v-card-text>
         <v-card-actions class="px-5 pb-5 ga-2">
-          <v-btn variant="tonal" color="grey" rounded="lg" @click="signDialog = false">
+          <v-btn
+            variant="tonal"
+            color="grey"
+            rounded="lg"
+            @click="closeSignDialog"
+          >
             ยกเลิก
           </v-btn>
           <v-spacer />
-          <v-btn color="hcex-staff" rounded="lg" prepend-icon="fas fa-signature" @click="confirmSign">
+          <v-btn
+            color="hcex-staff"
+            rounded="lg"
+            prepend-icon="fas fa-signature"
+            @click="confirmSign"
+          >
             ยืนยันลงนาม
           </v-btn>
         </v-card-actions>
@@ -220,16 +270,29 @@
             <v-icon icon="fas fa-circle-check" size="40" color="success" />
           </div>
           <h3 class="text-h6 font-weight-bold mb-2">ลงนามสำเร็จ!</h3>
-          <p class="text-body-2 font-weight-bold text-warning mb-1">{{ lastSignedCertNo }}</p>
+          <p class="text-body-2 font-weight-bold text-warning mb-1">
+            {{ lastSignedCertNo }}
+          </p>
           <p class="text-body-2 text-medium-emphasis mb-0">
             ใบรับรองได้รับการลงนามและออกให้แก่ผู้ประกอบการเรียบร้อยแล้ว
           </p>
         </v-card-text>
         <v-card-actions class="px-6 pb-6 ga-2">
-          <v-btn variant="tonal" color="hcex-staff" rounded="lg" block prepend-icon="fas fa-download">
+          <v-btn
+            variant="tonal"
+            color="hcex-staff"
+            rounded="lg"
+            block
+            prepend-icon="fas fa-download"
+          >
             ดาวน์โหลด PDF
           </v-btn>
-          <v-btn color="hcex-staff" rounded="lg" block @click="successDialog = false">
+          <v-btn
+            color="hcex-staff"
+            rounded="lg"
+            block
+            @click="closeSuccessDialog"
+          >
             ปิด
           </v-btn>
         </v-card-actions>
@@ -242,11 +305,19 @@
 import { ref, computed } from "vue";
 
 const search = ref("");
+function clearSearch() {
+  search.value = "";
+}
+function closeSignDialog() {
+  signDialog.value = false;
+}
+function closeSuccessDialog() {
+  successDialog.value = false;
+}
 const activeTab = ref("all");
 const signDialog = ref(false);
 const successDialog = ref(false);
 const lastSignedCertNo = ref("");
-
 
 const selectedItem = ref(null);
 
@@ -275,66 +346,76 @@ const today = computed(() =>
 const allItems = [
   {
     id: "sign-001",
-    requestNo: "HCEX-2568-00012",
-    certNo: "THHCEX-2568-00012",
+    requestNo: "HCEX-2569-00012",
+    certNo: "THHCEX-2569-00012",
     certType: "กมพ.1",
     exporter: "บริษัท ไทยฟู้ดโปรเซส จำกัด",
     consignee: "Nippon Foods Trading Co., Ltd.",
     destination: "ญี่ปุ่น",
-    date: "15 ม.ค. 2568",
+    date: "15 ม.ค. 2569",
     status: "pending",
   },
   {
     id: "sign-002",
-    requestNo: "HCEX-2568-00011",
-    certNo: "THHCEX-2568-00011",
+    requestNo: "HCEX-2569-00011",
+    certNo: "THHCEX-2569-00011",
     certType: "กมพ.1-1",
     exporter: "บริษัท เกษตรแปรรูปไทย จำกัด",
     consignee: "Beijing Import Trading Co.",
     destination: "จีน",
-    date: "14 ม.ค. 2568",
+    date: "14 ม.ค. 2569",
     status: "pending",
   },
   {
     id: "sign-003",
-    requestNo: "HCEX-2568-00010",
-    certNo: "THHCEX-2568-00010",
+    requestNo: "HCEX-2569-00010",
+    certNo: "THHCEX-2569-00010",
     certType: "กมพ.1",
     exporter: "ห้างหุ้นส่วน สินทวีผลผลิต",
     consignee: "Seoul Food Distribution Ltd.",
     destination: "เกาหลีใต้",
-    date: "13 ม.ค. 2568",
+    date: "13 ม.ค. 2569",
     status: "pending",
   },
   {
     id: "sign-004",
-    requestNo: "HCEX-2568-00009",
-    certNo: "THHCEX-2568-00009",
+    requestNo: "HCEX-2569-00009",
+    certNo: "THHCEX-2569-00009",
     certType: "กมพ.1-2",
     exporter: "บริษัท อาหารส่งออกไทย จำกัด",
     consignee: "SG Fresh Market Pte. Ltd.",
     destination: "สิงคโปร์",
-    date: "12 ม.ค. 2568",
+    date: "12 ม.ค. 2569",
     status: "signed",
   },
   {
     id: "sign-005",
-    requestNo: "HCEX-2568-00008",
-    certNo: "THHCEX-2568-00008",
+    requestNo: "HCEX-2569-00008",
+    certNo: "THHCEX-2569-00008",
     certType: "กมพ.1-3",
     exporter: "บริษัท ผลิตภัณฑ์พืชไทย จำกัด",
     consignee: "HK Agri Import Ltd.",
     destination: "ฮ่องกง",
-    date: "11 ม.ค. 2568",
+    date: "11 ม.ค. 2569",
     status: "signed",
   },
 ];
 
-const pendingCount = computed(() => allItems.filter((i) => i.status === "pending").length);
-const signedTodayCount = computed(() => allItems.filter((i) => i.status === "signed").length);
+const pendingCount = computed(
+  () => allItems.filter((i) => i.status === "pending").length,
+);
+const signedTodayCount = computed(
+  () => allItems.filter((i) => i.status === "signed").length,
+);
 
 const statusTabs = computed(() => [
-  { label: "ทั้งหมด", value: "all", color: "default", icon: "fas fa-list", count: 0 },
+  {
+    label: "ทั้งหมด",
+    value: "all",
+    color: "default",
+    icon: "fas fa-list",
+    count: 0,
+  },
   {
     label: "รอลงนาม",
     value: "pending",
@@ -342,12 +423,19 @@ const statusTabs = computed(() => [
     icon: "fas fa-hourglass-half",
     count: pendingCount.value,
   },
-  { label: "ลงนามแล้ว", value: "signed", color: "success", icon: "fas fa-circle-check", count: 0 },
+  {
+    label: "ลงนามแล้ว",
+    value: "signed",
+    color: "success",
+    icon: "fas fa-circle-check",
+    count: 0,
+  },
 ]);
 
 const filteredItems = computed(() => {
   let items = allItems;
-  if (activeTab.value !== "all") items = items.filter((i) => i.status === activeTab.value);
+  if (activeTab.value !== "all")
+    items = items.filter((i) => i.status === activeTab.value);
   if (search.value) {
     const q = search.value.toLowerCase();
     items = items.filter(

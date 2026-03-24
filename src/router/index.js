@@ -8,7 +8,9 @@ const router = createRouter({
       path: "/",
       name: "Portal",
       component: () => import("@/views/PortalPage.vue"),
-      meta: { title: "ระบบรับรองแหล่งผลิต GAP พืช" },
+      meta: {
+        title: "ระบบการให้บริการทางอิเล็กทรอนิกส์ของกรมวิชาการเกษตร",
+      },
     },
 
     // ── Login ─────────────────────────────────────────
@@ -53,10 +55,16 @@ const router = createRouter({
 
     // ── Government Portal ─────────────────────────────
     {
-      path: "/portal",
-      name: "GovPortal",
-      component: () => import("@/views/GovPortalPage.vue"),
+      path: "/portal/user",
+      name: "UserPortal",
+      component: () => import("@/views/UserPortalPage.vue"),
       meta: { title: "ระบบบริการออนไลน์ กรมวิชาการเกษตร" },
+    },
+    {
+      path: "/portal/staff",
+      name: "StaffPortal",
+      component: () => import("@/views/StaffPortalPage.vue"),
+      meta: { title: "ระบบบริการออนไลน์ กรมวิชาการเกษตร (เจ้าหน้าที่)" },
     },
 
     // ── Design System ─────────────────────────────────
@@ -935,7 +943,9 @@ const router = createRouter({
 // Update page title from route meta
 router.afterEach((to) => {
   const title = to.meta?.title;
-  document.title = title ? `${title} · GAP พืช` : "ระบบรับรองแหล่งผลิต GAP พืช";
+  document.title = title
+    ? `${title} · ระบบการให้บริการทางอิเล็กทรอนิกส์ของกรมวิชาการเกษตร`
+    : "ระบบการให้บริการทางอิเล็กทรอนิกส์ของกรมวิชาการเกษตร";
 });
 
 export default router;

@@ -7,10 +7,10 @@
             <v-icon icon="fas fa-industry" color="doa-staff" size="20" />
           </div>
         </template>
-        <v-list-item-title class="text-body-2 font-weight-bold">ระบบ DOA โรงงานพืช</v-list-item-title>
+        <v-list-item-title class="text-body-2 font-weight-bold">ระบบการขึ้นทะเบียนโรงงานผลิตสินค้าพืช DOA</v-list-item-title>
         <v-list-item-subtitle class="text-caption" style="color: rgb(var(--v-theme-doa-staff)); opacity: 0.85">สำหรับเจ้าหน้าที่</v-list-item-subtitle>
         <template v-slot:append>
-          <v-btn :icon="rail ? 'fas fa-chevron-right' : 'fas fa-chevron-left'" variant="text" color="on-surface-variant" size="small" @click="rail = !rail" />
+          <v-btn :icon="rail ? 'fas fa-chevron-right' : 'fas fa-chevron-left'" variant="text" color="on-surface-variant" size="small" @click="toggleRail" />
         </template>
       </v-list-item>
 
@@ -43,14 +43,14 @@
       <template v-slot:append>
         <v-divider />
         <v-list density="compact" nav class="px-2 py-2">
-          <v-list-item prepend-icon="fas fa-arrow-left" title="กลับหน้า Portal" rounded="lg" @click="router.push('/portal?mode=staff')" />
-          <v-list-item prepend-icon="fas fa-right-from-bracket" title="ออกจากระบบ" base-color="error" rounded="lg" @click="logoutDialog = true" />
+          <v-list-item prepend-icon="fas fa-arrow-left" title="กลับหน้า Portal" rounded="lg" @click="goToPortal" />
+          <v-list-item prepend-icon="fas fa-right-from-bracket" title="ออกจากระบบ" base-color="error" rounded="lg" @click="openLogoutDialog" />
         </v-list>
       </template>
     </v-navigation-drawer>
 
     <v-app-bar flat height="64" class="app-bar" :style="{ '--v-theme-primary': 'var(--v-theme-doa-staff)' }">
-      <v-btn icon="fas fa-bars" variant="text" size="small" class="ml-2" @click="rail = !rail" />
+      <v-btn icon="fas fa-bars" variant="text" size="small" class="ml-2" @click="toggleRail" />
       <v-breadcrumbs :items="breadcrumbs" density="compact" class="ml-1 d-none d-sm-flex">
         <template #divider><v-icon icon="fas fa-chevron-right" size="10" /></template>
       </v-breadcrumbs>
@@ -72,7 +72,7 @@
 
     <v-dialog v-model="logoutDialog" max-width="360" persistent>
       <v-card rounded="xl">
-        <v-btn icon="fas fa-xmark" variant="text" size="small" color="grey" class="position-absolute top-0 right-0 ma-2" @click="logoutDialog = false" />
+        <v-btn icon="fas fa-xmark" variant="text" size="small" color="grey" class="position-absolute top-0 right-0 ma-2" @click="closeLogoutDialog" />
         <v-card-text class="pa-6 text-center">
           <div class="logout-icon-ring mx-auto mb-4">
             <v-icon icon="fas fa-right-from-bracket" size="28" color="error" />
@@ -81,7 +81,7 @@
           <p class="text-body-2 text-medium-emphasis mb-0">คุณต้องการออกจากระบบใช่หรือไม่?</p>
         </v-card-text>
         <v-card-actions class="px-6 pb-5 ga-2">
-          <v-btn variant="tonal" color="grey" rounded="lg" block @click="logoutDialog = false">ยกเลิก</v-btn>
+          <v-btn variant="tonal" color="grey" rounded="lg" block @click="closeLogoutDialog">ยกเลิก</v-btn>
           <v-btn color="error" rounded="lg" block @click="doLogout">ออกจากระบบ</v-btn>
         </v-card-actions>
       </v-card>
@@ -110,9 +110,25 @@ const drawer = ref(true);
 const rail = ref(false);
 const logoutDialog = ref(false);
 
+function toggleRail() {
+  rail.value = !rail.value;
+}
+
+function openLogoutDialog() {
+  logoutDialog.value = true;
+}
+
+function closeLogoutDialog() {
+  logoutDialog.value = false;
+}
+
+function goToPortal() {
+  router.push({ name: "StaffPortal" });
+}
+
 function doLogout() {
   logoutDialog.value = false;
-  router.push("/login");
+  router.push({ name: "Login" });
 }
 
 function isNavActive(to) {
@@ -120,7 +136,7 @@ function isNavActive(to) {
 }
 
 const breadcrumbs = computed(() => [
-  { title: "ระบบ DOA (เจ้าหน้าที่)", to: "/doa/staff" },
+  { title: "ระบบการขึ้นทะเบียนโรงงานผลิตสินค้าพืช DOA", to: "/doa/staff" },
   { title: route.meta.title },
 ]);
 

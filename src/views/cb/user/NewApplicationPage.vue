@@ -670,7 +670,7 @@
         <v-btn
           variant="tonal"
           color="grey"
-          @click="router.push('/cb/user/applications')"
+          @click="goToApplicationList""
           >ยกเลิก</v-btn
         >
         <v-btn
@@ -678,7 +678,7 @@
           variant="tonal"
           color="grey"
           prepend-icon="fas fa-arrow-left"
-          @click="currentStep--"
+          @click="prevStep"
           >ย้อนกลับ</v-btn
         >
       </div>
@@ -694,14 +694,14 @@
           v-if="currentStep < steps.length - 1"
           color="cb-user"
           append-icon="fas fa-arrow-right"
-          @click="currentStep++"
+          @click="nextStep"
           >ถัดไป</v-btn
         >
         <v-btn
           v-else
           color="cb-user"
           prepend-icon="fas fa-paper-plane"
-          @click="confirmDialog = true"
+          @click="openConfirmDialog"
           >ยื่นคำขอ</v-btn
         >
       </div>
@@ -725,7 +725,7 @@
             color="grey"
             rounded="lg"
             block
-            @click="confirmDialog = false"
+            @click="closeConfirmDialog"
             >ยกเลิก</v-btn
           >
           <v-btn color="cb-user" rounded="lg" block @click="submitApplication"
@@ -752,7 +752,7 @@
             color="cb-user"
             rounded="lg"
             block
-            @click="router.push('/cb/user/applications')"
+            @click="goToApplicationList""
             >ดูรายการคำขอ</v-btn
           >
         </v-card-actions>
@@ -777,6 +777,18 @@ import { ref, reactive, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
 const router = useRouter();
+
+function goToApplicationList() {
+  router.push({ name: "CBUserApplicationList" });
+}
+
+function prevStep() {
+  currentStep.value--;
+}
+
+function nextStep() {
+  currentStep.value++;
+}
 const route = useRoute();
 
 const typeTitles = {
@@ -879,6 +891,12 @@ const docExtra = [
   { key: "branch_addr", label: "8. ที่อยู่สำนักงานใหญ่และสาขาในประเทศไทย" },
 ];
 
+function openConfirmDialog() {
+  confirmDialog.value = true;
+}
+function closeConfirmDialog() {
+  confirmDialog.value = false;
+}
 function saveDraft() {
   draftSnackbar.value = true;
 }

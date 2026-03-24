@@ -6,17 +6,17 @@
         icon="fas fa-arrow-left"
         variant="text"
         size="small"
-        @click="router.push('/el/user/applications')"
+        @click="goToApplicationList"
       />
       <div class="flex-grow-1">
         <div class="d-flex align-center ga-3 flex-wrap">
-          <h1 class="page-title mb-0">EL-2568-00002</h1>
+          <h1 class="page-title mb-0">EL-2569-00002</h1>
           <v-chip color="el-user" size="small" variant="tonal">
             อยู่ระหว่างตรวจประเมิน
           </v-chip>
         </div>
         <p class="text-body-2 text-medium-emphasis mb-0 mt-1">
-          ยื่นเมื่อ 10 กุมภาพันธ์ 2568
+          ยื่นเมื่อ 10 กุมภาพันธ์ 2569
         </p>
       </div>
     </div>
@@ -229,6 +229,10 @@ import { useRouter } from "vue-router";
 
 const router = useRouter();
 
+function goToApplicationList() {
+  router.push({ name: "ELUserApplicationList" });
+}
+
 const activeTrackerStep = 2;
 
 const trackerSteps = [
@@ -257,19 +261,19 @@ const revisionItems = [
 const statusHistory = [
   {
     label: "รับคำขอแล้ว",
-    date: "10 ก.พ. 2568 09:30",
+    date: "10 ก.พ. 2569 09:30",
     color: "success",
-    note: "เลขคำขอ EL-2568-00002",
+    note: "เลขคำขอ EL-2569-00002",
   },
   {
     label: "ด่านเกษตรตรวจสอบเอกสาร",
-    date: "12 ก.พ. 2568 14:00",
+    date: "12 ก.พ. 2569 14:00",
     color: "success",
     note: "เอกสารครบถ้วน ผ่านการตรวจสอบ",
   },
   {
     label: "ส่งให้ สวพ. ตรวจประเมิน",
-    date: "15 ก.พ. 2568 10:00",
+    date: "15 ก.พ. 2569 10:00",
     color: "primary",
     note: "อยู่ระหว่างการนัดหมายการตรวจ",
   },
