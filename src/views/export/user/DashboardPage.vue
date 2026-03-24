@@ -4,13 +4,13 @@
       <div>
         <h1 class="page-title mb-1">แดชบอร์ด</h1>
         <p class="text-body-2 text-medium-emphasis mb-0">
-          ภาพรวมระบบจดทะเบียนผู้ส่งออกสินค้าพืช
+          ภาพรวมระบบจดทะเบียนผู้ส่งออก
         </p>
       </div>
       <v-btn
         color="export-user"
         prepend-icon="fas fa-file-pen"
-        @click="router.push('/export/user/applications/new')"
+        @click="goToNewApplication"
       >
         ยื่นคำขอใหม่
       </v-btn>
@@ -27,7 +27,11 @@
       <v-col cols="12" md="8">
         <v-card rounded="xl" elevation="0">
           <v-card-title class="d-flex align-center ga-2 pa-4 pb-3">
-            <v-icon icon="fas fa-clock-rotate-left" color="export-user" size="16" />
+            <v-icon
+              icon="fas fa-clock-rotate-left"
+              color="export-user"
+              size="16"
+            />
             <span class="text-body-1 font-weight-bold">คำขอล่าสุด</span>
             <v-spacer />
             <v-btn
@@ -35,7 +39,7 @@
               color="export-user"
               size="small"
               append-icon="fas fa-arrow-right"
-              @click="router.push('/export/user/applications')"
+              @click="goToApplicationList"
             >
               ดูทั้งหมด
             </v-btn>
@@ -45,7 +49,7 @@
             <template v-for="(app, i) in recentApplications" :key="app.id">
               <v-list-item
                 class="pa-3"
-                @click="router.push(`/export/user/applications/${app.id}`)"
+                @click="goToApplicationDetail(app.id)"
               >
                 <template #prepend>
                   <v-avatar
@@ -95,7 +99,7 @@
         >
           <div class="text-body-2 font-weight-medium mb-1">อัพเดทสถานะ</div>
           <div class="text-body-2">
-            คำขอ EXP-2568-00002 อยู่ระหว่างการตรวจสอบเอกสาร
+            คำขอ EXP-2569-00002 อยู่ระหว่างการตรวจสอบเอกสาร
           </div>
         </v-alert>
         <v-card rounded="xl" elevation="0">
@@ -113,7 +117,7 @@
               rounded="lg"
               :color="action.color"
               class="mb-1"
-              @click="router.push(action.to)"
+              @click="goToAction(action.to)"
             />
           </v-list>
         </v-card>
@@ -128,22 +132,83 @@ import AppStatCard from "@/components/common/AppStatCard.vue";
 
 const router = useRouter();
 
+function goToNewApplication() {
+  router.push({ name: "ExportUserApplicationType" });
+}
+
+function goToApplicationList() {
+  router.push({ name: "ExportUserApplicationList" });
+}
+
+function goToApplicationDetail(id) {
+  router.push({ name: "ExportUserApplicationDetail", params: { id } });
+}
+
+function goToAction(to) {
+  router.push(to);
+}
+
 const stats = [
-  { label: "คำขอทั้งหมด", value: 4, icon: "fas fa-file-lines", iconColor: "export-user" },
-  { label: "อยู่ระหว่างตรวจสอบ", value: 1, icon: "fas fa-magnifying-glass", iconColor: "info" },
-  { label: "อนุมัติแล้ว", value: 2, icon: "fas fa-circle-check", iconColor: "success" },
-  { label: "รอแก้ไข", value: 1, icon: "fas fa-triangle-exclamation", iconColor: "warning" },
+  {
+    label: "คำขอทั้งหมด",
+    value: 4,
+    icon: "fas fa-file-lines",
+    iconColor: "export-user",
+  },
+  {
+    label: "อยู่ระหว่างตรวจสอบ",
+    value: 1,
+    icon: "fas fa-magnifying-glass",
+    iconColor: "info",
+  },
+  {
+    label: "อนุมัติแล้ว",
+    value: 2,
+    icon: "fas fa-circle-check",
+    iconColor: "success",
+  },
+  {
+    label: "รอแก้ไข",
+    value: 1,
+    icon: "fas fa-triangle-exclamation",
+    iconColor: "warning",
+  },
 ];
 
 const recentApplications = [
-  { id: "EXP-2568-00003", requestNo: "EXP-2568-00003", submittedDate: "5 มี.ค. 2568", status: "under_review" },
-  { id: "EXP-2568-00002", requestNo: "EXP-2568-00002", submittedDate: "20 ก.พ. 2568", status: "inspection_scheduled" },
-  { id: "EXP-2568-00001", requestNo: "EXP-2568-00001", submittedDate: "10 ม.ค. 2568", status: "approved" },
+  {
+    id: "EXP-2569-00003",
+    requestNo: "EXP-2569-00003",
+    submittedDate: "5 มี.ค. 2569",
+    status: "under_review",
+  },
+  {
+    id: "EXP-2569-00002",
+    requestNo: "EXP-2569-00002",
+    submittedDate: "20 ก.พ. 2569",
+    status: "inspection_scheduled",
+  },
+  {
+    id: "EXP-2569-00001",
+    requestNo: "EXP-2569-00001",
+    submittedDate: "10 ม.ค. 2569",
+    status: "approved",
+  },
 ];
 
 const quickActions = [
-  { title: "ยื่นคำขอใหม่", icon: "fas fa-file-pen", color: "primary", to: "/export/user/applications/new" },
-  { title: "รายการคำขอ", icon: "fas fa-file-lines", color: "primary", to: "/export/user/applications" },
+  {
+    title: "ยื่นคำขอใหม่",
+    icon: "fas fa-file-pen",
+    color: "primary",
+    to: "/export/user/applications/new",
+  },
+  {
+    title: "รายการคำขอ",
+    icon: "fas fa-file-lines",
+    color: "primary",
+    to: "/export/user/applications",
+  },
 ];
 
 function statusColor(status) {

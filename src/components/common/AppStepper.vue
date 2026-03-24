@@ -16,18 +16,10 @@
               icon="fas fa-check"
               size="14"
             />
-            <v-icon
-              v-else-if="step.error"
-              icon="fas fa-xmark"
-              size="14"
-            />
-            <v-icon
-              v-else
-              :icon="step.icon"
-              size="14"
-            />
+            <v-icon v-else-if="step.error" icon="fas fa-xmark" size="14" />
+            <v-icon v-else :icon="step.icon" size="14" />
           </div>
-          <div class="mt-2 text-center" style="min-width:80px">
+          <div class="mt-2 text-center" style="min-width: 80px">
             <div :class="['text-caption font-weight-bold', stepTextColor(idx)]">
               {{ step.title }}
             </div>
@@ -40,7 +32,10 @@
         <!-- Connector -->
         <div
           v-if="idx < steps.length - 1"
-          :class="['step-connector flex-grow-1 mb-7', { 'step-connector--done': idx < modelValue - 1 }]"
+          :class="[
+            'step-connector flex-grow-1 mb-7',
+            { 'step-connector--done': idx < modelValue - 1 },
+          ]"
         />
       </template>
     </div>
@@ -93,60 +88,40 @@ const props = defineProps({
   steps: Array,
   linear: { type: Boolean, default: true },
   hideActions: { type: Boolean, default: false },
-  nextText: { type: String, default: 'ถัดไป' },
-  backText: { type: String, default: 'ย้อนกลับ' },
-  submitText: { type: String, default: 'ยืนยัน' },
+  nextText: { type: String, default: "ถัดไป" },
+  backText: { type: String, default: "ย้อนกลับ" },
+  submitText: { type: String, default: "ยืนยัน" },
   loading: { type: Boolean, default: false },
-})
+});
 
-const emit = defineEmits(['update:modelValue', 'submit', 'step-change'])
+const emit = defineEmits(["update:modelValue", "submit", "step-change"]);
 
 function stepState(idx) {
-  const step = props.steps[idx]
-  const stepNum = idx + 1
-  if (step.error) return 'step-circle--error'
-  if (step.complete || stepNum < props.modelValue) return 'step-circle--done'
-  if (stepNum === props.modelValue) return 'step-circle--active'
-  return 'step-circle--pending'
+  const step = props.steps[idx];
+  const stepNum = idx + 1;
+  if (step.error) return "step-circle--error";
+  if (step.complete || stepNum < props.modelValue) return "step-circle--done";
+  if (stepNum === props.modelValue) return "step-circle--active";
+  return "step-circle--pending";
 }
 
 function stepTextColor(idx) {
-  const stepNum = idx + 1
-  if (props.steps[idx].error) return 'text-error'
-  if (stepNum === props.modelValue) return 'text-primary'
-  if (stepNum < props.modelValue) return 'text-success'
-  return 'text-disabled'
+  const stepNum = idx + 1;
+  if (props.steps[idx].error) return "text-error";
+  if (stepNum === props.modelValue) return "text-primary";
+  if (stepNum < props.modelValue) return "text-success";
+  return "text-disabled";
 }
 
 function next() {
-  const next = props.modelValue + 1
-  emit('update:modelValue', next)
-  emit('step-change', next)
+  const next = props.modelValue + 1;
+  emit("update:modelValue", next);
+  emit("step-change", next);
 }
 
 function prev() {
-  const prev = props.modelValue - 1
-  emit('update:modelValue', prev)
-  emit('step-change', prev)
+  const prev = props.modelValue - 1;
+  emit("update:modelValue", prev);
+  emit("step-change", prev);
 }
 </script>
-
-<style scoped>
-.step-circle {
-  width: 36px;
-  height: 36px;
-  transition: background 0.3s, color 0.3s;
-}
-.step-circle--active  { background: rgb(var(--v-theme-primary)); color: white; }
-.step-circle--done    { background: rgb(var(--v-theme-success)); color: white; }
-.step-circle--error   { background: rgb(var(--v-theme-error));   color: white; }
-.step-circle--pending { background: rgba(0,0,0,0.08); color: rgba(0,0,0,0.38); }
-
-.step-connector {
-  height: 2px;
-  background: rgba(0,0,0,0.1);
-  margin: 0 8px;
-  transition: background 0.3s;
-}
-.step-connector--done { background: rgb(var(--v-theme-success)); }
-</style>

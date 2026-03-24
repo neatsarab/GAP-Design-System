@@ -4,7 +4,9 @@
     <div class="d-flex align-center justify-space-between mb-5 flex-wrap ga-3">
       <div>
         <h1 class="page-title mb-1">{{ pageTitle }}</h1>
-        <p class="text-body-2 text-medium-emphasis mb-0">จัดการคำขอรับรองมาตรฐาน GAP ทั้งแบบเดี่ยวและแบบกลุ่ม</p>
+        <p class="text-body-2 text-medium-emphasis mb-0">
+          จัดการคำขอรับรองมาตรฐาน GAP ทั้งแบบเดี่ยวและแบบกลุ่ม
+        </p>
       </div>
     </div>
 
@@ -13,7 +15,10 @@
       <v-card-text class="pa-4">
         <v-row dense align="center">
           <v-col cols="12" sm="4">
-            <div class="field-label mb-1"><div>ค้นหา</div><div class="field-label-en">Search</div></div>
+            <div class="field-label mb-1">
+              <div>ค้นหา</div>
+              <div class="field-label-en">Search</div>
+            </div>
             <v-text-field
               v-model="search"
               placeholder="ค้นหาเลขที่คำขอ / ชื่อผู้ยื่น"
@@ -26,7 +31,10 @@
             />
           </v-col>
           <v-col cols="6" sm="2">
-            <div class="field-label mb-1"><div>ประเภทคำขอ</div><div class="field-label-en">Request Type</div></div>
+            <div class="field-label mb-1">
+              <div>ประเภทคำขอ</div>
+              <div class="field-label-en">Request Type</div>
+            </div>
             <v-autocomplete
               v-model="filterType"
               :items="typeOptions"
@@ -38,7 +46,10 @@
             />
           </v-col>
           <v-col cols="6" sm="2">
-            <div class="field-label mb-1"><div>ประเภทใบรับรอง</div><div class="field-label-en">Cert Type</div></div>
+            <div class="field-label mb-1">
+              <div>ประเภทใบรับรอง</div>
+              <div class="field-label-en">Cert Type</div>
+            </div>
             <v-autocomplete
               v-model="filterCert"
               :items="certOptions"
@@ -50,7 +61,10 @@
             />
           </v-col>
           <v-col cols="12" sm="3">
-            <div class="field-label mb-1"><div>สถานะ</div><div class="field-label-en">Status</div></div>
+            <div class="field-label mb-1">
+              <div>สถานะ</div>
+              <div class="field-label-en">Status</div>
+            </div>
             <v-autocomplete
               v-model="filterStatus"
               :items="statusOptions"
@@ -66,18 +80,30 @@
         </v-row>
         <v-row dense>
           <v-col cols="auto" class="ml-auto">
-          <v-btn variant="tonal" color="grey" size="small" prepend-icon="fas fa-rotate-left" @click="clearFilters">
-            ล้างตัวกรอง
-          </v-btn>
+            <v-btn
+              variant="tonal"
+              color="grey"
+              size="small"
+              prepend-icon="fas fa-rotate-left"
+              @click="clearFilters"
+            >
+              ล้างตัวกรอง
+            </v-btn>
           </v-col>
         </v-row>
       </v-card-text>
     </v-card>
 
     <!-- Status quick-filter tabs -->
-    <v-chip-group v-model="activeTab" class="mb-4" selected-class="v-chip--selected" mandatory>
+    <v-chip-group
+      v-model="activeTab"
+      class="mb-4"
+      selected-class="v-chip--selected"
+      mandatory
+    >
       <v-chip
-        v-for="tab in statusTabs" :key="tab.value"
+        v-for="tab in statusTabs"
+        :key="tab.value"
         :value="tab.value"
         :color="tab.color"
         variant="tonal"
@@ -86,7 +112,13 @@
       >
         <v-icon start :icon="tab.icon" size="12" />
         {{ tab.label }}
-        <v-badge v-if="tab.count" :content="tab.count" inline color="error" class="ml-1" />
+        <v-badge
+          v-if="tab.count"
+          :content="tab.count"
+          inline
+          color="error"
+          class="ml-1"
+        />
       </v-chip>
     </v-chip-group>
 
@@ -101,20 +133,37 @@
       >
         <!-- Request No -->
         <template #item.requestNo="{ item }">
-          <span class="text-body-2 font-weight-medium text-gap-staff">{{ item.requestNo }}</span>
+          <span class="text-body-2 font-weight-medium text-gap-staff">{{
+            item.requestNo
+          }}</span>
         </template>
 
         <!-- Type -->
         <template #item.type="{ item }">
-          <v-chip size="x-small" :color="item.type === 'individual' ? 'gap-staff' : 'secondary'" variant="tonal">
-            <v-icon start :icon="item.type === 'individual' ? 'fas fa-user' : 'fas fa-users'" size="10" />
-            {{ item.type === 'individual' ? 'เดี่ยว' : 'กลุ่ม' }}
+          <v-chip
+            size="x-small"
+            :color="item.type === 'individual' ? 'gap-staff' : 'secondary'"
+            variant="tonal"
+          >
+            <v-icon
+              start
+              :icon="
+                item.type === 'individual' ? 'fas fa-user' : 'fas fa-users'
+              "
+              size="10"
+            />
+            {{ item.type === "individual" ? "เดี่ยว" : "กลุ่ม" }}
           </v-chip>
         </template>
 
         <!-- Status -->
         <template #item.status="{ item }">
-          <v-chip size="small" :color="getStatusColor(item.status)" variant="tonal" :prepend-icon="getStatusIcon(item.status)">
+          <v-chip
+            size="small"
+            :color="getStatusColor(item.status)"
+            variant="tonal"
+            :prepend-icon="getStatusIcon(item.status)"
+          >
             {{ getStatusLabel(item.status) }}
           </v-chip>
         </template>
@@ -126,7 +175,7 @@
             variant="tonal"
             color="gap-staff"
             prepend-icon="fas fa-eye"
-            @click.stop="router.push(`/staff/applications/${item.id}`)"
+            @click.stop="goToApplicationDetail(item.id)"
           >
             ดูรายละเอียด
           </v-btn>
@@ -137,152 +186,341 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { ref, computed } from "vue";
+import { useRoute, useRouter } from "vue-router";
 
-const router = useRouter()
-const route  = useRoute()
+const router = useRouter();
+const route = useRoute();
 
 // Page title from route meta
 const pageTitle = computed(() => {
-  const meta = route.meta
-  if (meta.statusFilter === 'scheduling')  return 'นัดตรวจแปลง'
-  if (meta.statusFilter === 'inspected')   return 'ผลการตรวจแปลง'
-  if (meta.statusFilter === 'pending_cc')  return 'เสนอแปลงต่อ CC'
-  if (meta.statusFilter === 'cc_reviewing') return 'บันทึกผลจาก CC'
-  return 'รายการคำขอรับรอง GAP'
-})
+  const meta = route.meta;
+  if (meta.statusFilter === "scheduling") return "นัดตรวจแปลง";
+  if (meta.statusFilter === "inspected") return "ผลการตรวจแปลง";
+  if (meta.statusFilter === "pending_cc") return "เสนอแปลงต่อ CC";
+  if (meta.statusFilter === "cc_reviewing") return "บันทึกผลจาก CC";
+  return "รายการคำขอรับรอง GAP";
+});
 
 // Filters
-const search       = ref('')
-const filterType   = ref(null)
-const filterCert   = ref(null)
-const filterStatus = ref((route.meta).statusFilter ?? null)
-const activeTab    = ref('all')
+const search = ref("");
+const filterType = ref(null);
+const filterCert = ref(null);
+const filterStatus = ref(route.meta.statusFilter ?? null);
+const activeTab = ref("all");
 
 function onRowClick(_e, row) {
-  router.push(`/staff/applications/${row.item.id}`)
+  goToApplicationDetail(row.item.id);
+}
+
+function goToApplicationDetail(id) {
+  router.push({ name: "staffApplicationDetail", params: { id } });
 }
 
 function clearFilters() {
-  search.value       = ''
-  filterType.value   = null
-  filterCert.value   = null
-  filterStatus.value = null
-  activeTab.value    = 'all'
+  search.value = "";
+  filterType.value = null;
+  filterCert.value = null;
+  filterStatus.value = null;
+  activeTab.value = "all";
 }
 
-const typeOptions = ['เดี่ยว', 'กลุ่ม']
-const certOptions = ['มกษ. 9001', 'มกษ. 3502']
+const typeOptions = ["เดี่ยว", "กลุ่ม"];
+const certOptions = ["มกษ. 9001", "มกษ. 3502"];
 const statusOptions = [
-  { label: 'รอตรวจคำขอ',       value: 'reviewing'    },
-  { label: 'รอนัดตรวจแปลง',   value: 'scheduling'   },
-  { label: 'อยู่ระหว่างตรวจแปลง', value: 'inspecting' },
-  { label: 'ตรวจแปลงแล้ว',    value: 'inspected'    },
-  { label: 'รอเสนอ CC',        value: 'pending_cc'   },
-  { label: 'อยู่ระหว่าง CC',   value: 'cc_reviewing' },
-  { label: 'อนุมัติแล้ว',      value: 'approved'     },
-  { label: 'ออกใบรับรองแล้ว', value: 'cert_issued'  },
-  { label: 'ไม่อนุมัติ',       value: 'rejected'     },
-]
+  { label: "รอตรวจคำขอ", value: "reviewing" },
+  { label: "รอนัดตรวจแปลง", value: "scheduling" },
+  { label: "อยู่ระหว่างตรวจแปลง", value: "inspecting" },
+  { label: "ตรวจแปลงแล้ว", value: "inspected" },
+  { label: "รอเสนอ CC", value: "pending_cc" },
+  { label: "อยู่ระหว่าง CC", value: "cc_reviewing" },
+  { label: "อนุมัติแล้ว", value: "approved" },
+  { label: "ออกใบรับรองแล้ว", value: "cert_issued" },
+  { label: "ไม่อนุมัติ", value: "rejected" },
+];
 
 const statusTabs = [
-  { label: 'ทั้งหมด',          value: 'all',         color: 'default',   icon: 'fas fa-list',           count: 0  },
-  { label: 'รอตรวจคำขอ',      value: 'reviewing',   color: 'warning',   icon: 'fas fa-magnifying-glass', count: 7 },
-  { label: 'รอนัดตรวจแปลง',  value: 'scheduling',  color: 'info',      icon: 'fas fa-calendar-clock',  count: 5 },
-  { label: 'ตรวจแปลงแล้ว',   value: 'inspected',   color: 'secondary', icon: 'fas fa-clipboard-check', count: 4 },
-  { label: 'รอ CC',            value: 'pending_cc',  color: 'error',     icon: 'fas fa-gavel',           count: 6 },
-  { label: 'อนุมัติ/ออกแล้ว', value: 'done',        color: 'success',   icon: 'fas fa-certificate',     count: 0 },
-]
+  {
+    label: "ทั้งหมด",
+    value: "all",
+    color: "default",
+    icon: "fas fa-list",
+    count: 0,
+  },
+  {
+    label: "รอตรวจคำขอ",
+    value: "reviewing",
+    color: "warning",
+    icon: "fas fa-magnifying-glass",
+    count: 7,
+  },
+  {
+    label: "รอนัดตรวจแปลง",
+    value: "scheduling",
+    color: "info",
+    icon: "fas fa-calendar-clock",
+    count: 5,
+  },
+  {
+    label: "ตรวจแปลงแล้ว",
+    value: "inspected",
+    color: "secondary",
+    icon: "fas fa-clipboard-check",
+    count: 4,
+  },
+  {
+    label: "รอ CC",
+    value: "pending_cc",
+    color: "error",
+    icon: "fas fa-gavel",
+    count: 6,
+  },
+  {
+    label: "อนุมัติ/ออกแล้ว",
+    value: "done",
+    color: "success",
+    icon: "fas fa-certificate",
+    count: 0,
+  },
+];
 
 // Mock data
 
 const allApplications = [
-  { id: 'APP-001', requestNo: 'GAP-2568-00041',     farmerName: 'นายสมชาย ใจดี',                         certType: 'มกษ. 9001', type: 'individual', submittedAt: '15 ม.ค. 68', status: 'reviewing',    crop: 'มะม่วง',      province: 'เชียงใหม่'       },
-  { id: 'APP-002', requestNo: 'GAP-2568-00039',     farmerName: 'น.ส.วิไล สุขใส',                        certType: 'มกษ. 9001', type: 'individual', submittedAt: '13 ม.ค. 68', status: 'scheduling',   crop: 'ข้าวโพดหวาน', province: 'เพชรบูรณ์'       },
-  { id: 'APP-003', requestNo: 'GAP-2568-00036',     farmerName: 'นายประสิทธิ์ มั่นคง',                   certType: 'มกษ. 9001', type: 'individual', submittedAt: '10 ม.ค. 68', status: 'pending_cc',   crop: 'กล้วยหอม',   province: 'นครปฐม'          },
-  { id: 'APP-004', requestNo: 'GAP-2568-00034',     farmerName: 'น.ส.มาลี รุ่งเรือง',                    certType: 'มกษ. 3502', type: 'individual', submittedAt: '8 ม.ค. 68',  status: 'cc_reviewing', crop: 'ลำไย',        province: 'เชียงราย'        },
-  { id: 'APP-005', requestNo: 'GAP-2568-00042',     farmerName: 'นายอำนาจ วีระชัย',                      certType: 'มกษ. 9001', type: 'individual', submittedAt: '15 ม.ค. 68', status: 'reviewing',    crop: 'พริก',        province: 'สระแก้ว'         },
-  { id: 'APP-006', requestNo: 'GAP-2568-00040',     farmerName: 'นายชัยพร ดีงาม',                        certType: 'มกษ. 9001', type: 'individual', submittedAt: '14 ม.ค. 68', status: 'inspecting',   crop: 'ส้มโอ',       province: 'นครศรีธรรมราช'  },
-  { id: 'APP-007', requestNo: 'GAP-2568-00038',     farmerName: 'น.ส.รัตนา พงศ์ไพร',                    certType: 'มกษ. 9001', type: 'individual', submittedAt: '12 ม.ค. 68', status: 'inspected',    crop: 'กระเทียม',   province: 'เชียงใหม่'       },
-  { id: 'APP-008', requestNo: 'GAP-2568-00035',     farmerName: 'นายสุรชัย แสงทอง',                      certType: 'มกษ. 9001', type: 'individual', submittedAt: '9 ม.ค. 68',  status: 'approved',     crop: 'ฝรั่ง',       province: 'กาญจนบุรี'       },
-  { id: 'APP-009', requestNo: 'GAP-2568-00033',     farmerName: 'นายพิชัย ชมพู',                         certType: 'มกษ. 9001', type: 'individual', submittedAt: '7 ม.ค. 68',  status: 'cert_issued',  crop: 'มะนาว',       province: 'นครปฐม'          },
-  { id: 'APP-010', requestNo: 'GAP-2568-00030',     farmerName: 'น.ส.ศิริพร เกษตรดี',                    certType: 'มกษ. 3502', type: 'individual', submittedAt: '3 ม.ค. 68',  status: 'rejected',     crop: 'ขมิ้น',       province: 'สุราษฎร์ธานี'    },
-  { id: 'GRP-001', requestNo: 'GAP-GRP-2568-00005', farmerName: 'กลุ่มเกษตรกรผู้ปลูกมะม่วงบ้านดอนแก้ว', certType: 'มกษ. 9001', type: 'group',      submittedAt: '10 ม.ค. 68', status: 'scheduling',   crop: 'มะม่วง',      province: 'เชียงใหม่'       },
-  { id: 'GRP-002', requestNo: 'GAP-GRP-2568-00004', farmerName: 'สหกรณ์การเกษตรกลุ่มลำไยเชียงราย',       certType: 'มกษ. 9001', type: 'group',      submittedAt: '5 ม.ค. 68',  status: 'pending_cc',   crop: 'ลำไย',        province: 'เชียงราย'        },
-  { id: 'GRP-003', requestNo: 'GAP-GRP-2568-00003', farmerName: 'กลุ่มเกษตรกรพริกเกษตรอินทรีย์สระแก้ว', certType: 'มกษ. 3502', type: 'group',      submittedAt: '2 ม.ค. 68',  status: 'approved',     crop: 'พริก',        province: 'สระแก้ว'         },
-  { id: 'GRP-004', requestNo: 'GAP-GRP-2568-00002', farmerName: 'กลุ่มผู้ปลูกข้าวโพดเพชรบูรณ์',          certType: 'มกษ. 9001', type: 'group',      submittedAt: '28 ธ.ค. 67', status: 'reviewing',    crop: 'ข้าวโพดหวาน', province: 'เพชรบูรณ์'       },
-]
+  {
+    id: "APP-001",
+    requestNo: "GAP-2569-00041",
+    farmerName: "นายสมชาย ใจดี",
+    certType: "มกษ. 9001",
+    type: "individual",
+    submittedAt: "15 ม.ค. 68",
+    status: "reviewing",
+    crop: "มะม่วง",
+    province: "เชียงใหม่",
+  },
+  {
+    id: "APP-002",
+    requestNo: "GAP-2569-00039",
+    farmerName: "น.ส.วิไล สุขใส",
+    certType: "มกษ. 9001",
+    type: "individual",
+    submittedAt: "13 ม.ค. 68",
+    status: "scheduling",
+    crop: "ข้าวโพดหวาน",
+    province: "เพชรบูรณ์",
+  },
+  {
+    id: "APP-003",
+    requestNo: "GAP-2569-00036",
+    farmerName: "นายประสิทธิ์ มั่นคง",
+    certType: "มกษ. 9001",
+    type: "individual",
+    submittedAt: "10 ม.ค. 68",
+    status: "pending_cc",
+    crop: "กล้วยหอม",
+    province: "นครปฐม",
+  },
+  {
+    id: "APP-004",
+    requestNo: "GAP-2569-00034",
+    farmerName: "น.ส.มาลี รุ่งเรือง",
+    certType: "มกษ. 3502",
+    type: "individual",
+    submittedAt: "8 ม.ค. 68",
+    status: "cc_reviewing",
+    crop: "ลำไย",
+    province: "เชียงราย",
+  },
+  {
+    id: "APP-005",
+    requestNo: "GAP-2569-00042",
+    farmerName: "นายอำนาจ วีระชัย",
+    certType: "มกษ. 9001",
+    type: "individual",
+    submittedAt: "15 ม.ค. 68",
+    status: "reviewing",
+    crop: "พริก",
+    province: "สระแก้ว",
+  },
+  {
+    id: "APP-006",
+    requestNo: "GAP-2569-00040",
+    farmerName: "นายชัยพร ดีงาม",
+    certType: "มกษ. 9001",
+    type: "individual",
+    submittedAt: "14 ม.ค. 68",
+    status: "inspecting",
+    crop: "ส้มโอ",
+    province: "นครศรีธรรมราช",
+  },
+  {
+    id: "APP-007",
+    requestNo: "GAP-2569-00038",
+    farmerName: "น.ส.รัตนา พงศ์ไพร",
+    certType: "มกษ. 9001",
+    type: "individual",
+    submittedAt: "12 ม.ค. 68",
+    status: "inspected",
+    crop: "กระเทียม",
+    province: "เชียงใหม่",
+  },
+  {
+    id: "APP-008",
+    requestNo: "GAP-2569-00035",
+    farmerName: "นายสุรชัย แสงทอง",
+    certType: "มกษ. 9001",
+    type: "individual",
+    submittedAt: "9 ม.ค. 68",
+    status: "approved",
+    crop: "ฝรั่ง",
+    province: "กาญจนบุรี",
+  },
+  {
+    id: "APP-009",
+    requestNo: "GAP-2569-00033",
+    farmerName: "นายพิชัย ชมพู",
+    certType: "มกษ. 9001",
+    type: "individual",
+    submittedAt: "7 ม.ค. 68",
+    status: "cert_issued",
+    crop: "มะนาว",
+    province: "นครปฐม",
+  },
+  {
+    id: "APP-010",
+    requestNo: "GAP-2569-00030",
+    farmerName: "น.ส.ศิริพร เกษตรดี",
+    certType: "มกษ. 3502",
+    type: "individual",
+    submittedAt: "3 ม.ค. 68",
+    status: "rejected",
+    crop: "ขมิ้น",
+    province: "สุราษฎร์ธานี",
+  },
+  {
+    id: "GRP-001",
+    requestNo: "GAP-GRP-2569-00005",
+    farmerName: "กลุ่มเกษตรกรผู้ปลูกมะม่วงบ้านดอนแก้ว",
+    certType: "มกษ. 9001",
+    type: "group",
+    submittedAt: "10 ม.ค. 68",
+    status: "scheduling",
+    crop: "มะม่วง",
+    province: "เชียงใหม่",
+  },
+  {
+    id: "GRP-002",
+    requestNo: "GAP-GRP-2569-00004",
+    farmerName: "สหกรณ์การเกษตรกลุ่มลำไยเชียงราย",
+    certType: "มกษ. 9001",
+    type: "group",
+    submittedAt: "5 ม.ค. 68",
+    status: "pending_cc",
+    crop: "ลำไย",
+    province: "เชียงราย",
+  },
+  {
+    id: "GRP-003",
+    requestNo: "GAP-GRP-2569-00003",
+    farmerName: "กลุ่มเกษตรกรพริกเกษตรอินทรีย์สระแก้ว",
+    certType: "มกษ. 3502",
+    type: "group",
+    submittedAt: "2 ม.ค. 68",
+    status: "approved",
+    crop: "พริก",
+    province: "สระแก้ว",
+  },
+  {
+    id: "GRP-004",
+    requestNo: "GAP-GRP-2569-00002",
+    farmerName: "กลุ่มผู้ปลูกข้าวโพดเพชรบูรณ์",
+    certType: "มกษ. 9001",
+    type: "group",
+    submittedAt: "28 ธ.ค. 67",
+    status: "reviewing",
+    crop: "ข้าวโพดหวาน",
+    province: "เพชรบูรณ์",
+  },
+];
 
 const filteredItems = computed(() => {
-  let items = allApplications
-  if (filterType.value)   items = items.filter(i => (filterType.value === 'เดี่ยว' ? i.type === 'individual' : i.type === 'group'))
-  if (filterCert.value)   items = items.filter(i => i.certType === filterCert.value)
-  if (filterStatus.value) items = items.filter(i => i.status === filterStatus.value)
-  if (activeTab.value && activeTab.value !== 'all') {
-    if (activeTab.value === 'done') {
-      items = items.filter(i => i.status === 'approved' || i.status === 'cert_issued')
+  let items = allApplications;
+  if (filterType.value)
+    items = items.filter((i) =>
+      filterType.value === "เดี่ยว"
+        ? i.type === "individual"
+        : i.type === "group",
+    );
+  if (filterCert.value)
+    items = items.filter((i) => i.certType === filterCert.value);
+  if (filterStatus.value)
+    items = items.filter((i) => i.status === filterStatus.value);
+  if (activeTab.value && activeTab.value !== "all") {
+    if (activeTab.value === "done") {
+      items = items.filter(
+        (i) => i.status === "approved" || i.status === "cert_issued",
+      );
     } else {
-      items = items.filter(i => i.status === activeTab.value)
+      items = items.filter((i) => i.status === activeTab.value);
     }
   }
-  return items
-})
+  return items;
+});
 
 const headers = [
-  { title: 'เลขที่คำขอ',    key: 'requestNo',   width: 160 },
-  { title: 'ชื่อผู้ยื่นคำขอ', key: 'farmerName',  width: 180 },
-  { title: 'พืช',            key: 'crop',        width: 120 },
-  { title: 'จังหวัด',        key: 'province',    width: 130 },
-  { title: 'ประเภทใบรับรอง', key: 'certType',    width: 130 },
-  { title: 'ประเภทคำขอ',    key: 'type',        width: 100 },
-  { title: 'วันที่ยื่น',     key: 'submittedAt', width: 120 },
-  { title: 'สถานะ',          key: 'status',      width: 160 },
-  { title: '',               key: 'actions',     width: 130, sortable: false },
-]
+  { title: "เลขที่คำขอ", key: "requestNo", width: 160 },
+  { title: "ชื่อผู้ยื่นคำขอ", key: "farmerName", width: 180 },
+  { title: "พืช", key: "crop", width: 120 },
+  { title: "จังหวัด", key: "province", width: 130 },
+  { title: "ประเภทใบรับรอง", key: "certType", width: 130 },
+  { title: "ประเภทคำขอ", key: "type", width: 100 },
+  { title: "วันที่ยื่น", key: "submittedAt", width: 120 },
+  { title: "สถานะ", key: "status", width: 160 },
+  { title: "", key: "actions", width: 130, sortable: false },
+];
 
 function getStatusColor(status) {
   const map = {
-    reviewing:    'warning',
-    scheduling:   'info',
-    inspecting:   'secondary',
-    inspected:    'secondary',
-    pending_cc:   'gap-staff',
-    cc_reviewing: 'error',
-    approved:     'success',
-    cert_issued:  'success',
-    rejected:     'error',
-  }
-  return map[status] ?? 'grey'
+    reviewing: "warning",
+    scheduling: "info",
+    inspecting: "secondary",
+    inspected: "secondary",
+    pending_cc: "gap-staff",
+    cc_reviewing: "error",
+    approved: "success",
+    cert_issued: "success",
+    rejected: "error",
+  };
+  return map[status] ?? "grey";
 }
 
 function getStatusIcon(status) {
   const map = {
-    reviewing:    'fas fa-magnifying-glass',
-    scheduling:   'fas fa-calendar-clock',
-    inspecting:   'fas fa-person-walking',
-    inspected:    'fas fa-clipboard-check',
-    pending_cc:   'fas fa-paper-plane',
-    cc_reviewing: 'fas fa-gavel',
-    approved:     'fas fa-circle-check',
-    cert_issued:  'fas fa-certificate',
-    rejected:     'fas fa-circle-xmark',
-  }
-  return map[status] ?? 'fas fa-circle'
+    reviewing: "fas fa-magnifying-glass",
+    scheduling: "fas fa-calendar-clock",
+    inspecting: "fas fa-person-walking",
+    inspected: "fas fa-clipboard-check",
+    pending_cc: "fas fa-paper-plane",
+    cc_reviewing: "fas fa-gavel",
+    approved: "fas fa-circle-check",
+    cert_issued: "fas fa-certificate",
+    rejected: "fas fa-circle-xmark",
+  };
+  return map[status] ?? "fas fa-circle";
 }
 
 function getStatusLabel(status) {
   const map = {
-    reviewing:    'รอตรวจคำขอ',
-    scheduling:   'รอนัดตรวจแปลง',
-    inspecting:   'อยู่ระหว่างตรวจแปลง',
-    inspected:    'ตรวจแปลงแล้ว',
-    pending_cc:   'รอเสนอ CC',
-    cc_reviewing: 'อยู่ระหว่าง CC',
-    approved:     'อนุมัติแล้ว',
-    cert_issued:  'ออกใบรับรองแล้ว',
-    rejected:     'ไม่อนุมัติ',
-  }
-  return map[status] ?? status
+    reviewing: "รอตรวจคำขอ",
+    scheduling: "รอนัดตรวจแปลง",
+    inspecting: "อยู่ระหว่างตรวจแปลง",
+    inspected: "ตรวจแปลงแล้ว",
+    pending_cc: "รอเสนอ CC",
+    cc_reviewing: "อยู่ระหว่าง CC",
+    approved: "อนุมัติแล้ว",
+    cert_issued: "ออกใบรับรองแล้ว",
+    rejected: "ไม่อนุมัติ",
+  };
+  return map[status] ?? status;
 }
 </script>

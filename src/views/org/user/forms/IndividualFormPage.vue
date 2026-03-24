@@ -6,7 +6,7 @@
         icon="fas fa-arrow-left"
         variant="text"
         size="small"
-        @click="router.push('/org/user/applications/new')"
+        @click="goToApplicationType"
       />
       <div>
         <h1 class="page-title mb-1">คำขอรับรอง ORG (รายเดี่ยว)</h1>
@@ -20,37 +20,37 @@
     <v-card rounded="xl" elevation="0" class="mb-6 section-card">
       <v-card-text class="pa-5">
         <div class="d-flex align-center">
-          <template v-for="(step, i) in steps" :key="step.key">
+          <template v-for="(step, i) in steps" :key="step.value">
             <div
               class="step-item d-flex flex-column align-center"
               style="min-width: 80px"
             >
-              <div class="step-circle mb-1" :class="stepClass(i)">
+              <div class="step-circle mb-1" :class="stepClass(step.value)">
                 <v-icon
-                  v-if="currentStep > i"
+                  v-if="currentStep > step.value"
                   icon="fas fa-check"
                   size="14"
                   color="white"
                 />
                 <span v-else class="text-caption font-weight-bold">{{
-                  i + 1
+                  step.value + 1
                 }}</span>
               </div>
               <div
                 class="text-caption text-center"
                 :class="
-                  currentStep >= i
+                  currentStep >= step.value
                     ? 'text-org-user font-weight-bold'
                     : 'text-medium-emphasis'
                 "
               >
-                {{ step.label }}
+                {{ step.title }}
               </div>
             </div>
             <div
               v-if="i < steps.length - 1"
               class="step-line flex-grow-1"
-              :class="{ 'step-line--done': currentStep > i }"
+              :class="{ 'step-line--done': currentStep > step.value }"
             />
           </template>
         </div>
@@ -376,7 +376,7 @@
         <v-btn
           variant="tonal"
           color="grey"
-          @click="router.push('/org/user/applications')"
+          @click="goToApplicationList"
           >ยกเลิก</v-btn
         >
         <v-btn
@@ -384,7 +384,7 @@
           variant="tonal"
           color="grey"
           prepend-icon="fas fa-arrow-left"
-          @click="currentStep--"
+          @click="prevStep"
           >ย้อนกลับ</v-btn
         >
       </div>
@@ -400,7 +400,7 @@
           v-if="currentStep < steps.length - 1"
           color="org-user"
           append-icon="fas fa-arrow-right"
-          @click="currentStep++"
+          @click="nextStep"
           >ถัดไป</v-btn
         >
         <v-btn
@@ -422,7 +422,7 @@
           </div>
           <h3 class="text-h6 font-weight-bold mb-2">ยื่นคำขอสำเร็จ</h3>
           <p class="text-body-2 text-medium-emphasis mb-1">
-            เลขที่คำขอ: <strong>ORG-2568-00004</strong>
+            เลขที่คำขอ: <strong>ORG-2569-00004</strong>
           </p>
           <p class="text-body-2 text-medium-emphasis mb-0">
             ระบบจะแจ้งเตือนเมื่อมีการอัปเดตสถานะ
@@ -433,7 +433,7 @@
             color="org-user"
             rounded="lg"
             block
-            @click="router.push('/org/user/applications')"
+            @click="goToApplicationList"
             >ดูรายการคำขอ</v-btn
           >
         </v-card-actions>
@@ -459,18 +459,34 @@ import { ref, reactive } from "vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
+
+function goToApplicationType() {
+  router.push({ name: "ORGUserApplicationType" });
+}
+
+function goToApplicationList() {
+  router.push({ name: "ORGUserApplicationList" });
+}
+
+function prevStep() {
+  currentStep.value--;
+}
+
+function nextStep() {
+  currentStep.value++;
+}
 const currentStep = ref(0);
 const successDialog = ref(false);
 const draftSnackbar = ref(false);
 
 const steps = [
-  { key: "detail", label: "ข้อมูลรายละเอียด" },
-  { key: "docs", label: "แนบเอกสาร" },
+  { value: 0, title: "ข้อมูลรายละเอียด" },
+  { value: 1, title: "แนบเอกสาร" },
 ];
 
-function stepClass(i) {
-  if (currentStep.value > i) return "step-done";
-  if (currentStep.value === i) return "step-active";
+function stepClass(v) {
+  if (currentStep.value > v) return "step-done";
+  if (currentStep.value === v) return "step-active";
   return "step-pending";
 }
 

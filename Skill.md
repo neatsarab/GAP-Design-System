@@ -1,4 +1,4 @@
-# ระบบรับรองแหล่งผลิต GAP พืช (Web Application)
+# ระบบการให้บริการทางอิเล็กทรอนิกส์ของกรมวิชาการเกษตร (Web Application)
 
 ## สารบัญ (Table of Contents)
 
@@ -24,18 +24,18 @@
 
 ## 1. Tech Stack & Architecture
 
-|Layer             |Technology                                |
-|------------------|------------------------------------------|
-|Frontend Framework|Vue 3 (Composition API + `<script setup>`)|
-|UI Library        |Vuetify 3                                 |
-|Routing           |Vue Router 4                              |
-|State Management  |Pinia                                     |
-|Authentication    |SSO (OAuth 2.0 / OpenID Connect)          |
-|HTTP Client       |Axios                                     |
-|PDF Generation    |html2pdf.js / jsPDF                       |
-|Build Tool        |Vite                                      |
+| Layer              | Technology                                 |
+| ------------------ | ------------------------------------------ |
+| Frontend Framework | Vue 3 (Composition API + `<script setup>`) |
+| UI Library         | Vuetify 3                                  |
+| Routing            | Vue Router 4                               |
+| State Management   | Pinia                                      |
+| Authentication     | SSO (OAuth 2.0 / OpenID Connect)           |
+| HTTP Client        | Axios                                      |
+| PDF Generation     | html2pdf.js / jsPDF                        |
+| Build Tool         | Vite                                       |
 
------
+---
 
 ## 1. โครงสร้างโปรเจกต์ (Project Structure)
 
@@ -124,148 +124,162 @@ src/
     └── pdf-generator.ts            # Certificate PDF builder
 ```
 
------
+---
 
 ## 2. Roles & Permissions
 
 ### 2.1 Role Definition
 
-|Role           |รหัส          |คำอธิบาย                        |
-|---------------|-------------|------------------------------|
-|**Farmer**     |`FARMER`     |เกษตรกรผู้ยื่นคำขอ GAP             |
-|**Group Admin**|`GROUP_ADMIN`|หัวหน้ากลุ่มเกษตรกร จัดการคำขอรายกลุ่ม|
-|**staff**    |`staff`    |เจ้าหน้าที่ตรวจเอกสาร / อนุมัติ      |
-|**Inspector**  |`INSPECTOR`  |ผู้ตรวจประเมินแปลง               |
-|**Admin**      |`ADMIN`      |ผู้ดูแลระบบ                      |
+| Role            | รหัส          | คำอธิบาย                               |
+| --------------- | ------------- | -------------------------------------- |
+| **Farmer**      | `FARMER`      | เกษตรกรผู้ยื่นคำขอ GAP                 |
+| **Group Admin** | `GROUP_ADMIN` | หัวหน้ากลุ่มเกษตรกร จัดการคำขอรายกลุ่ม |
+| **staff**       | `staff`       | เจ้าหน้าที่ตรวจเอกสาร / อนุมัติ        |
+| **Inspector**   | `INSPECTOR`   | ผู้ตรวจประเมินแปลง                     |
+| **Admin**       | `ADMIN`       | ผู้ดูแลระบบ                            |
 
 ### 2.2 Permission Matrix
 
-|Feature          |Farmer|Group Admin|staff|Inspector|Admin|
-|-----------------|:----:|:---------:|:-----:|:-------:|:---:|
-|ยื่นคำขอรายเดี่ยว     |✅     |✅          |❌      |❌        |❌    |
-|ยื่นคำขอรายกลุ่ม      |❌     |✅          |❌      |❌        |❌    |
-|แก้ไข/ยกเลิกคำขอ    |✅*    |✅*         |❌      |❌        |✅    |
-|ดู Dashboard ตนเอง|✅     |✅          |✅      |✅        |✅    |
-|ตรวจเอกสาร       |❌     |❌          |✅      |❌        |✅    |
-|นัดตรวจแปลง       |❌     |❌          |✅      |✅        |✅    |
-|บันทึกผลตรวจ GAP   |❌     |❌          |❌      |✅        |✅    |
-|อนุมัติ/ปฏิเสธคำขอ    |❌     |❌          |✅      |❌        |✅    |
-|ออกใบรับรอง       |❌     |❌          |✅      |❌        |✅    |
-|จัดการผู้ใช้         |❌     |❌          |❌      |❌        |✅    |
+| Feature            | Farmer | Group Admin | staff | Inspector | Admin |
+| ------------------ | :----: | :---------: | :---: | :-------: | :---: |
+| ยื่นคำขอรายเดี่ยว  |   ✅   |     ✅      |  ❌   |    ❌     |  ❌   |
+| ยื่นคำขอรายกลุ่ม   |   ❌   |     ✅      |  ❌   |    ❌     |  ❌   |
+| แก้ไข/ยกเลิกคำขอ   |  ✅\*  |    ✅\*     |  ❌   |    ❌     |  ✅   |
+| ดู Dashboard ตนเอง |   ✅   |     ✅      |  ✅   |    ✅     |  ✅   |
+| ตรวจเอกสาร         |   ❌   |     ❌      |  ✅   |    ❌     |  ✅   |
+| นัดตรวจแปลง        |   ❌   |     ❌      |  ✅   |    ✅     |  ✅   |
+| บันทึกผลตรวจ GAP   |   ❌   |     ❌      |  ❌   |    ✅     |  ✅   |
+| อนุมัติ/ปฏิเสธคำขอ |   ❌   |     ❌      |  ✅   |    ❌     |  ✅   |
+| ออกใบรับรอง        |   ❌   |     ❌      |  ✅   |    ❌     |  ✅   |
+| จัดการผู้ใช้       |   ❌   |     ❌      |  ❌   |    ❌     |  ✅   |
 
-
-> ** แก้ไข/ยกเลิกได้เฉพาะคำขอของตนเองที่สถานะยังไม่ถึงขั้นอนุมัติ*
+> \*_ แก้ไข/ยกเลิกได้เฉพาะคำขอของตนเองที่สถานะยังไม่ถึงขั้นอนุมัติ_
 
 ### 2.3 Route Guard & Permission Composable
 
 ```typescript
 // composables/usePermission.ts
-import { useAuthStore } from '@/stores/auth.store'
+import { useAuthStore } from "@/stores/auth.store";
 
 export function usePermission() {
-  const auth = useAuthStore()
+  const auth = useAuthStore();
 
-  const hasRole = (roles: string[]) => roles.includes(auth.user?.role)
+  const hasRole = (roles: string[]) => roles.includes(auth.user?.role);
 
   const can = (action: string) => {
     const permissions: Record<string, string[]> = {
-      'application:create':     ['FARMER', 'GROUP_ADMIN'],
-      'application:create-group': ['GROUP_ADMIN'],
-      'application:edit-own':   ['FARMER', 'GROUP_ADMIN'],
-      'document:review':        ['staff', 'ADMIN'],
-      'inspection:schedule':    ['staff', 'INSPECTOR', 'ADMIN'],
-      'inspection:record':      ['INSPECTOR', 'ADMIN'],
-      'application:approve':    ['staff', 'ADMIN'],
-      'certificate:issue':      ['staff', 'ADMIN'],
-      'user:manage':            ['ADMIN'],
-    }
-    return (permissions[action] || []).includes(auth.user?.role)
-  }
+      "application:create": ["FARMER", "GROUP_ADMIN"],
+      "application:create-group": ["GROUP_ADMIN"],
+      "application:edit-own": ["FARMER", "GROUP_ADMIN"],
+      "document:review": ["staff", "ADMIN"],
+      "inspection:schedule": ["staff", "INSPECTOR", "ADMIN"],
+      "inspection:record": ["INSPECTOR", "ADMIN"],
+      "application:approve": ["staff", "ADMIN"],
+      "certificate:issue": ["staff", "ADMIN"],
+      "user:manage": ["ADMIN"],
+    };
+    return (permissions[action] || []).includes(auth.user?.role);
+  };
 
-  return { hasRole, can }
+  return { hasRole, can };
 }
 ```
 
------
+---
 
 ## 3. Authentication — SSO Flow
 
 ### 3.1 Flow Diagram
+
 ┌─────────────────────────────────────────────────┐
-│                 Landing / Login Page             │
-│   [เข้าสู่ระบบด้วย SSO]   [สมัครสมาชิก]           │
+│ Landing / Login Page │
+│ [เข้าสู่ระบบด้วย SSO] [สมัครสมาชิก] │
 └────────────┬────────────────────┬───────────────┘
-             │                    │
-      Login  │                    │ Register
-             ▼                    ▼
-   ┌──────────────────┐  ┌─────────────────────┐
-   │   SSO Login Flow │  │  SSO Register Flow  │
-   │ (OAuth 2.0 Code) │  │ (ลงทะเบียนผู้ใช้ใหม่) │
-   └────────┬─────────┘  └──────────┬──────────┘
-            │                       │
-            │  access_token         │  access_token
-            ▼                       ▼
-   ┌──────────────────────────────────────────┐
-   │           /auth/callback                 │
-   │  Exchange code → token → fetch profile  │
-   └────────────────────┬─────────────────────┘
-                        │
-                        ▼
-   ┌──────────────────────────────────────────┐
-   │         Portal Page  (/portal)           │
-   │  แสดงเมนูระบบตามสิทธิ์ (Role-based)        │
-   └──────────────────────────────────────────┘
+│ │
+Login │ │ Register
+▼ ▼
+┌──────────────────┐ ┌─────────────────────┐
+│ SSO Login Flow │ │ SSO Register Flow │
+│ (OAuth 2.0 Code) │ │ (ลงทะเบียนผู้ใช้ใหม่) │
+└────────┬─────────┘ └──────────┬──────────┘
+│ │
+│ access_token │ access_token
+▼ ▼
+┌──────────────────────────────────────────┐
+│ /auth/callback │
+│ Exchange code → token → fetch profile │
+└────────────────────┬─────────────────────┘
+│
+▼
+┌──────────────────────────────────────────┐
+│ Portal Page (/portal) │
+│ แสดงเมนูระบบตามสิทธิ์ (Role-based) │
+└──────────────────────────────────────────┘
 
 ### 3.2 Auth Store (Pinia)
 
 ```typescript
 // stores/auth.store.ts
-import { defineStore } from 'pinia'
-import { ref, computed } from 'vue'
-import axios from '@/plugins/axios'
+import { defineStore } from "pinia";
+import { ref, computed } from "vue";
+import axios from "@/plugins/axios";
 
 interface User {
-  id: string
-  fullName: string
-  role: 'FARMER' | 'GROUP_ADMIN' | 'staff' | 'INSPECTOR' | 'ADMIN'
-  email: string
-  avatar?: string
+  id: string;
+  fullName: string;
+  role: "FARMER" | "GROUP_ADMIN" | "staff" | "INSPECTOR" | "ADMIN";
+  email: string;
+  avatar?: string;
 }
 
-export const useAuthStore = defineStore('auth', () => {
-  const user = ref<User | null>(null)
-  const token = ref<string | null>(null)
+export const useAuthStore = defineStore(
+  "auth",
+  () => {
+    const user = ref<User | null>(null);
+    const token = ref<string | null>(null);
 
-  const isAuthenticated = computed(() => !!token.value)
-  const userRole = computed(() => user.value?.role)
+    const isAuthenticated = computed(() => !!token.value);
+    const userRole = computed(() => user.value?.role);
 
-  async function loginWithSso() {
-    const ssoUrl = `${import.meta.env.VITE_SSO_URL}/authorize`
-      + `?client_id=${import.meta.env.VITE_SSO_CLIENT_ID}`
-      + `&redirect_uri=${encodeURIComponent(window.location.origin + '/auth/callback')}`
-      + `&response_type=code`
-      + `&scope=openid profile email`
-    window.location.href = ssoUrl
-  }
+    async function loginWithSso() {
+      const ssoUrl =
+        `${import.meta.env.VITE_SSO_URL}/authorize` +
+        `?client_id=${import.meta.env.VITE_SSO_CLIENT_ID}` +
+        `&redirect_uri=${encodeURIComponent(window.location.origin + "/auth/callback")}` +
+        `&response_type=code` +
+        `&scope=openid profile email`;
+      window.location.href = ssoUrl;
+    }
 
-  async function handleCallback(code: string) {
-    const { data } = await axios.post('/auth/token', { code })
-    token.value = data.accessToken
-    axios.defaults.headers.common['Authorization'] = `Bearer ${data.accessToken}`
+    async function handleCallback(code: string) {
+      const { data } = await axios.post("/auth/token", { code });
+      token.value = data.accessToken;
+      axios.defaults.headers.common["Authorization"] =
+        `Bearer ${data.accessToken}`;
 
-    const profile = await axios.get('/auth/me')
-    user.value = profile.data
-  }
+      const profile = await axios.get("/auth/me");
+      user.value = profile.data;
+    }
 
-  function logout() {
-    user.value = null
-    token.value = null
-    delete axios.defaults.headers.common['Authorization']
-    window.location.href = `${import.meta.env.VITE_SSO_URL}/logout`
-  }
+    function logout() {
+      user.value = null;
+      token.value = null;
+      delete axios.defaults.headers.common["Authorization"];
+      window.location.href = `${import.meta.env.VITE_SSO_URL}/logout`;
+    }
 
-  return { user, token, isAuthenticated, userRole, loginWithSso, handleCallback, logout }
-}, { persist: true })
+    return {
+      user,
+      token,
+      isAuthenticated,
+      userRole,
+      loginWithSso,
+      handleCallback,
+      logout,
+    };
+  },
+  { persist: true },
+);
 ```
 
 ### 3.3 SSO Callback Page
@@ -273,170 +287,173 @@ export const useAuthStore = defineStore('auth', () => {
 ```vue
 <!-- views/auth/SsoCallbackPage.vue -->
 <template>
-  <v-container class="d-flex justify-center align-center" style="min-height: 100vh">
+  <v-container
+    class="d-flex justify-center align-center"
+    style="min-height: 100vh"
+  >
     <v-progress-circular indeterminate size="64" color="primary" />
     <p class="ml-4 text-h6">กำลังเข้าสู่ระบบ...</p>
   </v-container>
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import { useAuthStore } from '@/stores/auth.store'
+import { onMounted } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import { useAuthStore } from "@/stores/auth.store";
 
-const route = useRoute()
-const router = useRouter()
-const auth = useAuthStore()
+const route = useRoute();
+const router = useRouter();
+const auth = useAuthStore();
 
 onMounted(async () => {
-  const code = route.query.code as string
+  const code = route.query.code as string;
   if (code) {
-    await auth.handleCallback(code)
-    router.replace({ name: 'Dashboard' })
+    await auth.handleCallback(code);
+    router.replace({ name: "Dashboard" });
   } else {
-    router.replace({ name: 'Login' })
+    router.replace({ name: "Login" });
   }
-})
+});
 </script>
 ```
 
------
+---
 
 ## 4. Router Configuration
 
 ```typescript
 // router/index.ts
-import { createRouter, createWebHistory } from 'vue-router'
-import { useAuthStore } from '@/stores/auth.store'
+import { createRouter, createWebHistory } from "vue-router";
+import { useAuthStore } from "@/stores/auth.store";
 
 const routes = [
   // ── Auth ──
   {
-    path: '/login',
-    name: 'Login',
-    component: () => import('@/views/auth/LoginPage.vue'),
-    meta: { layout: 'auth', requiresAuth: false },
+    path: "/login",
+    name: "Login",
+    component: () => import("@/views/auth/LoginPage.vue"),
+    meta: { layout: "auth", requiresAuth: false },
   },
   {
-    path: '/auth/callback',
-    name: 'SsoCallback',
-    component: () => import('@/views/auth/SsoCallbackPage.vue'),
-    meta: { layout: 'auth', requiresAuth: false },
+    path: "/auth/callback",
+    name: "SsoCallback",
+    component: () => import("@/views/auth/SsoCallbackPage.vue"),
+    meta: { layout: "auth", requiresAuth: false },
   },
 
   // ── Dashboard ──
   {
-    path: '/',
-    name: 'Dashboard',
-    component: () => import('@/views/dashboard/DashboardPage.vue'),
+    path: "/",
+    name: "Dashboard",
+    component: () => import("@/views/dashboard/DashboardPage.vue"),
     meta: { requiresAuth: true },
   },
 
   // ── Application (คำขอ GAP) ──
   {
-    path: '/applications',
-    name: 'ApplicationList',
-    component: () => import('@/views/application/ApplicationListPage.vue'),
+    path: "/applications",
+    name: "ApplicationList",
+    component: () => import("@/views/application/ApplicationListPage.vue"),
     meta: { requiresAuth: true },
   },
   {
-    path: '/applications/new',
-    name: 'ApplicationCreate',
-    component: () => import('@/views/application/ApplicationFormPage.vue'),
-    meta: { requiresAuth: true, roles: ['FARMER', 'GROUP_ADMIN'] },
+    path: "/applications/new",
+    name: "ApplicationCreate",
+    component: () => import("@/views/application/ApplicationFormPage.vue"),
+    meta: { requiresAuth: true, roles: ["FARMER", "GROUP_ADMIN"] },
   },
   {
-    path: '/applications/group/new',
-    name: 'GroupApplicationCreate',
-    component: () => import('@/views/application/GroupApplicationPage.vue'),
-    meta: { requiresAuth: true, roles: ['GROUP_ADMIN'] },
+    path: "/applications/group/new",
+    name: "GroupApplicationCreate",
+    component: () => import("@/views/application/GroupApplicationPage.vue"),
+    meta: { requiresAuth: true, roles: ["GROUP_ADMIN"] },
   },
   {
-    path: '/applications/:id',
-    name: 'ApplicationDetail',
-    component: () => import('@/views/application/ApplicationDetailPage.vue'),
+    path: "/applications/:id",
+    name: "ApplicationDetail",
+    component: () => import("@/views/application/ApplicationDetailPage.vue"),
     meta: { requiresAuth: true },
   },
   {
-    path: '/applications/:id/edit',
-    name: 'ApplicationEdit',
-    component: () => import('@/views/application/ApplicationFormPage.vue'),
-    meta: { requiresAuth: true, roles: ['FARMER', 'GROUP_ADMIN'] },
+    path: "/applications/:id/edit",
+    name: "ApplicationEdit",
+    component: () => import("@/views/application/ApplicationFormPage.vue"),
+    meta: { requiresAuth: true, roles: ["FARMER", "GROUP_ADMIN"] },
   },
 
   // ── Inspection (ตรวจประเมิน) ──
   {
-    path: '/inspections',
-    name: 'InspectionSchedule',
-    component: () => import('@/views/inspection/InspectionSchedulePage.vue'),
-    meta: { requiresAuth: true, roles: ['staff', 'INSPECTOR', 'ADMIN'] },
+    path: "/inspections",
+    name: "InspectionSchedule",
+    component: () => import("@/views/inspection/InspectionSchedulePage.vue"),
+    meta: { requiresAuth: true, roles: ["staff", "INSPECTOR", "ADMIN"] },
   },
   {
-    path: '/inspections/:id/checklist',
-    name: 'InspectionChecklist',
-    component: () => import('@/views/inspection/InspectionChecklistPage.vue'),
-    meta: { requiresAuth: true, roles: ['INSPECTOR', 'ADMIN'] },
+    path: "/inspections/:id/checklist",
+    name: "InspectionChecklist",
+    component: () => import("@/views/inspection/InspectionChecklistPage.vue"),
+    meta: { requiresAuth: true, roles: ["INSPECTOR", "ADMIN"] },
   },
   {
-    path: '/inspections/:id/result',
-    name: 'InspectionResult',
-    component: () => import('@/views/inspection/InspectionResultPage.vue'),
-    meta: { requiresAuth: true, roles: ['staff', 'INSPECTOR', 'ADMIN'] },
+    path: "/inspections/:id/result",
+    name: "InspectionResult",
+    component: () => import("@/views/inspection/InspectionResultPage.vue"),
+    meta: { requiresAuth: true, roles: ["staff", "INSPECTOR", "ADMIN"] },
   },
 
   // ── Certificate (ใบรับรอง) ──
   {
-    path: '/certificates',
-    name: 'CertificateList',
-    component: () => import('@/views/certificate/CertificateListPage.vue'),
+    path: "/certificates",
+    name: "CertificateList",
+    component: () => import("@/views/certificate/CertificateListPage.vue"),
     meta: { requiresAuth: true },
   },
   {
-    path: '/certificates/:id',
-    name: 'CertificateDetail',
-    component: () => import('@/views/certificate/CertificateDetailPage.vue'),
+    path: "/certificates/:id",
+    name: "CertificateDetail",
+    component: () => import("@/views/certificate/CertificateDetailPage.vue"),
     meta: { requiresAuth: true },
   },
 
   // ── Admin ──
   {
-    path: '/admin/users',
-    name: 'UserManagement',
-    component: () => import('@/views/admin/UserManagementPage.vue'),
-    meta: { requiresAuth: true, roles: ['ADMIN'] },
+    path: "/admin/users",
+    name: "UserManagement",
+    component: () => import("@/views/admin/UserManagementPage.vue"),
+    meta: { requiresAuth: true, roles: ["ADMIN"] },
   },
   {
-    path: '/admin/settings',
-    name: 'SystemSettings',
-    component: () => import('@/views/admin/SystemSettingPage.vue'),
-    meta: { requiresAuth: true, roles: ['ADMIN'] },
+    path: "/admin/settings",
+    name: "SystemSettings",
+    component: () => import("@/views/admin/SystemSettingPage.vue"),
+    meta: { requiresAuth: true, roles: ["ADMIN"] },
   },
-]
+];
 
 const router = createRouter({
   history: createWebHistory(),
   routes,
-})
+});
 
 // ── Navigation Guard ──
 router.beforeEach((to, _from, next) => {
-  const auth = useAuthStore()
+  const auth = useAuthStore();
 
   if (to.meta.requiresAuth && !auth.isAuthenticated) {
-    return next({ name: 'Login' })
+    return next({ name: "Login" });
   }
 
   if (to.meta.roles && !to.meta.roles.includes(auth.userRole)) {
-    return next({ name: 'Dashboard' })
+    return next({ name: "Dashboard" });
   }
 
-  next()
-})
+  next();
+});
 
-export default router
+export default router;
 ```
 
------
+---
 
 ## 5. Portal Page — หน้าเมนูระบบกลางgi
 
@@ -446,114 +463,114 @@ export default router
 
 Portal Layout:
 ┌──────────────────────จัด───────────────────────────────────────────┐
-│  🌿 ระบบรับรองมาตรฐานพืช (Header)              [User] [Logout]  │
+│ 🌿 ระบบรับรองมาตรฐานพืช (Header) [User] [Logout] │
 ├─────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│   ยินดีต้อนรับ, [ชื่อผู้ใช้]  |  บทบาท: [Role]                   │
-│                                                                  │
-│  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐        │
-│  │  GAP     │  │  DOA     │  │ จดทะเบียน│  │  Health  │        │
-│  │ Cert.   │  │ Factory  │  │ ส่งออก   │  │ Cert. 1  │        │
-│  └──────────┘  └──────────┘  └──────────┘  └──────────┘        │
-│                                                                  │
-│  ┌──────────┐  ┌──────────┐  ┌──────────┐                       │
-│  │  Health  │  │   EL     │  │  Admin   │                       │
-│  │ Cert. 2  │  │ System   │  │ Backend  │                       │
-│  └──────────┘  └──────────┘  └──────────┘                       │
-│                                                                  │
+│ │
+│ ยินดีต้อนรับ, [ชื่อผู้ใช้] | บทบาท: [Role] │
+│ │
+│ ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐ │
+│ │ GAP │ │ DOA │ │ จดทะเบียน│ │ Health │ │
+│ │ Cert. │ │ Factory │ │ ส่งออก │ │ Cert. 1 │ │
+│ └──────────┘ └──────────┘ └──────────┘ └──────────┘ │
+│ │
+│ ┌──────────┐ ┌──────────┐ ┌──────────┐ │
+│ │ Health │ │ EL │ │ Admin │ │
+│ │ Cert. 2 │ │ System │ │ Backend │ │
+│ └──────────┘ └──────────┘ └──────────┘ │
+│ │
 └─────────────────────────────────────────────────────────────────┘
 
 ### 5.2 System Registry — นิยามระบบทั้งหมด
 
 // utils/portal-systems.ts
 export interface PortalSystem {
-  id: string
-  title: string
-  titleEn: string
-  description: string
-  icon: string
-  color: string
-  routeName: string         // ชื่อ route หรือ external URL
-  external?: boolean        // true = เปิด tab ใหม่ (microservice อื่น)
-  externalUrl?: string
-  requiredRoles: string[]   // [] = ทุก role เข้าได้
-  badge?: string            // ข้อความ badge เช่น "ใหม่", "Beta"
+id: string
+title: string
+titleEn: string
+description: string
+icon: string
+color: string
+routeName: string // ชื่อ route หรือ external URL
+external?: boolean // true = เปิด tab ใหม่ (microservice อื่น)
+externalUrl?: string
+requiredRoles: string[] // [] = ทุก role เข้าได้
+badge?: string // ข้อความ badge เช่น "ใหม่", "Beta"
 }
 
 export const PORTAL_SYSTEMS: PortalSystem[] = [
-  {
-    id: 'gap',
-    title: 'ระบบการรับรองมาตรฐาน GAP',
-    titleEn: 'GAP Certification System',
-    description: 'ยื่นคำขอรับรอง ตรวจประเมินแปลง และออกใบรับรองมาตรฐาน GAP พืช',
-    icon: 'mdi-leaf-circle',
-    color: 'success',
-    routeName: 'Dashboard',
-    requiredRoles: [], // ทุก role
-  },
-  {
-    id: 'doa-factory',
-    title: 'ระบบการขึ้นทะเบียนโรงงานผลิตสินค้าพืช DOA',
-    titleEn: 'DOA Factory & Certification Body Registration',
-    description: 'ขึ้นทะเบียนโรงงานผลิตสินค้าพืช DOA และหน่วยรับรองโรงงาน (Certification Body: CB)',
-    icon: 'mdi-factory',
-    color: 'primary',
-    routeName: 'DoaFactoryDashboard',
-    requiredRoles: ['FARMER', 'GROUP_ADMIN', 'staff', 'ADMIN'],
-  },
-  {
-    id: 'export-register',
-    title: 'ระบบจดทะเบียนผู้ส่งออก',
-    titleEn: 'Exporter Registration System',
-    description: 'จดทะเบียนผู้ส่งออกสินค้าเกษตร และต่ออายุใบทะเบียน',
-    icon: 'mdi-truck-delivery',
-    color: 'orange',
-    routeName: 'ExporterDashboard',
-    requiredRoles: ['FARMER', 'GROUP_ADMIN', 'staff', 'ADMIN'],
-  },
-  {
-    id: 'health-cert-controlled',
-    title: 'ระบบ Health Certificate',
-    titleEn: 'Health Certificate — Controlled Plants',
-    description: 'ออก Health Certificate ตามประกาศพืชควบคุมเฉพาะ',
-    icon: 'mdi-file-certificate',
-    color: 'teal',
-    routeName: 'HealthCertControlledDashboard',
-    requiredRoles: ['FARMER', 'GROUP_ADMIN', 'staff', 'ADMIN'],
-    badge: 'พืชควบคุม',
-  },
-  {
-    id: 'health-cert-processed',
-    title: 'ระบบ Health Certificate สินค้าเกษตรแปรรูปด้านพืช',
-    titleEn: 'Health Certificate — Processed Agricultural Products',
-    description: 'ออก Health Certificate สำหรับสินค้าเกษตรแปรรูปด้านพืช',
-    icon: 'mdi-file-certificate-outline',
-    color: 'cyan',
-    routeName: 'HealthCertProcessedDashboard',
-    requiredRoles: ['FARMER', 'GROUP_ADMIN', 'staff', 'ADMIN'],
-    badge: 'สินค้าแปรรูป',
-  },
-  {
-    id: 'establishment-list',
-    title: 'ระบบการควบคุมพิเศษ Establishment List (EL)',
-    titleEn: 'Establishment List Management System',
-    description: 'บริหารจัดการบัญชีรายชื่อโรงคัดบรรจุสินค้าเกษตรเพื่อการส่งออก',
-    icon: 'mdi-format-list-checks',
-    color: 'indigo',
-    routeName: 'EstablishmentListDashboard',
-    requiredRoles: ['staff', 'INSPECTOR', 'ADMIN'],
-  },
-  {
-    id: 'admin-backend',
-    title: 'ระบบบริหารจัดการผู้ดูแลระบบ (Backend)',
-    titleEn: 'Admin & Open API Management',
-    description: 'บริหารจัดการผู้ใช้งาน สิทธิ์ระบบ และจัดการ Open API',
-    icon: 'mdi-shield-crown',
-    color: 'deep-purple',
-    routeName: 'AdminPortal',
-    requiredRoles: ['ADMIN'],
-    badge: 'Admin',
-  },
+{
+id: 'gap',
+title: 'ระบบการรับรองมาตรฐาน GAP',
+titleEn: 'GAP Certification System',
+description: 'ยื่นคำขอรับรอง ตรวจประเมินแปลง และออกใบรับรองมาตรฐาน GAP พืช',
+icon: 'mdi-leaf-circle',
+color: 'success',
+routeName: 'Dashboard',
+requiredRoles: [], // ทุก role
+},
+{
+id: 'doa-factory',
+title: 'ระบบการขึ้นทะเบียนโรงงานผลิตสินค้าพืช DOA',
+titleEn: 'DOA Factory & Certification Body Registration',
+description: 'ขึ้นทะเบียนโรงงานผลิตสินค้าพืช DOA และหน่วยรับรองโรงงาน (Certification Body: CB)',
+icon: 'mdi-factory',
+color: 'primary',
+routeName: 'DoaFactoryDashboard',
+requiredRoles: ['FARMER', 'GROUP_ADMIN', 'staff', 'ADMIN'],
+},
+{
+id: 'export-register',
+title: 'ระบบจดทะเบียนผู้ส่งออก',
+titleEn: 'Exporter Registration System',
+description: 'จดทะเบียนผู้ส่งออกสินค้าเกษตร และต่ออายุใบทะเบียน',
+icon: 'mdi-truck-delivery',
+color: 'orange',
+routeName: 'ExporterDashboard',
+requiredRoles: ['FARMER', 'GROUP_ADMIN', 'staff', 'ADMIN'],
+},
+{
+id: 'health-cert-controlled',
+title: 'ระบบ Health Certificate',
+titleEn: 'Health Certificate — Controlled Plants',
+description: 'ออก Health Certificate ตามประกาศพืชควบคุมเฉพาะ',
+icon: 'mdi-file-certificate',
+color: 'teal',
+routeName: 'HealthCertControlledDashboard',
+requiredRoles: ['FARMER', 'GROUP_ADMIN', 'staff', 'ADMIN'],
+badge: 'พืชควบคุม',
+},
+{
+id: 'health-cert-processed',
+title: 'ระบบ Health Certificate สินค้าเกษตรแปรรูปด้านพืช',
+titleEn: 'Health Certificate — Processed Agricultural Products',
+description: 'ออก Health Certificate สำหรับสินค้าเกษตรแปรรูปด้านพืช',
+icon: 'mdi-file-certificate-outline',
+color: 'cyan',
+routeName: 'HealthCertProcessedDashboard',
+requiredRoles: ['FARMER', 'GROUP_ADMIN', 'staff', 'ADMIN'],
+badge: 'สินค้าแปรรูป',
+},
+{
+id: 'establishment-list',
+title: 'ระบบการควบคุมพิเศษ Establishment List (EL)',
+titleEn: 'Establishment List Management System',
+description: 'บริหารจัดการบัญชีรายชื่อโรงคัดบรรจุสินค้าเกษตรเพื่อการส่งออก',
+icon: 'mdi-format-list-checks',
+color: 'indigo',
+routeName: 'EstablishmentListDashboard',
+requiredRoles: ['staff', 'INSPECTOR', 'ADMIN'],
+},
+{
+id: 'admin-backend',
+title: 'ระบบบริหารจัดการผู้ดูแลระบบ (Backend)',
+titleEn: 'Admin & Open API Management',
+description: 'บริหารจัดการผู้ใช้งาน สิทธิ์ระบบ และจัดการ Open API',
+icon: 'mdi-shield-crown',
+color: 'deep-purple',
+routeName: 'AdminPortal',
+requiredRoles: ['ADMIN'],
+badge: 'Admin',
+},
 ]
 
 ### 5.3 Portal Permission Composable
@@ -564,19 +581,19 @@ import { useAuthStore } from '@/stores/auth.store'
 import { PORTAL_SYSTEMS, type PortalSystem } from '@/utils/portal-systems'
 
 export function usePortalPermission() {
-  const auth = useAuthStore()
+const auth = useAuthStore()
 
-  const accessibleSystems = computed<PortalSystem[]>(() =>
-    PORTAL_SYSTEMS.filter(sys => {
-      if (sys.requiredRoles.length === 0) return true
-      return sys.requiredRoles.includes(auth.user?.role ?? '')
-    })
-  )
+const accessibleSystems = computed<PortalSystem[]>(() =>
+PORTAL_SYSTEMS.filter(sys => {
+if (sys.requiredRoles.length === 0) return true
+return sys.requiredRoles.includes(auth.user?.role ?? '')
+})
+)
 
-  const hasAccessTo = (systemId: string) =>
-    accessibleSystems.value.some(s => s.id === systemId)
+const hasAccessTo = (systemId: string) =>
+accessibleSystems.value.some(s => s.id === systemId)
 
-  return { accessibleSystems, hasAccessTo }
+return { accessibleSystems, hasAccessTo }
 }
 
 ### 5.4 Portal Page Component
@@ -727,6 +744,7 @@ export function usePortalPermission() {
 
       </v-container>
     </v-main>
+
   </v-app>
 </template>
 
@@ -786,7 +804,7 @@ function navigateTo(system: PortalSystem) {
 }
 </style>
 
-```
+````
 
 -----
 
@@ -941,7 +959,7 @@ async function submitApplication() {
   }
 }
 </script>
-```
+````
 
 ### 6.2 Step 1 — ข้อมูลผู้ขอ (ตัวอย่าง Component)
 
@@ -993,22 +1011,22 @@ async function submitApplication() {
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref } from "vue";
 
-const model = defineModel({ required: true })
-const formRef = ref()
+const model = defineModel({ required: true });
+const formRef = ref();
 
 const rules = {
-  required: (v: string) => !!v || 'กรุณากรอกข้อมูล',
-  idCard: (v: string) => /^\d{13}$/.test(v) || 'เลขบัตรประชาชนไม่ถูกต้อง',
-  phone: (v: string) => /^0\d{8,9}$/.test(v) || 'เบอร์โทรไม่ถูกต้อง',
-}
+  required: (v: string) => !!v || "กรุณากรอกข้อมูล",
+  idCard: (v: string) => /^\d{13}$/.test(v) || "เลขบัตรประชาชนไม่ถูกต้อง",
+  phone: (v: string) => /^0\d{8,9}$/.test(v) || "เบอร์โทรไม่ถูกต้อง",
+};
 
 function validate() {
-  return formRef.value.validate()
+  return formRef.value.validate();
 }
 
-defineExpose({ validate })
+defineExpose({ validate });
 </script>
 ```
 
@@ -1090,30 +1108,51 @@ defineExpose({ validate })
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref } from "vue";
 
-const model = defineModel<any[]>({ required: true, default: () => [createEmptyPlot()] })
-const formRef = ref()
-const provinces = ['กรุงเทพมหานคร', 'เชียงใหม่', 'ขอนแก่น', 'นครราชสีมา', '...']
+const model = defineModel<any[]>({
+  required: true,
+  default: () => [createEmptyPlot()],
+});
+const formRef = ref();
+const provinces = [
+  "กรุงเทพมหานคร",
+  "เชียงใหม่",
+  "ขอนแก่น",
+  "นครราชสีมา",
+  "...",
+];
 
 const rules = {
-  required: (v: any) => !!v || 'กรุณากรอกข้อมูล',
-  positive: (v: number) => v > 0 || 'กรุณากรอกค่ามากกว่า 0',
-}
+  required: (v: any) => !!v || "กรุณากรอกข้อมูล",
+  positive: (v: number) => v > 0 || "กรุณากรอกค่ามากกว่า 0",
+};
 
 function createEmptyPlot() {
-  return { plotName: '', area: null, province: '', latitude: null, longitude: null }
+  return {
+    plotName: "",
+    area: null,
+    province: "",
+    latitude: null,
+    longitude: null,
+  };
 }
 
-function addPlot() { model.value.push(createEmptyPlot()) }
-function removePlot(i: number) { model.value.splice(i, 1) }
-function validate() { return formRef.value.validate() }
+function addPlot() {
+  model.value.push(createEmptyPlot());
+}
+function removePlot(i: number) {
+  model.value.splice(i, 1);
+}
+function validate() {
+  return formRef.value.validate();
+}
 
-defineExpose({ validate })
+defineExpose({ validate });
 </script>
 ```
 
------
+---
 
 ## 7. Dashboard
 
@@ -1127,7 +1166,13 @@ defineExpose({ validate })
 
     <!-- ── Summary Cards ── -->
     <v-row>
-      <v-col v-for="card in summaryCards" :key="card.title" cols="12" sm="6" md="3">
+      <v-col
+        v-for="card in summaryCards"
+        :key="card.title"
+        cols="12"
+        sm="6"
+        md="3"
+      >
         <v-card :color="card.color" variant="tonal">
           <v-card-text class="d-flex align-center">
             <v-icon :icon="card.icon" size="48" class="mr-4" />
@@ -1190,38 +1235,58 @@ defineExpose({ validate })
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue'
-import { useAuthStore } from '@/stores/auth.store'
-import { useApplicationStore } from '@/stores/application.store'
-import { useNotificationStore } from '@/stores/notification.store'
-import AppStatusChip from '@/components/common/AppStatusChip.vue'
+import { ref, onMounted, computed } from "vue";
+import { useAuthStore } from "@/stores/auth.store";
+import { useApplicationStore } from "@/stores/application.store";
+import { useNotificationStore } from "@/stores/notification.store";
+import AppStatusChip from "@/components/common/AppStatusChip.vue";
 
-const auth = useAuthStore()
-const appStore = useApplicationStore()
-const notiStore = useNotificationStore()
+const auth = useAuthStore();
+const appStore = useApplicationStore();
+const notiStore = useNotificationStore();
 
 onMounted(async () => {
-  await appStore.fetchDashboardSummary()
-  await notiStore.fetchRecent()
-})
+  await appStore.fetchDashboardSummary();
+  await notiStore.fetchRecent();
+});
 
 const summaryCards = computed(() => [
-  { title: 'คำขอทั้งหมด',       value: appStore.summary.total,     icon: 'mdi-file-multiple',        color: 'primary' },
-  { title: 'รอดำเนินการ',       value: appStore.summary.pending,   icon: 'mdi-clock-outline',        color: 'warning' },
-  { title: 'ผ่านการรับรอง',      value: appStore.summary.approved,  icon: 'mdi-check-circle-outline', color: 'success' },
-  { title: 'ใบรับรองที่ใช้งานอยู่', value: appStore.summary.activeCerts, icon: 'mdi-certificate',       color: 'info'    },
-])
+  {
+    title: "คำขอทั้งหมด",
+    value: appStore.summary.total,
+    icon: "mdi-file-multiple",
+    color: "primary",
+  },
+  {
+    title: "รอดำเนินการ",
+    value: appStore.summary.pending,
+    icon: "mdi-clock-outline",
+    color: "warning",
+  },
+  {
+    title: "ผ่านการรับรอง",
+    value: appStore.summary.approved,
+    icon: "mdi-check-circle-outline",
+    color: "success",
+  },
+  {
+    title: "ใบรับรองที่ใช้งานอยู่",
+    value: appStore.summary.activeCerts,
+    icon: "mdi-certificate",
+    color: "info",
+  },
+]);
 
-const notifications = computed(() => notiStore.items)
-const recentApplications = computed(() => appStore.recentList)
+const notifications = computed(() => notiStore.items);
+const recentApplications = computed(() => appStore.recentList);
 
 const tableHeaders = [
-  { title: 'เลขที่คำขอ',   key: 'applicationNo' },
-  { title: 'ประเภทพืช',    key: 'cropType' },
-  { title: 'วันที่ยื่น',      key: 'submittedAt' },
-  { title: 'สถานะ',        key: 'status' },
-  { title: '',             key: 'actions', sortable: false },
-]
+  { title: "เลขที่คำขอ", key: "applicationNo" },
+  { title: "ประเภทพืช", key: "cropType" },
+  { title: "วันที่ยื่น", key: "submittedAt" },
+  { title: "สถานะ", key: "status" },
+  { title: "", key: "actions", sortable: false },
+];
 </script>
 ```
 
@@ -1237,31 +1302,42 @@ const tableHeaders = [
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed } from "vue";
 
-const props = defineProps<{ status: string }>()
+const props = defineProps<{ status: string }>();
 
-const statusMap: Record<string, { color: string; icon: string; label: string }> = {
-  DRAFT:             { color: 'grey',    icon: 'mdi-pencil',           label: 'ร่าง' },
-  SUBMITTED:         { color: 'blue',    icon: 'mdi-send',             label: 'ยื่นแล้ว' },
-  DOC_REVIEW:        { color: 'orange',  icon: 'mdi-file-search',      label: 'ตรวจเอกสาร' },
-  INSPECTION_SCHEDULED: { color: 'purple', icon: 'mdi-calendar-clock', label: 'นัดตรวจ' },
-  INSPECTING:        { color: 'indigo',  icon: 'mdi-clipboard-check',  label: 'กำลังตรวจ' },
-  APPROVED:          { color: 'green',   icon: 'mdi-check-circle',     label: 'อนุมัติ' },
-  REJECTED:          { color: 'red',     icon: 'mdi-close-circle',     label: 'ไม่ผ่าน' },
-  CANCELLED:         { color: 'grey',    icon: 'mdi-cancel',           label: 'ยกเลิก' },
-  CERT_ISSUED:       { color: 'teal',    icon: 'mdi-certificate',      label: 'ออกใบรับรอง' },
-  CERT_EXPIRED:      { color: 'brown',   icon: 'mdi-clock-alert',      label: 'หมดอายุ' },
-}
+const statusMap: Record<
+  string,
+  { color: string; icon: string; label: string }
+> = {
+  DRAFT: { color: "grey", icon: "mdi-pencil", label: "ร่าง" },
+  SUBMITTED: { color: "blue", icon: "mdi-send", label: "ยื่นแล้ว" },
+  DOC_REVIEW: { color: "orange", icon: "mdi-file-search", label: "ตรวจเอกสาร" },
+  INSPECTION_SCHEDULED: {
+    color: "purple",
+    icon: "mdi-calendar-clock",
+    label: "นัดตรวจ",
+  },
+  INSPECTING: {
+    color: "indigo",
+    icon: "mdi-clipboard-check",
+    label: "กำลังตรวจ",
+  },
+  APPROVED: { color: "green", icon: "mdi-check-circle", label: "อนุมัติ" },
+  REJECTED: { color: "red", icon: "mdi-close-circle", label: "ไม่ผ่าน" },
+  CANCELLED: { color: "grey", icon: "mdi-cancel", label: "ยกเลิก" },
+  CERT_ISSUED: { color: "teal", icon: "mdi-certificate", label: "ออกใบรับรอง" },
+  CERT_EXPIRED: { color: "brown", icon: "mdi-clock-alert", label: "หมดอายุ" },
+};
 
-const current = computed(() => statusMap[props.status] || statusMap.DRAFT)
-const statusColor = computed(() => current.value.color)
-const statusIcon = computed(() => current.value.icon)
-const statusLabel = computed(() => current.value.label)
+const current = computed(() => statusMap[props.status] || statusMap.DRAFT);
+const statusColor = computed(() => current.value.color);
+const statusIcon = computed(() => current.value.icon);
+const statusLabel = computed(() => current.value.label);
 </script>
 ```
 
------
+---
 
 ## 8. Application State Flow
 
@@ -1306,7 +1382,7 @@ const statusLabel = computed(() => current.value.label)
                                           └──────────────┘
 ```
 
------
+---
 
 ## 9. Inspection Module
 
@@ -1347,9 +1423,13 @@ const statusLabel = computed(() => current.value.label)
                       density="compact"
                       color="primary"
                     >
-                      <v-btn value="PASS" size="small" color="success">ผ่าน</v-btn>
-                      <v-btn value="FAIL" size="small" color="error">ไม่ผ่าน</v-btn>
-                      <v-btn value="NA"   size="small">N/A</v-btn>
+                      <v-btn value="PASS" size="small" color="success"
+                        >ผ่าน</v-btn
+                      >
+                      <v-btn value="FAIL" size="small" color="error"
+                        >ไม่ผ่าน</v-btn
+                      >
+                      <v-btn value="NA" size="small">N/A</v-btn>
                     </v-btn-toggle>
                   </td>
                   <td>
@@ -1373,17 +1453,17 @@ const statusLabel = computed(() => current.value.label)
 
 <script setup lang="ts">
 interface CheckItem {
-  label: string
-  result: 'PASS' | 'FAIL' | 'NA' | null
-  remark: string
+  label: string;
+  result: "PASS" | "FAIL" | "NA" | null;
+  remark: string;
 }
 
 interface CheckCategory {
-  title: string
-  items: CheckItem[]
+  title: string;
+  items: CheckItem[];
 }
 
-const checklist = defineModel<CheckCategory[]>({ required: true })
+const checklist = defineModel<CheckCategory[]>({ required: true });
 </script>
 ```
 
@@ -1393,65 +1473,81 @@ const checklist = defineModel<CheckCategory[]>({ required: true })
 // utils/gap-checklist-template.ts
 export const GAP_CHECKLIST_TEMPLATE = [
   {
-    title: '1. แหล่งน้ำ',
+    title: "1. แหล่งน้ำ",
     items: [
-      { label: '1.1 แหล่งน้ำไม่มีการปนเปื้อนสารเคมี',       result: null, remark: '' },
-      { label: '1.2 มีระบบการจัดการน้ำอย่างเหมาะสม',         result: null, remark: '' },
-      { label: '1.3 มีการตรวจวิเคราะห์คุณภาพน้ำ',            result: null, remark: '' },
+      {
+        label: "1.1 แหล่งน้ำไม่มีการปนเปื้อนสารเคมี",
+        result: null,
+        remark: "",
+      },
+      { label: "1.2 มีระบบการจัดการน้ำอย่างเหมาะสม", result: null, remark: "" },
+      { label: "1.3 มีการตรวจวิเคราะห์คุณภาพน้ำ", result: null, remark: "" },
     ],
   },
   {
-    title: '2. พื้นที่ปลูก',
+    title: "2. พื้นที่ปลูก",
     items: [
-      { label: '2.1 พื้นที่ไม่มีสารปนเปื้อนในดิน',              result: null, remark: '' },
-      { label: '2.2 ไม่อยู่ใกล้แหล่งมลพิษ',                   result: null, remark: '' },
-      { label: '2.3 มีการจัดการดินอย่างเหมาะสม',              result: null, remark: '' },
+      { label: "2.1 พื้นที่ไม่มีสารปนเปื้อนในดิน", result: null, remark: "" },
+      { label: "2.2 ไม่อยู่ใกล้แหล่งมลพิษ", result: null, remark: "" },
+      { label: "2.3 มีการจัดการดินอย่างเหมาะสม", result: null, remark: "" },
     ],
   },
   {
-    title: '3. วัตถุอันตรายทางการเกษตร',
+    title: "3. วัตถุอันตรายทางการเกษตร",
     items: [
-      { label: '3.1 ใช้สารเคมีตามคำแนะนำ',                   result: null, remark: '' },
-      { label: '3.2 มีการเก็บรักษาสารเคมีอย่างปลอดภัย',        result: null, remark: '' },
-      { label: '3.3 ผู้ใช้สารเคมีมีอุปกรณ์ป้องกัน',              result: null, remark: '' },
+      { label: "3.1 ใช้สารเคมีตามคำแนะนำ", result: null, remark: "" },
+      {
+        label: "3.2 มีการเก็บรักษาสารเคมีอย่างปลอดภัย",
+        result: null,
+        remark: "",
+      },
+      { label: "3.3 ผู้ใช้สารเคมีมีอุปกรณ์ป้องกัน", result: null, remark: "" },
     ],
   },
   {
-    title: '4. การจัดการคุณภาพในกระบวนการผลิตก่อนการเก็บเกี่ยว',
+    title: "4. การจัดการคุณภาพในกระบวนการผลิตก่อนการเก็บเกี่ยว",
     items: [
-      { label: '4.1 ใช้พันธุ์พืชที่เหมาะสม',                     result: null, remark: '' },
-      { label: '4.2 มีการจดบันทึกการผลิต',                     result: null, remark: '' },
+      { label: "4.1 ใช้พันธุ์พืชที่เหมาะสม", result: null, remark: "" },
+      { label: "4.2 มีการจดบันทึกการผลิต", result: null, remark: "" },
     ],
   },
   {
-    title: '5. การเก็บเกี่ยวและการปฏิบัติหลังเก็บเกี่ยว',
+    title: "5. การเก็บเกี่ยวและการปฏิบัติหลังเก็บเกี่ยว",
     items: [
-      { label: '5.1 เก็บเกี่ยวในระยะเวลาเหมาะสม',              result: null, remark: '' },
-      { label: '5.2 ภาชนะสะอาดและเหมาะสม',                  result: null, remark: '' },
-      { label: '5.3 สถานที่เก็บรักษาสะอาดปลอดภัย',             result: null, remark: '' },
+      { label: "5.1 เก็บเกี่ยวในระยะเวลาเหมาะสม", result: null, remark: "" },
+      { label: "5.2 ภาชนะสะอาดและเหมาะสม", result: null, remark: "" },
+      { label: "5.3 สถานที่เก็บรักษาสะอาดปลอดภัย", result: null, remark: "" },
     ],
   },
   {
-    title: '6. การพักผ่อนของสารเคมี',
+    title: "6. การพักผ่อนของสารเคมี",
     items: [
-      { label: '6.1 ปฏิบัติตามระยะเวลาหยุดใช้สารเคมีก่อนเก็บเกี่ยว', result: null, remark: '' },
+      {
+        label: "6.1 ปฏิบัติตามระยะเวลาหยุดใช้สารเคมีก่อนเก็บเกี่ยว",
+        result: null,
+        remark: "",
+      },
     ],
   },
   {
-    title: '7. การบันทึกข้อมูลและการตามสอบ',
+    title: "7. การบันทึกข้อมูลและการตามสอบ",
     items: [
-      { label: '7.1 มีบันทึกการใช้ปัจจัยการผลิต',                result: null, remark: '' },
-      { label: '7.2 สามารถตามสอบได้ตลอดห่วงโซ่',              result: null, remark: '' },
+      { label: "7.1 มีบันทึกการใช้ปัจจัยการผลิต", result: null, remark: "" },
+      { label: "7.2 สามารถตามสอบได้ตลอดห่วงโซ่", result: null, remark: "" },
     ],
   },
   {
-    title: '8. สุขลักษณะส่วนบุคคล',
+    title: "8. สุขลักษณะส่วนบุคคล",
     items: [
-      { label: '8.1 ผู้ปฏิบัติงานมีสุขลักษณะที่ดี',               result: null, remark: '' },
-      { label: '8.2 มีสิ่งอำนวยความสะดวกด้านสุขอนามัย',        result: null, remark: '' },
+      { label: "8.1 ผู้ปฏิบัติงานมีสุขลักษณะที่ดี", result: null, remark: "" },
+      {
+        label: "8.2 มีสิ่งอำนวยความสะดวกด้านสุขอนามัย",
+        result: null,
+        remark: "",
+      },
     ],
   },
-]
+];
 ```
 
 ### 9.3 Photo Upload for Inspection
@@ -1481,7 +1577,9 @@ export const GAP_CHECKLIST_TEMPLATE = [
         <v-col
           v-for="(photo, index) in photos"
           :key="index"
-          cols="6" sm="4" md="3"
+          cols="6"
+          sm="4"
+          md="3"
         >
           <v-card variant="outlined">
             <v-img :src="photo.preview" height="150" cover />
@@ -1496,7 +1594,12 @@ export const GAP_CHECKLIST_TEMPLATE = [
             </v-card-text>
             <v-card-actions class="pa-1">
               <v-spacer />
-              <v-btn icon="mdi-delete" color="error" size="small" @click="removePhoto(index)" />
+              <v-btn
+                icon="mdi-delete"
+                color="error"
+                size="small"
+                @click="removePhoto(index)"
+              />
             </v-card-actions>
           </v-card>
         </v-col>
@@ -1506,30 +1609,34 @@ export const GAP_CHECKLIST_TEMPLATE = [
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref } from "vue";
 
-interface Photo { file: File; preview: string; caption: string }
+interface Photo {
+  file: File;
+  preview: string;
+  caption: string;
+}
 
-const photos = defineModel<Photo[]>({ default: () => [] })
-const newFiles = ref<File[]>([])
+const photos = defineModel<Photo[]>({ default: () => [] });
+const newFiles = ref<File[]>([]);
 
 function onFilesSelected(files: File[]) {
-  if (!files) return
+  if (!files) return;
   for (const file of files) {
-    const preview = URL.createObjectURL(file)
-    photos.value.push({ file, preview, caption: '' })
+    const preview = URL.createObjectURL(file);
+    photos.value.push({ file, preview, caption: "" });
   }
-  newFiles.value = []
+  newFiles.value = [];
 }
 
 function removePhoto(index: number) {
-  URL.revokeObjectURL(photos.value[index].preview)
-  photos.value.splice(index, 1)
+  URL.revokeObjectURL(photos.value[index].preview);
+  photos.value.splice(index, 1);
 }
 </script>
 ```
 
------
+---
 
 ## 10. Certificate Module
 
@@ -1568,7 +1675,11 @@ function removePhoto(index: number) {
         </template>
 
         <template v-slot:item.expiryDate="{ value }">
-          <span :class="isExpiringSoon(value) ? 'text-warning font-weight-bold' : ''">
+          <span
+            :class="
+              isExpiringSoon(value) ? 'text-warning font-weight-bold' : ''
+            "
+          >
             {{ formatDate(value) }}
           </span>
         </template>
@@ -1594,43 +1705,47 @@ function removePhoto(index: number) {
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-import { useCertificateStore } from '@/stores/certificate.store'
-import AppStatusChip from '@/components/common/AppStatusChip.vue'
+import { ref, onMounted } from "vue";
+import { useCertificateStore } from "@/stores/certificate.store";
+import AppStatusChip from "@/components/common/AppStatusChip.vue";
 
-const certStore = useCertificateStore()
-const search = ref('')
-const loading = ref(false)
+const certStore = useCertificateStore();
+const search = ref("");
+const loading = ref(false);
 
 const headers = [
-  { title: 'เลขที่ใบรับรอง', key: 'certNo' },
-  { title: 'เกษตรกร',       key: 'farmerName' },
-  { title: 'ชนิดพืช',        key: 'cropType' },
-  { title: 'วันที่ออก',       key: 'issuedDate' },
-  { title: 'วันหมดอายุ',     key: 'expiryDate' },
-  { title: 'สถานะ',         key: 'status' },
-  { title: '',              key: 'actions', sortable: false },
-]
+  { title: "เลขที่ใบรับรอง", key: "certNo" },
+  { title: "เกษตรกร", key: "farmerName" },
+  { title: "ชนิดพืช", key: "cropType" },
+  { title: "วันที่ออก", key: "issuedDate" },
+  { title: "วันหมดอายุ", key: "expiryDate" },
+  { title: "สถานะ", key: "status" },
+  { title: "", key: "actions", sortable: false },
+];
 
-const certificates = ref([])
+const certificates = ref([]);
 
 onMounted(async () => {
-  loading.value = true
-  certificates.value = await certStore.fetchAll()
-  loading.value = false
-})
+  loading.value = true;
+  certificates.value = await certStore.fetchAll();
+  loading.value = false;
+});
 
 function formatDate(d: string) {
-  return new Date(d).toLocaleDateString('th-TH', { year: 'numeric', month: 'short', day: 'numeric' })
+  return new Date(d).toLocaleDateString("th-TH", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
 }
 
 function isExpiringSoon(d: string) {
-  const diff = new Date(d).getTime() - Date.now()
-  return diff > 0 && diff < 30 * 24 * 60 * 60 * 1000
+  const diff = new Date(d).getTime() - Date.now();
+  return diff > 0 && diff < 30 * 24 * 60 * 60 * 1000;
 }
 
 async function downloadPdf(id: string) {
-  await certStore.downloadPdf(id)
+  await certStore.downloadPdf(id);
 }
 </script>
 ```
@@ -1639,48 +1754,50 @@ async function downloadPdf(id: string) {
 
 ```typescript
 // utils/pdf-generator.ts
-import jsPDF from 'jspdf'
+import jsPDF from "jspdf";
 
 interface CertData {
-  certNo: string
-  farmerName: string
-  idCard: string
-  cropType: string
-  plotAddress: string
-  area: string
-  issuedDate: string
-  expiryDate: string
-  inspectorName: string
-  approverName: string
+  certNo: string;
+  farmerName: string;
+  idCard: string;
+  cropType: string;
+  plotAddress: string;
+  area: string;
+  issuedDate: string;
+  expiryDate: string;
+  inspectorName: string;
+  approverName: string;
 }
 
 export function generateCertificatePdf(data: CertData): jsPDF {
-  const doc = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' })
+  const doc = new jsPDF({ orientation: "landscape", unit: "mm", format: "a4" });
 
   // Border
-  doc.setDrawColor(34, 139, 34)
-  doc.setLineWidth(2)
-  doc.rect(10, 10, 277, 190)
-  doc.setLineWidth(0.5)
-  doc.rect(14, 14, 269, 182)
+  doc.setDrawColor(34, 139, 34);
+  doc.setLineWidth(2);
+  doc.rect(10, 10, 277, 190);
+  doc.setLineWidth(0.5);
+  doc.rect(14, 14, 269, 182);
 
   // Header
-  doc.setFontSize(24)
-  doc.setTextColor(34, 139, 34)
-  doc.text('ใบรับรองแหล่งผลิต GAP พืช', 148.5, 40, { align: 'center' })
+  doc.setFontSize(24);
+  doc.setTextColor(34, 139, 34);
+  doc.text("ใบรับรองแหล่งผลิต GAP พืช", 148.5, 40, { align: "center" });
 
-  doc.setFontSize(14)
-  doc.text('Certificate of Good Agricultural Practices', 148.5, 50, { align: 'center' })
+  doc.setFontSize(14);
+  doc.text("Certificate of Good Agricultural Practices", 148.5, 50, {
+    align: "center",
+  });
 
   // Certificate Number
-  doc.setFontSize(12)
-  doc.setTextColor(0, 0, 0)
-  doc.text(`เลขที่ใบรับรอง: ${data.certNo}`, 148.5, 65, { align: 'center' })
+  doc.setFontSize(12);
+  doc.setTextColor(0, 0, 0);
+  doc.text(`เลขที่ใบรับรอง: ${data.certNo}`, 148.5, 65, { align: "center" });
 
   // Content
-  doc.setFontSize(11)
-  const startY = 80
-  const lineHeight = 10
+  doc.setFontSize(11);
+  const startY = 80;
+  const lineHeight = 10;
   const lines = [
     `ขอรับรองว่า ${data.farmerName}`,
     `เลขบัตรประชาชน: ${data.idCard}`,
@@ -1688,26 +1805,26 @@ export function generateCertificatePdf(data: CertData): jsPDF {
     `สถานที่ตั้ง: ${data.plotAddress}`,
     `พื้นที่: ${data.area} ไร่`,
     `ตามมาตรฐาน GAP (Good Agricultural Practices)`,
-  ]
+  ];
 
   lines.forEach((line, i) => {
-    doc.text(line, 40, startY + i * lineHeight)
-  })
+    doc.text(line, 40, startY + i * lineHeight);
+  });
 
   // Dates
-  doc.text(`วันที่ออกใบรับรอง: ${data.issuedDate}`, 40, 155)
-  doc.text(`วันหมดอายุ: ${data.expiryDate}`, 40, 165)
+  doc.text(`วันที่ออกใบรับรอง: ${data.issuedDate}`, 40, 155);
+  doc.text(`วันหมดอายุ: ${data.expiryDate}`, 40, 165);
 
   // Signatures
-  doc.text('ผู้ตรวจประเมิน', 80, 185, { align: 'center' })
-  doc.text(data.inspectorName, 80, 192, { align: 'center' })
-  doc.line(40, 182, 120, 182)
+  doc.text("ผู้ตรวจประเมิน", 80, 185, { align: "center" });
+  doc.text(data.inspectorName, 80, 192, { align: "center" });
+  doc.line(40, 182, 120, 182);
 
-  doc.text('ผู้อนุมัติ', 220, 185, { align: 'center' })
-  doc.text(data.approverName, 220, 192, { align: 'center' })
-  doc.line(180, 182, 260, 182)
+  doc.text("ผู้อนุมัติ", 220, 185, { align: "center" });
+  doc.text(data.approverName, 220, 192, { align: "center" });
+  doc.line(180, 182, 260, 182);
 
-  return doc
+  return doc;
 }
 ```
 
@@ -1715,102 +1832,123 @@ export function generateCertificatePdf(data: CertData): jsPDF {
 
 ```typescript
 // stores/certificate.store.ts
-import { defineStore } from 'pinia'
-import { ref } from 'vue'
-import axios from '@/plugins/axios'
-import { generateCertificatePdf } from '@/utils/pdf-generator'
+import { defineStore } from "pinia";
+import { ref } from "vue";
+import axios from "@/plugins/axios";
+import { generateCertificatePdf } from "@/utils/pdf-generator";
 
-export const useCertificateStore = defineStore('certificate', () => {
-  const certificates = ref([])
-  const current = ref(null)
+export const useCertificateStore = defineStore("certificate", () => {
+  const certificates = ref([]);
+  const current = ref(null);
 
   async function fetchAll() {
-    const { data } = await axios.get('/certificates')
-    certificates.value = data
-    return data
+    const { data } = await axios.get("/certificates");
+    certificates.value = data;
+    return data;
   }
 
   async function fetchById(id: string) {
-    const { data } = await axios.get(`/certificates/${id}`)
-    current.value = data
-    return data
+    const { data } = await axios.get(`/certificates/${id}`);
+    current.value = data;
+    return data;
   }
 
   async function downloadPdf(id: string) {
-    const cert = await fetchById(id)
-    const pdf = generateCertificatePdf(cert)
-    pdf.save(`GAP-Certificate-${cert.certNo}.pdf`)
+    const cert = await fetchById(id);
+    const pdf = generateCertificatePdf(cert);
+    pdf.save(`GAP-Certificate-${cert.certNo}.pdf`);
   }
 
-  return { certificates, current, fetchAll, fetchById, downloadPdf }
-})
+  return { certificates, current, fetchAll, fetchById, downloadPdf };
+});
 ```
 
------
+---
 
 ## 11. Application Store (Pinia)
 
 ```typescript
 // stores/application.store.ts
-import { defineStore } from 'pinia'
-import { ref, reactive } from 'vue'
-import axios from '@/plugins/axios'
+import { defineStore } from "pinia";
+import { ref, reactive } from "vue";
+import axios from "@/plugins/axios";
 
 interface DashboardSummary {
-  total: number
-  pending: number
-  approved: number
-  activeCerts: number
+  total: number;
+  pending: number;
+  approved: number;
+  activeCerts: number;
 }
 
-export const useApplicationStore = defineStore('application', () => {
-  const summary = reactive<DashboardSummary>({ total: 0, pending: 0, approved: 0, activeCerts: 0 })
-  const recentList = ref([])
-  const currentApp = ref(null)
+export const useApplicationStore = defineStore("application", () => {
+  const summary = reactive<DashboardSummary>({
+    total: 0,
+    pending: 0,
+    approved: 0,
+    activeCerts: 0,
+  });
+  const recentList = ref([]);
+  const currentApp = ref(null);
 
   async function fetchDashboardSummary() {
-    const { data } = await axios.get('/applications/summary')
-    Object.assign(summary, data)
-    const recent = await axios.get('/applications?limit=10&sort=-submittedAt')
-    recentList.value = recent.data
+    const { data } = await axios.get("/applications/summary");
+    Object.assign(summary, data);
+    const recent = await axios.get("/applications?limit=10&sort=-submittedAt");
+    recentList.value = recent.data;
   }
 
   async function fetchById(id: string) {
-    const { data } = await axios.get(`/applications/${id}`)
-    currentApp.value = data
-    return data
+    const { data } = await axios.get(`/applications/${id}`);
+    currentApp.value = data;
+    return data;
   }
 
   async function saveDraft(form: any) {
     if (form.id) {
-      await axios.put(`/applications/${form.id}`, { ...form, status: 'DRAFT' })
+      await axios.put(`/applications/${form.id}`, { ...form, status: "DRAFT" });
     } else {
-      const { data } = await axios.post('/applications', { ...form, status: 'DRAFT' })
-      form.id = data.id
+      const { data } = await axios.post("/applications", {
+        ...form,
+        status: "DRAFT",
+      });
+      form.id = data.id;
     }
   }
 
   async function submit(form: any) {
     if (form.id) {
-      await axios.put(`/applications/${form.id}`, { ...form, status: 'SUBMITTED' })
+      await axios.put(`/applications/${form.id}`, {
+        ...form,
+        status: "SUBMITTED",
+      });
     } else {
-      await axios.post('/applications', { ...form, status: 'SUBMITTED' })
+      await axios.post("/applications", { ...form, status: "SUBMITTED" });
     }
   }
 
   async function cancel(id: string) {
-    await axios.patch(`/applications/${id}/status`, { status: 'CANCELLED' })
+    await axios.patch(`/applications/${id}/status`, { status: "CANCELLED" });
   }
 
   async function updateStatus(id: string, status: string, payload?: any) {
-    await axios.patch(`/applications/${id}/status`, { status, ...payload })
+    await axios.patch(`/applications/${id}/status`, { status, ...payload });
   }
 
-  return { summary, recentList, currentApp, fetchDashboardSummary, fetchById, saveDraft, submit, cancel, updateStatus }
-})
+  return {
+    summary,
+    recentList,
+    currentApp,
+    fetchDashboardSummary,
+    fetchById,
+    saveDraft,
+    submit,
+    cancel,
+    updateStatus,
+  };
+});
 ```
 
------
+---
 
 ## 12. Sidebar Navigation
 
@@ -1849,10 +1987,20 @@ export const useApplicationStore = defineStore('application', () => {
           </v-btn>
         </template>
         <v-list>
-          <v-list-item prepend-icon="mdi-account" :title="auth.user?.fullName" />
-          <v-list-item prepend-icon="mdi-badge-account" :subtitle="auth.user?.role" />
+          <v-list-item
+            prepend-icon="mdi-account"
+            :title="auth.user?.fullName"
+          />
+          <v-list-item
+            prepend-icon="mdi-badge-account"
+            :subtitle="auth.user?.role"
+          />
           <v-divider />
-          <v-list-item prepend-icon="mdi-logout" title="ออกจากระบบ" @click="auth.logout()" />
+          <v-list-item
+            prepend-icon="mdi-logout"
+            title="ออกจากระบบ"
+            @click="auth.logout()"
+          />
         </v-list>
       </v-menu>
     </v-app-bar>
@@ -1864,101 +2012,131 @@ export const useApplicationStore = defineStore('application', () => {
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import { useAuthStore } from '@/stores/auth.store'
-import { usePermission } from '@/composables/usePermission'
-import AppNotificationBell from '@/components/common/AppNotificationBell.vue'
+import { computed } from "vue";
+import { useAuthStore } from "@/stores/auth.store";
+import { usePermission } from "@/composables/usePermission";
+import AppNotificationBell from "@/components/common/AppNotificationBell.vue";
 
-const auth = useAuthStore()
-const { hasRole } = usePermission()
+const auth = useAuthStore();
+const { hasRole } = usePermission();
 
 const menuItems = [
-  { title: 'Dashboard',        icon: 'mdi-view-dashboard',    to: '/',                roles: ['ALL'] },
-  { title: 'คำขอ GAP',         icon: 'mdi-file-document-edit', to: '/applications',   roles: ['ALL'] },
-  { title: 'ยื่นคำขอใหม่',       icon: 'mdi-plus-circle',       to: '/applications/new', roles: ['FARMER', 'GROUP_ADMIN'] },
-  { title: 'ตรวจประเมิน',       icon: 'mdi-clipboard-check',   to: '/inspections',     roles: ['staff', 'INSPECTOR', 'ADMIN'] },
-  { title: 'ใบรับรอง',          icon: 'mdi-certificate',        to: '/certificates',    roles: ['ALL'] },
-  { title: 'จัดการผู้ใช้',        icon: 'mdi-account-cog',       to: '/admin/users',     roles: ['ADMIN'] },
-  { title: 'ตั้งค่าระบบ',        icon: 'mdi-cog',               to: '/admin/settings',  roles: ['ADMIN'] },
-]
+  { title: "Dashboard", icon: "mdi-view-dashboard", to: "/", roles: ["ALL"] },
+  {
+    title: "คำขอ GAP",
+    icon: "mdi-file-document-edit",
+    to: "/applications",
+    roles: ["ALL"],
+  },
+  {
+    title: "ยื่นคำขอใหม่",
+    icon: "mdi-plus-circle",
+    to: "/applications/new",
+    roles: ["FARMER", "GROUP_ADMIN"],
+  },
+  {
+    title: "ตรวจประเมิน",
+    icon: "mdi-clipboard-check",
+    to: "/inspections",
+    roles: ["staff", "INSPECTOR", "ADMIN"],
+  },
+  {
+    title: "ใบรับรอง",
+    icon: "mdi-certificate",
+    to: "/certificates",
+    roles: ["ALL"],
+  },
+  {
+    title: "จัดการผู้ใช้",
+    icon: "mdi-account-cog",
+    to: "/admin/users",
+    roles: ["ADMIN"],
+  },
+  {
+    title: "ตั้งค่าระบบ",
+    icon: "mdi-cog",
+    to: "/admin/settings",
+    roles: ["ADMIN"],
+  },
+];
 
 const filteredMenuItems = computed(() =>
-  menuItems.filter(i => i.roles.includes('ALL') || hasRole(i.roles))
-)
+  menuItems.filter((i) => i.roles.includes("ALL") || hasRole(i.roles)),
+);
 </script>
 ```
 
------
+---
 
 ## 13. Vuetify Theme Configuration
 
 ```typescript
 // plugins/vuetify.ts
-import { createVuetify } from 'vuetify'
-import * as components from 'vuetify/components'
-import * as directives from 'vuetify/directives'
-import '@mdi/font/css/materialdesignicons.css'
-import 'vuetify/styles'
+import { createVuetify } from "vuetify";
+import * as components from "vuetify/components";
+import * as directives from "vuetify/directives";
+import "@mdi/font/css/materialdesignicons.css";
+import "vuetify/styles";
 
 export default createVuetify({
   components,
   directives,
   theme: {
-    defaultTheme: 'gapTheme',
+    defaultTheme: "gapTheme",
     themes: {
       gapTheme: {
         dark: false,
         colors: {
-          primary:    '#2E7D32',   // เขียวเกษตร
-          secondary:  '#FF8F00',   // เหลืองทอง
-          accent:     '#00ACC1',
-          success:    '#43A047',
-          warning:    '#FB8C00',
-          error:      '#E53935',
-          info:       '#1E88E5',
-          background: '#F5F5F5',
-          surface:    '#FFFFFF',
+          primary: "#2E7D32", // เขียวเกษตร
+          secondary: "#FF8F00", // เหลืองทอง
+          accent: "#00ACC1",
+          success: "#43A047",
+          warning: "#FB8C00",
+          error: "#E53935",
+          info: "#1E88E5",
+          background: "#F5F5F5",
+          surface: "#FFFFFF",
         },
       },
     },
   },
   defaults: {
-    VBtn:       { rounded: 'lg' },
-    VCard:      { rounded: 'lg', elevation: 2 },
-    VTextField: { variant: 'outlined', density: 'comfortable' },
-    VSelect:    { variant: 'outlined', density: 'comfortable' },
+    VBtn: { rounded: "lg" },
+    VCard: { rounded: "lg", elevation: 2 },
+    VTextField: { variant: "outlined", density: "comfortable" },
+    VSelect: { variant: "outlined", density: "comfortable" },
   },
-})
+});
 ```
 
------
+---
 
 ## 14. API Endpoints Summary
 
-|Method |Endpoint                  |Description                         |Roles                    |
-|-------|--------------------------|------------------------------------|-------------------------|
-|`POST` |`/auth/token`             |Exchange SSO code for token         |Public                   |
-|`GET`  |`/auth/me`                |Get current user profile            |All                      |
-|`GET`  |`/applications`           |List applications (filtered by role)|All                      |
-|`GET`  |`/applications/summary`   |Dashboard summary counts            |All                      |
-|`POST` |`/applications`           |Create new application              |Farmer, GroupAdmin       |
-|`GET`  |`/applications/:id`       |Get application detail              |All                      |
-|`PUT`  |`/applications/:id`       |Update application                  |Farmer, GroupAdmin       |
-|`PATCH`|`/applications/:id/status`|Update status                       |staff, Admin           |
-|`GET`  |`/inspections`            |List inspections                    |staff, Inspector, Admin|
-|`POST` |`/inspections`            |Schedule inspection                 |staff, Admin           |
-|`PUT`  |`/inspections/:id`        |Record inspection result            |Inspector, Admin         |
-|`POST` |`/inspections/:id/photos` |Upload inspection photos            |Inspector                |
-|`GET`  |`/certificates`           |List certificates                   |All                      |
-|`GET`  |`/certificates/:id`       |Get certificate detail              |All                      |
-|`POST` |`/certificates`           |Issue certificate                   |staff, Admin           |
-|`GET`  |`/certificates/:id/pdf`   |Download certificate PDF            |All                      |
-|`GET`  |`/users`                  |List users                          |Admin                    |
-|`POST` |`/users`                  |Create user                         |Admin                    |
-|`PUT`  |`/users/:id`              |Update user                         |Admin                    |
-|`GET`  |`/notifications`          |Get notifications                   |All                      |
+| Method  | Endpoint                   | Description                          | Roles                   |
+| ------- | -------------------------- | ------------------------------------ | ----------------------- |
+| `POST`  | `/auth/token`              | Exchange SSO code for token          | Public                  |
+| `GET`   | `/auth/me`                 | Get current user profile             | All                     |
+| `GET`   | `/applications`            | List applications (filtered by role) | All                     |
+| `GET`   | `/applications/summary`    | Dashboard summary counts             | All                     |
+| `POST`  | `/applications`            | Create new application               | Farmer, GroupAdmin      |
+| `GET`   | `/applications/:id`        | Get application detail               | All                     |
+| `PUT`   | `/applications/:id`        | Update application                   | Farmer, GroupAdmin      |
+| `PATCH` | `/applications/:id/status` | Update status                        | staff, Admin            |
+| `GET`   | `/inspections`             | List inspections                     | staff, Inspector, Admin |
+| `POST`  | `/inspections`             | Schedule inspection                  | staff, Admin            |
+| `PUT`   | `/inspections/:id`         | Record inspection result             | Inspector, Admin        |
+| `POST`  | `/inspections/:id/photos`  | Upload inspection photos             | Inspector               |
+| `GET`   | `/certificates`            | List certificates                    | All                     |
+| `GET`   | `/certificates/:id`        | Get certificate detail               | All                     |
+| `POST`  | `/certificates`            | Issue certificate                    | staff, Admin            |
+| `GET`   | `/certificates/:id/pdf`    | Download certificate PDF             | All                     |
+| `GET`   | `/users`                   | List users                           | Admin                   |
+| `POST`  | `/users`                   | Create user                          | Admin                   |
+| `PUT`   | `/users/:id`               | Update user                          | Admin                   |
+| `GET`   | `/notifications`           | Get notifications                    | All                     |
 
------
+---
 
 ## 15. Environment Variables
 
@@ -1968,20 +2146,20 @@ VITE_API_BASE_URL=https://api.gap-cert.example.com
 VITE_SSO_URL=https://sso.example.com
 VITE_SSO_CLIENT_ID=gap-cert-web
 VITE_SSO_REDIRECT_URI=http://localhost:3000/auth/callback
-VITE_APP_TITLE=ระบบรับรองแหล่งผลิต GAP พืช
+VITE_APP_TITLE=ระบบการให้บริการทางอิเล็กทรอนิกส์ของกรมวิชาการเกษตร
 ```
 
------
+---
 
 ## 16. Deployment & DevOps Notes
 
-|Concern     |Recommendation                      |
-|------------|------------------------------------|
-|Build       |`vite build` → static SPA in `dist/`|
-|Hosting     |Nginx / CloudFront + S3             |
-|SPA Fallback|`try_files $uri $uri/ /index.html`  |
-|HTTPS       |Required for SSO redirect           |
-|Docker      |Multi-stage build (Node → Nginx)    |
-|CI/CD       |GitHub Actions / GitLab CI          |
-|Linting     |ESLint + Prettier + vue-tsc         |
-|Testing     |Vitest (unit) + Cypress (E2E)       |
+| Concern      | Recommendation                       |
+| ------------ | ------------------------------------ |
+| Build        | `vite build` → static SPA in `dist/` |
+| Hosting      | Nginx / CloudFront + S3              |
+| SPA Fallback | `try_files $uri $uri/ /index.html`   |
+| HTTPS        | Required for SSO redirect            |
+| Docker       | Multi-stage build (Node → Nginx)     |
+| CI/CD        | GitHub Actions / GitLab CI           |
+| Linting      | ESLint + Prettier + vue-tsc          |
+| Testing      | Vitest (unit) + Cypress (E2E)        |

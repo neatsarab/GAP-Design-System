@@ -5,7 +5,7 @@
         <h1 class="page-title mb-1">Service Status</h1>
         <p class="text-body-2 text-medium-emphasis mb-0">สถานะการทำงานของ Service ต่าง ๆ ในระบบ</p>
       </div>
-      <v-btn color="admin" rounded="lg" prepend-icon="fas fa-rotate" @click="lastCheck = new Date().toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' })">
+      <v-btn color="admin" rounded="lg" prepend-icon="fas fa-rotate" @click="refreshLastCheck">
         Refresh
       </v-btn>
     </div>
@@ -75,6 +75,9 @@ function statusColor(s) {
 }
 function statusIcon(s) {
   return s === "Running" ? "fas fa-circle-check" : s === "Error" ? "fas fa-circle-xmark" : s === "Maintenance" ? "fas fa-triangle-exclamation" : "fas fa-circle-minus";
+}
+function refreshLastCheck() {
+  lastCheck.value = new Date().toLocaleTimeString("th-TH", { hour: "2-digit", minute: "2-digit" });
 }
 function setStatus(item, status) { item.status = status; }
 </script>

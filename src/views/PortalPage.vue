@@ -26,7 +26,7 @@
           <v-icon icon="fas fa-leaf" size="48" color="primary" />
         </div>
         <h1 class="text-h4 font-weight-bold mb-2">
-          ระบบรับรองแหล่งผลิต GAP พืช
+          ระบบการให้บริการทางอิเล็กทรอนิกส์
         </h1>
         <p class="text-body-1 text-medium-emphasis">
           กรมวิชาการเกษตร · กระทรวงเกษตรและสหกรณ์
@@ -52,20 +52,18 @@
       >
         <!-- GAP System -->
         <v-col cols="12" sm="6">
-          <v-card
-            class="portal-card"
-            hover
-            @click="router.push('/login')"
-          >
+          <v-card class="portal-card" hover @click="goToLogin">
             <v-card-text
               class="pa-8 text-center d-flex flex-column align-center"
             >
               <div class="portal-icon-box bg-primary mb-5">
                 <v-icon icon="fas fa-seedling" size="36" color="white" />
               </div>
-              <h2 class="text-h6 font-weight-bold mb-2">เข้าสู่ระบบ GAP</h2>
+              <h2 class="text-h6 font-weight-bold mb-2">
+                ระบบการให้บริการทางอิเล็กทรอนิกส์ของกรมวิชาการเกษตร
+              </h2>
               <p class="text-body-2 text-medium-emphasis mb-5">
-                ยื่นคำขอ ติดตามสถานะ และจัดการใบรับรองแหล่งผลิต GAP พืช
+                ยื่นคำขอ ติดตามสถานะ และจัดการใบรับรอง
               </p>
               <div class="d-flex flex-wrap justify-center ga-2 mb-6">
                 <v-chip
@@ -110,7 +108,7 @@
           <v-card
             class="portal-card"
             hover
-            @click="router.push('/design-system')"
+            @click="goToDesignSystem"
           >
             <v-card-text
               class="pa-8 text-center d-flex flex-column align-center"
@@ -164,7 +162,8 @@
 
       <!-- Footer -->
       <p class="text-caption text-medium-emphasis mt-10">
-        © 2567 กรมวิชาการเกษตร · ระบบรับรองแหล่งผลิต GAP พืช
+        © 2569 กรมวิชาการเกษตร ·
+        ระบบการให้บริการทางอิเล็กทรอนิกส์ของกรมวิชาการเกษตร
       </p>
     </v-container>
   </div>
@@ -180,6 +179,14 @@ const router = useRouter();
 const route = useRoute();
 const themeStore = useThemeStore();
 const sessionStore = useSessionStore();
+
+function goToLogin() {
+  router.push({ name: "Login" });
+}
+
+function goToDesignSystem() {
+  router.push({ name: "DesignSystem" });
+}
 
 onMounted(() => {
   const { entityType, personalName, companyName } = route.query;

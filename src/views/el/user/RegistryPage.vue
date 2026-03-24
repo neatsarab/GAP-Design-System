@@ -59,17 +59,17 @@
         </v-row>
         <v-row dense>
           <v-col cols="auto" class="ml-auto">
-          <v-btn
-            variant="tonal"
-            color="grey"
-            size="small"
-            prepend-icon="fas fa-rotate-left"
-            @click="
-              search = '';
-              filterTab = 'all';
-            "
-            >ล้างตัวกรอง</v-btn
-          >
+            <v-btn
+              variant="tonal"
+              color="grey"
+              size="small"
+              prepend-icon="fas fa-rotate-left"
+              @click="
+                search = '';
+                filterTab = 'all';
+              "
+              >ล้างตัวกรอง</v-btn
+            >
           </v-col>
         </v-row>
       </v-card-text>
@@ -191,10 +191,9 @@ const router = useRouter();
 const filterTab = ref("all");
 const search = ref("");
 
-
 const items = [
   {
-    regNo: "EL-2568-00038",
+    regNo: "EL-2569-00038",
     packingHouseName: "โรงคัดบรรจุไทยฟรุ๊ตส์ สาขา 1",
     location: "ระยอง",
     capacity: "50 ตัน/วัน",
@@ -203,7 +202,7 @@ const items = [
     certStatus: "active",
   },
   {
-    regNo: "EL-2568-00022",
+    regNo: "EL-2569-00022",
     packingHouseName: "โรงคัดบรรจุไทยฟรุ๊ตส์ สาขา 2",
     location: "จันทบุรี",
     capacity: "30 ตัน/วัน",
@@ -212,7 +211,7 @@ const items = [
     certStatus: "active",
   },
   {
-    regNo: "EL-2568-00015",
+    regNo: "EL-2569-00015",
     packingHouseName: "โรงแพ็คผักสดครอบครัวดี",
     location: "นครปฐม",
     capacity: "20 ตัน/วัน",
@@ -221,7 +220,7 @@ const items = [
     certStatus: "expiring",
   },
   {
-    regNo: "EL-2567-00080",
+    regNo: "EL-2569-00080",
     packingHouseName: "ห้างคัดบรรจุสยามผลไม้",
     location: "เชียงใหม่",
     capacity: "15 ตัน/วัน",

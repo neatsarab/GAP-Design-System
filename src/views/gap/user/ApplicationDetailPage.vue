@@ -6,7 +6,7 @@
         icon="fas fa-arrow-left"
         variant="text"
         size="small"
-        @click="router.push('/gap/user/applications')"
+        @click="goToApplicationList"
       />
       <div class="flex-grow-1">
         <div class="d-flex align-center ga-2 mb-1 flex-wrap">
@@ -199,9 +199,13 @@ import AppTimeline from "@/components/common/AppTimeline.vue";
 const router = useRouter();
 const route = useRoute();
 
+function goToApplicationList() {
+  router.push({ name: "ApplicationList" });
+}
+
 // Mock data — in production this would come from an API call using route.params.id
 const application = computed(() => ({
-  no: String(route.params.id ?? "GAP-2567-001"),
+  no: String(route.params.id ?? "GAP-2569-001"),
   farmer: "นาย สมชาย ใจดี",
   crop: "ข้าวหอมมะลิ",
   province: "นครราชสีมา",
@@ -222,7 +226,7 @@ const timelineItems = [
   {
     id: "1",
     title: "ยื่นคำขอ",
-    description: "สร้างคำขอ GAP-2567-001",
+    description: "สร้างคำขอ GAP-2569-001",
     date: "1 มี.ค. 67",
     icon: "fas fa-paper-plane",
     iconColor: "grey",
@@ -254,7 +258,7 @@ const timelineItems = [
   {
     id: "5",
     title: "อนุมัติ & ออกใบรับรอง",
-    description: "GAP-C-2567-0089 อายุ 1 ปี",
+    description: "GAP-C-2569-0089 อายุ 1 ปี",
     date: "20 มี.ค. 67",
     icon: "fas fa-certificate",
     iconColor: "success",

@@ -1,20 +1,20 @@
 <template>
-  <div class="login-root" :class="{ 'is-dark': themeStore.isDark }">
+  <div class="page-root" :class="{ 'is-dark': themeStore.isDark }">
     <!-- ═══ Left Panel ═══ -->
-    <div class="login-left d-none d-md-flex">
-      <div class="login-left-inner">
-        <div class="brand-icon-ring mb-8">
+    <div class="left-panel d-none d-md-flex">
+      <div class="left-panel-inner">
+        <div class="brand-ring mb-8">
           <v-icon icon="fas fa-leaf" size="36" color="white" />
         </div>
-        <h1 class="text-h4 font-weight-bold text-white mb-3 lh-tight">
-          กรมวิชาการเกษตร
+        <h1 class="text-h5 font-weight-bold text-white mb-3 lh-tight">
+          ระบบการให้บริการทางอิเล็กทรอนิกส์
         </h1>
-        <p class="text-body-1 mb-1" style="color: rgba(255, 255, 255, 0.75)">
-          Department of Agriculture
+        <p class="text-body-1 mb-10" style="color: rgba(255, 255, 255, 0.75)">
+          กรมวิชาการเกษตร กระทรวงเกษตรและสหกรณ์
         </p>
-        <p class="text-body-2 mb-10" style="color: rgba(255, 255, 255, 0.55)">
-          กระทรวงเกษตรและสหกรณ์
-        </p>
+        <!-- <p class="text-body-2 mb-10" style="color: rgba(255, 255, 255, 0.55)">
+          กรมวิชาการเกษตร กระทรวงเกษตรและสหกรณ์
+        </p> -->
         <div class="feature-list">
           <div v-for="f in features" :key="f.text" class="feature-item">
             <div class="feature-icon">
@@ -27,26 +27,25 @@
             >
           </div>
         </div>
-        <div class="login-left-footer">
+        <!-- <div class="left-panel-footer">
           <v-chip
-            size="small"
+            size="default"
             color="white"
             variant="outlined"
             style="color: rgba(255, 255, 255, 0.7)"
           >
-            <v-icon start icon="fas fa-shield-halved" size="12" />
-            ระบบมาตรฐาน SSL/TLS ปลอดภัย
+            กรมวิชาการเกษตร กระทรวงเกษตรและสหกรณ์
           </v-chip>
-        </div>
+        </div> -->
       </div>
     </div>
 
     <!-- ═══ Right Panel ═══ -->
-    <div class="login-right d-flex align-center justify-center">
-      <div class="login-form-wrapper">
+    <div class="right-panel d-flex align-center justify-center">
+      <div class="page-form-wrapper">
         <!-- Mobile brand -->
         <div class="d-flex d-md-none align-center ga-3 mb-7">
-          <div class="brand-icon-ring-sm">
+          <div class="brand-ring-sm">
             <v-icon icon="fas fa-leaf" size="20" color="white" />
           </div>
           <div>
@@ -54,7 +53,7 @@
               กรมวิชาการเกษตร
             </div>
             <div class="text-caption text-medium-emphasis">
-              ระบบบริการออนไลน์
+              ระบบการให้บริการทางอิเล็กทรอนิกส์
             </div>
           </div>
         </div>
@@ -133,12 +132,12 @@
               size="small"
               color="medium-emphasis"
               prepend-icon="fas fa-arrow-left"
-              @click="router.push('/')"
+              @click="goToPortal"
             >
               กลับหน้าหลัก
             </v-btn> -->
             <span class="text-caption text-medium-emphasis"
-              >© 2568 กรมวิชาการเกษตร</span
+              >© 2569 กรมวิชาการเกษตร</span
             >
           </div>
         </template>
@@ -152,7 +151,7 @@
               variant="tonal"
               size="small"
               rounded="lg"
-              @click="step = 0"
+              @click="goToRoleSelect"
             />
             <div>
               <h2 class="page-title mb-0">
@@ -280,7 +279,7 @@
                 size="small"
                 color="primary"
                 class="ml-1 pa-0"
-                @click="router.push('/register')"
+                @click="goToRegister"
               >
                 ลงทะเบียนผู้ใช้งานใหม่
               </v-btn>
@@ -380,7 +379,7 @@
                 size="small"
                 color="info"
                 class="ml-1 pa-0"
-                @click="router.push('/register')"
+                @click="goToRegister"
               >
                 ลงทะเบียนผู้ใช้งานใหม่
               </v-btn>
@@ -395,7 +394,7 @@
                   color="medium-emphasis"
                   class="pa-0 admin-link"
                   prepend-icon="fas fa-user-gear"
-                  @click="router.push('/admin/login')"
+                  @click="goToAdminLogin"
                 >
                   สำหรับผู้ดูแลระบบ (Admin)
                 </v-btn>
@@ -405,17 +404,8 @@
 
           <!-- Footer -->
           <div class="d-flex align-center justify-space-between mt-6">
-            <v-btn
-              variant="text"
-              size="small"
-              color="medium-emphasis"
-              prepend-icon="fas fa-arrow-left"
-              @click="step = 0"
-            >
-              กลับเลือกประเภท
-            </v-btn>
             <span class="text-caption text-medium-emphasis"
-              >© 2568 กรมวิชาการเกษตร</span
+              >© 2569 กรมวิชาการเกษตร</span
             >
           </div>
         </template>
@@ -432,9 +422,25 @@ import { useThemeStore } from "@/stores/theme.store";
 const router = useRouter();
 const themeStore = useThemeStore();
 
+function goToPortal() {
+  router.push({ name: "Portal" });
+}
+
+function goToRegister() {
+  router.push({ name: "Register" });
+}
+
+function goToAdminLogin() {
+  router.push({ name: "AdminLogin" });
+}
+
 // ── Role selection ──
 const step = ref(0);
 const selectedRole = ref("operator");
+
+function goToRoleSelect() {
+  step.value = 0;
+}
 
 function selectRole(role) {
   selectedRole.value = role;
@@ -464,33 +470,27 @@ const staffFormRef = ref();
 const features = [
   {
     icon: "fas fa-seedling",
-    text: "ระบบการรับรองมาตรฐาน GAP",
+    text: "ระบบการรับรองมาตรฐานการปฏิบัติทางการเกษตรที่ดีสำหรับพืช",
   },
-  {
-    icon: "fas fa-leaf",
-    text: "ระบบการรับรองมาตรฐาน ORG",
-  },
+  { icon: "fas fa-leaf", text: "ระบบการรับรองมาตรฐานเกษตรอินทรีย์" },
   {
     icon: "fas fa-industry",
-    text: "ระบบการขึ้นทะเบียนโรงงานผลิตสินค้าพืช",
+    text: "ระบบการขึ้นทะเบียนโรงงานผลิตสินค้าพืช กรมวิชาการเกษตร",
   },
   {
     icon: "fas fa-certificate",
     text: "ระบบการขึ้นทะเบียนหน่วยรับรองโรงงานผลิตสินค้าพืช",
   },
-  { icon: "fas fa-ship", text: "ระบบจดทะเบียนผู้ส่งออก" },
+  { icon: "fas fa-ship", text: "ระบบการจดทะเบียนผู้ส่งออกสินค้าพืช" },
   {
     icon: "fas fa-virus",
-    text: "ระบบ Health Certificate ตามประกาศพืชควบคุมเฉพาะ",
+    text: "ระบบการออกหนังสือรับรองสุขอนามัยพืชสำหรับพืชควบคุมเฉพาะ",
   },
   {
     icon: "fas fa-file-medical",
-    text: "ระบบ Health Certificate สินค้าแปรรูปด้านพืช",
+    text: "ระบบการขึ้นทะเบียนหน่วยรับรองโรงงานผลิตสินค้าพืช",
   },
-  {
-    icon: "fas fa-warehouse",
-    text: "ระบบการควบคุมพิเศษระบบบัญชีรายชื่อโรงคัดบรรจุ",
-  },
+  { icon: "fas fa-warehouse", text: "ระบบบัญชีรายชื่อโรงคัดบรรจุสินค้าพืช" },
 ];
 
 const rules = {
@@ -505,7 +505,7 @@ async function doLogin() {
   await new Promise((r) => setTimeout(r, 1000));
   loading.value = false;
   if (username.value && password.value) {
-    router.push("/select-company");
+    router.push({ name: "CompanySelection" });
   } else {
     error.value = "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง";
   }
@@ -513,7 +513,7 @@ async function doLogin() {
 
 function doThaiDLogin() {
   thaidLoading.value = true;
-  setTimeout(() => router.push("/select-company"), 800);
+  setTimeout(() => router.push({ name: "CompanySelection" }), 800);
 }
 
 async function doStaffLogin() {
@@ -524,7 +524,7 @@ async function doStaffLogin() {
   await new Promise((r) => setTimeout(r, 1000));
   staffLoading.value = false;
   if (staffUsername.value && staffPassword.value) {
-    router.push({ path: "/portal", query: { mode: "staff" } });
+    router.push({ name: "StaffPortal" });
   } else {
     staffError.value = "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง";
   }
@@ -533,127 +533,13 @@ async function doStaffLogin() {
 function doSsoLogin() {
   ssoLoading.value = true;
   setTimeout(
-    () => router.push({ path: "/portal", query: { mode: "staff" } }),
+    () => router.push({ name: "StaffPortal" }),
     800,
   );
 }
 </script>
 
 <style scoped>
-.login-root {
-  min-height: 100vh;
-  display: flex;
-}
-
-/* ─── Left Panel ─── */
-.login-left {
-  width: 520px;
-  flex-shrink: 0;
-  position: relative;
-  background: linear-gradient(
-    135deg,
-    rgb(var(--v-theme-primary)) 0%,
-    rgba(var(--v-theme-primary), 0.65) 100%
-  );
-  flex-direction: column;
-  overflow: hidden;
-}
-.login-left::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background:
-    radial-gradient(
-      ellipse at 80% 20%,
-      rgba(255, 255, 255, 0.07) 0%,
-      transparent 55%
-    ),
-    radial-gradient(
-      ellipse at 10% 80%,
-      rgba(255, 255, 255, 0.05) 0%,
-      transparent 50%
-    );
-}
-.is-dark .login-left {
-  background:
-    linear-gradient(rgba(0, 0, 0, 0.62), rgba(0, 0, 0, 0.7)),
-    linear-gradient(
-      135deg,
-      rgb(var(--v-theme-primary)) 0%,
-      rgba(var(--v-theme-primary), 0.55) 100%
-    );
-}
-.login-left-inner {
-  position: relative;
-  z-index: 1;
-  padding: 52px 44px;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-.brand-icon-ring {
-  width: 72px;
-  height: 72px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.15);
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  backdrop-filter: blur(8px);
-}
-.brand-icon-ring-sm {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: rgba(var(--v-theme-primary), 0.12);
-  border: 1.5px solid rgba(var(--v-theme-primary), 0.25);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-.brand-icon-ring-sm .v-icon {
-  color: rgb(var(--v-theme-primary)) !important;
-}
-.feature-list {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-.feature-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-.feature-icon {
-  width: 30px;
-  height: 30px;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.12);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-.login-left-footer {
-  margin-top: auto;
-  padding-top: 32px;
-}
-
-/* ─── Right Panel ─── */
-.login-right {
-  flex: 1;
-  background: rgb(var(--v-theme-background));
-  padding: 40px 24px;
-  overflow-y: auto;
-}
-.login-form-wrapper {
-  width: 100%;
-  max-width: 440px;
-}
-
 /* ─── Role Cards ─── */
 .role-grid {
   display: grid;

@@ -600,7 +600,7 @@
         <v-btn
           variant="tonal"
           color="grey"
-          @click="router.push('/doa/user/applications')"
+          @click="goToApplicationList""
         >
           ยกเลิก
         </v-btn>
@@ -609,7 +609,7 @@
           variant="tonal"
           color="grey"
           prepend-icon="fas fa-arrow-left"
-          @click="currentStep--"
+          @click="prevStep"
         >
           ย้อนกลับ
         </v-btn>
@@ -627,7 +627,7 @@
           v-if="currentStep < steps.length - 1"
           color="doa-user"
           append-icon="fas fa-arrow-right"
-          @click="currentStep++"
+          @click="nextStep"
         >
           ถัดไป
         </v-btn>
@@ -635,7 +635,7 @@
           v-else
           color="doa-user"
           prepend-icon="fas fa-paper-plane"
-          @click="confirmDialog = true"
+          @click="openConfirmDialog"
         >
           ยื่นคำขอ
         </v-btn>
@@ -734,7 +734,7 @@
             variant="tonal"
             color="grey"
             rounded="lg"
-            @click="standardDialog = false"
+            @click="closeStandardDialog"
             >ยกเลิก</v-btn
           >
           <v-spacer />
@@ -763,7 +763,7 @@
             color="grey"
             rounded="lg"
             block
-            @click="confirmDialog = false"
+            @click="closeConfirmDialog"
             >ยกเลิก</v-btn
           >
           <v-btn color="doa-user" rounded="lg" block @click="submitApplication"
@@ -790,7 +790,7 @@
             color="doa-user"
             rounded="lg"
             block
-            @click="router.push('/doa/user/applications')"
+            @click="goToApplicationList""
           >
             ดูรายการคำขอ
           </v-btn>
@@ -817,6 +817,18 @@ import { ref, reactive, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
 const router = useRouter();
+
+function goToApplicationList() {
+  router.push({ name: "DOAUserApplicationList" });
+}
+
+function prevStep() {
+  currentStep.value--;
+}
+
+function nextStep() {
+  currentStep.value++;
+}
 const route = useRoute();
 
 const typeTitles = {
@@ -981,6 +993,15 @@ const docExtra = [
   { key: "haccp_plan", label: "5. แผน HACCP PLAN (กรณีขึ้นทะเบียน มกษ.)" },
 ];
 
+function openConfirmDialog() {
+  confirmDialog.value = true;
+}
+function closeConfirmDialog() {
+  confirmDialog.value = false;
+}
+function closeStandardDialog() {
+  standardDialog.value = false;
+}
 function saveDraft() {
   draftSnackbar.value = true;
 }

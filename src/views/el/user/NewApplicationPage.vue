@@ -6,7 +6,7 @@
         icon="fas fa-arrow-left"
         variant="text"
         size="small"
-        @click="router.push('/el/user/applications')"
+        @click="goToApplicationList"
       />
       <div>
         <h1 class="page-title mb-0">ยื่นคำขอ EL ใหม่</h1>
@@ -20,37 +20,37 @@
     <v-card rounded="xl" elevation="0" class="mb-6 section-card">
       <v-card-text class="pa-5">
         <div class="d-flex align-center">
-          <template v-for="(step, idx) in steps" :key="idx">
+          <template v-for="(step, i) in steps" :key="step.value">
             <div
               class="step-item d-flex flex-column align-center"
               style="min-width: 80px"
             >
-              <div class="step-circle mb-1" :class="stepClass(idx)">
+              <div class="step-circle mb-1" :class="stepClass(step.value)">
                 <v-icon
-                  v-if="currentStep > idx"
+                  v-if="currentStep > step.value"
                   icon="fas fa-check"
                   size="14"
                   color="white"
                 />
                 <span v-else class="text-caption font-weight-bold">{{
-                  idx + 1
+                  step.value + 1
                 }}</span>
               </div>
               <div
                 class="text-caption text-center"
                 :class="
-                  currentStep >= idx
+                  currentStep >= step.value
                     ? 'text-el-user font-weight-bold'
                     : 'text-medium-emphasis'
                 "
               >
-                {{ step }}
+                {{ step.title }}
               </div>
             </div>
             <div
-              v-if="idx < steps.length - 1"
+              v-if="i < steps.length - 1"
               class="step-line flex-grow-1"
-              :class="{ 'step-line--done': currentStep > idx }"
+              :class="{ 'step-line--done': currentStep > step.value }"
             />
           </template>
         </div>
@@ -635,7 +635,7 @@
           color="grey"
           rounded="lg"
           prepend-icon="fas fa-arrow-left"
-          @click="currentStep--"
+          @click="prevStep"
         >
           ย้อนกลับ
         </v-btn>
@@ -644,7 +644,7 @@
           variant="text"
           color="grey"
           rounded="lg"
-          @click="router.push('/el/user/applications')"
+          @click="goToApplicationList"
         >
           ยกเลิก
         </v-btn>
@@ -664,7 +664,7 @@
             color="el-user"
             rounded="lg"
             append-icon="fas fa-arrow-right"
-            @click="currentStep++"
+            @click="nextStep"
           >
             ถัดไป
           </v-btn>
@@ -691,7 +691,7 @@
           <h3 class="text-h6 font-weight-bold mb-2">ยื่นคำขอสำเร็จ!</h3>
           <p class="text-body-2 text-medium-emphasis mb-2">หมายเลขคำขอของคุณ</p>
           <v-chip color="el-user" size="large" variant="tonal" class="mb-4">
-            EL-2568-00003
+            EL-2569-00003
           </v-chip>
           <p class="text-body-2 text-medium-emphasis mb-0">
             ส่งให้ด่านเกษตรตรวจสอบแล้ว<br />เจ้าหน้าที่จะดำเนินการและติดต่อกลับภายใน
@@ -734,7 +734,10 @@ const currentStep = ref(0);
 const successDialog = ref(false);
 const draftSnackbar = ref(false);
 
-const steps = ["ข้อมูลรายละเอียด", "ไฟล์แนบ"];
+const steps = [
+  { value: 0, title: "ข้อมูลรายละเอียด" },
+  { value: 1, title: "ไฟล์แนบ" },
+];
 
 const qualitySystemOptions = ["GMP", "HACCP", "GMP+HACCP"];
 const farmerTypeOptions = [
@@ -742,8 +745,6 @@ const farmerTypeOptions = [
   { label: "นิติบุคคล", value: "juristic" },
   { label: "กลุ่มเกษตรกร", value: "group" },
 ];
-
-
 
 const form = reactive({
   establishmentName: "",
@@ -781,9 +782,9 @@ const farms = ref([
   },
 ]);
 
-function stepClass(idx) {
-  if (currentStep.value > idx) return "step-done";
-  if (currentStep.value === idx) return "step-active";
+function stepClass(v) {
+  if (currentStep.value > v) return "step-done";
+  if (currentStep.value === v) return "step-active";
   return "step-pending";
 }
 
@@ -853,7 +854,15 @@ function submitApplication() {
 
 function goToApplicationList() {
   successDialog.value = false;
-  router.push("/el/user/applications");
+  router.push({ name: "ELUserApplicationList" });
+}
+
+function prevStep() {
+  currentStep.value--;
+}
+
+function nextStep() {
+  currentStep.value++;
 }
 </script>
 

@@ -6,7 +6,7 @@
         icon="fas fa-arrow-left"
         variant="text"
         size="small"
-        @click="router.push('/hcex/user/applications')"
+        @click="goToApplicationList"
       />
       <div>
         <h1 class="page-title mb-1">
@@ -29,30 +29,23 @@
     </div>
 
     <!-- Step Tracker -->
-    <v-card class="mb-5 pa-4">
-      <div class="step-bar">
-        <div
-          v-for="(step, idx) in workflowSteps"
-          :key="step.key"
-          class="step-item"
-          :class="{
-            'step-item--done': currentStepIndex > idx,
-            'step-item--active': currentStepIndex === idx,
-            'step-item--pending': currentStepIndex < idx,
-          }"
-        >
-          <div class="step-dot">
-            <v-icon
-              v-if="currentStepIndex > idx"
-              icon="fas fa-check"
-              size="11"
-            />
-            <span v-else>{{ idx + 1 }}</span>
-          </div>
-          <span class="step-label text-caption">{{ step.label }}</span>
-          <div v-if="idx < workflowSteps.length - 1" class="step-line" />
+    <v-card rounded="xl" elevation="0" class="mb-6 section-card">
+      <v-card-text class="pa-5">
+        <div class="d-flex align-center">
+          <template v-for="(step, i) in steps" :key="step.value">
+            <div class="step-item d-flex flex-column align-center" style="min-width: 80px">
+              <div class="step-circle mb-1" :class="stepClass(step.value)">
+                <v-icon v-if="currentStepIndex > step.value" icon="fas fa-check" size="14" color="white" />
+                <span v-else class="text-caption font-weight-bold">{{ step.value + 1 }}</span>
+              </div>
+              <div class="text-caption text-center" :class="currentStepIndex >= step.value ? 'text-hcex-user font-weight-bold' : 'text-medium-emphasis'">
+                {{ step.title }}
+              </div>
+            </div>
+            <div v-if="i < steps.length - 1" class="step-line flex-grow-1" :class="{ 'step-line--done': currentStepIndex > step.value }" />
+          </template>
         </div>
-      </div>
+      </v-card-text>
     </v-card>
 
     <!-- Application Info -->
@@ -226,7 +219,7 @@
             <div class="info-item">
               <span class="info-label">เลขที่ใบรับรอง (ร่าง)</span>
               <span class="info-value text-hcex-user font-weight-bold"
-                >DRAFT-THHCEX-2568-00012</span
+                >DRAFT-THHCEX-2569-00012</span
               >
             </div>
             <div class="info-item">
@@ -270,7 +263,7 @@
           <v-btn
             color="hcex-user"
             prepend-icon="fas fa-circle-check"
-            @click="confirmPreviewDialog = true"
+            @click="openConfirmPreviewDialog"
           >
             ยืนยันข้อมูลถูกต้อง
           </v-btn>
@@ -366,7 +359,7 @@
         variant="tonal"
         prepend-icon="fas fa-file-pen"
         rounded="lg"
-        @click="router.push('/hcex/user/applications/new')"
+        @click="goToNewApplication"
       >
         ยื่นคำขอใหม่
       </v-btn>
@@ -382,7 +375,7 @@
           <h3 class="text-h6 font-weight-bold mb-2">ยืนยัน Preview ใบรับรอง</h3>
           <p class="text-body-2 text-medium-emphasis mb-0">
             ยืนยันว่าข้อมูลใน Preview ใบรับรอง
-            <strong class="text-hcex-user">DRAFT-THHCEX-2568-00012</strong>
+            <strong class="text-hcex-user">DRAFT-THHCEX-2569-00012</strong>
             ถูกต้องแล้วใช่หรือไม่?
           </p>
         </v-card-text>
@@ -392,7 +385,7 @@
             color="grey"
             rounded="lg"
             block
-            @click="confirmPreviewDialog = false"
+            @click="closeConfirmPreviewDialog"
           >
             ยกเลิก
           </v-btn>
@@ -420,7 +413,7 @@
             color="hcex-user"
             rounded="lg"
             block
-            @click="successPreviewDialog = false"
+            @click="closeSuccessPreviewDialog"
           >
             ตกลง
           </v-btn>
@@ -436,20 +429,35 @@ import { useRouter } from "vue-router";
 
 const router = useRouter();
 
+function goToApplicationList() {
+  router.push({ name: "HCEXUserApplicationList" });
+}
+
+function goToNewApplication() {
+  router.push({ name: "HCEXUserApplicationType" });
+}
+
 const confirmPreviewDialog = ref(false);
 const successPreviewDialog = ref(false);
+
+function openConfirmPreviewDialog() {
+  confirmPreviewDialog.value = true;
+}
+function closeConfirmPreviewDialog() {
+  confirmPreviewDialog.value = false;
+}
+function closeSuccessPreviewDialog() {
+  successPreviewDialog.value = false;
+}
 
 function doConfirmPreview() {
   confirmPreviewDialog.value = false;
   successPreviewDialog.value = true;
 }
 
-
-
-
 const app = {
   id: "HCEX-001",
-  requestNo: "HCEX-2568-00012",
+  requestNo: "HCEX-2569-00012",
   certType: "กมพ.1",
   status: "preview_review",
   exporterName: "บริษัท ไทยฟู้ดโปรเซส จำกัด",
@@ -458,10 +466,10 @@ const app = {
   consigneeAddress:
     "5-10, Shinjuku 1-chome, Shinjuku-ku, Tokyo 160-0001, Japan",
   destination: "ญี่ปุ่น",
-  shipDate: "20 ม.ค. 2568",
+  shipDate: "20 ม.ค. 2569",
   shipMethod: "ทางเรือ",
   portOfLoading: "ท่าเรือแหลมฉบัง",
-  selectedLabs: ["LAB-2568-00089", "LAB-2568-00085"],
+  selectedLabs: ["LAB-2569-00089", "LAB-2569-00085"],
   products: [
     {
       shippingMark: "TFP-JP-001",
@@ -482,7 +490,7 @@ const app = {
     {
       label: "ยื่นคำขอ",
       status: "ยื่นแล้ว",
-      date: "10 ม.ค. 2568 09:30",
+      date: "10 ม.ค. 2569 09:30",
       note: "ยื่นคำขอผ่านระบบออนไลน์",
       color: "primary",
       icon: "fas fa-paper-plane",
@@ -490,7 +498,7 @@ const app = {
     {
       label: "ตรวจสอบเอกสาร",
       status: "อยู่ระหว่างตรวจสอบ",
-      date: "11 ม.ค. 2568 10:15",
+      date: "11 ม.ค. 2569 10:15",
       note: "เจ้าหน้าที่รับเรื่องและตรวจสอบเอกสาร",
       color: "info",
       icon: "fas fa-magnifying-glass",
@@ -498,7 +506,7 @@ const app = {
     {
       label: "ตรวจสอบเอกสาร",
       status: "ผ่านการตรวจสอบ",
-      date: "12 ม.ค. 2568 14:00",
+      date: "12 ม.ค. 2569 14:00",
       note: "เอกสารและผล Lab ผ่านการตรวจสอบแล้ว",
       color: "success",
       icon: "fas fa-circle-check",
@@ -506,7 +514,7 @@ const app = {
     {
       label: "ยืนยัน Preview",
       status: "รอยืนยัน",
-      date: "13 ม.ค. 2568 10:30",
+      date: "13 ม.ค. 2569 10:30",
       note: "เจ้าหน้าที่สร้าง Preview ใบรับรองแล้ว รอผู้ประกอบการยืนยัน",
       color: "primary",
       icon: "fas fa-file-lines",
@@ -516,14 +524,21 @@ const app = {
 
 const currentStatus = app.status;
 
-const workflowSteps = [
-  { key: "submit", label: "ยื่นคำขอ" },
-  { key: "review", label: "ตรวจสอบเอกสาร" },
-  { key: "preview", label: "ยืนยัน Preview" },
-  { key: "signing", label: "รอลงนาม" },
-  { key: "payment", label: "ชำระค่าธรรมเนียม" },
-  { key: "cert", label: "รับใบรับรอง" },
+
+const steps = [
+  { value: 0, title: "ยื่นคำขอ" },
+  { value: 1, title: "ตรวจสอบเอกสาร" },
+  { value: 2, title: "ยืนยัน Preview" },
+  { value: 3, title: "รอลงนาม" },
+  { value: 4, title: "ชำระค่าธรรมเนียม" },
+  { value: 5, title: "รับใบรับรอง" },
 ];
+
+function stepClass(v) {
+  if (currentStepIndex.value > v) return "step-done";
+  if (currentStepIndex.value === v) return "step-active";
+  return "step-pending";
+}
 
 const statusStepMap = {
   draft: 0,
@@ -587,58 +602,16 @@ function getStatusLabel(s) {
 </script>
 
 <style scoped>
-div { --step-color: rgb(var(--v-theme-hcex-user)); --step-color-tint: rgba(var(--v-theme-hcex-user), 0.2); }
-.step-bar {
-  display: flex;
-  align-items: flex-start;
-  overflow-x: auto;
+.step-done,
+.step-active {
+  background: rgb(var(--v-theme-hcex-user)) !important;
+  color: white !important;
 }
-.step-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  flex: 1;
-  position: relative;
-  min-width: 70px;
+.step-active {
+  box-shadow: 0 0 0 4px rgba(var(--v-theme-hcex-user), 0.2) !important;
 }
-.step-dot {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 11px;
-  font-weight: 700;
-  z-index: 1;
-  flex-shrink: 0;
-}
-.step-item--done .step-dot {
-  background: rgb(var(--v-theme-success));
-  color: white;
-}
-.step-item--active .step-dot {
-  background: rgb(var(--v-theme-hcex-user));
-  color: white;
-  box-shadow: 0 0 0 4px rgba(var(--v-theme-hcex-user), 0.2);
-}
-.step-item--pending .step-dot {
-  background: rgba(var(--v-theme-on-surface), 0.1);
-  color: rgba(var(--v-theme-on-surface), 0.4);
-}
-.step-label {
-  margin-top: 6px;
-  font-size: 10px;
-  text-align: center;
-  color: rgba(var(--v-theme-on-surface), 0.6);
-  line-height: 1.3;
-}
-.step-item--active .step-label {
-  color: rgb(var(--v-theme-hcex-user));
-  font-weight: 600;
-}
-.step-item--done .step-label {
-  color: rgb(var(--v-theme-success));
+.step-line--done {
+  background: rgb(var(--v-theme-hcex-user)) !important;
 }
 
 .info-grid {

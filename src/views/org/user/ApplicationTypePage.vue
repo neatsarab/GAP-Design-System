@@ -6,12 +6,12 @@
         icon="fas fa-arrow-left"
         variant="text"
         size="small"
-        @click="router.push('/org/user/applications')"
+        @click="goToApplicationList"
       />
       <div>
-        <h1 class="page-title mb-0">ยื่นคำขอ ORG ใหม่</h1>
+        <h1 class="page-title mb-0">ยื่นคำขอใหม่</h1>
         <p class="text-body-2 text-medium-emphasis mb-0">
-          เลือกประเภทคำขอรับรองมาตรฐานเกษตรอินทรีย์
+          เลือกประเภทคำขอใบรับรองมาตรฐานเกษตรอินทรีย์ (Organic Agriculture)
         </p>
       </div>
     </div>
@@ -161,13 +161,17 @@ const applicationTypes = computed(() => [
   },
 ]);
 
+function goToApplicationList() {
+  router.push({ name: "ORGUserApplicationList" });
+}
+
 function selectType(value) {
   if (value === "individual")
-    router.push("/org/user/applications/new/individual");
-  else if (value === "group") router.push("/org/user/applications/new/group");
+    router.push({ name: "ORGUserNewIndividual" });
+  else if (value === "group") router.push({ name: "ORGUserNewGroup" });
   else if (value === "amendment")
-    router.push("/org/user/applications/new/amendment");
-  else if (value === "cancel") router.push("/org/user/applications/new/cancel");
+    router.push({ name: "ORGUserAmendment" });
+  else if (value === "cancel") router.push({ name: "ORGUserCancel" });
 }
 </script>
 

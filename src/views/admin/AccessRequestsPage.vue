@@ -206,7 +206,7 @@
             icon="fas fa-xmark"
             variant="text"
             size="small"
-            @click="detailDialog = false"
+            @click="closeDetailDialog"
           />
         </v-card-title>
         <v-divider />
@@ -386,13 +386,13 @@ const restrictedSystem = computed(
   () => officerSystemMap[adminStore.username] ?? null,
 );
 
-
-
-
 const search = ref("");
 const filterSystem = ref(null);
 const filterStatus = ref(null);
 const detailDialog = ref(false);
+function closeDetailDialog() {
+  detailDialog.value = false;
+}
 const selectedItem = ref(null);
 
 const systemOptions = [
@@ -429,7 +429,7 @@ const requests = ref([
     entityType: "juristic",
     systems: ["GAP", "DOA"],
     systemApprovals: { GAP: "pending", DOA: "pending" },
-    requestDate: "17 มี.ค. 2568",
+    requestDate: "17 มี.ค. 2569",
     requesterName: "นายอานนท์ เกษตรดี",
     requesterPhone: "081-234-5678",
     attachments: [
@@ -450,7 +450,7 @@ const requests = ref([
     entityType: "personal",
     systems: ["GAP"],
     systemApprovals: { GAP: "pending" },
-    requestDate: "16 มี.ค. 2568",
+    requestDate: "16 มี.ค. 2569",
     requesterName: "นิธิพร เทิบจันทึก",
     requesterPhone: "089-111-2233",
     attachments: [
@@ -465,7 +465,7 @@ const requests = ref([
     entityType: "juristic",
     systems: ["ORG"],
     systemApprovals: { ORG: "approved" },
-    requestDate: "15 มี.ค. 2568",
+    requestDate: "15 มี.ค. 2569",
     requesterName: "นางสาวพิมพ์ใจ สีเขียว",
     requesterPhone: "062-345-6789",
     attachments: [
@@ -486,7 +486,7 @@ const requests = ref([
     entityType: "juristic",
     systems: ["DOA", "CB"],
     systemApprovals: { DOA: "pending", CB: "approved" },
-    requestDate: "14 มี.ค. 2568",
+    requestDate: "14 มี.ค. 2569",
     requesterName: "นายวิชัย ผลิตภัณฑ์",
     requesterPhone: "065-987-6543",
     attachments: [
@@ -506,7 +506,7 @@ const requests = ref([
     entityType: "personal",
     systems: ["EL"],
     systemApprovals: { EL: "rejected" },
-    requestDate: "12 มี.ค. 2568",
+    requestDate: "12 มี.ค. 2569",
     requesterName: "นายสมชาย รักดี",
     requesterPhone: "091-456-7890",
     attachments: [
@@ -520,7 +520,7 @@ const requests = ref([
     entityType: "juristic",
     systems: ["CB", "EL", "HC"],
     systemApprovals: { CB: "approved", EL: "pending", HC: "pending" },
-    requestDate: "10 มี.ค. 2568",
+    requestDate: "10 มี.ค. 2569",
     requesterName: "นางสาวกัลยา รับรอง",
     requesterPhone: "083-654-3210",
     attachments: [

@@ -11,7 +11,7 @@
       <v-btn
         color="gap-user"
         prepend-icon="fas fa-file-pen"
-        @click="router.push('/gap/user/applications/new')"
+        @click="goToNewApplication"
       >
         ยื่นคำขอใหม่
       </v-btn>
@@ -22,7 +22,10 @@
       <v-card-text class="pa-4">
         <v-row dense align="center">
           <v-col cols="12" sm="5" md="4">
-            <div class="field-label mb-1"><div>ค้นหา</div><div class="field-label-en">Search</div></div>
+            <div class="field-label mb-1">
+              <div>ค้นหา</div>
+              <div class="field-label-en">Search</div>
+            </div>
             <v-text-field
               v-model="search"
               placeholder="ค้นหาเลขที่คำขอ, ชื่อเกษตรกร..."
@@ -35,7 +38,10 @@
             />
           </v-col>
           <v-col cols="12" sm="4" md="3">
-            <div class="field-label mb-1"><div>สถานะ</div><div class="field-label-en">Status</div></div>
+            <div class="field-label mb-1">
+              <div>สถานะ</div>
+              <div class="field-label-en">Status</div>
+            </div>
             <v-autocomplete
               v-model="filterStatus"
               :items="statusFilterItems"
@@ -49,7 +55,10 @@
             />
           </v-col>
           <v-col cols="12" sm="3" md="2">
-            <div class="field-label mb-1"><div>จังหวัด</div><div class="field-label-en">Province</div></div>
+            <div class="field-label mb-1">
+              <div>จังหวัด</div>
+              <div class="field-label-en">Province</div>
+            </div>
             <v-autocomplete
               v-model="filterProvince"
               :items="provinces"
@@ -63,7 +72,14 @@
         </v-row>
         <v-row dense>
           <v-col cols="auto" class="ml-auto">
-          <v-btn variant="tonal" color="grey" size="small" prepend-icon="fas fa-rotate-left" @click="clearFilters">ล้างตัวกรอง</v-btn>
+            <v-btn
+              variant="tonal"
+              color="grey"
+              size="small"
+              prepend-icon="fas fa-rotate-left"
+              @click="clearFilters"
+              >ล้างตัวกรอง</v-btn
+            >
           </v-col>
         </v-row>
       </v-card-text>
@@ -98,7 +114,12 @@
     </v-tabs>
 
     <!-- Table View -->
-    <v-card v-if="viewMode === 'table'" rounded="xl" elevation="0" class="table-card">
+    <v-card
+      v-if="viewMode === 'table'"
+      rounded="xl"
+      elevation="0"
+      class="table-card"
+    >
       <v-data-table
         :headers="tableHeaders"
         :items="filteredItems"
@@ -120,7 +141,7 @@
                   size="x-small"
                   variant="text"
                   color="gap-user"
-                  @click="router.push(`/app/applications/${item.no}`)"
+                  @click="goToApplicationDetail(item.no)"
                 >
                   <v-icon icon="fas fa-eye" size="14" />
                 </v-btn>
@@ -169,7 +190,7 @@
         <v-card
           hover
           class="app-card"
-          @click="router.push(`/app/applications/${item.no}`)"
+          @click="goToApplicationDetail(item.no)"
         >
           <v-card-text class="pa-4">
             <div class="d-flex align-start justify-space-between mb-3">
@@ -245,6 +266,14 @@ const filterProvince = ref(null);
 const viewMode = ref("table");
 const activeTab = ref("all");
 
+function goToNewApplication() {
+  router.push({ name: "ApplicationType" });
+}
+
+function goToApplicationDetail(no) {
+  router.push({ name: "ApplicationDetail", params: { id: no } });
+}
+
 function clearFilters() {
   search.value = "";
   filterStatus.value = null;
@@ -285,7 +314,7 @@ const tableHeaders = [
 
 const items = [
   {
-    no: "GAP-2567-001",
+    no: "GAP-2569-001",
     farmer: "นาย สมชาย ใจดี",
     crop: "ข้าวหอมมะลิ",
     province: "นครราชสีมา",
@@ -293,7 +322,7 @@ const items = [
     status: "DOC_REVIEW",
   },
   {
-    no: "GAP-2567-002",
+    no: "GAP-2569-002",
     farmer: "นาง มาลี เกษตรกิจ",
     crop: "มันสำปะหลัง",
     province: "ขอนแก่น",
@@ -301,7 +330,7 @@ const items = [
     status: "APPROVED",
   },
   {
-    no: "GAP-2567-003",
+    no: "GAP-2569-003",
     farmer: "นาย วิชัย ทำนา",
     crop: "อ้อย",
     province: "สุพรรณบุรี",
@@ -309,7 +338,7 @@ const items = [
     status: "INSPECTING",
   },
   {
-    no: "GAP-2567-004",
+    no: "GAP-2569-004",
     farmer: "นาง สมศรี ปลูกผัก",
     crop: "ผักกาดขาว",
     province: "เชียงใหม่",
@@ -317,7 +346,7 @@ const items = [
     status: "SUBMITTED",
   },
   {
-    no: "GAP-2567-005",
+    no: "GAP-2569-005",
     farmer: "นาย ประสิทธิ์ ไร่ดี",
     crop: "ข้าวโพด",
     province: "เพชรบูรณ์",
@@ -325,7 +354,7 @@ const items = [
     status: "CERT_ISSUED",
   },
   {
-    no: "GAP-2567-006",
+    no: "GAP-2569-006",
     farmer: "นาย อภิชาติ นาดี",
     crop: "มะเขือเทศ",
     province: "เชียงใหม่",
@@ -333,7 +362,7 @@ const items = [
     status: "DRAFT",
   },
   {
-    no: "GAP-2567-007",
+    no: "GAP-2569-007",
     farmer: "นาง วิไล ทุ่งนา",
     crop: "ข้าวหอมมะลิ",
     province: "ขอนแก่น",
@@ -341,7 +370,7 @@ const items = [
     status: "REJECTED",
   },
   {
-    no: "GAP-2567-008",
+    no: "GAP-2569-008",
     farmer: "นาย ชัยวัฒน์ เกษม",
     crop: "ข้าวโพด",
     province: "นครราชสีมา",
@@ -349,7 +378,7 @@ const items = [
     status: "CERT_EXPIRED",
   },
   {
-    no: "GAP-2567-009",
+    no: "GAP-2569-009",
     farmer: "นาง สุดา ไร่สวย",
     crop: "อ้อย",
     province: "สุพรรณบุรี",
@@ -357,7 +386,7 @@ const items = [
     status: "INSPECTION_SCHEDULED",
   },
   {
-    no: "GAP-2567-010",
+    no: "GAP-2569-010",
     farmer: "นาย สมศักดิ์ ผืนนา",
     crop: "มันสำปะหลัง",
     province: "เพชรบูรณ์",

@@ -6,7 +6,7 @@
         icon="fas fa-arrow-left"
         variant="text"
         size="small"
-        @click="router.push('/org/staff/applications')"
+        @click="goToApplicationList"
       />
       <div class="flex-grow-1">
         <div class="d-flex align-center ga-2 mb-1 flex-wrap">
@@ -40,40 +40,20 @@
     </div>
 
     <!-- Workflow Steps -->
-    <v-card rounded="xl" elevation="0" class="mb-5">
-      <v-card-text class="pa-4">
-        <div class="d-flex align-center ga-1 overflow-x-auto">
-          <template v-for="(step, i) in steps" :key="i">
-            <div
-              class="step-item"
-              :class="{
-                'step-item--active': currentStep === i,
-                'step-item--done': currentStep > i,
-              }"
-            >
-              <div class="step-num">
-                <v-icon
-                  v-if="currentStep > i"
-                  icon="fas fa-check"
-                  size="11"
-                  color="white"
-                />
-                <span v-else class="text-caption font-weight-bold">{{
-                  i + 1
-                }}</span>
+    <v-card rounded="xl" elevation="0" class="mb-6 section-card">
+      <v-card-text class="pa-5">
+        <div class="d-flex align-center">
+          <template v-for="(step, i) in steps" :key="step.value">
+            <div class="step-item d-flex flex-column align-center" style="min-width: 80px">
+              <div class="step-circle mb-1" :class="stepClass(step.value)">
+                <v-icon v-if="currentStep > step.value" icon="fas fa-check" size="14" color="white" />
+                <span v-else class="text-caption font-weight-bold">{{ step.value + 1 }}</span>
               </div>
-              <div
-                class="text-caption d-none d-sm-block"
-                style="white-space: nowrap"
-              >
-                {{ step }}
+              <div class="text-caption text-center" :class="currentStep >= step.value ? 'text-org-staff font-weight-bold' : 'text-medium-emphasis'">
+                {{ step.title }}
               </div>
             </div>
-            <div
-              v-if="i < steps.length - 1"
-              class="step-connector"
-              :class="{ 'step-connector--done': currentStep > i }"
-            />
+            <div v-if="i < steps.length - 1" class="step-line flex-grow-1" :class="{ 'step-line--done': currentStep > step.value }" />
           </template>
         </div>
       </v-card-text>
@@ -529,7 +509,7 @@
               color="warning"
               rounded="lg"
               prepend-icon="fas fa-rotate"
-              @click="currentStep = 1"
+              @click="goToStep1"
               >ตรวจแปลงใหม่</v-btn
             >
           </v-card-actions>
@@ -699,7 +679,7 @@
           </div>
           <h3 class="text-h6 font-weight-bold mb-2">ออกใบรับรองสำเร็จ</h3>
           <p class="text-body-2 text-medium-emphasis mb-1">
-            เลขใบรับรอง: <strong>THORG-2568-00015</strong>
+            เลขใบรับรอง: <strong>THORG-2569-00015</strong>
           </p>
           <p class="text-body-2 text-medium-emphasis mb-0">
             ส่งการแจ้งเตือนไปยังผู้ประกอบการแล้ว
@@ -710,7 +690,7 @@
             color="org-staff"
             rounded="lg"
             block
-            @click="router.push('/org/staff/applications')"
+            @click="goToApplicationList"
             >กลับรายการคำขอ</v-btn
           >
         </v-card-actions>
@@ -724,22 +704,36 @@ import { ref, reactive } from "vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
+
+function goToApplicationList() {
+  router.push({ name: "ORGStaffApplicationList" });
+}
 const currentStep = ref(0);
 const certDialog = ref(false);
 
+function goToStep1() {
+  currentStep.value = 1;
+}
+
 const steps = [
-  "ตรวจสอบคำขอ",
-  "ตรวจแปลง",
-  "บันทึกผล",
-  "เสนอ CC",
-  "ผล CC",
-  "ลงนาม",
+  { value: 0, title: "ตรวจสอบคำขอ" },
+  { value: 1, title: "ตรวจแปลง" },
+  { value: 2, title: "บันทึกผล" },
+  { value: 3, title: "เสนอ CC" },
+  { value: 4, title: "ผล CC" },
+  { value: 5, title: "ลงนาม" },
 ];
 
+function stepClass(v) {
+  if (currentStep.value > v) return "step-done";
+  if (currentStep.value === v) return "step-active";
+  return "step-pending";
+}
+
 const app = {
-  requestNo: "ORG-2568-00009",
+  requestNo: "ORG-2569-00009",
   status: "doc_review",
-  submittedDate: "6 มี.ค. 2568",
+  submittedDate: "6 มี.ค. 2569",
   applicantName: "นางมาลี พืชผล",
   idCard: "1-2000-00000-00-0",
   phone: "082-345-6789",
@@ -762,14 +756,14 @@ const app = {
 const historyEvents = [
   {
     label: "ยื่นคำขอ",
-    date: "6 มี.ค. 2568",
+    date: "6 มี.ค. 2569",
     by: "นางมาลี พืชผล",
     color: "org-staff",
     note: "",
   },
   {
     label: "รับคำขอเข้าสู่ระบบ",
-    date: "7 มี.ค. 2568",
+    date: "7 มี.ค. 2569",
     by: "ระบบอัตโนมัติ",
     color: "info",
     note: "",
@@ -895,43 +889,17 @@ function statusLabel(s) {
   border-radius: 10px;
   text-align: center;
 }
-.step-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  flex-shrink: 0;
+
+.step-done,
+.step-active {
+  background: rgb(var(--v-theme-org-staff)) !important;
+  color: white !important;
 }
-.step-num {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background: rgba(var(--v-border-color), 0.1);
-  border: 1.5px solid rgba(var(--v-border-color), 0.3);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: rgba(var(--v-theme-on-surface), 0.4);
-  font-size: 11px;
+.step-active {
+  box-shadow: 0 0 0 4px rgba(var(--v-theme-org-staff), 0.2) !important;
 }
-.step-item--active .step-num {
-  background: rgba(var(--v-theme-org-staff), 0.12);
-  border-color: rgb(var(--v-theme-org-staff));
-  color: rgb(var(--v-theme-org-staff));
-}
-.step-item--done .step-num {
-  background: rgb(var(--v-theme-success));
-  border-color: rgb(var(--v-theme-success));
-  color: white;
-}
-.step-connector {
-  flex: 1;
-  height: 2px;
-  background: rgba(var(--v-border-color), 0.2);
-  min-width: 20px;
-}
-.step-connector--done {
-  background: rgb(var(--v-theme-success));
+.step-line--done {
+  background: rgb(var(--v-theme-org-staff)) !important;
 }
 .event-dot {
   width: 12px;

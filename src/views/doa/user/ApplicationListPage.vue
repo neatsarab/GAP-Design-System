@@ -12,7 +12,10 @@
       <v-card-text class="pa-4">
         <v-row dense align="center">
           <v-col cols="12" sm="6" md="3">
-            <div class="field-label"><div>วันที่ยื่น (จาก)</div><div class="field-label-en">Submit Date (From)</div></div>
+            <div class="field-label">
+              <div>วันที่ยื่น (จาก)</div>
+              <div class="field-label-en">Submit Date (From)</div>
+            </div>
             <v-text-field
               v-model="filters.dateFrom"
               type="date"
@@ -23,7 +26,10 @@
             />
           </v-col>
           <v-col cols="12" sm="6" md="3">
-            <div class="field-label"><div>วันที่ยื่น (ถึง)</div><div class="field-label-en">Submit Date (To)</div></div>
+            <div class="field-label">
+              <div>วันที่ยื่น (ถึง)</div>
+              <div class="field-label-en">Submit Date (To)</div>
+            </div>
             <v-text-field
               v-model="filters.dateTo"
               type="date"
@@ -34,7 +40,10 @@
             />
           </v-col>
           <v-col cols="12" sm="6" md="3">
-            <div class="field-label"><div>ประเภทคำขอ</div><div class="field-label-en">Request Type</div></div>
+            <div class="field-label">
+              <div>ประเภทคำขอ</div>
+              <div class="field-label-en">Request Type</div>
+            </div>
             <v-autocomplete
               v-model="filters.type"
               :items="typeOptions"
@@ -49,7 +58,10 @@
             />
           </v-col>
           <v-col cols="12" sm="6" md="3">
-            <div class="field-label"><div>ประเภทใบรับรอง</div><div class="field-label-en">Certificate Type</div></div>
+            <div class="field-label">
+              <div>ประเภทใบรับรอง</div>
+              <div class="field-label-en">Certificate Type</div>
+            </div>
             <v-autocomplete
               v-model="filters.certType"
               :items="certTypeOptions"
@@ -66,15 +78,15 @@
         </v-row>
         <v-row dense>
           <v-col cols="auto" class="ml-auto">
-          <v-btn
-            variant="tonal"
-            color="grey"
-            size="small"
-            prepend-icon="fas fa-rotate-left"
-            @click="clearFilters"
-          >
-            ล้างตัวกรอง
-          </v-btn>
+            <v-btn
+              variant="tonal"
+              color="grey"
+              size="small"
+              prepend-icon="fas fa-rotate-left"
+              @click="clearFilters"
+            >
+              ล้างตัวกรอง
+            </v-btn>
           </v-col>
         </v-row>
       </v-card-text>
@@ -104,7 +116,7 @@
             variant="tonal"
             rounded="lg"
             prepend-icon="fas fa-eye"
-            @click.stop="router.push(`/doa/user/applications/${item.id}`)"
+            @click.stop="goToApplicationDetail(item.id)"
             >ดู</v-btn
           >
         </template>
@@ -118,6 +130,10 @@ import { reactive, computed } from "vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
+
+function goToApplicationDetail(id) {
+  router.push({ name: "DOAUserApplicationDetail", params: { id } });
+}
 
 const filters = reactive({
   dateFrom: "",
@@ -149,27 +165,27 @@ const headers = [
 
 const allItems = [
   {
-    id: "DOA-2568-001",
+    id: "DOA-2569-001",
     runNo: "001",
     type: "register",
     certType: "DOA",
-    submittedDate: "01/01/2568",
+    submittedDate: "01/01/2569",
     status: "reviewing",
   },
   {
-    id: "DOA-2568-002",
+    id: "DOA-2569-002",
     runNo: "002",
     type: "amendment",
     certType: "DOA",
-    submittedDate: "05/02/2568",
+    submittedDate: "05/02/2569",
     status: "pending",
   },
   {
-    id: "DOA-2568-003",
+    id: "DOA-2569-003",
     runNo: "003",
     type: "scope",
     certType: "GMP",
-    submittedDate: "10/03/2568",
+    submittedDate: "10/03/2569",
     status: "approved",
   },
 ];

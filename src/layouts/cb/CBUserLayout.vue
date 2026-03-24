@@ -32,7 +32,7 @@
         <v-list-item-title
           class="text-body-2 font-weight-bold"
           style="word-break: break-word; white-space: normal"
-          >ระบบ CB หน่วยรับรอง</v-list-item-title
+          >ระบบการขึ้นทะเบียนหน่วยรับรองโรงงานผลิตสินค้าพืช</v-list-item-title
         >
         <v-list-item-subtitle
           class="text-caption"
@@ -45,7 +45,7 @@
             variant="text"
             color="on-surface-variant"
             size="small"
-            @click="rail = !rail"
+            @click="toggleRail"
           />
         </template>
       </v-list-item>
@@ -110,14 +110,14 @@
             prepend-icon="fas fa-arrow-left"
             title="กลับหน้า Portal"
             rounded="lg"
-            @click="router.push('/portal?mode=user')"
+            @click="goToPortal"
           />
           <v-list-item
             prepend-icon="fas fa-right-from-bracket"
             title="ออกจากระบบ"
             base-color="error"
             rounded="lg"
-            @click="logoutDialog = true"
+            @click="openLogoutDialog"
           />
         </v-list>
       </template>
@@ -134,7 +134,7 @@
         variant="text"
         size="small"
         class="ml-2"
-        @click="rail = !rail"
+        @click="toggleRail"
       />
       <v-breadcrumbs
         :items="breadcrumbs"
@@ -185,7 +185,7 @@
           size="small"
           color="grey"
           class="position-absolute top-0 right-0 ma-2"
-          @click="logoutDialog = false"
+          @click="closeLogoutDialog"
         />
         <v-card-text class="pa-6 text-center">
           <div class="logout-icon-ring mx-auto mb-4">
@@ -202,7 +202,7 @@
             color="grey"
             rounded="lg"
             block
-            @click="logoutDialog = false"
+            @click="closeLogoutDialog"
             >ยกเลิก</v-btn
           >
           <v-btn color="error" rounded="lg" block @click="doLogout"
@@ -243,13 +243,29 @@ const drawer = ref(true);
 const rail = ref(false);
 const logoutDialog = ref(false);
 
+function toggleRail() {
+  rail.value = !rail.value;
+}
+
+function openLogoutDialog() {
+  logoutDialog.value = true;
+}
+
+function closeLogoutDialog() {
+  logoutDialog.value = false;
+}
+
+function goToPortal() {
+  router.push({ name: "UserPortal" });
+}
+
 function doLogout() {
   logoutDialog.value = false;
-  router.push("/login");
+  router.push({ name: "Login" });
 }
 
 const breadcrumbs = computed(() => [
-  { title: "ระบบ CB (หน่วยรับรอง)", to: "/cb/user" },
+  { title: "ระบบการขึ้นทะเบียนหน่วยรับรองโรงงานผลิตสินค้าพืช", to: "/cb/user" },
   { title: route.meta.title },
 ]);
 

@@ -561,7 +561,7 @@
         <v-btn
           variant="tonal"
           color="grey"
-          @click="router.push('/gap/user/applications')"
+          @click="goToApplicationList"
           >ยกเลิก</v-btn
         >
         <v-btn
@@ -569,7 +569,7 @@
           variant="tonal"
           color="grey"
           prepend-icon="fas fa-arrow-left"
-          @click="currentStep--"
+          @click="prevStep"
           >ย้อนกลับ</v-btn
         >
       </div>
@@ -585,7 +585,7 @@
           v-if="currentStep < steps.length - 1"
           color="gap-user"
           append-icon="fas fa-arrow-right"
-          @click="currentStep++"
+          @click="nextStep"
           >ถัดไป</v-btn
         >
         <v-btn
@@ -607,14 +607,14 @@
           </div>
           <h2 class="text-h6 font-weight-bold mb-2">ยื่นคำขอสำเร็จ!</h2>
           <p class="text-body-2 text-medium-emphasis mb-4">
-            เลขที่คำขอ: <strong class="text-gap-user">GAP-2567-011</strong
+            เลขที่คำขอ: <strong class="text-gap-user">GAP-2569-011</strong
             ><br />
             เจ้าหน้าที่จะติดต่อกลับภายใน 3-5 วันทำการ
           </p>
           <v-btn
             color="gap-user"
             block
-            @click="router.push('/gap/user/applications')"
+            @click="goToApplicationList"
           >
             ดูรายการคำขอ
           </v-btn>
@@ -642,6 +642,18 @@ import { useRouter } from "vue-router";
 
 const router = useRouter();
 const currentStep = ref(0);
+
+function goToApplicationList() {
+  router.push({ name: "ApplicationList" });
+}
+
+function prevStep() {
+  currentStep.value--;
+}
+
+function nextStep() {
+  currentStep.value++;
+}
 const successDialog = ref(false);
 const draftSnackbar = ref(false);
 
@@ -734,7 +746,6 @@ function submitForm() {
   successDialog.value = true;
 }
 </script>
-
 
 <style scoped>
 .step-done,

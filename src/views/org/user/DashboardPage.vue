@@ -4,13 +4,13 @@
       <div>
         <h1 class="page-title mb-1">แดชบอร์ด</h1>
         <p class="text-body-2 text-medium-emphasis mb-0">
-          ภาพรวมระบบการรับรองมาตรฐาน ORG (Organic Agricultural)
+          ภาพรวมระบบการรับรองมาตรฐานเกษตรอินทรีย์
         </p>
       </div>
       <v-btn
         color="org-user"
         prepend-icon="fas fa-file-pen"
-        @click="router.push('/org/user/applications/new')"
+        @click="goToNewApplication"
       >
         ยื่นคำขอใหม่
       </v-btn>
@@ -39,7 +39,7 @@
               color="org-user"
               size="small"
               append-icon="fas fa-arrow-right"
-              @click="router.push('/org/user/applications')"
+              @click="goToApplicationList"
             >
               ดูทั้งหมด
             </v-btn>
@@ -49,7 +49,7 @@
             <template v-for="(app, i) in recentApplications" :key="app.id">
               <v-list-item
                 class="pa-3"
-                @click="router.push(`/org/user/applications/${app.id}`)"
+                @click="goToApplicationDetail(app.id)"
               >
                 <template #prepend>
                   <v-avatar
@@ -99,7 +99,7 @@
         >
           <div class="text-body-2 font-weight-medium mb-1">อัพเดทสถานะ</div>
           <div class="text-body-2">
-            คำขอ ORG-2568-00002 อยู่ระหว่างการตรวจประเมินแปลง
+            คำขอ ORG-2569-00002 อยู่ระหว่างการตรวจประเมินแปลง
           </div>
         </v-alert>
         <v-card rounded="xl" elevation="0">
@@ -117,7 +117,7 @@
               rounded="lg"
               :color="action.color"
               class="mb-1"
-              @click="router.push(action.to)"
+              @click="goToAction(action.to)"
             />
           </v-list>
         </v-card>
@@ -131,6 +131,22 @@ import { useRouter } from "vue-router";
 import AppStatCard from "@/components/common/AppStatCard.vue";
 
 const router = useRouter();
+
+function goToNewApplication() {
+  router.push({ name: "ORGUserApplicationType" });
+}
+
+function goToApplicationList() {
+  router.push({ name: "ORGUserApplicationList" });
+}
+
+function goToApplicationDetail(id) {
+  router.push({ name: "ORGUserApplicationDetail", params: { id } });
+}
+
+function goToAction(to) {
+  router.push(to);
+}
 
 const stats = [
   {
@@ -161,27 +177,27 @@ const stats = [
 
 const recentApplications = [
   {
-    id: "ORG-2568-00003",
-    requestNo: "ORG-2568-00003",
+    id: "ORG-2569-00003",
+    requestNo: "ORG-2569-00003",
     farmName: "แปลงสวนอินทรีย์ A",
     area: "15",
-    submittedDate: "5 มี.ค. 2568",
+    submittedDate: "5 มี.ค. 2569",
     status: "under_review",
   },
   {
-    id: "ORG-2568-00002",
-    requestNo: "ORG-2568-00002",
+    id: "ORG-2569-00002",
+    requestNo: "ORG-2569-00002",
     farmName: "แปลงสวนอินทรีย์ B",
     area: "8",
-    submittedDate: "20 ก.พ. 2568",
+    submittedDate: "20 ก.พ. 2569",
     status: "inspection_scheduled",
   },
   {
-    id: "ORG-2568-00001",
-    requestNo: "ORG-2568-00001",
+    id: "ORG-2569-00001",
+    requestNo: "ORG-2569-00001",
     farmName: "แปลงสวนอินทรีย์ A",
     area: "15",
-    submittedDate: "10 ม.ค. 2568",
+    submittedDate: "10 ม.ค. 2569",
     status: "approved",
   },
 ];

@@ -137,19 +137,18 @@
                 />
                 <v-divider class="my-1" />
                 <v-list-item
-                  v-if="mode === 'user'"
                   prepend-icon="fas fa-arrow-left"
                   title="ย้อนกลับไปเลือกบัญชี"
                   subtitle="บุคคล / นิติบุคคล / กลุ่ม"
                   rounded="lg"
-                  @click="router.push('/select-company')"
+                  @click="goToSelectCompany"
                 />
                 <v-list-item
                   prepend-icon="fas fa-right-from-bracket"
                   title="ออกจากระบบ"
                   rounded="lg"
                   base-color="error"
-                  @click="router.push('/login')"
+                  @click="goToLogin"
                 />
               </v-list>
             </v-card>
@@ -178,56 +177,44 @@
               {{ user.name }}
             </h1>
             <div class="d-flex align-center ga-2 flex-wrap">
-              <template v-if="mode === 'user'">
-                <v-chip size="x-small" color="white" variant="outlined">
-                  <v-icon
-                    start
-                    :icon="
-                      entityType === 'juristic'
-                        ? 'fas fa-building'
-                        : entityType === 'group'
-                          ? 'fas fa-people-group'
-                          : 'fas fa-user'
-                    "
-                    size="10"
-                  />
-                  {{
-                    entityType === "juristic"
-                      ? "นิติบุคคล"
-                      : entityType === "group"
-                        ? "กลุ่ม"
-                        : "บุคคลธรรมดา"
-                  }}
-                </v-chip>
-                <v-chip
-                  v-if="entityType === 'juristic' && companyName"
-                  size="x-small"
-                  color="white"
-                  variant="outlined"
-                >
-                  <v-icon start icon="fas fa-briefcase" size="10" />
-                  {{ companyName }}
-                </v-chip>
-                <v-chip
-                  v-if="entityType === 'group' && groupName"
-                  size="x-small"
-                  color="white"
-                  variant="outlined"
-                >
-                  <v-icon start icon="fas fa-people-group" size="10" />
-                  {{ groupName }}
-                </v-chip>
-              </template>
-              <template v-else>
-                <v-chip size="x-small" color="white" variant="outlined">
-                  <v-icon start icon="fas fa-shield-halved" size="10" />
-                  {{ user.role }}
-                </v-chip>
-                <v-chip size="x-small" color="white" variant="outlined">
-                  <v-icon start icon="fas fa-building" size="10" />
-                  {{ user.dept }}
-                </v-chip>
-              </template>
+              <v-chip size="x-small" color="white" variant="outlined">
+                <v-icon
+                  start
+                  :icon="
+                    entityType === 'juristic'
+                      ? 'fas fa-building'
+                      : entityType === 'group'
+                        ? 'fas fa-people-group'
+                        : 'fas fa-user'
+                  "
+                  size="10"
+                />
+                {{
+                  entityType === "juristic"
+                    ? "นิติบุคคล"
+                    : entityType === "group"
+                      ? "กลุ่ม"
+                      : "บุคคลธรรมดา"
+                }}
+              </v-chip>
+              <v-chip
+                v-if="entityType === 'juristic' && companyName"
+                size="x-small"
+                color="white"
+                variant="outlined"
+              >
+                <v-icon start icon="fas fa-briefcase" size="10" />
+                {{ companyName }}
+              </v-chip>
+              <v-chip
+                v-if="entityType === 'group' && groupName"
+                size="x-small"
+                color="white"
+                variant="outlined"
+              >
+                <v-icon start icon="fas fa-people-group" size="10" />
+                {{ groupName }}
+              </v-chip>
             </div>
           </div>
 
@@ -286,7 +273,7 @@
         >
           <span class="text-body-2 font-weight-medium">ประกาศ:</span>
           <span class="text-body-2 ml-1"
-            >ระบบจะปิดปรับปรุงในวันที่ 15 มีนาคม 2568 เวลา 00:00–06:00 น.</span
+            >ระบบจะปิดปรับปรุงในวันที่ 15 มีนาคม 2569 เวลา 00:00–06:00 น.</span
           >
         </v-alert>
 
@@ -311,7 +298,7 @@
           >
             <v-card
               class="sys-card sys-card--active h-100"
-              @click="router.push(system.route)"
+              @click="goToSystem(system.route)"
             >
               <!-- Top accent bar -->
               <div
@@ -343,7 +330,6 @@
                   </v-chip>
                 </div>
 
-                <!-- <div class="sys-id-label text-caption text-medium-emphasis mb-1">ระบบที่ {{ system.id }}</div> -->
                 <h3
                   class="text-body-1 font-weight-bold mb-2"
                   style="
@@ -380,7 +366,7 @@
                   rounded="lg"
                   block
                   append-icon="fas fa-arrow-right"
-                  @click.stop="router.push(system.route)"
+                  @click.stop="goToSystem(system.route)"
                 >
                   เข้าใช้งาน
                 </v-btn>
@@ -389,7 +375,7 @@
           </v-col>
         </v-row>
 
-        <!-- ── Coming Soon Systems ──── -->
+        <!-- ── No Access Systems ──── -->
         <div class="section-label mt-8 mb-4">
           <div class="d-flex align-center ga-3">
             <div
@@ -439,7 +425,6 @@
                   </v-chip>
                 </div>
 
-                <!-- <div class="sys-id-label text-caption text-medium-emphasis mb-1">ระบบที่ {{ system.id }}</div> -->
                 <h3
                   class="text-body-2 font-weight-bold text-medium-emphasis mb-2"
                 >
@@ -477,7 +462,7 @@
         class="portal-body-inner d-flex flex-column flex-sm-row align-center justify-space-between ga-2"
       >
         <p class="text-caption text-medium-emphasis mb-0">
-          © 2568 กรมวิชาการเกษตร · Department of Agriculture ·
+          © 2569 กรมวิชาการเกษตร · Department of Agriculture ·
           กระทรวงเกษตรและสหกรณ์
         </p>
         <div class="d-flex ga-3">
@@ -503,7 +488,7 @@
 </template>
 
 <script setup>
-import { ref, computed, watch } from "vue";
+import { computed, watch } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { useThemeStore } from "@/stores/theme.store";
 import { useSessionStore } from "@/stores/session.store";
@@ -513,59 +498,68 @@ const route = useRoute();
 const themeStore = useThemeStore();
 const sessionStore = useSessionStore();
 
-const initialMode =
-  route.query.mode === "admin"
-    ? "admin"
-    : route.query.mode === "user"
-      ? "user"
-      : "staff";
-const mode = ref(initialMode);
+function goToSelectCompany() {
+  router.push({ name: "CompanySelection" });
+}
+
+function goToLogin() {
+  router.push({ name: "Login" });
+}
+
+function goToSystem(systemRoute) {
+  router.push(systemRoute);
+}
 
 const entityType = computed(
   () => route.query.entityType || sessionStore.entityType || "personal",
 );
-const personalName = computed(() => route.query.personalName || sessionStore.personalName || "");
-const companyName = computed(() => route.query.companyName || sessionStore.companyName || "");
+const personalName = computed(
+  () => route.query.personalName || sessionStore.personalName || "",
+);
+const companyName = computed(
+  () => route.query.companyName || sessionStore.companyName || "",
+);
 const taxId = computed(() => route.query.taxId || sessionStore.taxId || "");
-const groupName = computed(() => route.query.groupName || sessionStore.groupName || "");
-const groupId = computed(() => route.query.groupId || sessionStore.groupId || "");
+const groupName = computed(
+  () => route.query.groupName || sessionStore.groupName || "",
+);
+const groupId = computed(
+  () => route.query.groupId || sessionStore.groupId || "",
+);
 const groupSystems = computed(() => {
   const raw = route.query.groupSystems;
-  return raw ? raw.split(",").map((s) => s.trim()) : sessionStore.groupSystems || [];
+  return raw
+    ? raw.split(",").map((s) => s.trim())
+    : sessionStore.groupSystems || [];
 });
 
 // sync session store when entering portal
 watch(
-  () =>
-    [
-      entityType.value,
-      personalName.value,
-      companyName.value,
-      taxId.value,
-      groupName.value,
-      groupId.value,
-      groupSystems.value,
-    ],
+  () => [
+    entityType.value,
+    personalName.value,
+    companyName.value,
+    taxId.value,
+    groupName.value,
+    groupId.value,
+    groupSystems.value,
+  ],
   ([type, pName, cName, tId, gName, gId, gSystems]) => {
-    if (mode.value === "user") {
-      const name =
-        type === "juristic" ? cName : type === "group" ? gName : pName;
-      sessionStore.setContext(
-        type,
-        name,
-        type === "group" ? gId : "",
-        type === "group" ? gSystems : [],
-        type === "juristic" ? tId : "",
-        pName,
-      );
-    }
+    const name =
+      type === "juristic" ? cName : type === "group" ? gName : pName;
+    sessionStore.setContext(
+      type,
+      name,
+      type === "group" ? gId : "",
+      type === "group" ? gSystems : [],
+      type === "juristic" ? tId : "",
+      pName,
+    );
   },
   { immediate: true },
 );
 
-const isGroupMode = computed(
-  () => mode.value === "user" && entityType.value === "group",
-);
+const isGroupMode = computed(() => entityType.value === "group");
 
 const heroStats = [
   {
@@ -593,9 +587,8 @@ const heroStats = [
 
 const user = {
   name: "นิธิพร เทิบจันทึก",
-  role: "เจ้าหน้าที่วิชาการเกษตร",
-  dept: "กองพัฒนาระบบและรับรองมาตรฐานสินค้าพืช",
-  email: "nitiporn@doa.go.th",
+  role: "ผู้ประกอบการ",
+  email: "nitiporn@email.com",
 };
 
 const currentDate = computed(() =>
@@ -607,221 +600,101 @@ const currentDate = computed(() =>
   }),
 );
 
-const systems = computed(() => [
+const systems = [
   {
     id: 1,
-    name: "ระบบการรับรองมาตรฐาน GAP (Good Agricultural Practices)",
+    name: "ระบบการรับรองมาตรฐานการปฏิบัติทางการเกษตรที่ดีสำหรับพืช (GAP)",
     desc: "ยื่นคำขอ ตรวจประเมิน และออกใบรับรองมาตรฐาน GAP ให้แก่เกษตรกรหรือผู้ประกอบการ",
     icon: "fas fa-seedling",
-    color:
-      mode.value === "admin"
-        ? "admin"
-        : mode.value === "staff"
-          ? "gap-staff"
-          : "gap-user",
+    color: "gap-user",
     active: true,
-    route:
-      mode.value === "admin"
-        ? "/gap/admin/dashboard"
-        : mode.value === "staff"
-          ? "/gap/staff/dashboard"
-          : "/gap/user/dashboard",
-    tags:
-      mode.value === "admin"
-        ? ["จัดการผู้ใช้", "ตั้งค่าระบบ", "รายงาน"]
-        : mode.value === "staff"
-          ? ["จัดการคำขอ", "ตรวจแปลง", "ออกใบรับรอง"]
-          : ["ยื่นคำขอ", "ติดตามสถานะ", "ใบรับรอง"],
+    route: { name: "Dashboard" },
+    tags: ["ยื่นคำขอ", "ติดตามสถานะ", "ใบรับรอง"],
   },
   {
     id: 2,
-    name: "ระบบการรับรองมาตรฐาน ORG (Organic Agricultural)",
+    name: "ระบบการรับรองมาตรฐานเกษตรอินทรีย์ (Organic Agriculture)",
     desc: "ยื่นคำขอ ตรวจประเมิน และออกใบรับรองมาตรฐานเกษตรอินทรีย์ให้แก่แหล่งผลิต",
     icon: "fas fa-leaf",
-    color:
-      mode.value === "admin"
-        ? "admin"
-        : mode.value === "staff"
-          ? "org-staff"
-          : "org-user",
+    color: "org-user",
     active: true,
-    route:
-      mode.value === "admin"
-        ? "/org/admin/dashboard"
-        : mode.value === "staff"
-          ? "/org/staff/dashboard"
-          : "/org/user/dashboard",
-    tags:
-      mode.value === "admin"
-        ? ["จัดการผู้ใช้", "ตั้งค่าระบบ", "รายงาน"]
-        : mode.value === "staff"
-          ? ["ตรวจเอกสาร", "นัดตรวจแปลง", "รายงานผล"]
-          : ["ยื่นคำขอ", "ติดตามสถานะ", "ใบรับรอง ORG"],
+    route: { name: "ORGUserDashboard" },
+    tags: ["ยื่นคำขอ", "ติดตามสถานะ", "ใบรับรอง ORG"],
   },
   {
     id: 3,
-    name: "ระบบการขึ้นทะเบียนโรงงานผลิตสินค้าพืช DOA",
+    name: "ระบบการขึ้นทะเบียนโรงงานผลิตสินค้าพืช กรมวิชาการเกษตร",
     desc: "ยื่นคำขอ ตรวจสอบ และอนุมัติการขึ้นทะเบียนโรงงานผลิตหรือแปรรูปสินค้าพืชกับกรมวิชาการเกษตร",
     icon: "fas fa-industry",
-    color:
-      mode.value === "admin"
-        ? "admin"
-        : mode.value === "staff"
-          ? "doa-staff"
-          : "doa-user",
+    color: "doa-user",
     active: true,
-    route:
-      mode.value === "admin"
-        ? "/doa/admin/dashboard"
-        : mode.value === "staff"
-          ? "/doa/staff/dashboard"
-          : "/doa/user/dashboard",
-    tags:
-      mode.value === "admin"
-        ? ["จัดการผู้ใช้", "ตั้งค่าระบบ", "รายงาน"]
-        : mode.value === "staff"
-          ? ["ตรวจเอกสาร", "นัดตรวจโรงงาน", "รายงานผล"]
-          : ["ยื่นคำขอ", "ติดตามสถานะ", "ทะเบียนโรงงาน"],
+    route: { name: "DOAUserDashboard" },
+    tags: ["ยื่นคำขอ", "ติดตามสถานะ", "ทะเบียนโรงงาน"],
   },
   {
     id: 4,
-    name: "ระบบการขึ้นทะเบียนหน่วยรับรองโรงงานผลิตสินค้าพืช (Certification Body)",
+    name: "ระบบการขึ้นทะเบียนหน่วยรับรองโรงงานผลิตสินค้าพืช",
     desc: "ยื่นคำขอและบริหารจัดการการขึ้นทะเบียนหน่วยรับรองที่ทำหน้าที่ตรวจประเมินโรงงานผลิตสินค้าพืช",
     icon: "fas fa-certificate",
-    color:
-      mode.value === "admin"
-        ? "admin"
-        : mode.value === "staff"
-          ? "cb-staff"
-          : "cb-user",
+    color: "cb-user",
     active: true,
-    route:
-      mode.value === "admin"
-        ? "/cb/admin/dashboard"
-        : mode.value === "staff"
-          ? "/cb/staff/dashboard"
-          : "/cb/user/dashboard",
-    tags:
-      mode.value === "admin"
-        ? ["จัดการผู้ใช้", "ตั้งค่าระบบ", "รายงาน"]
-        : mode.value === "staff"
-          ? ["ตรวจเอกสาร", "ตรวจประเมิน CB", "รายงานผล"]
-          : ["ยื่นคำขอขึ้นทะเบียน", "ติดตามสถานะ", "ใบรับรอง CB"],
+    route: { name: "CBUserDashboard" },
+    tags: ["ยื่นคำขอขึ้นทะเบียน", "ติดตามสถานะ", "ใบรับรอง CB"],
   },
   {
     id: 5,
-    name: "ระบบจดทะเบียนผู้ส่งออก",
+    name: "ระบบการจดทะเบียนผู้ส่งออกสินค้าพืช",
     desc: "ยื่นคำขอและขึ้นทะเบียนเป็นผู้ส่งออกสินค้าพืชกับกรมวิชาการเกษตร",
     icon: "fas fa-ship",
-    color:
-      mode.value === "admin"
-        ? "admin"
-        : mode.value === "staff"
-          ? "export-staff"
-          : "export-user",
+    color: "export-user",
     active: true,
-    route:
-      mode.value === "admin"
-        ? "/export/admin/dashboard"
-        : mode.value === "staff"
-          ? "/export/staff/dashboard"
-          : "/export/user/dashboard",
-    tags:
-      mode.value === "admin"
-        ? ["จัดการผู้ใช้", "ตั้งค่าระบบ", "รายงาน"]
-        : mode.value === "staff"
-          ? ["ตรวจเอกสาร", "ตรวจสอบทะเบียน", "รายงานผล"]
-          : ["จดทะเบียน", "ติดตามสถานะ", "ใบอนุญาตส่งออก"],
+    route: { name: "ExportUserDashboard" },
+    tags: ["จดทะเบียน", "ติดตามสถานะ", "ใบอนุญาตส่งออก"],
   },
   {
     id: 6,
-    name: "ระบบออกใบรับรองสุขอนามัยพืช (Health Certificate) ตามประกาศพืชควบคุมเฉพาะ",
+    name: "ระบบการออกหนังสือรับรองสุขอนามัยพืชสำหรับพืชควบคุมเฉพาะ",
     desc: "ยื่นคำขอ ตรวจสอบ และออกใบรับรองสุขอนามัยพืชสำหรับพืชควบคุมเฉพาะ",
     icon: "fas fa-virus",
-    color:
-      mode.value === "admin"
-        ? "admin"
-        : mode.value === "staff"
-          ? "hc-staff"
-          : "hc-user",
+    color: "hc-user",
     active: true,
-    route:
-      mode.value === "admin"
-        ? "/hc/admin/dashboard"
-        : mode.value === "staff"
-          ? "/hc/staff"
-          : "/hc/user",
-    tags:
-      mode.value === "admin"
-        ? ["จัดการผู้ใช้", "ตั้งค่าระบบ", "รายงาน"]
-        : mode.value === "staff"
-          ? ["ตรวจสอบคำขอ", "ตรวจ Lab", "ลงนาม"]
-          : ["ขอใบรับรอง", "ติดตามสถานะ", "ดาวน์โหลด"],
+    route: { name: "HCUserDashboard" },
+    tags: ["ขอใบรับรอง", "ติดตามสถานะ", "ดาวน์โหลด"],
   },
   {
     id: 7,
-    name: "ระบบออกใบรับรองสุขอนามัยพืช (Health Certificate) สินค้าแปรรูปด้านพืช",
+    name: "ระบบการออกหนังสือรับรองสุขอนามัยพืชสำหรับสินค้าแปรรูปด้านพืช",
     desc: "ยื่นคำขอและออกใบรับรองสุขอนามัยพืชสำหรับสินค้าแปรรูปด้านพืชเพื่อการส่งออก",
     icon: "fas fa-file-medical",
-    color:
-      mode.value === "admin"
-        ? "admin"
-        : mode.value === "staff"
-          ? "hcex-staff"
-          : "hcex-user",
+    color: "hcex-user",
     active: true,
-    route:
-      mode.value === "admin"
-        ? "/hcex/admin/dashboard"
-        : mode.value === "staff"
-          ? "/hcex/staff/dashboard"
-          : "/hcex/user/dashboard",
-    tags:
-      mode.value === "admin"
-        ? ["จัดการผู้ใช้", "ตั้งค่าระบบ", "รายงาน"]
-        : mode.value === "staff"
-          ? ["ตรวจสอบคำขอ", "พิจารณา Lab", "ลงนาม"]
-          : ["ยื่นคำขอ", "เลือกผล Lab", "ดาวน์โหลดใบรับรอง"],
+    route: { name: "HCEXUserDashboard" },
+    tags: ["ยื่นคำขอ", "เลือกผล Lab", "ดาวน์โหลดใบรับรอง"],
   },
   {
     id: 8,
-    name: "ระบบการควบคุมพิเศษระบบบัญชีรายชื่อโรงคัดบรรจุ (Establishment List)",
+    name: "ระบบบัญชีรายชื่อโรงคัดบรรจุสินค้าพืช (ระบบควบคุมพิเศษ)",
     desc: "บริหารจัดการบัญชีรายชื่อโรงคัดบรรจุที่ได้รับการอนุญาตสำหรับการส่งออกสินค้า",
     icon: "fas fa-warehouse",
-    color:
-      mode.value === "admin"
-        ? "admin"
-        : mode.value === "staff"
-          ? "el-staff"
-          : "el-user",
+    color: "el-user",
     active: true,
-    route:
-      mode.value === "admin"
-        ? "/el/admin/dashboard"
-        : mode.value === "staff"
-          ? "/el/staff/dashboard"
-          : "/el/user/dashboard",
-    tags:
-      mode.value === "admin"
-        ? ["จัดการผู้ใช้", "ตั้งค่าระบบ", "รายงาน"]
-        : mode.value === "staff"
-          ? ["ตรวจเอกสาร", "นัดตรวจแปลง", "บันทึกผล"]
-          : ["ยื่นคำขอ", "ติดตามสถานะ", "ใบทะเบียน EL"],
+    route: { name: "ELUserDashboard" },
+    tags: ["ยื่นคำขอ", "ติดตามสถานะ", "ใบทะเบียน EL"],
   },
-]);
+];
 
 // Map system id → systems key used in group.systems
 const groupSystemKey = { 1: "GAP", 2: "ORG" };
 
 const activeSystems = computed(() => {
   if (isGroupMode.value) {
-    return systems.value.filter((s) => {
+    return systems.filter((s) => {
       if (s.id !== 1 && s.id !== 2) return false;
       const key = groupSystemKey[s.id];
       return groupSystems.value.includes(key);
     });
   }
-  return systems.value.filter((s) => s.active);
+  return systems.filter((s) => s.active);
 });
 
 const inactiveSystems = computed(() => {
@@ -832,7 +705,7 @@ const inactiveSystems = computed(() => {
         return !groupSystems.value.includes(key);
       })
       .map((id) => {
-        const base = systems.value.find((s) => s.id === id);
+        const base = systems.find((s) => s.id === id);
         return {
           ...base,
           active: false,
@@ -841,7 +714,7 @@ const inactiveSystems = computed(() => {
         };
       });
   }
-  return systems.value.filter((s) => !s.active);
+  return systems.filter((s) => !s.active);
 });
 </script>
 
@@ -863,7 +736,6 @@ const inactiveSystems = computed(() => {
   backdrop-filter: blur(12px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 }
-/* Dark: primary = #A5D6A7 (เขียวอ่อนมาก) — ใช้ opacity ต่ำบน dark bg ให้ได้โทนเขียวเข้ม */
 .is-dark .portal-topbar {
   background: rgba(var(--v-theme-primary), 0.18);
 }
@@ -877,68 +749,8 @@ const inactiveSystems = computed(() => {
   align-items: center;
 }
 
-.topbar-logo {
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.15);
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.user-pill {
-  padding: 6px 10px 6px 6px;
-  border-radius: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  cursor: pointer;
-  transition: background 0.15s;
-}
-.user-pill:hover {
-  background: rgba(255, 255, 255, 0.1);
-}
-
-.user-avatar-sm {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-size: 11px;
-  font-weight: 700;
-}
-
-.user-avatar-md {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: rgba(var(--v-theme-primary), 0.15);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: rgb(var(--v-theme-primary));
-  flex-shrink: 0;
-}
-
-.notif-dot {
-  position: absolute;
-  top: 6px;
-  right: 6px;
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: rgb(var(--v-theme-error));
-  border: 1.5px solid transparent;
-}
-
 /* ─── Hero ─── */
 .portal-hero {
-  /* Light: primary (#4CAF6E) → rgba ที่ 70% ให้ gradient เขียวเข้ม→เขียวอ่อน */
   background: linear-gradient(
     135deg,
     rgb(var(--v-theme-primary)) 0%,
@@ -949,8 +761,6 @@ const inactiveSystems = computed(() => {
   overflow: hidden;
 }
 
-/* Dark: primary = #A5D6A7 (เขียวอ่อน) ต้องการ bg เข้มพอสำหรับ text ขาว
-   ใช้ dark overlay ทับ gradient เขียว → ได้โทนเขียวเข้มที่อ่านออก */
 .is-dark .portal-hero {
   background:
     linear-gradient(rgba(0, 0, 0, 0.62), rgba(0, 0, 0, 0.7)),
@@ -1057,12 +867,6 @@ const inactiveSystems = computed(() => {
   flex-shrink: 0;
 }
 
-.sys-id-label {
-  font-size: 11px;
-  letter-spacing: 0.4px;
-  text-transform: uppercase;
-}
-
 .coming-soon-bar {
   display: flex;
   align-items: center;
@@ -1092,38 +896,5 @@ const inactiveSystems = computed(() => {
 }
 .portal-footer-link:hover {
   color: rgb(var(--v-theme-primary)) !important;
-}
-
-/* ─── Mode Toggle ─── */
-.mode-toggle-group {
-  background: rgba(0, 0, 0, 0.25);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: 20px;
-  padding: 3px;
-  gap: 2px;
-}
-.mode-btn {
-  display: flex;
-  align-items: center;
-  padding: 4px 10px;
-  border-radius: 16px;
-  border: none;
-  background: transparent;
-  color: rgba(255, 255, 255, 0.65);
-  font-size: 11px;
-  font-weight: 600;
-  cursor: pointer;
-  transition:
-    background 0.18s,
-    color 0.18s;
-  white-space: nowrap;
-}
-.mode-btn:hover {
-  color: rgba(255, 255, 255, 0.9);
-  background: rgba(255, 255, 255, 0.1);
-}
-.mode-btn--active {
-  background: rgba(255, 255, 255, 0.22) !important;
-  color: white !important;
 }
 </style>

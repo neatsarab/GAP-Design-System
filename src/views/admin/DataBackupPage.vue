@@ -5,7 +5,7 @@
         <h1 class="page-title mb-1">Data Backup</h1>
         <p class="text-body-2 text-medium-emphasis mb-0">ระบบสำรองข้อมูลของแต่ละระบบ</p>
       </div>
-      <v-btn color="admin" rounded="lg" prepend-icon="fas fa-plus" @click="backupDialog = true">สำรองข้อมูลใหม่</v-btn>
+      <v-btn color="admin" rounded="lg" prepend-icon="fas fa-plus" @click="openBackupDialog">สำรองข้อมูลใหม่</v-btn>
     </div>
 
     <!-- Backup Type Buttons -->
@@ -14,7 +14,7 @@
         <div class="text-body-2 font-weight-bold mb-3">ประเภทการสำรองข้อมูล</div>
         <v-row dense>
           <v-col v-for="bt in backupTypes" :key="bt.label" cols="12" sm="4">
-            <v-card rounded="lg" class="backup-type-card pa-4 text-center" @click="selectedBackupType = bt.value">
+            <v-card rounded="lg" class="backup-type-card pa-4 text-center" @click="setSelectedBackupType(bt.value)">
               <div class="backup-type-icon mx-auto mb-2" :class="selectedBackupType === bt.value ? 'bg-admin' : ''" :style="selectedBackupType !== bt.value ? 'background: rgba(var(--v-border-color), 0.08)' : ''">
                 <v-icon :icon="bt.icon" :color="selectedBackupType === bt.value ? 'white' : 'medium-emphasis'" size="20" />
               </div>
@@ -69,7 +69,7 @@
         <v-divider />
         <v-card-actions class="pa-5 ga-2">
           <v-spacer />
-          <v-btn variant="tonal" color="grey" rounded="lg" @click="backupDialog = false">ยกเลิก</v-btn>
+          <v-btn variant="tonal" color="grey" rounded="lg" @click="closeBackupDialog">ยกเลิก</v-btn>
           <v-btn color="admin" rounded="lg" prepend-icon="fas fa-database" @click="startBackup">เริ่มสำรอง</v-btn>
         </v-card-actions>
       </v-card>
@@ -81,6 +81,15 @@
 import { ref, reactive } from "vue";
 
 const backupDialog = ref(false);
+function openBackupDialog() {
+  backupDialog.value = true;
+}
+function closeBackupDialog() {
+  backupDialog.value = false;
+}
+function setSelectedBackupType(value) {
+  selectedBackupType.value = value;
+}
 const selectedBackupType = ref("database");
 
 const backupTypes = [

@@ -4,13 +4,13 @@
       <div>
         <h1 class="page-title mb-1">แดชบอร์ด</h1>
         <p class="text-body-2 text-medium-emphasis mb-0">
-          ภาพรวมระบบการรับรองมาตรฐาน GAP (Good Agricultural Practices)
+          ภาพรวมระบบการรับรองมาตรฐาน GAP
         </p>
       </div>
       <v-btn
         color="gap-user"
         prepend-icon="fas fa-file-pen"
-        @click="router.push('/gap/user/applications/new')"
+        @click="goToNewApplication"
       >
         ยื่นคำขอใหม่
       </v-btn>
@@ -45,7 +45,7 @@
               color="gap-user"
               size="small"
               append-icon="fas fa-arrow-right"
-              @click="router.push('/gap/user/applications')"
+              @click="goToApplicationList"
             >
               ดูทั้งหมด
             </v-btn>
@@ -55,7 +55,7 @@
             <template v-for="(item, i) in recentItems" :key="item.no">
               <v-list-item
                 class="pa-3"
-                @click="router.push(`/gap/user/applications/${item.no}`)"
+                @click="goToApplicationDetail(item.no)"
               >
                 <template #prepend>
                   <v-avatar
@@ -105,7 +105,7 @@
         >
           <div class="text-body-2 font-weight-medium mb-1">อัพเดทสถานะ</div>
           <div class="text-body-2">
-            คำขอ GAP-2567-001 อยู่ระหว่างการตรวจสอบเอกสาร
+            คำขอ GAP-2569-001 อยู่ระหว่างการตรวจสอบเอกสาร
           </div>
         </v-alert>
         <v-card rounded="xl" elevation="0">
@@ -123,7 +123,7 @@
               rounded="lg"
               :color="action.color"
               class="mb-1"
-              @click="router.push(action.to)"
+              @click="goToAction(action.to)"
             />
           </v-list>
         </v-card>
@@ -167,39 +167,39 @@ const statCards = [
 
 const recentItems = [
   {
-    no: "GAP-2567-001",
+    no: "GAP-2569-001",
     farmer: "นาย สมชาย ใจดี",
     crop: "ข้าวหอมมะลิ",
     status: "DOC_REVIEW",
-    submittedDate: "15 มี.ค. 2568",
+    submittedDate: "15 มี.ค. 2569",
   },
   {
-    no: "GAP-2567-002",
+    no: "GAP-2569-002",
     farmer: "นาง มาลี เกษตรกิจ",
     crop: "มันสำปะหลัง",
     status: "APPROVED",
-    submittedDate: "10 มี.ค. 2568",
+    submittedDate: "10 มี.ค. 2569",
   },
   {
-    no: "GAP-2567-003",
+    no: "GAP-2569-003",
     farmer: "นาย วิชัย ทำนา",
     crop: "อ้อย",
     status: "INSPECTING",
-    submittedDate: "5 มี.ค. 2568",
+    submittedDate: "5 มี.ค. 2569",
   },
   {
-    no: "GAP-2567-004",
+    no: "GAP-2569-004",
     farmer: "นาง สมศรี ปลูกผัก",
     crop: "ผักกาดขาว",
     status: "SUBMITTED",
-    submittedDate: "1 มี.ค. 2568",
+    submittedDate: "1 มี.ค. 2569",
   },
   {
-    no: "GAP-2567-005",
+    no: "GAP-2569-005",
     farmer: "นาย ประสิทธิ์ ไร่ดี",
     crop: "ข้าวโพด",
     status: "CERT_ISSUED",
-    submittedDate: "20 ก.พ. 2568",
+    submittedDate: "20 ก.พ. 2569",
   },
 ];
 
@@ -217,6 +217,22 @@ const quickActions = [
     to: "/gap/user/applications",
   },
 ];
+
+function goToNewApplication() {
+  router.push({ name: "ApplicationType" });
+}
+
+function goToApplicationList() {
+  router.push({ name: "ApplicationList" });
+}
+
+function goToApplicationDetail(id) {
+  router.push({ name: "ApplicationDetail", params: { id } });
+}
+
+function goToAction(to) {
+  router.push(to);
+}
 
 function statusColor(status) {
   const map = {

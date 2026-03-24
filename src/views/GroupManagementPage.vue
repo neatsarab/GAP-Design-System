@@ -66,7 +66,7 @@
             variant="tonal"
             size="small"
             rounded="lg"
-            @click="router.push('/select-company')"
+            @click="goToSelectCompany"
           />
           <div>
             <h1 class="page-title mb-0">จัดการกลุ่ม</h1>
@@ -126,7 +126,7 @@
             color="warning"
             rounded="lg"
             prepend-icon="fas fa-user-plus"
-            @click="showAddMember = !showAddMember"
+            @click="toggleAddMember"
             >เพิ่มสมาชิก</v-btn
           >
         </div>
@@ -337,7 +337,7 @@
           variant="tonal"
           color="grey"
           rounded="lg"
-          @click="removeDialog = false"
+          @click="closeRemoveDialog"
           >ยกเลิก</v-btn
         >
         <v-btn color="error" rounded="lg" @click="removeMember">ยืนยัน</v-btn>
@@ -365,7 +365,7 @@
           variant="tonal"
           color="grey"
           rounded="lg"
-          @click="leaderDialog = false"
+          @click="closeLeaderDialog"
           >ยกเลิก</v-btn
         >
         <v-btn color="warning" rounded="lg" @click="applyChangeLeader"
@@ -513,7 +513,23 @@ const memberSearch = ref("");
 const memberLoading = ref(false);
 const memberResult = ref(null);
 
+function toggleAddMember() {
+  showAddMember.value = !showAddMember.value;
+}
+
+function closeRemoveDialog() {
+  removeDialog.value = false;
+}
+
+function closeLeaderDialog() {
+  leaderDialog.value = false;
+}
+
 const juristicInGroup = computed(() => members.value.some((m) => m.isJuristic));
+
+function goToSelectCompany() {
+  router.push({ name: "CompanySelection" });
+}
 
 function alreadyInGroup(idNo) {
   return members.value.some((m) => m.idNo === idNo);
@@ -621,33 +637,6 @@ watch([removeDialog, leaderDialog], (values) => {
   margin: 0 auto;
   display: flex;
   align-items: center;
-}
-
-.topbar-logo {
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.15);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.user-pill {
-  background: rgba(255, 255, 255, 0.12);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 20px;
-  padding: 5px 12px 5px 6px;
-}
-.user-avatar-sm {
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
 }
 
 .gm-body {

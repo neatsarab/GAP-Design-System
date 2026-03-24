@@ -6,14 +6,13 @@
         icon="fas fa-arrow-left"
         variant="text"
         size="small"
-        @click="router.push('/gap/user/applications')"
+        @click="goToApplicationList"
       />
       <div>
-        <h1 class="page-title mb-0">
-          ยื่นคำขอรับรองแหล่งผลิต GAP
-        </h1>
+        <h1 class="page-title mb-0">ยื่นคำขอใหม่</h1>
         <p class="text-body-2 text-medium-emphasis mb-0">
-          เลือกประเภทคำขอที่ต้องการยื่น
+          เลือกประเภทคำขอใบรับรองมาตรฐานการปฏิบัติทางการเกษตรที่ดีสำหรับพืช
+          (GAP)
         </p>
       </div>
     </div>
@@ -26,7 +25,7 @@
           hover
           :ripple="false"
           :disabled="type.disabled"
-          @click="!type.disabled && router.push(type.route)"
+          @click="!type.disabled && goToAppType(type.route)"
         >
           <v-card-text class="pa-7 d-flex flex-column align-center text-center">
             <!-- Icon -->
@@ -120,6 +119,14 @@ import { useSessionStore } from "@/stores/session.store";
 
 const router = useRouter();
 const sessionStore = useSessionStore();
+
+function goToApplicationList() {
+  router.push({ name: "ApplicationList" });
+}
+
+function goToAppType(route) {
+  router.push(route);
+}
 
 const appTypes = computed(() => [
   {

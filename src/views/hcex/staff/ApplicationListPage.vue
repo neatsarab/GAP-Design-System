@@ -15,7 +15,10 @@
       <v-card-text class="pa-4">
         <v-row dense>
           <v-col cols="12" sm="4">
-            <div class="field-label mb-1"><div>ค้นหา</div><div class="field-label-en">Search</div></div>
+            <div class="field-label mb-1">
+              <div>ค้นหา</div>
+              <div class="field-label-en">Search</div>
+            </div>
             <v-text-field
               v-model="search"
               prepend-inner-icon="fas fa-search"
@@ -24,7 +27,10 @@
             />
           </v-col>
           <v-col cols="6" sm="3">
-            <div class="field-label mb-1"><div>ประเภทคำขอ</div><div class="field-label-en">Request Type</div></div>
+            <div class="field-label mb-1">
+              <div>ประเภทคำขอ</div>
+              <div class="field-label-en">Request Type</div>
+            </div>
             <v-autocomplete
               v-model="filterType"
               :items="typeOptions"
@@ -33,7 +39,10 @@
             />
           </v-col>
           <v-col cols="6" sm="3">
-            <div class="field-label mb-1"><div>สถานะ</div><div class="field-label-en">Status</div></div>
+            <div class="field-label mb-1">
+              <div>สถานะ</div>
+              <div class="field-label-en">Status</div>
+            </div>
             <v-autocomplete
               v-model="filterStatus"
               :items="statusOptions"
@@ -46,15 +55,15 @@
         </v-row>
         <v-row dense>
           <v-col cols="auto" class="ml-auto">
-          <v-btn
-            variant="tonal"
-            color="grey"
-            size="small"
-            prepend-icon="fas fa-rotate-left"
-            @click="clearFilters"
-          >
-            ล้างตัวกรอง
-          </v-btn>
+            <v-btn
+              variant="tonal"
+              color="grey"
+              size="small"
+              prepend-icon="fas fa-rotate-left"
+              @click="clearFilters"
+            >
+              ล้างตัวกรอง
+            </v-btn>
           </v-col>
         </v-row>
       </v-card-text>
@@ -121,7 +130,7 @@
             variant="tonal"
             color="hcex-staff"
             prepend-icon="fas fa-eye"
-            @click.stop="router.push(`/hcex/staff/applications/${item.id}`)"
+            @click.stop="goToApplicationDetail(item.id)"
           >
             ดูรายละเอียด
           </v-btn>
@@ -143,7 +152,11 @@ const filterStatus = ref(null);
 const activeTab = ref("all");
 
 function onRowClick(_e, row) {
-  router.push(`/hcex/staff/applications/${row.item.id}`);
+  goToApplicationDetail(row.item.id);
+}
+
+function goToApplicationDetail(id) {
+  router.push({ name: "HCEXstaffApplicationDetail", params: { id } });
 }
 function clearFilters() {
   search.value = "";
@@ -200,11 +213,10 @@ const statusTabs = [
   },
 ];
 
-
 const allApplications = [
   {
     id: "HCEX-001",
-    requestNo: "HCEX-2568-00012",
+    requestNo: "HCEX-2569-00012",
     certType: "กมพ.1",
     exporter: "บ.ไทยฟู้ดโปรเซส จก.",
     destination: "ญี่ปุ่น",
@@ -213,7 +225,7 @@ const allApplications = [
   },
   {
     id: "HCEX-002",
-    requestNo: "HCEX-2568-00011",
+    requestNo: "HCEX-2569-00011",
     certType: "กมพ.1-1",
     exporter: "บ.สยามแปรรูป จก.",
     destination: "จีน",
@@ -222,7 +234,7 @@ const allApplications = [
   },
   {
     id: "HCEX-003",
-    requestNo: "HCEX-2568-00010",
+    requestNo: "HCEX-2569-00010",
     certType: "กมพ.1-2",
     exporter: "บ.กรีนโปรดักส์ จก.",
     destination: "ฮ่องกง",
@@ -231,7 +243,7 @@ const allApplications = [
   },
   {
     id: "HCEX-004",
-    requestNo: "HCEX-2568-00009",
+    requestNo: "HCEX-2569-00009",
     certType: "กมพ.1",
     exporter: "บ.ดอยอาหาร จก.",
     destination: "เกาหลีใต้",
@@ -240,7 +252,7 @@ const allApplications = [
   },
   {
     id: "HCEX-005",
-    requestNo: "HCEX-2568-00008",
+    requestNo: "HCEX-2569-00008",
     certType: "กมพ.1-3",
     exporter: "บ.เอเชียฟู้ดส์ จก.",
     destination: "สิงคโปร์",
@@ -249,7 +261,7 @@ const allApplications = [
   },
   {
     id: "HCEX-006",
-    requestNo: "HCEX-2568-00007",
+    requestNo: "HCEX-2569-00007",
     certType: "กมพ.1",
     exporter: "บ.นอร์ทเทิร์นฟู้ด จก.",
     destination: "เวียดนาม",
@@ -258,7 +270,7 @@ const allApplications = [
   },
   {
     id: "HCEX-007",
-    requestNo: "HCEX-2568-00006",
+    requestNo: "HCEX-2569-00006",
     certType: "กมพ.1-1",
     exporter: "บ.ไทยกรีน จก.",
     destination: "มาเลเซีย",
@@ -267,7 +279,7 @@ const allApplications = [
   },
   {
     id: "HCEX-008",
-    requestNo: "HCEX-2568-00005",
+    requestNo: "HCEX-2569-00005",
     certType: "กมพ.1-3",
     exporter: "บ.สยามแปรรูป จก.",
     destination: "จีน",
@@ -276,7 +288,7 @@ const allApplications = [
   },
   {
     id: "HCEX-009",
-    requestNo: "HCEX-2568-00013",
+    requestNo: "HCEX-2569-00013",
     certType: "กมพ.1",
     exporter: "บ.อีสานฟู้ดส์ จก.",
     destination: "ออสเตรเลีย",
@@ -285,7 +297,7 @@ const allApplications = [
   },
   {
     id: "HCEX-010",
-    requestNo: "HCEX-2568-00014",
+    requestNo: "HCEX-2569-00014",
     certType: "กมพ.1-2",
     exporter: "บ.ชิ้นส่วนอาหาร จก.",
     destination: "ญี่ปุ่น",

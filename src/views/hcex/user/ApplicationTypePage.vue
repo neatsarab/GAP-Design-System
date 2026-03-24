@@ -6,7 +6,7 @@
         icon="fas fa-arrow-left"
         variant="text"
         size="small"
-        @click="router.push('/hcex/user/applications')"
+        @click="goToApplicationList"
       />
       <div>
         <h1 class="page-title mb-0">ยื่นคำขอ HC แปรรูป</h1>
@@ -23,7 +23,7 @@
           class="type-card h-100"
           hover
           :ripple="false"
-          @click="router.push(`/hcex/user/applications/new/${type.key}`)"
+          @click="goToNewApplication(type.key)"
         >
           <v-card-text class="pa-8 d-flex flex-column align-center text-center">
             <div
@@ -80,6 +80,14 @@
 import { useRouter } from "vue-router";
 
 const router = useRouter();
+
+function goToApplicationList() {
+  router.push({ name: "HCEXUserApplicationList" });
+}
+
+function goToNewApplication(key) {
+  router.push({ name: "HCEXUserNewApplication", params: { key } });
+}
 
 const appTypes = [
   {

@@ -129,7 +129,7 @@
         <v-divider />
         <v-card-actions class="pa-5 ga-2">
           <v-spacer />
-          <v-btn variant="tonal" color="grey" rounded="lg" @click="formDialog = false">ยกเลิก</v-btn>
+          <v-btn variant="tonal" color="grey" rounded="lg" @click="closeFormDialog">ยกเลิก</v-btn>
           <v-btn color="doa-staff" rounded="lg" @click="saveForm">{{ editingItem ? 'บันทึกการแก้ไข' : 'เพิ่มมาตรฐาน' }}</v-btn>
         </v-card-actions>
       </v-card>
@@ -148,7 +148,7 @@
           </p>
         </v-card-text>
         <v-card-actions class="px-6 pb-5 ga-2">
-          <v-btn variant="tonal" color="grey" rounded="lg" block @click="deleteDialog = false">ยกเลิก</v-btn>
+          <v-btn variant="tonal" color="grey" rounded="lg" block @click="closeDeleteDialog">ยกเลิก</v-btn>
           <v-btn color="error" rounded="lg" block @click="confirmDelete">ลบ</v-btn>
         </v-card-actions>
       </v-card>
@@ -204,6 +204,12 @@ const filteredItems = computed(() => {
 
 // Form
 const formDialog = ref(false);
+function closeFormDialog() {
+  formDialog.value = false;
+}
+function closeDeleteDialog() {
+  deleteDialog.value = false;
+}
 const editingItem = ref(null);
 const form = reactive({ code: "", nameTh: "", nameEn: "", category: "", description: "", isActive: true });
 

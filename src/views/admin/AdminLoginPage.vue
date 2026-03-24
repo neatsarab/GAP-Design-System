@@ -1,6 +1,5 @@
 <template>
   <div class="admin-login-root" :class="{ 'is-dark': themeStore.isDark }">
-
     <!-- Background pattern -->
     <div class="admin-bg-pattern" />
 
@@ -12,18 +11,26 @@
           <v-icon icon="fas fa-user-shield" size="28" color="white" />
         </div>
         <div>
-          <div class="text-body-1 font-weight-bold text-white">Administrator Login</div>
-          <div class="text-caption" style="color: rgba(255,255,255,0.65)">ระบบบริหารจัดการ กรมวิชาการเกษตร</div>
+          <div class="text-body-1 font-weight-bold text-white">
+            Administrator Login
+          </div>
+          <div class="text-caption" style="color: rgba(255, 255, 255, 0.65)">
+            ระบบบริหารจัดการ กรมวิชาการเกษตร
+          </div>
         </div>
         <v-spacer />
         <v-btn
           variant="tonal"
           size="small"
           :prepend-icon="themeStore.isDark ? 'fas fa-sun' : 'fas fa-moon'"
-          style="color: rgba(255,255,255,0.85); background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2)"
+          style="
+            color: rgba(255, 255, 255, 0.85);
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+          "
           @click="themeStore.toggle()"
         >
-          {{ themeStore.isDark ? 'โหมดสว่าง' : 'โหมดมืด' }}
+          {{ themeStore.isDark ? "โหมดสว่าง" : "โหมดมืด" }}
         </v-btn>
       </div>
 
@@ -31,7 +38,9 @@
       <div class="admin-card-body">
         <div class="mb-6">
           <h2 class="text-h6 font-weight-bold mb-1">เข้าสู่ระบบ Admin</h2>
-          <p class="text-body-2 text-medium-emphasis mb-0">กรุณากรอก Username และ Password ของผู้ดูแลระบบ</p>
+          <p class="text-body-2 text-medium-emphasis mb-0">
+            กรุณากรอก Username และ Password ของผู้ดูแลระบบ
+          </p>
         </div>
 
         <v-alert
@@ -42,11 +51,17 @@
           prepend-icon="fas fa-triangle-exclamation"
           class="mb-5"
         >
-          <span class="text-body-2">สำหรับผู้ดูแลระบบเท่านั้น การเข้าถึงโดยไม่ได้รับอนุญาตถือเป็นความผิด</span>
+          <span class="text-body-2"
+            >สำหรับผู้ดูแลระบบเท่านั้น
+            การเข้าถึงโดยไม่ได้รับอนุญาตถือเป็นความผิด</span
+          >
         </v-alert>
 
         <v-form ref="formRef" @submit.prevent="doLogin">
-          <div class="field-label"><div>Username <span class="req">*</span></div><div class="field-label-en">Username</div></div>
+          <div class="field-label">
+            <div>Username <span class="req">*</span></div>
+            <div class="field-label-en">Username</div>
+          </div>
           <v-text-field
             v-model="username"
             placeholder="Admin username"
@@ -57,20 +72,32 @@
             autofocus
           />
 
-          <div class="field-label"><div>Password <span class="req">*</span></div><div class="field-label-en">Password</div></div>
+          <div class="field-label">
+            <div>Password <span class="req">*</span></div>
+            <div class="field-label-en">Password</div>
+          </div>
           <v-text-field
             v-model="password"
             :type="showPassword ? 'text' : 'password'"
             placeholder="Admin password"
             prepend-inner-icon="fas fa-lock"
-            :append-inner-icon="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"
+            :append-inner-icon="
+              showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'
+            "
             :rules="[rules.required]"
             hide-details="auto"
             class="mb-5"
             @click:append-inner="showPassword = !showPassword"
           />
 
-          <v-alert v-if="error" type="error" variant="tonal" class="mb-4" density="compact" prepend-icon="fas fa-circle-xmark">
+          <v-alert
+            v-if="error"
+            type="error"
+            variant="tonal"
+            class="mb-4"
+            density="compact"
+            prepend-icon="fas fa-circle-xmark"
+          >
             {{ error }}
           </v-alert>
 
@@ -93,7 +120,7 @@
             size="small"
             prepend-icon="fas fa-arrow-left"
             color="medium-emphasis"
-            @click="router.push('/login')"
+            @click="goToLogin"
           >
             กลับหน้าเข้าสู่ระบบ
           </v-btn>
@@ -103,10 +130,13 @@
       <!-- Footer -->
       <div class="admin-card-footer">
         <v-icon icon="fas fa-shield-halved" size="12" class="mr-1" />
-        <span class="text-caption" style="color: rgba(var(--v-theme-on-surface), 0.4)">Secure connection · © 2568 กรมวิชาการเกษตร</span>
+        <span
+          class="text-caption"
+          style="color: rgba(var(--v-theme-on-surface), 0.4)"
+          >Secure connection · © 2569 กรมวิชาการเกษตร</span
+        >
       </div>
     </div>
-
   </div>
 </template>
 
@@ -131,6 +161,10 @@ const rules = {
   required: (v) => !!v || "กรุณากรอกข้อมูล",
 };
 
+function goToLogin() {
+  router.push({ name: "Login" });
+}
+
 async function doLogin() {
   const { valid } = await formRef.value.validate();
   if (!valid) return;
@@ -144,19 +178,19 @@ async function doLogin() {
     if (username.value === "admin") {
       adminStore.setRole("sysadmin");
       adminStore.setUsername("admin");
-      router.push("/admin/dashboard");
+      router.push({ name: "AdminDashboard" });
     } else if (username.value === "adminsso") {
       adminStore.setRole("adminsso");
       adminStore.setUsername("adminsso");
-      router.push("/admin/access-requests");
+      router.push({ name: "AdminAccessRequests" });
     } else if (username.value === "adminsso01") {
       adminStore.setRole("adminsso");
       adminStore.setUsername("adminsso01");
-      router.push("/admin/access-requests");
+      router.push({ name: "AdminAccessRequests" });
     } else if (username.value === "adminsso02") {
       adminStore.setRole("adminsso");
       adminStore.setUsername("adminsso02");
-      router.push("/admin/access-requests");
+      router.push({ name: "AdminAccessRequests" });
     } else {
       error.value = "Username หรือ Password ไม่ถูกต้อง";
     }
@@ -183,8 +217,16 @@ async function doLogin() {
   position: fixed;
   inset: 0;
   background:
-    radial-gradient(ellipse at 20% 30%, rgba(var(--v-theme-admin), 0.08) 0%, transparent 55%),
-    radial-gradient(ellipse at 80% 70%, rgba(var(--v-theme-admin), 0.05) 0%, transparent 50%);
+    radial-gradient(
+      ellipse at 20% 30%,
+      rgba(var(--v-theme-admin), 0.08) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      ellipse at 80% 70%,
+      rgba(var(--v-theme-admin), 0.05) 0%,
+      transparent 50%
+    );
   pointer-events: none;
   z-index: 0;
 }
@@ -233,5 +275,4 @@ async function doLogin() {
   justify-content: center;
   background: rgba(var(--v-theme-surface-variant), 0.4);
 }
-
 </style>

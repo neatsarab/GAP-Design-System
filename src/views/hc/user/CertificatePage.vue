@@ -3,11 +3,20 @@
     <div class="d-flex align-center justify-space-between mb-5 flex-wrap ga-3">
       <div>
         <h1 class="page-title mb-1">ทะเบียนใบรับรอง</h1>
-        <p class="text-body-2 text-medium-emphasis mb-0">ข้อมูลใบรับรองสุขอนามัยพืชที่ออกแล้วทั้งหมด</p>
+        <p class="text-body-2 text-medium-emphasis mb-0">
+          ข้อมูลใบรับรองสุขอนามัยพืชที่ออกแล้วทั้งหมด
+        </p>
       </div>
       <div class="d-flex ga-2">
-        <v-btn variant="tonal" color="hc-user" prepend-icon="fas fa-download">ส่งออก Excel</v-btn>
-        <v-btn color="hc-user" prepend-icon="fas fa-file-pen" @click="router.push('/hc/user/applications/new')">ขอใบรับรองใหม่</v-btn>
+        <v-btn variant="tonal" color="hc-user" prepend-icon="fas fa-download"
+          >ส่งออก Excel</v-btn
+        >
+        <v-btn
+          color="hc-user"
+          prepend-icon="fas fa-file-pen"
+          @click="goToNewApplication"
+          >ขอใบรับรองใหม่</v-btn
+        >
       </div>
     </div>
 
@@ -38,13 +47,34 @@
       <v-card-text class="pa-4">
         <v-row dense align="center">
           <v-col cols="12" sm="6">
-            <div class="field-label mb-1"><div>ค้นหา</div><div class="field-label-en">Search</div></div>
-            <v-text-field v-model="search" prepend-inner-icon="fas fa-search" variant="outlined" density="compact" rounded="lg" clearable hide-details />
+            <div class="field-label mb-1">
+              <div>ค้นหา</div>
+              <div class="field-label-en">Search</div>
+            </div>
+            <v-text-field
+              v-model="search"
+              prepend-inner-icon="fas fa-search"
+              variant="outlined"
+              density="compact"
+              rounded="lg"
+              clearable
+              hide-details
+            />
           </v-col>
         </v-row>
         <v-row dense>
           <v-col cols="auto" class="ml-auto">
-          <v-btn variant="tonal" color="grey" size="small" prepend-icon="fas fa-rotate-left" @click="search = ''; filterTab = 'all'">ล้างตัวกรอง</v-btn>
+            <v-btn
+              variant="tonal"
+              color="grey"
+              size="small"
+              prepend-icon="fas fa-rotate-left"
+              @click="
+                search = '';
+                filterTab = 'all';
+              "
+              >ล้างตัวกรอง</v-btn
+            >
           </v-col>
         </v-row>
       </v-card-text>
@@ -56,17 +86,44 @@
         <v-icon start icon="fas fa-list" size="12" /> ทั้งหมด
         <v-badge :content="certs.length" inline color="hc-user" class="ml-1" />
       </v-chip>
-      <v-chip value="active" color="success" variant="tonal" filter size="small">
+      <v-chip
+        value="active"
+        color="success"
+        variant="tonal"
+        filter
+        size="small"
+      >
         <v-icon start icon="fas fa-circle-check" size="12" /> มีผล
-        <v-badge :content="certs.filter(c => c.certStatus === 'active').length" inline color="success" class="ml-1" />
+        <v-badge
+          :content="certs.filter((c) => c.certStatus === 'active').length"
+          inline
+          color="success"
+          class="ml-1"
+        />
       </v-chip>
-      <v-chip value="expiring" color="warning" variant="tonal" filter size="small">
+      <v-chip
+        value="expiring"
+        color="warning"
+        variant="tonal"
+        filter
+        size="small"
+      >
         <v-icon start icon="fas fa-clock" size="12" /> ใกล้หมดอายุ
-        <v-badge :content="certs.filter(c => c.certStatus === 'expiring').length" inline color="warning" class="ml-1" />
+        <v-badge
+          :content="certs.filter((c) => c.certStatus === 'expiring').length"
+          inline
+          color="warning"
+          class="ml-1"
+        />
       </v-chip>
       <v-chip value="expired" color="error" variant="tonal" filter size="small">
         <v-icon start icon="fas fa-circle-xmark" size="12" /> หมดอายุ
-        <v-badge :content="certs.filter(c => c.certStatus === 'expired').length" inline color="error" class="ml-1" />
+        <v-badge
+          :content="certs.filter((c) => c.certStatus === 'expired').length"
+          inline
+          color="error"
+          class="ml-1"
+        />
       </v-chip>
     </v-chip-group>
 
@@ -111,8 +168,19 @@
 
         <template #item.actions="{ item }">
           <div class="d-flex ga-1">
-            <v-btn size="small" variant="text" color="hc-user" icon="fas fa-eye" />
-            <v-btn size="small" variant="text" color="success" icon="fas fa-download" :disabled="item.certStatus === 'expired'" />
+            <v-btn
+              size="small"
+              variant="text"
+              color="hc-user"
+              icon="fas fa-eye"
+            />
+            <v-btn
+              size="small"
+              variant="text"
+              color="success"
+              icon="fas fa-download"
+              :disabled="item.certStatus === 'expired'"
+            />
           </div>
         </template>
       </v-data-table>
@@ -125,6 +193,11 @@ import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
+
+function goToNewApplication() {
+  router.push({ name: "HCUserApplicationType" });
+}
+
 const filterTab = ref("all");
 const search = ref("");
 
@@ -145,11 +218,10 @@ const certStats = [
   { label: "ทั้งหมด", icon: "fas fa-certificate", color: "primary", value: 7 },
 ];
 
-
 const certs = [
   {
-    certNo: "THHC-2568-00025",
-    requestNo: "HC-2568-00025",
+    certNo: "THHC-2569-00025",
+    requestNo: "HC-2569-00025",
     product: "มังคุด",
     destination: "จีน",
     issuedAt: "10 ม.ค. 68",
@@ -157,8 +229,8 @@ const certs = [
     certStatus: "active",
   },
   {
-    certNo: "THHC-2568-00022",
-    requestNo: "HC-2568-00022",
+    certNo: "THHC-2569-00022",
+    requestNo: "HC-2569-00022",
     product: "กล้วยหอม",
     destination: "ญี่ปุ่น",
     issuedAt: "8 ม.ค. 68",
@@ -166,8 +238,8 @@ const certs = [
     certStatus: "active",
   },
   {
-    certNo: "THHC-2568-00018",
-    requestNo: "HC-2568-00018",
+    certNo: "THHC-2569-00018",
+    requestNo: "HC-2569-00018",
     product: "มะม่วง",
     destination: "ญี่ปุ่น",
     issuedAt: "20 ธ.ค. 67",
@@ -175,8 +247,8 @@ const certs = [
     certStatus: "expiring",
   },
   {
-    certNo: "THHC-2567-00098",
-    requestNo: "HC-2567-00098",
+    certNo: "THHC-2569-00098",
+    requestNo: "HC-2569-00098",
     product: "ลำไย",
     destination: "จีน",
     issuedAt: "5 ม.ค. 67",
@@ -184,8 +256,8 @@ const certs = [
     certStatus: "expired",
   },
   {
-    certNo: "THHC-2568-00030",
-    requestNo: "HC-2568-00030",
+    certNo: "THHC-2569-00030",
+    requestNo: "HC-2569-00030",
     product: "ทุเรียน",
     destination: "เกาหลีใต้",
     issuedAt: "15 ม.ค. 68",
@@ -193,8 +265,8 @@ const certs = [
     certStatus: "active",
   },
   {
-    certNo: "THHC-2568-00015",
-    requestNo: "HC-2568-00015",
+    certNo: "THHC-2569-00015",
+    requestNo: "HC-2569-00015",
     product: "ส้มโอ",
     destination: "สิงคโปร์",
     issuedAt: "10 ธ.ค. 67",
@@ -202,8 +274,8 @@ const certs = [
     certStatus: "active",
   },
   {
-    certNo: "THHC-2567-00080",
-    requestNo: "HC-2567-00080",
+    certNo: "THHC-2569-00080",
+    requestNo: "HC-2569-00080",
     product: "กระเทียม",
     destination: "เกาหลีใต้",
     issuedAt: "1 มิ.ย. 67",

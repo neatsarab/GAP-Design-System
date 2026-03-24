@@ -6,7 +6,7 @@
         icon="fas fa-arrow-left"
         variant="text"
         size="small"
-        @click="router.push('/el/staff/inspection/new')"
+        @click="goToInspectionNew"
       />
       <div>
         <h1 class="page-title mb-0">ผลตรวจ GMP / HACCP</h1>
@@ -258,7 +258,7 @@
           </v-row>
         </v-card-text>
         <v-card-actions class="px-5 pb-5 ga-2">
-          <v-btn variant="tonal" color="grey" rounded="lg" @click="dialog = false">ยกเลิก</v-btn>
+          <v-btn variant="tonal" color="grey" rounded="lg" @click="closeDialog">ยกเลิก</v-btn>
           <v-spacer />
           <v-btn color="el-staff" rounded="lg" prepend-icon="fas fa-floppy-disk" @click="saveRecord">บันทึก</v-btn>
         </v-card-actions>
@@ -272,6 +272,11 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
+
+function goToInspectionNew() {
+  router.push({ name: "ELStaffInspectionNew" });
+}
+
 const activeTab = ref("gmp-haccp");
 
 
@@ -306,6 +311,11 @@ const inspectorOptions = [
 ];
 
 const dialog = ref(false);
+
+function closeDialog() {
+  dialog.value = false;
+}
+
 const dialogMode = ref("add");
 const dialogType = ref("gmp");
 const dialogIndex = ref(-1);

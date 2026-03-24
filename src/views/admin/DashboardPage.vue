@@ -32,7 +32,7 @@
               <v-icon icon="fas fa-server" color="admin" size="16" />
               Service Status
             </div>
-            <v-btn size="x-small" variant="text" color="admin" append-icon="fas fa-arrow-right" @click="router.push('/admin/service-status')">ดูทั้งหมด</v-btn>
+            <v-btn size="x-small" variant="text" color="admin" append-icon="fas fa-arrow-right" @click="goToServiceStatus">ดูทั้งหมด</v-btn>
           </v-card-title>
           <v-divider />
           <v-list density="compact" class="pa-2">
@@ -58,7 +58,7 @@
               <v-icon icon="fas fa-shield-halved" color="admin" size="16" />
               Certificate Expiration
             </div>
-            <v-btn size="x-small" variant="text" color="admin" append-icon="fas fa-arrow-right" @click="router.push('/admin/certificate-expiration')">ดูทั้งหมด</v-btn>
+            <v-btn size="x-small" variant="text" color="admin" append-icon="fas fa-arrow-right" @click="goToCertificateExpiration">ดูทั้งหมด</v-btn>
           </v-card-title>
           <v-divider />
           <v-list density="compact" class="pa-2">
@@ -84,7 +84,7 @@
               <v-icon icon="fas fa-microchip" color="admin" size="16" />
               System Resources
             </div>
-            <v-btn size="x-small" variant="text" color="admin" append-icon="fas fa-arrow-right" @click="router.push('/admin/system-resources')">ดูทั้งหมด</v-btn>
+            <v-btn size="x-small" variant="text" color="admin" append-icon="fas fa-arrow-right" @click="goToSystemResources">ดูทั้งหมด</v-btn>
           </v-card-title>
           <v-divider />
           <v-card-text class="pa-5">
@@ -107,7 +107,7 @@
               <v-icon icon="fas fa-hard-drive" color="admin" size="16" />
               Storage Status
             </div>
-            <v-btn size="x-small" variant="text" color="admin" append-icon="fas fa-arrow-right" @click="router.push('/admin/storage-status')">ดูทั้งหมด</v-btn>
+            <v-btn size="x-small" variant="text" color="admin" append-icon="fas fa-arrow-right" @click="goToStorageStatus">ดูทั้งหมด</v-btn>
           </v-card-title>
           <v-divider />
           <v-card-text class="pa-5">
@@ -161,6 +161,22 @@ const storages = [
   { type: "Database Storage", used: "120 GB", available: "380 GB", total: "500 GB", percent: 24 },
   { type: "File Storage", used: "80 GB", available: "220 GB", total: "300 GB", percent: 27 },
 ];
+
+function goToServiceStatus() {
+  router.push({ name: "AdminServiceStatus" });
+}
+
+function goToCertificateExpiration() {
+  router.push({ name: "AdminCertificateExpiration" });
+}
+
+function goToSystemResources() {
+  router.push({ name: "AdminSystemResources" });
+}
+
+function goToStorageStatus() {
+  router.push({ name: "AdminStorageStatus" });
+}
 
 function statusColor(s) {
   return s === "Running" ? "success" : s === "Error" ? "error" : s === "Maintenance" ? "warning" : "default";

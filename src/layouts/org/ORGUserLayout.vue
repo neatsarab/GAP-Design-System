@@ -33,7 +33,7 @@
         <v-list-item-title
           class="text-body-2 font-weight-bold"
           style="word-break: break-word; white-space: normal"
-          >ระบบ ORG เกษตรอินทรีย์</v-list-item-title
+          >ระบบการรับรองมาตรฐานเกษตรอินทรีย์</v-list-item-title
         >
         <v-list-item-subtitle
           class="text-caption"
@@ -46,7 +46,7 @@
             variant="text"
             color="on-surface-variant"
             size="small"
-            @click="rail = !rail"
+            @click="toggleRail"
           />
         </template>
       </v-list-item>
@@ -117,14 +117,14 @@
             prepend-icon="fas fa-arrow-left"
             title="กลับหน้า Portal"
             rounded="lg"
-            @click="router.push('/portal?mode=user')"
+            @click="goToPortal"
           />
           <v-list-item
             prepend-icon="fas fa-right-from-bracket"
             title="ออกจากระบบ"
             base-color="error"
             rounded="lg"
-            @click="logoutDialog = true"
+            @click="openLogoutDialog"
           />
         </v-list>
       </template>
@@ -142,7 +142,7 @@
         variant="text"
         size="small"
         class="ml-2"
-        @click="rail = !rail"
+        @click="toggleRail"
       />
 
       <!-- Breadcrumb -->
@@ -203,7 +203,7 @@
           size="small"
           color="grey"
           class="position-absolute top-0 right-0 ma-2"
-          @click="logoutDialog = false"
+          @click="closeLogoutDialog"
         />
         <v-card-text class="pa-6 text-center">
           <div class="logout-icon-ring mx-auto mb-4">
@@ -220,7 +220,7 @@
             color="grey"
             rounded="lg"
             block
-            @click="logoutDialog = false"
+            @click="closeLogoutDialog"
           >
             ยกเลิก
           </v-btn>
@@ -263,13 +263,29 @@ const rail = ref(false);
 const logoutDialog = ref(false);
 const sessionStore = useSessionStore();
 
+function toggleRail() {
+  rail.value = !rail.value;
+}
+
+function openLogoutDialog() {
+  logoutDialog.value = true;
+}
+
+function closeLogoutDialog() {
+  logoutDialog.value = false;
+}
+
+function goToPortal() {
+  router.push({ name: "UserPortal" });
+}
+
 function doLogout() {
   logoutDialog.value = false;
-  router.push("/login");
+  router.push({ name: "Login" });
 }
 
 const breadcrumbs = computed(() => [
-  { title: "ระบบ ORG (เกษตรกร)", to: "/org/user" },
+  { title: "ระบบการรับรองมาตรฐานเกษตรอินทรีย์", to: "/org/user" },
   { title: route.meta.title },
 ]);
 

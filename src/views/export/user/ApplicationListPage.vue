@@ -12,7 +12,10 @@
       <v-card-text class="pa-4">
         <v-row dense align="center">
           <v-col cols="12" sm="6" md="3">
-            <div class="field-label"><div>วันที่ยื่น (จาก)</div><div class="field-label-en">Submit Date (From)</div></div>
+            <div class="field-label">
+              <div>วันที่ยื่น (จาก)</div>
+              <div class="field-label-en">Submit Date (From)</div>
+            </div>
             <v-text-field
               v-model="filters.dateFrom"
               type="date"
@@ -23,7 +26,10 @@
             />
           </v-col>
           <v-col cols="12" sm="6" md="3">
-            <div class="field-label"><div>วันที่ยื่น (ถึง)</div><div class="field-label-en">Submit Date (To)</div></div>
+            <div class="field-label">
+              <div>วันที่ยื่น (ถึง)</div>
+              <div class="field-label-en">Submit Date (To)</div>
+            </div>
             <v-text-field
               v-model="filters.dateTo"
               type="date"
@@ -34,7 +40,10 @@
             />
           </v-col>
           <v-col cols="12" sm="6" md="3">
-            <div class="field-label"><div>ประเภทคำขอ</div><div class="field-label-en">Request Type</div></div>
+            <div class="field-label">
+              <div>ประเภทคำขอ</div>
+              <div class="field-label-en">Request Type</div>
+            </div>
             <v-autocomplete
               v-model="filters.type"
               :items="typeOptions"
@@ -49,7 +58,10 @@
             />
           </v-col>
           <v-col cols="12" sm="6" md="3">
-            <div class="field-label"><div>สถานะคำขอ</div><div class="field-label-en">Status</div></div>
+            <div class="field-label">
+              <div>สถานะคำขอ</div>
+              <div class="field-label-en">Status</div>
+            </div>
             <v-autocomplete
               v-model="filters.status"
               :items="statusOptions"
@@ -66,15 +78,15 @@
         </v-row>
         <v-row dense>
           <v-col cols="auto" class="ml-auto">
-          <v-btn
-            variant="tonal"
-            color="grey"
-            size="small"
-            prepend-icon="fas fa-rotate-left"
-            @click="clearFilters"
-          >
-            ล้างตัวกรอง
-          </v-btn>
+            <v-btn
+              variant="tonal"
+              color="grey"
+              size="small"
+              prepend-icon="fas fa-rotate-left"
+              @click="clearFilters"
+            >
+              ล้างตัวกรอง
+            </v-btn>
           </v-col>
         </v-row>
       </v-card-text>
@@ -86,7 +98,7 @@
         color="export-user"
         rounded="lg"
         prepend-icon="fas fa-plus"
-        @click="router.push('/export/user/applications/new')"
+        @click="goToNewApplication"
       >
         จดทะเบียนใหม่
       </v-btn>
@@ -154,6 +166,10 @@ import { useRouter } from "vue-router";
 
 const router = useRouter();
 
+function goToNewApplication() {
+  router.push({ name: "ExportUserApplicationType" });
+}
+
 const filters = reactive({
   dateFrom: "",
   dateTo: "",
@@ -189,63 +205,63 @@ const headers = [
 
 const allItems = [
   {
-    id: "EXP-2568-001",
+    id: "EXP-2569-001",
     requestNo: "EXP-0001",
     type: "kk1",
     applicant: "บ.ไทย เอ็กซ์พอร์ต จก.",
     submitterStatus: "เจ้าของ",
     principal: "-",
-    submittedDate: "01/01/2568",
+    submittedDate: "01/01/2569",
     status: "pending",
   },
   {
-    id: "EXP-2568-002",
+    id: "EXP-2569-002",
     requestNo: "EXP-0002",
     type: "smpv5",
     applicant: "บ.ไทย เอ็กซ์พอร์ต จก.",
     submitterStatus: "ตัวแทน",
     principal: "นายสมชาย ใจดี",
-    submittedDate: "05/02/2568",
+    submittedDate: "05/02/2569",
     status: "need_edit",
   },
   {
-    id: "EXP-2568-003",
+    id: "EXP-2569-003",
     requestNo: "EXP-0003",
     type: "smpv5",
     applicant: "บ.ไทย เอ็กซ์พอร์ต จก.",
     submitterStatus: "เจ้าของ",
     principal: "-",
-    submittedDate: "10/03/2568",
+    submittedDate: "10/03/2569",
     status: "reviewing",
   },
   {
-    id: "EXP-2568-004",
+    id: "EXP-2569-004",
     requestNo: "EXP-0004",
     type: "smpv5_other",
     applicant: "บ.ไทย เอ็กซ์พอร์ต จก.",
     submitterStatus: "เจ้าของ",
     principal: "-",
-    submittedDate: "12/03/2568",
+    submittedDate: "12/03/2569",
     status: "signing",
   },
   {
-    id: "EXP-2568-005",
+    id: "EXP-2569-005",
     requestNo: "EXP-0005",
     type: "amendment",
     applicant: "บ.ไทย เอ็กซ์พอร์ต จก.",
     submitterStatus: "เจ้าของ",
     principal: "-",
-    submittedDate: "15/03/2568",
+    submittedDate: "15/03/2569",
     status: "approved",
   },
   {
-    id: "EXP-2568-006",
+    id: "EXP-2569-006",
     requestNo: "EXP-0006",
     type: "kk1",
     applicant: "บ.ไทย เอ็กซ์พอร์ต จก.",
     submitterStatus: "ตัวแทน",
     principal: "นายวิชัย สมบูรณ์",
-    submittedDate: "20/03/2568",
+    submittedDate: "20/03/2569",
     status: "pending",
   },
 ];

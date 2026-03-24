@@ -1,6 +1,7 @@
 # System Flow: ระบบตรวจสอบ รับรองมาตรฐาน และบริการอิเล็กทรอนิกส์ (ผ่าน NSW)
 
 ## 1. ผู้ใช้งานระบบ (Users)
+
 ผู้ใช้งานสามารถเข้าถึงระบบผ่าน **Web UI** โดยแบ่งเป็น 3 กลุ่มหลัก
 
 - **เกษตรกร / ผู้ประกอบการ / ผู้ส่งออก**
@@ -12,6 +13,7 @@
 ---
 
 # 2. การยืนยันตัวตน (Authentication)
+
 1. ผู้ใช้งานเข้าใช้งานผ่าน **SSO (Single Sign-On)**
 2. ระบบ SSO ทำหน้าที่
    - ยืนยันตัวตนผู้ใช้
@@ -23,9 +25,11 @@
 # 3. ชั้น Web Application
 
 ## 3.1 Web UI
+
 ทำหน้าที่เป็นส่วนติดต่อผู้ใช้งาน (Frontend)
 
 หน้าที่หลัก
+
 - แสดงหน้าจอการใช้งาน
 - รับข้อมูลจากผู้ใช้
 - ส่ง request ไปยัง **Web API**
@@ -34,9 +38,11 @@
 ---
 
 ## 3.2 Web API
+
 ทำหน้าที่เป็น Backend ของระบบ
 
 หน้าที่หลัก
+
 - ประมวลผลข้อมูลจาก Web UI
 - ติดต่อกับ Database
 - เชื่อมต่อกับหน่วยงานภายนอก
@@ -46,6 +52,7 @@
 ---
 
 # 4. Database
+
 ฐานข้อมูลของระบบ ใช้เก็บข้อมูลทั้งหมด เช่น
 
 - ข้อมูลเกษตรกร
@@ -60,26 +67,25 @@ Web API จะเป็นตัวกลางในการอ่านแล
 ---
 
 # 5. โมดูลระบบภายใน
+
 ระบบประกอบด้วยโมดูลหลักดังนี้
 
-- **GAP**  
-  ระบบรับรองมาตรฐาน GAP
-
-- **ORG**  
-  ระบบเกษตรอินทรีย์
-
-- **HC ใบรับรอง**  
-  ระบบออกใบรับรองสุขอนามัยพืช
-
-- **HC นำเข้าผลิตภัณฑ์**
-
-- **จดทะเบียนผู้ส่งออก**
-
-- **DOA & CB**
-
-- **EL**
-
-- **ตรวจสอบข้อมูลกลับ**
+- ระบบการรับรองมาตรฐานการปฏิบัติทางการเกษตรที่ดีสำหรับพืช (GAP)
+  Good Agricultural Practices Certification System for Plants (GAP)
+- ระบบการรับรองมาตรฐานเกษตรอินทรีย์ (Organic Agriculture)
+  Organic Agriculture Certification System
+- ระบบการขึ้นทะเบียนโรงงานผลิตสินค้าพืช กรมวิชาการเกษตร
+  Plant Product Processing Factory Registration System, Department of Agriculture
+- ระบบการขึ้นทะเบียนหน่วยรับรองโรงงานผลิตสินค้าพืช
+  Certification Body Registration System for Plant Product Processing Factories
+- ระบบการจดทะเบียนผู้ส่งออกสินค้าพืช
+  Plant Product Exporter Registration System
+- ระบบการออกหนังสือรับรองสุขอนามัยพืชสำหรับพืชควบคุมเฉพาะ
+  Health Certificate Issuance System for Controlled Plants
+- ระบบการออกหนังสือรับรองสุขอนามัยพืชสำหรับสินค้าแปรรูปด้านพืช
+  Health Certificate Issuance System for Processed Plant Products
+- ระบบบัญชีรายชื่อโรงคัดบรรจุสินค้าพืช (ระบบควบคุมพิเศษ)
+  Establishment List System for Plant Packing Houses
 
 โมดูลทั้งหมดทำงานผ่าน **Web API**
 
@@ -98,6 +104,7 @@ Web API จะเป็นตัวกลางในการอ่านแล
 ---
 
 # 7. การเชื่อมต่อหน่วยงานรัฐอื่น
+
 ระบบสามารถเชื่อมต่อกับระบบของหน่วยงานอื่น เช่น
 
 - **กสก.**
@@ -116,6 +123,7 @@ Web API จะเป็นตัวกลางในการอ่านแล
 - Mobile Payment
 
 Flow การทำงาน
+
 1. ผู้ใช้ทำรายการชำระเงิน
 2. ระบบส่งข้อมูลไปยัง Payment Gateway
 3. เมื่อชำระเงินสำเร็จ ระบบจะบันทึกสถานะใน Database
@@ -137,10 +145,10 @@ Database
 Internal Modules (GAP / ORG / HC / etc.)
 ↓
 External Systems
+
 - หน่วยงานรัฐ
 - หน่วยงานภายนอก
 - e-Payment
-
 
 ---
 

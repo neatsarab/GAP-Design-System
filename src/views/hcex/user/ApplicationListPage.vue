@@ -10,7 +10,7 @@
       <v-btn
         color="hcex-user"
         prepend-icon="fas fa-file-pen"
-        @click="router.push('/hcex/user/applications/new')"
+        @click="goToNewApplication"
       >
         ยื่นคำขอใหม่
       </v-btn>
@@ -21,7 +21,10 @@
       <v-card-text class="pa-4">
         <v-row dense align="center">
           <v-col cols="12" sm="5">
-            <div class="field-label"><div>ค้นหา</div><div class="field-label-en">Search</div></div>
+            <div class="field-label">
+              <div>ค้นหา</div>
+              <div class="field-label-en">Search</div>
+            </div>
             <v-text-field
               v-model="search"
               placeholder="ค้นหาเลขคำขอ / ผู้รับสินค้า"
@@ -34,7 +37,10 @@
             />
           </v-col>
           <v-col cols="6" sm="3">
-            <div class="field-label"><div>ประเภทคำขอ</div><div class="field-label-en">Request Type</div></div>
+            <div class="field-label">
+              <div>ประเภทคำขอ</div>
+              <div class="field-label-en">Request Type</div>
+            </div>
             <v-autocomplete
               v-model="filterType"
               :items="typeOptions"
@@ -47,7 +53,10 @@
             />
           </v-col>
           <v-col cols="6" sm="3">
-            <div class="field-label"><div>สถานะ</div><div class="field-label-en">Status</div></div>
+            <div class="field-label">
+              <div>สถานะ</div>
+              <div class="field-label-en">Status</div>
+            </div>
             <v-autocomplete
               v-model="filterStatus"
               :items="statusOptions"
@@ -64,15 +73,15 @@
         </v-row>
         <v-row dense>
           <v-col cols="auto" class="ml-auto">
-          <v-btn
-            variant="tonal"
-            color="grey"
-            size="small"
-            prepend-icon="fas fa-rotate-left"
-            @click="clearFilters"
-          >
-            ล้างตัวกรอง
-          </v-btn>
+            <v-btn
+              variant="tonal"
+              color="grey"
+              size="small"
+              prepend-icon="fas fa-rotate-left"
+              @click="clearFilters"
+            >
+              ล้างตัวกรอง
+            </v-btn>
           </v-col>
         </v-row>
       </v-card-text>
@@ -140,7 +149,7 @@
             variant="tonal"
             color="hcex-user"
             prepend-icon="fas fa-eye"
-            @click.stop="router.push(`/hcex/user/applications/${item.id}`)"
+            @click.stop="goToApplicationDetail(item.id)"
           >
             ติดตามสถานะ
           </v-btn>
@@ -155,13 +164,22 @@ import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
+
+function goToNewApplication() {
+  router.push({ name: "HCEXUserApplicationType" });
+}
+
+function goToApplicationDetail(id) {
+  router.push({ name: "HCEXUserApplicationDetail", params: { id } });
+}
+
 const search = ref("");
 const filterType = ref(null);
 const filterStatus = ref(null);
 const activeTab = ref("all");
 
 function onRowClick(_e, row) {
-  router.push(`/hcex/user/applications/${row.item.id}`);
+  goToApplicationDetail(row.item.id);
 }
 function clearFilters() {
   search.value = "";
@@ -211,11 +229,10 @@ const statusTabs = [
   },
 ];
 
-
 const allApplications = [
   {
     id: "HCEX-001",
-    requestNo: "HCEX-2568-00012",
+    requestNo: "HCEX-2569-00012",
     certType: "กมพ.1",
     consignee: "Nippon Foods Co., Ltd.",
     destination: "ญี่ปุ่น",
@@ -225,7 +242,7 @@ const allApplications = [
   },
   {
     id: "HCEX-002",
-    requestNo: "HCEX-2568-00010",
+    requestNo: "HCEX-2569-00010",
     certType: "กมพ.1-1",
     consignee: "Beijing Import Trading",
     destination: "จีน",
@@ -235,7 +252,7 @@ const allApplications = [
   },
   {
     id: "HCEX-003",
-    requestNo: "HCEX-2568-00008",
+    requestNo: "HCEX-2569-00008",
     certType: "กมพ.1",
     consignee: "Seoul Food Distribution",
     destination: "เกาหลีใต้",
@@ -245,7 +262,7 @@ const allApplications = [
   },
   {
     id: "HCEX-004",
-    requestNo: "HCEX-2568-00005",
+    requestNo: "HCEX-2569-00005",
     certType: "กมพ.1-3",
     consignee: "SG Fresh Market Pte.",
     destination: "สิงคโปร์",
@@ -255,7 +272,7 @@ const allApplications = [
   },
   {
     id: "HCEX-005",
-    requestNo: "HCEX-2568-00003",
+    requestNo: "HCEX-2569-00003",
     certType: "กมพ.1-2",
     consignee: "HK Agri Import Ltd.",
     destination: "ฮ่องกง",
@@ -265,7 +282,7 @@ const allApplications = [
   },
   {
     id: "HCEX-006",
-    requestNo: "HCEX-2568-00001",
+    requestNo: "HCEX-2569-00001",
     certType: "กมพ.1",
     consignee: "Vietnam Fresh Import Co.",
     destination: "เวียดนาม",
@@ -275,7 +292,7 @@ const allApplications = [
   },
   {
     id: "HCEX-007",
-    requestNo: "HCEX-2568-00013",
+    requestNo: "HCEX-2569-00013",
     certType: "กมพ.1-1",
     consignee: "Malaysia Food Corp.",
     destination: "มาเลเซีย",

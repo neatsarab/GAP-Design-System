@@ -4,13 +4,13 @@
       <div>
         <h1 class="page-title mb-1">แดชบอร์ด</h1>
         <p class="text-body-2 text-medium-emphasis mb-0">
-          ภาพรวมระบบบัญชีรายชื่อโรงคัดบรรจุ (Establishment List)
+          ภาพรวมระบบการควบคุมพิเศษ Establishment List
         </p>
       </div>
       <v-btn
         color="el-user"
         prepend-icon="fas fa-file-pen"
-        @click="router.push('/el/user/applications/new')"
+        @click="goToNewApplication"
       >
         ยื่นคำขอใหม่
       </v-btn>
@@ -35,7 +35,7 @@
               color="el-user"
               size="small"
               append-icon="fas fa-arrow-right"
-              @click="router.push('/el/user/applications')"
+              @click="goToApplicationList"
             >
               ดูทั้งหมด
             </v-btn>
@@ -45,7 +45,7 @@
             <template v-for="(app, i) in recentApplications" :key="app.id">
               <v-list-item
                 class="pa-3"
-                @click="router.push(`/el/user/applications/${app.id}`)"
+                @click="goToApplicationDetail(app.id)"
               >
                 <template #prepend>
                   <v-avatar
@@ -95,7 +95,7 @@
         >
           <div class="text-body-2 font-weight-medium mb-1">อัพเดทสถานะ</div>
           <div class="text-body-2">
-            คำขอ EL-2568-00002 อยู่ระหว่างการตรวจสอบโรงคัดบรรจุ
+            คำขอ EL-2569-00002 อยู่ระหว่างการตรวจสอบโรงคัดบรรจุ
           </div>
         </v-alert>
         <v-card rounded="xl" elevation="0">
@@ -113,7 +113,7 @@
               rounded="lg"
               :color="action.color"
               class="mb-1"
-              @click="router.push(action.to)"
+              @click="goToAction(action.to)"
             />
           </v-list>
         </v-card>
@@ -128,22 +128,83 @@ import AppStatCard from "@/components/common/AppStatCard.vue";
 
 const router = useRouter();
 
+function goToNewApplication() {
+  router.push({ name: "ELUserApplicationType" });
+}
+
+function goToApplicationList() {
+  router.push({ name: "ELUserApplicationList" });
+}
+
+function goToApplicationDetail(id) {
+  router.push({ name: "ELUserApplicationDetail", params: { id } });
+}
+
+function goToAction(to) {
+  router.push(to);
+}
+
 const stats = [
-  { label: "คำขอทั้งหมด", value: 4, icon: "fas fa-file-lines", iconColor: "el-user" },
-  { label: "อยู่ระหว่างตรวจสอบ", value: 1, icon: "fas fa-magnifying-glass", iconColor: "info" },
-  { label: "อนุมัติแล้ว", value: 2, icon: "fas fa-circle-check", iconColor: "success" },
-  { label: "รอแก้ไข", value: 1, icon: "fas fa-triangle-exclamation", iconColor: "warning" },
+  {
+    label: "คำขอทั้งหมด",
+    value: 4,
+    icon: "fas fa-file-lines",
+    iconColor: "el-user",
+  },
+  {
+    label: "อยู่ระหว่างตรวจสอบ",
+    value: 1,
+    icon: "fas fa-magnifying-glass",
+    iconColor: "info",
+  },
+  {
+    label: "อนุมัติแล้ว",
+    value: 2,
+    icon: "fas fa-circle-check",
+    iconColor: "success",
+  },
+  {
+    label: "รอแก้ไข",
+    value: 1,
+    icon: "fas fa-triangle-exclamation",
+    iconColor: "warning",
+  },
 ];
 
 const recentApplications = [
-  { id: "EL-2568-00003", requestNo: "EL-2568-00003", submittedDate: "5 มี.ค. 2568", status: "under_review" },
-  { id: "EL-2568-00002", requestNo: "EL-2568-00002", submittedDate: "20 ก.พ. 2568", status: "inspection_scheduled" },
-  { id: "EL-2568-00001", requestNo: "EL-2568-00001", submittedDate: "10 ม.ค. 2568", status: "approved" },
+  {
+    id: "EL-2569-00003",
+    requestNo: "EL-2569-00003",
+    submittedDate: "5 มี.ค. 2569",
+    status: "under_review",
+  },
+  {
+    id: "EL-2569-00002",
+    requestNo: "EL-2569-00002",
+    submittedDate: "20 ก.พ. 2569",
+    status: "inspection_scheduled",
+  },
+  {
+    id: "EL-2569-00001",
+    requestNo: "EL-2569-00001",
+    submittedDate: "10 ม.ค. 2569",
+    status: "approved",
+  },
 ];
 
 const quickActions = [
-  { title: "ยื่นคำขอใหม่", icon: "fas fa-file-pen", color: "primary", to: "/el/user/applications/new" },
-  { title: "รายการคำขอ", icon: "fas fa-file-lines", color: "primary", to: "/el/user/applications" },
+  {
+    title: "ยื่นคำขอใหม่",
+    icon: "fas fa-file-pen",
+    color: "primary",
+    to: "/el/user/applications/new",
+  },
+  {
+    title: "รายการคำขอ",
+    icon: "fas fa-file-lines",
+    color: "primary",
+    to: "/el/user/applications",
+  },
 ];
 
 function statusColor(status) {

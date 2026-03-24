@@ -33,7 +33,7 @@
               color="gap-staff"
               size="small"
               append-icon="fas fa-arrow-right"
-              @click="router.push('/gap/staff/applications')"
+              @click="goToApplicationList"
             >
               ดูทั้งหมด
             </v-btn>
@@ -43,7 +43,7 @@
             <template v-for="(app, i) in workQueue" :key="app.id">
               <v-list-item
                 class="pa-3"
-                @click="router.push(`/gap/staff/applications/${app.id}`)"
+                @click="goToApplicationDetail(app.id)"
               >
                 <template #prepend>
                   <v-avatar
@@ -130,6 +130,14 @@ import AppStatCard from "@/components/common/AppStatCard.vue";
 
 const router = useRouter();
 
+function goToApplicationList() {
+  router.push({ name: "staffApplicationList" });
+}
+
+function goToApplicationDetail(id) {
+  router.push({ name: "staffApplicationDetail", params: { id } });
+}
+
 const stats = [
   {
     label: "คำขอทั้งหมด",
@@ -170,7 +178,7 @@ const workQueue = [
     icon: "fas fa-magnifying-glass",
     color: "warning",
     statusLabel: "รอตรวจคำขอ",
-    title: "GAP-2568-00041 · นายสมชาย ใจดี",
+    title: "GAP-2569-00041 · นายสมชาย ใจดี",
     subtitle: "มะม่วง · 12 ไร่ · เชียงใหม่",
     date: "15 ม.ค. 68",
   },
@@ -179,7 +187,7 @@ const workQueue = [
     icon: "fas fa-calendar-check",
     color: "info",
     statusLabel: "รอนัดตรวจแปลง",
-    title: "GAP-2568-00039 · น.ส.วิไล สุขใส",
+    title: "GAP-2569-00039 · น.ส.วิไล สุขใส",
     subtitle: "ข้าวโพดหวาน · 8 ไร่ · เพชรบูรณ์",
     date: "13 ม.ค. 68",
   },
@@ -188,7 +196,7 @@ const workQueue = [
     icon: "fas fa-paper-plane",
     color: "secondary",
     statusLabel: "รอเสนอ CC",
-    title: "GAP-2568-00036 · นายประสิทธิ์ มั่นคง",
+    title: "GAP-2569-00036 · นายประสิทธิ์ มั่นคง",
     subtitle: "กล้วยหอม · 20 ไร่ · นครปฐม",
     date: "10 ม.ค. 68",
   },
@@ -197,7 +205,7 @@ const workQueue = [
     icon: "fas fa-gavel",
     color: "error",
     statusLabel: "รอผล CC",
-    title: "GAP-2568-00034 · น.ส.มาลี รุ่งเรือง",
+    title: "GAP-2569-00034 · น.ส.มาลี รุ่งเรือง",
     subtitle: "ลำไย · 30 ไร่ · เชียงราย",
     date: "8 ม.ค. 68",
   },
@@ -206,7 +214,7 @@ const workQueue = [
     icon: "fas fa-pen-to-square",
     color: "warning",
     statusLabel: "รอตรวจคำขอ",
-    title: "GAP-2568-00042 · นายอำนาจ วีระชัย",
+    title: "GAP-2569-00042 · นายอำนาจ วีระชัย",
     subtitle: "พริก · 5 ไร่ · สระแก้ว",
     date: "15 ม.ค. 68",
   },

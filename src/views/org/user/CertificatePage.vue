@@ -59,17 +59,17 @@
         </v-row>
         <v-row dense>
           <v-col cols="auto" class="ml-auto">
-          <v-btn
-            variant="tonal"
-            color="grey"
-            size="small"
-            prepend-icon="fas fa-rotate-left"
-            @click="
-              search = '';
-              filterTab = 'all';
-            "
-            >ล้างตัวกรอง</v-btn
-          >
+            <v-btn
+              variant="tonal"
+              color="grey"
+              size="small"
+              prepend-icon="fas fa-rotate-left"
+              @click="
+                search = '';
+                filterTab = 'all';
+              "
+              >ล้างตัวกรอง</v-btn
+            >
           </v-col>
         </v-row>
       </v-card-text>
@@ -197,11 +197,10 @@ const router = useRouter();
 const filterTab = ref("all");
 const search = ref("");
 
-
 const certs = [
   {
-    certNo: "THORG-2568-00018",
-    requestNo: "ORG-2568-00018",
+    certNo: "THORG-2569-00018",
+    requestNo: "ORG-2569-00018",
     standard: "มกษ.9000",
     cropType: "ข้าว",
     area: "15 ไร่",
@@ -210,8 +209,8 @@ const certs = [
     certStatus: "active",
   },
   {
-    certNo: "THORG-2568-00011",
-    requestNo: "ORG-2568-00011",
+    certNo: "THORG-2569-00011",
+    requestNo: "ORG-2569-00011",
     standard: "มกษ.9000",
     cropType: "ผัก",
     area: "8 ไร่",
@@ -220,8 +219,8 @@ const certs = [
     certStatus: "active",
   },
   {
-    certNo: "THORG-2568-00006",
-    requestNo: "ORG-2568-00006",
+    certNo: "THORG-2569-00006",
+    requestNo: "ORG-2569-00006",
     standard: "มกษ.9001",
     cropType: "สมุนไพร",
     area: "5 ไร่",
@@ -230,8 +229,8 @@ const certs = [
     certStatus: "expiring",
   },
   {
-    certNo: "THORG-2567-00044",
-    requestNo: "ORG-2567-00044",
+    certNo: "THORG-2569-00044",
+    requestNo: "ORG-2569-00044",
     standard: "มกษ.9000",
     cropType: "ผลไม้",
     area: "20 ไร่",

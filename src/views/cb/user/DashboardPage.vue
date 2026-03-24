@@ -4,13 +4,13 @@
       <div>
         <h1 class="page-title mb-1">แดชบอร์ด</h1>
         <p class="text-body-2 text-medium-emphasis mb-0">
-          ภาพรวมระบบขึ้นทะเบียนหน่วยรับรอง (Certification Body)
+          ภาพรวมระบบการขึ้นทะเบียนหน่วยรับรองโรงงานผลิตสินค้าพืช
         </p>
       </div>
       <v-btn
         color="cb-user"
         prepend-icon="fas fa-file-pen"
-        @click="router.push('/cb/user/applications/new')"
+        @click="goToNewApplication"
       >
         ยื่นคำขอใหม่
       </v-btn>
@@ -35,7 +35,7 @@
               color="cb-user"
               size="small"
               append-icon="fas fa-arrow-right"
-              @click="router.push('/cb/user/applications')"
+              @click="goToApplicationList"
             >
               ดูทั้งหมด
             </v-btn>
@@ -45,7 +45,7 @@
             <template v-for="(app, i) in recentApplications" :key="app.id">
               <v-list-item
                 class="pa-3"
-                @click="router.push(`/cb/user/applications/${app.id}`)"
+                @click="goToApplicationDetail(app.id)"
               >
                 <template #prepend>
                   <v-avatar
@@ -95,7 +95,7 @@
         >
           <div class="text-body-2 font-weight-medium mb-1">อัพเดทสถานะ</div>
           <div class="text-body-2">
-            คำขอ CB-2568-00002 อยู่ระหว่างการตรวจประเมิน CB
+            คำขอ CB-2569-00002 อยู่ระหว่างการตรวจประเมิน CB
           </div>
         </v-alert>
         <v-card rounded="xl" elevation="0">
@@ -113,7 +113,7 @@
               rounded="lg"
               :color="action.color"
               class="mb-1"
-              @click="router.push(action.to)"
+              @click="goToAction(action.to)"
             />
           </v-list>
         </v-card>
@@ -128,22 +128,83 @@ import AppStatCard from "@/components/common/AppStatCard.vue";
 
 const router = useRouter();
 
+function goToNewApplication() {
+  router.push({ name: "CBUserApplicationType" });
+}
+
+function goToApplicationList() {
+  router.push({ name: "CBUserApplicationList" });
+}
+
+function goToApplicationDetail(id) {
+  router.push({ name: "CBUserApplicationDetail", params: { id } });
+}
+
+function goToAction(to) {
+  router.push(to);
+}
+
 const stats = [
-  { label: "คำขอทั้งหมด", value: 4, icon: "fas fa-file-lines", iconColor: "cb-user" },
-  { label: "อยู่ระหว่างตรวจสอบ", value: 1, icon: "fas fa-magnifying-glass", iconColor: "info" },
-  { label: "อนุมัติแล้ว", value: 2, icon: "fas fa-circle-check", iconColor: "success" },
-  { label: "รอแก้ไข", value: 1, icon: "fas fa-triangle-exclamation", iconColor: "warning" },
+  {
+    label: "คำขอทั้งหมด",
+    value: 4,
+    icon: "fas fa-file-lines",
+    iconColor: "cb-user",
+  },
+  {
+    label: "อยู่ระหว่างตรวจสอบ",
+    value: 1,
+    icon: "fas fa-magnifying-glass",
+    iconColor: "info",
+  },
+  {
+    label: "อนุมัติแล้ว",
+    value: 2,
+    icon: "fas fa-circle-check",
+    iconColor: "success",
+  },
+  {
+    label: "รอแก้ไข",
+    value: 1,
+    icon: "fas fa-triangle-exclamation",
+    iconColor: "warning",
+  },
 ];
 
 const recentApplications = [
-  { id: "CB-2568-00003", requestNo: "CB-2568-00003", submittedDate: "5 มี.ค. 2568", status: "under_review" },
-  { id: "CB-2568-00002", requestNo: "CB-2568-00002", submittedDate: "20 ก.พ. 2568", status: "inspection_scheduled" },
-  { id: "CB-2568-00001", requestNo: "CB-2568-00001", submittedDate: "10 ม.ค. 2568", status: "approved" },
+  {
+    id: "CB-2569-00003",
+    requestNo: "CB-2569-00003",
+    submittedDate: "5 มี.ค. 2569",
+    status: "under_review",
+  },
+  {
+    id: "CB-2569-00002",
+    requestNo: "CB-2569-00002",
+    submittedDate: "20 ก.พ. 2569",
+    status: "inspection_scheduled",
+  },
+  {
+    id: "CB-2569-00001",
+    requestNo: "CB-2569-00001",
+    submittedDate: "10 ม.ค. 2569",
+    status: "approved",
+  },
 ];
 
 const quickActions = [
-  { title: "ยื่นคำขอใหม่", icon: "fas fa-file-pen", color: "primary", to: "/cb/user/applications/new" },
-  { title: "รายการคำขอ", icon: "fas fa-file-lines", color: "primary", to: "/cb/user/applications" },
+  {
+    title: "ยื่นคำขอใหม่",
+    icon: "fas fa-file-pen",
+    color: "primary",
+    to: "/cb/user/applications/new",
+  },
+  {
+    title: "รายการคำขอ",
+    icon: "fas fa-file-lines",
+    color: "primary",
+    to: "/cb/user/applications",
+  },
 ];
 
 function statusColor(status) {
