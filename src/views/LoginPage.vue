@@ -511,9 +511,21 @@ async function doLogin() {
   }
 }
 
-function doThaiDLogin() {
+// function doThaiDLogin() {
+//   thaidLoading.value = true;
+//   setTimeout(() => router.push("/select-company"), 800);
+// }
+async function doThaiDLogin() {
+  if (thaidLoading.value) return; // ป้องกันการกดซ้ำขณะกำลังโหลด
   thaidLoading.value = true;
-  setTimeout(() => router.push("/select-company"), 800);
+  try {
+    await new Promise((r) => setTimeout(r, 800));
+    await router.push("/select-company");
+  } catch (err) {
+    console.error("Navigation failed:", err);
+  } finally {
+    thaidLoading.value = false;
+  }
 }
 
 async function doStaffLogin() {
