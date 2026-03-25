@@ -268,10 +268,32 @@ function doLogout() {
   router.push({ name: "Login" });
 }
 
-const breadcrumbs = computed(() => [
-  { title: "ระบบการขึ้นทะเบียนโรงงานผลิตสินค้าพืช DOA", to: "/doa/user" },
-  { title: route.meta.title },
-]);
+// const breadcrumbs = computed(() => [
+//   { title: "ระบบการขึ้นทะเบียนโรงงานผลิตสินค้าพืช DOA", to: "/doa/user" },
+//   { title: route.meta.title },
+// ]);
+
+const breadcrumbs = computed(() => {
+  // 1. กำหนด Dictionary ของชื่อตาม Type เหมือนที่ใช้ในหน้า NewApplicationPage
+  const typeTitles = {
+    register: "ยื่นคำขอขึ้นทะเบียน / ต่ออายุทะเบียน",
+    amendment: "คำขอแก้ไขข้อมูลทะเบียน",
+    scope: "คำขอเพิ่ม / ลดขอบข่ายมาตรฐาน",
+  };
+
+  // 2. ดึงค่า type จาก URL params
+  const type = route.params.type;
+  
+  // 3. เลือก Title: 
+  // ถ้ามีค่าใน Dictionary ให้ใช้ค่านั้น 
+  // ถ้าไม่มี (เช่นหน้าอื่นๆ) ให้ใช้ค่าจาก meta.title ตามเดิม
+  const currentTitle = typeTitles[type] || route.meta.title || "หน้าหลัก";
+
+  return [
+    { title: "ระบบการขึ้นทะเบียนโรงงานผลิตสินค้าพืช DOA", to: "/doa/user" },
+    { title: currentTitle },
+  ];
+});
 
 const navGroups = [
   {
@@ -282,11 +304,11 @@ const navGroups = [
     ],
   },
   {
-    label: "การยื่นคำขอ",
+    label: "สร้างคำขอใหม่",
     divider: true,
     items: [
       {
-        title: "ยื่นคำขอใหม่",
+        title: "สร้างคำขอใหม่",
         icon: "fas fa-file-pen",
         to: "/doa/user/applications/new",
       },

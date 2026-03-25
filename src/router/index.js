@@ -332,7 +332,7 @@ const router = createRouter({
           path: "applications/new/:type",
           name: "DOAUserNewApplication",
           component: () => import("@/views/doa/user/NewApplicationPage.vue"),
-          meta: { title: "ยื่นคำขอใหม่" },
+          meta: { title: "คำขอขึ้นทะเบียน / ต่ออายุทะเบียน" },
         },
         {
           path: "applications/:id",
@@ -345,6 +345,12 @@ const router = createRouter({
           name: "DOAUserCertificate",
           component: () => import("@/views/doa/user/CertificatePage.vue"),
           meta: { title: "ใบรับรอง DOA ของฉัน" },
+        },
+        {
+          path: "certificates/:id",
+          name: "DOAUserCertificateDetail",
+          component: () => import("@/views/doa/user/CertificateDetailPage.vue"),
+          meta: { title: "ใบรับรอง" },
         },
       ],
     },

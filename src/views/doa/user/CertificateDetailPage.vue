@@ -680,7 +680,7 @@ import { useRouter, useRoute } from "vue-router";
 const router = useRouter();
 
 function goToApplicationList() {
-    router.push({ name: "DOAUserApplicationList" });
+    router.push({ name: "DOAUserCertificate" });
 }
 
 const app = {
