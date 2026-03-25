@@ -137,6 +137,12 @@ const router = createRouter({
           component: () => import("@/views/gap/staff/CertificatePage.vue"),
           meta: { title: "ข้อมูลใบรับรอง GAP" },
         },
+        {
+          path: "notifications",
+          name: "staffNotifications",
+          component: () => import("@/views/gap/staff/NotificationPage.vue"),
+          meta: { title: "การแจ้งเตือน" },
+        },
       ],
     },
 

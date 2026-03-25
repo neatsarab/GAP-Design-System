@@ -1410,12 +1410,6 @@ div {
   min-height: 100px;
 }
 .confirm-ring {
-  width: 72px;
-  height: 72px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(var(--v-theme-el-staff), 0.1);
+  background: rgba(var(--v-theme-el-staff), 0.1) !important;
 }
 </style>

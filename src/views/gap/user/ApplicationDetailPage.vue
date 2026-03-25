@@ -36,6 +36,58 @@
       </div>
     </div>
 
+    <!-- Progress Timeline -->
+    <v-card class="mb-5" rounded="xl" elevation="0">
+      <v-card-title
+        class="pa-4 pb-2 text-subtitle-2 font-weight-bold d-flex align-center ga-2"
+      >
+        <v-icon icon="fas fa-route" color="gap-user" size="16" />
+        ความคืบหน้าคำขอ
+      </v-card-title>
+      <v-card-text class="pa-4 pt-0">
+        <div class="timeline">
+          <div
+            v-for="(step, idx) in timeline"
+            :key="step.key"
+            class="timeline-item"
+            :class="{
+              'timeline-item--done': isTimelineDone(idx),
+              'timeline-item--active': isTimelineActive(idx),
+              'timeline-item--pending': isTimelinePending(idx),
+            }"
+          >
+            <div class="timeline-dot">
+              <v-icon
+                v-if="isTimelineDone(idx)"
+                icon="fas fa-check"
+                size="12"
+              />
+              <v-icon
+                v-else-if="isTimelineActive(idx)"
+                icon="fas fa-spinner"
+                size="12"
+                class="fa-spin"
+              />
+              <v-icon v-else icon="fas fa-circle" size="8" />
+            </div>
+            <div class="timeline-content">
+              <div class="text-body-2 font-weight-medium">{{ step.label }}</div>
+              <div class="text-caption text-medium-emphasis">
+                {{ step.desc }}
+              </div>
+              <div v-if="step.date" class="text-caption text-gap-user mt-1">
+                {{ step.date }}
+              </div>
+              <div v-if="step.note" class="text-caption text-warning mt-1">
+                {{ step.note }}
+              </div>
+            </div>
+            <div v-if="idx < timeline.length - 1" class="timeline-line" />
+          </div>
+        </div>
+      </v-card-text>
+    </v-card>
+
     <v-row>
       <!-- Main Info -->
       <v-col cols="12" md="8">
@@ -171,18 +223,35 @@
         </v-card>
       </v-col>
 
-      <!-- Sidebar: Timeline + Actions -->
+      <!-- Sidebar -->
       <v-col cols="12" md="4">
-        <!-- Timeline -->
-        <v-card>
-          <div class="d-flex align-center ga-2 px-4 py-3 border-b">
-            <v-icon icon="fas fa-timeline" color="gap-user" size="15" />
-            <span class="text-subtitle-2 font-weight-bold"
-              >ประวัติดำเนินการ</span
-            >
+        <!-- Quick actions -->
+        <v-card rounded="xl" elevation="0">
+          <div class="section-header">
+            <v-icon icon="fas fa-bolt" color="gap-user" size="15" />
+            <span class="text-subtitle-2 font-weight-bold">ดำเนินการ</span>
           </div>
-          <v-card-text class="pa-4">
-            <AppTimeline :items="timelineItems" />
+          <v-card-text class="pa-3">
+            <v-btn
+              block
+              variant="tonal"
+              color="gap-user"
+              class="mb-2"
+              prepend-icon="fas fa-file-lines"
+              rounded="lg"
+              @click="goToApplicationList"
+            >
+              รายการคำขอทั้งหมด
+            </v-btn>
+            <v-btn
+              block
+              variant="tonal"
+              color="info"
+              prepend-icon="fas fa-download"
+              rounded="lg"
+            >
+              ดาวน์โหลดใบรับคำขอ
+            </v-btn>
           </v-card-text>
         </v-card>
       </v-col>
@@ -194,7 +263,6 @@
 import { computed } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import AppStatusChip from "@/components/common/AppStatusChip.vue";
-import AppTimeline from "@/components/common/AppTimeline.vue";
 
 const router = useRouter();
 const route = useRoute();
@@ -222,48 +290,60 @@ const documents = [
   { name: "แผนที่แปลงปลูก.jpg", icon: "fas fa-image", size: "3.8 MB" },
 ];
 
-const timelineItems = [
+const currentStatusIdx = computed(() => {
+  const m = {
+    SUBMITTED: 0,
+    DOC_REVIEW: 1,
+    SCHEDULED: 2,
+    INSPECTION: 3,
+    APPROVED: 4,
+    REJECTED: 4,
+  };
+  return m[application.value.status] ?? 0;
+});
+
+const timeline = computed(() => [
   {
-    id: "1",
-    title: "ยื่นคำขอ",
-    description: "สร้างคำขอ GAP-2569-001",
+    key: "submitted",
+    label: "ยื่นคำขอ",
+    desc: "สร้างคำขอ " + application.value.no,
     date: "1 มี.ค. 67",
-    icon: "fas fa-paper-plane",
-    iconColor: "grey",
   },
   {
-    id: "2",
-    title: "ตรวจเอกสาร",
-    description: "เจ้าหน้าที่รับเรื่องแล้ว",
-    date: "3 มี.ค. 67",
-    icon: "fas fa-file-magnifying-glass",
-    iconColor: "orange",
+    key: "doc_review",
+    label: "ตรวจเอกสาร",
+    desc: "เจ้าหน้าที่รับเรื่องแล้ว",
+    date: currentStatusIdx.value >= 1 ? "3 มี.ค. 67" : "",
   },
   {
-    id: "3",
-    title: "นัดตรวจแปลง",
-    description: "วันที่ 15 มี.ค. เวลา 09:00",
-    date: "8 มี.ค. 67",
-    icon: "fas fa-calendar-check",
-    iconColor: "purple",
+    key: "scheduled",
+    label: "นัดตรวจแปลง",
+    desc: "วันที่ 15 มี.ค. เวลา 09:00",
+    date: currentStatusIdx.value >= 2 ? "8 มี.ค. 67" : "",
   },
   {
-    id: "4",
-    title: "ตรวจประเมินแปลง",
-    description: "ผ่านเกณฑ์ 7/8 หมวด",
-    date: "15 มี.ค. 67",
-    icon: "fas fa-clipboard-check",
-    iconColor: "indigo",
+    key: "inspection",
+    label: "ตรวจประเมินแปลง",
+    desc: "ผ่านเกณฑ์ 7/8 หมวด",
+    date: currentStatusIdx.value >= 3 ? "15 มี.ค. 67" : "",
   },
   {
-    id: "5",
-    title: "อนุมัติ & ออกใบรับรอง",
-    description: "GAP-C-2569-0089 อายุ 1 ปี",
-    date: "20 มี.ค. 67",
-    icon: "fas fa-certificate",
-    iconColor: "success",
+    key: "approved",
+    label: "อนุมัติ & ออกใบรับรอง",
+    desc: "GAP-C-2569-0089 อายุ 1 ปี",
+    date: currentStatusIdx.value >= 4 ? "20 มี.ค. 67" : "",
   },
-];
+]);
+
+function isTimelineDone(idx) {
+  return idx < currentStatusIdx.value;
+}
+function isTimelineActive(idx) {
+  return idx === currentStatusIdx.value;
+}
+function isTimelinePending(idx) {
+  return idx > currentStatusIdx.value;
+}
 </script>
 
 <style scoped>
@@ -293,5 +373,21 @@ const timelineItems = [
 .info-value {
   font-size: 14px;
   color: rgba(var(--v-theme-on-surface), 0.87);
+}
+.timeline-item--done .timeline-dot {
+  background: rgb(var(--v-theme-gap-user));
+  color: white;
+}
+.timeline-item--active .timeline-dot {
+  background: rgb(var(--v-theme-gap-user));
+  color: white;
+  box-shadow: 0 0 0 4px rgba(var(--v-theme-gap-user), 0.2);
+}
+.timeline-item--pending .timeline-dot {
+  background: rgba(var(--v-theme-on-surface), 0.08);
+  color: rgba(var(--v-theme-on-surface), 0.3);
+}
+.timeline-item--done .timeline-line {
+  background: rgba(var(--v-theme-gap-user), 0.35);
 }
 </style>

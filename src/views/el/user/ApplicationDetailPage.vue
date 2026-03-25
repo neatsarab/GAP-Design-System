@@ -21,72 +21,6 @@
       </div>
     </div>
 
-    <!-- 5-Step Tracker -->
-    <v-card rounded="xl" elevation="0" class="mb-6 section-card">
-      <v-card-title class="pa-5 pb-3 text-body-1 font-weight-bold">
-        สถานะการดำเนินการ
-      </v-card-title>
-      <v-divider />
-      <v-card-text class="pa-5">
-        <div class="d-flex align-center ga-0">
-          <div
-            v-for="(step, idx) in trackerSteps"
-            :key="step.label"
-            class="d-flex align-center flex-grow-1"
-          >
-            <div
-              class="d-flex flex-column align-center"
-              style="min-width: 80px"
-            >
-              <div
-                class="tracker-circle"
-                :class="{
-                  'tracker-circle--done': idx < activeTrackerStep,
-                  'tracker-circle--active': idx === activeTrackerStep,
-                }"
-              >
-                <v-icon
-                  v-if="idx < activeTrackerStep"
-                  icon="fas fa-check"
-                  size="14"
-                />
-                <span v-else>{{ idx + 1 }}</span>
-              </div>
-              <span
-                class="text-caption text-center mt-2"
-                :class="
-                  idx <= activeTrackerStep
-                    ? 'font-weight-medium text-el-user'
-                    : 'text-medium-emphasis'
-                "
-                style="max-width: 80px; line-height: 1.3"
-              >
-                {{ step.label }}
-              </span>
-            </div>
-            <div
-              v-if="idx < trackerSteps.length - 1"
-              class="tracker-line flex-grow-1"
-              :class="{ 'tracker-line--done': idx < activeTrackerStep }"
-            />
-          </div>
-        </div>
-      </v-card-text>
-    </v-card>
-
-    <!-- Alert -->
-    <v-alert
-      v-if="appDetail.status === 'under_review'"
-      color="el-user"
-      variant="tonal"
-      rounded="xl"
-      class="mb-6"
-      prepend-icon="fas fa-circle-info"
-    >
-      คำขอของท่านอยู่ในระหว่างการตรวจประเมินสถานประกอบการ
-      ทีมเจ้าหน้าที่จะติดต่อเพื่อนัดหมายการตรวจ
-    </v-alert>
-
     <!-- Revision Notice -->
     <v-card
       v-if="appDetail.status === 'revision_required'"
@@ -188,35 +122,56 @@
       <!-- Timeline -->
       <v-col cols="12" md="5">
         <v-card rounded="xl" elevation="0" class="section-card">
-          <v-card-title class="pa-5 pb-3 section-title">
-            <v-icon
-              icon="fas fa-clock-rotate-left"
-              color="el-user"
-              class="mr-2"
-              size="18"
-            />
-            ประวัติสถานะ
+          <v-card-title
+            class="pa-4 pb-2 text-subtitle-2 font-weight-bold d-flex align-center ga-2"
+          >
+            <v-icon icon="fas fa-route" color="el-user" size="16" />
+            ความคืบหน้าคำขอ
           </v-card-title>
           <v-divider />
           <v-card-text class="pa-5">
-            <v-timeline density="compact" align="start" side="end">
-              <v-timeline-item
-                v-for="event in statusHistory"
-                :key="event.date"
-                :dot-color="event.color"
-                size="small"
+            <div class="timeline">
+              <div
+                v-for="(step, idx) in timeline"
+                :key="step.key"
+                class="timeline-item"
+                :class="{
+                  'timeline-item--done': isTimelineDone(idx),
+                  'timeline-item--active': isTimelineActive(idx),
+                  'timeline-item--pending': isTimelinePending(idx),
+                }"
               >
-                <div class="text-body-2 font-weight-medium">
-                  {{ event.label }}
+                <div class="timeline-dot">
+                  <v-icon
+                    v-if="isTimelineDone(idx)"
+                    icon="fas fa-check"
+                    size="12"
+                  />
+                  <v-icon
+                    v-else-if="isTimelineActive(idx)"
+                    icon="fas fa-spinner"
+                    size="12"
+                    class="fa-spin"
+                  />
+                  <v-icon v-else icon="fas fa-circle" size="8" />
                 </div>
-                <div class="text-caption text-medium-emphasis">
-                  {{ event.date }}
+                <div class="timeline-content">
+                  <div class="text-body-2 font-weight-medium">
+                    {{ step.label }}
+                  </div>
+                  <div class="text-caption text-medium-emphasis">
+                    {{ step.desc }}
+                  </div>
+                  <div v-if="step.date" class="text-caption text-el-user mt-1">
+                    {{ step.date }}
+                  </div>
+                  <div v-if="step.note" class="text-caption text-warning mt-1">
+                    {{ step.note }}
+                  </div>
                 </div>
-                <div v-if="event.note" class="text-caption mt-1">
-                  {{ event.note }}
-                </div>
-              </v-timeline-item>
-            </v-timeline>
+                <div v-if="idx < timeline.length - 1" class="timeline-line" />
+              </div>
+            </div>
           </v-card-text>
         </v-card>
       </v-col>
@@ -225,6 +180,7 @@
 </template>
 
 <script setup>
+import { computed } from "vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
@@ -234,6 +190,51 @@ function goToApplicationList() {
 }
 
 const activeTrackerStep = 2;
+
+const currentStatusIdx = computed(() => activeTrackerStep);
+
+const timeline = computed(() => [
+  {
+    key: "submitted",
+    label: "ยื่นคำขอ",
+    desc: appDetail.establishmentName,
+    date: "10 ก.พ. 2569",
+  },
+  {
+    key: "inspection",
+    label: "ด่านเกษตรตรวจสอบ",
+    desc: "ด่านเกษตร",
+    date: "12 ก.พ. 2569",
+  },
+  {
+    key: "assessment",
+    label: "สวพ.ตรวจประเมิน",
+    desc: "ทีมผู้ตรวจประเมิน",
+    date: "15 ก.พ. 2569",
+  },
+  {
+    key: "committee",
+    label: "คณะกรรมการพิจารณา",
+    desc: "",
+    date: "",
+  },
+  {
+    key: "registered",
+    label: "ขึ้นทะเบียน EL",
+    desc: "",
+    date: "",
+  },
+]);
+
+function isTimelineDone(idx) {
+  return idx < currentStatusIdx.value;
+}
+function isTimelineActive(idx) {
+  return idx === currentStatusIdx.value;
+}
+function isTimelinePending(idx) {
+  return idx > currentStatusIdx.value;
+}
 
 const trackerSteps = [
   { label: "ยื่นคำขอ" },
@@ -281,39 +282,21 @@ const statusHistory = [
 </script>
 
 <style scoped>
-.tracker-circle {
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  border: 2px solid rgba(var(--v-border-color), var(--v-border-opacity));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 13px;
-  font-weight: 700;
-  color: rgba(var(--v-theme-on-surface), 0.4);
-  background: transparent;
-  flex-shrink: 0;
-}
-.tracker-circle--active {
-  border-color: rgb(var(--v-theme-el-user));
-  color: rgb(var(--v-theme-el-user));
-  background: rgba(var(--v-theme-el-user), 0.08);
-}
-.tracker-circle--done {
-  border-color: rgb(var(--v-theme-el-user));
+.timeline-item--done .timeline-dot {
   background: rgb(var(--v-theme-el-user));
   color: white;
 }
-.tracker-line {
-  height: 2px;
-  background: rgba(var(--v-border-color), var(--v-border-opacity));
-  margin: 0 6px;
-  margin-bottom: 28px;
-  min-width: 16px;
-}
-.tracker-line--done {
+.timeline-item--active .timeline-dot {
   background: rgb(var(--v-theme-el-user));
+  color: white;
+  box-shadow: 0 0 0 4px rgba(var(--v-theme-el-user), 0.2);
+}
+.timeline-item--pending .timeline-dot {
+  background: rgba(var(--v-theme-on-surface), 0.08);
+  color: rgba(var(--v-theme-on-surface), 0.3);
+}
+.timeline-item--done .timeline-line {
+  background: rgba(var(--v-theme-el-user), 0.35);
 }
 .info-label {
   font-size: 11px;

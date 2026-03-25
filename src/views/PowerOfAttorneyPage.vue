@@ -1076,21 +1076,6 @@ function isExpiringSoon(expiry) {
   border-radius: 10px;
 }
 
-.confirm-ring {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.confirm-ring--error {
-  background: rgba(var(--v-theme-error), 0.1);
-}
-.confirm-ring--success {
-  background: rgba(var(--v-theme-success), 0.1);
-}
-
 .filter-chip {
   cursor: pointer;
   transition: all 0.15s;

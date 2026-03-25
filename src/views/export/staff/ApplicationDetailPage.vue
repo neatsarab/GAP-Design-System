@@ -21,16 +21,37 @@
       <v-card-text class="pa-5">
         <div class="d-flex align-center">
           <template v-for="(step, i) in steps" :key="step.value">
-            <div class="step-item d-flex flex-column align-center" style="min-width: 80px">
+            <div
+              class="step-item d-flex flex-column align-center"
+              style="min-width: 80px"
+            >
               <div class="step-circle mb-1" :class="stepClass(step.value)">
-                <v-icon v-if="currentStep > step.value" icon="fas fa-check" size="14" color="white" />
-                <span v-else class="text-caption font-weight-bold">{{ step.value + 1 }}</span>
+                <v-icon
+                  v-if="currentStep > step.value"
+                  icon="fas fa-check"
+                  size="14"
+                  color="white"
+                />
+                <span v-else class="text-caption font-weight-bold">{{
+                  step.value + 1
+                }}</span>
               </div>
-              <div class="text-caption text-center" :class="currentStep >= step.value ? 'text-export-staff font-weight-bold' : 'text-medium-emphasis'">
+              <div
+                class="text-caption text-center"
+                :class="
+                  currentStep >= step.value
+                    ? 'text-export-staff font-weight-bold'
+                    : 'text-medium-emphasis'
+                "
+              >
                 {{ step.title }}
               </div>
             </div>
-            <div v-if="i < steps.length - 1" class="step-line flex-grow-1" :class="{ 'step-line--done': currentStep > step.value }" />
+            <div
+              v-if="i < steps.length - 1"
+              class="step-line flex-grow-1"
+              :class="{ 'step-line--done': currentStep > step.value }"
+            />
           </template>
         </div>
       </v-card-text>
@@ -701,7 +722,7 @@
     <v-dialog v-model="forwardDialog" max-width="400">
       <v-card rounded="xl">
         <v-card-text class="pa-7 text-center">
-          <div class="action-ring mx-auto mb-4">
+          <div class="confirm-ring mx-auto mb-4">
             <v-icon icon="fas fa-paper-plane" color="export-staff" size="28" />
           </div>
           <h3 class="text-h6 font-weight-bold mb-2">ส่งต่อพิจารณา</h3>
@@ -730,7 +751,7 @@
       <v-card rounded="xl">
         <v-card-text class="pa-7 text-center">
           <div
-            class="action-ring mx-auto mb-4"
+            class="confirm-ring mx-auto mb-4"
             style="background: rgba(var(--v-theme-warning), 0.1)"
           >
             <v-icon icon="fas fa-rotate-left" color="warning" size="28" />
@@ -760,7 +781,7 @@
     <v-dialog v-model="confirmDialog" max-width="400">
       <v-card rounded="xl">
         <v-card-text class="pa-7 text-center">
-          <div class="action-ring mx-auto mb-4">
+          <div class="confirm-ring mx-auto mb-4">
             <v-icon
               :icon="
                 currentStep === 2 ? 'fas fa-pen-nib' : 'fas fa-paper-plane'
@@ -961,22 +982,7 @@ div {
   border: 1px dashed rgba(var(--v-theme-export-staff), 0.3);
   height: 160px;
 }
-.action-ring {
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  background: rgba(var(--v-theme-export-staff), 0.1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.success-ring {
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  background: rgba(var(--v-theme-success), 0.1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.confirm-ring {
+  background: rgba(var(--v-theme-export-staff), 0.1) !important;
 }
 </style>

@@ -514,14 +514,4 @@ const headers = [
   font-size: 13px;
   font-weight: 500;
 }
-
-.success-ring {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  background: rgba(var(--v-theme-success), 0.1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 </style>

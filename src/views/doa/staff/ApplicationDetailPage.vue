@@ -782,7 +782,9 @@ const backRoutes = {
   3: "/doa/staff/signing",
 };
 function goBack() {
-  router.push(backRoutes[currentStep.value] ?? { name: "DOAStaffApplicationList" });
+  router.push(
+    backRoutes[currentStep.value] ?? { name: "DOAStaffApplicationList" },
+  );
 }
 
 const successMessages = {
@@ -802,7 +804,9 @@ const successBackLabel = computed(
 
 function goBackFromSuccess() {
   successDialog.value = false;
-  router.push(backRoutes[currentStep.value] ?? { name: "DOAStaffApplicationList" });
+  router.push(
+    backRoutes[currentStep.value] ?? { name: "DOAStaffApplicationList" },
+  );
 }
 
 const review = reactive({ result: "approved", remark: "", deadline: "" });
@@ -870,22 +874,7 @@ div {
   justify-content: center;
 }
 .confirm-ring {
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  background: rgba(var(--v-theme-doa-staff), 0.1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.success-ring {
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  background: rgba(var(--v-theme-success), 0.1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background: rgba(var(--v-theme-doa-staff), 0.1) !important;
 }
 
 .step-done,
