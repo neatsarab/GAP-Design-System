@@ -5,6 +5,8 @@ import * as directives from "vuetify/directives";
 import colors from "vuetify/util/colors";
 import "vuetify/styles";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import { VDateInput } from "vuetify/labs/VDateInput";
+import { th, en } from "vuetify/locale";
 
 // ══════════════════════════════════════════════════════════
 // DESIGN TOKENS — ตัวกำหนดค่าทั้งหมดไว้ที่นี่ที่เดียว
@@ -50,7 +52,7 @@ const light = {
   "hcex-staff": colors.deepOrange.lighten1,
   "el-user": colors.indigo.lighten1,
   "el-staff": colors.lime.darken3,
-  "admin": colors.blueGrey.darken3,
+  admin: colors.blueGrey.darken3,
 };
 
 /** Dark theme palette tokens (เทาดำ ไม่ใช่สีกรม) */
@@ -98,7 +100,7 @@ const dark = {
   "hcex-staff": colors.deepOrange.lighten3,
   "el-user": colors.indigo.lighten3,
   "el-staff": colors.lime.lighten3,
-  "admin": colors.blueGrey.lighten2,
+  admin: colors.blueGrey.lighten2,
 };
 
 // ── Custom Font Awesome iconset for Vuetify ──────────────
@@ -167,6 +169,21 @@ export default createVuetify({
   },
   theme: {
     defaultTheme: "gapLight",
+    locale: {
+      locale: "en",
+      fallback: "en",
+      messages: { en, th },
+    },
+    components: {
+      VDateInput,
+    },
+    date: {
+      locale: {
+        th: "th-TH",
+        en: "en-US",
+      },
+    },
+
     themes: {
       // ── Light Theme ────────────────────────────────────
       gapLight: {
@@ -206,7 +223,7 @@ export default createVuetify({
           "hcex-staff": light["hcex-staff"],
           "el-user": light["el-user"],
           "el-staff": light["el-staff"],
-          "admin": light["admin"],
+          admin: light["admin"],
         },
       },
 
@@ -248,7 +265,7 @@ export default createVuetify({
           "hcex-staff": dark["hcex-staff"],
           "el-user": dark["el-user"],
           "el-staff": dark["el-staff"],
-          "admin": dark["admin"],
+          admin: dark["admin"],
         },
       },
     },

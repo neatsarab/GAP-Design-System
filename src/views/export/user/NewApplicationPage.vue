@@ -57,10 +57,16 @@
       </v-card-text>
     </v-card>
 
-    <!-- ─── STEP 1: ข้อมูลรายละเอียด ─── -->
+    <!-- ─── STEP 1: ประเภทคำขอ ─── -->
     <template v-if="currentStep === 0">
       <!-- ประเภทคำขอ -->
-      <v-card elevation="0" border rounded="xl" class="mb-5">
+      <v-card
+        v-if="route.params.type !== 'amendment'"
+        elevation="0"
+        border
+        rounded="xl"
+        class="mb-5"
+      >
         <div class="d-flex align-center ga-2 px-4 py-3 border-b">
           <v-icon icon="fas fa-list-check" color="export-user" size="15" />
           <span class="text-subtitle-2 font-weight-bold">ประเภทคำขอ</span>
@@ -78,8 +84,792 @@
         </v-card-text>
       </v-card>
 
+      <!-- ค้นหาใบรับรอง (amendment only) -->
+      <v-card
+        v-if="route.params.type === 'amendment'"
+        elevation="0"
+        border
+        rounded="xl"
+        class="mb-5"
+      >
+        <div class="d-flex align-center ga-2 px-4 py-3 border-b">
+          <v-icon icon="fas fa-certificate" color="export-user" size="15" />
+          <span class="text-subtitle-2 font-weight-bold"
+            >ระบุใบรับรองทะเบียนผู้ส่งออกที่ต้องการแก้ไข</span
+          >
+        </div>
+        <v-card-text class="pt-5">
+          <div class="field-label mb-2">
+            เลขที่ใบรับรองทะเบียนผู้ส่งออก <span class="req">*</span>
+            <div class="field-label-en">
+              Exporter Registration Certificate No.
+            </div>
+          </div>
+          <v-row dense align="center">
+            <v-col cols="12" sm="6">
+              <v-text-field
+                density="compact"
+                variant="outlined"
+                rounded="lg"
+                v-model="certSearchNo"
+                placeholder="เช่น EXP-2568-00123"
+                prepend-inner-icon="fas fa-certificate"
+                hide-details
+                @keyup.enter="searchCert"
+              />
+            </v-col>
+            <v-col cols="auto">
+              <v-btn
+                color="export-user"
+                variant="tonal"
+                prepend-icon="fas fa-magnifying-glass"
+                :loading="certSearchLoading"
+                @click="searchCert"
+              >
+                ค้นหา
+              </v-btn>
+            </v-col>
+          </v-row>
+
+          <!-- Not found -->
+          <v-alert
+            v-if="certSearchNotFound"
+            type="error"
+            variant="tonal"
+            density="compact"
+            class="mt-3"
+            prepend-icon="fas fa-circle-xmark"
+          >
+            ไม่พบใบรับรองเลขที่ "{{ certSearchNo }}" กรุณาตรวจสอบอีกครั้ง
+          </v-alert>
+
+          <!-- Result card -->
+          <v-card
+            v-if="certSearchResult && !certSelected"
+            elevation="0"
+            rounded="lg"
+            class="mt-4"
+            :style="
+              certSearchResult.isExpired
+                ? 'background: rgba(var(--v-theme-error), 0.1); border: 1px solid rgba(var(--v-theme-error), 0.25)'
+                : 'background: rgba(var(--v-theme-success), 0.08); border: 1px solid rgba(var(--v-theme-success), 0.2)'
+            "
+          >
+            <v-card-text class="pa-4">
+              <v-row align="center" no-gutters>
+                <v-col>
+                  <div class="text-caption text-medium-emphasis mb-1">
+                    เลขที่ใบรับรอง
+                  </div>
+                  <div class="text-body-1 font-weight-bold">
+                    {{ certSearchResult.certNo }}
+                  </div>
+                  <div class="text-body-2 mt-1">
+                    {{ certSearchResult.companyNameTh }}
+                  </div>
+                  <div class="d-flex align-center ga-2 mt-2">
+                    <v-chip
+                      size="x-small"
+                      :color="certSearchResult.isExpired ? 'error' : 'success'"
+                      variant="tonal"
+                    >
+                      {{ certSearchResult.isExpired ? "หมดอายุ" : "ใช้งานได้" }}
+                    </v-chip>
+                    <span class="text-caption text-medium-emphasis">
+                      หมดอายุ: {{ certSearchResult.expiryDate }}
+                    </span>
+                  </div>
+                </v-col>
+                <v-col cols="auto" class="d-flex flex-column ga-2 pl-4">
+                  <v-btn
+                    size="small"
+                    variant="flat"
+                    color="export-user"
+                    prepend-icon="fas fa-eye"
+                    @click="viewCertDialog = true"
+                  >
+                    ดูใบรับรอง
+                  </v-btn>
+                  <v-btn
+                    size="small"
+                    color="export-user"
+                    variant="flat"
+                    prepend-icon="fas fa-check"
+                    :disabled="certSearchResult.isExpired"
+                    @click="selectCert"
+                  >
+                    เลือกใบรับรองนี้
+                  </v-btn>
+                </v-col>
+              </v-row>
+            </v-card-text>
+          </v-card>
+
+          <!-- Selected cert chip -->
+          <div v-if="certSelected" class="mt-4 d-flex align-center ga-2">
+            <v-icon icon="fas fa-circle-check" color="success" size="16" />
+            <span class="text-body-2 font-weight-medium text-success">
+              เลือกใบรับรอง:
+            </span>
+            <v-chip color="export-user" variant="tonal" size="small">
+              {{ certSelected.certNo }} — {{ certSelected.companyNameTh }}
+            </v-chip>
+            <v-btn
+              icon="fas fa-xmark"
+              size="x-small"
+              variant="text"
+              color="grey"
+              @click="certSelected = null"
+            />
+          </div>
+        </v-card-text>
+      </v-card>
+
+      <!-- รายการที่ต้องการแก้ไข (amendment only, after cert selected) -->
+      <v-card
+        v-if="route.params.type === 'amendment' && certSelected"
+        elevation="0"
+        border
+        rounded="xl"
+        class="mb-5"
+      >
+        <div class="d-flex align-center ga-2 px-4 py-3 border-b">
+          <v-icon icon="fas fa-pencil" color="export-user" size="15" />
+          <span class="text-subtitle-2 font-weight-bold"
+            >เลือกรายการที่ต้องการแก้ไข</span
+          >
+        </div>
+        <v-card-text class="pt-4">
+          <div class="amend-list">
+            <template v-for="item in amendItems" :key="item.value">
+              <div
+                v-if="!item.onlyPersonal || entityType === 'personal'"
+                class="amend-item"
+                :class="{
+                  'amend-item--active': amendFields.includes(item.value),
+                }"
+              >
+                <!-- Checkbox header -->
+                <div class="d-flex align-center justify-space-between">
+                  <v-checkbox
+                    v-model="amendFields"
+                    :value="item.value"
+                    color="export-user"
+                    density="compact"
+                    hide-details
+                    class="checkbox-spacious"
+                  >
+                    <template #label>
+                      <div>
+                        <div class="text-body-2 font-weight-medium">
+                          {{ item.label }}
+                        </div>
+                        <div class="text-caption text-medium-emphasis">
+                          {{ item.labelEn }}
+                        </div>
+                      </div>
+                    </template>
+                  </v-checkbox>
+                  <v-chip
+                    v-if="item.source"
+                    size="x-small"
+                    color="export-user"
+                    variant="tonal"
+                    class="mr-2"
+                  >
+                    {{ item.source }}
+                  </v-chip>
+                </div>
+
+                <!-- Expanded detail -->
+                <v-expand-transition>
+                  <div
+                    v-if="amendFields.includes(item.value)"
+                    class="amend-detail-field"
+                  >
+                    <!-- ชื่อสถานประกอบการ (บนใบรับรอง → DBD) -->
+                    <template v-if="item.inputType === 'company_name'">
+                      <div class="field-section-label mb-2">
+                        ข้อมูลปัจจุบัน (บนใบรับรอง)
+                      </div>
+                      <v-row dense class="mb-3">
+                        <v-col cols="12" sm="6">
+                          <div class="field-label">
+                            <div>ชื่อสถานประกอบการ (ภาษาไทย)</div>
+                            <div class="field-label-en">
+                              Company Name (Thai)
+                            </div>
+                          </div>
+                          <v-text-field
+                            density="compact"
+                            :model-value="certSelected?.companyNameTh"
+                            readonly
+                            class="field-readonly"
+                            hide-details
+                          />
+                        </v-col>
+                        <v-col cols="12" sm="6">
+                          <div class="field-label">
+                            <div>ชื่อสถานประกอบการ (ภาษาอังกฤษ)</div>
+                            <div class="field-label-en">
+                              Company Name (English)
+                            </div>
+                          </div>
+                          <v-text-field
+                            density="compact"
+                            :model-value="certSelected?.companyNameEn"
+                            readonly
+                            class="field-readonly"
+                            hide-details
+                          />
+                        </v-col>
+                      </v-row>
+                      <div class="field-section-label mb-2">
+                        ข้อมูลใหม่ (DBD)
+                      </div>
+                      <v-row dense>
+                        <v-col cols="12" sm="6">
+                          <div class="field-label">
+                            <div>ชื่อสถานประกอบการ (ภาษาไทย)</div>
+                            <div class="field-label-en">
+                              Company Name (Thai)
+                            </div>
+                          </div>
+                          <v-text-field
+                            density="compact"
+                            v-model="amendNewValues.company_name.nameTh"
+                            hide-details="auto"
+                            class="field-readonly"
+                          />
+                        </v-col>
+                        <v-col cols="12" sm="6">
+                          <div class="field-label">
+                            <div>ชื่อสถานประกอบการ (ภาษาอังกฤษ)</div>
+                            <div class="field-label-en">
+                              Company Name (English)
+                            </div>
+                          </div>
+                          <v-text-field
+                            density="compact"
+                            v-model="amendNewValues.company_name.nameEn"
+                            hide-details="auto"
+                            class="field-readonly"
+                          />
+                        </v-col>
+                      </v-row>
+                    </template>
+
+                    <!-- ที่อยู่สถานประกอบการ (บนใบรับรอง → DBD) -->
+                    <template v-else-if="item.inputType === 'address'">
+                      <div class="field-section-label mb-2">
+                        ข้อมูลปัจจุบัน (บนใบรับรอง)
+                      </div>
+                      <v-row dense class="mb-3">
+                        <v-col cols="6" sm="3">
+                          <div class="field-label">
+                            <div>บ้านเลขที่</div>
+                            <div class="field-label-en">House No.</div>
+                          </div>
+                          <v-text-field
+                            density="compact"
+                            :model-value="certSelected?.houseNo"
+                            readonly
+                            class="field-readonly"
+                            hide-details
+                          />
+                        </v-col>
+                        <v-col cols="6" sm="3">
+                          <div class="field-label">
+                            <div>ตรอก/ซอย</div>
+                            <div class="field-label-en">Alley / Soi</div>
+                          </div>
+                          <v-text-field
+                            density="compact"
+                            :model-value="certSelected?.alley"
+                            readonly
+                            class="field-readonly"
+                            hide-details
+                          />
+                        </v-col>
+                        <v-col cols="6" sm="3">
+                          <div class="field-label">
+                            <div>ถนน</div>
+                            <div class="field-label-en">Road</div>
+                          </div>
+                          <v-text-field
+                            density="compact"
+                            :model-value="certSelected?.road"
+                            readonly
+                            class="field-readonly"
+                            hide-details
+                          />
+                        </v-col>
+                        <v-col cols="6" sm="3">
+                          <div class="field-label">
+                            <div>ตำบล/แขวง</div>
+                            <div class="field-label-en">Sub-district</div>
+                          </div>
+                          <v-text-field
+                            density="compact"
+                            :model-value="certSelected?.tambol"
+                            readonly
+                            class="field-readonly"
+                            hide-details
+                          />
+                        </v-col>
+                        <v-col cols="6" sm="3">
+                          <div class="field-label">
+                            <div>อำเภอ/เขต</div>
+                            <div class="field-label-en">District</div>
+                          </div>
+                          <v-text-field
+                            density="compact"
+                            :model-value="certSelected?.district"
+                            readonly
+                            class="field-readonly"
+                            hide-details
+                          />
+                        </v-col>
+                        <v-col cols="6" sm="3">
+                          <div class="field-label">
+                            <div>จังหวัด</div>
+                            <div class="field-label-en">Province</div>
+                          </div>
+                          <v-text-field
+                            density="compact"
+                            :model-value="certSelected?.province"
+                            readonly
+                            class="field-readonly"
+                            hide-details
+                          />
+                        </v-col>
+                        <v-col cols="6" sm="3">
+                          <div class="field-label">
+                            <div>รหัสไปรษณีย์</div>
+                            <div class="field-label-en">Postcode</div>
+                          </div>
+                          <v-text-field
+                            density="compact"
+                            :model-value="certSelected?.zipcode"
+                            readonly
+                            class="field-readonly"
+                            hide-details
+                          />
+                        </v-col>
+                      </v-row>
+                      <v-divider class="my-3" />
+                      <div
+                        class="text-caption font-weight-medium text-medium-emphasis mb-2"
+                      >
+                        English
+                      </div>
+                      <v-row dense class="mb-3">
+                        <v-col cols="6" sm="3">
+                          <div class="field-label">
+                            <div>บ้านเลขที่</div>
+                            <div class="field-label-en">House No.</div>
+                          </div>
+                          <v-text-field
+                            density="compact"
+                            v-model="amendNewValues.address.houseNoEn"
+                            hide-details="auto"
+                            class="field-readonly"
+                          />
+                        </v-col>
+                        <v-col cols="6" sm="3">
+                          <div class="field-label">
+                            <div>ตรอก / ซอย</div>
+                            <div class="field-label-en">Alley / Soi</div>
+                          </div>
+                          <v-text-field
+                            density="compact"
+                            v-model="amendNewValues.address.alleyEn"
+                            hide-details="auto"
+                            class="field-readonly"
+                          />
+                        </v-col>
+                        <v-col cols="6" sm="3">
+                          <div class="field-label">
+                            <div>ถนน</div>
+                            <div class="field-label-en">Road</div>
+                          </div>
+                          <v-text-field
+                            density="compact"
+                            v-model="amendNewValues.address.roadEn"
+                            hide-details="auto"
+                            class="field-readonly"
+                          />
+                        </v-col>
+                        <v-col cols="6" sm="3">
+                          <div class="field-label">
+                            <div>ตำบล / แขวง</div>
+                            <div class="field-label-en">Sub-district</div>
+                          </div>
+                          <v-text-field
+                            density="compact"
+                            v-model="amendNewValues.address.tambolEn"
+                            hide-details="auto"
+                            class="field-readonly"
+                          />
+                        </v-col>
+                        <v-col cols="6" sm="3">
+                          <div class="field-label">
+                            <div>อำเภอ / เขต</div>
+                            <div class="field-label-en">District</div>
+                          </div>
+                          <v-text-field
+                            density="compact"
+                            v-model="amendNewValues.address.districtEn"
+                            hide-details="auto"
+                            class="field-readonly"
+                          />
+                        </v-col>
+                        <v-col cols="6" sm="3">
+                          <div class="field-label">
+                            <div>จังหวัด</div>
+                            <div class="field-label-en">Province</div>
+                          </div>
+                          <v-text-field
+                            density="compact"
+                            v-model="amendNewValues.address.provinceEn"
+                            hide-details="auto"
+                            class="field-readonly"
+                          />
+                        </v-col>
+                      </v-row>
+
+                      <div class="field-section-label mb-2">
+                        ข้อมูลใหม่ (DBD)
+                      </div>
+
+                      <div
+                        class="text-caption font-weight-medium text-medium-emphasis mb-2"
+                      >
+                        ภาษาไทย
+                      </div>
+                      <v-row dense class="mb-2">
+                        <v-col cols="6" sm="3">
+                          <div class="field-label">
+                            <div>บ้านเลขที่</div>
+                            <div class="field-label-en">House No.</div>
+                          </div>
+                          <v-text-field
+                            density="compact"
+                            v-model="amendNewValues.address.houseNo"
+                            hide-details="auto"
+                            class="field-readonly"
+                          />
+                        </v-col>
+                        <v-col cols="6" sm="3">
+                          <div class="field-label">
+                            <div>หมู่</div>
+                            <div class="field-label-en">Moo</div>
+                          </div>
+                          <v-text-field
+                            density="compact"
+                            v-model="amendNewValues.address.moo"
+                            hide-details="auto"
+                            class="field-readonly"
+                          />
+                        </v-col>
+                        <v-col cols="6" sm="3">
+                          <div class="field-label">
+                            <div>ตรอก/ซอย</div>
+                            <div class="field-label-en">Alley / Soi</div>
+                          </div>
+                          <v-text-field
+                            density="compact"
+                            v-model="amendNewValues.address.alley"
+                            hide-details="auto"
+                            class="field-readonly"
+                          />
+                        </v-col>
+                        <v-col cols="6" sm="3">
+                          <div class="field-label">
+                            <div>ถนน</div>
+                            <div class="field-label-en">Road</div>
+                          </div>
+                          <v-text-field
+                            density="compact"
+                            v-model="amendNewValues.address.road"
+                            hide-details="auto"
+                            class="field-readonly"
+                          />
+                        </v-col>
+                        <v-col cols="6" sm="3">
+                          <div class="field-label">
+                            <div>ตำบล/แขวง</div>
+                            <div class="field-label-en">Sub-district</div>
+                          </div>
+                          <v-text-field
+                            density="compact"
+                            v-model="amendNewValues.address.tambol"
+                            hide-details="auto"
+                            class="field-readonly"
+                          />
+                        </v-col>
+                        <v-col cols="6" sm="3">
+                          <div class="field-label">
+                            <div>อำเภอ/เขต</div>
+                            <div class="field-label-en">District</div>
+                          </div>
+                          <v-text-field
+                            density="compact"
+                            v-model="amendNewValues.address.district"
+                            hide-details="auto"
+                            class="field-readonly"
+                          />
+                        </v-col>
+                        <v-col cols="6" sm="3">
+                          <div class="field-label">
+                            <div>จังหวัด</div>
+                            <div class="field-label-en">Province</div>
+                          </div>
+                          <v-text-field
+                            density="compact"
+                            v-model="amendNewValues.address.province"
+                            hide-details="auto"
+                            class="field-readonly"
+                          />
+                        </v-col>
+                        <v-col cols="6" sm="3">
+                          <div class="field-label">
+                            <div>รหัสไปรษณีย์</div>
+                            <div class="field-label-en">Postcode</div>
+                          </div>
+                          <v-text-field
+                            density="compact"
+                            v-model="amendNewValues.address.zipcode"
+                            hide-details="auto"
+                            class="field-readonly"
+                          />
+                        </v-col>
+                      </v-row>
+
+                      <v-divider class="my-3" />
+                      <div
+                        class="text-caption font-weight-medium text-medium-emphasis mb-2"
+                      >
+                        English
+                      </div>
+                      <v-row dense>
+                        <v-col cols="6" sm="3">
+                          <div class="field-label">
+                            <div>บ้านเลขที่</div>
+                            <div class="field-label-en">House No.</div>
+                          </div>
+                          <v-text-field
+                            density="compact"
+                            v-model="amendNewValues.address.houseNoEn"
+                            hide-details="auto"
+                            class="field-readonly"
+                          />
+                        </v-col>
+                        <v-col cols="6" sm="3">
+                          <div class="field-label">
+                            <div>ตรอก / ซอย</div>
+                            <div class="field-label-en">Alley / Soi</div>
+                          </div>
+                          <v-text-field
+                            density="compact"
+                            v-model="amendNewValues.address.alleyEn"
+                            hide-details="auto"
+                            class="field-readonly"
+                          />
+                        </v-col>
+                        <v-col cols="6" sm="3">
+                          <div class="field-label">
+                            <div>ถนน</div>
+                            <div class="field-label-en">Road</div>
+                          </div>
+                          <v-text-field
+                            density="compact"
+                            v-model="amendNewValues.address.roadEn"
+                            hide-details="auto"
+                            class="field-readonly"
+                          />
+                        </v-col>
+                        <v-col cols="6" sm="3">
+                          <div class="field-label">
+                            <div>ตำบล / แขวง</div>
+                            <div class="field-label-en">Sub-district</div>
+                          </div>
+                          <v-text-field
+                            density="compact"
+                            v-model="amendNewValues.address.tambolEn"
+                            hide-details="auto"
+                            class="field-readonly"
+                          />
+                        </v-col>
+                        <v-col cols="6" sm="3">
+                          <div class="field-label">
+                            <div>อำเภอ / เขต</div>
+                            <div class="field-label-en">District</div>
+                          </div>
+                          <v-text-field
+                            density="compact"
+                            v-model="amendNewValues.address.districtEn"
+                            hide-details="auto"
+                            class="field-readonly"
+                          />
+                        </v-col>
+                        <v-col cols="6" sm="3">
+                          <div class="field-label">
+                            <div>จังหวัด</div>
+                            <div class="field-label-en">Province</div>
+                          </div>
+                          <v-text-field
+                            density="compact"
+                            v-model="amendNewValues.address.provinceEn"
+                            hide-details="auto"
+                            class="field-readonly"
+                          />
+                        </v-col>
+                      </v-row>
+                    </template>
+
+                    <!-- วันหมดอายุ -->
+                    <template v-else-if="item.inputType === 'expire_date'">
+                      <div class="field-section-label mb-2">
+                        ข้อมูลปัจจุบัน (บนใบรับรอง)
+                      </div>
+                      <v-row dense class="mb-3">
+                        <v-col cols="12" sm="6">
+                          <div class="field-label">
+                            <div>วันหมดอายุ</div>
+                            <div class="field-label-en">Expire date</div>
+                          </div>
+                          <v-text-field
+                            density="compact"
+                            :model-value="certSelected?.expiryDate"
+                            readonly
+                            class="field-readonly"
+                            hide-details
+                          />
+                        </v-col>
+                      </v-row>
+                      <div class="field-section-label mb-2">
+                        ข้อมูลใหม่ <span class="req">*</span>
+                      </div>
+                      <v-row dense>
+                        <v-col cols="12" sm="6">
+                          <div class="field-label">
+                            <div>วันหมดอายุใหม่</div>
+                            <div class="field-label-en">New Expiry Date</div>
+                          </div>
+                          <v-menu
+                            v-model="expireDateMenu"
+                            :close-on-content-click="false"
+                            location="bottom start"
+                          >
+                            <template #activator="{ props }">
+                              <v-text-field
+                                v-bind="props"
+                                density="compact"
+                                :model-value="expireDateBE"
+                                readonly
+                                clearable
+                                prepend-inner-icon="fas fa-calendar"
+                                placeholder="เลือกวันที่ / เดือน / ปี"
+                                :hint="
+                                  certSelected
+                                    ? `ห้ามเลือกเกินวันหมดอายุเดิม (${certSelected.expiryDate})`
+                                    : ''
+                                "
+                                persistent-hint
+                                style="cursor: pointer"
+                                @click:clear.stop="expireDateObj = null"
+                                class="field-editable"
+                              />
+                            </template>
+                            <v-date-picker
+                              v-model="expireDateObj"
+                              :max="certExpiryMaxDate"
+                              color="export-user"
+                              show-adjacent-months
+                              :hide-header="!expireDateObj"
+                              title="เลือกวันที่"
+                              locale="th"
+                              @update:model-value="expireDateMenu = false"
+                            />
+                          </v-menu>
+                        </v-col>
+                      </v-row>
+                    </template>
+                  </div>
+                </v-expand-transition>
+              </div>
+            </template>
+          </div>
+        </v-card-text>
+      </v-card>
+
+      <!-- View Cert Dialog -->
+      <v-dialog v-model="viewCertDialog" max-width="480">
+        <v-card rounded="xl">
+          <v-card-title class="d-flex align-center ga-2 pa-5 pb-3">
+            <v-icon icon="fas fa-certificate" color="export-user" size="18" />
+            ใบรับรองทะเบียนผู้ส่งออก
+            <v-spacer />
+            <v-btn
+              icon="fas fa-xmark"
+              size="small"
+              variant="text"
+              color="grey"
+              @click="viewCertDialog = false"
+            />
+          </v-card-title>
+          <v-divider />
+          <v-card-text class="pa-5">
+            <template v-if="certSearchResult">
+              <v-list density="compact" lines="two">
+                <v-list-item subtitle="เลขที่ใบรับรอง">
+                  <v-list-item-title class="text-export-user font-weight-bold">
+                    {{ certSearchResult.certNo }}
+                  </v-list-item-title>
+                </v-list-item>
+                <v-list-item subtitle="ชื่อสถานประกอบการ">
+                  <v-list-item-title>{{
+                    certSearchResult.companyNameTh
+                  }}</v-list-item-title>
+                </v-list-item>
+                <v-list-item subtitle="วันที่ออกใบรับรอง">
+                  <v-list-item-title>{{
+                    certSearchResult.issuedDate
+                  }}</v-list-item-title>
+                </v-list-item>
+                <v-list-item subtitle="วันหมดอายุ">
+                  <v-list-item-title>
+                    {{ certSearchResult.expiryDate }}
+                  </v-list-item-title>
+                </v-list-item>
+              </v-list>
+            </template>
+          </v-card-text>
+          <v-card-actions class="px-5 pb-4">
+            <v-btn
+              color="export-user"
+              variant="tonal"
+              prepend-icon="fas fa-download"
+              block
+              rounded="lg"
+              :disabled="certSearchResult.isExpired"
+              @click="selectCert"
+            >
+              ดาวน์โหลด PDF
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+
       <!-- ข้อมูลผู้ยื่นคำขอ -->
-      <v-card elevation="0" border rounded="xl" class="mb-5">
+      <v-card
+        v-if="route.params.type !== 'amendment'"
+        elevation="0"
+        border
+        rounded="xl"
+        class="mb-5"
+      >
         <div class="d-flex align-center ga-2 px-4 py-3 border-b">
           <v-icon icon="fas fa-user" color="export-user" size="15" />
           <span class="text-subtitle-2 font-weight-bold"
@@ -108,20 +898,7 @@
                 v-model="form.applicantNameTh"
                 hide-details
                 readonly
-                bg-color="surface-variant"
-              />
-            </v-col>
-            <v-col cols="12" md="6">
-              <div class="field-label">
-                <div>เลขบัตรประชาชน / เลขนิติบุคคล</div>
-                <div class="field-label-en">ID Card / Tax ID</div>
-              </div>
-              <v-text-field
-                density="compact"
-                v-model="form.applicantId"
-                hide-details
-                readonly
-                bg-color="surface-variant"
+                class="field-readonly"
               />
             </v-col>
           </v-row>
@@ -139,7 +916,7 @@
                 v-model="form.applicantHouseNo"
                 hide-details
                 readonly
-                bg-color="surface-variant"
+                class="field-readonly"
               />
             </v-col>
             <v-col cols="12" md="3">
@@ -152,7 +929,7 @@
                 v-model="form.applicantMoo"
                 hide-details
                 readonly
-                bg-color="surface-variant"
+                class="field-readonly"
               />
             </v-col>
             <v-col cols="12" md="3">
@@ -165,7 +942,7 @@
                 v-model="form.applicantAlley"
                 hide-details
                 readonly
-                bg-color="surface-variant"
+                class="field-readonly"
               />
             </v-col>
             <v-col cols="12" md="3">
@@ -178,7 +955,7 @@
                 v-model="form.applicantRoad"
                 hide-details
                 readonly
-                bg-color="surface-variant"
+                class="field-readonly"
               />
             </v-col>
             <v-col cols="12" md="3">
@@ -191,7 +968,7 @@
                 v-model="form.applicantTambol"
                 hide-details
                 readonly
-                bg-color="surface-variant"
+                class="field-readonly"
               />
             </v-col>
             <v-col cols="12" md="3">
@@ -204,7 +981,7 @@
                 v-model="form.applicantDistrict"
                 hide-details
                 readonly
-                bg-color="surface-variant"
+                class="field-readonly"
               />
             </v-col>
             <v-col cols="12" md="3">
@@ -217,7 +994,7 @@
                 v-model="form.applicantProvince"
                 hide-details
                 readonly
-                bg-color="surface-variant"
+                class="field-readonly"
               />
             </v-col>
             <v-col cols="12" md="3">
@@ -230,7 +1007,7 @@
                 v-model="form.applicantZipcode"
                 hide-details
                 readonly
-                bg-color="surface-variant"
+                class="field-readonly"
               />
             </v-col>
           </v-row>
@@ -248,7 +1025,7 @@
                 v-model="form.applicantPhone"
                 hide-details
                 readonly
-                bg-color="surface-variant"
+                class="field-readonly"
               />
             </v-col>
             <v-col cols="12" md="4">
@@ -261,7 +1038,7 @@
                 v-model="form.applicantFax"
                 hide-details
                 readonly
-                bg-color="surface-variant"
+                class="field-readonly"
               />
             </v-col>
             <v-col cols="12" md="4">
@@ -274,7 +1051,298 @@
                 v-model="form.applicantEmail"
                 hide-details
                 readonly
-                bg-color="surface-variant"
+                class="field-readonly"
+              />
+            </v-col>
+          </v-row>
+        </v-card-text>
+      </v-card>
+
+      <!-- ข้อมูลสถานประกอบการ -->
+      <v-card
+        v-if="route.params.type !== 'amendment'"
+        elevation="0"
+        border
+        rounded="xl"
+        class="mb-5"
+      >
+        <div class="d-flex align-center ga-2 px-4 py-3 border-b">
+          <v-icon icon="fas fa-building" color="export-user" size="15" />
+          <span class="text-subtitle-2 font-weight-bold"
+            >ข้อมูลสถานประกอบการ
+            <v-chip
+              size="x-small"
+              color="export-user"
+              variant="tonal"
+              class="ml-1"
+            >
+              Auto-fill บางส่วนจาก DBD
+            </v-chip></span
+          >
+        </div>
+        <v-card-text class="pt-5">
+          <!-- ชื่อสถานประกอบการ -->
+          <div class="field-section-label mb-2">ชื่อสถานประกอบการ</div>
+          <v-row dense>
+            <v-col cols="12" md="6">
+              <div class="field-label">
+                <div>ชื่อสถานประกอบการ (ภาษาไทย)</div>
+                <div class="field-label-en">Company Name (Thai)</div>
+              </div>
+              <v-text-field
+                density="compact"
+                v-model="form.companyNameTh"
+                hide-details
+                readonly
+                class="field-readonly"
+              />
+            </v-col>
+            <v-col cols="12" md="6">
+              <div class="field-label">
+                <div>ชื่อสถานประกอบการ (ภาษาอังกฤษ)</div>
+                <div class="field-label-en">Company Name (English)</div>
+              </div>
+              <v-text-field
+                density="compact"
+                v-model="form.companyNameEn"
+                hide-details
+                readonly
+                class="field-readonly"
+              />
+            </v-col>
+          </v-row>
+
+          <!-- ที่ตั้ง (ภาษาไทย) -->
+          <div class="field-section-label mt-4 mb-2">ที่ตั้ง (ภาษาไทย)</div>
+          <v-row dense>
+            <v-col cols="12" md="4">
+              <div class="field-label">
+                <div>บ้านเลขที่</div>
+                <div class="field-label-en">House No.</div>
+              </div>
+              <v-text-field
+                density="compact"
+                v-model="form.houseNo"
+                hide-details
+                readonly
+                class="field-readonly"
+              />
+            </v-col>
+            <v-col cols="12" md="4">
+              <div class="field-label">
+                <div>ซอย / ตรอก</div>
+                <div class="field-label-en">Alley / Soi</div>
+              </div>
+              <v-text-field
+                density="compact"
+                v-model="form.alley"
+                hide-details
+                readonly
+                class="field-readonly"
+              />
+            </v-col>
+            <v-col cols="12" md="4">
+              <div class="field-label">
+                <div>ถนน</div>
+                <div class="field-label-en">Road</div>
+              </div>
+              <v-text-field
+                density="compact"
+                v-model="form.road"
+                hide-details
+                readonly
+                class="field-readonly"
+              />
+            </v-col>
+            <v-col cols="12" md="4">
+              <div class="field-label">
+                <div>ตำบล / แขวง</div>
+                <div class="field-label-en">Sub-district (Tambol)</div>
+              </div>
+              <v-text-field
+                density="compact"
+                v-model="form.tambol"
+                hide-details
+                readonly
+                class="field-readonly"
+              />
+            </v-col>
+            <v-col cols="12" md="4">
+              <div class="field-label">
+                <div>อำเภอ / เขต</div>
+                <div class="field-label-en">District</div>
+              </div>
+              <v-text-field
+                density="compact"
+                v-model="form.district"
+                hide-details
+                readonly
+                class="field-readonly"
+              />
+            </v-col>
+            <v-col cols="12" md="4">
+              <div class="field-label">
+                <div>จังหวัด</div>
+                <div class="field-label-en">Province</div>
+              </div>
+              <v-text-field
+                density="compact"
+                v-model="form.province"
+                hide-details
+                readonly
+                class="field-readonly"
+              />
+            </v-col>
+            <v-col cols="12" md="4">
+              <div class="field-label">
+                <div>รหัสไปรษณีย์</div>
+                <div class="field-label-en">Zipcode</div>
+              </div>
+              <v-text-field
+                density="compact"
+                v-model="form.zipcode"
+                hide-details
+                readonly
+                class="field-readonly"
+              />
+            </v-col>
+          </v-row>
+
+          <!-- ที่ตั้ง (ภาษาอังกฤษ) -->
+          <div class="field-section-label mt-4 mb-2">ที่ตั้ง (ภาษาอังกฤษ)</div>
+          <v-row dense>
+            <v-col cols="12" md="4">
+              <div class="field-label">
+                <div>บ้านเลขที่</div>
+                <div class="field-label-en">House No.</div>
+              </div>
+              <v-text-field
+                density="compact"
+                v-model="form.houseNoEn"
+                hide-details
+                readonly
+                class="field-readonly"
+              />
+            </v-col>
+            <v-col cols="12" md="4">
+              <div class="field-label">
+                <div>ซอย / ตรอก</div>
+                <div class="field-label-en">Alley / Soi</div>
+              </div>
+              <v-text-field
+                density="compact"
+                v-model="form.alleyEn"
+                hide-details
+                readonly
+                class="field-readonly"
+              />
+            </v-col>
+            <v-col cols="12" md="4">
+              <div class="field-label">
+                <div>ถนน</div>
+                <div class="field-label-en">Road</div>
+              </div>
+              <v-text-field
+                density="compact"
+                v-model="form.roadEn"
+                hide-details
+                readonly
+                class="field-readonly"
+              />
+            </v-col>
+            <v-col cols="12" md="4">
+              <div class="field-label">
+                <div>ตำยล / แขวง</div>
+                <div class="field-label-en">Sub-district</div>
+              </div>
+              <v-text-field
+                density="compact"
+                v-model="form.tambolEn"
+                hide-details
+                readonly
+                class="field-readonly"
+              />
+            </v-col>
+            <v-col cols="12" md="4">
+              <div class="field-label">
+                <div>อำเภอ / เขต</div>
+                <div class="field-label-en">District</div>
+              </div>
+              <v-text-field
+                density="compact"
+                v-model="form.districtEn"
+                hide-details
+                readonly
+                class="field-readonly"
+              />
+            </v-col>
+            <v-col cols="12" md="4">
+              <div class="field-label">
+                <div>จังหวัด</div>
+                <div class="field-label-en">Province</div>
+              </div>
+              <v-text-field
+                density="compact"
+                v-model="form.provinceEn"
+                hide-details
+                readonly
+                class="field-readonly"
+              />
+            </v-col>
+            <v-col cols="12" md="4">
+              <div class="field-label">
+                <div>รหัสไปรษณีย์</div>
+                <div class="field-label-en">Zipcode</div>
+              </div>
+              <v-text-field
+                density="compact"
+                v-model="form.zipcodeEn"
+                hide-details
+                readonly
+                class="field-readonly"
+              />
+            </v-col>
+          </v-row>
+
+          <!-- ข้อมูลการติดต่อ -->
+          <div class="field-section-label mt-4 mb-2">ข้อมูลการติดต่อ</div>
+          <v-row dense>
+            <v-col cols="12" md="4">
+              <div class="field-label">
+                <div>โทรศัพท์</div>
+                <div class="field-label-en">Phone Number</div>
+              </div>
+              <v-text-field
+                density="compact"
+                v-model="form.companyPhone"
+                hide-details
+                readonly
+                class="field-readonly"
+              />
+            </v-col>
+            <v-col cols="12" md="4">
+              <div class="field-label">
+                <div>โทรสาร</div>
+                <div class="field-label-en">Fax</div>
+              </div>
+              <v-text-field
+                density="compact"
+                v-model="form.companyFax"
+                hide-details
+                placeholder="ระบุโทรสาร"
+              />
+            </v-col>
+            <v-col cols="12" md="4">
+              <div class="field-label">
+                <div>อีเมล</div>
+                <div class="field-label-en">Email</div>
+              </div>
+              <v-text-field
+                density="compact"
+                v-model="form.companyEmail"
+                hide-details
+                readonly
+                class="field-readonly"
               />
             </v-col>
           </v-row>
@@ -282,7 +1350,13 @@
       </v-card>
 
       <!-- ขอบข่ายประเทศ -->
-      <v-card elevation="0" border rounded="xl" class="mb-5">
+      <v-card
+        v-if="route.params.type !== 'amendment'"
+        elevation="0"
+        border
+        rounded="xl"
+        class="mb-5"
+      >
         <div class="d-flex align-center ga-2 px-4 py-3 border-b">
           <v-icon icon="fas fa-earth-asia" color="export-user" size="15" />
           <span class="text-subtitle-2 font-weight-bold">ขอบข่ายประเทศ</span>
@@ -324,293 +1398,14 @@
         </v-card-text>
       </v-card>
 
-      <!-- ข้อมูลสถานประกอบการ -->
-      <v-card elevation="0" border rounded="xl" class="mb-5">
-        <div class="d-flex align-center ga-2 px-4 py-3 border-b">
-          <v-icon icon="fas fa-building" color="export-user" size="15" />
-          <span class="text-subtitle-2 font-weight-bold"
-            >ข้อมูลสถานประกอบการ
-            <v-chip
-              size="x-small"
-              color="export-user"
-              variant="tonal"
-              class="ml-1"
-            >
-              Auto-fill บางส่วนจาก DBD
-            </v-chip></span
-          >
-        </div>
-        <v-card-text class="pt-5">
-          <!-- ชื่อสถานประกอบการ -->
-          <div class="field-section-label mb-2">ชื่อสถานประกอบการ</div>
-          <v-row dense>
-            <v-col cols="12" md="6">
-              <div class="field-label">
-                <div>ชื่อสถานประกอบการ (ภาษาไทย)</div>
-                <div class="field-label-en">Company Name (Thai)</div>
-              </div>
-              <v-text-field
-                density="compact"
-                v-model="form.companyNameTh"
-                hide-details
-                readonly
-                bg-color="surface-variant"
-              />
-            </v-col>
-            <v-col cols="12" md="6">
-              <div class="field-label">
-                <div>ชื่อสถานประกอบการ (ภาษาอังกฤษ)</div>
-                <div class="field-label-en">Company Name (English)</div>
-              </div>
-              <v-text-field
-                density="compact"
-                v-model="form.companyNameEn"
-                hide-details
-                readonly
-                bg-color="surface-variant"
-              />
-            </v-col>
-          </v-row>
-
-          <!-- ที่ตั้ง (ภาษาไทย) -->
-          <div class="field-section-label mt-4 mb-2">ที่ตั้ง (ภาษาไทย)</div>
-          <v-row dense>
-            <v-col cols="12" md="4">
-              <div class="field-label">
-                <div>บ้านเลขที่</div>
-                <div class="field-label-en">House No.</div>
-              </div>
-              <v-text-field
-                density="compact"
-                v-model="form.houseNo"
-                hide-details
-                readonly
-                bg-color="surface-variant"
-              />
-            </v-col>
-            <v-col cols="12" md="4">
-              <div class="field-label">
-                <div>ซอย / ตรอก</div>
-                <div class="field-label-en">Alley / Soi</div>
-              </div>
-              <v-text-field
-                density="compact"
-                v-model="form.alley"
-                hide-details
-                readonly
-                bg-color="surface-variant"
-              />
-            </v-col>
-            <v-col cols="12" md="4">
-              <div class="field-label">
-                <div>ถนน</div>
-                <div class="field-label-en">Road</div>
-              </div>
-              <v-text-field
-                density="compact"
-                v-model="form.road"
-                hide-details
-                readonly
-                bg-color="surface-variant"
-              />
-            </v-col>
-            <v-col cols="12" md="4">
-              <div class="field-label">
-                <div>ตำบล / แขวง</div>
-                <div class="field-label-en">Sub-district (Tambol)</div>
-              </div>
-              <v-text-field
-                density="compact"
-                v-model="form.tambol"
-                hide-details
-                readonly
-                bg-color="surface-variant"
-              />
-            </v-col>
-            <v-col cols="12" md="4">
-              <div class="field-label">
-                <div>อำเภอ / เขต</div>
-                <div class="field-label-en">District</div>
-              </div>
-              <v-text-field
-                density="compact"
-                v-model="form.district"
-                hide-details
-                readonly
-                bg-color="surface-variant"
-              />
-            </v-col>
-            <v-col cols="12" md="4">
-              <div class="field-label">
-                <div>จังหวัด</div>
-                <div class="field-label-en">Province</div>
-              </div>
-              <v-text-field
-                density="compact"
-                v-model="form.province"
-                hide-details
-                readonly
-                bg-color="surface-variant"
-              />
-            </v-col>
-            <v-col cols="12" md="4">
-              <div class="field-label">
-                <div>รหัสไปรษณีย์</div>
-                <div class="field-label-en">Zipcode</div>
-              </div>
-              <v-text-field
-                density="compact"
-                v-model="form.zipcode"
-                hide-details
-                readonly
-                bg-color="surface-variant"
-              />
-            </v-col>
-          </v-row>
-
-          <!-- ที่ตั้ง (ภาษาอังกฤษ) -->
-          <div class="field-section-label mt-4 mb-2">ที่ตั้ง (ภาษาอังกฤษ)</div>
-          <v-row dense>
-            <v-col cols="12" md="4">
-              <div class="field-label">
-                <div>House No.</div>
-                <div class="field-label-en">House No.</div>
-              </div>
-              <v-text-field
-                density="compact"
-                v-model="form.houseNoEn"
-                hide-details
-                readonly
-                bg-color="surface-variant"
-              />
-            </v-col>
-            <v-col cols="12" md="4">
-              <div class="field-label">
-                <div>Alley / Soi</div>
-                <div class="field-label-en">Alley / Soi</div>
-              </div>
-              <v-text-field
-                density="compact"
-                v-model="form.alleyEn"
-                hide-details
-                readonly
-                bg-color="surface-variant"
-              />
-            </v-col>
-            <v-col cols="12" md="4">
-              <div class="field-label">
-                <div>Road</div>
-                <div class="field-label-en">Road</div>
-              </div>
-              <v-text-field
-                density="compact"
-                v-model="form.roadEn"
-                hide-details
-                readonly
-                bg-color="surface-variant"
-              />
-            </v-col>
-            <v-col cols="12" md="4">
-              <div class="field-label">
-                <div>Sub-district</div>
-                <div class="field-label-en">Sub-district</div>
-              </div>
-              <v-text-field
-                density="compact"
-                v-model="form.tambolEn"
-                hide-details
-                readonly
-                bg-color="surface-variant"
-              />
-            </v-col>
-            <v-col cols="12" md="4">
-              <div class="field-label">
-                <div>District</div>
-                <div class="field-label-en">District</div>
-              </div>
-              <v-text-field
-                density="compact"
-                v-model="form.districtEn"
-                hide-details
-                readonly
-                bg-color="surface-variant"
-              />
-            </v-col>
-            <v-col cols="12" md="4">
-              <div class="field-label">
-                <div>Province</div>
-                <div class="field-label-en">Province</div>
-              </div>
-              <v-text-field
-                density="compact"
-                v-model="form.provinceEn"
-                hide-details
-                readonly
-                bg-color="surface-variant"
-              />
-            </v-col>
-            <v-col cols="12" md="4">
-              <div class="field-label">
-                <div>Zipcode</div>
-                <div class="field-label-en">Zipcode</div>
-              </div>
-              <v-text-field
-                density="compact"
-                v-model="form.zipcodeEn"
-                hide-details
-                readonly
-                bg-color="surface-variant"
-              />
-            </v-col>
-          </v-row>
-
-          <!-- ข้อมูลการติดต่อ -->
-          <div class="field-section-label mt-4 mb-2">ข้อมูลการติดต่อ</div>
-          <v-row dense>
-            <v-col cols="12" md="4">
-              <div class="field-label">
-                <div>โทรศัพท์</div>
-                <div class="field-label-en">Phone Number</div>
-              </div>
-              <v-text-field
-                density="compact"
-                v-model="form.companyPhone"
-                hide-details
-                readonly
-                bg-color="surface-variant"
-              />
-            </v-col>
-            <v-col cols="12" md="4">
-              <div class="field-label">
-                <div>โทรสาร</div>
-                <div class="field-label-en">Fax</div>
-              </div>
-              <v-text-field
-                density="compact"
-                v-model="form.companyFax"
-                hide-details
-                placeholder="ระบุโทรสาร"
-              />
-            </v-col>
-            <v-col cols="12" md="4">
-              <div class="field-label">
-                <div>อีเมล</div>
-                <div class="field-label-en">Email</div>
-              </div>
-              <v-text-field
-                density="compact"
-                v-model="form.companyEmail"
-                hide-details
-                readonly
-                bg-color="surface-variant"
-              />
-            </v-col>
-          </v-row>
-        </v-card-text>
-      </v-card>
-
       <!-- ข้อมูลโรงงานผลิตสินค้าพืช -->
-      <v-card elevation="0" border rounded="xl" class="mb-5">
+      <v-card
+        v-if="route.params.type !== 'amendment'"
+        elevation="0"
+        border
+        rounded="xl"
+        class="mb-5"
+      >
         <div class="d-flex align-center ga-2 px-4 py-3 border-b">
           <v-icon icon="fas fa-industry" color="export-user" size="15" />
           <span class="text-subtitle-2 font-weight-bold"
@@ -760,7 +1555,13 @@
       </v-card>
 
       <!-- ข้อมูลแหล่งผลิตพืชที่ได้การรับรอง GAP -->
-      <v-card elevation="0" border rounded="xl" class="mb-5">
+      <v-card
+        v-if="route.params.type !== 'amendment'"
+        elevation="0"
+        border
+        rounded="xl"
+        class="mb-5"
+      >
         <div class="d-flex align-center ga-2 px-4 py-3 border-b">
           <v-icon icon="fas fa-seedling" color="export-user" size="15" />
           <span class="text-subtitle-2 font-weight-bold"
@@ -974,13 +1775,21 @@
                       >{{ uploadedFiles[doc.key] }}</v-chip
                     >
                     <v-btn
+                      v-if="uploadedFiles[doc.key]"
+                      icon="fas fa-xmark"
+                      color="error"
+                      variant="text"
+                      size="small"
+                      @click="removeFile(doc.key)"
+                    />
+                    <v-btn
                       :color="
                         uploadedFiles[doc.key] ? 'success' : 'export-user'
                       "
                       variant="tonal"
                       size="small"
                       prepend-icon="fas fa-upload"
-                      @click="mockUploadFile(doc.key)"
+                      @click="triggerFileInput(doc.key)"
                     >
                       {{ uploadedFiles[doc.key] ? "เปลี่ยนไฟล์" : "แนบไฟล์" }}
                     </v-btn>
@@ -1026,13 +1835,21 @@
                       >{{ uploadedFiles[doc.key] }}</v-chip
                     >
                     <v-btn
+                      v-if="uploadedFiles[doc.key]"
+                      icon="fas fa-xmark"
+                      color="error"
+                      variant="text"
+                      size="small"
+                      @click="removeFile(doc.key)"
+                    />
+                    <v-btn
                       :color="
                         uploadedFiles[doc.key] ? 'success' : 'export-user'
                       "
                       variant="tonal"
                       size="small"
                       prepend-icon="fas fa-upload"
-                      @click="mockUploadFile(doc.key)"
+                      @click="triggerFileInput(doc.key)"
                     >
                       {{ uploadedFiles[doc.key] ? "เปลี่ยนไฟล์" : "แนบไฟล์" }}
                     </v-btn>
@@ -1086,24 +1903,39 @@
     </div>
 
     <!-- Confirm Dialog -->
-    <v-dialog v-model="confirmDialog" max-width="420">
+    <v-dialog v-model="confirmDialog" max-width="360">
       <v-card rounded="xl">
-        <v-card-text class="pa-7 text-center">
+        <v-card-text class="pa-6 text-center">
           <div class="confirm-ring mx-auto mb-4">
-            <v-icon icon="fas fa-paper-plane" color="export-user" size="32" />
+            <v-icon icon="fas fa-paper-plane" color="export-user" size="28" />
           </div>
-          <h3 class="text-h6 font-weight-bold mb-2">ยืนยันการยื่นคำขอ</h3>
-          <p class="text-body-2 text-medium-emphasis">
-            ตรวจสอบข้อมูลให้ครบถ้วนก่อนยืนยัน เมื่อยืนยันแล้วจะไม่สามารถแก้ไขได้
+          <h3 class="text-h6 font-weight-bold mb-1">ยืนยันการยื่นคำขอ</h3>
+          <p class="text-body-2 text-medium-emphasis mb-0">
+            ตรวจสอบข้อมูลให้ครบถ้วนก่อนยืนยัน
           </p>
         </v-card-text>
-        <v-card-actions class="px-6 pb-5 ga-2">
-          <v-btn variant="tonal" color="grey" block @click="closeConfirmDialog"
-            >ยกเลิก</v-btn
-          >
-          <v-btn color="export-user" block @click="submitApplication"
-            >ยืนยัน</v-btn
-          >
+        <v-card-actions class="px-5 pb-5">
+          <v-row no-gutters class="ga-2 w-100">
+            <v-col>
+              <v-btn
+                variant="tonal"
+                color="grey"
+                block
+                rounded="lg"
+                @click="closeConfirmDialog"
+                >ยกเลิก</v-btn
+              >
+            </v-col>
+            <v-col>
+              <v-btn
+                color="export-user"
+                block
+                rounded="lg"
+                @click="submitApplication"
+                >ยืนยัน</v-btn
+              >
+            </v-col>
+          </v-row>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -1143,8 +1975,9 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed } from "vue";
+import { ref, reactive, computed, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import { useLocale } from "vuetify";
 import { useSessionStore } from "@/stores/session.store";
 
 const router = useRouter();
@@ -1161,11 +1994,9 @@ function nextStep() {
 }
 
 const typeTitles = {
-  newrequest: "คำขอขึ้นทะเบียนผู้ส่งออกสินค้าพืช",
-  amendment: "คำขอแก้ไขใบรับรองผู้ส่งออก",
-  kk1: "คำร้องขอขึ้นทะเบียน ก.ก.1 (โรงบรรจุ/โรงรมทรีทเม้นต์/สวนส่งออก เกาหลี)",
-  smpv5: "คำร้องขอ สมพ.5 (จดทะเบียนผู้ส่งออกผักและผลไม้)",
-  smpv5_other: "คำร้องขอ สมพ.5 (กรณีอื่น)",
+  newrequest: "คำขอขึ้ทะเบียน",
+  renew: "คำขอต่ออายุทะเบียน",
+  amendment: "คำขอแก้ไขใบรับรอง",
 };
 const pageTitle = computed(
   () => typeTitles[route.params.type] ?? "คำขอจดทะเบียนผู้ส่งออก",
@@ -1406,9 +2237,199 @@ function removeGap(idx) {
   form.gaps.splice(idx, 1);
 }
 
+// ─── Amendment: Certificate Search ───
+const certSearchNo = ref("");
+const certSearchLoading = ref(false);
+const certSearchResult = ref(null);
+const certSearchNotFound = ref(false);
+const certSelected = ref(null);
+const viewCertDialog = ref(false);
+const amendFields = ref([]);
+
+const certMockDB = {
+  "EXP-2568-00123": {
+    certNo: "EXP-2568-00123",
+    issuedDate: "01/01/2568",
+    expiryDate: "31/12/2569",
+    isExpired: false,
+    // ข้อมูลบนใบรับรอง (ณ วันที่ออก)
+    applicantNameTh: "นายสมชาย ใจดี",
+    applicantNameEn: "MR. SOMCHAI JAIDEE",
+    companyNameTh: "บริษัท สยามเฟรชฟู้ด จำกัด",
+    companyNameEn: "SIAM FRESH FOOD CO., LTD.",
+    houseNo: "88",
+    alley: "ซอยลาดพร้าว 101",
+    road: "ถนนลาดพร้าว",
+    tambol: "คลองจั่น",
+    district: "บางกะปิ",
+    province: "กรุงเทพมหานคร",
+    zipcode: "10240",
+  },
+  "EXP-2567-00456": {
+    certNo: "EXP-2567-00456",
+    issuedDate: "16/03/2567",
+    expiryDate: "15/03/2568",
+    isExpired: false,
+    applicantNameTh: "นางสาวสมหญิง รักดี",
+    applicantNameEn: "MS. SOMYING RAKDEE",
+    companyNameTh: "ห้างหุ้นส่วนจำกัด ไทยเอ็กซ์พอร์ต",
+    companyNameEn: "THAI EXPORT LIMITED PARTNERSHIP",
+    houseNo: "12/3",
+    alley: "",
+    road: "ถนนสุขุมวิท",
+    tambol: "คลองเตย",
+    district: "คลองเตย",
+    province: "กรุงเทพมหานคร",
+    zipcode: "10110",
+  },
+  "EXP-2565-00789": {
+    certNo: "EXP-2565-00789",
+    issuedDate: "01/07/2565",
+    expiryDate: "30/06/2567",
+    isExpired: true,
+    applicantNameTh: "นายวิชัย ผลดี",
+    applicantNameEn: "MR. VICHAI PHOLDEE",
+    companyNameTh: "บริษัท กรีนพืชผล จำกัด",
+    companyNameEn: "GREEN CROP CO., LTD.",
+    houseNo: "5",
+    alley: "ซอยเพชรบุรี 7",
+    road: "ถนนเพชรบุรี",
+    tambol: "ถนนเพชรบุรี",
+    district: "ราชเทวี",
+    province: "กรุงเทพมหานคร",
+    zipcode: "10400",
+  },
+};
+
+function searchCert() {
+  if (!certSearchNo.value.trim()) return;
+  certSearchLoading.value = true;
+  certSearchResult.value = null;
+  certSearchNotFound.value = false;
+  certSelected.value = null;
+  setTimeout(() => {
+    const found = certMockDB[certSearchNo.value.trim().toUpperCase()];
+    if (found) {
+      certSearchResult.value = found;
+    } else {
+      certSearchNotFound.value = true;
+    }
+    certSearchLoading.value = false;
+  }, 600);
+}
+
+// Expire date picker (v-date-picker ใช้ Date object, แสดงผลเป็น พ.ศ.)
+const { current: vuetifyLocale } = useLocale();
+vuetifyLocale.value = "th";
+
+const expireDateMenu = ref(false);
+const expireDateObj = ref(null);
+
+watch(expireDateObj, (date) => {
+  if (date) {
+    const d = String(date.getDate()).padStart(2, "0");
+    const m = String(date.getMonth() + 1).padStart(2, "0");
+    const y = date.getFullYear() + 543;
+    amendNewValues.expire_date.value = `${d}/${m}/${y}`;
+  } else {
+    amendNewValues.expire_date.value = "";
+  }
+});
+
+const expireDateBE = computed(() => amendNewValues.expire_date.value);
+
+const certExpiryMaxDate = computed(() => {
+  if (!certSelected.value) return undefined;
+  const [d, m, y] = certSelected.value.expiryDate.split("/");
+  return new Date(parseInt(y) - 543, parseInt(m) - 1, parseInt(d));
+});
+
+function selectCert() {
+  if (!certSearchResult.value) return;
+  certSelected.value = { ...certSearchResult.value };
+  certSearchResult.value = null;
+  amendFields.value = [];
+  amendNewValues.expire_date.value = "";
+  expireDateObj.value = null;
+  // Pre-fill ค่าใหม่จาก DBD ปัจจุบัน
+  amendNewValues.company_name.nameTh = form.companyNameTh;
+  amendNewValues.company_name.nameEn = form.companyNameEn;
+  amendNewValues.address.houseNo = form.houseNo;
+  amendNewValues.address.moo = form.moo ?? "";
+  amendNewValues.address.alley = form.alley;
+  amendNewValues.address.road = form.road;
+  amendNewValues.address.tambol = form.tambol;
+  amendNewValues.address.district = form.district;
+  amendNewValues.address.province = form.province;
+  amendNewValues.address.zipcode = form.zipcode;
+  amendNewValues.address.houseNoEn = form.houseNoEn ?? form.houseNo;
+  amendNewValues.address.alleyEn = form.alleyEn ?? "";
+  amendNewValues.address.roadEn = form.roadEn ?? "";
+  amendNewValues.address.tambolEn = form.tambolEn ?? "";
+  amendNewValues.address.districtEn = form.districtEn ?? "";
+  amendNewValues.address.provinceEn = form.provinceEn ?? "";
+}
+
+const amendItems = [
+  {
+    value: "company_name",
+    label: "ชื่อสถานประกอบการ",
+    labelEn: "Company Name",
+    source: "Auto-fill จาก DBD",
+    inputType: "company_name",
+  },
+  {
+    value: "address",
+    label: "ที่อยู่สถานประกอบการ",
+    labelEn: "Company Address",
+    source: "Auto-fill จาก DBD",
+    inputType: "address",
+  },
+  {
+    value: "expire_date",
+    label: "วันหมดอายุ",
+    labelEn: "Expire date",
+    source: null,
+    inputType: "expire_date",
+  },
+];
+
+const amendNewValues = reactive({
+  company_name: { nameTh: "", nameEn: "" },
+  expire_date: { value: "" },
+  address: {
+    houseNo: "",
+    moo: "",
+    alley: "",
+    road: "",
+    tambol: "",
+    district: "",
+    province: "",
+    zipcode: "",
+    houseNoEn: "",
+    alleyEn: "",
+    roadEn: "",
+    tambolEn: "",
+    districtEn: "",
+    provinceEn: "",
+  },
+});
+
 const uploadedFiles = reactive({});
-function mockUploadFile(key) {
-  uploadedFiles[key] = "เอกสาร.pdf";
+
+function triggerFileInput(key) {
+  const input = document.createElement("input");
+  input.type = "file";
+  input.accept = ".pdf,.jpg,.jpeg,.png";
+  input.onchange = (e) => {
+    const file = e.target.files[0];
+    if (file) uploadedFiles[key] = file.name;
+  };
+  input.click();
+}
+
+function removeFile(key) {
+  delete uploadedFiles[key];
 }
 
 const docNatural = [
@@ -1463,5 +2484,21 @@ function submitApplication() {
   font-size: 0.8rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
+}
+
+.amend-item {
+  padding: 4px 12px 8px 12px;
+  transition: background 0.15s;
+}
+.amend-item--active {
+  background: rgba(var(--v-theme-export-user), 0.04);
+  border-radius: 8px;
+}
+.amend-detail-field {
+  padding: 8px 4px 4px 32px;
+}
+
+.confirm-ring {
+  background: rgba(var(--v-theme-export-user), 0.1);
 }
 </style>
