@@ -66,9 +66,14 @@
           <span class="text-subtitle-2 font-weight-bold">ประเภทคำขอ</span>
         </div>
         <v-card-text class="pt-5">
-          <v-radio-group v-model="form.requestType" color="export-user" inline>
-            <v-radio value="register" label="ขอขึ้นทะเบียน" class="mr-8" />
-            <v-radio value="renew" label="ขอต่ออายุ" />
+          <v-radio-group
+            density="compact"
+            v-model="form.requestType"
+            color="export-user"
+            inline
+          >
+            <v-radio value="register" label="คำขอขึ้นทะเบียน" class="mr-8" />
+            <v-radio value="renewal" label="คำขอต่ออายุ" />
           </v-radio-group>
         </v-card-text>
       </v-card>
@@ -80,102 +85,218 @@
           <span class="text-subtitle-2 font-weight-bold"
             >ข้อมูลผู้ยื่นคำขอ</span
           >
+          <v-chip
+            size="x-small"
+            color="export-user"
+            variant="tonal"
+            class="ml-1"
+          >
+            Auto-fill จาก SSO
+          </v-chip>
         </div>
         <v-card-text class="pt-5">
+          <!-- ข้อมูลส่วนตัว -->
           <div class="field-section-label mb-2">ข้อมูลส่วนตัว</div>
           <v-row dense>
             <v-col cols="12" md="6">
               <div class="field-label">
-                <div>ชื่อ-นามสกุล (ภาษาไทย) <span class="req">*</span></div>
+                <div>ชื่อ-นามสกุล (ภาษาไทย)</div>
                 <div class="field-label-en">Full Name (Thai)</div>
               </div>
-              <v-text-field v-model="form.applicantNameTh" hide-details />
+              <v-text-field
+                density="compact"
+                v-model="form.applicantNameTh"
+                hide-details
+                readonly
+                bg-color="surface-variant"
+              />
             </v-col>
             <v-col cols="12" md="6">
               <div class="field-label">
-                <div>Name-Surname (English) <span class="req">*</span></div>
-                <div class="field-label-en">Full Name (English)</div>
+                <div>เลขบัตรประชาชน / เลขนิติบุคคล</div>
+                <div class="field-label-en">ID Card / Tax ID</div>
               </div>
-              <v-text-field v-model="form.applicantNameEn" hide-details />
-            </v-col>
-            <v-col cols="12">
-              <div class="field-section-label mt-3 mb-2">
-                ที่อยู่และการติดต่อ
-              </div>
-            </v-col>
-            <v-col cols="12">
-              <div class="field-label">
-                <div>ที่อยู่ <span class="req">*</span></div>
-                <div class="field-label-en">Address</div>
-              </div>
-              <v-textarea
-                v-model="form.applicantAddress"
+              <v-text-field
+                density="compact"
+                v-model="form.applicantId"
                 hide-details
-                rows="2"
+                readonly
+                bg-color="surface-variant"
+              />
+            </v-col>
+          </v-row>
+
+          <!-- ที่อยู่ -->
+          <div class="field-section-label mt-4 mb-2">ที่อยู่</div>
+          <v-row dense>
+            <v-col cols="12" md="3">
+              <div class="field-label">
+                <div>บ้านเลขที่</div>
+                <div class="field-label-en">House No.</div>
+              </div>
+              <v-text-field
+                density="compact"
+                v-model="form.applicantHouseNo"
+                hide-details
+                readonly
+                bg-color="surface-variant"
+              />
+            </v-col>
+            <v-col cols="12" md="3">
+              <div class="field-label">
+                <div>หมู่</div>
+                <div class="field-label-en">Moo</div>
+              </div>
+              <v-text-field
+                density="compact"
+                v-model="form.applicantMoo"
+                hide-details
+                readonly
+                bg-color="surface-variant"
+              />
+            </v-col>
+            <v-col cols="12" md="3">
+              <div class="field-label">
+                <div>ตรอก/ซอย</div>
+                <div class="field-label-en">Alley / Soi</div>
+              </div>
+              <v-text-field
+                density="compact"
+                v-model="form.applicantAlley"
+                hide-details
+                readonly
+                bg-color="surface-variant"
+              />
+            </v-col>
+            <v-col cols="12" md="3">
+              <div class="field-label">
+                <div>ถนน</div>
+                <div class="field-label-en">Road</div>
+              </div>
+              <v-text-field
+                density="compact"
+                v-model="form.applicantRoad"
+                hide-details
+                readonly
+                bg-color="surface-variant"
+              />
+            </v-col>
+            <v-col cols="12" md="3">
+              <div class="field-label">
+                <div>ตำบล/แขวง</div>
+                <div class="field-label-en">Sub-district</div>
+              </div>
+              <v-text-field
+                density="compact"
+                v-model="form.applicantTambol"
+                hide-details
+                readonly
+                bg-color="surface-variant"
+              />
+            </v-col>
+            <v-col cols="12" md="3">
+              <div class="field-label">
+                <div>อำเภอ/เขต</div>
+                <div class="field-label-en">District</div>
+              </div>
+              <v-text-field
+                density="compact"
+                v-model="form.applicantDistrict"
+                hide-details
+                readonly
+                bg-color="surface-variant"
+              />
+            </v-col>
+            <v-col cols="12" md="3">
+              <div class="field-label">
+                <div>จังหวัด</div>
+                <div class="field-label-en">Province</div>
+              </div>
+              <v-text-field
+                density="compact"
+                v-model="form.applicantProvince"
+                hide-details
+                readonly
+                bg-color="surface-variant"
+              />
+            </v-col>
+            <v-col cols="12" md="3">
+              <div class="field-label">
+                <div>รหัสไปรษณีย์</div>
+                <div class="field-label-en">Zipcode</div>
+              </div>
+              <v-text-field
+                density="compact"
+                v-model="form.applicantZipcode"
+                hide-details
+                readonly
+                bg-color="surface-variant"
+              />
+            </v-col>
+          </v-row>
+
+          <!-- ข้อมูลติดต่อ -->
+          <div class="field-section-label mt-4 mb-2">ข้อมูลติดต่อ</div>
+          <v-row dense>
+            <v-col cols="12" md="4">
+              <div class="field-label">
+                <div>โทรศัพท์</div>
+                <div class="field-label-en">Phone Number</div>
+              </div>
+              <v-text-field
+                density="compact"
+                v-model="form.applicantPhone"
+                hide-details
+                readonly
+                bg-color="surface-variant"
               />
             </v-col>
             <v-col cols="12" md="4">
               <div class="field-label">
-                <div>เบอร์โทรศัพท์</div>
-                <div class="field-label-en">Phone Number</div>
+                <div>โทรสาร</div>
+                <div class="field-label-en">Fax</div>
               </div>
-              <v-text-field v-model="form.applicantPhone" hide-details />
+              <v-text-field
+                density="compact"
+                v-model="form.applicantFax"
+                hide-details
+                readonly
+                bg-color="surface-variant"
+              />
             </v-col>
             <v-col cols="12" md="4">
               <div class="field-label">
-                <div>Email</div>
+                <div>อีเมล</div>
                 <div class="field-label-en">Email</div>
               </div>
               <v-text-field
+                density="compact"
                 v-model="form.applicantEmail"
-                type="email"
                 hide-details
-              />
-            </v-col>
-            <v-col cols="12" md="4">
-              <div class="field-label">
-                <div>สถานะผู้ยื่น</div>
-                <div class="field-label-en">Applicant Type</div>
-              </div>
-              <v-autocomplete
-                v-model="form.submitterStatus"
-                :items="['เจ้าของ', 'ตัวแทน']"
-                hide-details
+                readonly
+                bg-color="surface-variant"
               />
             </v-col>
           </v-row>
         </v-card-text>
       </v-card>
 
-      <!-- วัตถุประสงค์ -->
-      <v-card elevation="0" border rounded="xl" class="mb-5">
-        <div class="d-flex align-center ga-2 px-4 py-3 border-b">
-          <v-icon icon="fas fa-bullseye" color="export-user" size="15" />
-          <span class="text-subtitle-2 font-weight-bold">วัตถุประสงค์</span>
-        </div>
-        <v-card-text class="pt-5">
-          <v-radio-group v-model="form.objective" color="export-user">
-            <v-radio value="register" label="ขึ้นทะเบียน" class="mb-2" />
-            <v-radio value="renew" label="ต่ออายุทะเบียน" />
-          </v-radio-group>
-        </v-card-text>
-      </v-card>
-
-      <!-- ประเทศปลายทาง -->
+      <!-- ขอบข่ายประเทศ -->
       <v-card elevation="0" border rounded="xl" class="mb-5">
         <div class="d-flex align-center ga-2 px-4 py-3 border-b">
           <v-icon icon="fas fa-earth-asia" color="export-user" size="15" />
-          <span class="text-subtitle-2 font-weight-bold">ประเทศปลายทาง</span>
+          <span class="text-subtitle-2 font-weight-bold">ขอบข่ายประเทศ</span>
         </div>
         <v-card-text class="pt-5">
           <div class="field-label mb-2">
             <div>
-              เลือกประเทศปลายทาง (เลือกได้หลายประเทศ)
+              เลือกขอบข่ายประเทศ (เลือกได้หลายประเทศ)
               <span class="req">*</span>
             </div>
-            <div class="field-label-en">Destination Country (Multiple)</div>
+            <div class="field-label-en">Scope of countries (Multiple)</div>
           </div>
           <v-autocomplete
+            density="compact"
             v-model="form.countries"
             :items="countryOptions"
             multiple
@@ -184,6 +305,22 @@
             hide-details
             placeholder="เลือกประเทศปลายทาง"
           />
+          <div v-if="form.countries.includes('อื่นๆ (ระบุ)')" class="mt-3">
+            <div class="field-label mb-1">
+              <div>ระบุประเทศอื่นๆ <span class="req">*</span></div>
+              <div class="field-label-en">Other countries (please specify)</div>
+            </div>
+            <v-autocomplete
+              density="compact"
+              v-model="form.countriesOther"
+              :items="countryOtherOptions"
+              multiple
+              chips
+              closable-chips
+              hide-details
+              placeholder="เลือกประเทศอื่นๆ"
+            />
+          </div>
         </v-card-text>
       </v-card>
 
@@ -192,238 +329,602 @@
         <div class="d-flex align-center ga-2 px-4 py-3 border-b">
           <v-icon icon="fas fa-building" color="export-user" size="15" />
           <span class="text-subtitle-2 font-weight-bold"
-            >ข้อมูลสถานประกอบการ</span
+            >ข้อมูลสถานประกอบการ
+            <v-chip
+              size="x-small"
+              color="export-user"
+              variant="tonal"
+              class="ml-1"
+            >
+              Auto-fill บางส่วนจาก DBD
+            </v-chip></span
           >
         </div>
         <v-card-text class="pt-5">
-          <div class="field-section-label mb-2">ชื่อบริษัท</div>
+          <!-- ชื่อสถานประกอบการ -->
+          <div class="field-section-label mb-2">ชื่อสถานประกอบการ</div>
           <v-row dense>
             <v-col cols="12" md="6">
               <div class="field-label">
-                <div>ชื่อบริษัท (ภาษาไทย) <span class="req">*</span></div>
+                <div>ชื่อสถานประกอบการ (ภาษาไทย)</div>
                 <div class="field-label-en">Company Name (Thai)</div>
               </div>
-              <v-text-field v-model="form.companyNameTh" hide-details />
-            </v-col>
-            <v-col cols="12" md="6">
-              <div class="field-label">
-                <div>Company Name (English) <span class="req">*</span></div>
-                <div class="field-label-en">Company Name (English)</div>
-              </div>
-              <v-text-field v-model="form.companyNameEn" hide-details />
-            </v-col>
-            <v-col cols="12">
-              <div class="field-section-label mt-3 mb-2">ที่ตั้ง</div>
-            </v-col>
-            <v-col cols="12" md="6">
-              <div class="field-label">
-                <div>ซอย / ตรอก (Alley)</div>
-                <div class="field-label-en">Alley</div>
-              </div>
-              <v-text-field v-model="form.alley" hide-details />
-            </v-col>
-            <v-col cols="12" md="6">
-              <div class="field-label">
-                <div>ตำบล / แขวง (Tambol)</div>
-                <div class="field-label-en">Sub-district</div>
-              </div>
-              <v-text-field v-model="form.tambol" hide-details />
-            </v-col>
-            <v-col cols="12" md="6">
-              <div class="field-label">
-                <div>อำเภอ / เขต (District)</div>
-                <div class="field-label-en">District</div>
-              </div>
-              <v-text-field v-model="form.district" hide-details />
-            </v-col>
-            <v-col cols="12" md="6">
-              <div class="field-label">
-                <div>จังหวัด <span class="req">*</span></div>
-                <div class="field-label-en">Province</div>
-              </div>
-              <v-autocomplete
-                v-model="form.province"
-                :items="provinceOptions"
+              <v-text-field
+                density="compact"
+                v-model="form.companyNameTh"
                 hide-details
-                placeholder="เลือกจังหวัด"
+                readonly
+                bg-color="surface-variant"
               />
             </v-col>
-            <v-col cols="12">
-              <div class="field-section-label mt-3 mb-2">ข้อมูลการติดต่อ</div>
+            <v-col cols="12" md="6">
+              <div class="field-label">
+                <div>ชื่อสถานประกอบการ (ภาษาอังกฤษ)</div>
+                <div class="field-label-en">Company Name (English)</div>
+              </div>
+              <v-text-field
+                density="compact"
+                v-model="form.companyNameEn"
+                hide-details
+                readonly
+                bg-color="surface-variant"
+              />
+            </v-col>
+          </v-row>
+
+          <!-- ที่ตั้ง (ภาษาไทย) -->
+          <div class="field-section-label mt-4 mb-2">ที่ตั้ง (ภาษาไทย)</div>
+          <v-row dense>
+            <v-col cols="12" md="4">
+              <div class="field-label">
+                <div>บ้านเลขที่</div>
+                <div class="field-label-en">House No.</div>
+              </div>
+              <v-text-field
+                density="compact"
+                v-model="form.houseNo"
+                hide-details
+                readonly
+                bg-color="surface-variant"
+              />
             </v-col>
             <v-col cols="12" md="4">
               <div class="field-label">
-                <div>เบอร์โทรศัพท์</div>
+                <div>ซอย / ตรอก</div>
+                <div class="field-label-en">Alley / Soi</div>
+              </div>
+              <v-text-field
+                density="compact"
+                v-model="form.alley"
+                hide-details
+                readonly
+                bg-color="surface-variant"
+              />
+            </v-col>
+            <v-col cols="12" md="4">
+              <div class="field-label">
+                <div>ถนน</div>
+                <div class="field-label-en">Road</div>
+              </div>
+              <v-text-field
+                density="compact"
+                v-model="form.road"
+                hide-details
+                readonly
+                bg-color="surface-variant"
+              />
+            </v-col>
+            <v-col cols="12" md="4">
+              <div class="field-label">
+                <div>ตำบล / แขวง</div>
+                <div class="field-label-en">Sub-district (Tambol)</div>
+              </div>
+              <v-text-field
+                density="compact"
+                v-model="form.tambol"
+                hide-details
+                readonly
+                bg-color="surface-variant"
+              />
+            </v-col>
+            <v-col cols="12" md="4">
+              <div class="field-label">
+                <div>อำเภอ / เขต</div>
+                <div class="field-label-en">District</div>
+              </div>
+              <v-text-field
+                density="compact"
+                v-model="form.district"
+                hide-details
+                readonly
+                bg-color="surface-variant"
+              />
+            </v-col>
+            <v-col cols="12" md="4">
+              <div class="field-label">
+                <div>จังหวัด</div>
+                <div class="field-label-en">Province</div>
+              </div>
+              <v-text-field
+                density="compact"
+                v-model="form.province"
+                hide-details
+                readonly
+                bg-color="surface-variant"
+              />
+            </v-col>
+            <v-col cols="12" md="4">
+              <div class="field-label">
+                <div>รหัสไปรษณีย์</div>
+                <div class="field-label-en">Zipcode</div>
+              </div>
+              <v-text-field
+                density="compact"
+                v-model="form.zipcode"
+                hide-details
+                readonly
+                bg-color="surface-variant"
+              />
+            </v-col>
+          </v-row>
+
+          <!-- ที่ตั้ง (ภาษาอังกฤษ) -->
+          <div class="field-section-label mt-4 mb-2">ที่ตั้ง (ภาษาอังกฤษ)</div>
+          <v-row dense>
+            <v-col cols="12" md="4">
+              <div class="field-label">
+                <div>House No.</div>
+                <div class="field-label-en">House No.</div>
+              </div>
+              <v-text-field
+                density="compact"
+                v-model="form.houseNoEn"
+                hide-details
+                readonly
+                bg-color="surface-variant"
+              />
+            </v-col>
+            <v-col cols="12" md="4">
+              <div class="field-label">
+                <div>Alley / Soi</div>
+                <div class="field-label-en">Alley / Soi</div>
+              </div>
+              <v-text-field
+                density="compact"
+                v-model="form.alleyEn"
+                hide-details
+                readonly
+                bg-color="surface-variant"
+              />
+            </v-col>
+            <v-col cols="12" md="4">
+              <div class="field-label">
+                <div>Road</div>
+                <div class="field-label-en">Road</div>
+              </div>
+              <v-text-field
+                density="compact"
+                v-model="form.roadEn"
+                hide-details
+                readonly
+                bg-color="surface-variant"
+              />
+            </v-col>
+            <v-col cols="12" md="4">
+              <div class="field-label">
+                <div>Sub-district</div>
+                <div class="field-label-en">Sub-district</div>
+              </div>
+              <v-text-field
+                density="compact"
+                v-model="form.tambolEn"
+                hide-details
+                readonly
+                bg-color="surface-variant"
+              />
+            </v-col>
+            <v-col cols="12" md="4">
+              <div class="field-label">
+                <div>District</div>
+                <div class="field-label-en">District</div>
+              </div>
+              <v-text-field
+                density="compact"
+                v-model="form.districtEn"
+                hide-details
+                readonly
+                bg-color="surface-variant"
+              />
+            </v-col>
+            <v-col cols="12" md="4">
+              <div class="field-label">
+                <div>Province</div>
+                <div class="field-label-en">Province</div>
+              </div>
+              <v-text-field
+                density="compact"
+                v-model="form.provinceEn"
+                hide-details
+                readonly
+                bg-color="surface-variant"
+              />
+            </v-col>
+            <v-col cols="12" md="4">
+              <div class="field-label">
+                <div>Zipcode</div>
+                <div class="field-label-en">Zipcode</div>
+              </div>
+              <v-text-field
+                density="compact"
+                v-model="form.zipcodeEn"
+                hide-details
+                readonly
+                bg-color="surface-variant"
+              />
+            </v-col>
+          </v-row>
+
+          <!-- ข้อมูลการติดต่อ -->
+          <div class="field-section-label mt-4 mb-2">ข้อมูลการติดต่อ</div>
+          <v-row dense>
+            <v-col cols="12" md="4">
+              <div class="field-label">
+                <div>โทรศัพท์</div>
                 <div class="field-label-en">Phone Number</div>
               </div>
-              <v-text-field v-model="form.companyPhone" hide-details />
+              <v-text-field
+                density="compact"
+                v-model="form.companyPhone"
+                hide-details
+                readonly
+                bg-color="surface-variant"
+              />
             </v-col>
             <v-col cols="12" md="4">
               <div class="field-label">
                 <div>โทรสาร</div>
                 <div class="field-label-en">Fax</div>
               </div>
-              <v-text-field v-model="form.companyFax" hide-details />
+              <v-text-field
+                density="compact"
+                v-model="form.companyFax"
+                hide-details
+                placeholder="ระบุโทรสาร"
+              />
             </v-col>
             <v-col cols="12" md="4">
               <div class="field-label">
-                <div>Email</div>
+                <div>อีเมล</div>
                 <div class="field-label-en">Email</div>
               </div>
               <v-text-field
+                density="compact"
                 v-model="form.companyEmail"
-                type="email"
                 hide-details
+                readonly
+                bg-color="surface-variant"
               />
             </v-col>
           </v-row>
         </v-card-text>
       </v-card>
 
-      <!-- ข้อมูลโรงงาน DOA -->
+      <!-- ข้อมูลโรงงานผลิตสินค้าพืช -->
       <v-card elevation="0" border rounded="xl" class="mb-5">
         <div class="d-flex align-center ga-2 px-4 py-3 border-b">
           <v-icon icon="fas fa-industry" color="export-user" size="15" />
-          <span class="text-subtitle-2 font-weight-bold">ข้อมูลโรงงาน DOA</span>
-          <v-spacer />
-          <v-btn
-            color="export-user"
-            variant="tonal"
-            size="small"
-            prepend-icon="fas fa-plus"
-            @click="addFactory"
-            >เพิ่ม</v-btn
+          <span class="text-subtitle-2 font-weight-bold"
+            >ข้อมูลโรงงานผลิตสินค้าพืช</span
           >
         </div>
-        <v-card-text class="pt-5">
-          <div
-            v-if="form.factories.length === 0"
-            class="text-center text-medium-emphasis text-body-2 py-4"
-          >
-            ยังไม่มีข้อมูลโรงงาน — กดปุ่ม "เพิ่ม" เพื่อระบุโรงงาน DOA
+        <v-card-text class="pt-4">
+          <!-- Search bar -->
+          <div class="field-label mb-1">
+            <div>ค้นหาด้วยเลขทะเบียน DOA <span class="req">*</span></div>
+            <div class="field-label-en">Search by DOA Registration No.</div>
           </div>
-          <div
-            v-for="(factory, idx) in form.factories"
-            :key="idx"
-            class="item-row rounded-lg pa-4 mb-3"
-          >
-            <div class="d-flex align-center justify-space-between mb-3">
-              <div class="text-body-2 font-weight-semibold">
-                โรงงาน {{ idx + 1 }}
+          <div class="d-flex ga-2 mb-4">
+            <v-text-field
+              density="compact"
+              v-model="doaSearchNo"
+              hide-details
+              placeholder="เช่น DOA-12345"
+              clearable
+              class="flex-grow-1"
+            />
+            <v-btn
+              color="export-user"
+              variant="tonal"
+              prepend-icon="fas fa-magnifying-glass"
+              :loading="doaSearchLoading"
+              @click="searchDoa"
+              >ค้นหา</v-btn
+            >
+          </div>
+
+          <!-- Search result -->
+          <div v-if="doaSearchResult" class="mb-4">
+            <div
+              class="item-row rounded-lg pa-4 d-flex align-center justify-space-between flex-wrap ga-3"
+            >
+              <div class="d-flex align-center ga-4 flex-wrap">
+                <div>
+                  <div class="text-caption text-medium-emphasis">
+                    เลขทะเบียน DOA
+                  </div>
+                  <div class="text-body-2 font-weight-bold text-export-user">
+                    {{ doaSearchResult.doaNo }}
+                  </div>
+                </div>
+                <v-divider vertical />
+                <div>
+                  <div class="text-caption text-medium-emphasis">
+                    ชื่อโรงงาน
+                  </div>
+                  <div class="text-body-2 font-weight-medium">
+                    {{ doaSearchResult.factoryName }}
+                  </div>
+                </div>
+                <v-divider vertical />
+                <div>
+                  <div class="text-caption text-medium-emphasis">
+                    วันหมดอายุ
+                  </div>
+                  <div
+                    class="text-body-2 font-weight-medium"
+                    :class="
+                      doaSearchResult.isExpired ? 'text-error' : 'text-success'
+                    "
+                  >
+                    {{ doaSearchResult.expiryDate }}
+                    <v-chip
+                      v-if="doaSearchResult.isExpired"
+                      size="x-small"
+                      color="error"
+                      variant="tonal"
+                      class="ml-1"
+                      >หมดอายุ</v-chip
+                    >
+                  </div>
+                </div>
               </div>
               <v-btn
-                icon="fas fa-trash"
-                variant="text"
-                size="x-small"
-                color="error"
-                @click="removeFactory(idx)"
-              />
+                color="export-user"
+                size="small"
+                prepend-icon="fas fa-plus"
+                :disabled="
+                  doaSearchResult.isExpired ||
+                  doaAlreadyAdded(doaSearchResult.doaNo)
+                "
+                @click="addFactoryFromSearch"
+              >
+                {{
+                  doaAlreadyAdded(doaSearchResult.doaNo) ? "เพิ่มแล้ว" : "เพิ่ม"
+                }}
+              </v-btn>
             </div>
-            <v-row dense>
-              <v-col cols="12" md="8">
-                <div class="field-label">
-                  <div>ชื่อโรงงาน <span class="req">*</span></div>
-                  <div class="field-label-en">Factory Name</div>
-                </div>
-                <v-text-field v-model="factory.name" hide-details />
-              </v-col>
-              <v-col cols="12" md="4">
-                <div class="field-label">
-                  <div>แนบเอกสาร</div>
-                  <div class="field-label-en">Attachment</div>
-                </div>
-                <v-btn
-                  :color="factory.file ? 'success' : 'export-user'"
-                  variant="tonal"
-                  size="small"
-                  prepend-icon="fas fa-upload"
-                  block
-                  @click="mockUpload('factory_' + idx, factory)"
-                >
-                  {{ factory.file ? factory.file : "แนบไฟล์" }}
-                </v-btn>
-              </v-col>
-            </v-row>
+          </div>
+
+          <!-- Not found -->
+          <v-alert
+            v-if="doaSearchNotFound"
+            type="error"
+            variant="tonal"
+            density="compact"
+            class="mb-4"
+            prepend-icon="fas fa-circle-xmark"
+            >ไม่พบเลขทะเบียน DOA "{{ doaSearchNo }}"
+            กรุณาตรวจสอบและค้นหาใหม่</v-alert
+          >
+
+          <!-- Added list -->
+          <div v-if="form.factories.length > 0">
+            <div class="field-section-label mb-2">โรงงานที่เลือกแล้ว</div>
+            <v-table density="compact" class="rounded-lg border">
+              <thead>
+                <tr>
+                  <th>เลขทะเบียน DOA</th>
+                  <th>ชื่อโรงงาน</th>
+                  <th>วันหมดอายุ</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(factory, idx) in form.factories" :key="idx">
+                  <td class="text-body-2 font-weight-bold text-export-user">
+                    {{ factory.doaNo }}
+                  </td>
+                  <td class="text-body-2">{{ factory.factoryName }}</td>
+                  <td class="text-body-2">{{ factory.expiryDate }}</td>
+                  <td>
+                    <v-btn
+                      icon="fas fa-trash"
+                      variant="text"
+                      size="x-small"
+                      color="error"
+                      @click="removeFactory(idx)"
+                    />
+                  </td>
+                </tr>
+              </tbody>
+            </v-table>
+          </div>
+          <div
+            v-else-if="!doaSearchResult && !doaSearchNotFound"
+            class="text-center text-medium-emphasis text-body-2 py-2"
+          >
+            ยังไม่มีข้อมูลโรงงาน — ค้นหาเลขทะเบียน DOA
+            เพื่อเพิ่มโรงงานผลิตสินค้าพืช
           </div>
         </v-card-text>
       </v-card>
 
-      <!-- ข้อมูล GAP -->
+      <!-- ข้อมูลแหล่งผลิตพืชที่ได้การรับรอง GAP -->
       <v-card elevation="0" border rounded="xl" class="mb-5">
         <div class="d-flex align-center ga-2 px-4 py-3 border-b">
           <v-icon icon="fas fa-seedling" color="export-user" size="15" />
-          <span class="text-subtitle-2 font-weight-bold">ข้อมูล GAP</span>
-          <v-spacer />
-          <v-btn
-            color="export-user"
-            variant="tonal"
-            size="small"
-            prepend-icon="fas fa-plus"
-            @click="addGap"
-            >เพิ่ม</v-btn
+          <span class="text-subtitle-2 font-weight-bold"
+            >ข้อมูลแหล่งผลิตพืชที่ได้การรับรอง GAP</span
           >
         </div>
-        <v-card-text class="pt-5">
-          <div
-            v-if="form.gaps.length === 0"
-            class="text-center text-medium-emphasis text-body-2 py-4"
-          >
-            ยังไม่มีข้อมูล GAP — กดปุ่ม "เพิ่ม" เพื่อระบุแหล่งผลิต GAP
+        <v-card-text class="pt-4">
+          <!-- Search bar -->
+          <div class="field-label mb-1">
+            <div>ค้นหาด้วยเลขใบรับรอง GAP <span class="req">*</span></div>
+            <div class="field-label-en">Search by GAP Certificate No.</div>
           </div>
-          <div
-            v-for="(gap, idx) in form.gaps"
-            :key="idx"
-            class="item-row rounded-lg pa-4 mb-3"
-          >
-            <div class="d-flex align-center justify-space-between mb-3">
-              <div class="text-body-2 font-weight-semibold">
-                แหล่งผลิต GAP {{ idx + 1 }}
+          <div class="d-flex ga-2 mb-4">
+            <v-text-field
+              density="compact"
+              v-model="gapSearchNo"
+              hide-details
+              placeholder="เช่น GAP-12345"
+              clearable
+              class="flex-grow-1"
+            />
+            <v-btn
+              color="export-user"
+              variant="tonal"
+              prepend-icon="fas fa-magnifying-glass"
+              :loading="gapSearchLoading"
+              @click="searchGap"
+              >ค้นหา</v-btn
+            >
+          </div>
+
+          <!-- Search result -->
+          <div v-if="gapSearchResult" class="mb-4">
+            <div
+              class="item-row rounded-lg pa-4 d-flex align-center justify-space-between flex-wrap ga-3"
+            >
+              <div class="d-flex align-center ga-4 flex-wrap">
+                <div>
+                  <div class="text-caption text-medium-emphasis">
+                    เลขใบรับรอง GAP
+                  </div>
+                  <div class="text-body-2 font-weight-bold text-export-user">
+                    {{ gapSearchResult.gapNo }}
+                  </div>
+                </div>
+                <v-divider vertical />
+                <div>
+                  <div class="text-caption text-medium-emphasis">
+                    ชื่อแหล่งผลิต
+                  </div>
+                  <div class="text-body-2 font-weight-medium">
+                    {{ gapSearchResult.siteName }}
+                  </div>
+                </div>
+                <v-divider vertical />
+                <div>
+                  <div class="text-caption text-medium-emphasis">
+                    หน่วยงานรับรอง
+                  </div>
+                  <div class="text-body-2 font-weight-medium">
+                    {{ gapSearchResult.certBody }}
+                  </div>
+                </div>
+                <v-divider vertical />
+                <div>
+                  <div class="text-caption text-medium-emphasis">
+                    รหัสรับรอง
+                  </div>
+                  <div class="text-body-2 font-weight-medium">
+                    {{ gapSearchResult.certCode }}
+                  </div>
+                </div>
+                <v-divider vertical />
+                <div>
+                  <div class="text-caption text-medium-emphasis">
+                    วันหมดอายุ
+                  </div>
+                  <div
+                    class="text-body-2 font-weight-medium"
+                    :class="
+                      gapSearchResult.isExpired ? 'text-error' : 'text-success'
+                    "
+                  >
+                    {{ gapSearchResult.expiryDate }}
+                    <v-chip
+                      v-if="gapSearchResult.isExpired"
+                      size="x-small"
+                      color="error"
+                      variant="tonal"
+                      class="ml-1"
+                      >หมดอายุ</v-chip
+                    >
+                  </div>
+                </div>
               </div>
               <v-btn
-                icon="fas fa-trash"
-                variant="text"
-                size="x-small"
-                color="error"
-                @click="removeGap(idx)"
-              />
+                color="export-user"
+                size="small"
+                prepend-icon="fas fa-plus"
+                :disabled="
+                  gapSearchResult.isExpired ||
+                  gapAlreadyAdded(gapSearchResult.gapNo)
+                "
+                @click="addGapFromSearch"
+              >
+                {{
+                  gapAlreadyAdded(gapSearchResult.gapNo) ? "เพิ่มแล้ว" : "เพิ่ม"
+                }}
+              </v-btn>
             </div>
-            <v-row dense>
-              <v-col cols="12" md="5">
-                <div class="field-label">
-                  <div>ชื่อแหล่งผลิต <span class="req">*</span></div>
-                  <div class="field-label-en">Production Site Name</div>
-                </div>
-                <v-text-field v-model="gap.name" hide-details />
-              </v-col>
-              <v-col cols="12" md="4">
-                <div class="field-label">
-                  <div>หน่วยงานรับรอง <span class="req">*</span></div>
-                  <div class="field-label-en">Certifying Body</div>
-                </div>
-                <v-autocomplete
-                  v-model="gap.certBody"
-                  :items="certBodyOptions"
-                  hide-details
-                  placeholder="เลือกหน่วยงาน"
-                />
-              </v-col>
-              <v-col cols="12" md="3">
-                <div class="field-label">
-                  <div>แนบเอกสาร</div>
-                  <div class="field-label-en">Attachment</div>
-                </div>
-                <v-btn
-                  :color="gap.file ? 'success' : 'export-user'"
-                  variant="tonal"
-                  size="small"
-                  prepend-icon="fas fa-upload"
-                  block
-                  @click="mockUpload('gap_' + idx, gap)"
-                >
-                  {{ gap.file ? gap.file : "แนบไฟล์" }}
-                </v-btn>
-              </v-col>
-            </v-row>
+          </div>
+
+          <!-- Not found -->
+          <v-alert
+            v-if="gapSearchNotFound"
+            type="error"
+            variant="tonal"
+            density="compact"
+            class="mb-4"
+            prepend-icon="fas fa-circle-xmark"
+            >ไม่พบเลขใบรับรอง GAP "{{ gapSearchNo }}"
+            กรุณาตรวจสอบและค้นหาใหม่</v-alert
+          >
+
+          <!-- Added list -->
+          <div v-if="form.gaps.length > 0">
+            <div class="field-section-label mb-2">แหล่งผลิตที่เลือกแล้ว</div>
+            <v-table density="compact" class="rounded-lg border">
+              <thead>
+                <tr>
+                  <th>เลขใบรับรอง GAP</th>
+                  <th>ชื่อแหล่งผลิต</th>
+                  <th>หน่วยงานรับรอง</th>
+                  <th>วันหมดอายุ</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(gap, idx) in form.gaps" :key="idx">
+                  <td class="text-body-2 font-weight-bold text-export-user">
+                    {{ gap.gapNo }}
+                  </td>
+                  <td class="text-body-2">{{ gap.siteName }}</td>
+                  <td class="text-body-2">{{ gap.certBody }}</td>
+                  <td class="text-body-2">{{ gap.expiryDate }}</td>
+                  <td>
+                    <v-btn
+                      icon="fas fa-trash"
+                      variant="text"
+                      size="x-small"
+                      color="error"
+                      @click="removeGap(idx)"
+                    />
+                  </td>
+                </tr>
+              </tbody>
+            </v-table>
+          </div>
+          <div
+            v-else-if="!gapSearchResult && !gapSearchNotFound"
+            class="text-center text-medium-emphasis text-body-2 py-2"
+          >
+            ยังไม่มีข้อมูลแหล่งผลิต — ค้นหาเลขใบรับรอง GAP
+            เพื่อเพิ่มแหล่งผลิตพืชที่ได้การรับรอง GAP
           </div>
         </v-card-text>
       </v-card>
@@ -431,25 +932,9 @@
 
     <!-- ─── STEP 2: ไฟล์แนบ ─── -->
     <template v-if="currentStep === 1">
-      <!-- ประเภทผู้ยื่น -->
-      <v-card elevation="0" border rounded="xl" class="mb-5">
-        <div class="d-flex align-center ga-2 px-4 py-3 border-b">
-          <v-icon icon="fas fa-users" color="export-user" size="15" />
-          <span class="text-subtitle-2 font-weight-bold"
-            >ประเภทผู้ประกอบการ</span
-          >
-        </div>
-        <v-card-text class="pt-5">
-          <v-radio-group v-model="entityType" color="export-user" inline>
-            <v-radio value="natural" label="บุคคลธรรมดา" class="mr-8" />
-            <v-radio value="juristic" label="นิติบุคคล" />
-          </v-radio-group>
-        </v-card-text>
-      </v-card>
-
       <!-- เอกสารบุคคลธรรมดา -->
       <v-card
-        v-if="entityType === 'natural'"
+        v-if="entityType === 'personal'"
         elevation="0"
         border
         rounded="xl"
@@ -464,41 +949,43 @@
         <v-card-text class="pt-5">
           <v-row dense>
             <v-col v-for="doc in docNatural" :key="doc.key" cols="12">
-              <div
-                class="item-row rounded-lg pa-4 mb-2 d-flex align-center justify-space-between flex-wrap ga-3"
-              >
-                <div>
-                  <div class="text-body-2 font-weight-medium">
-                    {{ doc.label }}
+              <div class="item-row rounded-lg pa-3 mb-2">
+                <v-row align="center" no-gutters>
+                  <v-col>
+                    <div class="text-body-2 font-weight-medium">
+                      {{ doc.label }}
+                      <v-chip
+                        v-if="doc.optional"
+                        size="x-small"
+                        color="grey"
+                        variant="tonal"
+                        class="ml-2"
+                        >ไม่บังคับ</v-chip
+                      >
+                    </div>
+                  </v-col>
+                  <v-col cols="auto" class="d-flex align-center ga-2 pl-3">
                     <v-chip
-                      v-if="doc.optional"
+                      v-if="uploadedFiles[doc.key]"
+                      color="success"
                       size="x-small"
-                      color="grey"
                       variant="tonal"
-                      class="ml-2"
-                      >ไม่บังคับ</v-chip
+                      prepend-icon="fas fa-check"
+                      >{{ uploadedFiles[doc.key] }}</v-chip
                     >
-                  </div>
-                </div>
-                <div class="d-flex align-center ga-2">
-                  <v-chip
-                    v-if="uploadedFiles[doc.key]"
-                    color="success"
-                    size="x-small"
-                    variant="tonal"
-                    prepend-icon="fas fa-check"
-                    >{{ uploadedFiles[doc.key] }}</v-chip
-                  >
-                  <v-btn
-                    :color="uploadedFiles[doc.key] ? 'success' : 'export-user'"
-                    variant="tonal"
-                    size="small"
-                    prepend-icon="fas fa-upload"
-                    @click="mockUploadFile(doc.key)"
-                  >
-                    {{ uploadedFiles[doc.key] ? "เปลี่ยนไฟล์" : "แนบไฟล์" }}
-                  </v-btn>
-                </div>
+                    <v-btn
+                      :color="
+                        uploadedFiles[doc.key] ? 'success' : 'export-user'
+                      "
+                      variant="tonal"
+                      size="small"
+                      prepend-icon="fas fa-upload"
+                      @click="mockUploadFile(doc.key)"
+                    >
+                      {{ uploadedFiles[doc.key] ? "เปลี่ยนไฟล์" : "แนบไฟล์" }}
+                    </v-btn>
+                  </v-col>
+                </v-row>
               </div>
             </v-col>
           </v-row>
@@ -522,75 +1009,35 @@
         <v-card-text class="pt-5">
           <v-row dense>
             <v-col v-for="doc in docJuristic" :key="doc.key" cols="12">
-              <div
-                class="item-row rounded-lg pa-4 mb-2 d-flex align-center justify-space-between flex-wrap ga-3"
-              >
-                <div>
-                  <div class="text-body-2 font-weight-medium">
-                    {{ doc.label }}
-                  </div>
-                </div>
-                <div class="d-flex align-center ga-2">
-                  <v-chip
-                    v-if="uploadedFiles[doc.key]"
-                    color="success"
-                    size="x-small"
-                    variant="tonal"
-                    prepend-icon="fas fa-check"
-                    >{{ uploadedFiles[doc.key] }}</v-chip
-                  >
-                  <v-btn
-                    :color="uploadedFiles[doc.key] ? 'success' : 'export-user'"
-                    variant="tonal"
-                    size="small"
-                    prepend-icon="fas fa-upload"
-                    @click="mockUploadFile(doc.key)"
-                  >
-                    {{ uploadedFiles[doc.key] ? "เปลี่ยนไฟล์" : "แนบไฟล์" }}
-                  </v-btn>
-                </div>
-              </div>
-            </v-col>
-          </v-row>
-        </v-card-text>
-      </v-card>
-
-      <!-- เอกสารเพิ่มเติม -->
-      <v-card elevation="0" border rounded="xl" class="mb-5">
-        <div class="d-flex align-center ga-2 px-4 py-3 border-b">
-          <v-icon icon="fas fa-paperclip" color="export-user" size="15" />
-          <span class="text-subtitle-2 font-weight-bold">เอกสารเพิ่มเติม</span>
-        </div>
-        <v-card-text class="pt-5">
-          <v-row dense>
-            <v-col v-for="doc in docExtra" :key="doc.key" cols="12">
-              <div
-                class="item-row rounded-lg pa-4 mb-2 d-flex align-center justify-space-between flex-wrap ga-3"
-              >
-                <div>
-                  <div class="text-body-2 font-weight-medium">
-                    {{ doc.label }}
-                  </div>
-                </div>
-                <div class="d-flex align-center ga-2">
-                  <v-chip
-                    v-if="uploadedFiles[doc.key]"
-                    color="success"
-                    size="x-small"
-                    variant="tonal"
-                    prepend-icon="fas fa-check"
-                    >{{ uploadedFiles[doc.key] }}</v-chip
-                  >
-                  <v-btn
-                    :color="uploadedFiles[doc.key] ? 'success' : 'export-user'"
-                    variant="tonal"
-                    size="small"
-                    prepend-icon="fas fa-upload"
-                    @click="mockUploadFile(doc.key)"
-                  >
-                    {{ uploadedFiles[doc.key] ? "เปลี่ยนไฟล์" : "แนบไฟล์" }}
-                  </v-btn>
-                </div>
+              <div class="item-row rounded-lg pa-3 mb-2">
+                <v-row align="center" no-gutters>
+                  <v-col>
+                    <div class="text-body-2 font-weight-medium">
+                      {{ doc.label }}
+                    </div>
+                  </v-col>
+                  <v-col cols="auto" class="d-flex align-center ga-2 pl-3">
+                    <v-chip
+                      v-if="uploadedFiles[doc.key]"
+                      color="success"
+                      size="x-small"
+                      variant="tonal"
+                      prepend-icon="fas fa-check"
+                      >{{ uploadedFiles[doc.key] }}</v-chip
+                    >
+                    <v-btn
+                      :color="
+                        uploadedFiles[doc.key] ? 'success' : 'export-user'
+                      "
+                      variant="tonal"
+                      size="small"
+                      prepend-icon="fas fa-upload"
+                      @click="mockUploadFile(doc.key)"
+                    >
+                      {{ uploadedFiles[doc.key] ? "เปลี่ยนไฟล์" : "แนบไฟล์" }}
+                    </v-btn>
+                  </v-col>
+                </v-row>
               </div>
             </v-col>
           </v-row>
@@ -601,10 +1048,7 @@
     <!-- Navigation Buttons -->
     <div class="d-flex justify-space-between align-center mt-6">
       <div class="d-flex ga-2">
-        <v-btn
-          variant="tonal"
-          color="grey"
-          @click="goToApplicationList"
+        <v-btn variant="tonal" color="grey" @click="goToApplicationList"
           >ยกเลิก</v-btn
         >
         <v-btn
@@ -654,11 +1098,7 @@
           </p>
         </v-card-text>
         <v-card-actions class="px-6 pb-5 ga-2">
-          <v-btn
-            variant="tonal"
-            color="grey"
-            block
-            @click="closeConfirmDialog"
+          <v-btn variant="tonal" color="grey" block @click="closeConfirmDialog"
             >ยกเลิก</v-btn
           >
           <v-btn color="export-user" block @click="submitApplication"
@@ -681,10 +1121,7 @@
           </p>
         </v-card-text>
         <v-card-actions class="px-6 pb-5">
-          <v-btn
-            color="export-user"
-            block
-            @click="goToApplicationList"
+          <v-btn color="export-user" block @click="goToApplicationList"
             >ดูรายการคำขอ</v-btn
           >
         </v-card-actions>
@@ -708,6 +1145,7 @@
 <script setup>
 import { ref, reactive, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import { useSessionStore } from "@/stores/session.store";
 
 const router = useRouter();
 const route = useRoute();
@@ -715,91 +1153,128 @@ const route = useRoute();
 function goToApplicationList() {
   router.push({ name: "ExportUserApplicationList" });
 }
-
 function prevStep() {
   currentStep.value--;
 }
-
 function nextStep() {
   currentStep.value++;
 }
 
 const typeTitles = {
+  newrequest: "คำขอขึ้นทะเบียนผู้ส่งออกสินค้าพืช",
+  amendment: "คำขอแก้ไขใบรับรองผู้ส่งออก",
   kk1: "คำร้องขอขึ้นทะเบียน ก.ก.1 (โรงบรรจุ/โรงรมทรีทเม้นต์/สวนส่งออก เกาหลี)",
   smpv5: "คำร้องขอ สมพ.5 (จดทะเบียนผู้ส่งออกผักและผลไม้)",
   smpv5_other: "คำร้องขอ สมพ.5 (กรณีอื่น)",
-  amendment: "คำขอแก้ไขใบรับรองผู้ส่งออก",
 };
 const pageTitle = computed(
   () => typeTitles[route.params.type] ?? "คำขอจดทะเบียนผู้ส่งออก",
 );
 
+const sessionStore = useSessionStore();
+const entityType = computed(() => sessionStore.entityType);
+
 const currentStep = ref(0);
 const confirmDialog = ref(false);
 const successDialog = ref(false);
 const draftSnackbar = ref(false);
-const entityType = ref("juristic");
 
 const steps = [
   { value: 0, title: "ข้อมูลรายละเอียด" },
   { value: 1, title: "ไฟล์แนบ" },
 ];
 
+// Auto today date
+const today = new Date();
+const todayStr = `${today.getDate().toString().padStart(2, "0")}/${(today.getMonth() + 1).toString().padStart(2, "0")}/${today.getFullYear() + 543}`;
+
 const form = reactive({
   requestType: "register",
+  // ผู้ยื่น (Auto-fill จาก SSO)
   applicantNameTh: "นายสมชาย ใจดี",
-  applicantNameEn: "Mr. Somchai Jaidee",
-  applicantAddress: "123 ถ.พหลโยธิน แขวงลาดยาว เขตจตุจักร กรุงเทพมหานคร 10900",
+  applicantNameEn: "MR. SOMCHAI JAIDEE",
+  applicantId: "1-2345-67890-12-3",
   applicantPhone: "02-123-4567",
-  applicantEmail: "somchai@example.com",
+  applicantFax: "02-123-4568",
+  applicantEmail: "somchai.j@example.co.th",
   submitterStatus: "เจ้าของ",
-  objective: "register",
+  // ที่อยู่ผู้ยื่น (Auto-fill จาก SSO)
+  applicantHouseNo: "123",
+  applicantMoo: "4",
+  applicantAlley: "ซอยพหลโยธิน 5",
+  applicantRoad: "ถนนพหลโยธิน",
+  applicantTambol: "ลาดยาว",
+  applicantDistrict: "จตุจักร",
+  applicantProvince: "กรุงเทพมหานคร",
+  applicantZipcode: "10900",
+  // ข้อมูลทั่วไป
+  submitDate: todayStr,
+  addressee: "อธิบดีกรมวิชาการเกษตร",
+  // ประเทศ
   countries: [],
-  companyNameTh: "",
-  companyNameEn: "",
-  alley: "",
-  tambol: "",
-  district: "",
-  province: null,
-  companyPhone: "",
+  countriesOther: [],
+  // สถานประกอบการ (Auto-fill จาก DBD)
+  companyNameTh: "บริษัท ไทยเฟรช เอ็กซ์พอร์ต จำกัด",
+  companyNameEn: "THAI FRESH EXPORT CO., LTD.",
+  houseNo: "88",
+  alley: "ซอยลาดพร้าว 101",
+  road: "ถนนลาดพร้าว",
+  tambol: "คลองจั่น",
+  district: "บางกะปิ",
+  province: "กรุงเทพมหานคร",
+  zipcode: "10240",
+  // สถานประกอบการ EN (Auto-fill จาก DBD)
+  houseNoEn: "88",
+  alleyEn: "SOI LADPRAO 101",
+  roadEn: "LADPRAO ROAD",
+  tambolEn: "KHLONG CHAN",
+  districtEn: "BANG KAPI",
+  provinceEn: "BANGKOK",
+  zipcodeEn: "10240",
+  // ติดต่อ (Auto-fill จาก DBD ยกเว้นโทรสาร)
+  companyPhone: "02-987-6543",
   companyFax: "",
-  companyEmail: "",
+  companyEmail: "info@thaifreshexport.co.th",
+  // Dynamic lists
   factories: [],
   gaps: [],
 });
 
 const countryOptions = [
   "สหภาพยุโรป",
-  "จีน",
-  "เวียดนาม",
-  "ญี่ปุ่น",
   "นอร์เวย์",
-  "ไอซ์แลนด์",
-  "สวิตเซอร์แลนด์",
+  "ไอร์แลนด์",
+  "สมาพันธรัฐสวิส",
+  "ญี่ปุ่น",
   "สิงคโปร์",
+  "สาธารณะรัฐประชาชนจีน",
   "ไต้หวัน",
-  "เกาหลีใต้",
-  "อื่นๆ",
+  "เวียดนาม",
+  "อื่นๆ (ระบุ)",
 ];
 
-const provinceOptions = [
-  "กรุงเทพมหานคร",
-  "เชียงใหม่",
-  "นครราชสีมา",
-  "ขอนแก่น",
-  "เชียงราย",
-  "ชลบุรี",
-  "ระยอง",
-  "สุราษฎร์ธานี",
-  "สงขลา",
-  "ภูเก็ต",
-];
-
-const certBodyOptions = [
-  "กรมวิชาการเกษตร (DOA)",
-  "สำนักงานมาตรฐานสินค้าเกษตรและอาหารแห่งชาติ (มกอช.)",
-  "สำนักงานเกษตรจังหวัด",
-  "หน่วยรับรองเอกชน",
+const countryOtherOptions = [
+  "มาเลเซีย",
+  "อินโดนีเซีย",
+  "ฟิลิปปินส์",
+  "เมียนมา",
+  "กัมพูชา",
+  "ลาว",
+  "บรูไน",
+  "อินเดีย",
+  "บังกลาเทศ",
+  "ปากีสถาน",
+  "ศรีลังกา",
+  "ออสเตรเลีย",
+  "นิวซีแลนด์",
+  "สหรัฐอเมริกา",
+  "แคนาดา",
+  "สหราชอาณาจักร",
+  "รัสเซีย",
+  "ซาอุดีอาระเบีย",
+  "สหรัฐอาหรับเอมิเรตส์",
+  "อิสราเอล",
+  "แอฟริกาใต้",
 ];
 
 function stepClass(value) {
@@ -808,20 +1283,127 @@ function stepClass(value) {
   return "step-pending";
 }
 
-function addFactory() {
-  form.factories.push({ name: "", file: "" });
+// ── DOA Search ──────────────────────────────────────
+const doaSearchNo = ref("");
+const doaSearchResult = ref(null);
+const doaSearchNotFound = ref(false);
+const doaSearchLoading = ref(false);
+
+const doaMockDB = {
+  "DOA-12345": {
+    doaNo: "DOA-12345",
+    factoryName: "โรงงานแปรรูปผลไม้สด จำกัด",
+    expiryDate: "31/12/2568",
+    isExpired: false,
+  },
+  "DOA-67890": {
+    doaNo: "DOA-67890",
+    factoryName: "บริษัท เฟรชฟู้ด เอ็กซ์พอร์ต จำกัด",
+    expiryDate: "15/06/2569",
+    isExpired: false,
+  },
+  "DOA-99999": {
+    doaNo: "DOA-99999",
+    factoryName: "โรงบรรจุผักโบราณ หจก.",
+    expiryDate: "01/01/2566",
+    isExpired: true,
+  },
+};
+
+function searchDoa() {
+  if (!doaSearchNo.value.trim()) return;
+  doaSearchLoading.value = true;
+  doaSearchResult.value = null;
+  doaSearchNotFound.value = false;
+  setTimeout(() => {
+    const found = doaMockDB[doaSearchNo.value.trim().toUpperCase()];
+    if (found) {
+      doaSearchResult.value = found;
+    } else {
+      doaSearchNotFound.value = true;
+    }
+    doaSearchLoading.value = false;
+  }, 600);
 }
+
+function doaAlreadyAdded(doaNo) {
+  return form.factories.some((f) => f.doaNo === doaNo);
+}
+
+function addFactoryFromSearch() {
+  if (!doaSearchResult.value || doaAlreadyAdded(doaSearchResult.value.doaNo))
+    return;
+  form.factories.push({ ...doaSearchResult.value });
+  doaSearchResult.value = null;
+  doaSearchNo.value = "";
+}
+
 function removeFactory(idx) {
   form.factories.splice(idx, 1);
 }
-function addGap() {
-  form.gaps.push({ name: "", certBody: "", file: "" });
+// ── GAP Search ──────────────────────────────────────
+const gapSearchNo = ref("");
+const gapSearchResult = ref(null);
+const gapSearchNotFound = ref(false);
+const gapSearchLoading = ref(false);
+
+const gapMockDB = {
+  "GAP-12345": {
+    gapNo: "GAP-12345",
+    siteName: "สวนผลไม้สมชาย",
+    certBody: "กรมวิชาการเกษตร (DOA)",
+    certCode: "0123456789",
+    expiryDate: "30/09/2568",
+    isExpired: false,
+  },
+  "GAP-67890": {
+    gapNo: "GAP-67890",
+    siteName: "ไร่ผักอินทรีย์สุขใจ",
+    certBody: "สำนักงานเกษตรจังหวัด",
+    certCode: "0123456789",
+    expiryDate: "15/03/2569",
+    isExpired: false,
+  },
+  "GAP-55555": {
+    gapNo: "GAP-55555",
+    siteName: "สวนส้มโอทองดี",
+    certBody: "กรมวิชาการเกษตร (DOA)",
+    certCode: "0123456789",
+    expiryDate: "01/06/2566",
+    isExpired: true,
+  },
+};
+
+function searchGap() {
+  if (!gapSearchNo.value.trim()) return;
+  gapSearchLoading.value = true;
+  gapSearchResult.value = null;
+  gapSearchNotFound.value = false;
+  setTimeout(() => {
+    const found = gapMockDB[gapSearchNo.value.trim().toUpperCase()];
+    if (found) {
+      gapSearchResult.value = found;
+    } else {
+      gapSearchNotFound.value = true;
+    }
+    gapSearchLoading.value = false;
+  }, 600);
 }
+
+function gapAlreadyAdded(gapNo) {
+  return form.gaps.some((g) => g.gapNo === gapNo);
+}
+
+function addGapFromSearch() {
+  if (!gapSearchResult.value || gapAlreadyAdded(gapSearchResult.value.gapNo))
+    return;
+  form.gaps.push({ ...gapSearchResult.value });
+  gapSearchResult.value = null;
+  gapSearchNo.value = "";
+}
+
 function removeGap(idx) {
   form.gaps.splice(idx, 1);
-}
-function mockUpload(key, obj) {
-  obj.file = "เอกสาร.pdf";
 }
 
 const uploadedFiles = reactive({});
@@ -830,23 +1412,22 @@ function mockUploadFile(key) {
 }
 
 const docNatural = [
-  { key: "trade_reg", label: "ใบทะเบียนพาณิชย์", optional: false },
-  { key: "id_card", label: "สำเนาบัตรประชาชน", optional: false },
-  { key: "passport", label: "หนังสือเดินทาง", optional: true },
-  { key: "work_permit", label: "ใบอนุญาตทำงาน", optional: true },
-  { key: "poa_natural", label: "หนังสือมอบอำนาจ", optional: true },
+  {
+    key: "plantproduce_cert",
+    label:
+      "หนังสือรับรองของโรงงานผลิตสินค้าพืชที่เราระบุว่าเป็นผู้คัดบรรจุสินค้าผักและผลไม้ให้กับผู้ส่งออก กรณีที่ผู้ส่งออกแจ้งใช้โรงงานผลิตสินค้าพืชของผู้อื่น",
+    optional: false,
+  },
 ];
 
 const docJuristic = [
-  { key: "company_cert", label: "หนังสือรับรองบริษัท" },
-  { key: "director_id", label: "สำเนาบัตรประชาชนกรรมการ" },
-  { key: "poa_juristic", label: "หนังสือมอบอำนาจ" },
-];
-
-const docExtra = [
-  { key: "doa_factory_cert", label: "หนังสือสำคัญขึ้นทะเบียนโรงงาน (DOA)" },
-  { key: "gap_cert", label: "หนังสือรับรับรอง GAP" },
-  { key: "factory_cert", label: "เอกสารรับรองโรงงาน" },
+  {
+    key: "plantproducejuristic_cert",
+    label:
+      "หนังสือรับรองของโรงงานผลิตสินค้าพืชที่เราระบุว่าเป็นผู้คัดบรรจุสินค้าผักและผลไม้ให้กับผู้ส่งออก กรณีที่ผู้ส่งออกแจ้งใช้โรงงานผลิตสินค้าพืชของผู้อื่น",
+    optional: false,
+  },
+  { key: "trading_cer", label: "หนังสือรับรองการซื้อ-ขายกับเกษตรกร" },
 ];
 
 function openConfirmDialog() {
@@ -858,13 +1439,11 @@ function closeConfirmDialog() {
 function saveDraft() {
   draftSnackbar.value = true;
 }
-
 function submitApplication() {
   confirmDialog.value = false;
   successDialog.value = true;
 }
 </script>
-
 
 <style scoped>
 .step-done,
@@ -880,5 +1459,9 @@ function submitApplication() {
 }
 .field-section-label {
   color: rgb(var(--v-theme-export-user)) !important;
+  font-weight: 600;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 </style>

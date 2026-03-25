@@ -32,7 +32,7 @@
         <v-list-item-title
           class="text-body-2 font-weight-bold"
           style="word-break: break-word; white-space: normal"
-          >ระบบจดทะเบียนผู้ส่งออก</v-list-item-title
+          >ระบบการจดทะเบียนผู้ส่งออกสินค้าพืช</v-list-item-title
         >
         <v-list-item-subtitle
           class="text-caption"
@@ -269,7 +269,7 @@ function doLogout() {
 }
 
 const breadcrumbs = computed(() => [
-  { title: "ระบบจดทะเบียนผู้ส่งออก", to: "/export/user" },
+  { title: "ระบบการจดทะเบียนผู้ส่งออกสินค้าพืช", to: "/export/user" },
   { title: route.meta.title },
 ]);
 
@@ -310,3 +310,10 @@ const navGroups = [
   },
 ];
 </script>
+
+<style scope>
+/* Document / upload row */
+.item-row {
+  background: rgba(var(--v-theme-export-user), 0.03);
+}
+</style>
