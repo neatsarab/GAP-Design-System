@@ -10,7 +10,7 @@
       </div>
       <v-btn
         color="el-user"
-        prepend-icon="fas fa-file-pen"
+        prepend-icon="fas fa-plus"
         rounded="lg"
         @click="goToNewApplication"
       >

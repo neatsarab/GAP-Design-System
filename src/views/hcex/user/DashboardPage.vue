@@ -9,7 +9,7 @@
       </div>
       <v-btn
         color="hcex-user"
-        prepend-icon="fas fa-file-pen"
+        prepend-icon="fas fa-plus"
         @click="goToNewApplication"
       >
         ยื่นคำขอใหม่

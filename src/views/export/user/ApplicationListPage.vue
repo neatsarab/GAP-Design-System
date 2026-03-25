@@ -1,42 +1,41 @@
 <template>
   <div>
-    <div class="mb-6">
-      <h1 class="page-title mb-1">รายการคำขอ</h1>
-      <p class="text-body-2 text-medium-emphasis mb-0">
-        รายการคำขอจดทะเบียนผู้ส่งออกของคุณ
-      </p>
+    <div class="d-flex align-center justify-space-between flex-wrap ga-3 mb-6">
+      <div>
+        <h1 class="page-title mb-1">รายการคำขอ</h1>
+        <p class="text-body-2 text-medium-emphasis mb-0">
+          การจดทะเบียนผู้ส่งออกสินค้าพืช
+        </p>
+      </div>
+      <v-btn
+        color="export-user"
+        prepend-icon="fas fa-plus"
+        @click="goToNewApplication"
+      >
+        ยื่นคำขอใหม่
+      </v-btn>
     </div>
 
     <!-- Filters -->
     <v-card rounded="xl" elevation="0" class="mb-4 filter-card">
       <v-card-text class="pa-4">
         <v-row dense align="center">
-          <v-col cols="12" sm="6" md="3">
+          <v-col cols="12" sm="6" md="6">
             <div class="field-label">
-              <div>วันที่ยื่น (จาก)</div>
-              <div class="field-label-en">Submit Date (From)</div>
+              <div>ประเภททะเบียน</div>
+              <div class="field-label-en">Certificate Type</div>
             </div>
-            <v-text-field
-              v-model="filters.dateFrom"
-              type="date"
+            <v-autocomplete
+              v-model="filters.typecert"
+              :items="typecertOptions"
+              item-title="label"
+              item-value="value"
+              placeholder="ทั้งหมด"
               variant="outlined"
               density="compact"
               rounded="lg"
               hide-details
-            />
-          </v-col>
-          <v-col cols="12" sm="6" md="3">
-            <div class="field-label">
-              <div>วันที่ยื่น (ถึง)</div>
-              <div class="field-label-en">Submit Date (To)</div>
-            </div>
-            <v-text-field
-              v-model="filters.dateTo"
-              type="date"
-              variant="outlined"
-              density="compact"
-              rounded="lg"
-              hide-details
+              clearable
             />
           </v-col>
           <v-col cols="12" sm="6" md="3">
@@ -75,6 +74,76 @@
               clearable
             />
           </v-col>
+          <v-col cols="12" sm="6" md="3">
+            <div class="field-label">
+              <div>วันที่ยื่น (จาก)</div>
+              <div class="field-label-en">Submit Date (From)</div>
+            </div>
+            <v-menu
+              v-model="dateFromMenu"
+              :close-on-content-click="false"
+              location="bottom start"
+            >
+              <template #activator="{ props }">
+                <v-text-field
+                  v-bind="props"
+                  density="compact"
+                  :model-value="dateFromBE"
+                  readonly
+                  clearable
+                  prepend-inner-icon="fas fa-calendar"
+                  placeholder="เลือกวันที่ / เดือน / ปี"
+                  hide-details
+                  style="cursor: pointer"
+                  @click:clear.stop="dateFromObj = null"
+                />
+              </template>
+              <v-date-picker
+                v-model="dateFromObj"
+                color="export-user"
+                show-adjacent-months
+                :hide-header="!dateFromObj"
+                title="วันที่ยื่น (จาก)"
+                locale="th"
+                @update:model-value="dateFromMenu = false"
+              />
+            </v-menu>
+          </v-col>
+          <v-col cols="12" sm="6" md="3">
+            <div class="field-label">
+              <div>วันที่ยื่น (ถึง)</div>
+              <div class="field-label-en">Submit Date (To)</div>
+            </div>
+            <v-menu
+              v-model="dateToMenu"
+              :close-on-content-click="false"
+              location="bottom start"
+            >
+              <template #activator="{ props }">
+                <v-text-field
+                  v-bind="props"
+                  density="compact"
+                  :model-value="dateToBE2"
+                  readonly
+                  clearable
+                  prepend-inner-icon="fas fa-calendar"
+                  placeholder="เลือกวันที่ / เดือน / ปี"
+                  hide-details
+                  style="cursor: pointer"
+                  @click:clear.stop="dateToObj = null"
+                />
+              </template>
+              <v-date-picker
+                v-model="dateToObj"
+                color="export-user"
+                show-adjacent-months
+                :hide-header="!dateToObj"
+                title="วันที่ยื่น (ถึง)"
+                locale="th"
+                @update:model-value="dateToMenu = false"
+              />
+            </v-menu>
+          </v-col>
         </v-row>
         <v-row dense>
           <v-col cols="auto" class="ml-auto">
@@ -92,23 +161,12 @@
       </v-card-text>
     </v-card>
 
-    <!-- New Application Button -->
-    <div class="d-flex justify-end mb-4">
-      <v-btn
-        color="export-user"
-        rounded="lg"
-        prepend-icon="fas fa-plus"
-        @click="goToNewApplication"
-      >
-        จดทะเบียนใหม่
-      </v-btn>
-    </div>
-
     <!-- Table -->
     <v-card rounded="xl" elevation="0" class="data-card">
       <v-data-table
         :headers="headers"
         :items="filteredItems"
+        :custom-key-sort="customKeySort"
         rounded="xl"
         hover
       >
@@ -133,26 +191,57 @@
           >
         </template>
         <template #item.actions="{ item }">
-          <div class="d-flex ga-1 justify-end">
-            <v-btn
-              v-if="item.status === 'draft' || item.status === 'need_edit'"
-              size="small"
-              color="export-user"
-              variant="tonal"
-              rounded="lg"
-              prepend-icon="fas fa-pen"
-              @click.stop
-              >แก้ไข</v-btn
+          <div class="d-flex ga-1">
+            <v-tooltip text="ดูรายละเอียด" location="top">
+              <template #activator="{ props }">
+                <v-btn
+                  v-bind="props"
+                  icon
+                  size="x-small"
+                  variant="text"
+                  color="export-user"
+                  @click.stop
+                >
+                  <v-icon icon="fas fa-eye" size="14" />
+                </v-btn>
+              </template>
+            </v-tooltip>
+            <v-tooltip
+              v-if="item.status === 'draft'"
+              text="แก้ไข"
+              location="top"
             >
-            <v-btn
+              <template #activator="{ props }">
+                <v-btn
+                  v-bind="props"
+                  icon
+                  size="x-small"
+                  variant="text"
+                  color="info"
+                  @click.stop
+                >
+                  <v-icon icon="fas fa-pencil" size="14" />
+                </v-btn>
+              </template>
+            </v-tooltip>
+            <v-tooltip
               v-if="item.status !== 'approved'"
-              size="small"
-              color="error"
-              variant="tonal"
-              rounded="lg"
-              icon="fas fa-xmark"
-              @click.stop
-            />
+              text="ยกเลิก"
+              location="top"
+            >
+              <template #activator="{ props }">
+                <v-btn
+                  v-bind="props"
+                  icon
+                  size="x-small"
+                  variant="text"
+                  color="error"
+                  @click.stop
+                >
+                  <v-icon icon="fas fa-xmark" size="14" />
+                </v-btn>
+              </template>
+            </v-tooltip>
           </div>
         </template>
       </v-data-table>
@@ -161,8 +250,46 @@
 </template>
 
 <script setup>
-import { reactive, computed } from "vue";
+// @ts-nocheck
+import { ref, reactive, computed, watch } from "vue";
 import { useRouter } from "vue-router";
+import { useLocale } from "vuetify";
+
+const { current: vuetifyLocale } = useLocale();
+vuetifyLocale.value = "th";
+
+const dateFromMenu = ref(false);
+const dateFromObj = ref(null);
+const dateToMenu = ref(false);
+const dateToObj = ref(null);
+
+function dateToBE(date) {
+  if (!date) return "";
+  const d = String(date.getDate()).padStart(2, "0");
+  const m = String(date.getMonth() + 1).padStart(2, "0");
+  return `${d}/${m}/${date.getFullYear() + 543}`;
+}
+
+const dateFromBE = computed(() => dateToBE(dateFromObj.value));
+const dateToBE2 = computed(() => dateToBE(dateToObj.value));
+
+watch(dateFromObj, (v) => {
+  filters.dateFrom = v ? v.toISOString().slice(0, 10) : "";
+});
+watch(dateToObj, (v) => {
+  filters.dateTo = v ? v.toISOString().slice(0, 10) : "";
+});
+
+// แปลง DD/MM/YYYY (พ.ศ.) → timestamp เพื่อ sort
+function beDateToTs(str) {
+  if (!str) return 0;
+  const [d, m, y] = str.split("/").map(Number);
+  return new Date(y - 543, m - 1, d).getTime();
+}
+
+const customKeySort = {
+  submittedDate: (a, b) => beDateToTs(a) - beDateToTs(b),
+};
 
 const router = useRouter();
 
@@ -173,33 +300,64 @@ function goToNewApplication() {
 const filters = reactive({
   dateFrom: "",
   dateTo: "",
+  typecert: null,
   type: null,
   status: null,
 });
 
 const typeOptions = [
-  { label: "ก.ก.1", value: "kk1" },
-  { label: "สมพ.5", value: "smpv5" },
-  { label: "สมพ.5 (กรณีอื่น)", value: "smpv5_other" },
-  { label: "ขอแก้ไขใบรับรอง", value: "amendment" },
+  { label: "ขึ้นทะเบียน", value: "ขึ้นทะเบียน" },
+  { label: "ต่ออายุ", value: "ต่ออายุ" },
+  { label: "แก้ไข", value: "แก้ไข" },
+];
+
+const typecertOptions = [
+  {
+    label: "คำขอหนังสือสำคัญแสดงการขึ้นทะเบียนเป็นผู้ส่งออกผักและผลไม้",
+    value: "คำขอหนังสือสำคัญแสดงการขึ้นทะเบียนเป็นผู้ส่งออกผักและผลไม้",
+  },
+  {
+    label:
+      "คำขอหนังสือสำคัญแสดงการจดทะเบียนเป็นผู้ส่งออกกล้วยสดไปประเทศญี่ปุ่น",
+    value:
+      "คำขอหนังสือสำคัญแสดงการจดทะเบียนเป็นผู้ส่งออกกล้วยสดไปประเทศญี่ปุ่น",
+  },
+  {
+    label:
+      "คำขอหนังสือสำคัญแสดงการจดทะเบียนเป็นผู้ส่งผลทุเรียนสดออกไปนอกราชอาณาจักร",
+    value:
+      "คำขอหนังสือสำคัญแสดงการจดทะเบียนเป็นผู้ส่งผลทุเรียนสดออกไปนอกราชอาณาจักร",
+  },
+  {
+    label: "คำขอจดทะเบียนเป็นผู้ส่งออกสินค้าเกษตรไปนอกราชอาณาจักร",
+    value: "คำขอจดทะเบียนเป็นผู้ส่งออกสินค้าเกษตรไปนอกราชอาณาจักร",
+  },
+  {
+    label:
+      "คำขอหนังสือสำคัญการจดทะเบียนเป็นผู้ส่งออกลูกเดือย, เมล็ดแมงลัก และพริกแห้ง ไปนอกราชอาณาจักร",
+    value:
+      "คำขอหนังสือสำคัญการจดทะเบียนเป็นผู้ส่งออกลูกเดือย, เมล็ดแมงลัก และพริกแห้ง ไปนอกราชอาณาจักร",
+  },
+  {
+    label: "คำร้องขึ้นทะเบียนเป็นผู้ส่งออกพืชควบคุม",
+    value: "คำร้องขึ้นทะเบียนเป็นผู้ส่งออกพืชควบคุม",
+  },
 ];
 
 const statusOptions = [
   { label: "รอตรวจสอบ", value: "pending" },
-  { label: "รอแก้ไขคำขอ", value: "need_edit" },
+  { label: "รอแก้ไขคำขอ", value: "draft" },
   { label: "รอพิจารณา", value: "reviewing" },
   { label: "รอลงนาม", value: "signing" },
   { label: "ได้รับอนุญาต", value: "approved" },
 ];
 
 const headers = [
-  { title: "เลขคำขอ", key: "requestNo", sortable: true },
+  { title: "หมายเลขคำขอ", key: "requestNo", sortable: true },
+  { title: "ประเภททะเบียน", key: "typecert", sortable: true },
   { title: "ประเภทคำขอ", key: "type", sortable: true },
-  { title: "ผู้ยื่นคำขอ", key: "applicant", sortable: true },
-  { title: "สถานะผู้ยื่น", key: "submitterStatus", sortable: false },
-  { title: "ผู้มอบอำนาจ", key: "principal", sortable: false },
   { title: "วันที่ยื่น", key: "submittedDate", sortable: true },
-  { title: "สถานะคำขอ", key: "status", sortable: false },
+  { title: "สถานะคำขอ", key: "status", sortable: true },
   { title: "", key: "actions", sortable: false, align: "end" },
 ];
 
@@ -207,7 +365,8 @@ const allItems = [
   {
     id: "EXP-2569-001",
     requestNo: "EXP-0001",
-    type: "kk1",
+    typecert: "คำขอหนังสือสำคัญแสดงการขึ้นทะเบียนเป็นผู้ส่งออกผักและผลไม้",
+    type: "ขึ้นทะเบียน",
     applicant: "บ.ไทย เอ็กซ์พอร์ต จก.",
     submitterStatus: "เจ้าของ",
     principal: "-",
@@ -217,17 +376,21 @@ const allItems = [
   {
     id: "EXP-2569-002",
     requestNo: "EXP-0002",
-    type: "smpv5",
+    typecert:
+      "คำร้องขอหนังสือสำคัญแสดงการจดทะเบียนเป็นผู้ส่งออกกล้วยสดไปประเทศญี่ปุ่น",
+    type: "ขึ้นทะเบียน",
     applicant: "บ.ไทย เอ็กซ์พอร์ต จก.",
     submitterStatus: "ตัวแทน",
     principal: "นายสมชาย ใจดี",
     submittedDate: "05/02/2569",
-    status: "need_edit",
+    status: "draft",
   },
   {
     id: "EXP-2569-003",
     requestNo: "EXP-0003",
-    type: "smpv5",
+    typecert:
+      "คำร้องขอหนังสือสำคัญแสดงการจดทะเบียนเป็นผู้ส่งออกกล้วยสดไปประเทศญี่ปุ่น",
+    type: "ขึ้นทะเบียน",
     applicant: "บ.ไทย เอ็กซ์พอร์ต จก.",
     submitterStatus: "เจ้าของ",
     principal: "-",
@@ -237,7 +400,8 @@ const allItems = [
   {
     id: "EXP-2569-004",
     requestNo: "EXP-0004",
-    type: "smpv5_other",
+    typecert: "คำร้องขึ้นทะเบียนเป็นผู้ส่งออกพืชควบคุม",
+    type: "ต่ออายุ",
     applicant: "บ.ไทย เอ็กซ์พอร์ต จก.",
     submitterStatus: "เจ้าของ",
     principal: "-",
@@ -247,7 +411,9 @@ const allItems = [
   {
     id: "EXP-2569-005",
     requestNo: "EXP-0005",
-    type: "amendment",
+    typecert:
+      "คำร้องขอหนังสือสำคัญแสดงการจดทะเบียนเป็นผู้ส่งออกกล้วยสดไปประเทศญี่ปุ่น",
+    type: "ขึ้นทะเบียน",
     applicant: "บ.ไทย เอ็กซ์พอร์ต จก.",
     submitterStatus: "เจ้าของ",
     principal: "-",
@@ -257,7 +423,8 @@ const allItems = [
   {
     id: "EXP-2569-006",
     requestNo: "EXP-0006",
-    type: "kk1",
+    typecert: "คำร้องขึ้นทะเบียนเป็นผู้ส่งออกพืชควบคุม",
+    type: "ขึ้นทะเบียน",
     applicant: "บ.ไทย เอ็กซ์พอร์ต จก.",
     submitterStatus: "ตัวแทน",
     principal: "นายวิชัย สมบูรณ์",
@@ -268,25 +435,37 @@ const allItems = [
 
 const filteredItems = computed(() => {
   let items = allItems;
+  if (filters.typecert)
+    items = items.filter((i) => i.typecert === filters.typecert);
   if (filters.type) items = items.filter((i) => i.type === filters.type);
   if (filters.status) items = items.filter((i) => i.status === filters.status);
+  if (filters.dateFrom) {
+    const from = new Date(filters.dateFrom).getTime();
+    items = items.filter((i) => beDateToTs(i.submittedDate) >= from);
+  }
+  if (filters.dateTo) {
+    const to = new Date(filters.dateTo).getTime();
+    items = items.filter((i) => beDateToTs(i.submittedDate) <= to);
+  }
   return items;
 });
 
 function clearFilters() {
   filters.dateFrom = "";
   filters.dateTo = "";
+  filters.typecert = null;
   filters.type = null;
   filters.status = null;
+  dateFromObj.value = null;
+  dateToObj.value = null;
 }
 
 function typeLabel(t) {
   return (
     {
-      kk1: "ก.ก.1",
-      smpv5: "สมพ.5",
-      smpv5_other: "สมพ.5 (กรณีอื่น)",
-      amendment: "ขอแก้ไขใบรับรอง",
+      newrequest: "คำขอขึ้นทะเบียน",
+      renew: "คำขอต่ออายุทะเบียน",
+      amendment: "คำขอแก้ไขใบรับรอง",
     }[t] ?? t
   );
 }
@@ -294,10 +473,12 @@ function typeLabel(t) {
 function statusColor(s) {
   return (
     {
-      pending: "warning",
-      need_edit: "orange",
+      draft: "grey",
+      pending: "info",
+      reject_request: "error",
+      need_edit: "warning",
       reviewing: "info",
-      signing: "secondary",
+      signing: "info",
       approved: "success",
     }[s] ?? "grey"
   );
@@ -306,7 +487,9 @@ function statusColor(s) {
 function statusLabel(s) {
   return (
     {
+      draft: "แบบร่าง",
       pending: "รอตรวจสอบ",
+      reject_request: "ปฏิเสธคำขอ",
       need_edit: "รอแก้ไขคำขอ",
       reviewing: "รอพิจารณา",
       signing: "รอลงนาม",

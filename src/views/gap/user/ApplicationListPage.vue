@@ -10,7 +10,7 @@
       </div>
       <v-btn
         color="gap-user"
-        prepend-icon="fas fa-file-pen"
+        prepend-icon="fas fa-plus"
         @click="goToNewApplication"
       >
         ยื่นคำขอใหม่
