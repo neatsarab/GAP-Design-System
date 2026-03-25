@@ -22,6 +22,22 @@
         <v-row dense align="center">
           <v-col cols="12" sm="6" md="6">
             <div class="field-label">
+              <div>หมายเลขคำขอ</div>
+              <div class="field-label-en">Request No.</div>
+            </div>
+            <v-text-field
+              v-model="search"
+              placeholder="ค้นหาหมายเลขคำขอ"
+              prepend-inner-icon="fas fa-search"
+              variant="outlined"
+              density="compact"
+              rounded="lg"
+              hide-details
+              clearable
+            />
+          </v-col>
+          <v-col cols="12" sm="6" md="6">
+            <div class="field-label">
               <div>ประเภททะเบียน</div>
               <div class="field-label-en">Certificate Type</div>
             </div>
@@ -170,6 +186,34 @@
         rounded="xl"
         hover
       >
+        <template
+          v-for="h in headers.filter((c) => c.titleEn)"
+          #["header."+h.key]="{ column, isSorted, getSortIcon }"
+          :key="h.key"
+        >
+          <span class="d-inline-flex align-center ga-1">
+            <span>
+              <div
+                class="text-body-2 font-weight-medium"
+                style="line-height: 1.3"
+              >
+                {{ h.title }}
+              </div>
+              <div
+                class="text-caption text-medium-emphasis"
+                style="line-height: 1.2"
+              >
+                {{ h.titleEn }}
+              </div>
+            </span>
+            <v-icon
+              v-if="isSorted(column)"
+              :icon="getSortIcon(column)"
+              size="14"
+            />
+          </span>
+        </template>
+
         <template #item.type="{ item }">{{ typeLabel(item.type) }}</template>
         <template #item.submitterStatus="{ item }">
           <v-chip
@@ -353,11 +397,26 @@ const statusOptions = [
 ];
 
 const headers = [
-  { title: "หมายเลขคำขอ", key: "requestNo", sortable: true },
-  { title: "ประเภททะเบียน", key: "typecert", sortable: true },
-  { title: "ประเภทคำขอ", key: "type", sortable: true },
-  { title: "วันที่ยื่น", key: "submittedDate", sortable: true },
-  { title: "สถานะคำขอ", key: "status", sortable: true },
+  {
+    title: "หมายเลขคำขอ",
+    titleEn: "Request No.",
+    key: "requestNo",
+    sortable: true,
+  },
+  {
+    title: "ประเภททะเบียน",
+    titleEn: "Certificate Type",
+    key: "typecert",
+    sortable: true,
+  },
+  { title: "ประเภทคำขอ", titleEn: "Request Type", key: "type", sortable: true },
+  {
+    title: "วันที่ยื่น",
+    titleEn: "Submit Date",
+    key: "submittedDate",
+    sortable: true,
+  },
+  { title: "สถานะคำขอ", titleEn: "Status", key: "status", sortable: true },
   { title: "", key: "actions", sortable: false, align: "end" },
 ];
 
