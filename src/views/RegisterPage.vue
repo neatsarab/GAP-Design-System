@@ -79,45 +79,45 @@
         </div>
 
         <!-- ─── Step Indicator ─── -->
-        <div class="step-indicator mb-8">
-          <div class="step-track">
-            <template v-for="(step, idx) in steps" :key="step.key">
+        <div class="d-flex align-center mb-8">
+          <template v-for="(step, idx) in steps" :key="step.key">
+            <div class="d-flex flex-column align-center">
               <div
-                class="step-node"
+                class="step-circle"
                 :class="{
-                  'step-node--done': currentStep > idx,
-                  'step-node--active': currentStep === idx,
-                  'step-node--pending': currentStep < idx,
+                  'step-circle--done': currentStep > idx,
+                  'step-circle--active': currentStep === idx,
+                  'step-circle--pending': currentStep < idx,
                 }"
               >
                 <v-icon
                   v-if="currentStep > idx"
                   icon="fas fa-check"
-                  size="11"
+                  size="14"
                 />
                 <span v-else>{{ idx + 1 }}</span>
               </div>
-              <div
-                v-if="idx < steps.length - 1"
-                class="step-connector"
-                :class="currentStep > idx ? 'step-connector--done' : ''"
-              />
-            </template>
-          </div>
-          <div class="step-labels">
-            <span
-              v-for="(step, idx) in steps"
-              :key="step.key + '_l'"
-              class="step-label"
-              :class="
-                currentStep === idx
-                  ? 'text-primary font-weight-bold'
-                  : 'text-medium-emphasis'
-              "
-            >
-              {{ step.label }}
-            </span>
-          </div>
+              <div class="mt-2 text-center" style="min-width: 80px">
+                <div
+                  class="text-caption font-weight-bold"
+                  :class="
+                    currentStep === idx
+                      ? 'text-primary'
+                      : currentStep > idx
+                        ? 'text-success'
+                        : 'text-disabled'
+                  "
+                >
+                  {{ step.label }}
+                </div>
+              </div>
+            </div>
+            <div
+              v-if="idx < steps.length - 1"
+              class="step-connector flex-grow-1 mb-7"
+              :class="{ 'step-connector--done': currentStep > idx }"
+            />
+          </template>
         </div>
 
         <!-- ═══ Step 0: ยืนยันตัวตน ═══ -->
@@ -559,12 +559,7 @@
           </v-alert>
         </v-card-text>
         <v-card-actions class="px-6 pb-6">
-          <v-btn
-            color="primary"
-            block
-            rounded="lg"
-            @click="goToLogin"
-          >
+          <v-btn color="primary" block rounded="lg" @click="goToLogin">
             กลับหน้าเข้าสู่ระบบ
           </v-btn>
         </v-card-actions>
@@ -712,36 +707,6 @@ function maskIdCard(v) {
 </script>
 
 <style scoped>
-/* ═══ Step Indicator ═══ */
-.step-track {
-  display: flex;
-  align-items: center;
-}
-
-.step-node--active {
-  border-color: rgb(var(--v-theme-primary));
-  color: white;
-}
-
-.step-node--done {
-  background: rgb(var(--v-theme-success));
-  border-color: rgb(var(--v-theme-success));
-  color: white;
-}
-
-.step-labels {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 8px;
-}
-
-.step-label:first-child {
-  text-align: left;
-}
-.step-label:last-child {
-  text-align: right;
-}
-
 /* ═══ Step 0: ThaiD Hero ═══ */
 .thaid-hero {
   border: 1.5px solid rgba(var(--v-border-color), var(--v-border-opacity));
@@ -760,27 +725,6 @@ function maskIdCard(v) {
   justify-content: center;
   margin: 0 auto;
 }
-.divider-or {
-  position: relative;
-  text-align: center;
-}
-.divider-or::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: rgba(var(--v-border-color), var(--v-border-opacity));
-}
-.divider-or-text {
-  position: relative;
-  background: rgb(var(--v-theme-background));
-  padding: 0 12px;
-  font-size: 12px;
-  color: rgba(var(--v-theme-on-surface), 0.4);
-}
-
 /* ═══ Form ═══ */
 .form-section-title {
   font-size: 12px;
@@ -790,20 +734,6 @@ function maskIdCard(v) {
   letter-spacing: 0.6px;
   display: flex;
   align-items: center;
-}
-.field-label {
-  font-size: 13px;
-  font-weight: 600;
-  color: rgba(var(--v-theme-on-surface), 0.75);
-  margin-bottom: 6px;
-}
-.field-label-en {
-  font-size: 11px;
-  font-weight: 400;
-  color: rgba(var(--v-theme-on-surface), 0.4);
-}
-.req {
-  color: rgb(var(--v-theme-error));
 }
 .autofill-field :deep(.v-field__input) {
   color: rgba(var(--v-theme-on-surface), 0.45) !important;
@@ -862,16 +792,5 @@ function maskIdCard(v) {
   justify-content: center;
   padding: 12px 0;
   border-top: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
-}
-
-/* ═══ Success Dialog ═══ */
-.success-ring {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  background: rgba(var(--v-theme-primary), 0.1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 </style>

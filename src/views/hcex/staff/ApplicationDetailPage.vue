@@ -33,16 +33,37 @@
       <v-card-text class="pa-5">
         <div class="d-flex align-center">
           <template v-for="(step, i) in steps" :key="step.value">
-            <div class="step-item d-flex flex-column align-center" style="min-width: 80px">
+            <div
+              class="step-item d-flex flex-column align-center"
+              style="min-width: 80px"
+            >
               <div class="step-circle mb-1" :class="stepClass(step.value)">
-                <v-icon v-if="currentWorkflowStep > step.value" icon="fas fa-check" size="14" color="white" />
-                <span v-else class="text-caption font-weight-bold">{{ step.value + 1 }}</span>
+                <v-icon
+                  v-if="currentWorkflowStep > step.value"
+                  icon="fas fa-check"
+                  size="14"
+                  color="white"
+                />
+                <span v-else class="text-caption font-weight-bold">{{
+                  step.value + 1
+                }}</span>
               </div>
-              <div class="text-caption text-center" :class="currentWorkflowStep >= step.value ? 'text-hcex-staff font-weight-bold' : 'text-medium-emphasis'">
+              <div
+                class="text-caption text-center"
+                :class="
+                  currentWorkflowStep >= step.value
+                    ? 'text-hcex-staff font-weight-bold'
+                    : 'text-medium-emphasis'
+                "
+              >
                 {{ step.title }}
               </div>
             </div>
-            <div v-if="i < steps.length - 1" class="step-line flex-grow-1" :class="{ 'step-line--done': currentWorkflowStep > step.value }" />
+            <div
+              v-if="i < steps.length - 1"
+              class="step-line flex-grow-1"
+              :class="{ 'step-line--done': currentWorkflowStep > step.value }"
+            />
           </template>
         </div>
       </v-card-text>
@@ -693,7 +714,6 @@ const successDialog = ref(false);
 const returnDialog = ref(false);
 const returnReason = ref("");
 
-
 const steps = [
   { value: 0, title: "ตรวจสอบคำขอ" },
   { value: 1, title: "สร้าง Preview" },
@@ -877,15 +897,6 @@ function getStatusLabel(s) {
   height: 64px;
   border-radius: 50%;
   background: rgba(var(--v-theme-hcex-staff), 0.1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.success-ring {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  background: rgba(var(--v-theme-success), 0.1);
   display: flex;
   align-items: center;
   justify-content: center;

@@ -28,26 +28,6 @@
       </div>
     </div>
 
-    <!-- Step Tracker -->
-    <v-card rounded="xl" elevation="0" class="mb-6 section-card">
-      <v-card-text class="pa-5">
-        <div class="d-flex align-center">
-          <template v-for="(step, i) in steps" :key="step.value">
-            <div class="step-item d-flex flex-column align-center" style="min-width: 80px">
-              <div class="step-circle mb-1" :class="stepClass(step.value)">
-                <v-icon v-if="currentStepIndex > step.value" icon="fas fa-check" size="14" color="white" />
-                <span v-else class="text-caption font-weight-bold">{{ step.value + 1 }}</span>
-              </div>
-              <div class="text-caption text-center" :class="currentStepIndex >= step.value ? 'text-hcex-user font-weight-bold' : 'text-medium-emphasis'">
-                {{ step.title }}
-              </div>
-            </div>
-            <div v-if="i < steps.length - 1" class="step-line flex-grow-1" :class="{ 'step-line--done': currentStepIndex > step.value }" />
-          </template>
-        </div>
-      </v-card-text>
-    </v-card>
-
     <!-- Application Info -->
     <v-row class="mb-2">
       <v-col cols="12" md="6">
@@ -303,43 +283,57 @@
     </v-card>
 
     <!-- Timeline -->
-    <v-card class="mb-5">
+    <v-card class="mb-5" rounded="xl" elevation="0">
       <v-card-title
-        class="pa-4 pb-2 text-body-1 font-weight-bold d-flex align-center ga-2"
+        class="pa-4 pb-2 text-subtitle-2 font-weight-bold d-flex align-center ga-2"
       >
-        <v-icon icon="fas fa-clock-rotate-left" color="hcex-user" size="16" />
-        ประวัติสถานะ
+        <v-icon icon="fas fa-route" color="hcex-user" size="16" />
+        ความคืบหน้าคำขอ
       </v-card-title>
       <v-card-text class="pa-4 pt-0">
-        <v-timeline density="compact" side="end">
-          <v-timeline-item
-            v-for="entry in app.history"
-            :key="entry.date"
-            :dot-color="entry.color"
-            size="small"
+        <div class="timeline">
+          <div
+            v-for="(step, idx) in timeline"
+            :key="step.key"
+            class="timeline-item"
+            :class="{
+              'timeline-item--done': isTimelineDone(idx),
+              'timeline-item--active': isTimelineActive(idx),
+              'timeline-item--pending': isTimelinePending(idx),
+            }"
           >
-            <template #icon>
-              <v-icon :icon="entry.icon" size="12" />
-            </template>
-            <div class="d-flex align-center ga-2 flex-wrap">
-              <span class="text-body-2 font-weight-medium">{{
-                entry.label
-              }}</span>
-              <v-chip size="x-small" :color="entry.color" variant="tonal">{{
-                entry.status
-              }}</v-chip>
+            <div class="timeline-dot">
+              <v-icon
+                v-if="isTimelineDone(idx)"
+                icon="fas fa-check"
+                size="12"
+              />
+              <v-icon
+                v-else-if="isTimelineActive(idx)"
+                icon="fas fa-spinner"
+                size="12"
+                class="fa-spin"
+              />
+              <v-icon v-else icon="fas fa-circle" size="8" />
             </div>
-            <div class="text-caption text-medium-emphasis">
-              {{ entry.date }}
+            <div class="timeline-content">
+              <div class="text-body-2 font-weight-medium">{{ step.label }}</div>
+              <div class="text-caption text-medium-emphasis">
+                {{ step.desc }}
+              </div>
+              <div
+                v-if="step.date"
+                class="text-caption text-hcex-user mt-1"
+              >
+                {{ step.date }}
+              </div>
+              <div v-if="step.note" class="text-caption text-warning mt-1">
+                {{ step.note }}
+              </div>
             </div>
-            <div
-              v-if="entry.note"
-              class="text-caption text-medium-emphasis mt-1"
-            >
-              {{ entry.note }}
-            </div>
-          </v-timeline-item>
-        </v-timeline>
+            <div v-if="idx < timeline.length - 1" class="timeline-line" />
+          </div>
+        </div>
       </v-card-text>
     </v-card>
 
@@ -524,7 +518,6 @@ const app = {
 
 const currentStatus = app.status;
 
-
 const steps = [
   { value: 0, title: "ยื่นคำขอ" },
   { value: 1, title: "ตรวจสอบเอกสาร" },
@@ -552,6 +545,57 @@ const statusStepMap = {
 };
 
 const currentStepIndex = computed(() => statusStepMap[app.status] ?? 0);
+
+const currentStatusIdx = currentStepIndex;
+
+const timeline = computed(() => [
+  {
+    key: "submitted",
+    label: "ยื่นคำขอ",
+    desc: app.exporterName,
+    date: "10 ม.ค. 2569",
+  },
+  {
+    key: "review",
+    label: "ตรวจสอบเอกสาร",
+    desc: "เจ้าหน้าที่",
+    date: "12 ม.ค. 2569",
+  },
+  {
+    key: "preview",
+    label: "ยืนยัน Preview",
+    desc: "รอผู้ประกอบการยืนยัน",
+    date: "13 ม.ค. 2569",
+  },
+  {
+    key: "signing",
+    label: "รอลงนาม",
+    desc: "ผู้มีอำนาจลงนาม",
+    date: "",
+  },
+  {
+    key: "payment",
+    label: "ชำระค่าธรรมเนียม",
+    desc: "",
+    date: "",
+  },
+  {
+    key: "completed",
+    label: "รับใบรับรอง",
+    desc: "",
+    date: "",
+  },
+]);
+
+function isTimelineDone(idx) {
+  return idx < currentStatusIdx.value;
+}
+function isTimelineActive(idx) {
+  return idx === currentStatusIdx.value;
+}
+function isTimelinePending(idx) {
+  return idx > currentStatusIdx.value;
+}
 
 const isApprovedOrCompleted = computed(
   () => app.status === "approved" || app.status === "completed",
@@ -602,16 +646,21 @@ function getStatusLabel(s) {
 </script>
 
 <style scoped>
-.step-done,
-.step-active {
-  background: rgb(var(--v-theme-hcex-user)) !important;
-  color: white !important;
+.timeline-item--done .timeline-dot {
+  background: rgb(var(--v-theme-hcex-user));
+  color: white;
 }
-.step-active {
-  box-shadow: 0 0 0 4px rgba(var(--v-theme-hcex-user), 0.2) !important;
+.timeline-item--active .timeline-dot {
+  background: rgb(var(--v-theme-hcex-user));
+  color: white;
+  box-shadow: 0 0 0 4px rgba(var(--v-theme-hcex-user), 0.2);
 }
-.step-line--done {
-  background: rgb(var(--v-theme-hcex-user)) !important;
+.timeline-item--pending .timeline-dot {
+  background: rgba(var(--v-theme-on-surface), 0.08);
+  color: rgba(var(--v-theme-on-surface), 0.3);
+}
+.timeline-item--done .timeline-line {
+  background: rgba(var(--v-theme-hcex-user), 0.35);
 }
 
 .info-grid {
@@ -648,15 +697,6 @@ function getStatusLabel(s) {
   height: 64px;
   border-radius: 50%;
   background: rgba(var(--v-theme-hcex-user), 0.1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.success-ring {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  background: rgba(var(--v-theme-success), 0.1);
   display: flex;
   align-items: center;
   justify-content: center;

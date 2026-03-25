@@ -604,44 +604,6 @@ function doSsoLogin() {
   opacity: 1;
 }
 
-/* ─── Divider OR ─── */
-.divider-or {
-  position: relative;
-  text-align: center;
-}
-.divider-or::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: rgba(var(--v-border-color), var(--v-border-opacity));
-}
-.divider-or-text {
-  position: relative;
-  background: rgb(var(--v-theme-background));
-  padding: 0 12px;
-  font-size: 12px;
-  color: rgba(var(--v-theme-on-surface), 0.4);
-}
-
-/* ─── Fields ─── */
-.field-label {
-  font-size: 13px;
-  font-weight: 600;
-  color: rgba(var(--v-theme-on-surface), 0.75);
-  margin-bottom: 6px;
-}
-.field-label-en {
-  font-size: 11px;
-  font-weight: 400;
-  color: rgba(var(--v-theme-on-surface), 0.4);
-}
-.req {
-  color: rgb(var(--v-theme-error));
-}
-
 .register-row {
   display: flex;
   align-items: center;

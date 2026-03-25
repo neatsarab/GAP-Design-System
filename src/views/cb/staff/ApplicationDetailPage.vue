@@ -671,12 +671,6 @@ div {
   background: rgb(var(--v-theme-cb-staff)) !important;
 }
 .confirm-ring {
-  width: 72px;
-  height: 72px;
-  border-radius: 50%;
-  background: rgba(var(--v-theme-cb-staff), 0.1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background: rgba(var(--v-theme-cb-staff), 0.1) !important;
 }
 </style>

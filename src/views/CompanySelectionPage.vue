@@ -634,7 +634,7 @@
           </v-alert>
 
           <div
-            v-for="doc in personalRequiredDocs"
+            v-for="doc in personalDocDefs"
             :key="doc.id"
             class="doc-item mb-4"
           >
@@ -1024,7 +1024,7 @@
           </v-alert>
 
           <div
-            v-for="doc in juristicRequiredDocs"
+            v-for="doc in juristicDocDefs"
             :key="doc.id"
             class="doc-item mb-4"
           >
@@ -1736,10 +1736,8 @@ const personalDocs = reactive({
   id_card: null,
 });
 
-const personalRequiredDocs = computed(() => personalDocDefs);
-
 const personalDocsComplete = computed(() =>
-  personalRequiredDocs.value
+  personalDocDefs
     .filter((d) => d.required && !d.fromSSO)
     .every((d) => !!personalDocs[d.id]),
 );
@@ -1802,10 +1800,8 @@ const juristicDocs = reactive({
   poa: null,
 });
 
-const juristicRequiredDocs = computed(() => juristicDocDefs);
-
 const juristicDocsComplete = computed(() =>
-  juristicRequiredDocs.value
+  juristicDocDefs
     .filter((d) => d.required && !d.fromSSO)
     .every((d) => !!juristicDocs[d.id]),
 );
@@ -2056,32 +2052,6 @@ watch(
   justify-content: center;
 }
 
-/* Section header */
-.section-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-.section-label {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.section-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-.section-dot--personal {
-  background: rgb(var(--v-theme-success));
-}
-.section-dot--company {
-  background: rgb(var(--v-theme-info));
-}
-
 /* List card */
 .list-card {
   border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
@@ -2212,17 +2182,6 @@ watch(
 }
 .req {
   color: rgb(var(--v-theme-error));
-}
-
-/* Success ring */
-.success-ring {
-  width: 68px;
-  height: 68px;
-  border-radius: 50%;
-  background: rgba(var(--v-theme-primary), 0.1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 /* Dialog step bar */

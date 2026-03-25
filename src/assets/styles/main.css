@@ -1,19 +1,31 @@
-/* ── Google Fonts: Sarabun ── */
+/* ═══════════════════════════════════════════════════
+   1. IMPORTS
+═══════════════════════════════════════════════════ */
 @import url("https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap");
 
-/* ── Global Font: Sarabun ── */
+/* ═══════════════════════════════════════════════════
+   2. GLOBAL FONT
+═══════════════════════════════════════════════════ */
 *,
 *::before,
 *::after {
   font-family: "Sarabun", sans-serif !important;
 }
 
-.v-application,
-.v-application * {
-  font-family: "Sarabun", sans-serif !important;
+/* ═══════════════════════════════════════════════════
+   3. VUETIFY COMPONENT OVERRIDES
+═══════════════════════════════════════════════════ */
+
+/* Card shadow */
+.v-card {
+  box-shadow: 0 2px 6px 0 rgba(67, 89, 113, 0.12) !important;
+  border: none !important;
+}
+.v-theme--gapDark .v-card {
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.4) !important;
 }
 
-/* ── Smooth transitions ── */
+/* Smooth transitions */
 .v-card,
 .v-btn,
 .v-chip,
@@ -21,28 +33,113 @@
   transition: all 0.18s ease !important;
 }
 
-/* ── Vuexy-style card shadow (no border) ── */
-.v-card {
-  box-shadow: 0 2px 6px 0 rgba(67, 89, 113, 0.12) !important;
-  border: none !important;
+/* App bar frosted glass */
+.v-app-bar {
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
 }
 
-.v-theme--gapDark .v-card {
-  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.4) !important;
+/* Navigation drawer active state */
+.v-navigation-drawer .v-list-item--active,
+.v-navigation-drawer .v-list-item--active .v-list-item-title {
+  font-weight: 600 !important;
 }
 
-/* ── Page Root (Login / Register) ── */
+/* Data table header style */
+.v-data-table .v-data-table__th {
+  font-weight: 600 !important;
+  font-size: 0.72rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.06em !important;
+  color: rgba(var(--v-theme-on-surface), 0.55) !important;
+  white-space: nowrap !important;
+}
+.v-data-table tbody tr:hover td {
+  background: rgba(var(--v-theme-primary), 0.04) !important;
+}
+.v-table tbody tr:hover td {
+  background: rgba(var(--v-theme-on-surface), 0.07) !important;
+}
+
+/* Expansion panel */
+.v-expansion-panel-title:hover > .v-expansion-panel-title__overlay {
+  opacity: 0.1 !important;
+}
+
+/* Switch / Radio / Checkbox opacity states */
+.v-switch .v-switch__track {
+  opacity: 1 !important;
+}
+.v-radio:not(.v-selection-control--dirty) .v-icon {
+  opacity: 0.28 !important;
+}
+.v-checkbox .v-selection-control:not(.v-selection-control--dirty) .v-icon {
+  opacity: 0.28 !important;
+}
+.v-checkbox .v-selection-control.v-selection-control--dirty .v-icon {
+  opacity: 1 !important;
+}
+.v-switch
+  .v-selection-control:not(.v-selection-control--dirty)
+  .v-switch__track {
+  opacity: 0.45 !important;
+}
+.v-switch
+  .v-selection-control:not(.v-selection-control--dirty)
+  .v-switch__thumb {
+  opacity: 0.75 !important;
+}
+.v-switch .v-selection-control.v-selection-control--dirty .v-switch__track,
+.v-switch .v-selection-control.v-selection-control--dirty .v-switch__thumb {
+  opacity: 1 !important;
+}
+
+/* Chip */
+.v-chip {
+  font-weight: 500 !important;
+}
+
+/* Input field icons */
+.v-field__prepend-inner .v-icon,
+.v-field__append-inner .v-icon {
+  font-size: 18px !important;
+}
+.v-file-input .v-input__prepend .v-icon {
+  font-size: 18px !important;
+}
+
+/* Input outline states */
+.v-field--variant-outlined .v-field__outline {
+  --v-field-border-opacity: 0.18;
+  transition: opacity 0.2s ease;
+}
+.v-field--variant-outlined.v-field--focused .v-field__outline {
+  --v-field-border-opacity: 1;
+}
+.v-field--variant-outlined:not(.v-field--focused):hover .v-field__outline {
+  --v-field-border-opacity: 0.35;
+}
+.v-field--variant-outlined.v-field--error .v-field__outline {
+  --v-field-border-opacity: 1 !important;
+}
+.v-field--variant-outlined.v-field--disabled .v-field__outline {
+  --v-field-border-opacity: 0.1;
+}
+
+/* ═══════════════════════════════════════════════════
+   4. PUBLIC PAGES: LOGIN / REGISTER
+═══════════════════════════════════════════════════ */
+
 .page-root {
   min-height: 100vh;
   display: flex;
 }
-
 .page-form-wrapper {
   width: 100%;
   max-width: 440px;
 }
 
-/* ── Left Panel (Login / Register) ── */
+/* Left panel (decorative column) */
 .left-panel {
   width: 520px;
   flex-shrink: 0;
@@ -89,6 +186,23 @@
   flex-direction: column;
   height: 100%;
 }
+.left-panel-footer {
+  margin-top: auto;
+  padding-top: 32px;
+}
+
+/* Right panel (form column) */
+.right-panel {
+  flex: 1;
+  background: rgb(var(--v-theme-background));
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 48px 24px;
+  overflow-y: auto;
+}
+
+/* Brand icon ring (left panel logo badge) */
 .brand-ring {
   width: 72px;
   height: 72px;
@@ -110,32 +224,30 @@
   justify-content: center;
   flex-shrink: 0;
 }
-/* LoginPage variant */
-.brand-icon-ring {
-  width: 72px;
-  height: 72px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.15);
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  backdrop-filter: blur(8px);
+
+/* Divider with "or" label */
+.divider-or {
+  position: relative;
+  text-align: center;
 }
-.brand-icon-ring-sm {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: rgba(var(--v-theme-primary), 0.12);
-  border: 1.5px solid rgba(var(--v-theme-primary), 0.25);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
+.divider-or::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: rgba(var(--v-border-color), var(--v-border-opacity));
 }
-.brand-icon-ring-sm .v-icon {
-  color: rgb(var(--v-theme-primary)) !important;
+.divider-or-text {
+  position: relative;
+  background: rgb(var(--v-theme-background));
+  padding: 0 12px;
+  font-size: 12px;
+  color: rgba(var(--v-theme-on-surface), 0.4);
 }
+
+/* Feature list */
 .feature-list {
   display: flex;
   flex-direction: column;
@@ -156,33 +268,40 @@
   justify-content: center;
   flex-shrink: 0;
 }
-.feature-icon-box {
-  width: 30px;
-  height: 30px;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.12);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-.left-panel-footer {
-  margin-top: auto;
-  padding-top: 32px;
-}
 
-/* ═══ Right Panel ═══ */
-.right-panel {
-  flex: 1;
+/* ═══════════════════════════════════════════════════
+   5. PORTAL PAGES
+═══════════════════════════════════════════════════ */
+
+.portal-root {
+  min-height: 100vh;
   background: rgb(var(--v-theme-background));
   display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  padding: 48px 24px;
-  overflow-y: auto;
+  flex-direction: column;
 }
 
-/* ── Topbar Logo Box ── */
+/* Top bar */
+.portal-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgb(var(--v-theme-primary));
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+.is-dark .portal-topbar {
+  background: rgba(var(--v-theme-primary), 0.18);
+}
+.portal-topbar-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+}
+
+/* Topbar widgets */
 .topbar-logo {
   width: 36px;
   height: 36px;
@@ -194,8 +313,6 @@
   justify-content: center;
   flex-shrink: 0;
 }
-
-/* ── Topbar User Pill ── */
 .user-pill {
   padding: 6px 10px 6px 6px;
   border-radius: 20px;
@@ -206,7 +323,6 @@
 .user-pill:hover {
   background: rgba(255, 255, 255, 0.1);
 }
-
 .user-avatar-sm {
   width: 28px;
   height: 28px;
@@ -219,7 +335,6 @@
   font-size: 11px;
   font-weight: 700;
 }
-
 .user-avatar-md {
   width: 40px;
   height: 40px;
@@ -231,7 +346,6 @@
   color: rgb(var(--v-theme-primary));
   flex-shrink: 0;
 }
-
 .notif-dot {
   position: absolute;
   top: 6px;
@@ -243,7 +357,181 @@
   border: 1.5px solid transparent;
 }
 
-/* ── Compact Pagination: ลด icon ซ้าย/ขวา ไม่แตะขนาดตัวเลข ── */
+/* Hero section */
+.portal-hero {
+  background: linear-gradient(
+    135deg,
+    rgb(var(--v-theme-primary)) 0%,
+    rgba(var(--v-theme-primary), 0.65) 100%
+  );
+  padding: 36px 24px 48px;
+  position: relative;
+  overflow: hidden;
+}
+.is-dark .portal-hero {
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.62), rgba(0, 0, 0, 0.7)),
+    linear-gradient(
+      135deg,
+      rgb(var(--v-theme-primary)) 0%,
+      rgba(var(--v-theme-primary), 0.55) 100%
+    );
+}
+.portal-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      ellipse at 90% 50%,
+      rgba(255, 255, 255, 0.1) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse at 10% 80%,
+      rgba(255, 255, 255, 0.06) 0%,
+      transparent 50%
+    );
+  pointer-events: none;
+}
+.portal-hero-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+.hero-stat-card {
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 14px;
+  padding: 14px 18px;
+  min-width: 140px;
+  backdrop-filter: blur(6px);
+}
+
+/* Body */
+.portal-body {
+  flex: 1;
+  padding: 36px 24px;
+}
+.portal-body-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* System cards */
+.sys-icon-box {
+  width: 50px;
+  height: 50px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.sys-card {
+  border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04) !important;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+.sys-card-accent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+}
+.sys-card--active {
+  cursor: pointer;
+}
+.sys-card--active:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 36px rgba(0, 0, 0, 0.1) !important;
+}
+.sys-card--disabled {
+  cursor: default;
+  opacity: 0.65;
+}
+.coming-soon-bar {
+  display: flex;
+  align-items: center;
+  padding: 7px 12px;
+  border-radius: 8px;
+  background: rgba(var(--v-border-color), 0.06);
+  border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
+  color: rgba(var(--v-theme-on-surface), 0.45);
+  font-size: 12px;
+}
+.coming-soon-bar--noaccess {
+  background: rgba(var(--v-theme-error), 0.06);
+  border-color: rgba(var(--v-theme-error), 0.2);
+  color: rgba(var(--v-theme-error), 0.75);
+}
+
+/* Footer */
+.portal-footer {
+  padding: 20px 24px;
+  border-top: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
+  background: rgba(var(--v-theme-surface-variant), 0.4);
+}
+.portal-footer-link {
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.portal-footer-link:hover {
+  color: rgb(var(--v-theme-primary)) !important;
+}
+
+/* ═══════════════════════════════════════════════════
+   6. LAYOUT SHELL (APP BAR / SIDEBAR)
+═══════════════════════════════════════════════════ */
+
+.app-sidebar {
+  border-right: 1px solid rgba(var(--v-border-color), var(--v-border-opacity)) !important;
+}
+.app-bar {
+  background: rgba(var(--v-theme-surface), 0.92) !important;
+  border-bottom: 1px solid rgba(var(--v-border-color), var(--v-border-opacity)) !important;
+}
+.logo-icon-box {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(var(--v-theme-primary), 0.12);
+  border: 1px solid rgba(var(--v-theme-primary), 0.2);
+}
+.user-card {
+  background: rgba(var(--v-theme-primary), 0.06);
+  border: 1px solid rgba(var(--v-theme-primary), 0.12);
+}
+.user-chip {
+  font-size: 12px;
+  background: rgba(var(--v-theme-primary), 0.06);
+}
+.logout-icon-ring {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(var(--v-theme-error), 0.1);
+  border: 1px solid rgba(var(--v-theme-error), 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.sidebar-group-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 8px 12px 4px;
+}
 .compact-pagination .v-pagination__prev .v-btn,
 .compact-pagination .v-pagination__next .v-btn {
   width: 24px !important;
@@ -255,140 +543,10 @@
   font-size: 12px !important;
 }
 
-/* ── App Bar backdrop blur (Vuexy frosted glass) ── */
-.v-app-bar {
-  backdrop-filter: blur(8px) !important;
-  -webkit-backdrop-filter: blur(8px) !important;
-}
+/* ═══════════════════════════════════════════════════
+   7. DASHBOARD / STAT CARDS
+═══════════════════════════════════════════════════ */
 
-/* ── Navigation drawer ── */
-.v-navigation-drawer .v-list-item--active {
-  font-weight: 600 !important;
-}
-
-/* ── Sidebar white theme ── */
-.v-navigation-drawer .v-list-item--active .v-list-item-title {
-  font-weight: 600 !important;
-}
-
-/* ── Sidebar category label ── */
-.sidebar-group-label {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  padding: 8px 12px 4px;
-}
-
-/* ── Layout shared: sidebar border ── */
-.app-sidebar {
-  border-right: 1px solid rgba(var(--v-border-color), var(--v-border-opacity)) !important;
-}
-
-/* ── Layout shared: app bar (backdrop handled globally by .v-app-bar) ── */
-.app-bar {
-  background: rgba(var(--v-theme-surface), 0.92) !important;
-  border-bottom: 1px solid rgba(var(--v-border-color), var(--v-border-opacity)) !important;
-}
-
-/* ── Layout shared: logo icon box (color from --v-theme-primary override) ── */
-.logo-icon-box {
-  width: 36px;
-  height: 36px;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(var(--v-theme-primary), 0.12);
-  border: 1px solid rgba(var(--v-theme-primary), 0.2);
-}
-
-/* ── Layout shared: user info card ── */
-.user-card {
-  background: rgba(var(--v-theme-primary), 0.06);
-  border: 1px solid rgba(var(--v-theme-primary), 0.12);
-}
-
-/* ── Layout shared: user chip ── */
-.user-chip {
-  font-size: 12px;
-  background: rgba(var(--v-theme-primary), 0.06);
-}
-
-/* ── Layout shared: logout dialog ring ── */
-.logout-icon-ring {
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  background: rgba(var(--v-theme-error), 0.1);
-  border: 1px solid rgba(var(--v-theme-error), 0.2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* ── Table ── */
-.v-data-table .v-data-table__th {
-  font-weight: 600 !important;
-  font-size: 0.72rem !important;
-  text-transform: uppercase !important;
-  letter-spacing: 0.06em !important;
-  color: rgba(var(--v-theme-on-surface), 0.55) !important;
-  white-space: nowrap !important;
-}
-
-.v-data-table tbody tr:hover td {
-  background: rgba(var(--v-theme-primary), 0.04) !important;
-}
-
-.v-table tbody tr:hover td {
-  background: rgba(var(--v-theme-on-surface), 0.07) !important;
-}
-
-/* ── Expansion panel title hover ── */
-.v-expansion-panel-title:hover > .v-expansion-panel-title__overlay {
-  opacity: 0.1 !important;
-}
-
-/* ── Switch track: เพิ่มความชัดตอน OFF ── */
-.v-switch .v-switch__track {
-  opacity: 1 !important;
-}
-
-/* ── Radio / Checkbox / Switch: ตอนยังไม่ถูกเลือก / OFF ── */
-/* v-radio: single root element — selector ตรงได้เลย */
-.v-radio:not(.v-selection-control--dirty) .v-icon {
-  opacity: 0.28 !important;
-}
-/* v-checkbox: outer = v-input, inner = v-selection-control */
-.v-checkbox .v-selection-control:not(.v-selection-control--dirty) .v-icon {
-  opacity: 0.28 !important;
-}
-.v-checkbox .v-selection-control.v-selection-control--dirty .v-icon {
-  opacity: 1 !important;
-}
-
-.v-switch
-  .v-selection-control:not(.v-selection-control--dirty)
-  .v-switch__track {
-  opacity: 0.45 !important;
-}
-.v-switch
-  .v-selection-control:not(.v-selection-control--dirty)
-  .v-switch__thumb {
-  opacity: 0.75 !important;
-}
-.v-switch .v-selection-control.v-selection-control--dirty .v-switch__track,
-.v-switch .v-selection-control.v-selection-control--dirty .v-switch__thumb {
-  opacity: 1 !important;
-}
-
-/* ── Chip pill shape ── */
-.v-chip {
-  font-weight: 500 !important;
-}
-
-/* ── Stat cards ── */
 .stat-card,
 .app-stat-card {
   border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
@@ -403,8 +561,6 @@
   height: 3px;
   opacity: 0.6;
 }
-
-/* ── Icon boxes ── */
 .stat-icon-box {
   width: 38px;
   height: 38px;
@@ -432,20 +588,176 @@
   justify-content: center;
   flex-shrink: 0;
 }
-
-/* ── Queue / interactive list items ── */
+.stat-num {
+  font-size: 2.125rem !important;
+  font-weight: 700 !important;
+  line-height: 1.2;
+}
+.stat-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
 .queue-item {
   cursor: pointer;
   transition: background 0.15s;
 }
 
-/* Step Bar */
+/* ═══════════════════════════════════════════════════
+   8. APPLICATION LIST / TABLES
+═══════════════════════════════════════════════════ */
+
+.filter-card,
+.data-card,
+.table-card,
+.summary-card {
+  border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
+}
+
+/* ═══════════════════════════════════════════════════
+   9. FORM / DETAIL PAGES
+═══════════════════════════════════════════════════ */
+
+/* Section layout */
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
+}
+.section-title {
+  font-size: 14px !important;
+  font-weight: 600;
+}
+.section-card {
+  border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
+}
+.section-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Section dot indicator — used in portal and company selection pages */
+.section-label-dot,
+.section-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.section-dot--personal {
+  background: rgb(var(--v-theme-success));
+}
+.section-dot--company {
+  background: rgb(var(--v-theme-info));
+}
+
+/* Info label / value grid */
+.info-label {
+  font-size: 11px;
+  color: rgba(var(--v-theme-on-surface), 0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  margin-bottom: 2px;
+}
+.info-value {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* Field labels above inputs */
+.field-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(var(--v-theme-on-surface), 0.75);
+  margin-bottom: 6px;
+}
+.field-label-en {
+  font-size: 11px;
+  font-weight: 400;
+  color: rgba(var(--v-theme-on-surface), 0.4);
+  display: block;
+  line-height: 1.2;
+}
+.req {
+  color: rgb(var(--v-theme-error));
+}
+.field-section-label {
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  margin-bottom: 8px;
+  color: rgb(var(--v-theme-primary));
+}
+
+/* Typography utilities */
+.page-title {
+  font-size: 1.5rem !important;
+  font-weight: 700 !important;
+  line-height: 2rem;
+  letter-spacing: normal;
+}
+.page-header {
+  margin-bottom: 1.5rem;
+}
+.lh-tight {
+  line-height: 1.2 !important;
+}
+
+/* Document / upload row */
+.item-row {
+  background: rgba(var(--v-theme-primary), 0.03);
+  border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
+}
+
+/* Application type selection card */
+.type-card {
+  border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+}
+.type-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 36px rgba(0, 0, 0, 0.1) !important;
+}
+.type-accent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+}
+.type-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ═══════════════════════════════════════════════════
+   10. STEPPER / STEP BAR
+═══════════════════════════════════════════════════ */
+
 .step-bar {
   display: flex;
   align-items: flex-start;
 }
-
-/* ═══ Step Indicator ═══ */
+.step-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  position: relative;
+  min-width: 80px;
+}
 .step-node {
   width: 28px;
   height: 28px;
@@ -479,184 +791,7 @@
   align-items: center;
 }
 
-.step-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  flex: 1;
-  position: relative;
-  min-width: 80px;
-}
-
-/* ── Module step colors (use --v-theme-primary which is overridden per layout/module) ── */
-.step-done {
-  background: rgb(var(--v-theme-primary));
-  color: white;
-}
-.step-active {
-  background: rgb(var(--v-theme-primary));
-  color: white;
-  box-shadow: 0 0 0 4px rgba(var(--v-theme-primary), 0.2);
-}
-/* ── Field section label ── */
-.field-section-label {
-  font-size: 14px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.07em;
-  margin-bottom: 8px;
-  color: rgb(var(--v-theme-primary));
-}
-
-/* ── Application type selection card ── */
-.type-card {
-  border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
-  position: relative;
-  overflow: hidden;
-  cursor: pointer;
-  transition:
-    transform 0.2s,
-    box-shadow 0.2s;
-}
-.type-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 10px 36px rgba(0, 0, 0, 0.1) !important;
-}
-.type-accent {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-}
-.type-icon {
-  width: 60px;
-  height: 60px;
-  border-radius: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* ── Info label / value (staff application detail) ── */
-.info-label {
-  font-size: 11px;
-  color: rgba(var(--v-theme-on-surface), 0.5);
-  text-transform: uppercase;
-  letter-spacing: 0.4px;
-  margin-bottom: 2px;
-}
-.info-value {
-  font-size: 14px;
-  font-weight: 500;
-}
-
-/* ── Typography shared utilities ── */
-.page-title {
-  font-size: 1.5rem !important;
-  font-weight: 700 !important;
-  line-height: 2rem;
-  letter-spacing: normal;
-}
-.stat-num {
-  font-size: 2.125rem !important;
-  font-weight: 700 !important;
-  line-height: 1.2;
-}
-.stat-label {
-  font-size: 0.875rem;
-  font-weight: 500;
-}
-.lh-tight {
-  line-height: 1.2 !important;
-}
-
-/* ── Page header ── */
-.page-header {
-  margin-bottom: 1.5rem;
-}
-
-/* ── Input field icons — ปรับขนาดให้สมส่วนกับ font 16px ── */
-.v-field__prepend-inner .v-icon,
-.v-field__append-inner .v-icon {
-  font-size: 18px !important;
-}
-
-/* ── File input prepend icon (renders outside field in .v-input__prepend) ── */
-.v-file-input .v-input__prepend .v-icon {
-  font-size: 18px !important;
-}
-
-/* ── Input field outline: อ่อนลงเมื่อ inactive ── */
-/* Vuetify default border-opacity = 0.38 → ปรับให้อ่อนลง */
-.v-field--variant-outlined .v-field__outline {
-  --v-field-border-opacity: 0.18;
-  transition: opacity 0.2s ease;
-}
-
-/* Focus: คืนความชัดเต็ม */
-.v-field--variant-outlined.v-field--focused .v-field__outline {
-  --v-field-border-opacity: 1;
-}
-
-/* Hover: outline เข้มขึ้นเล็กน้อย */
-.v-field--variant-outlined:not(.v-field--focused):hover .v-field__outline {
-  --v-field-border-opacity: 0.35;
-}
-
-/* Error state: คงความชัดเต็ม */
-.v-field--variant-outlined.v-field--error .v-field__outline {
-  --v-field-border-opacity: 1 !important;
-}
-
-/* Disabled state: จางมาก */
-.v-field--variant-outlined.v-field--disabled .v-field__outline {
-  --v-field-border-opacity: 0.1;
-}
-
-/* ── Field labels above inputs ── */
-.field-label {
-  font-size: 13px;
-  font-weight: 600;
-  color: rgba(var(--v-theme-on-surface), 0.75);
-  margin-bottom: 6px;
-}
-.field-label-en {
-  font-size: 11px;
-  font-weight: 400;
-  color: rgba(var(--v-theme-on-surface), 0.4);
-  display: block;
-  line-height: 1.2;
-}
-.req {
-  color: rgb(var(--v-theme-error));
-}
-
-/* ── Filter / Data / Table / Summary cards ── */
-.filter-card,
-.data-card,
-.table-card,
-.summary-card {
-  border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
-}
-
-/* ── Section / Card layout ── */
-.section-header {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 12px 16px;
-  border-bottom: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
-}
-.section-title {
-  font-size: 14px !important;
-  font-weight: 600;
-}
-.section-card {
-  border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
-}
-
-/* ── Stepper (shared base — color overrides stay scoped per module) ── */
+/* Step circles (AppStepper component) */
 .step-circle {
   width: 36px;
   height: 36px;
@@ -683,6 +818,8 @@
   background: rgba(0, 0, 0, 0.08);
   color: rgba(0, 0, 0, 0.38);
 }
+
+/* Step connectors */
 .step-connector {
   flex: 1;
   height: 2px;
@@ -692,10 +829,6 @@
 }
 .step-connector--done {
   background: rgb(var(--v-theme-success));
-}
-.step-pending {
-  background: rgba(var(--v-theme-on-surface), 0.1);
-  color: rgba(var(--v-theme-on-surface), 0.5);
 }
 .step-line {
   height: 2px;
@@ -729,7 +862,67 @@
   background: rgba(var(--v-theme-success), 0.4);
 }
 
-/* ── Status rings ── */
+/* Step state colors (use module --v-theme-primary override) */
+.step-done {
+  background: rgb(var(--v-theme-primary));
+  color: white;
+}
+.step-active {
+  background: rgb(var(--v-theme-primary));
+  color: white;
+  box-shadow: 0 0 0 4px rgba(var(--v-theme-primary), 0.2);
+}
+.step-pending {
+  background: rgba(var(--v-theme-on-surface), 0.1);
+  color: rgba(var(--v-theme-on-surface), 0.5);
+}
+
+/* ═══════════════════════════════════════════════════
+   11. TIMELINE (base structure — colors via scoped styles)
+═══════════════════════════════════════════════════ */
+
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.timeline-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  position: relative;
+  padding-bottom: 20px;
+}
+.timeline-item:last-child {
+  padding-bottom: 0;
+}
+.timeline-dot {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  z-index: 1;
+}
+.timeline-content {
+  flex: 1;
+  padding-top: 4px;
+}
+.timeline-line {
+  position: absolute;
+  left: 13px;
+  top: 28px;
+  width: 2px;
+  height: calc(100% - 28px);
+  background: rgba(var(--v-theme-on-surface), 0.1);
+}
+
+/* ═══════════════════════════════════════════════════
+   12. STATUS / FEEDBACK
+═══════════════════════════════════════════════════ */
+
 .success-ring {
   width: 72px;
   height: 72px;
@@ -739,8 +932,6 @@
   align-items: center;
   justify-content: center;
 }
-
-/* ── Confirm/complete ring (uses module primary color) ── */
 .confirm-ring {
   width: 72px;
   height: 72px;
@@ -750,14 +941,18 @@
   align-items: center;
   justify-content: center;
 }
-
-/* ── Item/upload row (document list rows in form pages) ── */
-.item-row {
-  background: rgba(var(--v-theme-primary), 0.03);
-  border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
+.confirm-ring--error {
+  background: rgba(var(--v-theme-error), 0.1);
+}
+.confirm-ring--success {
+  background: rgba(var(--v-theme-success), 0.1);
 }
 
-/* ── Scrollbar — light mode ── */
+/* ═══════════════════════════════════════════════════
+   13. SCROLLBAR
+═══════════════════════════════════════════════════ */
+
+/* Webkit */
 ::-webkit-scrollbar {
   width: 5px;
   height: 5px;
@@ -772,8 +967,6 @@
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(var(--v-theme-primary), 0.5);
 }
-
-/* ── Scrollbar — dark mode ── */
 .v-theme--gapDark ::-webkit-scrollbar-track {
   background: rgba(255, 255, 255, 0.03);
 }

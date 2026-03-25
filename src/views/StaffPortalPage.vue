@@ -442,7 +442,6 @@
 </template>
 
 <script setup>
-import { computed } from "vue";
 import { useRouter } from "vue-router";
 import { useThemeStore } from "@/stores/theme.store";
 
@@ -488,14 +487,12 @@ const user = {
   email: "nitiporn@doa.go.th",
 };
 
-const currentDate = computed(() =>
-  new Date().toLocaleDateString("th-TH", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-    weekday: "long",
-  }),
-);
+const currentDate = new Date().toLocaleDateString("th-TH", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+  weekday: "long",
+});
 
 const systems = [
   {
@@ -583,179 +580,3 @@ const systems = [
 const activeSystems = systems.filter((s) => s.active);
 const inactiveSystems = systems.filter((s) => !s.active);
 </script>
-
-<style scoped>
-/* ─── Root ─── */
-.portal-root {
-  min-height: 100vh;
-  background: rgb(var(--v-theme-background));
-  display: flex;
-  flex-direction: column;
-}
-
-/* ─── Top Bar ─── */
-.portal-topbar {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  background: rgb(var(--v-theme-primary));
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-}
-.is-dark .portal-topbar {
-  background: rgba(var(--v-theme-primary), 0.18);
-}
-
-.portal-topbar-inner {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 24px;
-  height: 60px;
-  display: flex;
-  align-items: center;
-}
-
-/* ─── Hero ─── */
-.portal-hero {
-  background: linear-gradient(
-    135deg,
-    rgb(var(--v-theme-primary)) 0%,
-    rgba(var(--v-theme-primary), 0.65) 100%
-  );
-  padding: 36px 24px 48px;
-  position: relative;
-  overflow: hidden;
-}
-
-.is-dark .portal-hero {
-  background:
-    linear-gradient(rgba(0, 0, 0, 0.62), rgba(0, 0, 0, 0.7)),
-    linear-gradient(
-      135deg,
-      rgb(var(--v-theme-primary)) 0%,
-      rgba(var(--v-theme-primary), 0.55) 100%
-    );
-}
-
-.portal-hero::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(
-      ellipse at 90% 50%,
-      rgba(255, 255, 255, 0.1) 0%,
-      transparent 60%
-    ),
-    radial-gradient(
-      ellipse at 10% 80%,
-      rgba(255, 255, 255, 0.06) 0%,
-      transparent 50%
-    );
-  pointer-events: none;
-}
-
-.portal-hero-inner {
-  max-width: 1200px;
-  margin: 0 auto;
-  position: relative;
-  z-index: 1;
-}
-
-.hero-stat-card {
-  background: rgba(255, 255, 255, 0.15);
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  border-radius: 14px;
-  padding: 14px 18px;
-  min-width: 140px;
-  backdrop-filter: blur(6px);
-}
-
-/* ─── Body ─── */
-.portal-body {
-  flex: 1;
-  padding: 36px 24px;
-}
-
-.portal-body-inner {
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-/* ─── Section Labels ─── */
-.section-label-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-
-/* ─── System Cards ─── */
-.sys-card {
-  border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04) !important;
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
-  position: relative;
-  overflow: hidden;
-}
-
-.sys-card-accent {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-}
-
-.sys-card--active {
-  cursor: pointer;
-}
-
-.sys-card--active:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 10px 36px rgba(0, 0, 0, 0.1) !important;
-}
-
-.sys-card--disabled {
-  cursor: default;
-  opacity: 0.65;
-}
-
-.sys-icon-box {
-  width: 50px;
-  height: 50px;
-  border-radius: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.coming-soon-bar {
-  display: flex;
-  align-items: center;
-  padding: 7px 12px;
-  border-radius: 8px;
-  background: rgba(var(--v-border-color), 0.06);
-  border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
-  color: rgba(var(--v-theme-on-surface), 0.45);
-  font-size: 12px;
-}
-
-/* ─── Footer ─── */
-.portal-footer {
-  padding: 20px 24px;
-  border-top: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
-  background: rgba(var(--v-theme-surface-variant), 0.4);
-}
-
-.portal-footer-link {
-  text-decoration: none;
-  transition: color 0.15s;
-}
-.portal-footer-link:hover {
-  color: rgb(var(--v-theme-primary)) !important;
-}
-</style>

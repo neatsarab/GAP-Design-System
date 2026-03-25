@@ -38,6 +38,58 @@
       </div>
     </div>
 
+    <!-- Progress Timeline -->
+    <v-card class="mb-5" rounded="xl" elevation="0">
+      <v-card-title
+        class="pa-4 pb-2 text-subtitle-2 font-weight-bold d-flex align-center ga-2"
+      >
+        <v-icon icon="fas fa-route" color="doa-user" size="16" />
+        ความคืบหน้าคำขอ
+      </v-card-title>
+      <v-card-text class="pa-4 pt-0">
+        <div class="timeline">
+          <div
+            v-for="(step, idx) in timeline"
+            :key="step.key"
+            class="timeline-item"
+            :class="{
+              'timeline-item--done': isTimelineDone(idx),
+              'timeline-item--active': isTimelineActive(idx),
+              'timeline-item--pending': isTimelinePending(idx),
+            }"
+          >
+            <div class="timeline-dot">
+              <v-icon
+                v-if="isTimelineDone(idx)"
+                icon="fas fa-check"
+                size="12"
+              />
+              <v-icon
+                v-else-if="isTimelineActive(idx)"
+                icon="fas fa-spinner"
+                size="12"
+                class="fa-spin"
+              />
+              <v-icon v-else icon="fas fa-circle" size="8" />
+            </div>
+            <div class="timeline-content">
+              <div class="text-body-2 font-weight-medium">{{ step.label }}</div>
+              <div class="text-caption text-medium-emphasis">
+                {{ step.desc }}
+              </div>
+              <div v-if="step.date" class="text-caption text-doa-user mt-1">
+                {{ step.date }}
+              </div>
+              <div v-if="step.note" class="text-caption text-warning mt-1">
+                {{ step.note }}
+              </div>
+            </div>
+            <div v-if="idx < timeline.length - 1" class="timeline-line" />
+          </div>
+        </div>
+      </v-card-text>
+    </v-card>
+
     <v-row>
       <!-- Main -->
       <v-col cols="12" md="8">
@@ -201,86 +253,6 @@
 
       <!-- Sidebar -->
       <v-col cols="12" md="4">
-        <!-- Status Timeline -->
-        <v-card rounded="xl" elevation="0" class="mb-4">
-          <div class="section-header">
-            <v-icon icon="fas fa-timeline" color="doa-user" size="15" />
-            <span class="text-subtitle-2 font-weight-bold"
-              >ความคืบหน้าคำขอ</span
-            >
-          </div>
-          <v-card-text class="pa-4">
-            <div
-              v-for="(step, i) in timeline"
-              :key="i"
-              class="d-flex ga-3 mb-2"
-            >
-              <div
-                class="d-flex flex-column align-center"
-                style="width: 20px; flex-shrink: 0"
-              >
-                <div
-                  class="tl-dot"
-                  :class="
-                    step.done
-                      ? 'tl-dot--done'
-                      : step.active
-                        ? 'tl-dot--active'
-                        : 'tl-dot--pending'
-                  "
-                >
-                  <v-icon
-                    :icon="
-                      step.done
-                        ? 'fas fa-check'
-                        : step.active
-                          ? 'fas fa-circle-dot'
-                          : 'fas fa-circle'
-                    "
-                    size="9"
-                    :color="
-                      step.done ? 'white' : step.active ? 'doa-user' : 'grey'
-                    "
-                  />
-                </div>
-                <div
-                  v-if="i < timeline.length - 1"
-                  class="tl-line"
-                  :class="step.done ? 'tl-line--done' : ''"
-                />
-              </div>
-              <div class="pb-3 flex-grow-1">
-                <div
-                  class="text-body-2 font-weight-medium"
-                  :class="
-                    step.active
-                      ? 'text-doa-user'
-                      : step.done
-                        ? ''
-                        : 'text-medium-emphasis'
-                  "
-                >
-                  {{ step.label }}
-                </div>
-                <div v-if="step.date" class="text-caption text-medium-emphasis">
-                  {{ step.date }}
-                </div>
-                <div v-if="step.by" class="text-caption text-medium-emphasis">
-                  {{ step.by }}
-                </div>
-                <div v-if="step.note" class="text-caption text-warning mt-0.5">
-                  <v-icon
-                    icon="fas fa-triangle-exclamation"
-                    size="10"
-                    color="warning"
-                    class="mr-1"
-                  />{{ step.note }}
-                </div>
-              </div>
-            </div>
-          </v-card-text>
-        </v-card>
-
         <!-- Officer Note -->
         <v-alert
           v-if="app.officerNote"
@@ -331,6 +303,7 @@
 </template>
 
 <script setup>
+import { computed } from "vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
@@ -382,39 +355,66 @@ const app = {
   ],
 };
 
-const timeline = [
+const currentStatusIdx = computed(() => {
+  const m = {
+    pending: 1,
+    reviewing: 2,
+    inspection: 3,
+    approved: 5,
+    rejected: 5,
+  };
+  return m[app.status] ?? 1;
+});
+
+const timeline = computed(() => [
   {
+    key: "submitted",
     label: "ยื่นคำขอ",
+    desc: app.applicantNameTh,
     date: "01/01/2569",
-    by: "นายสมชาย ใจดี",
-    done: true,
-    active: false,
   },
   {
+    key: "received",
     label: "รับคำขอเข้าสู่ระบบ",
+    desc: "ระบบอัตโนมัติ",
     date: "02/01/2569",
-    by: "ระบบอัตโนมัติ",
-    done: true,
-    active: false,
   },
   {
+    key: "reviewing",
     label: "ตรวจสอบเอกสาร",
+    desc: "เจ้าหน้าที่ DOA",
     date: "08/01/2569",
-    by: "เจ้าหน้าที่ DOA",
-    done: false,
-    active: true,
-    note: "รอเอกสารเพิ่มเติม",
+    note: currentStatusIdx.value === 2 ? "รอเอกสารเพิ่มเติม" : "",
   },
   {
+    key: "inspection",
     label: "ลงพื้นที่ตรวจโรงงาน",
+    desc: "ทีมตรวจสอบภาคสนาม",
     date: "",
-    by: "",
-    done: false,
-    active: false,
   },
-  { label: "คณะกรรมการพิจารณา", date: "", by: "", done: false, active: false },
-  { label: "ลงนาม / ออกทะเบียน", date: "", by: "", done: false, active: false },
-];
+  {
+    key: "committee",
+    label: "คณะกรรมการพิจารณา",
+    desc: "",
+    date: "",
+  },
+  {
+    key: "approved",
+    label: "ลงนาม / ออกทะเบียน",
+    desc: "",
+    date: "",
+  },
+]);
+
+function isTimelineDone(idx) {
+  return idx < currentStatusIdx.value;
+}
+function isTimelineActive(idx) {
+  return idx === currentStatusIdx.value;
+}
+function isTimelinePending(idx) {
+  return idx > currentStatusIdx.value;
+}
 
 function statusColor(s) {
   const m = {
@@ -457,13 +457,6 @@ function typeLabel(t) {
 </script>
 
 <style scoped>
-.section-header {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 12px 16px;
-  border-bottom: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
-}
 .info-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
@@ -488,34 +481,20 @@ function typeLabel(t) {
   border-radius: 10px;
   text-align: center;
 }
-.tl-dot {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
+.timeline-item--done .timeline-dot {
+  background: rgb(var(--v-theme-doa-user));
+  color: white;
 }
-.tl-dot--done {
-  background: rgb(var(--v-theme-success));
+.timeline-item--active .timeline-dot {
+  background: rgb(var(--v-theme-doa-user));
+  color: white;
+  box-shadow: 0 0 0 4px rgba(var(--v-theme-doa-user), 0.2);
 }
-.tl-dot--active {
-  background: rgba(var(--v-theme-doa-user), 0.12);
-  border: 2px solid rgb(var(--v-theme-doa-user));
+.timeline-item--pending .timeline-dot {
+  background: rgba(var(--v-theme-on-surface), 0.08);
+  color: rgba(var(--v-theme-on-surface), 0.3);
 }
-.tl-dot--pending {
-  background: rgba(var(--v-border-color), 0.1);
-  border: 1.5px solid rgba(var(--v-border-color), 0.3);
-}
-.tl-line {
-  width: 2px;
-  flex-grow: 1;
-  min-height: 14px;
-  background: rgba(var(--v-border-color), 0.2);
-  margin: 2px 0;
-}
-.tl-line--done {
-  background: rgb(var(--v-theme-success));
+.timeline-item--done .timeline-line {
+  background: rgba(var(--v-theme-doa-user), 0.35);
 }
 </style>

@@ -44,16 +44,37 @@
       <v-card-text class="pa-5">
         <div class="d-flex align-center">
           <template v-for="(step, i) in steps" :key="step.value">
-            <div class="step-item d-flex flex-column align-center" style="min-width: 80px">
+            <div
+              class="step-item d-flex flex-column align-center"
+              style="min-width: 80px"
+            >
               <div class="step-circle mb-1" :class="stepClass(step.value)">
-                <v-icon v-if="currentStep > step.value" icon="fas fa-check" size="14" color="white" />
-                <span v-else class="text-caption font-weight-bold">{{ step.value + 1 }}</span>
+                <v-icon
+                  v-if="currentStep > step.value"
+                  icon="fas fa-check"
+                  size="14"
+                  color="white"
+                />
+                <span v-else class="text-caption font-weight-bold">{{
+                  step.value + 1
+                }}</span>
               </div>
-              <div class="text-caption text-center" :class="currentStep >= step.value ? 'text-org-staff font-weight-bold' : 'text-medium-emphasis'">
+              <div
+                class="text-caption text-center"
+                :class="
+                  currentStep >= step.value
+                    ? 'text-org-staff font-weight-bold'
+                    : 'text-medium-emphasis'
+                "
+              >
                 {{ step.title }}
               </div>
             </div>
-            <div v-if="i < steps.length - 1" class="step-line flex-grow-1" :class="{ 'step-line--done': currentStep > step.value }" />
+            <div
+              v-if="i < steps.length - 1"
+              class="step-line flex-grow-1"
+              :class="{ 'step-line--done': currentStep > step.value }"
+            />
           </template>
         </div>
       </v-card-text>
@@ -858,13 +879,6 @@ function statusLabel(s) {
 </script>
 
 <style scoped>
-.section-header {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 12px 16px;
-  border-bottom: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
-}
 .info-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
@@ -921,14 +935,5 @@ function statusLabel(s) {
 }
 .req {
   color: rgb(var(--v-theme-error));
-}
-.success-ring {
-  width: 72px;
-  height: 72px;
-  border-radius: 50%;
-  background: rgba(var(--v-theme-success), 0.1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 </style>

@@ -3,17 +3,17 @@
     <!-- Header -->
     <div class="d-flex align-center justify-space-between mb-5 flex-wrap ga-3">
       <div class="d-flex align-center ga-3">
-        <v-btn icon="fas fa-arrow-left" variant="text" @click="router.back()" />
+        <v-btn icon="fas fa-arrow-left" variant="text" @click="goBack" />
         <div>
-          <div class="d-flex align-center ga-2 mb-1">
+          <div class="d-flex align-center ga-2 mb-1 flex-wrap">
             <h1 class="text-h6 font-weight-bold">{{ app.requestNo }}</h1>
             <v-chip
               size="small"
-              :color="getStatusColor(app.status)"
+              :color="statusColor(app.status)"
               variant="tonal"
-              :prepend-icon="getStatusIcon(app.status)"
+              :prepend-icon="statusIcon(app.status)"
             >
-              {{ getStatusLabel(app.status) }}
+              {{ statusLabel(app.status) }}
             </v-chip>
           </div>
           <p class="text-body-2 text-medium-emphasis mb-0">
@@ -36,7 +36,8 @@
         <v-btn
           v-if="app.status === 'correction_required'"
           color="warning"
-          prepend-icon="fas fa-pen"
+          variant="tonal"
+          prepend-icon="fas fa-pen-to-square"
           size="small"
         >
           แก้ไขคำขอ
@@ -45,9 +46,9 @@
     </div>
 
     <!-- Progress Timeline -->
-    <v-card class="mb-5">
+    <v-card class="mb-5" rounded="xl" elevation="0">
       <v-card-title
-        class="pa-4 pb-2 text-body-1 font-weight-bold d-flex align-center ga-2"
+        class="pa-4 pb-2 text-subtitle-2 font-weight-bold d-flex align-center ga-2"
       >
         <v-icon icon="fas fa-route" color="hc-user" size="16" />
         ความคืบหน้าคำขอ
@@ -86,6 +87,9 @@
               <div v-if="step.date" class="text-caption text-hc-user mt-1">
                 {{ step.date }}
               </div>
+              <div v-if="step.note" class="text-caption text-warning mt-1">
+                {{ step.note }}
+              </div>
             </div>
             <div v-if="idx < timeline.length - 1" class="timeline-line" />
           </div>
@@ -95,89 +99,133 @@
 
     <!-- Details -->
     <v-row>
-      <v-col cols="12" md="7">
-        <v-card class="mb-4">
-          <v-card-title class="pa-4 pb-2 text-body-1 font-weight-bold"
-            >รายละเอียดคำขอ</v-card-title
-          >
-          <v-card-text class="pa-4 pt-0">
-            <v-tabs v-model="detailTab" color="hc-user" class="mb-3">
-              <v-tab value="exporter">ผู้ส่งออก</v-tab>
-              <v-tab value="consignee">ผู้รับสินค้า</v-tab>
-              <v-tab value="products">สินค้า</v-tab>
-            </v-tabs>
-            <v-window v-model="detailTab">
-              <v-window-item value="exporter">
-                <div class="info-grid">
-                  <div class="info-item">
-                    <span class="info-label">ชื่อผู้ส่งออก</span>
-                    <span class="info-value">{{ app.exporter }}</span>
+      <!-- Main Info -->
+      <v-col cols="12" md="8">
+        <!-- Exporter Info -->
+        <v-card rounded="xl" elevation="0" class="mb-4">
+          <div class="section-header">
+            <v-icon icon="fas fa-truck" color="hc-user" size="15" />
+            <span class="text-subtitle-2 font-weight-bold"
+              >ข้อมูลผู้ส่งออก</span
+            >
+          </div>
+          <v-card-text class="pa-4">
+            <div class="info-grid">
+              <div class="info-item">
+                <span class="info-label">ชื่อผู้ส่งออก</span>
+                <span class="info-value">{{ app.exporter }}</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">ที่อยู่</span>
+                <span class="info-value">{{ app.exporterAddress }}</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">จังหวัด</span>
+                <span class="info-value">{{ app.exporterProvince }}</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">โรงคัดบรรจุ</span>
+                <span class="info-value">{{ app.packingHouseName }}</span>
+              </div>
+            </div>
+          </v-card-text>
+        </v-card>
+
+        <!-- Consignee Info -->
+        <v-card rounded="xl" elevation="0" class="mb-4">
+          <div class="section-header">
+            <v-icon icon="fas fa-store" color="hc-user" size="15" />
+            <span class="text-subtitle-2 font-weight-bold"
+              >ข้อมูลผู้รับสินค้า</span
+            >
+          </div>
+          <v-card-text class="pa-4">
+            <div class="info-grid">
+              <div class="info-item">
+                <span class="info-label">ชื่อผู้รับสินค้า</span>
+                <span class="info-value">{{ app.consignee }}</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">ที่อยู่</span>
+                <span class="info-value">{{ app.consigneeAddress }}</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">ประเทศ</span>
+                <span class="info-value">{{ app.destination }}</span>
+              </div>
+            </div>
+          </v-card-text>
+        </v-card>
+
+        <!-- Products -->
+        <v-card rounded="xl" elevation="0" class="mb-4">
+          <div class="section-header">
+            <v-icon icon="fas fa-boxes-stacked" color="hc-user" size="15" />
+            <span class="text-subtitle-2 font-weight-bold"
+              >สินค้าที่ส่งออก</span
+            >
+          </div>
+          <v-card-text class="pa-4">
+            <v-row dense class="mb-4">
+              <v-col cols="6" sm="4">
+                <div class="info-stat">
+                  <div class="text-h6 font-weight-bold text-hc-user">
+                    {{ app.products.length }}
                   </div>
-                  <div class="info-item">
-                    <span class="info-label">ที่อยู่</span>
-                    <span class="info-value">{{ app.exporterAddress }}</span>
-                  </div>
-                  <div class="info-item">
-                    <span class="info-label">จังหวัด</span>
-                    <span class="info-value">{{ app.exporterProvince }}</span>
-                  </div>
-                  <div class="info-item">
-                    <span class="info-label">โรงคัดบรรจุ</span>
-                    <span class="info-value">{{ app.packingHouseName }}</span>
+                  <div class="text-caption text-medium-emphasis">
+                    รายการสินค้า
                   </div>
                 </div>
-              </v-window-item>
-              <v-window-item value="consignee">
-                <div class="info-grid">
-                  <div class="info-item">
-                    <span class="info-label">ชื่อผู้รับสินค้า</span>
-                    <span class="info-value">{{ app.consignee }}</span>
+              </v-col>
+              <v-col cols="6" sm="4">
+                <div class="info-stat">
+                  <div class="text-h6 font-weight-bold text-info">
+                    {{ app.destination }}
                   </div>
-                  <div class="info-item">
-                    <span class="info-label">ที่อยู่</span>
-                    <span class="info-value">{{ app.consigneeAddress }}</span>
-                  </div>
-                  <div class="info-item">
-                    <span class="info-label">ประเทศ</span>
-                    <span class="info-value">{{ app.destination }}</span>
+                  <div class="text-caption text-medium-emphasis">
+                    ประเทศปลายทาง
                   </div>
                 </div>
-              </v-window-item>
-              <v-window-item value="products">
-                <v-table density="compact">
-                  <thead>
-                    <tr>
-                      <th>Sample No</th>
-                      <th>พืช</th>
-                      <th>น้ำหนัก</th>
-                      <th>GAP Code</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr v-for="p in app.products" :key="p.sampleNo">
-                      <td class="text-body-2">{{ p.sampleNo }}</td>
-                      <td class="text-body-2">{{ p.name }}</td>
-                      <td class="text-body-2">{{ p.weight }}</td>
-                      <td class="text-body-2 text-hc-user">{{ p.gapCode }}</td>
-                    </tr>
-                  </tbody>
-                </v-table>
-              </v-window-item>
-            </v-window>
+              </v-col>
+            </v-row>
+            <v-table density="compact">
+              <thead>
+                <tr>
+                  <th>Sample No</th>
+                  <th>พืช</th>
+                  <th>น้ำหนัก</th>
+                  <th>GAP Code</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="p in app.products" :key="p.sampleNo">
+                  <td class="text-body-2">{{ p.sampleNo }}</td>
+                  <td class="text-body-2">{{ p.name }}</td>
+                  <td class="text-body-2">{{ p.weight }}</td>
+                  <td class="text-body-2 text-hc-user">{{ p.gapCode }}</td>
+                </tr>
+              </tbody>
+            </v-table>
           </v-card-text>
         </v-card>
       </v-col>
 
-      <v-col cols="12" md="5">
+      <!-- Sidebar -->
+      <v-col cols="12" md="4">
         <!-- Payment -->
-        <v-card v-if="app.status === 'approved'" class="mb-4 payment-card">
-          <v-card-title
-            class="pa-4 pb-2 text-body-1 font-weight-bold d-flex align-center ga-2"
-          >
-            <v-icon icon="fas fa-coins" color="warning" size="16" />
-            ชำระค่าธรรมเนียม
-          </v-card-title>
-          <v-card-text class="pa-4 pt-0">
+        <v-card
+          v-if="app.status === 'approved'"
+          rounded="xl"
+          elevation="0"
+          class="mb-4"
+        >
+          <div class="section-header">
+            <v-icon icon="fas fa-coins" color="warning" size="15" />
+            <span class="text-subtitle-2 font-weight-bold"
+              >ชำระค่าธรรมเนียม</span
+            >
+          </div>
+          <v-card-text class="pa-4">
             <div class="d-flex justify-space-between align-center mb-3">
               <span class="text-body-2 text-medium-emphasis"
                 >ค่าธรรมเนียมใบรับรอง</span
@@ -193,21 +241,31 @@
             >
               กรุณาชำระภายใน 7 วัน (ก่อน 22 ม.ค. 68)
             </v-alert>
-            <v-btn color="warning" block prepend-icon="fas fa-qrcode"
-              >ชำระผ่าน QR Code</v-btn
+            <v-btn
+              color="warning"
+              block
+              rounded="lg"
+              prepend-icon="fas fa-qrcode"
             >
+              ชำระผ่าน QR Code
+            </v-btn>
           </v-card-text>
         </v-card>
 
         <!-- Certificate download -->
-        <v-card v-if="app.status === 'completed'" class="mb-4">
-          <v-card-title
-            class="pa-4 pb-2 text-body-1 font-weight-bold d-flex align-center ga-2"
-          >
-            <v-icon icon="fas fa-file-shield" color="success" size="16" />
-            ใบรับรองสุขอนามัยพืช
-          </v-card-title>
-          <v-card-text class="pa-4 pt-0">
+        <v-card
+          v-if="app.status === 'completed'"
+          rounded="xl"
+          elevation="0"
+          class="mb-4"
+        >
+          <div class="section-header">
+            <v-icon icon="fas fa-file-shield" color="success" size="15" />
+            <span class="text-subtitle-2 font-weight-bold"
+              >ใบรับรองสุขอนามัยพืช</span
+            >
+          </div>
+          <v-card-text class="pa-4">
             <div class="info-grid mb-3">
               <div class="info-item">
                 <span class="info-label">เลขใบรับรอง</span>
@@ -224,39 +282,49 @@
                 <span class="info-value">10 มกราคม 2569</span>
               </div>
             </div>
-            <v-btn color="success" block prepend-icon="fas fa-download"
-              >ดาวน์โหลดใบรับรอง (PDF)</v-btn
+            <v-btn
+              color="success"
+              block
+              rounded="lg"
+              prepend-icon="fas fa-download"
             >
+              ดาวน์โหลดใบรับรอง (PDF)
+            </v-btn>
           </v-card-text>
         </v-card>
 
         <!-- Correction note -->
-        <v-card v-if="app.status === 'correction_required'" class="mb-4">
-          <v-card-title
-            class="pa-4 pb-2 text-body-1 font-weight-bold d-flex align-center ga-2"
-          >
-            <v-icon
-              icon="fas fa-triangle-exclamation"
-              color="error"
-              size="16"
-            />
-            ต้องแก้ไขข้อมูล
-          </v-card-title>
-          <v-card-text class="pa-4 pt-0">
+        <v-card
+          v-if="app.status === 'correction_required'"
+          rounded="xl"
+          elevation="0"
+        >
+          <div class="section-header">
+            <v-icon icon="fas fa-bolt" color="warning" size="15" />
+            <span class="text-subtitle-2 font-weight-bold">ดำเนินการ</span>
+          </div>
+          <v-card-text class="pa-4">
             <v-alert
               color="error"
               variant="tonal"
               density="compact"
               class="mb-3"
+              prepend-icon="fas fa-triangle-exclamation"
             >
               เจ้าหน้าที่แจ้งให้แก้ไขข้อมูลในคำขอ
             </v-alert>
-            <p class="text-body-2 text-medium-emphasis">
+            <p class="text-body-2 text-medium-emphasis mb-3">
               {{ app.correctionNote }}
             </p>
-            <v-btn color="error" block prepend-icon="fas fa-pen" class="mt-2"
-              >แก้ไขคำขอ</v-btn
+            <v-btn
+              color="warning"
+              variant="tonal"
+              block
+              rounded="lg"
+              prepend-icon="fas fa-pen-to-square"
             >
+              แก้ไขและส่งใหม่
+            </v-btn>
           </v-card-text>
         </v-card>
 
@@ -267,22 +335,24 @@
               app.status,
             )
           "
+          rounded="xl"
+          elevation="0"
         >
           <v-card-text class="pa-4 text-center">
             <div
               class="status-icon-box mx-auto mb-3"
               :style="{
-                background: `rgba(var(--v-theme-${getStatusColor(app.status)}),0.1)`,
+                background: `rgba(var(--v-theme-${statusColor(app.status)}),0.1)`,
               }"
             >
               <v-icon
-                :icon="getStatusIcon(app.status)"
-                :color="getStatusColor(app.status)"
+                :icon="statusIcon(app.status)"
+                :color="statusColor(app.status)"
                 size="28"
               />
             </div>
             <div class="text-body-1 font-weight-bold mb-1">
-              {{ getStatusLabel(app.status) }}
+              {{ statusLabel(app.status) }}
             </div>
             <div class="text-body-2 text-medium-emphasis">
               เจ้าหน้าที่กำลังดำเนินการ<br />จะแจ้งผลทางอีเมล
@@ -301,11 +371,13 @@ import { useRoute, useRouter } from "vue-router";
 const router = useRouter();
 const route = useRoute();
 
+function goBack() {
+  router.back();
+}
+
 function goToCertificates() {
   router.push({ name: "HCUserCertificates" });
 }
-
-const detailTab = ref("exporter");
 
 const mockApps = {
   "HC-001": {
@@ -321,6 +393,7 @@ const mockApps = {
     packingHouseName: "โรงคัดบรรจุเชียงใหม่ฟาร์ม",
     consignee: "China Fresh Import Co., Ltd.",
     consigneeAddress: "88 Guangzhou Road",
+    correctionNote: null,
     products: [
       {
         sampleNo: "S-001",
@@ -343,12 +416,37 @@ const mockApps = {
     packingHouseName: "โรงคัดบรรจุเชียงใหม่ฟาร์ม",
     consignee: "Beijing Import Ltd.",
     consigneeAddress: "10 Beijing Road",
+    correctionNote: null,
     products: [
       {
         sampleNo: "S-010",
         name: "มังคุด",
         weight: "3,000 kg",
         gapCode: "GAP-CM-2569-010",
+      },
+    ],
+  },
+  "HC-015": {
+    id: "HC-015",
+    requestNo: "HC-2569-00015",
+    status: "correction_required",
+    submittedAt: "10 ม.ค. 68",
+    product: "ลำไย",
+    destination: "ฮ่องกง",
+    exporter: "บริษัท สวนผลไม้ไทย จำกัด",
+    exporterAddress: "456 ถ.สุขุมวิท",
+    exporterProvince: "ชลบุรี",
+    packingHouseName: "โรงคัดบรรจุชลบุรีฟาร์ม",
+    consignee: "HK Fresh Ltd.",
+    consigneeAddress: "5 Harbour Road, Hong Kong",
+    correctionNote:
+      "กรุณาแนบเอกสาร GAP Code ที่ยังไม่หมดอายุ และระบุน้ำหนักสุทธิให้ถูกต้อง",
+    products: [
+      {
+        sampleNo: "S-015",
+        name: "ลำไยอบแห้ง",
+        weight: "2,500 kg",
+        gapCode: "GAP-CB-2569-015",
       },
     ],
   },
@@ -365,7 +463,13 @@ const statusOrder = [
   "approved",
   "completed",
 ];
-const currentStatusIdx = computed(() => statusOrder.indexOf(app.value.status));
+
+const currentStatusIdx = computed(() => {
+  if (app.value.status === "correction_required") {
+    return statusOrder.indexOf("under_review");
+  }
+  return statusOrder.indexOf(app.value.status);
+});
 
 const timeline = computed(() => [
   {
@@ -377,8 +481,13 @@ const timeline = computed(() => [
   {
     key: "under_review",
     label: "เจ้าหน้าที่ตรวจสอบ",
-    desc: "ตรวจสอบเอกสารและข้อมูล",
+    desc:
+      app.value.status === "correction_required"
+        ? "เอกสารไม่ครบถ้วน — รอการแก้ไข"
+        : "ตรวจสอบเอกสารและข้อมูล",
     date: currentStatusIdx.value >= 1 ? "+1 วัน" : "",
+    note:
+      app.value.status === "correction_required" ? "รอผู้ยื่นคำขอแก้ไข" : "",
   },
   {
     key: "testing",
@@ -416,7 +525,7 @@ function isTimelinePending(idx) {
   return currentStatusIdx.value < idx;
 }
 
-function getStatusColor(s) {
+function statusColor(s) {
   const m = {
     submitted: "primary",
     under_review: "warning",
@@ -429,7 +538,7 @@ function getStatusColor(s) {
   };
   return m[s] ?? "grey";
 }
-function getStatusIcon(s) {
+function statusIcon(s) {
   const m = {
     submitted: "fas fa-paper-plane",
     under_review: "fas fa-magnifying-glass",
@@ -442,7 +551,7 @@ function getStatusIcon(s) {
   };
   return m[s] ?? "fas fa-circle";
 }
-function getStatusLabel(s) {
+function statusLabel(s) {
   const m = {
     submitted: "ยื่นแล้ว",
     under_review: "อยู่ระหว่างตรวจสอบ",
@@ -458,34 +567,9 @@ function getStatusLabel(s) {
 </script>
 
 <style scoped>
-/* Timeline */
-.timeline {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-}
-.timeline-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 14px;
-  position: relative;
-  padding-bottom: 20px;
-}
-.timeline-item:last-child {
-  padding-bottom: 0;
-}
-.timeline-dot {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  z-index: 1;
-}
+/* Timeline colors — hc-user */
 .timeline-item--done .timeline-dot {
-  background: rgb(var(--v-theme-success));
+  background: rgb(var(--v-theme-hc-user));
   color: white;
 }
 .timeline-item--active .timeline-dot {
@@ -497,26 +581,14 @@ function getStatusLabel(s) {
   background: rgba(var(--v-theme-on-surface), 0.08);
   color: rgba(var(--v-theme-on-surface), 0.3);
 }
-.timeline-content {
-  flex: 1;
-  padding-top: 4px;
-}
-.timeline-line {
-  position: absolute;
-  left: 13px;
-  top: 28px;
-  width: 2px;
-  height: calc(100% - 28px);
-  background: rgba(var(--v-theme-on-surface), 0.1);
-}
 .timeline-item--done .timeline-line {
-  background: rgba(var(--v-theme-success), 0.4);
+  background: rgba(var(--v-theme-hc-user), 0.35);
 }
 
 /* Info Grid */
 .info-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 16px;
 }
 .info-item {
@@ -534,6 +606,12 @@ function getStatusLabel(s) {
 .info-value {
   font-size: 14px;
   color: rgba(var(--v-theme-on-surface), 0.87);
+}
+.info-stat {
+  padding: 12px;
+  background: rgba(var(--v-border-color), 0.04);
+  border-radius: 10px;
+  text-align: center;
 }
 
 /* Status Icon */
