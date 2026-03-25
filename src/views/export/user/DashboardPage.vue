@@ -4,7 +4,7 @@
       <div>
         <h1 class="page-title mb-1">แดชบอร์ด</h1>
         <p class="text-body-2 text-medium-emphasis mb-0">
-          ภาพรวมระบบจดทะเบียนผู้ส่งออก
+          ภาพรวมระบบการจดทะเบียนผู้ส่งออกสินค้าพืช
         </p>
       </div>
       <v-btn
@@ -47,10 +47,7 @@
           <v-divider />
           <v-list lines="two" class="pa-0">
             <template v-for="(app, i) in recentApplications" :key="app.id">
-              <v-list-item
-                class="pa-3"
-                @click="goToApplicationDetail(app.id)"
-              >
+              <v-list-item class="pa-3" @click="goToApplicationDetail(app.id)">
                 <template #prepend>
                   <v-avatar
                     :color="statusColor(app.status)"

@@ -9,50 +9,67 @@
         @click="goToApplicationList"
       />
       <div>
-        <h1 class="page-title mb-0">จดทะเบียนผู้ส่งออก</h1>
-        <p class="text-body-2 text-medium-emphasis mb-0">เลือกประเภทคำขอที่ต้องการยื่น</p>
+        <h1 class="page-title mb-0">ยื่นคำขอใหม่</h1>
+        <p class="text-body-2 text-medium-emphasis mb-0">
+          เลือกประเภทคำขอที่ต้องการยื่น
+        </p>
       </div>
     </div>
 
     <!-- Type Cards -->
     <v-row justify="start">
-      <v-col v-for="type in appTypes" :key="type.key" cols="12" md="6" lg="3">
+      <v-col v-for="appType in appTypes" :key="appType.key" cols="12" md="4">
         <v-card
           class="type-card h-100"
           hover
           :ripple="false"
-          @click="goToNewApplication(type.key)"
+          @click="goToNewApplication(appType.key)"
         >
           <v-card-text class="pa-8 d-flex flex-column align-center text-center">
             <div
               class="type-icon-box mb-5"
-              :style="`background:rgba(var(--v-theme-${type.color}),0.1)`"
+              :style="`background:rgba(var(--v-theme-${appType.color}),0.1)`"
             >
-              <v-icon :icon="type.icon" :color="type.color" size="40" />
+              <v-icon :icon="appType.icon" :color="appType.color" size="40" />
             </div>
 
             <div class="d-flex align-center ga-2 mb-2">
-              <h2 class="text-h6 font-weight-bold">{{ type.title }}</h2>
-              <v-chip v-if="type.badge" size="x-small" :color="type.color" variant="tonal">
-                {{ type.badge }}
+              <h2 class="text-h6 font-weight-bold">{{ appType.title }}</h2>
+              <v-chip
+                v-if="appType.badge"
+                size="x-small"
+                :color="appType.color"
+                variant="tonal"
+              >
+                {{ appType.badge }}
               </v-chip>
             </div>
 
-            <p class="text-body-2 text-medium-emphasis mb-5">{{ type.description }}</p>
+            <p class="text-body-2 text-medium-emphasis mb-5">
+              {{ appType.description }}
+            </p>
 
-            <v-list density="compact" class="w-100 text-left mb-6 bg-transparent pa-0">
+            <v-list
+              density="compact"
+              class="w-100 text-left mb-6 bg-transparent pa-0"
+            >
               <v-list-item
-                v-for="f in type.features"
+                v-for="f in appType.features"
                 :key="f"
                 prepend-icon="fas fa-circle-check"
                 :title="f"
-                :base-color="type.color"
+                :base-color="appType.color"
                 class="px-0"
                 density="compact"
               />
             </v-list>
 
-            <v-btn :color="type.color" block rounded="lg" append-icon="fas fa-arrow-right">
+            <v-btn
+              :color="appType.color"
+              block
+              rounded="lg"
+              append-icon="fas fa-arrow-right"
+            >
               เลือกประเภทนี้
             </v-btn>
           </v-card-text>
@@ -61,16 +78,19 @@
     </v-row>
 
     <!-- Info -->
-    <v-alert
+    <!-- <v-alert
       type="info"
       variant="tonal"
       class="mt-6"
       prepend-icon="fas fa-circle-info"
       rounded="xl"
     >
-      <strong>หมายเหตุ:</strong> เอกสารที่ใช้ประกอบการยื่นคำขอต้องรับรองสำเนาถูกต้อง
-      ผู้ยื่นคำขอต้องเป็นผู้มีอำนาจลงนาม หากยื่นด้วยตนเองต้องแสดง<strong>บัตรประชาชนตัวจริง</strong>
-    </v-alert>
+      <strong>หมายเหตุ:</strong>
+      เอกสารที่ใช้ประกอบการยื่นคำขอต้องรับรองสำเนาถูกต้อง
+      ผู้ยื่นคำขอต้องเป็นผู้มีอำนาจลงนาม หากยื่นด้วยตนเองต้องแสดง<strong
+        >บัตรประชาชนตัวจริง</strong
+      >
+    </v-alert> -->
   </div>
 </template>
 
@@ -83,65 +103,37 @@ function goToApplicationList() {
   router.push({ name: "ExportUserApplicationList" });
 }
 
-function goToNewApplication(key) {
-  router.push({ name: "ExportUserNewApplication", params: { key } });
+function goToNewApplication(type) {
+  router.push({ name: "ExportUserNewApplication", params: { type } });
 }
 
 const appTypes = [
   {
-    key: "kk1",
-    title: "ก.ก.1",
-    badge: "เกาหลี",
-    icon: "fas fa-warehouse",
-    color: "primary",
-    description:
-      "คำร้องขอขึ้นทะเบียนโรงบรรจุสินค้า โรงรมทรีทเม้นต์ และสวนส่งออกไปประเทศเกาหลี",
-    features: [
-      "ขึ้นทะเบียนโรงบรรจุสินค้า",
-      "โรงรมทรีทเม้นต์",
-      "สวนส่งออกไปเกาหลี",
-    ],
-  },
-  {
-    key: "smpv5",
-    title: "สมพ.5",
+    key: "newrequest",
+    title: "คำขอขึ้น / ต่ออายุทะเบียน",
     badge: "ทั่วไป",
-    icon: "fas fa-truck-ramp-box",
+    icon: "fas fa-file-circle-plus",
     color: "primary",
     description:
-      "คำร้องขอหนังสือสำคัญแสดงการจดทะเบียนเป็นผู้ส่งออกผักและผลไม้",
+      "ยื่นคำขอขึ้นทะเบียนเป็นผู้ส่งออกพืช/สินค้าเกษตร สำหรับผู้ประกอบการรายใหม่ที่ยังไม่เคยขึ้นทะเบียน",
     features: [
-      "จดทะเบียนผู้ส่งออกผักและผลไม้",
-      "ขอหนังสือสำคัญแสดงการจดทะเบียน",
-      "ต่ออายุทะเบียนผู้ส่งออก",
-    ],
-  },
-  {
-    key: "smpv5_other",
-    title: "สมพ.5 (กรณีอื่น)",
-    badge: null,
-    icon: "fas fa-file-circle-plus",
-    color: "warning",
-    description:
-      "คำร้องขอหนังสือสำคัญแสดงการจดทะเบียนเป็นผู้ส่งออกผักและผลไม้ (กรณีอื่น)",
-    features: [
-      "กรณีพิเศษนอกเหนือจาก สมพ.5 ปกติ",
-      "แนบเอกสารเพิ่มเติมตามที่กำหนด",
-      "ติดต่อเจ้าหน้าที่ก่อนยื่น",
+      "ขึ้นทะเบียนสถานประกอบการ",
+      "รองรับการส่งออกหลายประเทศ",
+      "จัดการข้อมูลผู้ส่งออก",
     ],
   },
   {
     key: "amendment",
-    title: "ขอแก้ไขใบรับรอง",
+    title: "คำขอแก้ไขใบรับรอง",
     badge: null,
     icon: "fas fa-file-pen",
-    color: "secondary",
+    color: "warning",
     description:
-      "สำหรับผู้ส่งออกที่ต้องการแก้ไขข้อมูลในใบรับรองที่ได้รับการอนุมัติแล้ว",
+      "สำหรับผู้ส่งออกที่ได้รับการอนุมัติแล้ว และต้องการแก้ไขข้อมูลในใบรับรองที่มีอยู่",
     features: [
-      "แก้ไขข้อมูลสถานประกอบการ",
-      "แก้ไขประเทศปลายทาง",
-      "อัปเดตเอกสารประกอบ",
+      "แก้ไขข้อมูลในใบรับรอง",
+      "แก้ไขข้อมูลที่อยู่สถานประกอบการ",
+      "แก้ไขชนิดพืช",
     ],
   },
 ];
@@ -152,7 +144,10 @@ const appTypes = [
   border: 2px solid rgba(var(--v-border-color), var(--v-border-opacity));
   border-radius: 20px !important;
   cursor: pointer;
-  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 .type-card:hover {
   transform: translateY(-4px);
