@@ -320,7 +320,12 @@
                   size="x-small"
                   variant="text"
                   color="export-user"
-                  @click.stop="router.push({ name: 'ExportUserApplicationDetail', params: { id: item.requestNo } })"
+                  @click.stop="
+                    router.push({
+                      name: 'ExportUserApplicationDetail',
+                      params: { id: item.requestNo },
+                    })
+                  "
                 >
                   <v-icon icon="fas fa-eye" size="14" />
                 </v-btn>

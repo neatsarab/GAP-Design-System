@@ -652,6 +652,20 @@ const router = createRouter({
           component: () => import("@/views/export/staff/RegistryPage.vue"),
           meta: { title: "ทะเบียนผู้ส่งออก" },
         },
+        {
+          path: "registry/:id",
+          name: "ExportStaffCertificateDetail",
+          component: () =>
+            import("@/views/export/staff/CertificateDetailPage.vue"),
+          meta: { title: "รายละเอียดใบทะเบียน" },
+        },
+        {
+          path: "registry/:id/manage",
+          name: "ExportStaffCertificateManage",
+          component: () =>
+            import("@/views/export/staff/CertificateManagePage.vue"),
+          meta: { title: "จัดการใบรับรอง" },
+        },
       ],
     },
 

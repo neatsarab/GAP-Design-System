@@ -1,5 +1,5 @@
 <template>
-  <div style="--v-theme-primary: var(--v-theme-export-user)">
+  <div style="--v-theme-primary: var(--v-theme-export-staff)">
     <!-- Header -->
     <div class="d-flex align-center ga-3 mb-4">
       <v-btn
@@ -12,7 +12,7 @@
         <h1 class="page-title mb-0">รายละเอียดใบทะเบียน</h1>
         <p class="text-body-2 text-medium-emphasis mb-0 mt-1">
           เลขทะเบียน:
-          <span class="text-export-user font-weight-medium">{{
+          <span class="text-export-staff font-weight-medium">{{
             route.params.id ?? cert.certNo
           }}</span>
         </p>
@@ -32,14 +32,14 @@
           <div
             class="section-header px-4 py-3 border-b d-flex align-center ga-2"
           >
-            <v-icon icon="fas fa-certificate" color="export-user" size="15" />
+            <v-icon icon="fas fa-certificate" color="export-staff" size="15" />
             <span class="text-subtitle-2 font-weight-bold">สถานะใบทะเบียน</span>
           </div>
           <v-card-text class="pa-4">
             <v-row dense>
               <v-col cols="12" md="4">
                 <div class="info-label">เลขที่ใบทะเบียน / Certificate No.</div>
-                <div class="info-value text-export-user font-weight-bold">
+                <div class="info-value text-export-staff font-weight-bold">
                   {{ cert.certNo }}
                 </div>
               </v-col>
@@ -92,13 +92,8 @@
           <div
             class="section-header px-4 py-3 border-b d-flex align-center ga-2"
           >
-            <v-icon icon="fas fa-user" color="export-user" size="15" />
-            <span class="text-subtitle-2 font-weight-bold"
-              >ข้อมูลผู้ยื่นคำขอ</span
-            >
-            <v-chip size="x-small" color="export-user" variant="tonal"
-              >Auto-fill จาก SSO</v-chip
-            >
+            <v-icon icon="fas fa-user" color="export-staff" size="15" />
+            <span class="text-subtitle-2 font-weight-bold">ข้อมูลผู้ยื่นคำขอ</span>
           </div>
           <v-card-text class="pa-4">
             <v-row dense>
@@ -131,13 +126,8 @@
           <div
             class="section-header px-4 py-3 border-b d-flex align-center ga-2"
           >
-            <v-icon icon="fas fa-building" color="export-user" size="15" />
-            <span class="text-subtitle-2 font-weight-bold"
-              >ข้อมูลสถานประกอบการ</span
-            >
-            <v-chip size="x-small" color="export-user" variant="tonal"
-              >Auto-fill บางส่วนจาก DBD</v-chip
-            >
+            <v-icon icon="fas fa-building" color="export-staff" size="15" />
+            <span class="text-subtitle-2 font-weight-bold">ข้อมูลสถานประกอบการ</span>
           </div>
           <v-card-text class="pa-4">
             <v-row dense>
@@ -178,7 +168,7 @@
           <div
             class="section-header px-4 py-3 border-b d-flex align-center ga-2"
           >
-            <v-icon icon="fas fa-earth-asia" color="export-user" size="15" />
+            <v-icon icon="fas fa-earth-asia" color="export-staff" size="15" />
             <span class="text-subtitle-2 font-weight-bold">ขอบข่ายประเทศ</span>
           </div>
           <v-card-text class="pa-4 pb-3">
@@ -189,7 +179,7 @@
                 :key="c"
                 size="small"
                 variant="tonal"
-                color="export-user"
+                color="export-staff"
                 >{{ c }}</v-chip
               >
             </div>
@@ -201,10 +191,8 @@
           <div
             class="section-header px-4 py-3 border-b d-flex align-center ga-2"
           >
-            <v-icon icon="fas fa-industry" color="export-user" size="15" />
-            <span class="text-subtitle-2 font-weight-bold"
-              >ข้อมูลโรงงานผลิตสินค้าพืช</span
-            >
+            <v-icon icon="fas fa-industry" color="export-staff" size="15" />
+            <span class="text-subtitle-2 font-weight-bold">ข้อมูลโรงงานผลิตสินค้าพืช</span>
           </div>
           <v-table density="compact" class="pa-2">
             <thead>
@@ -216,7 +204,7 @@
             </thead>
             <tbody>
               <tr v-for="factory in cert.factories" :key="factory.doaNo">
-                <td class="text-body-2 font-weight-bold text-export-user">
+                <td class="text-body-2 font-weight-bold text-export-staff">
                   {{ factory.doaNo }}
                 </td>
                 <td class="text-body-2">{{ factory.factoryName }}</td>
@@ -231,10 +219,8 @@
           <div
             class="section-header px-4 py-3 border-b d-flex align-center ga-2"
           >
-            <v-icon icon="fas fa-seedling" color="export-user" size="15" />
-            <span class="text-subtitle-2 font-weight-bold"
-              >แหล่งผลิตพืชที่ได้การรับรอง GAP</span
-            >
+            <v-icon icon="fas fa-seedling" color="export-staff" size="15" />
+            <span class="text-subtitle-2 font-weight-bold">แหล่งผลิตพืชที่ได้การรับรอง GAP</span>
           </div>
           <v-table density="compact" class="pa-2">
             <thead>
@@ -247,7 +233,7 @@
             </thead>
             <tbody>
               <tr v-for="gap in cert.gaps" :key="gap.gapNo">
-                <td class="text-body-2 font-weight-bold text-export-user">
+                <td class="text-body-2 font-weight-bold text-export-staff">
                   {{ gap.gapNo }}
                 </td>
                 <td class="text-body-2">{{ gap.siteName }}</td>
@@ -263,7 +249,7 @@
           <div
             class="section-header px-4 py-3 border-b d-flex align-center ga-2"
           >
-            <v-icon icon="fas fa-paperclip" color="export-user" size="15" />
+            <v-icon icon="fas fa-paperclip" color="export-staff" size="15" />
             <span class="text-subtitle-2 font-weight-bold">เอกสารแนบ</span>
           </div>
           <v-card-text class="pa-4">
@@ -276,7 +262,7 @@
               <v-btn
                 size="x-small"
                 variant="tonal"
-                color="export-user"
+                color="export-staff"
                 rounded="lg"
                 prepend-icon="fas fa-download"
               >
@@ -287,38 +273,35 @@
         </v-card>
       </v-col>
 
-      <!-- ── Right: cert actions + activity log ── -->
+      <!-- ── Right: actions + activity log ── -->
       <v-col cols="12" md="4">
         <div class="sticky-col">
           <!-- ปุ่มดาวน์โหลดใบทะเบียน -->
           <v-card rounded="xl" elevation="0" class="section-card mb-4">
             <v-card-text class="pa-4">
               <v-btn
-                color="export-user"
+                color="export-staff"
                 variant="flat"
                 block
                 rounded="lg"
                 prepend-icon="fas fa-download"
-                :disabled="cert.status === 'expired'"
               >
                 ดาวน์โหลดใบทะเบียน (PDF)
               </v-btn>
             </v-card-text>
           </v-card>
 
-          <!-- ความคืบหน้า -->
+          <!-- ประวัติใบทะเบียน -->
           <v-card rounded="xl" elevation="0" class="section-card">
             <div
               class="section-header px-4 py-3 border-b d-flex align-center ga-2"
             >
               <v-icon
                 icon="fas fa-clock-rotate-left"
-                color="export-user"
+                color="export-staff"
                 size="15"
               />
-              <span class="text-subtitle-2 font-weight-bold"
-                >ประวัติใบทะเบียน</span
-              >
+              <span class="text-subtitle-2 font-weight-bold">ประวัติใบทะเบียน</span>
             </div>
             <v-card-text class="pa-4">
               <div class="activity-timeline">
@@ -544,9 +527,9 @@ function eventIcon(type) {
 function eventColor(type) {
   return (
     {
-      submit: "export-user",
+      submit: "export-staff",
       approve: "success",
-      issue: "export-user",
+      issue: "export-staff",
       renew: "info",
       revoke: "error",
     }[type] ?? "grey"
@@ -615,13 +598,13 @@ function eventLabel(type) {
   z-index: 1;
 }
 .activity-dot--submit {
-  background: rgb(var(--v-theme-export-user));
+  background: rgb(var(--v-theme-export-staff));
 }
 .activity-dot--approve {
   background: rgb(var(--v-theme-success));
 }
 .activity-dot--issue {
-  background: rgb(var(--v-theme-export-user));
+  background: rgb(var(--v-theme-export-staff));
 }
 .activity-dot--renew {
   background: rgb(var(--v-theme-info));
