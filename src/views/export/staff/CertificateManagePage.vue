@@ -9,7 +9,7 @@
         @click="router.back()"
       />
       <div>
-        <h1 class="page-title mb-0">จัดการใบรับรอง</h1>
+        <h1 class="page-title mb-0">จัดการใบทะเบียน</h1>
         <p class="text-body-2 text-medium-emphasis mb-0 mt-1">
           เลขทะเบียน:
           <span class="text-export-staff font-weight-medium">{{
@@ -235,7 +235,7 @@
               size="15"
             />
             <span class="text-subtitle-2 font-weight-bold"
-              >ประวัติสถานะใบรับรอง</span
+              >ประวัติสถานะใบทะเบียน</span
             >
           </div>
           <v-table density="compact" class="pa-2">
@@ -285,7 +285,7 @@
             ยืนยันการ{{ actionLabel }}
           </h3>
           <p class="text-body-2 text-medium-emphasis mb-0">
-            คุณต้องการ{{ actionLabel }}ใบรับรอง
+            คุณต้องการ{{ actionLabel }}ใบทะเบียน
             <strong>{{ route.params.id }}</strong> ใช่หรือไม่?
           </p>
         </v-card-text>
@@ -326,12 +326,12 @@
           </div>
           <h3 class="text-h6 font-weight-bold mb-2">ดำเนินการสำเร็จ</h3>
           <p class="text-body-2 text-medium-emphasis mb-0">
-            บันทึกการ{{ actionLabelDone }}ใบรับรองเรียบร้อยแล้ว
+            บันทึกการ{{ actionLabelDone }}ใบทะเบียนเรียบร้อยแล้ว
           </p>
         </v-card-text>
         <v-card-actions class="px-5 pb-5">
-          <v-btn color="export-staff" block rounded="lg" @click="router.back()">
-            กลับรายการใบรับรอง
+          <v-btn color="export-staff" block rounded="lg" @click="router.push({ name: 'ExportStaffRegistry' })">
+            กลับรายการใบทะเบียน
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -361,7 +361,11 @@ const form = reactive({
   files: [],
   remark: "",
   startDate: new Date(),
-  endDate: (() => { const d = new Date(); d.setDate(d.getDate() + 180); return d; })(),
+  endDate: (() => {
+    const d = new Date();
+    d.setDate(d.getDate() + 180);
+    return d;
+  })(),
 });
 
 function toDateBEStr(d) {

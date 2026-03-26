@@ -799,9 +799,9 @@ const route = useRoute();
 
 const typeTitles = {
   register: "คำขอขึ้นทะเบียนหน่วยรับรองโรงงานผลิตสินค้าพืช (CB)",
-  renew: "คำขอต่ออายุทะเบียนหน่วยรับรองโรงงานผลิตสินค้าพืช (CB)",
-  scope: "คำขอเพิ่ม / ลดขอบข่าย",
-  other: "คำขออื่น ๆ",
+  scope: "คำขอเพิ่ม-ลด ขอบข่าย",
+  amend: "คำขอแก้ไขทะเบียนหน่วยรับรอง",
+  cancel: "คำขอยกเลิกทะเบียนหน่วยรับรอง",
 };
 const pageTitle = computed(
   () => typeTitles[route.params.type] ?? "ยื่นคำขอ CB",

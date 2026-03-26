@@ -320,7 +320,7 @@
                 >ประวัติใบทะเบียน</span
               >
             </div>
-            <v-card-text class="pa-4">
+            <v-card-text class="pa-4" style="max-height: 420px; overflow-y: auto;">
               <div class="activity-timeline">
                 <div
                   v-for="(event, i) in cert.activityLog"
@@ -355,12 +355,6 @@
                         >{{ eventLabel(event.type) }}</v-chip
                       >
                     </div>
-                    <div
-                      v-if="event.remark"
-                      class="text-caption text-medium-emphasis mb-1"
-                    >
-                      {{ event.remark }}
-                    </div>
                     <div class="text-caption text-medium-emphasis">
                       <v-icon icon="fas fa-user" size="9" class="mr-1" />{{
                         event.actor
@@ -371,6 +365,21 @@
                         event.timestamp
                       }}
                     </div>
+                    <v-btn
+                      v-if="event.type !== 'submit'"
+                      size="x-small"
+                      variant="text"
+                      color="export-user"
+                      class="mt-1 px-0"
+                      @click="openActivityDetail(event)"
+                    >
+                      ดูรายละเอียด
+                      <v-icon
+                        icon="fas fa-chevron-right"
+                        size="10"
+                        class="ml-1"
+                      />
+                    </v-btn>
                   </div>
                 </div>
               </div>
@@ -379,15 +388,137 @@
         </div>
       </v-col>
     </v-row>
+
+    <!-- Activity Detail Dialog -->
+    <v-dialog v-model="activityDetailDialog" max-width="420">
+      <v-card rounded="xl">
+        <v-card-text class="pa-6">
+          <div class="d-flex align-center ga-3 mb-4">
+            <div
+              class="activity-dot flex-shrink-0"
+              :class="
+                selectedEvent ? `activity-dot--${selectedEvent.type}` : ''
+              "
+              style="width: 36px; height: 36px"
+            >
+              <v-icon
+                v-if="selectedEvent"
+                :icon="eventIcon(selectedEvent.type)"
+                size="14"
+                color="white"
+              />
+            </div>
+            <div>
+              <div class="text-subtitle-2 font-weight-bold">
+                {{ selectedEvent?.action }}
+              </div>
+              <v-chip
+                v-if="selectedEvent"
+                size="x-small"
+                :color="eventColor(selectedEvent.type)"
+                variant="tonal"
+                class="mt-1"
+              >
+                {{ eventLabel(selectedEvent.type) }}
+              </v-chip>
+            </div>
+          </div>
+          <v-divider class="mb-4" />
+          <div class="d-flex flex-column ga-3">
+            <div>
+              <div class="text-caption text-medium-emphasis mb-1">
+                ผู้ดำเนินการ
+              </div>
+              <div class="text-body-2">
+                <v-icon icon="fas fa-user" size="12" class="mr-1" />
+                {{ selectedEvent?.actor }}
+              </div>
+            </div>
+            <div>
+              <div class="text-caption text-medium-emphasis mb-1">
+                วันที่ / เวลา
+              </div>
+              <div class="text-body-2">
+                <v-icon icon="fas fa-calendar" size="12" class="mr-1" />
+                {{ selectedEvent?.timestamp }}
+              </div>
+            </div>
+            <div>
+              <div class="text-caption text-medium-emphasis mb-1">
+                ผลการดำเนินการ
+              </div>
+              <v-chip
+                size="small"
+                :color="eventColor(selectedEvent.type)"
+                variant="tonal"
+              >
+                {{ eventLabel(selectedEvent.type) }}
+              </v-chip>
+            </div>
+            <div>
+              <div class="text-caption text-medium-emphasis mb-1">หมายเหตุ</div>
+              <div
+                v-if="selectedEvent?.remark"
+                class="text-body-2 pa-3 rounded-lg"
+                style="background: rgba(var(--v-theme-on-surface), 0.05)"
+              >
+                {{ selectedEvent.remark }}
+              </div>
+              <div v-else class="text-body-2 text-medium-emphasis">-</div>
+            </div>
+          </div>
+        </v-card-text>
+        <v-card-actions class="px-6 pb-5 pt-0">
+          <v-btn
+            color="export-user"
+            variant="tonal"
+            rounded="lg"
+            block
+            @click="activityDetailDialog = false"
+          >
+            ปิด
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
 <script setup>
-import { computed } from "vue";
+import { ref, computed, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
 const route = useRoute();
 const router = useRouter();
+
+const activityDetailDialog = ref(false);
+const selectedEvent = ref(null);
+
+watch(activityDetailDialog, (val) => {
+  if (val) {
+    const scrollY = window.scrollY;
+    document.documentElement.style.overflow = "hidden";
+    document.documentElement.style.height = "100%";
+    document.body.style.overflow = "hidden";
+    document.body.style.position = "fixed";
+    document.body.style.top = `-${scrollY}px`;
+    document.body.style.width = "100%";
+  } else {
+    const scrollY = document.body.style.top;
+    document.documentElement.style.overflow = "";
+    document.documentElement.style.height = "";
+    document.body.style.overflow = "";
+    document.body.style.position = "";
+    document.body.style.top = "";
+    document.body.style.width = "";
+    window.scrollTo(0, parseInt(scrollY || "0") * -1);
+  }
+});
+
+function openActivityDetail(event) {
+  selectedEvent.value = event;
+  activityDetailDialog.value = true;
+}
 
 const cert = {
   certNo: "EXP-2569-005",
@@ -469,25 +600,44 @@ const cert = {
 
   activityLog: [
     {
-      type: "submit",
-      action: "ยื่นคำขอ",
-      actor: "นายสมชาย ใจดี (ผู้ยื่นคำขอ)",
-      timestamp: "15/03/2569 09:12",
-      remark: "",
-    },
-    {
-      type: "approve",
-      action: "อนุมัติคำขอ",
-      actor: "นายประเสริฐ มีสุข (ผู้พิจารณา)",
-      timestamp: "18/03/2569 14:30",
-      remark: "ตรวจสอบเอกสารครบถ้วน อนุมัติ",
-    },
-    {
       type: "issue",
       action: "ออกใบทะเบียน",
       actor: "ระบบ",
-      timestamp: "15/03/2569 15:00",
+      timestamp: "08/01/2569 11:23",
       remark: "เลขทะเบียน EXP-2569-005",
+    },
+    {
+      type: "forward",
+      action: "ผ่านการลงนาม",
+      actor: "นายศักดิ์ศรี นาดี (ผู้ลงนาม)",
+      timestamp: "08/01/2569 11:23",
+    },
+    {
+      type: "forward",
+      action: "ผ่านการพิจารณา",
+      actor: "นายอนันต์ วิชาการ (ผู้พิจารณา)",
+      timestamp: "06/01/2569 14:20",
+    },
+    {
+      type: "forward",
+      action: "ผ่านการตรวจสอบ",
+      actor: "น.ส.วรรณา จันทร์ดี (เจ้าหน้าที่ตรวจสอบ)",
+      timestamp: "05/01/2569 11:00",
+    },
+    {
+      type: "sendback",
+      action: "ส่งกลับแก้ไข",
+      actor: "น.ส.วรรณา จันทร์ดี (เจ้าหน้าที่ตรวจสอบ)",
+      timestamp: "03/01/2569 10:30",
+      remark:
+        "เอกสารสำเนาหนังสือรับรองนิติบุคคลไม่ครบถ้วน กรุณาแนบเอกสารฉบับที่ออกโดยกรมพัฒนาธุรกิจการค้าซึ่งออกไม่เกิน 3 เดือน และแก้ไขพิกัดที่ตั้งโรงงานให้ถูกต้องตามทะเบียนโรงงาน",
+    },
+    {
+      type: "submit",
+      action: "ยื่นคำขอ",
+      actor: "นายสมชาย ใจดี (ผู้ยื่นคำขอ)",
+      timestamp: "01/01/2569 09:12",
+      remark: "",
     },
   ],
 };
@@ -533,7 +683,13 @@ function eventIcon(type) {
   return (
     {
       submit: "fas fa-paper-plane",
+      receive: "fas fa-inbox",
+      forward: "fas fa-share",
+      review: "fas fa-magnifying-glass",
+      pending: "fas fa-clock",
       approve: "fas fa-circle-check",
+      reject: "fas fa-circle-xmark",
+      sendback: "fas fa-rotate-left",
       issue: "fas fa-certificate",
       renew: "fas fa-rotate",
       revoke: "fas fa-ban",
@@ -545,7 +701,13 @@ function eventColor(type) {
   return (
     {
       submit: "export-user",
+      receive: "info",
+      forward: "success",
+      review: "warning",
+      pending: "info",
       approve: "success",
+      reject: "error",
+      sendback: "warning",
       issue: "export-user",
       renew: "info",
       revoke: "error",
@@ -557,7 +719,13 @@ function eventLabel(type) {
   return (
     {
       submit: "ยื่นคำขอ",
+      receive: "รับเรื่อง",
+      forward: "ผ่าน",
+      review: "กำลังพิจารณา",
+      pending: "รอพิจารณา",
       approve: "อนุมัติ",
+      reject: "ไม่อนุมัติ",
+      sendback: "ปรับปรุง",
       issue: "ออกใบทะเบียน",
       renew: "ต่ออายุ",
       revoke: "เพิกถอน",
@@ -617,8 +785,36 @@ function eventLabel(type) {
 .activity-dot--submit {
   background: rgb(var(--v-theme-export-user));
 }
+.activity-dot--receive {
+  background: rgb(var(--v-theme-info));
+}
+.activity-dot--forward {
+  background: rgb(var(--v-theme-success));
+}
+.activity-dot--review {
+  background: rgb(var(--v-theme-warning));
+}
+.activity-dot--pending {
+  background: rgb(var(--v-theme-info));
+  animation: pulse-pending 1.6s ease-in-out infinite;
+}
+@keyframes pulse-pending {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(var(--v-theme-info), 0.5);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(var(--v-theme-info), 0);
+  }
+}
 .activity-dot--approve {
   background: rgb(var(--v-theme-success));
+}
+.activity-dot--reject {
+  background: rgb(var(--v-theme-error));
+}
+.activity-dot--sendback {
+  background: #fb8c00;
 }
 .activity-dot--issue {
   background: rgb(var(--v-theme-export-user));

@@ -303,7 +303,7 @@
               />
               <span class="text-subtitle-2 font-weight-bold">ประวัติใบทะเบียน</span>
             </div>
-            <v-card-text class="pa-4">
+            <v-card-text class="pa-4" style="max-height: 420px; overflow-y: auto;">
               <div class="activity-timeline">
                 <div
                   v-for="(event, i) in cert.activityLog"
@@ -452,25 +452,44 @@ const cert = {
 
   activityLog: [
     {
-      type: "submit",
-      action: "ยื่นคำขอ",
-      actor: "นายสมชาย ใจดี (ผู้ยื่นคำขอ)",
-      timestamp: "15/03/2569 09:12",
-      remark: "",
-    },
-    {
-      type: "approve",
-      action: "อนุมัติคำขอ",
-      actor: "นายประเสริฐ มีสุข (ผู้พิจารณา)",
-      timestamp: "18/03/2569 14:30",
-      remark: "ตรวจสอบเอกสารครบถ้วน อนุมัติ",
-    },
-    {
       type: "issue",
       action: "ออกใบทะเบียน",
       actor: "ระบบ",
-      timestamp: "15/03/2569 15:00",
+      timestamp: "08/01/2569 11:23",
       remark: "เลขทะเบียน EXP-2569-005",
+    },
+    {
+      type: "forward",
+      action: "ผ่านการลงนาม",
+      actor: "นายศักดิ์ศรี นาดี (ผู้ลงนาม)",
+      timestamp: "08/01/2569 11:23",
+    },
+    {
+      type: "forward",
+      action: "ผ่านการพิจารณา",
+      actor: "นายอนันต์ วิชาการ (ผู้พิจารณา)",
+      timestamp: "06/01/2569 14:20",
+    },
+    {
+      type: "forward",
+      action: "ผ่านการตรวจสอบ",
+      actor: "น.ส.วรรณา จันทร์ดี (เจ้าหน้าที่ตรวจสอบ)",
+      timestamp: "05/01/2569 11:00",
+    },
+    {
+      type: "sendback",
+      action: "ส่งกลับแก้ไข",
+      actor: "น.ส.วรรณา จันทร์ดี (เจ้าหน้าที่ตรวจสอบ)",
+      timestamp: "03/01/2569 10:30",
+      remark:
+        "เอกสารสำเนาหนังสือรับรองนิติบุคคลไม่ครบถ้วน กรุณาแนบเอกสารฉบับที่ออกโดยกรมพัฒนาธุรกิจการค้าซึ่งออกไม่เกิน 3 เดือน และแก้ไขพิกัดที่ตั้งโรงงานให้ถูกต้องตามทะเบียนโรงงาน",
+    },
+    {
+      type: "submit",
+      action: "ยื่นคำขอ",
+      actor: "นายสมชาย ใจดี (ผู้ยื่นคำขอ)",
+      timestamp: "01/01/2569 09:12",
+      remark: "",
     },
   ],
 };
@@ -516,7 +535,13 @@ function eventIcon(type) {
   return (
     {
       submit: "fas fa-paper-plane",
+      receive: "fas fa-inbox",
+      forward: "fas fa-share",
+      review: "fas fa-magnifying-glass",
+      pending: "fas fa-clock",
       approve: "fas fa-circle-check",
+      reject: "fas fa-circle-xmark",
+      sendback: "fas fa-rotate-left",
       issue: "fas fa-certificate",
       renew: "fas fa-rotate",
       revoke: "fas fa-ban",
@@ -528,7 +553,13 @@ function eventColor(type) {
   return (
     {
       submit: "export-staff",
+      receive: "info",
+      forward: "success",
+      review: "warning",
+      pending: "info",
       approve: "success",
+      reject: "error",
+      sendback: "warning",
       issue: "export-staff",
       renew: "info",
       revoke: "error",
@@ -540,7 +571,13 @@ function eventLabel(type) {
   return (
     {
       submit: "ยื่นคำขอ",
+      receive: "รับเรื่อง",
+      forward: "ผ่าน",
+      review: "กำลังพิจารณา",
+      pending: "รอพิจารณา",
       approve: "อนุมัติ",
+      reject: "ไม่อนุมัติ",
+      sendback: "ปรับปรุง",
       issue: "ออกใบทะเบียน",
       renew: "ต่ออายุ",
       revoke: "เพิกถอน",
@@ -600,8 +637,26 @@ function eventLabel(type) {
 .activity-dot--submit {
   background: rgb(var(--v-theme-export-staff));
 }
+.activity-dot--receive {
+  background: rgb(var(--v-theme-info));
+}
+.activity-dot--forward {
+  background: rgb(var(--v-theme-success));
+}
+.activity-dot--review {
+  background: rgb(var(--v-theme-warning));
+}
+.activity-dot--pending {
+  background: rgb(var(--v-theme-info));
+}
 .activity-dot--approve {
   background: rgb(var(--v-theme-success));
+}
+.activity-dot--reject {
+  background: rgb(var(--v-theme-error));
+}
+.activity-dot--sendback {
+  background: #fb8c00;
 }
 .activity-dot--issue {
   background: rgb(var(--v-theme-export-staff));

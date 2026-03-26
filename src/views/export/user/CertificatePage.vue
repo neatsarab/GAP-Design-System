@@ -3,7 +3,7 @@
     <!-- Header -->
     <div class="d-flex align-center justify-space-between mb-5 flex-wrap ga-3">
       <div>
-        <h1 class="page-title mb-1">รายการใบรับรอง</h1>
+        <h1 class="page-title mb-1">รายการใบทะเบียน</h1>
         <p class="text-body-2 text-medium-emphasis mb-0">
           การจดทะเบียนผู้ส่งออกสินค้าพืช
         </p>

@@ -84,7 +84,7 @@
         </v-card-text>
       </v-card>
 
-      <!-- ค้นหาใบรับรอง (amendment only) -->
+      <!-- ค้นหาใบทะเบียน (amendment only) -->
       <v-card
         v-if="route.params.type === 'amendment'"
         elevation="0"
@@ -95,12 +95,12 @@
         <div class="d-flex align-center ga-2 px-4 py-3 border-b">
           <v-icon icon="fas fa-certificate" color="export-user" size="15" />
           <span class="text-subtitle-2 font-weight-bold"
-            >ระบุใบรับรองทะเบียนผู้ส่งออกที่ต้องการแก้ไข</span
+            >ระบุใบทะเบียนผู้ส่งออกที่ต้องการแก้ไข</span
           >
         </div>
         <v-card-text class="pt-5">
           <div class="field-label mb-2">
-            เลขที่ใบรับรองทะเบียนผู้ส่งออก <span class="req">*</span>
+            เลขที่ใบทะเบียนผู้ส่งออก <span class="req">*</span>
             <div class="field-label-en">
               Exporter Registration Certificate No.
             </div>
@@ -140,7 +140,7 @@
             class="mt-3"
             prepend-icon="fas fa-circle-xmark"
           >
-            ไม่พบใบรับรองเลขที่ "{{ certSearchNo }}" กรุณาตรวจสอบอีกครั้ง
+            ไม่พบใบทะเบียนเลขที่ "{{ certSearchNo }}" กรุณาตรวจสอบอีกครั้ง
           </v-alert>
 
           <!-- Result card -->
@@ -159,7 +159,7 @@
               <v-row align="center" no-gutters>
                 <v-col>
                   <div class="text-caption text-medium-emphasis mb-1">
-                    เลขที่ใบรับรอง
+                    เลขที่ใบทะเบียน
                   </div>
                   <div class="text-body-1 font-weight-bold">
                     {{ certSearchResult.certNo }}
@@ -188,7 +188,7 @@
                     prepend-icon="fas fa-eye"
                     @click="viewCertDialog = true"
                   >
-                    ดูใบรับรอง
+                    ดูใบทะเบียน
                   </v-btn>
                   <v-btn
                     size="small"
@@ -198,7 +198,7 @@
                     :disabled="certSearchResult.isExpired"
                     @click="selectCert"
                   >
-                    เลือกใบรับรองนี้
+                    เลือกใบทะเบียนนี้
                   </v-btn>
                 </v-col>
               </v-row>
@@ -209,7 +209,7 @@
           <div v-if="certSelected" class="mt-4 d-flex align-center ga-2">
             <v-icon icon="fas fa-circle-check" color="success" size="16" />
             <span class="text-body-2 font-weight-medium text-success">
-              เลือกใบรับรอง:
+              เลือกใบทะเบียน:
             </span>
             <v-chip color="export-user" variant="tonal" size="small">
               {{ certSelected.certNo }} — {{ certSelected.companyNameTh }}
@@ -287,10 +287,10 @@
                     v-if="amendFields.includes(item.value)"
                     class="amend-detail-field"
                   >
-                    <!-- ชื่อสถานประกอบการ (บนใบรับรอง → DBD) -->
+                    <!-- ชื่อสถานประกอบการ (บนใบทะเบียน → DBD) -->
                     <template v-if="item.inputType === 'company_name'">
                       <div class="field-section-label mb-2">
-                        ข้อมูลปัจจุบัน (บนใบรับรอง)
+                        ข้อมูลปัจจุบัน (บนใบทะเบียน)
                       </div>
                       <v-row dense class="mb-3">
                         <v-col cols="12" sm="6">
@@ -359,10 +359,10 @@
                       </v-row>
                     </template>
 
-                    <!-- ที่อยู่สถานประกอบการ (บนใบรับรอง → DBD) -->
+                    <!-- ที่อยู่สถานประกอบการ (บนใบทะเบียน → DBD) -->
                     <template v-else-if="item.inputType === 'address'">
                       <div class="field-section-label mb-2">
-                        ข้อมูลปัจจุบัน (บนใบรับรอง)
+                        ข้อมูลปัจจุบัน (บนใบทะเบียน)
                       </div>
                       <v-row dense class="mb-3">
                         <v-col cols="6" sm="3">
@@ -731,7 +731,7 @@
                     <!-- วันหมดอายุ -->
                     <template v-else-if="item.inputType === 'expire_date'">
                       <div class="field-section-label mb-2">
-                        ข้อมูลปัจจุบัน (บนใบรับรอง)
+                        ข้อมูลปัจจุบัน (บนใบทะเบียน)
                       </div>
                       <v-row dense class="mb-3">
                         <v-col cols="12" sm="6">
@@ -809,7 +809,7 @@
         <v-card rounded="xl">
           <v-card-title class="d-flex align-center ga-2 pa-5 pb-3">
             <v-icon icon="fas fa-certificate" color="export-user" size="18" />
-            ใบรับรองทะเบียนผู้ส่งออก
+            ใบทะเบียนผู้ส่งออก
             <v-spacer />
             <v-btn
               icon="fas fa-xmark"
@@ -823,7 +823,7 @@
           <v-card-text class="pa-5">
             <template v-if="certSearchResult">
               <v-list density="compact" lines="two">
-                <v-list-item subtitle="เลขที่ใบรับรอง">
+                <v-list-item subtitle="เลขที่ใบทะเบียน">
                   <v-list-item-title class="text-export-user font-weight-bold">
                     {{ certSearchResult.certNo }}
                   </v-list-item-title>
@@ -833,7 +833,7 @@
                     certSearchResult.companyNameTh
                   }}</v-list-item-title>
                 </v-list-item>
-                <v-list-item subtitle="วันที่ออกใบรับรอง">
+                <v-list-item subtitle="วันที่ออกใบทะเบียน">
                   <v-list-item-title>{{
                     certSearchResult.issuedDate
                   }}</v-list-item-title>
@@ -1784,7 +1784,7 @@
                     />
                     <v-btn
                       :color="
-                        uploadedFiles[doc.key] ? 'success' : 'export-user'
+                        uploadedFiles[doc.key] ? 'warning' : 'export-user'
                       "
                       variant="tonal"
                       size="small"
@@ -1844,7 +1844,7 @@
                     />
                     <v-btn
                       :color="
-                        uploadedFiles[doc.key] ? 'success' : 'export-user'
+                        uploadedFiles[doc.key] ? 'warning' : 'export-user'
                       "
                       variant="tonal"
                       size="small"
@@ -1994,9 +1994,9 @@ function nextStep() {
 }
 
 const typeTitles = {
-  newrequest: "คำขอขึ้ทะเบียน",
+  newrequest: "คำขอขึ้น / ต่ออายุทะเบียน",
   renew: "คำขอต่ออายุทะเบียน",
-  amendment: "คำขอแก้ไขใบรับรอง",
+  amendment: "คำขอแก้ไขใบทะเบียน",
 };
 const pageTitle = computed(
   () => typeTitles[route.params.type] ?? "คำขอจดทะเบียนผู้ส่งออก",
@@ -2252,7 +2252,7 @@ const certMockDB = {
     issuedDate: "01/01/2568",
     expiryDate: "31/12/2569",
     isExpired: false,
-    // ข้อมูลบนใบรับรอง (ณ วันที่ออก)
+    // ข้อมูลบนใบทะเบียน (ณ วันที่ออก)
     applicantNameTh: "นายสมชาย ใจดี",
     applicantNameEn: "MR. SOMCHAI JAIDEE",
     companyNameTh: "บริษัท สยามเฟรชฟู้ด จำกัด",

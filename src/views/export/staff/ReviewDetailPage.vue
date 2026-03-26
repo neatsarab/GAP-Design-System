@@ -521,7 +521,7 @@
                 >ความคืบหน้าคำขอ</span
               >
             </div>
-            <v-card-text class="pa-4">
+            <v-card-text class="pa-4" style="max-height: 420px; overflow-y: auto;">
               <div class="activity-timeline">
                 <div
                   v-for="(event, i) in application.activityLog"
@@ -960,7 +960,7 @@ function previewCertPdf(item) {
 <html lang="th">
 <head>
   <meta charset="UTF-8" />
-  <title>ตัวอย่างใบรับรอง ${item.certNo}</title>
+  <title>ตัวอย่างใบทะเบียน ${item.certNo}</title>
   <style>
     @page { size: A4; margin: 20mm 25mm; }
     body { font-family: 'Sarabun', 'TH Sarabun New', sans-serif; font-size: 14pt; color: #1a1a1a; }
@@ -1098,11 +1098,10 @@ const application = {
 
   activityLog: [
     {
-      type: "submit",
-      action: "ยื่นคำขอ",
-      actor: "นายสมชาย ใจดี (ผู้ยื่นคำขอ)",
-      timestamp: "01/01/2569 09:12",
-      remark: "",
+      type: "forward",
+      action: "ผ่านการตรวจสอบ",
+      actor: "น.ส.วรรณา จันทร์ดี (เจ้าหน้าที่ตรวจสอบ)",
+      timestamp: "05/01/2569 11:00",
     },
     {
       type: "sendback",
@@ -1113,10 +1112,11 @@ const application = {
         "เอกสารสำเนาหนังสือรับรองนิติบุคคลไม่ครบถ้วน กรุณาแนบเอกสารฉบับที่ออกโดยกรมพัฒนาธุรกิจการค้าซึ่งออกไม่เกิน 3 เดือน และแก้ไขพิกัดที่ตั้งโรงงานให้ถูกต้องตามทะเบียนโรงงาน",
     },
     {
-      type: "forward",
-      action: "ผ่านการตรวจสอบ",
-      actor: "น.ส.วรรณา จันทร์ดี (เจ้าหน้าที่ตรวจสอบ)",
-      timestamp: "05/01/2569 11:00",
+      type: "submit",
+      action: "ยื่นคำขอ",
+      actor: "นายสมชาย ใจดี (ผู้ยื่นคำขอ)",
+      timestamp: "01/01/2569 09:12",
+      remark: "",
     },
   ],
 };
