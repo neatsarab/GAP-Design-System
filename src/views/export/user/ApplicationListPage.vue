@@ -22,12 +22,12 @@
         <v-row dense align="center">
           <v-col cols="12" sm="6" md="6">
             <div class="field-label">
-              <div>หมายเลขคำขอ</div>
+              <div>เลขคำขอ</div>
               <div class="field-label-en">Request No.</div>
             </div>
             <v-text-field
               v-model="search"
-              placeholder="ค้นหาหมายเลขคำขอ"
+              placeholder="ค้นหาเลขคำขอ"
               prepend-inner-icon="fas fa-search"
               variant="outlined"
               density="compact"
@@ -189,46 +189,116 @@
         <template #header.requestNo="{ column, isSorted, getSortIcon }">
           <span class="d-inline-flex align-center ga-1">
             <span>
-              <div class="text-body-2 font-weight-medium" style="line-height:1.3">หมายเลขคำขอ</div>
-              <div class="text-caption text-medium-emphasis" style="line-height:1.2">Request No.</div>
+              <div
+                class="text-body-2 font-weight-medium"
+                style="line-height: 1.3"
+              >
+                เลขคำขอ
+              </div>
+              <div
+                class="text-caption text-medium-emphasis"
+                style="line-height: 1.2"
+              >
+                Request No.
+              </div>
             </span>
-            <v-icon v-if="isSorted(column)" :icon="getSortIcon(column)" size="14" />
+            <v-icon
+              v-if="isSorted(column)"
+              :icon="getSortIcon(column)"
+              size="14"
+            />
           </span>
         </template>
         <template #header.typecert="{ column, isSorted, getSortIcon }">
           <span class="d-inline-flex align-center ga-1">
             <span>
-              <div class="text-body-2 font-weight-medium" style="line-height:1.3">ประเภททะเบียน</div>
-              <div class="text-caption text-medium-emphasis" style="line-height:1.2">Certificate Type</div>
+              <div
+                class="text-body-2 font-weight-medium"
+                style="line-height: 1.3"
+              >
+                ประเภททะเบียน
+              </div>
+              <div
+                class="text-caption text-medium-emphasis"
+                style="line-height: 1.2"
+              >
+                Certificate Type
+              </div>
             </span>
-            <v-icon v-if="isSorted(column)" :icon="getSortIcon(column)" size="14" />
+            <v-icon
+              v-if="isSorted(column)"
+              :icon="getSortIcon(column)"
+              size="14"
+            />
           </span>
         </template>
         <template #header.type="{ column, isSorted, getSortIcon }">
           <span class="d-inline-flex align-center ga-1">
             <span>
-              <div class="text-body-2 font-weight-medium" style="line-height:1.3">ประเภทคำขอ</div>
-              <div class="text-caption text-medium-emphasis" style="line-height:1.2">Request Type</div>
+              <div
+                class="text-body-2 font-weight-medium"
+                style="line-height: 1.3"
+              >
+                ประเภทคำขอ
+              </div>
+              <div
+                class="text-caption text-medium-emphasis"
+                style="line-height: 1.2"
+              >
+                Request Type
+              </div>
             </span>
-            <v-icon v-if="isSorted(column)" :icon="getSortIcon(column)" size="14" />
+            <v-icon
+              v-if="isSorted(column)"
+              :icon="getSortIcon(column)"
+              size="14"
+            />
           </span>
         </template>
         <template #header.submittedDate="{ column, isSorted, getSortIcon }">
           <span class="d-inline-flex align-center ga-1">
             <span>
-              <div class="text-body-2 font-weight-medium" style="line-height:1.3">วันที่ยื่น</div>
-              <div class="text-caption text-medium-emphasis" style="line-height:1.2">Submit Date</div>
+              <div
+                class="text-body-2 font-weight-medium"
+                style="line-height: 1.3"
+              >
+                วันที่ยื่น
+              </div>
+              <div
+                class="text-caption text-medium-emphasis"
+                style="line-height: 1.2"
+              >
+                Submit Date
+              </div>
             </span>
-            <v-icon v-if="isSorted(column)" :icon="getSortIcon(column)" size="14" />
+            <v-icon
+              v-if="isSorted(column)"
+              :icon="getSortIcon(column)"
+              size="14"
+            />
           </span>
         </template>
         <template #header.status="{ column, isSorted, getSortIcon }">
           <span class="d-inline-flex align-center ga-1">
             <span>
-              <div class="text-body-2 font-weight-medium" style="line-height:1.3">สถานะคำขอ</div>
-              <div class="text-caption text-medium-emphasis" style="line-height:1.2">Status</div>
+              <div
+                class="text-body-2 font-weight-medium"
+                style="line-height: 1.3"
+              >
+                สถานะคำขอ
+              </div>
+              <div
+                class="text-caption text-medium-emphasis"
+                style="line-height: 1.2"
+              >
+                Status
+              </div>
             </span>
-            <v-icon v-if="isSorted(column)" :icon="getSortIcon(column)" size="14" />
+            <v-icon
+              v-if="isSorted(column)"
+              :icon="getSortIcon(column)"
+              size="14"
+            />
           </span>
         </template>
 
@@ -250,7 +320,7 @@
                   size="x-small"
                   variant="text"
                   color="export-user"
-                  @click.stop
+                  @click.stop="router.push({ name: 'ExportUserApplicationDetail', params: { id: item.requestNo } })"
                 >
                   <v-icon icon="fas fa-eye" size="14" />
                 </v-btn>
@@ -371,7 +441,7 @@ const statusOptions = [
 ];
 
 const headers = [
-  { title: "หมายเลขคำขอ", key: "requestNo", sortable: true },
+  { title: "เลขคำขอ", key: "requestNo", sortable: true },
   { title: "ประเภททะเบียน", key: "typecert", sortable: true },
   { title: "ประเภทคำขอ", key: "type", sortable: true },
   { title: "วันที่ยื่น", key: "submittedDate", sortable: true },
@@ -470,11 +540,7 @@ const filteredItems = computed(() => {
   let items = allItems;
   if (search.value) {
     const q = search.value.toLowerCase();
-    items = items.filter(
-      (i) =>
-        i.requestNo.toLowerCase().includes(q) ||
-        i.applicant.toLowerCase().includes(q),
-    );
+    items = items.filter((i) => i.requestNo.toLowerCase().includes(q));
   }
   if (filters.typecert)
     items = items.filter((i) => i.typecert === filters.typecert);

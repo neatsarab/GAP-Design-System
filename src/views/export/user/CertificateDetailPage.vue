@@ -9,102 +9,79 @@
         @click="router.back()"
       />
       <div>
-        <h1 class="page-title mb-0">รายละเอียดคำขอ</h1>
+        <h1 class="page-title mb-0">รายละเอียดใบทะเบียน</h1>
         <p class="text-body-2 text-medium-emphasis mb-0 mt-1">
-          เลขคำขอ:
+          เลขทะเบียน:
           <span class="text-export-user font-weight-medium">{{
-            route.params.id ?? "EXP-0005"
+            route.params.id ?? cert.certNo
           }}</span>
         </p>
       </div>
       <v-spacer />
-      <v-chip :color="statusColor(application.status)" variant="tonal">
-        <v-icon :icon="statusIcon(application.status)" size="13" class="mr-1" />
-        {{ statusLabel(application.status) }}
+      <v-chip :color="certStatusColor(cert.status)" variant="tonal">
+        <v-icon :icon="certStatusIcon(cert.status)" size="13" class="mr-1" />
+        {{ certStatusLabel(cert.status) }}
       </v-chip>
     </div>
 
-    <!-- Stepper -->
-    <v-card rounded="xl" elevation="0" class="mb-4 section-card">
-      <v-card-text class="pa-4">
-        <div class="d-flex align-center">
-          <template v-for="(step, i) in timelineSteps" :key="step.value">
-            <div
-              class="step-item d-flex flex-column align-center"
-              style="min-width: 72px"
-            >
-              <div class="step-circle mb-1" :class="stepClass(step.value)">
-                <v-icon
-                  v-if="application.currentStep > step.value"
-                  icon="fas fa-check"
-                  size="12"
-                  color="white"
-                />
-                <span v-else class="text-caption font-weight-bold">{{
-                  step.value + 1
-                }}</span>
-              </div>
-              <div
-                class="text-caption text-center"
-                :class="
-                  application.currentStep >= step.value
-                    ? 'text-export-user font-weight-bold'
-                    : 'text-medium-emphasis'
-                "
-              >
-                {{ step.title }}
-              </div>
-            </div>
-            <div
-              v-if="i < timelineSteps.length - 1"
-              class="step-line flex-grow-1"
-              :class="{
-                'step-line--done': application.currentStep > step.value,
-              }"
-            />
-          </template>
-        </div>
-      </v-card-text>
-    </v-card>
-
-    <!-- 2-column layout -->
     <v-row>
       <!-- ── Left: data sections ── -->
       <v-col cols="12" md="8">
-        <!-- ข้อมูลคำขอ -->
+        <!-- สถานะใบทะเบียน -->
         <v-card rounded="xl" elevation="0" class="section-card mb-4">
-          <div class="section-header px-4 py-3 border-b">
-            <v-icon
-              icon="fas fa-list-check"
-              color="export-user"
-              size="15"
-              class="mr-2"
-            />
-            <span class="text-subtitle-2 font-weight-bold">ข้อมูลคำขอ</span>
+          <div
+            class="section-header px-4 py-3 border-b d-flex align-center ga-2"
+          >
+            <v-icon icon="fas fa-certificate" color="export-user" size="15" />
+            <span class="text-subtitle-2 font-weight-bold">สถานะใบทะเบียน</span>
           </div>
           <v-card-text class="pa-4">
             <v-row dense>
-              <v-col cols="6" md="4">
-                <div class="info-label">เลขคำขอ</div>
+              <v-col cols="12" md="4">
+                <div class="info-label">เลขที่ใบทะเบียน / Certificate No.</div>
                 <div class="info-value text-export-user font-weight-bold">
-                  {{ application.requestNo }}
+                  {{ cert.certNo }}
                 </div>
               </v-col>
-              <v-col cols="6" md="4">
-                <div class="info-label">ประเภทคำขอ</div>
+              <v-col cols="12" md="4">
+                <div class="info-label">เลขคำขออ้างอิง / Request No.</div>
+                <div class="info-value">{{ cert.requestNo }}</div>
+              </v-col>
+              <v-col cols="12" md="4">
+                <div class="info-label">สถานะ / Status</div>
                 <div class="info-value">
-                  <v-chip size="x-small" color="export-user" variant="tonal">{{
-                    application.requestType
-                  }}</v-chip>
+                  <v-chip
+                    :color="certStatusColor(cert.status)"
+                    size="small"
+                    variant="tonal"
+                    :prepend-icon="certStatusIcon(cert.status)"
+                  >
+                    {{ certStatusLabel(cert.status) }}
+                  </v-chip>
                 </div>
-              </v-col>
-              <v-col cols="6" md="4">
-                <div class="info-label">วันที่ยื่นคำขอ</div>
-                <div class="info-value">{{ application.submittedDate }}</div>
               </v-col>
               <v-col cols="12">
-                <div class="info-label">ประเภททะเบียน</div>
-                <div class="info-value">{{ application.typecert }}</div>
+                <div class="info-label">ประเภททะเบียน / Certificate Type</div>
+                <div class="info-value">{{ cert.typecert }}</div>
+              </v-col>
+              <v-col cols="12" md="4">
+                <div class="info-label">วันที่ออกใบทะเบียน / Issue Date</div>
+                <div class="info-value">{{ cert.issueDate }}</div>
+              </v-col>
+              <v-col cols="12" md="4">
+                <div class="info-label">วันหมดอายุ / Expire Date</div>
+                <div
+                  class="info-value"
+                  :class="
+                    cert.status === 'expiring'
+                      ? 'text-warning font-weight-medium'
+                      : cert.status === 'expired'
+                        ? 'text-error'
+                        : ''
+                  "
+                >
+                  {{ cert.expireDate }}
+                </div>
               </v-col>
             </v-row>
           </v-card-text>
@@ -119,12 +96,15 @@
             <span class="text-subtitle-2 font-weight-bold"
               >ข้อมูลผู้ยื่นคำขอ</span
             >
+            <v-chip size="x-small" color="export-user" variant="tonal"
+              >Auto-fill จาก SSO</v-chip
+            >
           </div>
           <v-card-text class="pa-4">
             <v-row dense>
               <v-col cols="12" md="6">
                 <div class="info-label">ชื่อ-นามสกุล / Full Name</div>
-                <div class="info-value">{{ application.applicantNameTh }}</div>
+                <div class="info-value">{{ cert.applicantNameTh }}</div>
               </v-col>
               <v-col cols="12" md="6">
                 <div class="info-label">ที่อยู่ / Address</div>
@@ -132,15 +112,15 @@
               </v-col>
               <v-col cols="12" md="4">
                 <div class="info-label">โทรศัพท์ / Phone</div>
-                <div class="info-value">{{ application.applicantPhone }}</div>
+                <div class="info-value">{{ cert.applicantPhone }}</div>
               </v-col>
               <v-col cols="12" md="4">
                 <div class="info-label">โทรสาร / Fax</div>
-                <div class="info-value">{{ application.applicantFax }}</div>
+                <div class="info-value">{{ cert.applicantFax }}</div>
               </v-col>
               <v-col cols="12" md="4">
                 <div class="info-label">อีเมล / Email</div>
-                <div class="info-value">{{ application.applicantEmail }}</div>
+                <div class="info-value">{{ cert.applicantEmail }}</div>
               </v-col>
             </v-row>
           </v-card-text>
@@ -155,16 +135,19 @@
             <span class="text-subtitle-2 font-weight-bold"
               >ข้อมูลสถานประกอบการ</span
             >
+            <v-chip size="x-small" color="export-user" variant="tonal"
+              >Auto-fill บางส่วนจาก DBD</v-chip
+            >
           </div>
           <v-card-text class="pa-4">
             <v-row dense>
               <v-col cols="12" md="6">
                 <div class="info-label">ชื่อสถานประกอบการ (ไทย)</div>
-                <div class="info-value">{{ application.companyNameTh }}</div>
+                <div class="info-value">{{ cert.companyNameTh }}</div>
               </v-col>
               <v-col cols="12" md="6">
                 <div class="info-label">Company Name (English)</div>
-                <div class="info-value">{{ application.companyNameEn }}</div>
+                <div class="info-value">{{ cert.companyNameEn }}</div>
               </v-col>
               <v-col cols="12" md="6">
                 <div class="info-label">ที่ตั้ง (ภาษาไทย)</div>
@@ -176,15 +159,15 @@
               </v-col>
               <v-col cols="12" md="4">
                 <div class="info-label">โทรศัพท์ / Phone</div>
-                <div class="info-value">{{ application.companyPhone }}</div>
+                <div class="info-value">{{ cert.companyPhone }}</div>
               </v-col>
               <v-col cols="12" md="4">
                 <div class="info-label">โทรสาร / Fax</div>
-                <div class="info-value">{{ application.companyFax }}</div>
+                <div class="info-value">{{ cert.companyFax }}</div>
               </v-col>
               <v-col cols="12" md="4">
                 <div class="info-label">อีเมล / Email</div>
-                <div class="info-value">{{ application.companyEmail }}</div>
+                <div class="info-value">{{ cert.companyEmail }}</div>
               </v-col>
             </v-row>
           </v-card-text>
@@ -202,7 +185,7 @@
             <div class="info-label mb-2">Scope of countries</div>
             <div class="d-flex flex-wrap ga-2">
               <v-chip
-                v-for="c in application.countries"
+                v-for="c in cert.countries"
                 :key="c"
                 size="small"
                 variant="tonal"
@@ -212,6 +195,7 @@
             </div>
           </v-card-text>
         </v-card>
+
         <!-- โรงงาน -->
         <v-card rounded="xl" elevation="0" class="section-card mb-4">
           <div
@@ -231,7 +215,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="factory in application.factories" :key="factory.doaNo">
+              <tr v-for="factory in cert.factories" :key="factory.doaNo">
                 <td class="text-body-2 font-weight-bold text-export-user">
                   {{ factory.doaNo }}
                 </td>
@@ -241,6 +225,7 @@
             </tbody>
           </v-table>
         </v-card>
+
         <!-- GAP -->
         <v-card rounded="xl" elevation="0" class="section-card mb-4">
           <div
@@ -261,7 +246,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="gap in application.gaps" :key="gap.gapNo">
+              <tr v-for="gap in cert.gaps" :key="gap.gapNo">
                 <td class="text-body-2 font-weight-bold text-export-user">
                   {{ gap.gapNo }}
                 </td>
@@ -283,7 +268,7 @@
           </div>
           <v-card-text class="pa-4">
             <div
-              v-for="doc in application.attachments"
+              v-for="doc in cert.attachments"
               :key="doc.label"
               class="item-row rounded-lg px-3 py-2 mb-2 d-flex align-center justify-space-between"
             >
@@ -302,9 +287,26 @@
         </v-card>
       </v-col>
 
-      <!-- ── Right: activity timeline (sticky) ── -->
+      <!-- ── Right: cert actions + activity log ── -->
       <v-col cols="12" md="4">
         <div class="sticky-col">
+          <!-- ปุ่มดาวน์โหลดใบทะเบียน -->
+          <v-card rounded="xl" elevation="0" class="section-card mb-4">
+            <v-card-text class="pa-4">
+              <v-btn
+                color="export-user"
+                variant="flat"
+                block
+                rounded="lg"
+                prepend-icon="fas fa-download"
+                :disabled="cert.status === 'expired'"
+              >
+                ดาวน์โหลดใบทะเบียน (PDF)
+              </v-btn>
+            </v-card-text>
+          </v-card>
+
+          <!-- ความคืบหน้า -->
           <v-card rounded="xl" elevation="0" class="section-card">
             <div
               class="section-header px-4 py-3 border-b d-flex align-center ga-2"
@@ -315,13 +317,13 @@
                 size="15"
               />
               <span class="text-subtitle-2 font-weight-bold"
-                >ความคืบหน้าคำขอ</span
+                >ประวัติใบทะเบียน</span
               >
             </div>
             <v-card-text class="pa-4">
               <div class="activity-timeline">
                 <div
-                  v-for="(event, i) in application.activityLog"
+                  v-for="(event, i) in cert.activityLog"
                   :key="i"
                   class="activity-item"
                 >
@@ -337,7 +339,7 @@
                       />
                     </div>
                     <div
-                      v-if="i < application.activityLog.length - 1"
+                      v-if="i < cert.activityLog.length - 1"
                       class="activity-line"
                     />
                   </div>
@@ -387,13 +389,13 @@ import { useRoute, useRouter } from "vue-router";
 const route = useRoute();
 const router = useRouter();
 
-const application = {
+const cert = {
+  certNo: "EXP-2569-005",
   requestNo: "EXP-0005",
-  requestType: "ขึ้นทะเบียน",
-  submittedDate: "15/03/2569",
   typecert: "คำขอหนังสือสำคัญแสดงการขึ้นทะเบียนเป็นผู้ส่งออกผักและผลไม้",
-  status: "pending",
-  currentStep: 1,
+  issueDate: "15/03/2569",
+  expireDate: "14/03/2571",
+  status: "active",
 
   applicantNameTh: "นายสมชาย ใจดี",
   applicantHouseNo: "123",
@@ -474,86 +476,56 @@ const application = {
       remark: "",
     },
     {
-      type: "receive",
-      action: "รับคำขอเข้าสู่ระบบ",
-      actor: "น.ส.วรรณา จันทร์ดี (เจ้าหน้าที่รับเรื่อง)",
-      timestamp: "15/03/2569 10:45",
-      remark: "ตรวจสอบเอกสารเบื้องต้นครบถ้วน",
-    },
-    {
-      type: "forward",
-      action: "ส่งต่อเพื่อพิจารณา",
-      actor: "น.ส.วรรณา จันทร์ดี (เจ้าหน้าที่รับเรื่อง)",
-      timestamp: "16/03/2569 08:30",
-      remark: "",
-    },
-    {
-      type: "pending",
-      action: "อยู่ระหว่างพิจารณา",
+      type: "approve",
+      action: "อนุมัติคำขอ",
       actor: "นายประเสริฐ มีสุข (ผู้พิจารณา)",
-      timestamp: "17/03/2569 13:00",
-      remark: "",
+      timestamp: "18/03/2569 14:30",
+      remark: "ตรวจสอบเอกสารครบถ้วน อนุมัติ",
+    },
+    {
+      type: "issue",
+      action: "ออกใบทะเบียน",
+      actor: "ระบบ",
+      timestamp: "15/03/2569 15:00",
+      remark: "เลขทะเบียน EXP-2569-005",
     },
   ],
 };
 
 const applicantAddress = computed(() => {
-  const a = application;
+  const a = cert;
   return `${a.applicantHouseNo} หมู่ ${a.applicantMoo} ถ.${a.applicantRoad} ต.${a.applicantTambol} อ.${a.applicantDistrict} จ.${a.applicantProvince} ${a.applicantZipcode}`;
 });
 
 const companyAddressTh = computed(() => {
-  const a = application;
+  const a = cert;
   return `${a.houseNo} ถ.${a.road} ต.${a.tambol} อ.${a.district} จ.${a.province} ${a.zipcode}`;
 });
 
 const companyAddressEn = computed(() => {
-  const a = application;
+  const a = cert;
   return `${a.houseNoEn} ${a.roadEn} Rd., ${a.tambolEn}, ${a.districtEn}, ${a.provinceEn} ${a.zipcodeEn}`;
 });
 
-const timelineSteps = [
-  { value: 0, title: "ยื่นคำขอ" },
-  { value: 1, title: "รอพิจารณา" },
-  { value: 2, title: "ผลการพิจารณา" },
-];
-
-function stepClass(v) {
-  if (application.currentStep > v) return "step-done";
-  if (application.currentStep === v) return "step-active";
-  return "step-pending";
-}
-
-function statusColor(s) {
+function certStatusColor(s) {
   return (
-    {
-      draft: "grey",
-      pending: "warning",
-      approved: "success",
-      rejected: "error",
-    }[s] ?? "grey"
+    { active: "success", expiring: "warning", expired: "error" }[s] ?? "grey"
   );
 }
 
-function statusIcon(s) {
+function certStatusIcon(s) {
   return (
     {
-      draft: "fas fa-pen",
-      pending: "fas fa-clock",
-      approved: "fas fa-circle-check",
-      rejected: "fas fa-circle-xmark",
+      active: "fas fa-circle-check",
+      expiring: "fas fa-clock",
+      expired: "fas fa-circle-xmark",
     }[s] ?? "fas fa-circle"
   );
 }
 
-function statusLabel(s) {
+function certStatusLabel(s) {
   return (
-    {
-      draft: "แบบร่าง",
-      pending: "รอพิจารณา",
-      approved: "อนุมัติ",
-      rejected: "ไม่อนุมัติ",
-    }[s] ?? s
+    { active: "มีผล", expiring: "ใกล้หมดอายุ", expired: "หมดอายุ" }[s] ?? s
   );
 }
 
@@ -561,13 +533,10 @@ function eventIcon(type) {
   return (
     {
       submit: "fas fa-paper-plane",
-      receive: "fas fa-inbox",
-      forward: "fas fa-share",
-      review: "fas fa-magnifying-glass",
-      pending: "fas fa-clock",
       approve: "fas fa-circle-check",
-      reject: "fas fa-circle-xmark",
-      sendback: "fas fa-rotate-left",
+      issue: "fas fa-certificate",
+      renew: "fas fa-rotate",
+      revoke: "fas fa-ban",
     }[type] ?? "fas fa-circle"
   );
 }
@@ -576,13 +545,10 @@ function eventColor(type) {
   return (
     {
       submit: "export-user",
-      receive: "info",
-      forward: "export-user",
-      review: "warning",
-      pending: "warning",
       approve: "success",
-      reject: "error",
-      sendback: "orange",
+      issue: "export-user",
+      renew: "info",
+      revoke: "error",
     }[type] ?? "grey"
   );
 }
@@ -591,24 +557,16 @@ function eventLabel(type) {
   return (
     {
       submit: "ยื่นคำขอ",
-      receive: "รับเรื่อง",
-      forward: "ส่งต่อ",
-      review: "กำลังพิจารณา",
-      pending: "รอพิจารณา",
       approve: "อนุมัติ",
-      reject: "ไม่อนุมัติ",
-      sendback: "ส่งกลับ",
+      issue: "ออกใบทะเบียน",
+      renew: "ต่ออายุ",
+      revoke: "เพิกถอน",
     }[type] ?? type
   );
 }
 </script>
 
 <style scoped>
-div {
-  --step-color: rgb(var(--v-theme-export-user));
-  --step-color-tint: rgba(var(--v-theme-export-user), 0.2);
-}
-
 .section-header {
   display: flex;
   align-items: center;
@@ -632,38 +590,6 @@ div {
   border: 1px solid rgba(var(--v-theme-on-surface), 0.08);
 }
 
-.step-circle {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  font-weight: 600;
-}
-.step-line {
-  height: 2px;
-  background: rgba(var(--v-theme-on-surface), 0.15);
-  margin: 0 4px;
-  margin-bottom: 20px;
-}
-.step-pending {
-  background: rgba(var(--v-theme-on-surface), 0.12);
-  color: rgba(var(--v-theme-on-surface), 0.5);
-}
-.step-done,
-.step-active {
-  background: rgb(var(--v-theme-export-user)) !important;
-  color: white !important;
-}
-.step-active {
-  box-shadow: 0 0 0 4px rgba(var(--v-theme-export-user), 0.2) !important;
-}
-.step-line--done {
-  background: rgb(var(--v-theme-export-user)) !important;
-}
-
 /* Activity timeline */
 .activity-timeline {
   padding-left: 4px;
@@ -679,46 +605,34 @@ div {
   flex-shrink: 0;
 }
 .activity-dot {
-  width: 28px;
-  height: 28px;
+  width: 26px;
+  height: 26px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  z-index: 1;
 }
 .activity-dot--submit {
   background: rgb(var(--v-theme-export-user));
 }
-.activity-dot--receive {
-  background: rgb(var(--v-theme-info));
-}
-.activity-dot--forward {
-  background: rgb(var(--v-theme-export-user));
-}
-.activity-dot--review {
-  background: rgb(var(--v-theme-warning));
-}
-.activity-dot--pending {
-  background: rgb(var(--v-theme-warning));
-}
 .activity-dot--approve {
   background: rgb(var(--v-theme-success));
 }
-.activity-dot--reject {
+.activity-dot--issue {
+  background: rgb(var(--v-theme-export-user));
+}
+.activity-dot--renew {
+  background: rgb(var(--v-theme-info));
+}
+.activity-dot--revoke {
   background: rgb(var(--v-theme-error));
 }
-.activity-dot--sendback {
-  background: #fb8c00;
-}
-
 .activity-line {
   width: 2px;
   flex-grow: 1;
   background: rgba(var(--v-theme-on-surface), 0.12);
   margin-top: 4px;
-  margin-bottom: 0;
   min-height: 20px;
 }
 .activity-content {

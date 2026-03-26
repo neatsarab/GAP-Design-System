@@ -620,11 +620,18 @@ const router = createRouter({
                     path: "certificates",
                     name: "ExportUserCertificates",
                     component: () => import("@/views/export/user/CertificatePage.vue"),
-                    meta: { title: "ใบรับรองผู้ส่งออกของฉัน" },
+                    meta: { title: "รายการใบรับรอง" },
                 },
+                {
+                    path: "certificates/:id",
+                    name: "ExportUserCertificateDetail",
+                    component: () =>
+                        import("@/views/export/user/CertificateDetailPage.vue"),
+                    meta: { title: "รายละเอียดใบทะเบียน" },
+                }
+
             ],
         },
-
         // ── Export Staff System ───────────────────────────
         {
             path: "/export/staff",
