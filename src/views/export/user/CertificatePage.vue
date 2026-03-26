@@ -3,9 +3,9 @@
     <!-- Header -->
     <div class="d-flex align-center justify-space-between mb-5 flex-wrap ga-3">
       <div>
-        <h1 class="page-title mb-1">ใบรับรอง</h1>
+        <h1 class="page-title mb-1">รายการใบรับรอง</h1>
         <p class="text-body-2 text-medium-emphasis mb-0">
-          รายการใบรับรองการจดทะเบียนผู้ส่งออกที่ได้รับการอนุมัติ
+          การจดทะเบียนผู้ส่งออกสินค้าพืชที่ได้รับการอนุมัติ
         </p>
       </div>
       <v-btn variant="tonal" color="export-user" prepend-icon="fas fa-download"
@@ -26,10 +26,15 @@
                 <v-icon :icon="s.icon" :color="s.color" size="20" />
               </div>
               <div>
-                <div class="text-h5 font-weight-bold" :class="`text-${s.color}`">
+                <div
+                  class="text-h5 font-weight-bold"
+                  :class="`text-${s.color}`"
+                >
                   {{ s.value }}
                 </div>
-                <div class="text-caption text-medium-emphasis">{{ s.label }}</div>
+                <div class="text-caption text-medium-emphasis">
+                  {{ s.label }}
+                </div>
               </div>
             </v-card-text>
           </v-card>
@@ -41,14 +46,14 @@
     <v-card rounded="xl" elevation="0" class="mb-4 filter-card">
       <v-card-text class="pa-4">
         <v-row dense align="center">
-          <v-col cols="12" sm="6" md="6">
+          <v-col cols="12" sm="6" md="3">
             <div class="field-label">
-              <div>ค้นหา</div>
-              <div class="field-label-en">Search</div>
+              <div>เลขทะเบียน</div>
+              <div class="field-label-en">Certificate No.</div>
             </div>
             <v-text-field
               v-model="search"
-              placeholder="ค้นหาเลขคำขอ / ผู้ยื่นคำขอ"
+              placeholder="ค้นหาเลขทะเบียน"
               prepend-inner-icon="fas fa-search"
               variant="outlined"
               density="compact"
@@ -59,12 +64,28 @@
           </v-col>
           <v-col cols="12" sm="6" md="3">
             <div class="field-label">
-              <div>ประเภทคำขอ</div>
-              <div class="field-label-en">Request Type</div>
+              <div>เลขคำขอ</div>
+              <div class="field-label-en">Request No.</div>
+            </div>
+            <v-text-field
+              v-model="search"
+              placeholder="ค้นหาเลขคำขอ"
+              prepend-inner-icon="fas fa-search"
+              variant="outlined"
+              density="compact"
+              rounded="lg"
+              hide-details
+              clearable
+            />
+          </v-col>
+          <v-col cols="12" sm="6" md="6">
+            <div class="field-label">
+              <div>ประเภททะเบียน</div>
+              <div class="field-label-en">Certificate Type</div>
             </div>
             <v-autocomplete
-              v-model="filterType"
-              :items="typeOptions"
+              v-model="filterTypecert"
+              :items="typecertOptions"
               item-title="label"
               item-value="value"
               placeholder="ทั้งหมด"
@@ -181,18 +202,152 @@
 
     <!-- Table -->
     <v-card rounded="xl" elevation="0" class="data-card">
-      <v-data-table
-        :headers="headers"
-        :items="filteredItems"
-        :search="search"
-        hover
-      >
-        <template #item.requestNo="{ item }">
+      <v-data-table :headers="headers" :items="filteredItems" hover>
+        <template #header.certNo="{ column, isSorted, getSortIcon }">
+          <span class="d-inline-flex align-center ga-1">
+            <span>
+              <div
+                class="text-body-2 font-weight-medium"
+                style="line-height: 1.3"
+              >
+                เลขทะเบียน
+              </div>
+              <div
+                class="text-caption text-medium-emphasis"
+                style="line-height: 1.2"
+              >
+                Certificate No.
+              </div>
+            </span>
+            <v-icon
+              v-if="isSorted(column)"
+              :icon="getSortIcon(column)"
+              size="14"
+            />
+          </span>
+        </template>
+        <template #header.requestNo="{ column, isSorted, getSortIcon }">
+          <span class="d-inline-flex align-center ga-1">
+            <span>
+              <div
+                class="text-body-2 font-weight-medium"
+                style="line-height: 1.3"
+              >
+                เลขคำขอ
+              </div>
+              <div
+                class="text-caption text-medium-emphasis"
+                style="line-height: 1.2"
+              >
+                Request No.
+              </div>
+            </span>
+            <v-icon
+              v-if="isSorted(column)"
+              :icon="getSortIcon(column)"
+              size="14"
+            />
+          </span>
+        </template>
+        <template #header.typecert="{ column, isSorted, getSortIcon }">
+          <span class="d-inline-flex align-center ga-1">
+            <span>
+              <div
+                class="text-body-2 font-weight-medium"
+                style="line-height: 1.3"
+              >
+                ประเภททะเบียน
+              </div>
+              <div
+                class="text-caption text-medium-emphasis"
+                style="line-height: 1.2"
+              >
+                Certificate Type
+              </div>
+            </span>
+            <v-icon
+              v-if="isSorted(column)"
+              :icon="getSortIcon(column)"
+              size="14"
+            />
+          </span>
+        </template>
+        <template #header.issueDate="{ column, isSorted, getSortIcon }">
+          <span class="d-inline-flex align-center ga-1">
+            <span>
+              <div
+                class="text-body-2 font-weight-medium"
+                style="line-height: 1.3"
+              >
+                วันที่ออก
+              </div>
+              <div
+                class="text-caption text-medium-emphasis"
+                style="line-height: 1.2"
+              >
+                Issue Date
+              </div>
+            </span>
+            <v-icon
+              v-if="isSorted(column)"
+              :icon="getSortIcon(column)"
+              size="14"
+            />
+          </span>
+        </template>
+        <template #header.expireDate="{ column, isSorted, getSortIcon }">
+          <span class="d-inline-flex align-center ga-1">
+            <span>
+              <div
+                class="text-body-2 font-weight-medium"
+                style="line-height: 1.3"
+              >
+                วันหมดอายุ
+              </div>
+              <div
+                class="text-caption text-medium-emphasis"
+                style="line-height: 1.2"
+              >
+                Expire Date
+              </div>
+            </span>
+            <v-icon
+              v-if="isSorted(column)"
+              :icon="getSortIcon(column)"
+              size="14"
+            />
+          </span>
+        </template>
+        <template #header.status="{ column, isSorted, getSortIcon }">
+          <span class="d-inline-flex align-center ga-1">
+            <span>
+              <div
+                class="text-body-2 font-weight-medium"
+                style="line-height: 1.3"
+              >
+                สถานะ
+              </div>
+              <div
+                class="text-caption text-medium-emphasis"
+                style="line-height: 1.2"
+              >
+                Status
+              </div>
+            </span>
+            <v-icon
+              v-if="isSorted(column)"
+              :icon="getSortIcon(column)"
+              size="14"
+            />
+          </span>
+        </template>
+
+        <template #item.certNo="{ item }">
           <span class="text-body-2 font-weight-medium text-export-user">{{
-            item.requestNo
+            item.certNo
           }}</span>
         </template>
-        <template #item.type="{ item }">{{ typeLabel(item.type) }}</template>
+
         <template #item.status="{ item }">
           <v-chip
             :color="statusColor(item.status)"
@@ -217,19 +372,35 @@
         </template>
         <template #item.actions="{ item }">
           <div class="d-flex ga-1">
-            <v-btn
-              size="small"
-              variant="text"
-              color="export-user"
-              icon="fas fa-eye"
-            />
-            <v-btn
-              size="small"
-              variant="text"
-              color="success"
-              icon="fas fa-download"
-              :disabled="item.status === 'expired'"
-            />
+            <v-tooltip text="ดูรายละเอียด" location="top">
+              <template #activator="{ props }">
+                <v-btn
+                  v-bind="props"
+                  icon
+                  size="x-small"
+                  variant="text"
+                  color="export-user"
+                  @click.stop
+                >
+                  <v-icon icon="fas fa-eye" size="14" />
+                </v-btn>
+              </template>
+            </v-tooltip>
+            <v-tooltip text="ดาวน์โหลด" location="top">
+              <template #activator="{ props }">
+                <v-btn
+                  v-bind="props"
+                  icon
+                  size="x-small"
+                  variant="text"
+                  color="success"
+                  :disabled="item.status === 'expired'"
+                  @click.stop
+                >
+                  <v-icon icon="fas fa-download" size="14" />
+                </v-btn>
+              </template>
+            </v-tooltip>
           </div>
         </template>
       </v-data-table>
@@ -246,7 +417,7 @@ const { current: vuetifyLocale } = useLocale();
 vuetifyLocale.value = "th";
 
 const search = ref("");
-const filterType = ref(null);
+const filterTypecert = ref(null);
 const filterStatus = ref(null);
 
 const expireFromMenu = ref(false);
@@ -287,18 +458,46 @@ const statusOptions = [
   { label: "หมดอายุ", value: "expired" },
 ];
 
-const typeOptions = [
-  { label: "ก.ก.1", value: "kk1" },
-  { label: "สมพ.5", value: "smpv5" },
-  { label: "สมพ.5 (กรณีอื่น)", value: "smpv5_other" },
-  { label: "ขอแก้ไขใบรับรอง", value: "amendment" },
+const typecertOptions = [
+  {
+    label: "คำขอหนังสือสำคัญแสดงการขึ้นทะเบียนเป็นผู้ส่งออกผักและผลไม้",
+    value: "คำขอหนังสือสำคัญแสดงการขึ้นทะเบียนเป็นผู้ส่งออกผักและผลไม้",
+  },
+  {
+    label:
+      "คำขอหนังสือสำคัญแสดงการจดทะเบียนเป็นผู้ส่งออกกล้วยสดไปประเทศญี่ปุ่น",
+    value:
+      "คำขอหนังสือสำคัญแสดงการจดทะเบียนเป็นผู้ส่งออกกล้วยสดไปประเทศญี่ปุ่น",
+  },
+  {
+    label:
+      "คำขอหนังสือสำคัญแสดงการจดทะเบียนเป็นผู้ส่งผลทุเรียนสดออกไปนอกราชอาณาจักร",
+    value:
+      "คำขอหนังสือสำคัญแสดงการจดทะเบียนเป็นผู้ส่งผลทุเรียนสดออกไปนอกราชอาณาจักร",
+  },
+  {
+    label: "คำขอจดทะเบียนเป็นผู้ส่งออกสินค้าเกษตรไปนอกราชอาณาจักร",
+    value: "คำขอจดทะเบียนเป็นผู้ส่งออกสินค้าเกษตรไปนอกราชอาณาจักร",
+  },
+  {
+    label:
+      "คำขอหนังสือสำคัญการจดทะเบียนเป็นผู้ส่งออกลูกเดือย, เมล็ดแมงลัก และพริกแห้ง ไปนอกราชอาณาจักร",
+    value:
+      "คำขอหนังสือสำคัญการจดทะเบียนเป็นผู้ส่งออกลูกเดือย, เมล็ดแมงลัก และพริกแห้ง ไปนอกราชอาณาจักร",
+  },
+  {
+    label: "คำร้องขึ้นทะเบียนเป็นผู้ส่งออกพืชควบคุม",
+    value: "คำร้องขึ้นทะเบียนเป็นผู้ส่งออกพืชควบคุม",
+  },
 ];
 
 const allItems = [
   {
     id: "EXP-2569-005",
+    certNo: "EXP-2569-005",
     requestNo: "EXP-0005",
-    type: "amendment",
+    typecert: "คำขอหนังสือสำคัญแสดงการขึ้นทะเบียนเป็นผู้ส่งออกผักและผลไม้",
+    type: "แก้ไข",
     applicant: "บ.ไทย เอ็กซ์พอร์ต จก.",
     issueDate: "15/03/2569",
     expireDate: "14/03/2571",
@@ -306,8 +505,10 @@ const allItems = [
   },
   {
     id: "EXP-2569-010",
+    certNo: "EXP-2569-010",
     requestNo: "EXP-0010",
-    type: "smpv5",
+    typecert: "คำร้องขึ้นทะเบียนเป็นผู้ส่งออกพืชควบคุม",
+    type: "ขึ้นทะเบียน",
     applicant: "บ.ไทย เอ็กซ์พอร์ต จก.",
     issueDate: "01/06/2569",
     expireDate: "01/03/2569",
@@ -315,8 +516,11 @@ const allItems = [
   },
   {
     id: "EXP-2569-003",
+    certNo: "EXP-2569-003",
     requestNo: "EXP-0003",
-    type: "kk1",
+    typecert:
+      "คำขอหนังสือสำคัญแสดงการจดทะเบียนเป็นผู้ส่งผลทุเรียนสดออกไปนอกราชอาณาจักร",
+    type: "ต่ออายุ",
     applicant: "บ.ไทย เอ็กซ์พอร์ต จก.",
     issueDate: "20/02/2566",
     expireDate: "19/02/2566",
@@ -357,8 +561,16 @@ function countByStatus(s) {
 
 const filteredItems = computed(() => {
   let items = allItems;
-  if (filterType.value)
-    items = items.filter((i) => i.type === filterType.value);
+  if (search.value) {
+    const q = search.value.toLowerCase();
+    items = items.filter((i) => i.certNo.toLowerCase().includes(q));
+  }
+  if (search.value) {
+    const q = search.value.toLowerCase();
+    items = items.filter((i) => i.requestNo.toLowerCase().includes(q));
+  }
+  if (filterTypecert.value)
+    items = items.filter((i) => i.typecert === filterTypecert.value);
   if (filterStatus.value)
     items = items.filter((i) => i.status === filterStatus.value);
   if (filterExpireFrom.value) {
@@ -374,32 +586,22 @@ const filteredItems = computed(() => {
 
 function clearFilters() {
   search.value = "";
-  filterType.value = null;
+  filterTypecert.value = null;
   filterStatus.value = null;
   expireFromObj.value = null;
   expireToObj.value = null;
 }
 
 const headers = [
+  { title: "เลขทะเบียน", key: "certNo", sortable: true, width: "130" },
   { title: "เลขคำขอ", key: "requestNo", sortable: true },
-  { title: "ประเภทคำขอ", key: "type", sortable: true },
-  { title: "ผู้ยื่นคำขอ", key: "applicant", sortable: true },
+  { title: "ประเภททะเบียน", key: "typecert", sortable: true },
   { title: "วันที่ออก", key: "issueDate", sortable: true },
   { title: "วันหมดอายุ", key: "expireDate", sortable: true },
   { title: "สถานะ", key: "status", sortable: false },
   { title: "", key: "actions", sortable: false, align: "end" },
 ];
 
-function typeLabel(t) {
-  return (
-    {
-      kk1: "ก.ก.1",
-      smpv5: "สมพ.5",
-      smpv5_other: "สมพ.5 (กรณีอื่น)",
-      amendment: "ขอแก้ไขใบรับรอง",
-    }[t] ?? t
-  );
-}
 function statusColor(s) {
   return (
     { active: "success", expiring: "warning", expired: "error" }[s] ?? "grey"
