@@ -5,7 +5,7 @@
       <div>
         <h1 class="page-title mb-1">รายการใบรับรอง</h1>
         <p class="text-body-2 text-medium-emphasis mb-0">
-          การจดทะเบียนผู้ส่งออกสินค้าพืชที่ได้รับการอนุมัติ
+          การจดทะเบียนผู้ส่งออกสินค้าพืช
         </p>
       </div>
       <v-btn variant="tonal" color="export-user" prepend-icon="fas fa-download"
@@ -52,7 +52,7 @@
               <div class="field-label-en">Certificate No.</div>
             </div>
             <v-text-field
-              v-model="search"
+              v-model="searchCert"
               placeholder="ค้นหาเลขทะเบียน"
               prepend-inner-icon="fas fa-search"
               variant="outlined"
@@ -68,7 +68,7 @@
               <div class="field-label-en">Request No.</div>
             </div>
             <v-text-field
-              v-model="search"
+              v-model="searchRequest"
               placeholder="ค้นหาเลขคำขอ"
               prepend-inner-icon="fas fa-search"
               variant="outlined"
@@ -380,7 +380,12 @@
                   size="x-small"
                   variant="text"
                   color="export-user"
-                  @click.stop="router.push({ name: 'ExportUserCertificateDetail', params: { id: item.certNo } })"
+                  @click.stop="
+                    router.push({
+                      name: 'ExportUserCertificateDetail',
+                      params: { id: item.certNo },
+                    })
+                  "
                 >
                   <v-icon icon="fas fa-eye" size="14" />
                 </v-btn>
@@ -409,7 +414,6 @@
 </template>
 
 <script setup>
-// @ts-nocheck
 import { ref, computed, watch } from "vue";
 import { useRouter } from "vue-router";
 import { useLocale } from "vuetify";
@@ -419,7 +423,8 @@ const router = useRouter();
 const { current: vuetifyLocale } = useLocale();
 vuetifyLocale.value = "th";
 
-const search = ref("");
+const searchCert = ref("");
+const searchRequest = ref("");
 const filterTypecert = ref(null);
 const filterStatus = ref(null);
 
@@ -427,6 +432,9 @@ const expireFromMenu = ref(false);
 const expireFromObj = ref(null);
 const expireToMenu = ref(false);
 const expireToObj = ref(null);
+
+const filterExpireFrom = ref("");
+const filterExpireTo = ref("");
 
 function dateToBE(date) {
   if (!date) return "";
@@ -451,9 +459,6 @@ watch(expireFromObj, (v) => {
 watch(expireToObj, (v) => {
   filterExpireTo.value = v ? v.toISOString().slice(0, 10) : "";
 });
-
-const filterExpireFrom = ref("");
-const filterExpireTo = ref("");
 
 const statusOptions = [
   { label: "มีผล", value: "active" },
@@ -564,12 +569,12 @@ function countByStatus(s) {
 
 const filteredItems = computed(() => {
   let items = allItems;
-  if (search.value) {
-    const q = search.value.toLowerCase();
+  if (searchCert.value) {
+    const q = searchCert.value.toLowerCase();
     items = items.filter((i) => i.certNo.toLowerCase().includes(q));
   }
-  if (search.value) {
-    const q = search.value.toLowerCase();
+  if (searchRequest.value) {
+    const q = searchRequest.value.toLowerCase();
     items = items.filter((i) => i.requestNo.toLowerCase().includes(q));
   }
   if (filterTypecert.value)
@@ -588,7 +593,8 @@ const filteredItems = computed(() => {
 });
 
 function clearFilters() {
-  search.value = "";
+  searchCert.value = "";
+  searchRequest.value = "";
   filterTypecert.value = null;
   filterStatus.value = null;
   expireFromObj.value = null;
@@ -601,7 +607,7 @@ const headers = [
   { title: "ประเภททะเบียน", key: "typecert", sortable: true },
   { title: "วันที่ออก", key: "issueDate", sortable: true },
   { title: "วันหมดอายุ", key: "expireDate", sortable: true },
-  { title: "สถานะ", key: "status", sortable: false },
+  { title: "สถานะ", key: "status", sortable: true },
   { title: "", key: "actions", sortable: false, align: "end" },
 ];
 

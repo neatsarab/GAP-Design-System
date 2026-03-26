@@ -73,13 +73,8 @@
       <v-col cols="12" md="8">
         <!-- ข้อมูลคำขอ -->
         <v-card rounded="xl" elevation="0" class="section-card mb-4">
-          <div class="section-header px-4 py-3 border-b">
-            <v-icon
-              icon="fas fa-list-check"
-              color="export-user"
-              size="15"
-              class="mr-2"
-            />
+          <div class="section-header px-4 py-3 border-b d-flex align-center ga-2">
+            <v-icon icon="fas fa-list-check" color="export-user" size="15" />
             <span class="text-subtitle-2 font-weight-bold">ข้อมูลคำขอ</span>
           </div>
           <v-card-text class="pa-4">

@@ -143,7 +143,7 @@ const stats = [
     label: "คำขอทั้งหมด",
     value: 56,
     icon: "fas fa-file-lines",
-    iconColor: "primary",
+    iconColor: "export-staff",
   },
   { label: "รอตรวจสอบ", value: 11, icon: "fas fa-clock", iconColor: "warning" },
   {
@@ -162,55 +162,55 @@ const stats = [
 
 const pendingApplications = [
   {
-    id: "EXP-2569-00020",
-    requestNo: "EXP-2569-00020",
+    id: "EXP-0020",
+    requestNo: "EXP-0020",
     companyName: "บ.สยาม เอ็กซ์พอร์ต จก.",
     productCategory: "ทุเรียนสด",
     submittedDate: "11 มี.ค. 2569",
-    status: "submitted",
+    status: "pending",
   },
   {
-    id: "EXP-2569-00019",
-    requestNo: "EXP-2569-00019",
+    id: "EXP-0019",
+    requestNo: "EXP-0019",
     companyName: "บ.ไทยแลนด์ ฟรุ๊ต จก.",
     productCategory: "มังคุดสด",
     submittedDate: "8 มี.ค. 2569",
-    status: "under_review",
+    status: "reviewing",
   },
   {
-    id: "EXP-2569-00018",
-    requestNo: "EXP-2569-00018",
+    id: "EXP-0018",
+    requestNo: "EXP-0018",
     companyName: "บ.เอเชียแอกโกร จก.",
     productCategory: "ผักออร์แกนิก",
     submittedDate: "4 มี.ค. 2569",
-    status: "revision_required",
+    status: "need_edit",
   },
   {
-    id: "EXP-2569-00017",
-    requestNo: "EXP-2569-00017",
+    id: "EXP-0017",
+    requestNo: "EXP-0017",
     companyName: "บ.กรีนฟาร์ม จก.",
     productCategory: "ลำไยสด",
     submittedDate: "1 มี.ค. 2569",
-    status: "under_review",
+    status: "signing",
   },
 ];
 
 const statusBars = [
-  { label: "อนุมัติแล้ว", value: 38, pct: 68, color: "success" },
   { label: "รอตรวจสอบ", value: 11, pct: 20, color: "warning" },
-  { label: "รอแก้ไข", value: 4, pct: 7, color: "error" },
-  { label: "ปฏิเสธ", value: 3, pct: 5, color: "secondary" },
+  { label: "รอแก้ไข", value: 4, pct: 7, color: "info" },
+  { label: "อนุมัติแล้ว", value: 38, pct: 68, color: "success" },
+  { label: "ปฏิเสธ", value: 3, pct: 5, color: "error" },
 ];
 
 function statusColor(status) {
   const map = {
     draft: "grey",
-    submitted: "primary",
-    under_review: "info",
-    inspection_scheduled: "secondary",
+    pending: "warning",
+    need_edit: "info",
+    reviewing: "warning",
+    signing: "warning",
     approved: "success",
     rejected: "error",
-    revision_required: "warning",
   };
   return map[status] ?? "grey";
 }
@@ -218,12 +218,12 @@ function statusColor(status) {
 function statusLabel(status) {
   const map = {
     draft: "แบบร่าง",
-    submitted: "ยื่นแล้ว",
-    under_review: "อยู่ระหว่างตรวจสอบ",
-    inspection_scheduled: "นัดตรวจแล้ว",
-    approved: "อนุมัติแล้ว",
-    rejected: "ไม่ผ่าน",
-    revision_required: "รอแก้ไข",
+    pending: "รอตรวจสอบ",
+    need_edit: "รอแก้ไขคำขอ",
+    reviewing: "รอพิจารณา",
+    signing: "รอลงนาม",
+    approved: "ได้รับอนุญาต",
+    rejected: "ไม่อนุมัติ",
   };
   return map[status] ?? status;
 }

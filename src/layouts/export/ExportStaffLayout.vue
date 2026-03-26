@@ -280,7 +280,7 @@ const navGroups = [
     ],
   },
   {
-    label: "การจัดการ",
+    label: "คำขอ",
     divider: true,
     items: [
       {
@@ -289,9 +289,15 @@ const navGroups = [
         to: "/export/staff/applications",
         count: 11,
       },
+    ],
+  },
+  {
+    label: "ใบรับรอง",
+    divider: true,
+    items: [
       {
-        title: "ทะเบียนผู้ส่งออก",
-        icon: "fas fa-list-check",
+        title: "รายการใบรับรอง",
+        icon: "fas fa-certificate",
         to: "/export/staff/registry",
       },
     ],
