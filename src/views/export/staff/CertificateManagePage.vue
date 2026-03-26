@@ -85,41 +85,75 @@
               </v-radio>
             </v-radio-group>
 
-            <!-- วันที่เริ่มมีผลบังคับ (เฉพาะ เพิกถอน) -->
+            <!-- วันที่เริ่มต้น / วันที่สิ้นสุด (เฉพาะ เพิกถอน) -->
             <template v-if="form.action === 'revoke'">
-              <div class="field-label mb-1 mt-2">
-                <div>วันที่เริ่มมีผลบังคับ</div>
-                <div class="field-label-en">Effective Date</div>
-              </div>
-              <v-menu
-                v-model="effectiveDateMenu"
-                :close-on-content-click="false"
-                min-width="0"
-              >
-                <template #activator="{ props }">
-                  <v-text-field
-                    v-bind="props"
-                    :model-value="effectiveDateBE"
-                    variant="outlined"
-                    density="compact"
-                    rounded="lg"
-                    hide-details
-                    readonly
-                    placeholder="วว/ดด/ปปปป"
-                    prepend-inner-icon="fas fa-calendar"
-                    class="mb-1"
-                  />
-                </template>
-                <v-date-picker
-                  v-model="form.effectiveDate"
-                  hide-header
-                  locale="th"
-                  @update:model-value="effectiveDateMenu = false"
-                />
-              </v-menu>
-              <div class="text-caption text-medium-emphasis mb-4">
+              <v-row dense class="mt-2">
+                <v-col cols="12" sm="6">
+                  <div class="field-label mb-1">
+                    <div>วันที่เริ่มต้น</div>
+                    <div class="field-label-en">Start Date</div>
+                  </div>
+                  <v-menu
+                    v-model="startDateMenu"
+                    :close-on-content-click="false"
+                    min-width="0"
+                  >
+                    <template #activator="{ props }">
+                      <v-text-field
+                        v-bind="props"
+                        :model-value="startDateBE"
+                        variant="outlined"
+                        density="compact"
+                        rounded="lg"
+                        hide-details
+                        readonly
+                        placeholder="วว/ดด/ปปปป"
+                        prepend-inner-icon="fas fa-calendar"
+                      />
+                    </template>
+                    <v-date-picker
+                      v-model="form.startDate"
+                      hide-header
+                      locale="th"
+                      @update:model-value="startDateMenu = false"
+                    />
+                  </v-menu>
+                </v-col>
+                <v-col cols="12" sm="6">
+                  <div class="field-label mb-1">
+                    <div>วันที่สิ้นสุด</div>
+                    <div class="field-label-en">End Date</div>
+                  </div>
+                  <v-menu
+                    v-model="endDateMenu"
+                    :close-on-content-click="false"
+                    min-width="0"
+                  >
+                    <template #activator="{ props }">
+                      <v-text-field
+                        v-bind="props"
+                        :model-value="endDateBE"
+                        variant="outlined"
+                        density="compact"
+                        rounded="lg"
+                        hide-details
+                        readonly
+                        placeholder="วว/ดด/ปปปป"
+                        prepend-inner-icon="fas fa-calendar"
+                      />
+                    </template>
+                    <v-date-picker
+                      v-model="form.endDate"
+                      hide-header
+                      locale="th"
+                      @update:model-value="endDateMenu = false"
+                    />
+                  </v-menu>
+                </v-col>
+              </v-row>
+              <div class="text-caption text-medium-emphasis mt-1 mb-4">
                 <v-icon icon="fas fa-circle-info" size="11" class="mr-1" />
-                จำนวน {{ daysFromToday }} วัน
+                จำนวน {{ daysBetween }} วัน
               </div>
             </template>
 
@@ -319,33 +353,34 @@ vuetifyLocale.value = "th";
 const confirmDialog = ref(false);
 const successDialog = ref(false);
 
-const defaultEffectiveDate = new Date();
-defaultEffectiveDate.setDate(defaultEffectiveDate.getDate() + 0); //กำหนดจำนวนวันที่ต้องการให้บวกเพิ่มไปอีก ตรงหลัง +
-
-const effectiveDateMenu = ref(false);
+const startDateMenu = ref(false);
+const endDateMenu = ref(false);
 
 const form = reactive({
   action: route.query.status ?? null,
   files: [],
   remark: "",
-  effectiveDate: defaultEffectiveDate,
+  startDate: new Date(),
+  endDate: (() => { const d = new Date(); d.setDate(d.getDate() + 180); return d; })(),
 });
 
-const effectiveDateBE = computed(() => {
-  const d = form.effectiveDate;
+function toDateBEStr(d) {
   if (!d) return "";
   const dd = String(d.getDate()).padStart(2, "0");
   const mm = String(d.getMonth() + 1).padStart(2, "0");
   return `${dd}/${mm}/${d.getFullYear() + 543}`;
-});
+}
 
-const daysFromToday = computed(() => {
-  if (!form.effectiveDate) return 0;
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const target = new Date(form.effectiveDate);
-  target.setHours(0, 0, 0, 0);
-  return Math.round((target - today) / 86400000);
+const startDateBE = computed(() => toDateBEStr(form.startDate));
+const endDateBE = computed(() => toDateBEStr(form.endDate));
+
+const daysBetween = computed(() => {
+  if (!form.startDate || !form.endDate) return 0;
+  const s = new Date(form.startDate);
+  s.setHours(0, 0, 0, 0);
+  const e = new Date(form.endDate);
+  e.setHours(0, 0, 0, 0);
+  return Math.max(0, Math.round((e - s) / 86400000));
 });
 
 const actionMap = {

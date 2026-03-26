@@ -75,8 +75,8 @@
           <v-tab value="info" prepend-icon="fas fa-file-lines"
             >ข้อมูลคำขอ</v-tab
           >
-          <v-tab value="review" prepend-icon="fas fa-clipboard-check">
-            บันทึกผลการตรวจสอบ
+          <v-tab value="review" prepend-icon="fas fa-scale-balanced">
+            บันทึกผลการพิจารณา
           </v-tab>
         </v-tabs>
 
@@ -409,132 +409,92 @@
             </v-card>
           </v-window-item>
 
-          <!-- ── Tab 2: บันทึกผลการตรวจสอบ ── -->
+          <!-- ── Tab 2: บันทึกผลการพิจารณา ── -->
           <v-window-item value="review">
             <v-card rounded="xl" elevation="0" class="section-card">
               <v-card-text class="pa-5">
-                <!-- ผลการตรวจสอบ -->
-                <div class="field-label mb-1">
-                  <div>ผลการตรวจสอบ</div>
-                  <div class="field-label-en">Review Result</div>
-                </div>
-                <v-radio-group
-                  v-model="step1Review.result"
-                  color="export-staff"
-                  inline
-                >
-                  <v-radio value="pass" class="mr-6">
-                    <template #label>
-                      <div class="d-flex align-center ga-2">
-                        <v-icon
-                          icon="fas fa-circle-check"
-                          color="success"
-                          size="18"
-                        />
-                        <span class="font-weight-medium">ผ่าน</span>
-                      </div>
-                    </template>
-                  </v-radio>
-                  <v-radio value="improve" class="mr-6">
-                    <template #label>
-                      <div class="d-flex align-center ga-2">
-                        <v-icon
-                          icon="fas fa-circle-exclamation"
-                          color="warning"
-                          size="18"
-                        />
-                        <span class="font-weight-medium">ปรับปรุง</span>
-                      </div>
-                    </template>
-                  </v-radio>
-                  <v-radio value="fail">
-                    <template #label>
-                      <div class="d-flex align-center ga-2">
-                        <v-icon
-                          icon="fas fa-circle-xmark"
-                          color="error"
-                          size="18"
-                        />
-                        <span class="font-weight-medium">ไม่ผ่าน</span>
-                      </div>
-                    </template>
-                  </v-radio>
-                </v-radio-group>
-
-                <!-- หมายเหตุ -->
-                <div class="field-label mb-1">
-                  <div>หมายเหตุ</div>
-                  <div class="field-label-en">Remarks</div>
-                </div>
-                <v-textarea
-                  v-model="step1Review.remark"
-                  variant="outlined"
-                  density="compact"
-                  rounded="lg"
-                  hide-details
-                  rows="4"
-                  placeholder="ระบุเหตุผลหรือข้อสังเกต..."
-                  class="mb-5"
-                />
-
-                <!-- แก้ไขภายในระยะเวลา (เฉพาะ ปรับปรุง) -->
-                <template v-if="step1Review.result === 'improve'">
-                  <div class="field-label mb-1">
-                    <div>แก้ไขภายในระยะเวลา</div>
-                    <div class="field-label-en">Deadline</div>
+                <!-- เลขทะเบียน (แสดงเมื่ออนุมัติ) -->
+                <template v-if="reviewResult.result === 'approve'">
+                  <div class="field-label mb-2 mt-3">
+                    <div>เลขทะเบียน</div>
+                    <div class="field-label-en">Certificate Number(s)</div>
                   </div>
-                  <v-menu
-                    v-model="deadlineMenu"
-                    :close-on-content-click="false"
-                    min-width="0"
-                  >
-                    <template #activator="{ props }">
-                      <v-text-field
-                        v-bind="props"
-                        :model-value="deadlineBE"
-                        variant="outlined"
-                        density="compact"
-                        rounded="lg"
-                        hide-details
-                        readonly
-                        placeholder="วว/ดด/ปปปป"
-                        prepend-inner-icon="fas fa-calendar"
-                        class="mb-4"
-                      />
-                    </template>
-                    <v-date-picker
-                      v-model="step1Review.deadline"
-                      hide-header
-                      locale="th"
-                      @update:model-value="deadlineMenu = false"
-                    />
-                  </v-menu>
+                  <div class="text-caption text-medium-emphasis mb-2">
+                    <v-icon icon="fas fa-circle-info" size="11" class="mr-1" />
+                    สร้างเลขทะเบียน 1 เลข ต่อ 1 ขอบเขตประเทศ —
+                    สามารถแก้ไขได้ก่อนยืนยัน
+                  </div>
+                  <v-card variant="outlined" rounded="lg" class="mb-4">
+                    <v-table density="compact">
+                      <thead>
+                        <tr>
+                          <th style="width: 180px">ขอบเขตประเทศ</th>
+                          <th>เลขทะเบียน</th>
+                          <th style="width: 48px"></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr v-for="(item, idx) in certNumbers" :key="idx">
+                          <td>
+                            <v-chip
+                              size="small"
+                              color="export-staff"
+                              variant="tonal"
+                              >{{ item.country }}</v-chip
+                            >
+                          </td>
+                          <td class="py-1">
+                            <v-text-field
+                              v-model="item.certNo"
+                              variant="outlined"
+                              density="compact"
+                              rounded="lg"
+                              hide-details
+                              style="min-width: 180px; max-width: 260px"
+                            />
+                          </td>
+                          <td>
+                            <v-btn
+                              size="small"
+                              variant="tonal"
+                              color="export-staff"
+                              rounded="lg"
+                              prepend-icon="fas fa-eye"
+                              @click="previewCertPdf(item)"
+                            >
+                              ดูตัวอย่าง
+                            </v-btn>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </v-table>
+                  </v-card>
                 </template>
 
                 <!-- Action buttons inline -->
                 <v-row class="ga-2" no-gutters>
-                  <v-col v-if="step1Review.result !== 'pass'">
-                    <v-btn
-                      color="warning"
-                      variant="tonal"
-                      block
-                      rounded="lg"
-                      prepend-icon="fas fa-rotate-left"
-                      @click="sendBackDialog = true"
-                    >
-                      ส่งกลับแก้ไข
-                    </v-btn>
-                  </v-col>
-                  <v-col v-if="step1Review.result === 'pass'">
+                  <v-col v-if="reviewResult.result === 'approve'">
                     <v-btn
                       color="export-staff"
                       variant="flat"
                       block
                       rounded="lg"
-                      prepend-icon="fas fa-paper-plane"
-                      @click="forwardDialog = true"
+                      prepend-icon="fas fa-pen-nib"
+                      @click="approveDialog = true"
                     >
-                      ส่งต่อพิจารณา
+                      ส่งลงนาม
+                    </v-btn>
+                  </v-col>
+                  <v-col v-if="reviewResult.result === 'reject'">
+                    <v-btn
+                      color="error"
+                      variant="tonal"
+                      block
+                      rounded="lg"
+                      prepend-icon="fas fa-circle-xmark"
+                      @click="rejectDialog = true"
+                    >
+                      ไม่อนุมัติ
                     </v-btn>
                   </v-col>
                 </v-row>
@@ -742,16 +702,16 @@
       </v-card>
     </v-dialog>
 
-    <!-- Forward Dialog -->
-    <v-dialog v-model="forwardDialog" max-width="400">
+    <!-- Approve Dialog -->
+    <v-dialog v-model="approveDialog" max-width="400">
       <v-card rounded="xl">
         <v-card-text class="pa-7 text-center">
           <div class="confirm-ring mx-auto mb-4">
-            <v-icon icon="fas fa-paper-plane" color="export-staff" size="28" />
+            <v-icon icon="fas fa-pen-nib" color="export-staff" size="28" />
           </div>
-          <h3 class="text-h6 font-weight-bold mb-2">ส่งต่อพิจารณา</h3>
+          <h3 class="text-h6 font-weight-bold mb-2">ส่งต่อลงนาม</h3>
           <p class="text-body-2 text-medium-emphasis">
-            ยืนยันการส่งคำขอนี้ไปยังเจ้าหน้าที่พิจารณา
+            ยืนยันการส่งคำขอนี้ไปยังเจ้าหน้าที่ลงนาม
           </p>
         </v-card-text>
         <v-card-actions class="px-6 pb-5">
@@ -762,7 +722,7 @@
                 color="grey"
                 rounded="lg"
                 block
-                @click="forwardDialog = false"
+                @click="approveDialog = false"
                 >ยกเลิก</v-btn
               >
             </v-col>
@@ -771,7 +731,7 @@
                 color="export-staff"
                 rounded="lg"
                 block
-                @click="submitForward"
+                @click="submitApprove"
                 >ยืนยัน</v-btn
               >
             </v-col>
@@ -780,19 +740,19 @@
       </v-card>
     </v-dialog>
 
-    <!-- Send Back Dialog -->
-    <v-dialog v-model="sendBackDialog" max-width="400">
+    <!-- Reject Dialog -->
+    <v-dialog v-model="rejectDialog" max-width="400">
       <v-card rounded="xl">
         <v-card-text class="pa-7 text-center">
           <div
             class="confirm-ring mx-auto mb-4"
-            style="background: rgba(var(--v-theme-warning), 0.1)"
+            style="background: rgba(var(--v-theme-error), 0.1)"
           >
-            <v-icon icon="fas fa-rotate-left" color="warning" size="28" />
+            <v-icon icon="fas fa-circle-xmark" color="error" size="28" />
           </div>
-          <h3 class="text-h6 font-weight-bold mb-2">ส่งกลับแก้ไข</h3>
+          <h3 class="text-h6 font-weight-bold mb-2">ยืนยันการไม่อนุมัติ</h3>
           <p class="text-body-2 text-medium-emphasis">
-            ยืนยันการส่งคำขอกลับให้ผู้ยื่นแก้ไข
+            ยืนยันการไม่อนุมัติคำขอนี้
           </p>
         </v-card-text>
         <v-card-actions class="px-6 pb-5">
@@ -803,12 +763,12 @@
                 color="grey"
                 rounded="lg"
                 block
-                @click="sendBackDialog = false"
+                @click="rejectDialog = false"
                 >ยกเลิก</v-btn
               >
             </v-col>
             <v-col>
-              <v-btn color="warning" rounded="lg" block @click="submitSendBack"
+              <v-btn color="error" rounded="lg" block @click="submitReject"
                 >ยืนยัน</v-btn
               >
             </v-col>
@@ -834,7 +794,7 @@
             color="export-staff"
             rounded="lg"
             block
-            @click="router.push({ name: 'ExportStaffApplicationList' })"
+            @click="router.push({ name: 'ExportStaffReviewList' })"
           >
             กลับรายการคำขอ
           </v-btn>
@@ -945,8 +905,8 @@ const route = useRoute();
 const router = useRouter();
 
 const activeTab = ref("info");
-const forwardDialog = ref(false);
-const sendBackDialog = ref(false);
+const approveDialog = ref(false);
+const rejectDialog = ref(false);
 const successDialog = ref(false);
 const successMessage = ref("");
 
@@ -993,23 +953,81 @@ function openGapDialog(gap) {
   gapDialog.value = true;
 }
 
-const step1Review = reactive({ result: "pass", remark: "", deadline: null });
-const deadlineMenu = ref(false);
-const deadlineBE = computed(() => {
-  if (!step1Review.deadline) return "";
-  const d = step1Review.deadline;
-  const dd = String(d.getDate()).padStart(2, "0");
-  const mm = String(d.getMonth() + 1).padStart(2, "0");
-  return `${dd}/${mm}/${d.getFullYear() + 543}`;
-});
+const reviewResult = reactive({ result: "approve", remark: "" });
+
+function previewCertPdf(item) {
+  const html = `<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <title>ตัวอย่างใบรับรอง ${item.certNo}</title>
+  <style>
+    @page { size: A4; margin: 20mm 25mm; }
+    body { font-family: 'Sarabun', 'TH Sarabun New', sans-serif; font-size: 14pt; color: #1a1a1a; }
+    .center { text-align: center; }
+    .border-box { border: 2px solid #2e7d32; border-radius: 8px; padding: 32px; margin: 16px 0; }
+    .label { font-size: 11pt; color: #555; margin-bottom: 2px; }
+    .value { font-size: 13pt; font-weight: 600; margin-bottom: 14px; }
+    .cert-no { font-size: 18pt; font-weight: 700; color: #2e7d32; border: 2px solid #2e7d32;
+      display: inline-block; padding: 6px 24px; border-radius: 6px; margin: 12px 0; }
+    hr { border: none; border-top: 1px solid #ccc; margin: 16px 0; }
+    .watermark { color: #e0e0e0; font-size: 36pt; font-weight: 700; text-align: center;
+      opacity: 0.5; margin: 8px 0; }
+    .footer { font-size: 10pt; color: #888; text-align: center; margin-top: 24px; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 24px; }
+  </style>
+</head>
+<body>
+  <div class="border-box">
+    <div class="center">
+      <div class="label">กรมวิชาการเกษตร • Department of Agriculture</div>
+      <div style="font-size:16pt;font-weight:700;margin:8px 0">หนังสือสำคัญแสดงการจดทะเบียนผู้ส่งออกสินค้าพืช</div>
+      <div class="label">Certificate of Export Registration</div>
+      <div class="watermark">ร่าง / DRAFT</div>
+      <div class="cert-no">${item.certNo}</div>
+    </div>
+    <hr />
+    <div class="grid">
+      <div>
+        <div class="label">ชื่อสถานประกอบการ</div>
+        <div class="value">${application.companyNameTh}</div>
+      </div>
+      <div>
+        <div class="label">Company Name</div>
+        <div class="value">${application.companyNameEn}</div>
+      </div>
+      <div>
+        <div class="label">ขอบเขตประเทศ / Scope</div>
+        <div class="value">${item.country}</div>
+      </div>
+      <div>
+        <div class="label">ประเภทคำขอ</div>
+        <div class="value">${application.requestType}</div>
+      </div>
+      <div style="grid-column:1/-1">
+        <div class="label">ประเภททะเบียน</div>
+        <div class="value">${application.typecert}</div>
+      </div>
+    </div>
+    <hr />
+    <div class="footer">ตัวอย่างเท่านั้น — เลขทะเบียนอาจเปลี่ยนแปลงได้ก่อนลงนาม</div>
+  </div>
+  <script>window.onload = () => window.print();<\/script>
+</body>
+</html>`;
+  const blob = new Blob([html], { type: "text/html;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  window.open(url, "_blank");
+  setTimeout(() => URL.revokeObjectURL(url), 60_000);
+}
 
 const application = {
   requestNo: "EXP-0001",
   requestType: "ขึ้นทะเบียน",
   submittedDate: "01/01/2569",
   typecert: "คำขอหนังสือสำคัญแสดงการขึ้นทะเบียนเป็นผู้ส่งออกผักและผลไม้",
-  status: "pending",
-  currentStep: 1,
+  status: "reviewing",
+  currentStep: 2,
 
   applicantNameTh: "นายสมชาย ใจดี",
   applicantHouseNo: "123",
@@ -1094,8 +1112,23 @@ const application = {
       remark:
         "เอกสารสำเนาหนังสือรับรองนิติบุคคลไม่ครบถ้วน กรุณาแนบเอกสารฉบับที่ออกโดยกรมพัฒนาธุรกิจการค้าซึ่งออกไม่เกิน 3 เดือน และแก้ไขพิกัดที่ตั้งโรงงานให้ถูกต้องตามทะเบียนโรงงาน",
     },
+    {
+      type: "forward",
+      action: "ผ่านการตรวจสอบ",
+      actor: "น.ส.วรรณา จันทร์ดี (เจ้าหน้าที่ตรวจสอบ)",
+      timestamp: "05/01/2569 11:00",
+    },
   ],
 };
+
+// Generate cert numbers: 1 per country scope
+const certYearBE = new Date().getFullYear() + 543;
+const certNumbers = reactive(
+  application.countries.map((country, i) => ({
+    country,
+    certNo: `EXP-${certYearBE}-${String(i + 1).padStart(3, "0")}`,
+  })),
+);
 
 const applicantAddress = computed(() => {
   const a = application;
@@ -1187,7 +1220,7 @@ function eventColor(type) {
     {
       submit: "export-staff",
       receive: "info",
-      forward: "export-staff",
+      forward: "success",
       review: "warning",
       pending: "warning",
       approve: "success",
@@ -1202,7 +1235,7 @@ function eventLabel(type) {
     {
       submit: "ยื่นคำขอ",
       receive: "รับเรื่อง",
-      forward: "ส่งต่อ",
+      forward: "ผ่าน",
       review: "กำลังพิจารณา",
       pending: "รอพิจารณา",
       approve: "อนุมัติ",
@@ -1212,15 +1245,15 @@ function eventLabel(type) {
   );
 }
 
-function submitForward() {
-  forwardDialog.value = false;
-  successMessage.value = "ส่งต่อคำขอเพื่อพิจารณาเรียบร้อยแล้ว";
+function submitApprove() {
+  approveDialog.value = false;
+  successMessage.value = "อนุมัติคำขอและส่งลงนามเรียบร้อยแล้ว";
   successDialog.value = true;
 }
 
-function submitSendBack() {
-  sendBackDialog.value = false;
-  successMessage.value = "ส่งคำขอกลับให้ผู้ยื่นแก้ไขเรียบร้อยแล้ว";
+function submitReject() {
+  rejectDialog.value = false;
+  successMessage.value = "บันทึกผลการไม่อนุมัติเรียบร้อยแล้ว";
   successDialog.value = true;
 }
 </script>

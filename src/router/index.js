@@ -647,6 +647,12 @@ const router = createRouter({
           meta: { title: "รายละเอียดคำขอผู้ส่งออก" },
         },
         {
+          path: "reviews",
+          name: "ExportStaffReviewList",
+          component: () => import("@/views/export/staff/ReviewListPage.vue"),
+          meta: { title: "รายการรอพิจารณา" },
+        },
+        {
           path: "registry",
           name: "ExportStaffRegistry",
           component: () => import("@/views/export/staff/RegistryPage.vue"),
@@ -665,6 +671,24 @@ const router = createRouter({
           component: () =>
             import("@/views/export/staff/CertificateManagePage.vue"),
           meta: { title: "จัดการใบรับรอง" },
+        },
+        {
+          path: "reviews/:id",
+          name: "ExportStaffReviewDetail",
+          component: () => import("@/views/export/staff/ReviewDetailPage.vue"),
+          meta: { title: "พิจารณาคำขอ" },
+        },
+        {
+          path: "signing",
+          name: "ExportStaffSigningList",
+          component: () => import("@/views/export/staff/SigningListPage.vue"),
+          meta: { title: "รายการรอลงนาม" },
+        },
+        {
+          path: "signing/:id",
+          name: "ExportStaffSigningDetail",
+          component: () => import("@/views/export/staff/SigningDetailPage.vue"),
+          meta: { title: "ลงนามใบรับรอง" },
         },
       ],
     },

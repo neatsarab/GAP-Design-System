@@ -76,7 +76,6 @@
             :prepend-icon="item.icon"
             :title="item.title"
             :to="item.to"
-            :active="isNavActive(item.to)"
             active-color="export-staff"
             rounded="lg"
             class="mb-1"
@@ -258,10 +257,6 @@ function doLogout() {
   router.push({ name: "Login" });
 }
 
-function isNavActive(to) {
-  return route.path === to || route.path.startsWith(to + "/");
-}
-
 const breadcrumbs = computed(() => [
   { title: "ระบบการจดทะเบียนผู้ส่งออกสินค้าพืช", to: "/export/staff" },
   { title: route.meta.title },
@@ -288,6 +283,18 @@ const navGroups = [
         icon: "fas fa-file-lines",
         to: "/export/staff/applications",
         count: 11,
+      },
+      {
+        title: "รายการรอพิจารณา",
+        icon: "fas fa-magnifying-glass",
+        to: "/export/staff/reviews",
+        count: 2,
+      },
+      {
+        title: "รายการรอลงนาม",
+        icon: "fas fa-pen-nib",
+        to: "/export/staff/signing",
+        count: 1,
       },
     ],
   },
