@@ -800,6 +800,181 @@
             บันทึกแบบร่างแล้ว
         </v-snackbar>
     </div>
+
+    <!-- Standard Dialog -->
+    <v-dialog v-model="standardDialog" max-width="560">
+      <v-card rounded="xl">
+        <v-card-title class="pa-5 pb-3 text-body-1 font-weight-bold">
+          <v-icon
+            icon="fas fa-certificate"
+            color="doa-user"
+            class="mr-2"
+            size="18"
+          />
+          {{ standardDialogIndex === -1 ? "เพิ่มมาตรฐาน" : "แก้ไขมาตรฐาน" }}
+        </v-card-title>
+        <v-divider />
+        <v-card-text class="pa-5">
+          <v-row dense>
+            <v-col cols="12">
+              <div class="field-label">
+                <div>ขอบข่ายมาตรฐาน <span class="req">*</span></div>
+                <div class="field-label-en">Standard Scope</div>
+              </div>
+              <v-autocomplete
+                v-model="standardForm.standard"
+                :items="standardOptions"
+                variant="outlined"
+                density="compact"
+                rounded="lg"
+                hide-details
+              />
+            </v-col>
+            <v-col cols="12">
+              <div class="field-label">
+                <div>
+                  หน่วยรับรองที่ให้การรับรองมาตรฐาน <span class="req">*</span>
+                </div>
+                <div class="field-label-en">Certifying Body</div>
+              </div>
+              <v-text-field
+                v-model="standardForm.certBody"
+                variant="outlined"
+                density="compact"
+                rounded="lg"
+                hide-details
+              />
+            </v-col>
+            <v-col cols="12">
+              <div class="field-label">
+                <div>เลขที่ใบรับรอง <span class="req">*</span></div>
+                <div class="field-label-en">Certificate No.</div>
+              </div>
+              <v-text-field
+                v-model="standardForm.certNo"
+                variant="outlined"
+                density="compact"
+                rounded="lg"
+                hide-details
+              />
+            </v-col>
+            <v-col cols="12" md="6">
+              <div class="field-label">
+                <div>วันที่ได้รับการรับรอง</div>
+                <div class="field-label-en">Issue Date</div>
+              </div>
+              <v-text-field
+                v-model="standardForm.issueDate"
+                type="date"
+                variant="outlined"
+                density="compact"
+                rounded="lg"
+                hide-details
+              />
+            </v-col>
+            <v-col cols="12" md="6">
+              <div class="field-label">
+                <div>วันหมดอายุ</div>
+                <div class="field-label-en">Expiry Date</div>
+              </div>
+              <v-text-field
+                v-model="standardForm.expireDate"
+                type="date"
+                variant="outlined"
+                density="compact"
+                rounded="lg"
+                hide-details
+              />
+            </v-col>
+          </v-row>
+        </v-card-text>
+        <v-card-actions class="px-5 pb-5 ga-2">
+          <v-btn
+            variant="tonal"
+            color="grey"
+            rounded="lg"
+            @click="closeStandardDialog"
+            >ยกเลิก</v-btn
+          >
+          <v-spacer />
+          <v-btn color="doa-user" rounded="lg" @click="saveStandard"
+            >บันทึก</v-btn
+          >
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <!-- Confirm Dialog -->
+    <v-dialog v-model="confirmDialog" max-width="420">
+      <v-card rounded="xl">
+        <v-card-text class="pa-7 text-center">
+          <div class="confirm-ring mx-auto mb-4">
+            <v-icon icon="fas fa-paper-plane" color="doa-user" size="32" />
+          </div>
+          <h3 class="text-h6 font-weight-bold mb-2">ยืนยันการยื่นคำขอ</h3>
+          <p class="text-body-2 text-medium-emphasis">
+            ตรวจสอบข้อมูลให้ครบถ้วนก่อนยืนยัน เมื่อยืนยันแล้วจะไม่สามารถแก้ไขได้
+          </p>
+        </v-card-text>
+        <v-card-actions class="px-6 pb-5">
+          <v-row no-gutters class="ga-2 w-100">
+            <v-col>
+              <v-btn
+                variant="tonal"
+                color="grey"
+                rounded="lg"
+                block
+                @click="closeConfirmDialog"
+                >ยกเลิก</v-btn
+              >
+            </v-col>
+            <v-col>
+              <v-btn color="doa-user" rounded="lg" block @click="submitApplication"
+                >ยืนยัน</v-btn
+              >
+            </v-col>
+          </v-row>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <!-- Success Dialog -->
+    <v-dialog v-model="successDialog" max-width="420" persistent>
+      <v-card rounded="xl">
+        <v-card-text class="pa-8 text-center">
+          <div class="success-ring mx-auto mb-4">
+            <v-icon icon="fas fa-check" color="success" size="36" />
+          </div>
+          <h3 class="text-h6 font-weight-bold mb-2">ยื่นคำขอสำเร็จ</h3>
+          <p class="text-body-2 text-medium-emphasis mb-0">
+            ระบบได้รับคำขอของท่านแล้ว เจ้าหน้าที่จะตรวจสอบและติดต่อกลับ
+          </p>
+        </v-card-text>
+        <v-card-actions class="px-6 pb-5">
+          <v-btn
+            color="doa-user"
+            rounded="lg"
+            block
+            @click="goToApplicationList""
+          >
+            ดูรายการคำขอ
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <!-- Draft Snackbar -->
+    <v-snackbar
+      v-model="draftSnackbar"
+      color="success"
+      rounded="lg"
+      timeout="2500"
+      location="top right"
+    >
+      <v-icon icon="fas fa-floppy-disk" class="mr-2" />
+      บันทึกแบบร่างแล้ว
+    </v-snackbar>
+  </div>
 </template>
 
 <script setup>

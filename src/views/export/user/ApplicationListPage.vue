@@ -22,6 +22,22 @@
         <v-row dense align="center">
           <v-col cols="12" sm="6" md="6">
             <div class="field-label">
+              <div>หมายเลขคำขอ</div>
+              <div class="field-label-en">Request No.</div>
+            </div>
+            <v-text-field
+              v-model="search"
+              placeholder="ค้นหาหมายเลขคำขอ"
+              prepend-inner-icon="fas fa-search"
+              variant="outlined"
+              density="compact"
+              rounded="lg"
+              hide-details
+              clearable
+            />
+          </v-col>
+          <v-col cols="12" sm="6" md="6">
+            <div class="field-label">
               <div>ประเภททะเบียน</div>
               <div class="field-label-en">Certificate Type</div>
             </div>
@@ -170,18 +186,52 @@
         rounded="xl"
         hover
       >
-        <template #item.type="{ item }">{{ typeLabel(item.type) }}</template>
-        <template #item.submitterStatus="{ item }">
-          <v-chip
-            :color="
-              item.submitterStatus === 'ตัวแทน' ? 'secondary' : 'export-user'
-            "
-            size="x-small"
-            variant="tonal"
-          >
-            {{ item.submitterStatus }}
-          </v-chip>
+        <template #header.requestNo="{ column, isSorted, getSortIcon }">
+          <span class="d-inline-flex align-center ga-1">
+            <span>
+              <div class="text-body-2 font-weight-medium" style="line-height:1.3">หมายเลขคำขอ</div>
+              <div class="text-caption text-medium-emphasis" style="line-height:1.2">Request No.</div>
+            </span>
+            <v-icon v-if="isSorted(column)" :icon="getSortIcon(column)" size="14" />
+          </span>
         </template>
+        <template #header.typecert="{ column, isSorted, getSortIcon }">
+          <span class="d-inline-flex align-center ga-1">
+            <span>
+              <div class="text-body-2 font-weight-medium" style="line-height:1.3">ประเภททะเบียน</div>
+              <div class="text-caption text-medium-emphasis" style="line-height:1.2">Certificate Type</div>
+            </span>
+            <v-icon v-if="isSorted(column)" :icon="getSortIcon(column)" size="14" />
+          </span>
+        </template>
+        <template #header.type="{ column, isSorted, getSortIcon }">
+          <span class="d-inline-flex align-center ga-1">
+            <span>
+              <div class="text-body-2 font-weight-medium" style="line-height:1.3">ประเภทคำขอ</div>
+              <div class="text-caption text-medium-emphasis" style="line-height:1.2">Request Type</div>
+            </span>
+            <v-icon v-if="isSorted(column)" :icon="getSortIcon(column)" size="14" />
+          </span>
+        </template>
+        <template #header.submittedDate="{ column, isSorted, getSortIcon }">
+          <span class="d-inline-flex align-center ga-1">
+            <span>
+              <div class="text-body-2 font-weight-medium" style="line-height:1.3">วันที่ยื่น</div>
+              <div class="text-caption text-medium-emphasis" style="line-height:1.2">Submit Date</div>
+            </span>
+            <v-icon v-if="isSorted(column)" :icon="getSortIcon(column)" size="14" />
+          </span>
+        </template>
+        <template #header.status="{ column, isSorted, getSortIcon }">
+          <span class="d-inline-flex align-center ga-1">
+            <span>
+              <div class="text-body-2 font-weight-medium" style="line-height:1.3">สถานะคำขอ</div>
+              <div class="text-caption text-medium-emphasis" style="line-height:1.2">Status</div>
+            </span>
+            <v-icon v-if="isSorted(column)" :icon="getSortIcon(column)" size="14" />
+          </span>
+        </template>
+
         <template #item.status="{ item }">
           <v-chip
             :color="statusColor(item.status)"
@@ -250,7 +300,6 @@
 </template>
 
 <script setup>
-// @ts-nocheck
 import { ref, reactive, computed, watch } from "vue";
 import { useRouter } from "vue-router";
 import { useLocale } from "vuetify";
@@ -292,6 +341,7 @@ const customKeySort = {
 };
 
 const router = useRouter();
+const search = ref("");
 
 function goToNewApplication() {
   router.push({ name: "ExportUserApplicationType" });
@@ -309,6 +359,78 @@ const typeOptions = [
   { label: "ขึ้นทะเบียน", value: "ขึ้นทะเบียน" },
   { label: "ต่ออายุ", value: "ต่ออายุ" },
   { label: "แก้ไข", value: "แก้ไข" },
+];
+
+const statusOptions = [
+  { label: "แบบร่าง", value: "draft" },
+  { label: "รอตรวจสอบ", value: "pending" },
+  { label: "รอแก้ไขคำขอ", value: "need_edit" },
+  { label: "รอพิจารณา", value: "reviewing" },
+  { label: "รอลงนาม", value: "signing" },
+  { label: "ได้รับอนุญาต", value: "approved" },
+];
+
+const headers = [
+  { title: "หมายเลขคำขอ", key: "requestNo", sortable: true },
+  { title: "ประเภททะเบียน", key: "typecert", sortable: true },
+  { title: "ประเภทคำขอ", key: "type", sortable: true },
+  { title: "วันที่ยื่น", key: "submittedDate", sortable: true },
+  { title: "สถานะคำขอ", key: "status", sortable: true },
+  { title: "", key: "actions", sortable: false, align: "end" },
+];
+
+const allItems = [
+  {
+    requestNo: "EXP-0001",
+    typecert: "คำขอหนังสือสำคัญแสดงการขึ้นทะเบียนเป็นผู้ส่งออกผักและผลไม้",
+    type: "ขึ้นทะเบียน",
+    applicant: "บ.ไทย เอ็กซ์พอร์ต จก.",
+    submittedDate: "01/01/2569",
+    status: "pending",
+  },
+  {
+    requestNo: "EXP-0002",
+    typecert:
+      "คำขอหนังสือสำคัญแสดงการจดทะเบียนเป็นผู้ส่งออกกล้วยสดไปประเทศญี่ปุ่น",
+    type: "ขึ้นทะเบียน",
+    applicant: "บ.ไทย เอ็กซ์พอร์ต จก.",
+    submittedDate: "05/02/2569",
+    status: "draft",
+  },
+  {
+    requestNo: "EXP-0003",
+    typecert:
+      "คำขอหนังสือสำคัญแสดงการจดทะเบียนเป็นผู้ส่งออกกล้วยสดไปประเทศญี่ปุ่น",
+    type: "ขึ้นทะเบียน",
+    applicant: "บ.ไทย เอ็กซ์พอร์ต จก.",
+    submittedDate: "10/03/2569",
+    status: "reviewing",
+  },
+  {
+    requestNo: "EXP-0004",
+    typecert: "คำร้องขึ้นทะเบียนเป็นผู้ส่งออกพืชควบคุม",
+    type: "ต่ออายุ",
+    applicant: "บ.ไทย เอ็กซ์พอร์ต จก.",
+    submittedDate: "12/03/2569",
+    status: "signing",
+  },
+  {
+    requestNo: "EXP-0005",
+    typecert:
+      "คำขอหนังสือสำคัญแสดงการจดทะเบียนเป็นผู้ส่งออกกล้วยสดไปประเทศญี่ปุ่น",
+    type: "ขึ้นทะเบียน",
+    applicant: "บ.ไทย เอ็กซ์พอร์ต จก.",
+    submittedDate: "15/03/2569",
+    status: "approved",
+  },
+  {
+    requestNo: "EXP-0006",
+    typecert: "คำร้องขึ้นทะเบียนเป็นผู้ส่งออกพืชควบคุม",
+    type: "ขึ้นทะเบียน",
+    applicant: "บ.ไทย เอ็กซ์พอร์ต จก.",
+    submittedDate: "20/03/2569",
+    status: "pending",
+  },
 ];
 
 const typecertOptions = [
@@ -344,97 +466,16 @@ const typecertOptions = [
   },
 ];
 
-const statusOptions = [
-  { label: "รอตรวจสอบ", value: "pending" },
-  { label: "รอแก้ไขคำขอ", value: "draft" },
-  { label: "รอพิจารณา", value: "reviewing" },
-  { label: "รอลงนาม", value: "signing" },
-  { label: "ได้รับอนุญาต", value: "approved" },
-];
-
-const headers = [
-  { title: "หมายเลขคำขอ", key: "requestNo", sortable: true },
-  { title: "ประเภททะเบียน", key: "typecert", sortable: true },
-  { title: "ประเภทคำขอ", key: "type", sortable: true },
-  { title: "วันที่ยื่น", key: "submittedDate", sortable: true },
-  { title: "สถานะคำขอ", key: "status", sortable: true },
-  { title: "", key: "actions", sortable: false, align: "end" },
-];
-
-const allItems = [
-  {
-    id: "EXP-2569-001",
-    requestNo: "EXP-0001",
-    typecert: "คำขอหนังสือสำคัญแสดงการขึ้นทะเบียนเป็นผู้ส่งออกผักและผลไม้",
-    type: "ขึ้นทะเบียน",
-    applicant: "บ.ไทย เอ็กซ์พอร์ต จก.",
-    submitterStatus: "เจ้าของ",
-    principal: "-",
-    submittedDate: "01/01/2569",
-    status: "pending",
-  },
-  {
-    id: "EXP-2569-002",
-    requestNo: "EXP-0002",
-    typecert:
-      "คำร้องขอหนังสือสำคัญแสดงการจดทะเบียนเป็นผู้ส่งออกกล้วยสดไปประเทศญี่ปุ่น",
-    type: "ขึ้นทะเบียน",
-    applicant: "บ.ไทย เอ็กซ์พอร์ต จก.",
-    submitterStatus: "ตัวแทน",
-    principal: "นายสมชาย ใจดี",
-    submittedDate: "05/02/2569",
-    status: "draft",
-  },
-  {
-    id: "EXP-2569-003",
-    requestNo: "EXP-0003",
-    typecert:
-      "คำร้องขอหนังสือสำคัญแสดงการจดทะเบียนเป็นผู้ส่งออกกล้วยสดไปประเทศญี่ปุ่น",
-    type: "ขึ้นทะเบียน",
-    applicant: "บ.ไทย เอ็กซ์พอร์ต จก.",
-    submitterStatus: "เจ้าของ",
-    principal: "-",
-    submittedDate: "10/03/2569",
-    status: "reviewing",
-  },
-  {
-    id: "EXP-2569-004",
-    requestNo: "EXP-0004",
-    typecert: "คำร้องขึ้นทะเบียนเป็นผู้ส่งออกพืชควบคุม",
-    type: "ต่ออายุ",
-    applicant: "บ.ไทย เอ็กซ์พอร์ต จก.",
-    submitterStatus: "เจ้าของ",
-    principal: "-",
-    submittedDate: "12/03/2569",
-    status: "signing",
-  },
-  {
-    id: "EXP-2569-005",
-    requestNo: "EXP-0005",
-    typecert:
-      "คำร้องขอหนังสือสำคัญแสดงการจดทะเบียนเป็นผู้ส่งออกกล้วยสดไปประเทศญี่ปุ่น",
-    type: "ขึ้นทะเบียน",
-    applicant: "บ.ไทย เอ็กซ์พอร์ต จก.",
-    submitterStatus: "เจ้าของ",
-    principal: "-",
-    submittedDate: "15/03/2569",
-    status: "approved",
-  },
-  {
-    id: "EXP-2569-006",
-    requestNo: "EXP-0006",
-    typecert: "คำร้องขึ้นทะเบียนเป็นผู้ส่งออกพืชควบคุม",
-    type: "ขึ้นทะเบียน",
-    applicant: "บ.ไทย เอ็กซ์พอร์ต จก.",
-    submitterStatus: "ตัวแทน",
-    principal: "นายวิชัย สมบูรณ์",
-    submittedDate: "20/03/2569",
-    status: "pending",
-  },
-];
-
 const filteredItems = computed(() => {
   let items = allItems;
+  if (search.value) {
+    const q = search.value.toLowerCase();
+    items = items.filter(
+      (i) =>
+        i.requestNo.toLowerCase().includes(q) ||
+        i.applicant.toLowerCase().includes(q),
+    );
+  }
   if (filters.typecert)
     items = items.filter((i) => i.typecert === filters.typecert);
   if (filters.type) items = items.filter((i) => i.type === filters.type);
@@ -451,6 +492,7 @@ const filteredItems = computed(() => {
 });
 
 function clearFilters() {
+  search.value = "";
   filters.dateFrom = "";
   filters.dateTo = "";
   filters.typecert = null;
@@ -460,22 +502,11 @@ function clearFilters() {
   dateToObj.value = null;
 }
 
-function typeLabel(t) {
-  return (
-    {
-      newrequest: "คำขอขึ้นทะเบียน",
-      renew: "คำขอต่ออายุทะเบียน",
-      amendment: "คำขอแก้ไขใบรับรอง",
-    }[t] ?? t
-  );
-}
-
 function statusColor(s) {
   return (
     {
       draft: "grey",
       pending: "info",
-      reject_request: "error",
       need_edit: "warning",
       reviewing: "info",
       signing: "info",
@@ -489,7 +520,6 @@ function statusLabel(s) {
     {
       draft: "แบบร่าง",
       pending: "รอตรวจสอบ",
-      reject_request: "ปฏิเสธคำขอ",
       need_edit: "รอแก้ไขคำขอ",
       reviewing: "รอพิจารณา",
       signing: "รอลงนาม",

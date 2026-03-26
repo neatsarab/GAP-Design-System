@@ -196,18 +196,24 @@
             คุณต้องการออกจากระบบใช่หรือไม่?
           </p>
         </v-card-text>
-        <v-card-actions class="px-6 pb-5 ga-2">
-          <v-btn
-            variant="tonal"
-            color="grey"
-            rounded="lg"
-            block
-            @click="closeLogoutDialog"
-            >ยกเลิก</v-btn
-          >
-          <v-btn color="error" rounded="lg" block @click="doLogout"
-            >ออกจากระบบ</v-btn
-          >
+        <v-card-actions class="px-5 pb-5">
+          <v-row no-gutters class="ga-2 w-100">
+            <v-col>
+              <v-btn
+                variant="tonal"
+                color="grey"
+                block
+                rounded="lg"
+                @click="closeLogoutDialog"
+                >ยกเลิก</v-btn
+              >
+            </v-col>
+            <v-col>
+              <v-btn color="error" block rounded="lg" @click="doLogout"
+                >ออกจากระบบ</v-btn
+              >
+            </v-col>
+          </v-row>
         </v-card-actions>
       </v-card>
     </v-dialog>

@@ -524,18 +524,24 @@
             <strong>{{ deletingItem?.name }}</strong> ใช่หรือไม่?
           </p>
         </v-card-text>
-        <v-card-actions class="px-6 pb-5 ga-2">
-          <v-btn
-            variant="tonal"
-            color="grey"
-            rounded="lg"
-            block
-            @click="closeDeleteDialog"
-            >ยกเลิก</v-btn
-          >
-          <v-btn color="error" rounded="lg" block @click="confirmDelete"
-            >ยืนยัน</v-btn
-          >
+        <v-card-actions class="px-6 pb-5">
+          <v-row no-gutters class="ga-2 w-100">
+            <v-col>
+              <v-btn
+                variant="tonal"
+                color="grey"
+                rounded="lg"
+                block
+                @click="closeDeleteDialog"
+                >ยกเลิก</v-btn
+              >
+            </v-col>
+            <v-col>
+              <v-btn color="error" rounded="lg" block @click="confirmDelete"
+                >ยืนยัน</v-btn
+              >
+            </v-col>
+          </v-row>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -567,23 +573,29 @@
             >
           </div>
         </v-card-text>
-        <v-card-actions class="px-6 pb-5 ga-2">
-          <v-btn
-            variant="tonal"
-            color="grey"
-            rounded="lg"
-            block
-            @click="closeApproveDialog"
-            >ยกเลิก</v-btn
-          >
-          <v-btn
-            color="success"
-            rounded="lg"
-            block
-            prepend-icon="fas fa-check"
-            @click="confirmApprove"
-            >อนุมัติ</v-btn
-          >
+        <v-card-actions class="px-6 pb-5">
+          <v-row no-gutters class="ga-2 w-100">
+            <v-col>
+              <v-btn
+                variant="tonal"
+                color="grey"
+                rounded="lg"
+                block
+                @click="closeApproveDialog"
+                >ยกเลิก</v-btn
+              >
+            </v-col>
+            <v-col>
+              <v-btn
+                color="success"
+                rounded="lg"
+                block
+                prepend-icon="fas fa-check"
+                @click="confirmApprove"
+                >อนุมัติ</v-btn
+              >
+            </v-col>
+          </v-row>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -613,23 +625,29 @@
             placeholder="ระบุเหตุผลในการปฏิเสธ..."
           />
         </v-card-text>
-        <v-card-actions class="px-6 pb-5 ga-2">
-          <v-btn
-            variant="tonal"
-            color="grey"
-            rounded="lg"
-            block
-            @click="closeRejectDialog"
-            >ยกเลิก</v-btn
-          >
-          <v-btn
-            color="error"
-            rounded="lg"
-            block
-            prepend-icon="fas fa-xmark"
-            @click="confirmReject"
-            >ปฏิเสธคำขอ</v-btn
-          >
+        <v-card-actions class="px-6 pb-5">
+          <v-row no-gutters class="ga-2 w-100">
+            <v-col>
+              <v-btn
+                variant="tonal"
+                color="grey"
+                rounded="lg"
+                block
+                @click="closeRejectDialog"
+                >ยกเลิก</v-btn
+              >
+            </v-col>
+            <v-col>
+              <v-btn
+                color="error"
+                rounded="lg"
+                block
+                prepend-icon="fas fa-xmark"
+                @click="confirmReject"
+                >ปฏิเสธคำขอ</v-btn
+              >
+            </v-col>
+          </v-row>
         </v-card-actions>
       </v-card>
     </v-dialog>

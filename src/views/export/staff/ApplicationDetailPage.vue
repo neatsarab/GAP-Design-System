@@ -730,18 +730,24 @@
             ยืนยันการส่งคำขอนี้ไปยังเจ้าหน้าที่พิจารณา
           </p>
         </v-card-text>
-        <v-card-actions class="px-6 pb-5 ga-2">
-          <v-btn
-            variant="tonal"
-            color="grey"
-            rounded="lg"
-            block
-            @click="closeForwardDialog"
-            >ยกเลิก</v-btn
-          >
-          <v-btn color="export-staff" rounded="lg" block @click="submitForward"
-            >ยืนยัน</v-btn
-          >
+        <v-card-actions class="px-6 pb-5">
+          <v-row no-gutters class="ga-2 w-100">
+            <v-col>
+              <v-btn
+                variant="tonal"
+                color="grey"
+                rounded="lg"
+                block
+                @click="closeForwardDialog"
+                >ยกเลิก</v-btn
+              >
+            </v-col>
+            <v-col>
+              <v-btn color="export-staff" rounded="lg" block @click="submitForward"
+                >ยืนยัน</v-btn
+              >
+            </v-col>
+          </v-row>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -761,18 +767,24 @@
             ยืนยันการส่งคำขอกลับให้ผู้ยื่นแก้ไข
           </p>
         </v-card-text>
-        <v-card-actions class="px-6 pb-5 ga-2">
-          <v-btn
-            variant="tonal"
-            color="grey"
-            rounded="lg"
-            block
-            @click="closeSendBackDialog"
-            >ยกเลิก</v-btn
-          >
-          <v-btn color="warning" rounded="lg" block @click="submitSendBack"
-            >ยืนยัน</v-btn
-          >
+        <v-card-actions class="px-6 pb-5">
+          <v-row no-gutters class="ga-2 w-100">
+            <v-col>
+              <v-btn
+                variant="tonal"
+                color="grey"
+                rounded="lg"
+                block
+                @click="closeSendBackDialog"
+                >ยกเลิก</v-btn
+              >
+            </v-col>
+            <v-col>
+              <v-btn color="warning" rounded="lg" block @click="submitSendBack"
+                >ยืนยัน</v-btn
+              >
+            </v-col>
+          </v-row>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -797,18 +809,24 @@
             เมื่อยืนยันแล้วจะไม่สามารถแก้ไขได้
           </p>
         </v-card-text>
-        <v-card-actions class="px-6 pb-5 ga-2">
-          <v-btn
-            variant="tonal"
-            color="grey"
-            rounded="lg"
-            block
-            @click="closeConfirmDialog"
-            >ยกเลิก</v-btn
-          >
-          <v-btn color="export-staff" rounded="lg" block @click="submitAction"
-            >ยืนยัน</v-btn
-          >
+        <v-card-actions class="px-6 pb-5">
+          <v-row no-gutters class="ga-2 w-100">
+            <v-col>
+              <v-btn
+                variant="tonal"
+                color="grey"
+                rounded="lg"
+                block
+                @click="closeConfirmDialog"
+                >ยกเลิก</v-btn
+              >
+            </v-col>
+            <v-col>
+              <v-btn color="export-staff" rounded="lg" block @click="submitAction"
+                >ยืนยัน</v-btn
+              >
+            </v-col>
+          </v-row>
         </v-card-actions>
       </v-card>
     </v-dialog>
