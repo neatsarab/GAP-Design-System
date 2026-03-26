@@ -8,24 +8,25 @@
         </div>
 
         <!-- Filters -->
-        <!-- <v-card rounded="xl" elevation="0" class="mb-4 filter-card">
+        <v-card rounded="xl" elevation="0" class="mb-4 filter-card">
             <v-card-text class="pa-4">
                 <v-row dense align="center">
-                    <v-col cols="12" sm="6" md="3">
+                    <v-col cols="12" sm="6" md="6">
                         <div class="field-label">
-                            <div>วันที่ยื่น (จาก)</div>
-                            <div class="field-label-en">Submit Date (From)</div>
+                            <div>หมายเลขคำขอ</div>
+                            <div class="field-label-en">Request No.</div>
                         </div>
-                        <v-text-field v-model="filters.dateFrom" type="date" variant="outlined" density="compact"
-                            rounded="lg" hide-details />
+                        <v-text-field v-model="search" placeholder="ค้นหาหมายเลขคำขอ" prepend-inner-icon="fas fa-search"
+                            variant="outlined" density="compact" rounded="lg" hide-details clearable />
                     </v-col>
-                    <v-col cols="12" sm="6" md="3">
+                    <v-col cols="12" sm="6" md="6">
                         <div class="field-label">
-                            <div>วันที่ยื่น (ถึง)</div>
-                            <div class="field-label-en">Submit Date (To)</div>
+                            <div>ชื่อโรงคัดบรรจุ</div>
+                            <div class="field-label-en">Packing House Name</div>
                         </div>
-                        <v-text-field v-model="filters.dateTo" type="date" variant="outlined" density="compact"
-                            rounded="lg" hide-details />
+                        <v-autocomplete v-model="filters.packingHouseName" :items="packingHouseNameOptions"
+                            item-title="label" item-value="value" placeholder="ทั้งหมด" variant="outlined"
+                            density="compact" rounded="lg" hide-details clearable />
                     </v-col>
                     <v-col cols="12" sm="6" md="3">
                         <div class="field-label">
@@ -38,12 +39,46 @@
                     </v-col>
                     <v-col cols="12" sm="6" md="3">
                         <div class="field-label">
-                            <div>ประเภทใบรับรอง</div>
-                            <div class="field-label-en">Certificate Type</div>
+                            <div>สถานะคำขอ</div>
+                            <div class="field-label-en">Status</div>
                         </div>
-                        <v-autocomplete v-model="filters.certType" :items="certTypeOptions" item-title="label"
+                        <v-autocomplete v-model="filters.status" :items="statusOptions" item-title="label"
                             item-value="value" placeholder="ทั้งหมด" variant="outlined" density="compact" rounded="lg"
                             hide-details clearable />
+                    </v-col>
+                    <v-col cols="12" sm="6" md="3">
+                        <div class="field-label">
+                            <div>วันที่ยื่น (จาก)</div>
+                            <div class="field-label-en">Submit Date (From)</div>
+                        </div>
+                        <v-menu v-model="dateFromMenu" :close-on-content-click="false" location="bottom start">
+                            <template #activator="{ props }">
+                                <v-text-field v-bind="props" density="compact" :model-value="dateFromBE" readonly
+                                    clearable prepend-inner-icon="fas fa-calendar"
+                                    placeholder="เลือกวันที่ / เดือน / ปี" hide-details style="cursor: pointer"
+                                    @click:clear.stop="dateFromObj = null" />
+                            </template>
+                            <v-date-picker v-model="dateFromObj" color="doa-user" show-adjacent-months
+                                :hide-header="!dateFromObj" title="วันที่ยื่น (จาก)" locale="th"
+                                @update:model-value="dateFromMenu = false" />
+                        </v-menu>
+                    </v-col>
+                    <v-col cols="12" sm="6" md="3">
+                        <div class="field-label">
+                            <div>วันที่ยื่น (ถึง)</div>
+                            <div class="field-label-en">Submit Date (To)</div>
+                        </div>
+                        <v-menu v-model="dateToMenu" :close-on-content-click="false" location="bottom start">
+                            <template #activator="{ props }">
+                                <v-text-field v-bind="props" density="compact" :model-value="dateToBE2" readonly
+                                    clearable prepend-inner-icon="fas fa-calendar"
+                                    placeholder="เลือกวันที่ / เดือน / ปี" hide-details style="cursor: pointer"
+                                    @click:clear.stop="dateToObj = null" />
+                            </template>
+                            <v-date-picker v-model="dateToObj" color="doa-user" show-adjacent-months
+                                :hide-header="!dateToObj" title="วันที่ยื่น (ถึง)" locale="th"
+                                @update:model-value="dateToMenu = false" />
+                        </v-menu>
                     </v-col>
                 </v-row>
                 <v-row dense>
@@ -55,49 +90,87 @@
                     </v-col>
                 </v-row>
             </v-card-text>
-        </v-card> -->
-        <!-- Filters ตามรูปแบบในภาพ -->
-        <v-card rounded="xl" elevation="0" class="mb-4 filter-card border">
-            <v-card-text class="pa-6">
-                <v-row dense align="center">
-                    <!-- 1. ค้นหาคำขอ -->
-                    <v-col cols="12" md="4">
-                        <div class="field-label mb-1">ค้นหาคำขอ</div>
-                        <v-text-field v-model="filters.search" placeholder="กรอกข้อมูลคำขอ" variant="outlined"
-                            density="comfortable" rounded="lg" hide-details
-                            prepend-inner-icon="fas fa-magnifying-glass" />
-                    </v-col>
-
-                    <!-- 2. สถานะคำขอ -->
-                    <v-col cols="12" md="4">
-                        <div class="field-label mb-1">สถานะคำขอ</div>
-                        <v-select v-model="filters.status" :items="statusOptions" placeholder="ทั้งหมด"
-                            variant="outlined" density="comfortable" rounded="lg" hide-details clearable />
-                    </v-col>
-
-                    <v-spacer />
-
-                    <!-- 3. ปุ่มล้างการค้นหา-->
-                    <v-col cols="12" md="auto" class="pt-6">
-                        <v-btn color="doa-user" height="48" min-width="140" rounded="lg" elevation="0"
-                            @click="clearFilters">
-                            ล้างการค้นหา
-                        </v-btn>
-                    </v-col>
-                </v-row>
-            </v-card-text>
         </v-card>
         <!-- Table -->
         <v-card rounded="xl" elevation="0" class="data-card">
             <v-data-table :headers="headers" :items="filteredItems" rounded="xl" hover>
+                <template #header.requestNo="{ column, isSorted, getSortIcon }">
+                    <span class="d-inline-flex align-center ga-1">
+                        <span>
+                            <div class="text-body-2 font-weight-medium" style="line-height:1.3">หมายเลขคำขอ</div>
+                            <div class="text-caption text-medium-emphasis" style="line-height:1.2">Request No.</div>
+                        </span>
+                        <v-icon v-if="isSorted(column)" :icon="getSortIcon(column)" size="14" />
+                    </span>
+                </template>
+                <template #header.packingHouseName="{ column, isSorted, getSortIcon }">
+                    <span class="d-inline-flex align-center ga-1">
+                        <span>
+                            <div class="text-body-2 font-weight-medium" style="line-height:1.3">ชื่อโรงคัดบรรจุ</div>
+                            <div class="text-caption text-medium-emphasis" style="line-height:1.2">Packing House Name
+                            </div>
+                        </span>
+                        <v-icon v-if="isSorted(column)" :icon="getSortIcon(column)" size="14" />
+                    </span>
+                </template>
+                <template #header.type="{ column, isSorted, getSortIcon }">
+                    <span class="d-inline-flex align-center ga-1">
+                        <span>
+                            <div class="text-body-2 font-weight-medium" style="line-height:1.3">ประเภทคำขอ</div>
+                            <div class="text-caption text-medium-emphasis" style="line-height:1.2">Request Type</div>
+                        </span>
+                        <v-icon v-if="isSorted(column)" :icon="getSortIcon(column)" size="14" />
+                    </span>
+                </template>
+                <template #header.submittedDate="{ column, isSorted, getSortIcon }">
+                    <span class="d-inline-flex align-center ga-1">
+                        <span>
+                            <div class="text-body-2 font-weight-medium" style="line-height:1.3">วันที่ยื่น</div>
+                            <div class="text-caption text-medium-emphasis" style="line-height:1.2">Submit Date</div>
+                        </span>
+                        <v-icon v-if="isSorted(column)" :icon="getSortIcon(column)" size="14" />
+                    </span>
+                </template>
+                <template #header.status="{ column, isSorted, getSortIcon }">
+                    <span class="d-inline-flex align-center ga-1">
+                        <span>
+                            <div class="text-body-2 font-weight-medium" style="line-height:1.3">สถานะคำขอ</div>
+                            <div class="text-caption text-medium-emphasis" style="line-height:1.2">Status</div>
+                        </span>
+                        <v-icon v-if="isSorted(column)" :icon="getSortIcon(column)" size="14" />
+                    </span>
+                </template>
                 <template #item.type="{ item }">{{ typeLabel(item.type) }}</template>
                 <template #item.status="{ item }">
                     <v-chip :color="statusColor(item.status)" size="small" variant="tonal">{{ statusLabel(item.status)
                     }}</v-chip>
                 </template>
                 <template #item.actions="{ item }">
-                    <v-btn size="small" color="doa-user" variant="tonal" rounded="lg" prepend-icon="fas fa-eye"
-                        @click.stop="goToApplicationDetail(item.id)">ดูคำขอ</v-btn>
+                    <div class="d-flex ga-1">
+                        <v-tooltip text="ดูรายละเอียด" location="top">
+                            <template #activator="{ props }">
+                                <v-btn v-bind="props" icon size="x-small" variant="text" color="doa-user"
+                                    @click.stop="goToApplicationDetail(item.id)">
+                                    <v-icon icon="fas fa-eye" size="14" />
+                                </v-btn>
+                            </template>
+                        </v-tooltip>
+                        <v-tooltip v-if="item.status === 'draft'" text="แก้ไข" location="top">
+                            <template #activator="{ props }">
+                                <v-btn v-bind="props" icon size="x-small" variant="text" color="info"
+                                    @click.stop="goToEditApplicationDetail(item.id)">
+                                    <v-icon icon="fas fa-pencil" size="14" />
+                                </v-btn>
+                            </template>
+                        </v-tooltip>
+                        <v-tooltip v-if="item.status !== 'approved'" text="ยกเลิก" location="top">
+                            <template #activator="{ props }">
+                                <v-btn v-bind="props" icon size="x-small" variant="text" color="error" @click.stop>
+                                    <v-icon icon="fas fa-xmark" size="14" />
+                                </v-btn>
+                            </template>
+                        </v-tooltip>
+                    </div>
                 </template>
             </v-data-table>
         </v-card>
@@ -105,47 +178,88 @@
 </template>
 
 <script setup>
-import { reactive, computed } from "vue";
+import { ref, reactive, computed, watch } from "vue";
 import { useRouter } from "vue-router";
+import { useLocale } from "vuetify";
+
+const { current: vuetifyLocale } = useLocale();
+vuetifyLocale.value = "th";
+
+const dateFromMenu = ref(false);
+const dateFromObj = ref(null);
+const dateToMenu = ref(false);
+const dateToObj = ref(null);
+
+function dateToBE(date) {
+    if (!date) return "";
+    const d = String(date.getDate()).padStart(2, "0");
+    const m = String(date.getMonth() + 1).padStart(2, "0");
+    return `${d}/${m}/${date.getFullYear() + 543}`;
+}
+
+const dateFromBE = computed(() => dateToBE(dateFromObj.value));
+const dateToBE2 = computed(() => dateToBE(dateToObj.value));
+
+watch(dateFromObj, (v) => {
+    filters.dateFrom = v ? v.toISOString().slice(0, 10) : "";
+});
+watch(dateToObj, (v) => {
+    filters.dateTo = v ? v.toISOString().slice(0, 10) : "";
+});
+
+// แปลง DD/MM/YYYY (พ.ศ.) → timestamp เพื่อ sort
+function beDateToTs(str) {
+    if (!str) return 0;
+    const [d, m, y] = str.split("/").map(Number);
+    return new Date(y - 543, m - 1, d).getTime();
+}
+
+const customKeySort = {
+    submittedDate: (a, b) => beDateToTs(a) - beDateToTs(b),
+};
 
 const router = useRouter();
+const search = ref("");
 
 function goToApplicationDetail(id) {
     router.push({ name: "DOAUserApplicationDetail", params: { id } });
+}
+function goToEditApplicationDetail(id) {
+    router.push({ name: "DOAUserApplicationEdit", params: { id } });
 }
 
 const filters = reactive({
     dateFrom: "",
     dateTo: "",
+    packingHouseName: null,
     type: null,
-    certType: null,
-    search: "",   
     status: null,
 });
 
 const typeOptions = [
-    { label: "ขึ้นทะเบียน / ต่ออายุ", value: "register" },
-    { label: "เปลี่ยนแปลงทะเบียน", value: "amendment" },
-    { label: "เพิ่ม / ลดขอบข่าย", value: "scope" },
+    { label: "ขึ้นทะเบียน", value: "ขึ้นทะเบียน" },
+    { label: "ต่ออายุ", value: "ต่ออายุ" },
+    { label: "แก้ไข", value: "แก้ไข" },
 ];
 
-const certTypeOptions = [
-    { label: "DOA", value: "doa" },
-    { label: "GMP", value: "gmp" },
-    { label: "HACCP", value: "haccp" },
+const packingHouseNameOptions = [
+    { label: "บริษัท เอส.ดับบลิว เทค แอนด์ มีเดีย จำกัด", value: "บริษัท เอส.ดับบลิว เทค แอนด์ มีเดีย จำกัด" },
 ];
 
 // รายการตัวเลือกสถานะคำขอ
 const statusOptions = [
-    { title: "รอพิจารณา", value: "pending" },
-    { title: "อยู่ระหว่างพิจารณา", value: "reviewing" },
-    { title: "ผ่าน", value: "approved" },
-    { title: "ไม่ผ่าน", value: "rejected" },
+    { label: "แบบร่าง", value: "draft" },
+    { label: "รอตรวจสอบ", value: "pending" },
+    { label: "รอแก้ไขคำขอ", value: "need_edit" },
+    { label: "รอพิจารณา", value: "reviewing" },
+    { label: "รอลงนาม", value: "signing" },
+    { label: "ได้รับอนุญาต", value: "approved" },
 ];
 
 const headers = [
-    { title: "เลขคำขอ", key: "requestNumber", sortable: true },
+    { title: "หมายเลขคำขอ", key: "requestNo", sortable: true },
     { title: "ชื่อโรงคัดบรรจุ", key: "packingHouseName", sortable: true },
+    { title: "ประเภทคำขอ", key: "type", sortable: true },
     { title: "วันที่ยื่น", key: "submittedDate", sortable: true },
     { title: "สถานะคำขอ", key: "status", sortable: false },
     { title: "", key: "actions", sortable: false, align: "end" },
@@ -154,61 +268,88 @@ const headers = [
 const allItems = [
     {
         id: "DOA-2569-001",
-        requestNumber: "DOA-2569-001",
+        requestNo: "DOA-2569-001",
         packingHouseName: "บริษัท เอส.ดับบลิว เทค แอนด์ มีเดีย จำกัด",
+        type: "ขึ้นทะเบียน",
         submittedDate: "01/01/2569",
-        status: "reviewing",
+        status: "draft",
     },
     {
         id: "DOA-2569-002",
-        requestNumber: "DOA-2569-002",
+        requestNo: "DOA-2569-002",
         packingHouseName: "บริษัท เอส.ดับบลิว เทค แอนด์ มีเดีย จำกัด",
+        type: "ต่ออายุ",
         submittedDate: "05/02/2569",
         status: "pending",
     },
     {
         id: "DOA-2569-003",
-        requestNumber: "DOA-2569-003",
+        requestNo: "DOA-2569-003",
         packingHouseName: "บริษัท เอส.ดับบลิว เทค แอนด์ มีเดีย จำกัด",
+        type: "ขึ้นทะเบียน",
+        submittedDate: "10/03/2569",
+        status: "need_edit",
+    },
+    {
+        id: "DOA-2569-001",
+        requestNo: "DOA-2569-001",
+        packingHouseName: "บริษัท เอส.ดับบลิว เทค แอนด์ มีเดีย จำกัด",
+        type: "ขึ้นทะเบียน",
+        submittedDate: "01/01/2569",
+        status: "reviewing",
+    },
+    {
+        id: "DOA-2569-002",
+        requestNo: "DOA-2569-002",
+        packingHouseName: "บริษัท เอส.ดับบลิว เทค แอนด์ มีเดีย จำกัด",
+        type: "ต่ออายุ",
+        submittedDate: "05/02/2569",
+        status: "signing",
+    },
+    {
+        id: "DOA-2569-003",
+        requestNo: "DOA-2569-003",
+        packingHouseName: "บริษัท เอส.ดับบลิว เทค แอนด์ มีเดีย จำกัด",
+        type: "ขึ้นทะเบียน",
         submittedDate: "10/03/2569",
         status: "approved",
-    },
+    }
 ];
 
-// const filteredItems = computed(() => {
-//     let items = allItems;
-//     if (filters.type) items = items.filter((i) => i.type === filters.type);
-//     if (filters.certType)
-//         items = items.filter((i) => i.certType.toLowerCase() === filters.certType);
-//     return items;
-// });
 const filteredItems = computed(() => {
     let items = allItems;
-
-    // กรองจากช่อง Text Search (เลขคำขอ หรือ ชื่อโรงคัดบรรจุ)
-    if (filters.search) {
-        const s = filters.search.toLowerCase();
-        items = items.filter(i => 
-            i.requestNumber.toLowerCase().includes(s) || 
-            i.packingHouseName.toLowerCase().includes(s)
+    if (search.value) {
+        const q = search.value.toLowerCase();
+        items = items.filter(
+            (i) =>
+                i.requestNo.toLowerCase().includes(q) ||
+                i.packingHouseName.toLowerCase().includes(q),
         );
     }
-
-    // กรองจากสถานะ
-    if (filters.status) {
-        items = items.filter(i => i.status === filters.status);
+    if (filters.packingHouseName)
+        items = items.filter((i) => i.packingHouseName === filters.packingHouseName);
+    if (filters.type) items = items.filter((i) => i.type === filters.type);
+    if (filters.status) items = items.filter((i) => i.status === filters.status);
+    if (filters.dateFrom) {
+        const from = new Date(filters.dateFrom).getTime();
+        items = items.filter((i) => beDateToTs(i.submittedDate) >= from);
     }
-
+    if (filters.dateTo) {
+        const to = new Date(filters.dateTo).getTime();
+        items = items.filter((i) => beDateToTs(i.submittedDate) <= to);
+    }
     return items;
 });
 
 function clearFilters() {
+    search.value = "";
     filters.dateFrom = "";
     filters.dateTo = "";
+    filters.packingHouseName = null;
     filters.type = null;
-    filters.certType = null;
-    filters.search = "";
     filters.status = null;
+    dateFromObj.value = null;
+    dateToObj.value = null;
 }
 
 function typeLabel(t) {
@@ -223,20 +364,24 @@ function typeLabel(t) {
 function statusColor(s) {
     return (
         {
-            pending: "warning",
+            draft: "grey",
+            pending: "info",
+            need_edit: "warning",
             reviewing: "info",
+            signing: "info",
             approved: "success",
-            rejected: "error",
         }[s] ?? "grey"
     );
 }
 function statusLabel(s) {
     return (
         {
-            pending: "รอพิจารณา",
-            reviewing: "อยู่ระหว่างพิจารณา",
-            approved: "ผ่าน",
-            rejected: "ไม่ผ่าน",
+            draft: "แบบร่าง",
+            pending: "รอตรวจสอบ",
+            need_edit: "รอแก้ไขคำขอ",
+            reviewing: "รอพิจารณา",
+            signing: "รอลงนาม",
+            approved: "ได้รับอนุญาต",
         }[s] ?? s
     );
 }

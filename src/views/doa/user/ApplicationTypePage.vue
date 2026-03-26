@@ -74,8 +74,13 @@ const appTypes = [
         badge: null,
         icon: "fas fa-industry",
         color: "info",
-        description: null,
-        features: null,
+        description:
+            "สำหรับผู้ประกอบการที่ต้องการขึ้นทะเบียนโรงงานผลิตสินค้าพืชใหม่ หรือต่ออายุการขึ้นทะเบียนที่หมดอายุแล้ว",
+        features: [
+            "ขึ้นทะเบียนโรงงานผลิตสินค้าพืชครั้งแรก",
+            "ต่ออายุการขึ้นทะเบียนเดิม",
+            "ระบุมาตรฐานที่ได้รับรอง (GMP/HACCP)",
+        ],
     },
     {
         route: "/doa/user/applications/new/amendment",
@@ -83,8 +88,13 @@ const appTypes = [
         badge: null,
         icon: "fas fa-file-pen",
         color: "warning",
-        description: null,
-        features: null,
+        description:
+            "สำหรับผู้ประกอบการที่ต้องการแก้ไขข้อมูลทะเบียนโรงงานที่ได้รับรองแล้ว เช่น ที่อยู่ ประเภทผลิตภัณฑ์ หรือมาตรฐาน",
+        features: [
+            "แก้ไขข้อมูลสถานประกอบการ",
+            "เพิ่ม / ลดขอบข่ายมาตรฐาน",
+            "อัปเดตเอกสารประกอบ",
+        ],
     },
     {
         route: "/doa/user/applications/new/scope",
@@ -92,8 +102,12 @@ const appTypes = [
         badge: null,
         icon: "fas fa-sliders",
         color: "info",
-        description: null,
-        features: null,
+        description: "สำหรับผู้ประกอบการที่ต้องการเพิ่มหรือลดขอบข่ายมาตรฐานในทะเบียนโรงงานที่ได้รับรองแล้ว",
+        features: [
+            "เพิ่มมาตรฐาน มกษ. ใหม่",
+            "ลดมาตรฐาน มกษ. ที่มีอยู่",
+            "อัปเดตขอบข่ายผลิตภัณฑ์",
+        ],
     },
 ];
 </script>
