@@ -610,6 +610,13 @@ const router = createRouter({
           component: () => import("@/views/export/user/CertificatePage.vue"),
           meta: { title: "รายการใบรับรอง" },
         },
+        {
+          path: "certificates/:id",
+          name: "ExportUserCertificateDetail",
+          component: () =>
+            import("@/views/export/user/CertificateDetailPage.vue"),
+          meta: { title: "รายละเอียดใบทะเบียน" },
+        },
       ],
     },
 

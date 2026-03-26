@@ -380,7 +380,7 @@
                   size="x-small"
                   variant="text"
                   color="export-user"
-                  @click.stop
+                  @click.stop="router.push({ name: 'ExportUserCertificateDetail', params: { id: item.certNo } })"
                 >
                   <v-icon icon="fas fa-eye" size="14" />
                 </v-btn>
@@ -411,7 +411,10 @@
 <script setup>
 // @ts-nocheck
 import { ref, computed, watch } from "vue";
+import { useRouter } from "vue-router";
 import { useLocale } from "vuetify";
+
+const router = useRouter();
 
 const { current: vuetifyLocale } = useLocale();
 vuetifyLocale.value = "th";
