@@ -583,20 +583,26 @@
             เจ้าหน้าที่จะตรวจสอบคำขอของท่านและแจ้งผลทางอีเมล
           </p>
         </v-card-text>
-        <v-card-actions class="px-6 pb-6 d-flex ga-2">
-          <v-btn
-            variant="tonal"
-            color="grey"
-            block
-            @click="goToApplicationList"
-            >ดูรายการคำขอ</v-btn
-          >
-          <v-btn
-            color="hc-user"
-            block
-            @click="goToApplicationDetail"
-            >ติดตามสถานะ</v-btn
-          >
+        <v-card-actions class="px-6 pb-6">
+          <v-row no-gutters class="ga-2 w-100">
+            <v-col>
+              <v-btn
+                variant="tonal"
+                color="grey"
+                block
+                @click="goToApplicationList"
+                >ดูรายการคำขอ</v-btn
+              >
+            </v-col>
+            <v-col>
+              <v-btn
+                color="hc-user"
+                block
+                @click="goToApplicationDetail"
+                >ติดตามสถานะ</v-btn
+              >
+            </v-col>
+          </v-row>
         </v-card-actions>
       </v-card>
     </v-dialog>
