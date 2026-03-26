@@ -391,7 +391,7 @@ const application = {
   requestNo: "EXP-0005",
   requestType: "ขึ้นทะเบียน",
   submittedDate: "15/03/2569",
-  typecert: "คำขอหนังสือสำคัญแสดงการขึ้นทะเบียนเป็นผู้ส่งออกผักและผลไม้",
+  typecert: "คำขอหนังสือสำคัญแสดงการขึ้นทะเบียนโรงงานผลิตสินค้าพืช",
   status: "pending",
   currentStep: 1,
 

@@ -3,7 +3,7 @@
         <div class="mb-6">
             <h1 class="page-title mb-1">รายการคำขอ DOA</h1>
             <p class="text-body-2 text-medium-emphasis mb-0">
-                รายการคำขอขึ้นทะเบียนโรงงานผลิตสินค้าพืชของคุณ
+                รายการคำขอขึ้นทะเบียนโรงงานผลิตสินค้าพืช
             </p>
         </div>
 

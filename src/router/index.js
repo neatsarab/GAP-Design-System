@@ -405,6 +405,18 @@ const router = createRouter({
                     meta: { title: "ข้อมูลทะเบียน DOA" },
                 },
                 {
+                    path: "registration-data/:id",
+                    name: "DOAStaffRegistrationDetail",
+                    component: () => import("@/views/doa/staff/RegistrationDetailPage.vue"),
+                    meta: { title: "รายละเอียดใบทะเบียน" },
+                },
+                {
+                    path: "registration-data/:id/manage",
+                    name: "DOAStaffRegistrationManage",
+                    component: () => import("@/views/doa/staff/RegistrationManagePage.vue"),
+                    meta: { title: "จัดการใบรับรอง" },
+                },
+                {
                     path: "master/standard-scopes",
                     name: "DOAStaffMasterStandardScopes",
                     component: () =>

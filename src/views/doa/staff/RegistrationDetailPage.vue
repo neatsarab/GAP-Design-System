@@ -1,5 +1,5 @@
 <template>
-    <div style="--v-theme-primary: var(--v-theme-doa-user)">
+    <div style="--v-theme-primary: var(--v-theme-doa-staff)">
         <!-- Header -->
         <div class="d-flex align-center ga-3 mb-4">
             <v-btn icon="fas fa-arrow-left" variant="text" size="small" @click="router.back()" />
@@ -7,7 +7,7 @@
                 <h1 class="page-title mb-0">รายละเอียดใบทะเบียน</h1>
                 <p class="text-body-2 text-medium-emphasis mb-0 mt-1">
                     เลขทะเบียน:
-                    <span class="text-doa-user font-weight-medium">{{
+                    <span class="text-doa-staff font-weight-medium">{{
                         route.params.id ?? cert.certNo
                         }}</span>
                 </p>
@@ -25,14 +25,14 @@
                 <!-- สถานะใบทะเบียน -->
                 <v-card rounded="xl" elevation="0" class="section-card mb-4">
                     <div class="section-header px-4 py-3 border-b d-flex align-center ga-2">
-                        <v-icon icon="fas fa-certificate" color="doa-user" size="15" />
+                        <v-icon icon="fas fa-certificate" color="doa-staff" size="15" />
                         <span class="text-subtitle-2 font-weight-bold">สถานะใบทะเบียน</span>
                     </div>
                     <v-card-text class="pa-4">
                         <v-row dense>
                             <v-col cols="12" md="4">
                                 <div class="info-label">เลขที่ใบทะเบียน / Certificate No.</div>
-                                <div class="info-value text-doa-user font-weight-bold">
+                                <div class="info-value text-doa-staff font-weight-bold">
                                     {{ cert.certNo }}
                                 </div>
                             </v-col>
@@ -75,9 +75,8 @@
                 <!-- ข้อมูลผู้ยื่นคำขอ -->
                 <v-card rounded="xl" elevation="0" class="section-card mb-4">
                     <div class="section-header px-4 py-3 border-b d-flex align-center ga-2">
-                        <v-icon icon="fas fa-user" color="doa-user" size="15" />
+                        <v-icon icon="fas fa-user" color="doa-staff" size="15" />
                         <span class="text-subtitle-2 font-weight-bold">ข้อมูลผู้ยื่นคำขอ</span>
-                        <v-chip size="x-small" color="doa-user" variant="tonal">Auto-fill จาก SSO</v-chip>
                     </div>
                     <v-card-text class="pa-4">
                         <v-row dense>
@@ -108,9 +107,8 @@
                 <!-- ข้อมูลสถานประกอบการ -->
                 <v-card rounded="xl" elevation="0" class="section-card mb-4">
                     <div class="section-header px-4 py-3 border-b d-flex align-center ga-2">
-                        <v-icon icon="fas fa-building" color="doa-user" size="15" />
+                        <v-icon icon="fas fa-building" color="doa-staff" size="15" />
                         <span class="text-subtitle-2 font-weight-bold">ข้อมูลสถานประกอบการ</span>
-                        <v-chip size="x-small" color="doa-user" variant="tonal">Auto-fill บางส่วนจาก DBD</v-chip>
                     </div>
                     <v-card-text class="pa-4">
                         <v-row dense>
@@ -149,14 +147,14 @@
                 <!-- ขอบข่ายประเทศ -->
                 <v-card rounded="xl" elevation="0" class="section-card mb-4">
                     <div class="section-header px-4 py-3 border-b d-flex align-center ga-2">
-                        <v-icon icon="fas fa-earth-asia" color="doa-user" size="15" />
+                        <v-icon icon="fas fa-earth-asia" color="doa-staff" size="15" />
                         <span class="text-subtitle-2 font-weight-bold">ขอบข่ายประเทศ</span>
                     </div>
                     <v-card-text class="pa-4 pb-3">
                         <div class="info-label mb-2">Scope of countries</div>
                         <div class="d-flex flex-wrap ga-2">
                             <v-chip v-for="c in cert.countries" :key="c" size="small" variant="tonal"
-                                color="doa-user">{{ c }}</v-chip>
+                                color="doa-staff">{{ c }}</v-chip>
                         </div>
                     </v-card-text>
                 </v-card>
@@ -164,7 +162,7 @@
                 <!-- โรงงาน -->
                 <v-card rounded="xl" elevation="0" class="section-card mb-4">
                     <div class="section-header px-4 py-3 border-b d-flex align-center ga-2">
-                        <v-icon icon="fas fa-industry" color="doa-user" size="15" />
+                        <v-icon icon="fas fa-industry" color="doa-staff" size="15" />
                         <span class="text-subtitle-2 font-weight-bold">ข้อมูลโรงงานผลิตสินค้าพืช</span>
                     </div>
                     <v-table density="compact" class="pa-2">
@@ -177,7 +175,7 @@
                         </thead>
                         <tbody>
                             <tr v-for="factory in cert.factories" :key="factory.doaNo">
-                                <td class="text-body-2 font-weight-bold text-doa-user">
+                                <td class="text-body-2 font-weight-bold text-doa-staff">
                                     {{ factory.doaNo }}
                                 </td>
                                 <td class="text-body-2">{{ factory.factoryName }}</td>
@@ -190,7 +188,7 @@
                 <!-- GAP -->
                 <v-card rounded="xl" elevation="0" class="section-card mb-4">
                     <div class="section-header px-4 py-3 border-b d-flex align-center ga-2">
-                        <v-icon icon="fas fa-seedling" color="doa-user" size="15" />
+                        <v-icon icon="fas fa-seedling" color="doa-staff" size="15" />
                         <span class="text-subtitle-2 font-weight-bold">แหล่งผลิตพืชที่ได้การรับรอง GAP</span>
                     </div>
                     <v-table density="compact" class="pa-2">
@@ -204,7 +202,7 @@
                         </thead>
                         <tbody>
                             <tr v-for="gap in cert.gaps" :key="gap.gapNo">
-                                <td class="text-body-2 font-weight-bold text-doa-user">
+                                <td class="text-body-2 font-weight-bold text-doa-staff">
                                     {{ gap.gapNo }}
                                 </td>
                                 <td class="text-body-2">{{ gap.siteName }}</td>
@@ -218,14 +216,14 @@
                 <!-- เอกสารแนบ -->
                 <v-card rounded="xl" elevation="0" class="section-card mb-4">
                     <div class="section-header px-4 py-3 border-b d-flex align-center ga-2">
-                        <v-icon icon="fas fa-paperclip" color="doa-user" size="15" />
+                        <v-icon icon="fas fa-paperclip" color="doa-staff" size="15" />
                         <span class="text-subtitle-2 font-weight-bold">เอกสารแนบ</span>
                     </div>
                     <v-card-text class="pa-4">
                         <div v-for="doc in cert.attachments" :key="doc.label"
                             class="item-row rounded-lg px-3 py-2 mb-2 d-flex align-center justify-space-between">
                             <div class="text-body-2">{{ doc.label }}</div>
-                            <v-btn size="x-small" variant="tonal" color="doa-user" rounded="lg"
+                            <v-btn size="x-small" variant="tonal" color="doa-staff" rounded="lg"
                                 prepend-icon="fas fa-download">
                                 ดาวน์โหลด
                             </v-btn>
@@ -234,23 +232,23 @@
                 </v-card>
             </v-col>
 
-            <!-- ── Right: cert actions + activity log ── -->
+            <!-- ── Right: actions + activity log ── -->
             <v-col cols="12" md="4">
                 <div class="sticky-col">
                     <!-- ปุ่มดาวน์โหลดใบทะเบียน -->
                     <v-card rounded="xl" elevation="0" class="section-card mb-4">
                         <v-card-text class="pa-4">
-                            <v-btn color="doa-user" variant="flat" block rounded="lg" prepend-icon="fas fa-download"
-                                :disabled="cert.status === 'expired'">
+                            <v-btn color="doa-staff" variant="flat" block rounded="lg"
+                                prepend-icon="fas fa-download">
                                 ดาวน์โหลดใบทะเบียน (PDF)
                             </v-btn>
                         </v-card-text>
                     </v-card>
 
-                    <!-- ความคืบหน้า -->
+                    <!-- ประวัติใบทะเบียน -->
                     <v-card rounded="xl" elevation="0" class="section-card">
                         <div class="section-header px-4 py-3 border-b d-flex align-center ga-2">
-                            <v-icon icon="fas fa-clock-rotate-left" color="doa-user" size="15" />
+                            <v-icon icon="fas fa-clock-rotate-left" color="doa-staff" size="15" />
                             <span class="text-subtitle-2 font-weight-bold">ประวัติใบทะเบียน</span>
                         </div>
                         <v-card-text class="pa-4">
@@ -456,9 +454,9 @@ function eventIcon(type) {
 function eventColor(type) {
     return (
         {
-            submit: "doa-user",
+            submit: "doa-staff",
             approve: "success",
-            issue: "doa-user",
+            issue: "doa-staff",
             renew: "info",
             revoke: "error",
         }[type] ?? "grey"
@@ -524,17 +522,18 @@ function eventLabel(type) {
 }
 
 .activity-dot {
-    width: 26px;
-    height: 26px;
+    width: 28px;
+    height: 28px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
+    z-index: 1;
 }
 
 .activity-dot--submit {
-    background: rgb(var(--v-theme-doa-user));
+    background: rgb(var(--v-theme-doa-staff));
 }
 
 .activity-dot--approve {
@@ -542,7 +541,7 @@ function eventLabel(type) {
 }
 
 .activity-dot--issue {
-    background: rgb(var(--v-theme-doa-user));
+    background: rgb(var(--v-theme-doa-staff));
 }
 
 .activity-dot--renew {

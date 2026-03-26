@@ -25,7 +25,7 @@
                                         color="white" />
                                     <span v-else class="text-caption font-weight-bold">{{
                                         step.value + 1
-                                    }}</span>
+                                        }}</span>
                                 </div>
                                 <div class="text-caption text-center" :class="currentStep >= step.value
                                     ? 'text-doa-user font-weight-bold'
@@ -97,6 +97,8 @@
                     </v-card-title>
                     <v-divider />
                     <v-card-text class="pa-5">
+                        <!-- ข้อมูลส่วนตัว -->
+                        <div class="field-section-label mb-2">ข้อมูลส่วนตัว</div>
                         <v-row dense>
                             <v-col cols="12" md="3">
                                 <div class="field-label">
@@ -126,6 +128,10 @@
                                 <v-select v-model="form.applicantNationality" variant="outlined" density="compact"
                                     rounded="lg" hide-details maxlength="13" />
                             </v-col>
+                        </v-row>
+                        <!-- ที่อยู่ -->
+                        <div class="field-section-label mt-4 mb-2">ที่อยู่</div>
+                        <v-row dense>
                             <v-col cols="12" md="3">
                                 <div class="field-label">
                                     <div>บ้านเลขที่ <span class="req">*</span></div>
@@ -182,21 +188,26 @@
                                 <v-text-field v-model="form.applicantZipCode" variant="outlined" density="compact"
                                     rounded="lg" hide-details />
                             </v-col>
-                            <v-col cols="12" md="3">
+                        </v-row>
+
+                        <!-- ข้อมูลติดต่อ -->
+                        <div class="field-section-label mt-4 mb-2">ข้อมูลติดต่อ</div>
+                        <v-row dense>
+                            <v-col cols="12" md="4">
                                 <div class="field-label">
                                     <div>โทรศัพท์</div>
                                 </div>
                                 <v-text-field v-model="form.applicantPhone" variant="outlined" density="compact"
                                     rounded="lg" hide-details />
                             </v-col>
-                            <v-col cols="12" md="3">
+                            <v-col cols="12" md="4">
                                 <div class="field-label">
                                     <div>โทรสาร</div>
                                 </div>
                                 <v-text-field v-model="form.applicantFax" variant="outlined" density="compact"
                                     rounded="lg" hide-details />
                             </v-col>
-                            <v-col cols="12" md="3">
+                            <v-col cols="12" md="4">
                                 <div class="field-label">
                                     <div>E-maill address</div>
                                 </div>
@@ -204,6 +215,7 @@
                                     density="compact" rounded="lg" hide-details />
                             </v-col>
                         </v-row>
+
                     </v-card-text>
                 </v-card>
                 <!-- ข้อมูลโรงงานผลิตสินค้าพืช -->
@@ -214,8 +226,8 @@
                     </v-card-title>
                     <v-divider />
                     <v-card-text class="pa-5">
+                        <!-- ประเภทสถานประกอบการ -->
                         <v-row dense>
-                            <!-- ประเภทสถานประกอบการ -->
                             <v-col cols="12" class="mt-4 d-flex">
                                 <div class="field-label">
                                     <div class="mr-4">ประเภทสถานประกอบการ</div>
@@ -225,6 +237,11 @@
                                     <v-radio value="processing" label="โรงงานแปรรูป" />
                                 </v-radio-group>
                             </v-col>
+                        </v-row>
+
+                        <!-- ชื่อสถานประกอบการ -->
+                        <div class="field-section-label  mb-2">ชื่อสถานประกอบการ</div>
+                        <v-row dense>
                             <v-col cols="12" md="6">
                                 <div class="field-label">
                                     <div>ชื่อโรงงาน (ภาษาไทย) <span class="req">*</span></div>
@@ -239,103 +256,123 @@
                                 <v-text-field v-model="form.factoryNameEn" variant="outlined" density="compact"
                                     rounded="lg" hide-details />
                             </v-col>
+                        </v-row>
+
+                        <!-- ที่ตั้ง -->
+                        <div class="field-section-label mt-4 mb-2">ที่ตั้ง</div>
+                        <v-row dense>
                             <v-col cols="12" md="3">
                                 <div class="field-label">
                                     <div>บ้านเลขที่ </div>
                                 </div>
-                                <v-text-field v-model="form.factoryNameEn" variant="outlined" density="compact"
+                                <v-text-field v-model="form.factoryAddressNo" variant="outlined" density="compact"
                                     rounded="lg" hide-details />
                             </v-col>
                             <v-col cols="12" md="3">
                                 <div class="field-label">
                                     <div>หมู่ </div>
                                 </div>
-                                <v-text-field v-model="form.factoryNameEn" variant="outlined" density="compact"
+                                <v-text-field v-model="form.factoryMoo" variant="outlined" density="compact"
                                     rounded="lg" hide-details />
                             </v-col>
                             <v-col cols="12" md="3">
                                 <div class="field-label">
                                     <div>อาคาร </div>
                                 </div>
-                                <v-text-field v-model="form.factoryNameEn" variant="outlined" density="compact"
+                                <v-text-field v-model="form.factoryBuilding" variant="outlined" density="compact"
                                     rounded="lg" hide-details />
                             </v-col>
                             <v-col cols="12" md="3">
                                 <div class="field-label">
                                     <div>โซน / บล็อก </div>
                                 </div>
-                                <v-text-field v-model="form.factoryNameEn" variant="outlined" density="compact"
+                                <v-text-field v-model="form.factoryzone" variant="outlined" density="compact"
                                     rounded="lg" hide-details />
                             </v-col>
                             <v-col cols="12" md="3">
                                 <div class="field-label">
                                     <div>ตรอก/ซอย</div>
                                 </div>
-                                <v-text-field v-model="form.factoryNameEn" variant="outlined" density="compact"
+                                <v-text-field v-model="form.factorySoi" variant="outlined" density="compact"
                                     rounded="lg" hide-details />
                             </v-col>
                             <v-col cols="12" md="3">
                                 <div class="field-label">
                                     <div>ถนน </div>
                                 </div>
-                                <v-text-field v-model="form.factoryNameEn" variant="outlined" density="compact"
+                                <v-text-field v-model="form.factoryRoad" variant="outlined" density="compact"
                                     rounded="lg" hide-details />
                             </v-col>
                             <v-col cols="12" md="3">
                                 <div class="field-label">
                                     <div>ตำบล/แขวง </div>
                                 </div>
-                                <v-text-field v-model="form.factoryNameEn" variant="outlined" density="compact"
+                                <v-text-field v-model="form.factorySubDistrict" variant="outlined" density="compact"
                                     rounded="lg" hide-details />
                             </v-col>
                             <v-col cols="12" md="3">
                                 <div class="field-label">
                                     <div>อำเภอ/เขต </div>
                                 </div>
-                                <v-text-field v-model="form.factoryNameEn" variant="outlined" density="compact"
+                                <v-text-field v-model="form.factoryDistrict" variant="outlined" density="compact"
                                     rounded="lg" hide-details />
                             </v-col>
                             <v-col cols="12" md="3">
                                 <div class="field-label">
                                     <div>จังหวัด</div>
                                 </div>
-                                <v-text-field v-model="form.factoryNameEn" variant="outlined" density="compact"
+                                <v-text-field v-model="form.factoryProvince" variant="outlined" density="compact"
                                     rounded="lg" hide-details />
                             </v-col>
                             <v-col cols="12" md="3">
                                 <div class="field-label">
                                     <div>รหัสไปรษณีย์ </div>
                                 </div>
-                                <v-text-field v-model="form.factoryNameEn" variant="outlined" density="compact"
+                                <v-text-field v-model="form.factoryZipCode" variant="outlined" density="compact"
                                     rounded="lg" hide-details />
                             </v-col>
-                            <v-col cols="12" md="3">
+                        </v-row>
+
+                        <!-- ข้อมูลติดต่อ -->
+                        <div class="field-section-label mt-4 mb-2">ข้อมูลติดต่อ</div>
+                        <v-row dense>
+                            <v-col cols="12" md="6">
                                 <div class="field-label">
                                     <div>โทรศัพท์ </div>
                                 </div>
-                                <v-text-field v-model="form.factoryNameEn" variant="outlined" density="compact"
+                                <v-text-field v-model="form.factoryPhone" variant="outlined" density="compact"
                                     rounded="lg" hide-details />
                             </v-col>
-                            <v-col cols="12" md="3">
+                            <v-col cols="12" md="6">
                                 <div class="field-label">
                                     <div>โทรสาร </div>
                                 </div>
-                                <v-text-field v-model="form.factoryNameEn" variant="outlined" density="compact"
-                                    rounded="lg" hide-details />
-                            </v-col>
-                            <v-col cols="12" md="3">
-                                <div class="field-label">
-                                    <div>ลองจิจูด (Longitude) </div>
-                                </div>
-                                <v-text-field v-model="form.factoryNameEn" variant="outlined" density="compact"
-                                    rounded="lg" hide-details />
-                            </v-col>
-                            <v-col cols="12" md="3">
-                                <div class="field-label">
-                                    <div>ลองจิจูด (Longitude) </div>
-                                </div>
                                 <v-text-field v-model="form.factoryFax" variant="outlined" density="compact"
                                     rounded="lg" hide-details />
+                            </v-col>
+                        </v-row>
+
+                        <!-- ข้อมูลติดต่อ -->
+                        <div class="field-section-label mt-4 mb-2">ตำแหน่งที่ตั้งโรงงาน</div>
+                        <v-row dense>
+                            <v-col cols="12" md="6">
+                                <div class="field-label">
+                                    <div>ลองจิจูด (Longitude) </div>
+                                </div>
+                                <v-text-field v-model="form.factoryLat" variant="outlined" density="compact"
+                                    rounded="lg" hide-details />
+                            </v-col>
+                            <v-col cols="12" md="6">
+                                <div class="field-label">
+                                    <div>ลองจิจูด (Longitude) </div>
+                                </div>
+                                <v-text-field v-model="form.factoryLng" variant="outlined" density="compact"
+                                    rounded="lg" hide-details />
+                            </v-col>
+                            <v-col cols="12">
+                                <div id="edit-leaflet-map"
+                                    style="height: 400px; width: 100%; border-radius: 16px; border: 1px solid #ddd; z-index: 1;">
+                                </div>
                             </v-col>
                         </v-row>
                     </v-card-text>
@@ -685,8 +722,10 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed, onMounted } from "vue";
-import { useRouter, useRoute } from "vue-router";
+import { ref, reactive, computed, onMounted, nextTick, watch } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import L from "leaflet";
+import "leaflet/dist/leaflet.css";
 
 const router = useRouter();
 
@@ -838,7 +877,7 @@ function typeLabel(t) {
 }
 
 
-onMounted(() => {
+onMounted(async () => {
     if (!isRegister.value) {
         form.standards = [
             {
@@ -850,6 +889,8 @@ onMounted(() => {
             }
         ];
     }
+    await nextTick();
+    initLeafletMap();
 });
 
 function prevStep() {
@@ -903,11 +944,22 @@ const form = reactive({
     purpose: "register",
     factoryNameTh: "",
     factoryNameEn: "",
-    factoryAddress: "",
+    factoryAddressNo: "",
+    factoryMoo: "",
+    factoryBuilding: "",
+    factoryzone: "",
+    factorySoi: "",
+    factoryRoad: "",
+    factorySubDistrict: null,
+    factoryDistrict: null,
+    factoryProvince: null,
+    factoryZipCode: "",
     factoryPhone: "",
     factoryFax: "",
     factoryEmail: "",
     factoryType: "packing",
+    factoryLat: "",
+    factoryLng: "",
     standards: [],
     objectives: [],
     objectiveOther: "",
@@ -1128,6 +1180,98 @@ const syncParentStatus = (mainGroup, subItem) => {
         }
     }
 };
+
+// 1. ย้ายพิกัดเริ่มต้นมาไว้ด้านบนสุด
+const initialPos = [13.782674, 100.546280];
+let map = null;
+let marker = null;
+
+// คุณสามารถดูสีอื่นๆ ได้ที่: https://github.com/pointhi/leaflet-color-markers
+const redIcon = new L.Icon({
+    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
+    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41]
+});
+
+const initLeafletMap = () => {
+    map = L.map("edit-leaflet-map").setView(initialPos, 17); // เริ่มต้นซูมไกลๆ เห็นทั้งประเทศ
+
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        maxZoom: 19,
+        attribution: '&copy; OpenStreetMap'
+    }).addTo(map);
+
+    map.on("click", (e) => {
+        const { lat, lng } = e.latlng;
+        setMarker(lat, lng);
+        map.flyTo([lat, lng], 17);
+    });
+};
+
+const setMarker = (lat, lng) => {
+    form.factoryLat = lat.toFixed(6);
+    form.factoryLng = lng.toFixed(6);
+
+    if (marker) {
+        marker.setLatLng([lat, lng]);
+    } else {
+        marker = L.marker([lat, lng], { draggable: true, icon: redIcon }).addTo(map);
+        marker.on("dragend", (e) => {
+            const newPos = e.target.getLatLng();
+            form.factoryLat = newPos.lat.toFixed(6);
+            form.factoryLng = newPos.lng.toFixed(6);
+        });
+    }
+};
+
+const updateMapFromInputs = () => {
+    // ตรวจสอบค่าว่างก่อน ถ้าว่างให้ถอยกลับและลบหมุด (ไม่ต้องไปยุ่งกับค่าใน form แล้ว)
+    if (!form.factoryLat || !form.factoryLng) {
+        if (map) {
+            map.flyTo(initialPos, 17);
+            if (marker) {
+                map.removeLayer(marker);
+                marker = null;
+            }
+        }
+        return; // จบการทำงานตรงนี้เลย ไม่ต้องไป parse float ด้านล่าง
+    }
+
+    const lat = parseFloat(form.factoryLat);
+    const lng = parseFloat(form.factoryLng);
+
+    if (!isNaN(lat) && !isNaN(lng)) {
+        const newPos = [lat, lng];
+        if (map) {
+            map.flyTo(newPos, 18);
+            if (marker) {
+                marker.setLatLng(newPos);
+            } else {
+                marker = L.marker(newPos, { draggable: true }).addTo(map);
+                marker.on("dragend", (e) => {
+                    const pos = e.target.getLatLng();
+                    form.factoryLat = pos.lat.toFixed(6);
+                    form.factoryLng = pos.lng.toFixed(6);
+                });
+            }
+        }
+    }
+};
+
+// watch ปรับให้กระชับขึ้น
+watch([() => form.factoryLat, () => form.factoryLng], ([lat, lng]) => {
+    if (!lat || !lng) {
+        updateMapFromInputs(); // ทำงานทันทีถ้าลบจนว่าง
+    } else {
+        clearTimeout(window.mapTimeout);
+        window.mapTimeout = setTimeout(() => {
+            updateMapFromInputs();
+        }, 800); // เพิ่มเวลาเป็น 800ms เพื่อให้ user มีเวลาพิมพ์เลขให้เสร็จก่อนแผนที่วิ่ง
+    }
+});
 </script>
 
 <style scoped>
