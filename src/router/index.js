@@ -393,10 +393,22 @@ const router = createRouter({
                     meta: { title: "พิจารณาทะเบียน DOA" },
                 },
                 {
+                    path: "reviews/:id",
+                    name: "DOAStaffReviewDetail",
+                    component: () => import("@/views/doa/staff/ReviewDetailPage.vue"),
+                    meta: { title: "พิจารณาคำขอ" },
+                },
+                {
                     path: "signing",
                     name: "DOAStaffSigningList",
                     component: () => import("@/views/doa/staff/SigningListPage.vue"),
                     meta: { title: "ลงนาม DOA" },
+                },
+                {
+                    path: "signing/:id",
+                    name: "DOAStaffSigningDetail",
+                    component: () => import("@/views/doa/staff/SigningDetailPage.vue"),
+                    meta: { title: "ลงนามใบรับรอง" },
                 },
                 {
                     path: "registration-data",
@@ -670,6 +682,12 @@ const router = createRouter({
                     meta: { title: "รายละเอียดคำขอผู้ส่งออก" },
                 },
                 {
+                    path: "reviews",
+                    name: "ExportStaffReviewList",
+                    component: () => import("@/views/export/staff/ReviewListPage.vue"),
+                    meta: { title: "รายการรอพิจารณา" },
+                },
+                {
                     path: "registry",
                     name: "ExportStaffRegistry",
                     component: () => import("@/views/export/staff/RegistryPage.vue"),
@@ -689,6 +707,24 @@ const router = createRouter({
                         import("@/views/export/staff/CertificateManagePage.vue"),
                     meta: { title: "จัดการใบรับรอง" },
                 },
+                {
+                    path: "reviews/:id",
+                    name: "ExportStaffReviewDetail",
+                    component: () => import("@/views/export/staff/ReviewDetailPage.vue"),
+                    meta: { title: "พิจารณาคำขอ" },
+                },
+                {
+                    path: "signing",
+                    name: "ExportStaffSigningList",
+                    component: () => import("@/views/export/staff/SigningListPage.vue"),
+                    meta: { title: "รายการรอลงนาม" },
+                },
+                {
+                    path: "signing/:id",
+                    name: "ExportStaffSigningDetail",
+                    component: () => import("@/views/export/staff/SigningDetailPage.vue"),
+                    meta: { title: "ลงนามใบรับรอง" },
+                }
             ],
         },
 
