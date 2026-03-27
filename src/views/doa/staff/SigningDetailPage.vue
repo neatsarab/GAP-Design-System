@@ -604,7 +604,7 @@
                 </v-card-text>
                 <v-card-actions class="px-6 pb-5">
                     <v-btn color="doa-staff" rounded="lg" block
-                        @click="router.push({ name: 'ExportStaffRegistry' })">
+                        @click="router.push({ name: 'DOAStaffSigningList' })">
                         ไปยังหน้ารายการใบรับรอง
                     </v-btn>
                 </v-card-actions>
@@ -765,7 +765,7 @@ function previewCertPdf(item) {
     <div class="center">
       <div class="label">กรมวิชาการเกษตร • Department of Agriculture</div>
       <div style="font-size:16pt;font-weight:700;margin:8px 0">หนังสือสำคัญแสดงการจดทะเบียนผู้ส่งออกสินค้าพืช</div>
-      <div class="label">Certificate of Export Registration</div>
+      <div class="label">Certificate of DOA Registration</div>
       <div class="watermark">ร่าง / DRAFT</div>
       <div class="cert-no">${item.certNo}</div>
     </div>

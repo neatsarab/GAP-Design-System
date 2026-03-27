@@ -583,7 +583,7 @@
                 </v-card-text>
                 <v-card-actions class="px-6 pb-5">
                     <v-btn color="doa-staff" rounded="lg" block
-                        @click="router.push({ name: 'ExportStaffReviewList' })">
+                        @click="router.push({ name: 'DOAStaffReviewList' })">
                         กลับรายการคำขอ
                     </v-btn>
                 </v-card-actions>
