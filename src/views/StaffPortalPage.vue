@@ -444,11 +444,14 @@
 <script setup>
 import { useRouter } from "vue-router";
 import { useThemeStore } from "@/stores/theme.store";
+import { useSessionStore } from "@/stores/session.store";
 
 const router = useRouter();
 const themeStore = useThemeStore();
+const sessionStore = useSessionStore();
 
 function goToLogin() {
+  sessionStore.clearSession();
   router.push({ name: "Login" });
 }
 

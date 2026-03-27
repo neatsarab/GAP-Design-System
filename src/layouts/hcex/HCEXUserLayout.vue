@@ -281,6 +281,7 @@ function goToPortal() {
 
 function doLogout() {
   logoutDialog.value = false;
+  sessionStore.clearSession();
   router.push({ name: "Login" });
 }
 

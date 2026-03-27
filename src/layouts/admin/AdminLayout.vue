@@ -227,9 +227,11 @@ import { ref, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useThemeStore } from "@/stores/theme.store";
 import { useAdminStore } from "@/stores/admin.store";
+import { useSessionStore } from "@/stores/session.store";
 
 const themeStore = useThemeStore();
 const adminStore = useAdminStore();
+const sessionStore = useSessionStore();
 const isDark = computed(() => themeStore.isDark);
 function toggleTheme() {
   themeStore.toggle();
@@ -255,6 +257,7 @@ function closeLogoutDialog() {
 
 function doLogout() {
   logoutDialog.value = false;
+  sessionStore.clearSession();
   router.push({ name: "Login" });
 }
 

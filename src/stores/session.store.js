@@ -1,15 +1,36 @@
 import { defineStore } from "pinia";
-import { ref, computed } from "vue";
+import { ref, computed, watch } from "vue";
+
+const STORAGE_KEY = "gap_session";
+
+function loadFromStorage() {
+  try {
+    const raw = sessionStorage.getItem(STORAGE_KEY);
+    return raw ? JSON.parse(raw) : null;
+  } catch {
+    return null;
+  }
+}
+
+function saveToStorage(data) {
+  try {
+    sessionStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  } catch {
+    // sessionStorage unavailable
+  }
+}
 
 export const useSessionStore = defineStore("session", () => {
-  const entityType = ref("personal");
-  const loginName = ref("");
-  const personalName = ref("");
-  const groupName = ref("");
-  const companyName = ref("");
-  const taxId = ref("");
-  const groupId = ref("");
-  const groupSystems = ref([]);
+  const saved = loadFromStorage();
+
+  const entityType = ref(saved?.entityType ?? "personal");
+  const loginName = ref(saved?.loginName ?? "");
+  const personalName = ref(saved?.personalName ?? "");
+  const groupName = ref(saved?.groupName ?? "");
+  const companyName = ref(saved?.companyName ?? "");
+  const taxId = ref(saved?.taxId ?? "");
+  const groupId = ref(saved?.groupId ?? "");
+  const groupSystems = ref(saved?.groupSystems ?? []);
 
   const isGroupMode = computed(() => entityType.value === "group");
 
@@ -30,6 +51,22 @@ export const useSessionStore = defineStore("session", () => {
     if (entityType.value === "juristic") return companyName.value;
     return personalName.value;
   });
+
+  // persist to sessionStorage on every change
+  watch(
+    () => ({
+      entityType: entityType.value,
+      loginName: loginName.value,
+      personalName: personalName.value,
+      groupName: groupName.value,
+      companyName: companyName.value,
+      taxId: taxId.value,
+      groupId: groupId.value,
+      groupSystems: groupSystems.value,
+    }),
+    (val) => saveToStorage(val),
+    { deep: true },
+  );
 
   function setContext(
     type,
@@ -62,6 +99,18 @@ export const useSessionStore = defineStore("session", () => {
     groupSystems.value = systems;
   }
 
+  function clearSession() {
+    entityType.value = "personal";
+    loginName.value = "";
+    personalName.value = "";
+    groupName.value = "";
+    companyName.value = "";
+    taxId.value = "";
+    groupId.value = "";
+    groupSystems.value = [];
+    sessionStorage.removeItem(STORAGE_KEY);
+  }
+
   return {
     entityType,
     loginName,
@@ -76,5 +125,6 @@ export const useSessionStore = defineStore("session", () => {
     entityIcon,
     displayName,
     setContext,
+    clearSession,
   };
 });

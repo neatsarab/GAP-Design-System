@@ -237,8 +237,10 @@
 import { ref, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useThemeStore } from "@/stores/theme.store";
+import { useSessionStore } from "@/stores/session.store";
 
 const themeStore = useThemeStore();
+const sessionStore = useSessionStore();
 const isDark = computed(() => themeStore.isDark);
 function toggleTheme() {
   themeStore.toggle();
@@ -272,6 +274,7 @@ function goToNotifications() {
 
 function doLogout() {
   logoutDialog.value = false;
+  sessionStore.clearSession();
   router.push({ name: "Login" });
 }
 
