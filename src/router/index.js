@@ -929,6 +929,18 @@ const router = createRouter({
                     meta: { title: "รายการคำขอ" },
                 },
                 {
+                    path: "registrationinfo",
+                    name: "ELUserRegistrationInfo",
+                    component: () => import("@/views/el/user/RegistrationInfoListPage.vue"),
+                    meta: { title: "ข้อมูลทะเบียน"},
+                },
+                {
+                    path: "farmerplotinfo",
+                    name: "ELUserFarmerPlotInfo",
+                    component: () => import("@/views/el/user/FarmerPlotInfoListPage.vue"),
+                    meta: {title: "ข้อมูลแปลงเกษตรกร"},
+                },
+                {
                     path: "applications/new",
                     name: "ELUserApplicationType",
                     component: () => import("@/views/el/user/ApplicationTypePage.vue"),
