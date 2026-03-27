@@ -288,7 +288,7 @@ const navGroups = [
     divider: true,
     items: [
       {
-        title: "ยื่นคำขอใหม่",
+        title: "ยื่นคำขอ",
         icon: "fas fa-file-pen",
         to: "/cb/user/applications/new",
       },
@@ -300,12 +300,12 @@ const navGroups = [
     ],
   },
   {
-    label: "ใบรับรอง",
+    label: "ใบทะเบียน",
     divider: false,
     items: [
       {
-        title: "รายการใบรับรอง",
-        icon: "fas fa-certificate",
+        title: "รายการใบทะเบียน",
+        icon: "fas fa-id-card",
         to: "/cb/user/certificates",
       },
     ],

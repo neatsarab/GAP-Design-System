@@ -299,11 +299,11 @@ const navGroups = [
     ],
   },
   {
-    label: "ใบรับรอง",
+    label: "ใบทะเบียน",
     divider: true,
     items: [
       {
-        title: "รายการใบรับรอง",
+        title: "รายการใบทะเบียน",
         icon: "fas fa-certificate",
         to: "/export/staff/registry",
       },

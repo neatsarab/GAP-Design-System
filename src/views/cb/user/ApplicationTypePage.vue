@@ -100,20 +100,9 @@ const appTypes = [
     features: ["ขึ้นทะเบียนหน่วยรับรองใหม่", "กำหนดขอบข่ายมาตรฐาน", "ISO/IEC 17065"],
   },
   {
-    key: "renew",
-    route: "/cb/user/applications/new/renew",
-    title: "ต่ออายุทะเบียนหน่วยรับรอง",
-    badge: null,
-    icon: "fas fa-rotate",
-    color: "primary",
-    description:
-      "สำหรับหน่วยรับรองที่ทะเบียนใกล้หมดอายุและต้องการต่ออายุเพื่อให้บริการตรวจรับรองต่อไป",
-    features: ["ต่ออายุใบรับรองที่หมดอายุ", "ยืนยันขอบข่ายเดิม", "อัปเดตเอกสารประกอบ"],
-  },
-  {
     key: "scope",
     route: "/cb/user/applications/new/scope",
-    title: "เพิ่ม / ลดขอบข่าย",
+    title: "คำขอเพิ่ม-ลด ขอบข่าย",
     badge: null,
     icon: "fas fa-arrows-left-right",
     color: "warning",
@@ -122,15 +111,26 @@ const appTypes = [
     features: ["เพิ่ม / ลดมาตรฐาน", "เปลี่ยนประเภทสถานประกอบการ", "ต้องมีทะเบียนเดิม"],
   },
   {
-    key: "other",
-    route: "/cb/user/applications/new/other",
-    title: "คำขออื่น ๆ",
+    key: "amend",
+    route: "/cb/user/applications/new/amend",
+    title: "คำขอแก้ไขทะเบียน",
     badge: null,
-    icon: "fas fa-ellipsis",
-    color: "secondary",
+    icon: "fas fa-file-pen",
+    color: "info",
     description:
-      "สำหรับคำขอที่ไม่เข้าข่ายประเภทข้างต้น เช่น การแจ้งเปลี่ยนแปลงข้อมูลสำคัญ การระงับ หรือยกเลิกทะเบียน",
-    features: ["แจ้งเปลี่ยนแปลงข้อมูลสำคัญ", "ระงับ / ยกเลิกทะเบียน", "กรณีพิเศษอื่น ๆ"],
+      "สำหรับหน่วยรับรองที่ต้องการแก้ไขข้อมูลในทะเบียน เช่น เปลี่ยนแปลงผู้บริหาร ที่อยู่สำนักงาน หรือข้อมูลสำคัญอื่น ๆ",
+    features: ["แก้ไขข้อมูลหน่วยรับรอง", "เปลี่ยนแปลงผู้บริหาร", "ต้องมีทะเบียนเดิม"],
+  },
+  {
+    key: "cancel",
+    route: "/cb/user/applications/new/cancel",
+    title: "คำขอยกเลิกทะเบียน",
+    badge: null,
+    icon: "fas fa-file-circle-xmark",
+    color: "error",
+    description:
+      "สำหรับหน่วยรับรองที่ต้องการยกเลิกการขึ้นทะเบียนกับกรมวิชาการเกษตรและหยุดให้บริการตรวจรับรองโรงงานผลิตสินค้าพืช",
+    features: ["ยกเลิกใบทะเบียนหน่วยรับรอง", "หยุดให้บริการตรวจรับรอง", "ต้องมีทะเบียนเดิม"],
   },
 ];
 </script>

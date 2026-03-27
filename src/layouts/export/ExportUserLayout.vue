@@ -304,11 +304,11 @@ const navGroups = [
     ],
   },
   {
-    label: "ใบรับรอง",
+    label: "ใบทะเบียน",
     divider: false,
     items: [
       {
-        title: "รายการใบรับรอง",
+        title: "รายการใบทะเบียน",
         icon: "fas fa-certificate",
         to: "/export/user/certificates",
       },

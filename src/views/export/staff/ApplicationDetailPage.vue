@@ -513,7 +513,7 @@
 
                 <!-- Action buttons inline -->
                 <v-row class="ga-2" no-gutters>
-                  <v-col v-if="step1Review.result !== 'pass'">
+                  <v-col v-if="step1Review.result === 'improve'">
                     <v-btn
                       color="warning"
                       variant="tonal"
@@ -523,6 +523,18 @@
                       @click="sendBackDialog = true"
                     >
                       ส่งกลับแก้ไข
+                    </v-btn>
+                  </v-col>
+                  <v-col v-if="step1Review.result === 'fail'">
+                    <v-btn
+                      color="error"
+                      variant="tonal"
+                      block
+                      rounded="lg"
+                      prepend-icon="fas fa-circle-xmark"
+                      @click="rejectDialog = true"
+                    >
+                      ส่งผลไม่ผ่าน
                     </v-btn>
                   </v-col>
                   <v-col v-if="step1Review.result === 'pass'">
@@ -561,7 +573,10 @@
                 >ความคืบหน้าคำขอ</span
               >
             </div>
-            <v-card-text class="pa-4">
+            <v-card-text
+              class="pa-4"
+              style="max-height: 420px; overflow-y: auto"
+            >
               <div class="activity-timeline">
                 <div
                   v-for="(event, i) in application.activityLog"
@@ -817,6 +832,43 @@
       </v-card>
     </v-dialog>
 
+    <!-- Reject Dialog -->
+    <v-dialog v-model="rejectDialog" max-width="400">
+      <v-card rounded="xl">
+        <v-card-text class="pa-7 text-center">
+          <div
+            class="confirm-ring mx-auto mb-4"
+            style="background: rgba(var(--v-theme-error), 0.1)"
+          >
+            <v-icon icon="fas fa-circle-xmark" color="error" size="28" />
+          </div>
+          <h3 class="text-h6 font-weight-bold mb-2">ส่งผลไม่ผ่าน</h3>
+          <p class="text-body-2 text-medium-emphasis">
+            ยืนยันการส่งผลการตรวจสอบ "ไม่ผ่าน" กลับให้ผู้ยื่นคำขอ
+          </p>
+        </v-card-text>
+        <v-card-actions class="px-6 pb-5">
+          <v-row no-gutters class="ga-2 w-100">
+            <v-col>
+              <v-btn
+                variant="tonal"
+                color="grey"
+                rounded="lg"
+                block
+                @click="rejectDialog = false"
+                >ยกเลิก</v-btn
+              >
+            </v-col>
+            <v-col>
+              <v-btn color="error" rounded="lg" block @click="submitReject"
+                >ยืนยัน</v-btn
+              >
+            </v-col>
+          </v-row>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
     <!-- Success Dialog -->
     <v-dialog v-model="successDialog" max-width="400" persistent>
       <v-card rounded="xl">
@@ -947,6 +999,7 @@ const router = useRouter();
 const activeTab = ref("info");
 const forwardDialog = ref(false);
 const sendBackDialog = ref(false);
+const rejectDialog = ref(false);
 const successDialog = ref(false);
 const successMessage = ref("");
 
@@ -1083,7 +1136,7 @@ const application = {
       type: "submit",
       action: "ยื่นคำขอ",
       actor: "นายสมชาย ใจดี (ผู้ยื่นคำขอ)",
-      timestamp: "01/01/2569 09:12",
+      timestamp: "04/01/2569 10:30",
       remark: "",
     },
     {
@@ -1093,6 +1146,13 @@ const application = {
       timestamp: "03/01/2569 10:30",
       remark:
         "เอกสารสำเนาหนังสือรับรองนิติบุคคลไม่ครบถ้วน กรุณาแนบเอกสารฉบับที่ออกโดยกรมพัฒนาธุรกิจการค้าซึ่งออกไม่เกิน 3 เดือน และแก้ไขพิกัดที่ตั้งโรงงานให้ถูกต้องตามทะเบียนโรงงาน",
+    },
+    {
+      type: "submit",
+      action: "ยื่นคำขอ",
+      actor: "นายสมชาย ใจดี (ผู้ยื่นคำขอ)",
+      timestamp: "01/01/2569 09:12",
+      remark: "",
     },
   ],
 };
