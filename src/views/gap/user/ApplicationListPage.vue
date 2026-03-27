@@ -187,11 +187,7 @@
         sm="6"
         lg="4"
       >
-        <v-card
-          hover
-          class="app-card"
-          @click="goToApplicationDetail(item.no)"
-        >
+        <v-card hover class="app-card" @click="goToApplicationDetail(item.no)">
           <v-card-text class="pa-4">
             <div class="d-flex align-start justify-space-between mb-3">
               <div>
@@ -223,6 +219,7 @@
               variant="text"
               color="gap-user"
               prepend-icon="fas fa-eye"
+              @click.stop="goToApplicationDetail(item.no)"
               >รายละเอียด</v-btn
             >
             <v-spacer />
@@ -231,12 +228,14 @@
               variant="text"
               color="info"
               icon="fas fa-pencil"
+              @click.stop
             />
             <v-btn
               size="x-small"
               variant="text"
               color="success"
               icon="fas fa-download"
+              @click.stop
             />
           </v-card-actions>
         </v-card>

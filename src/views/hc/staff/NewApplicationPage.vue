@@ -4,7 +4,9 @@
       <v-btn icon="fas fa-arrow-left" variant="text" @click="router.back()" />
       <div>
         <h1 class="page-title mb-1">ยื่นคำขอ Health Certificate</h1>
-        <p class="text-body-2 text-medium-emphasis mb-0">เลือกประเภทคำขอที่ต้องการยื่น</p>
+        <p class="text-body-2 text-medium-emphasis mb-0">
+          เลือกประเภทคำขอที่ต้องการยื่น
+        </p>
       </div>
     </div>
 
@@ -16,19 +18,32 @@
         >
           <div class="type-card-accent bg-info" />
           <v-card-text class="pa-6 text-center">
-            <div class="type-icon-box mx-auto mb-4" style="background:rgba(var(--v-theme-hc-staff),0.1)">
+            <div
+              class="type-icon-box mx-auto mb-4"
+              style="background: rgba(var(--v-theme-hc-staff), 0.1)"
+            >
               <v-icon icon="fas fa-file-shield" color="hc-staff" size="32" />
             </div>
-            <h3 class="text-h6 font-weight-bold mb-2">ขอใบรับรองสุขอนามัยพืช</h3>
+            <h3 class="text-h6 font-weight-bold mb-2">
+              ขอใบรับรองสุขอนามัยพืช
+            </h3>
             <p class="text-body-2 text-medium-emphasis mb-4">
               สำหรับพืชที่อยู่ภายใต้ประกาศพืชควบคุมเฉพาะ เพื่อการส่งออก
             </p>
             <div class="d-flex flex-wrap ga-2 justify-center mb-5">
-              <v-chip size="x-small" color="hc-staff" variant="tonal">Form HC</v-chip>
-              <v-chip size="x-small" color="hc-staff" variant="tonal">Attachment Sheet</v-chip>
-              <v-chip size="x-small" color="hc-staff" variant="tonal">เอกสารประกอบ</v-chip>
+              <v-chip size="x-small" color="hc-staff" variant="tonal"
+                >Form HC</v-chip
+              >
+              <v-chip size="x-small" color="hc-staff" variant="tonal"
+                >Attachment Sheet</v-chip
+              >
+              <v-chip size="x-small" color="hc-staff" variant="tonal"
+                >เอกสารประกอบ</v-chip
+              >
             </div>
-            <v-btn color="hc-staff" block append-icon="fas fa-arrow-right">เลือก</v-btn>
+            <v-btn color="hc-staff" block append-icon="fas fa-arrow-right"
+              >เลือก</v-btn
+            >
           </v-card-text>
         </v-card>
       </v-col>
@@ -40,18 +55,30 @@
         >
           <div class="type-card-accent bg-secondary" />
           <v-card-text class="pa-6 text-center">
-            <div class="type-icon-box mx-auto mb-4" style="background:rgba(var(--v-theme-secondary),0.1)">
+            <div
+              class="type-icon-box mx-auto mb-4"
+              style="background: rgba(var(--v-theme-secondary), 0.1)"
+            >
               <v-icon icon="fas fa-file-pen" color="secondary" size="32" />
             </div>
-            <h3 class="text-h6 font-weight-bold mb-2">ขอแก้ไขใบรับรองสุขอนามัยพืช</h3>
+            <h3 class="text-h6 font-weight-bold mb-2">
+              ขอแก้ไขใบรับรองสุขอนามัยพืช
+            </h3>
             <p class="text-body-2 text-medium-emphasis mb-4">
-              แก้ไขข้อมูลในใบรับรองที่ออกแล้ว เช่น ชื่อผู้รับสินค้า รายละเอียดสินค้า
+              แก้ไขข้อมูลในใบรับรองที่ออกแล้ว เช่น ชื่อผู้รับสินค้า
+              รายละเอียดสินค้า
             </p>
             <div class="d-flex flex-wrap ga-2 justify-center mb-5">
-              <v-chip size="x-small" color="secondary" variant="tonal">เลขใบรับรอง</v-chip>
-              <v-chip size="x-small" color="secondary" variant="tonal">รายการที่แก้ไข</v-chip>
+              <v-chip size="x-small" color="secondary" variant="tonal"
+                >เลขใบรับรอง</v-chip
+              >
+              <v-chip size="x-small" color="secondary" variant="tonal"
+                >รายการที่แก้ไข</v-chip
+              >
             </div>
-            <v-btn color="secondary" block append-icon="fas fa-arrow-right">เลือก</v-btn>
+            <v-btn color="secondary" block append-icon="fas fa-arrow-right"
+              >เลือก</v-btn
+            >
           </v-card-text>
         </v-card>
       </v-col>
@@ -61,11 +88,19 @@
     <v-card class="mt-6" variant="tonal" color="hc-staff">
       <v-card-text class="pa-4">
         <div class="d-flex align-start ga-3">
-          <v-icon icon="fas fa-circle-info" color="hc-staff" size="18" class="mt-1 flex-shrink-0" />
+          <v-icon
+            icon="fas fa-circle-info"
+            color="hc-staff"
+            size="18"
+            class="mt-1 flex-shrink-0"
+          />
           <div>
-            <div class="text-body-2 font-weight-bold mb-2">เอกสารที่ต้องเตรียม</div>
+            <div class="text-body-2 font-weight-bold mb-2">
+              เอกสารที่ต้องเตรียม
+            </div>
             <div class="text-body-2 text-medium-emphasis">
-              ใบกำกับสินค้า · ใบขนสินค้า · ใบรับรองแหล่งผลิต (GAP) · ใบรับรองโรงคัดบรรจุ
+              ใบกำกับสินค้า · ใบขนสินค้า · ใบรับรองแหล่งผลิต (GAP) ·
+              ใบรับรองโรงคัดบรรจุ
             </div>
           </div>
         </div>
@@ -75,15 +110,21 @@
 </template>
 
 <script setup>
-import { useRouter } from 'vue-router'
-const router = useRouter()
+import { useRouter } from "vue-router";
+const router = useRouter();
 
 function goToNewCertificate() {
-  router.push({ name: "HCstaffNewApplication", params: { type: "certificate" } });
+  router.push({
+    name: "HCstaffNewApplication",
+    params: { type: "certificate" },
+  });
 }
 
 function goToNewCorrection() {
-  router.push({ name: "HCstaffNewApplication", params: { type: "correction" } });
+  router.push({
+    name: "HCstaffNewApplication",
+    params: { type: "correction" },
+  });
 }
 </script>
 
@@ -93,15 +134,19 @@ function goToNewCorrection() {
   position: relative;
   overflow: hidden;
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 .type-card--active:hover {
   transform: translateY(-4px);
-  box-shadow: 0 10px 36px rgba(0,0,0,0.1) !important;
+  box-shadow: 0 10px 36px rgba(0, 0, 0, 0.1) !important;
 }
 .type-card-accent {
   position: absolute;
-  top: 0; left: 0; right: 0;
+  top: 0;
+  left: 0;
+  right: 0;
   height: 4px;
 }
 .type-icon-box {

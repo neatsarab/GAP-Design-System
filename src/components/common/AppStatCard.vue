@@ -14,7 +14,9 @@
         <!-- Icon Box -->
         <div
           class="stat-icon-box rounded-lg d-flex align-center justify-center flex-shrink-0"
-          :style="{ background: `rgba(var(--v-theme-${iconColor ?? 'primary'}),0.12)` }"
+          :style="{
+            background: `rgba(var(--v-theme-${iconColor ?? 'primary'}),0.12)`,
+          }"
         >
           <v-icon :icon="icon" :color="iconColor ?? 'primary'" size="22" />
         </div>
@@ -39,7 +41,10 @@
       <div class="mt-4">
         <div class="stat-num">{{ value }}</div>
         <div class="text-body-2 text-medium-emphasis mt-1">{{ label }}</div>
-        <div v-if="trendLabel && trend !== undefined" class="text-caption text-disabled mt-1">
+        <div
+          v-if="trendLabel && trend !== undefined"
+          class="text-caption text-disabled mt-1"
+        >
           {{ trendLabel }}
         </div>
       </div>
@@ -50,14 +55,14 @@
 <script setup>
 defineProps({
   icon: String,
-  iconColor: { type: String, default: 'primary' },
+  iconColor: { type: String, default: "primary" },
   label: String,
   value: [String, Number],
   trend: Number,
   trendLabel: String,
   loading: { type: Boolean, default: false },
   to: String,
-})
+});
 </script>
 
 <style scoped>
@@ -67,7 +72,9 @@ defineProps({
 }
 .app-stat-card--clickable {
   cursor: pointer;
-  transition: box-shadow 0.2s, transform 0.2s;
+  transition:
+    box-shadow 0.2s,
+    transform 0.2s;
 }
 .app-stat-card--clickable:hover {
   transform: translateY(-2px);

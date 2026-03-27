@@ -537,10 +537,7 @@ async function doStaffLogin() {
 
 function doSsoLogin() {
   ssoLoading.value = true;
-  setTimeout(
-    () => router.push({ name: "StaffPortal" }),
-    800,
-  );
+  setTimeout(() => router.push({ name: "StaffPortal" }), 800);
 }
 </script>
 

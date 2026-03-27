@@ -2,9 +2,7 @@ import { ref } from "vue";
 import { defineStore } from "pinia";
 
 export const useAdminStore = defineStore("admin", () => {
-  const role = ref(
-    sessionStorage.getItem("adminRole") || "sysadmin",
-  );
+  const role = ref(sessionStorage.getItem("adminRole") || "sysadmin");
   const username = ref(sessionStorage.getItem("adminUsername") || "");
 
   function setRole(r) {

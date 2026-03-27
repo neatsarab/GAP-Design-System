@@ -10,7 +10,9 @@
       />
       <div>
         <h1 class="page-title mb-0">ยื่นคำขอขึ้นทะเบียนหน่วยรับรอง CB</h1>
-        <p class="text-body-2 text-medium-emphasis mb-0">เลือกประเภทคำขอที่ต้องการยื่น</p>
+        <p class="text-body-2 text-medium-emphasis mb-0">
+          เลือกประเภทคำขอที่ต้องการยื่น
+        </p>
       </div>
     </div>
 
@@ -33,14 +35,24 @@
 
             <div class="d-flex align-center ga-2 mb-2">
               <h2 class="text-h6 font-weight-bold">{{ type.title }}</h2>
-              <v-chip v-if="type.badge" size="x-small" :color="type.color" variant="tonal">
+              <v-chip
+                v-if="type.badge"
+                size="x-small"
+                :color="type.color"
+                variant="tonal"
+              >
                 {{ type.badge }}
               </v-chip>
             </div>
 
-            <p class="text-body-2 text-medium-emphasis mb-5">{{ type.description }}</p>
+            <p class="text-body-2 text-medium-emphasis mb-5">
+              {{ type.description }}
+            </p>
 
-            <v-list density="compact" class="w-100 text-left mb-6 bg-transparent pa-0">
+            <v-list
+              density="compact"
+              class="w-100 text-left mb-6 bg-transparent pa-0"
+            >
               <v-list-item
                 v-for="f in type.features"
                 :key="f"
@@ -52,7 +64,13 @@
               />
             </v-list>
 
-            <v-btn :color="type.color" block rounded="lg" append-icon="fas fa-arrow-right">
+            <v-btn
+              :color="type.color"
+              block
+              rounded="lg"
+              append-icon="fas fa-arrow-right"
+              @click.stop="goToAppType(type.route)"
+            >
               เลือกประเภทนี้
             </v-btn>
           </v-card-text>
@@ -68,8 +86,10 @@
       prepend-icon="fas fa-circle-info"
       rounded="xl"
     >
-      <strong>หมายเหตุ:</strong> สำเนาเอกสารทุกฉบับต้องรับรองสำเนาถูกต้องโดยผู้มีอำนาจลงนาม
-      การขึ้นทะเบียนหน่วยรับรองต้องผ่านการประเมินความสามารถตามมาตรฐาน ISO/IEC 17065
+      <strong>หมายเหตุ:</strong>
+      สำเนาเอกสารทุกฉบับต้องรับรองสำเนาถูกต้องโดยผู้มีอำนาจลงนาม
+      การขึ้นทะเบียนหน่วยรับรองต้องผ่านการประเมินความสามารถตามมาตรฐาน ISO/IEC
+      17065
     </v-alert>
   </div>
 </template>
@@ -97,7 +117,11 @@ const appTypes = [
     color: "primary",
     description:
       "สำหรับหน่วยรับรองที่ต้องการขึ้นทะเบียนกับกรมวิชาการเกษตรเป็นครั้งแรก เพื่อให้บริการตรวจรับรองโรงงานผลิตสินค้าพืช",
-    features: ["ขึ้นทะเบียนหน่วยรับรองใหม่", "กำหนดขอบข่ายมาตรฐาน", "ISO/IEC 17065"],
+    features: [
+      "ขึ้นทะเบียนหน่วยรับรองใหม่",
+      "กำหนดขอบข่ายมาตรฐาน",
+      "ISO/IEC 17065",
+    ],
   },
   {
     key: "scope",
@@ -108,7 +132,11 @@ const appTypes = [
     color: "warning",
     description:
       "สำหรับหน่วยรับรองที่ต้องการเพิ่มหรือลดขอบข่ายการรับรอง เช่น เพิ่มมาตรฐาน หรือเปลี่ยนประเภทสถานประกอบการที่รับรอง",
-    features: ["เพิ่ม / ลดมาตรฐาน", "เปลี่ยนประเภทสถานประกอบการ", "ต้องมีทะเบียนเดิม"],
+    features: [
+      "เพิ่ม / ลดมาตรฐาน",
+      "เปลี่ยนประเภทสถานประกอบการ",
+      "ต้องมีทะเบียนเดิม",
+    ],
   },
   {
     key: "amend",
@@ -119,7 +147,11 @@ const appTypes = [
     color: "info",
     description:
       "สำหรับหน่วยรับรองที่ต้องการแก้ไขข้อมูลในทะเบียน เช่น เปลี่ยนแปลงผู้บริหาร ที่อยู่สำนักงาน หรือข้อมูลสำคัญอื่น ๆ",
-    features: ["แก้ไขข้อมูลหน่วยรับรอง", "เปลี่ยนแปลงผู้บริหาร", "ต้องมีทะเบียนเดิม"],
+    features: [
+      "แก้ไขข้อมูลหน่วยรับรอง",
+      "เปลี่ยนแปลงผู้บริหาร",
+      "ต้องมีทะเบียนเดิม",
+    ],
   },
   {
     key: "cancel",
@@ -130,7 +162,11 @@ const appTypes = [
     color: "error",
     description:
       "สำหรับหน่วยรับรองที่ต้องการยกเลิกการขึ้นทะเบียนกับกรมวิชาการเกษตรและหยุดให้บริการตรวจรับรองโรงงานผลิตสินค้าพืช",
-    features: ["ยกเลิกใบทะเบียนหน่วยรับรอง", "หยุดให้บริการตรวจรับรอง", "ต้องมีทะเบียนเดิม"],
+    features: [
+      "ยกเลิกใบทะเบียนหน่วยรับรอง",
+      "หยุดให้บริการตรวจรับรอง",
+      "ต้องมีทะเบียนเดิม",
+    ],
   },
 ];
 </script>
@@ -140,7 +176,10 @@ const appTypes = [
   border: 2px solid rgba(var(--v-border-color), var(--v-border-opacity));
   border-radius: 20px !important;
   cursor: pointer;
-  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 .type-card:hover {
   transform: translateY(-4px);

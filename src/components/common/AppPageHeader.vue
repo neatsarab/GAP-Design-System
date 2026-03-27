@@ -11,10 +11,16 @@
         <v-icon icon="fas fa-chevron-right" size="10" />
       </template>
       <template #title="{ item }">
-        <router-link v-if="item.to" :to="item.to" class="text-decoration-none text-medium-emphasis text-caption">
+        <router-link
+          v-if="item.to"
+          :to="item.to"
+          class="text-decoration-none text-medium-emphasis text-caption"
+        >
           {{ item.title }}
         </router-link>
-        <span v-else class="text-caption font-weight-medium">{{ item.title }}</span>
+        <span v-else class="text-caption font-weight-medium">{{
+          item.title
+        }}</span>
       </template>
     </v-breadcrumbs>
 
@@ -25,7 +31,7 @@
         <div
           v-if="icon"
           class="page-icon-box rounded-xl d-flex align-center justify-center flex-shrink-0"
-          style="background: rgba(var(--v-theme-primary),0.1)"
+          style="background: rgba(var(--v-theme-primary), 0.1)"
         >
           <v-icon :icon="icon" color="primary" size="20" />
         </div>
@@ -54,7 +60,7 @@ defineProps({
   icon: String,
   breadcrumbs: Array,
   loading: { type: Boolean, default: false },
-})
+});
 </script>
 
 <style scoped>

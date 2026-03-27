@@ -635,11 +635,7 @@
         <!-- Nav Buttons -->
         <div class="d-flex justify-space-between align-center mt-6">
           <div class="d-flex ga-2">
-            <v-btn
-              variant="tonal"
-              color="grey"
-              @click="goToApplicationList"
-            >
+            <v-btn variant="tonal" color="grey" @click="goToApplicationList">
               ยกเลิก
             </v-btn>
             <v-btn
@@ -702,12 +698,7 @@
           </p>
         </v-card-text>
         <v-card-actions class="px-6 pb-6">
-          <v-btn
-            color="hcex-user"
-            rounded="lg"
-            block
-            @click="goToDashboard"
-          >
+          <v-btn color="hcex-user" rounded="lg" block @click="goToDashboard">
             กลับหน้าหลัก
           </v-btn>
         </v-card-actions>

@@ -27,9 +27,16 @@
     <template v-if="activeTab === 'gmp-haccp'">
       <!-- GMP Section -->
       <v-card rounded="xl" elevation="0" class="section-card mb-5">
-        <v-card-title class="pa-5 pb-3 d-flex align-center justify-space-between section-title">
+        <v-card-title
+          class="pa-5 pb-3 d-flex align-center justify-space-between section-title"
+        >
           <span>
-            <v-icon icon="fas fa-industry" color="el-staff" class="mr-2" size="18" />
+            <v-icon
+              icon="fas fa-industry"
+              color="el-staff"
+              class="mr-2"
+              size="18"
+            />
             GMP
           </span>
           <v-btn
@@ -58,7 +65,12 @@
           </thead>
           <tbody>
             <tr v-if="gmpRecords.length === 0">
-              <td colspan="7" class="text-center text-medium-emphasis py-5 text-body-2">ไม่มีข้อมูล</td>
+              <td
+                colspan="7"
+                class="text-center text-medium-emphasis py-5 text-body-2"
+              >
+                ไม่มีข้อมูล
+              </td>
             </tr>
             <tr v-for="(row, idx) in gmpRecords" :key="row.id">
               <td>
@@ -71,7 +83,9 @@
                 />
               </td>
               <td>{{ row.round }}</td>
-              <td class="text-medium-emphasis">{{ row.scheduledDate || "—" }}</td>
+              <td class="text-medium-emphasis">
+                {{ row.scheduledDate || "—" }}
+              </td>
               <td>{{ row.inspectedDate }}</td>
               <td>{{ row.inspector }}</td>
               <td>
@@ -83,7 +97,9 @@
                   {{ row.result === "pass" ? "ผ่าน" : "ไม่ผ่าน" }}
                 </v-chip>
               </td>
-              <td class="text-medium-emphasis text-body-2">{{ row.remark || "—" }}</td>
+              <td class="text-medium-emphasis text-body-2">
+                {{ row.remark || "—" }}
+              </td>
             </tr>
           </tbody>
         </v-table>
@@ -91,9 +107,16 @@
 
       <!-- HACCP Section -->
       <v-card rounded="xl" elevation="0" class="section-card mb-5">
-        <v-card-title class="pa-5 pb-3 d-flex align-center justify-space-between section-title">
+        <v-card-title
+          class="pa-5 pb-3 d-flex align-center justify-space-between section-title"
+        >
           <span>
-            <v-icon icon="fas fa-shield-halved" color="el-staff" class="mr-2" size="18" />
+            <v-icon
+              icon="fas fa-shield-halved"
+              color="el-staff"
+              class="mr-2"
+              size="18"
+            />
             HACCP
           </span>
           <v-btn
@@ -122,7 +145,12 @@
           </thead>
           <tbody>
             <tr v-if="haccpRecords.length === 0">
-              <td colspan="7" class="text-center text-medium-emphasis py-5 text-body-2">ไม่มีข้อมูล</td>
+              <td
+                colspan="7"
+                class="text-center text-medium-emphasis py-5 text-body-2"
+              >
+                ไม่มีข้อมูล
+              </td>
             </tr>
             <tr v-for="(row, idx) in haccpRecords" :key="row.id">
               <td>
@@ -135,7 +163,9 @@
                 />
               </td>
               <td>{{ row.round }}</td>
-              <td class="text-medium-emphasis">{{ row.scheduledDate || "—" }}</td>
+              <td class="text-medium-emphasis">
+                {{ row.scheduledDate || "—" }}
+              </td>
               <td>{{ row.inspectedDate }}</td>
               <td>{{ row.inspector }}</td>
               <td>
@@ -147,7 +177,9 @@
                   {{ row.result === "pass" ? "ผ่าน" : "ไม่ผ่าน" }}
                 </v-chip>
               </td>
-              <td class="text-medium-emphasis text-body-2">{{ row.remark || "—" }}</td>
+              <td class="text-medium-emphasis text-body-2">
+                {{ row.remark || "—" }}
+              </td>
             </tr>
           </tbody>
         </v-table>
@@ -160,7 +192,9 @@
         <v-card-text class="pa-10 text-center">
           <v-icon icon="fas fa-flask" color="el-staff" size="36" class="mb-3" />
           <div class="text-body-1 font-weight-medium mb-1">ผลตรวจวิเคราะห์</div>
-          <div class="text-body-2 text-medium-emphasis">ยังไม่มีข้อมูลในส่วนนี้</div>
+          <div class="text-body-2 text-medium-emphasis">
+            ยังไม่มีข้อมูลในส่วนนี้
+          </div>
         </v-card-text>
       </v-card>
     </template>
@@ -169,9 +203,16 @@
     <template v-if="activeTab === 'exam'">
       <v-card rounded="xl" elevation="0" class="section-card">
         <v-card-text class="pa-10 text-center">
-          <v-icon icon="fas fa-file-circle-check" color="el-staff" size="36" class="mb-3" />
+          <v-icon
+            icon="fas fa-file-circle-check"
+            color="el-staff"
+            size="36"
+            class="mb-3"
+          />
           <div class="text-body-1 font-weight-medium mb-1">ผลสอบ</div>
-          <div class="text-body-2 text-medium-emphasis">ยังไม่มีข้อมูลในส่วนนี้</div>
+          <div class="text-body-2 text-medium-emphasis">
+            ยังไม่มีข้อมูลในส่วนนี้
+          </div>
         </v-card-text>
       </v-card>
     </template>
@@ -181,18 +222,24 @@
       <v-card rounded="xl">
         <v-card-title class="pa-5 pb-3 text-body-1 font-weight-bold">
           <v-icon
-            :icon="dialogType === 'gmp' ? 'fas fa-industry' : 'fas fa-shield-halved'"
+            :icon="
+              dialogType === 'gmp' ? 'fas fa-industry' : 'fas fa-shield-halved'
+            "
             color="el-staff"
             class="mr-2"
             size="18"
           />
-          {{ dialogMode === "add" ? "สร้างใหม่" : "แก้ไข" }} — {{ dialogType === "gmp" ? "GMP" : "HACCP" }}
+          {{ dialogMode === "add" ? "สร้างใหม่" : "แก้ไข" }} —
+          {{ dialogType === "gmp" ? "GMP" : "HACCP" }}
         </v-card-title>
         <v-divider />
         <v-card-text class="pa-5">
           <v-row dense>
             <v-col cols="12" sm="6">
-              <div class="field-label mb-1"><div>ครั้งที่ตรวจ</div><div class="field-label-en">Inspection Round</div></div>
+              <div class="field-label mb-1">
+                <div>ครั้งที่ตรวจ</div>
+                <div class="field-label-en">Inspection Round</div>
+              </div>
               <v-text-field
                 v-model="dialogItem.round"
                 type="number"
@@ -202,7 +249,10 @@
               />
             </v-col>
             <v-col cols="12" sm="6">
-              <div class="field-label mb-1"><div>กำหนดตรวจ</div><div class="field-label-en">Scheduled Date</div></div>
+              <div class="field-label mb-1">
+                <div>กำหนดตรวจ</div>
+                <div class="field-label-en">Scheduled Date</div>
+              </div>
               <v-text-field
                 v-model="dialogItem.scheduledDate"
                 type="date"
@@ -212,7 +262,10 @@
               />
             </v-col>
             <v-col cols="12" sm="6">
-              <div class="field-label mb-1"><div>วันที่ตรวจ</div><div class="field-label-en">Inspection Date</div></div>
+              <div class="field-label mb-1">
+                <div>วันที่ตรวจ</div>
+                <div class="field-label-en">Inspection Date</div>
+              </div>
               <v-text-field
                 v-model="dialogItem.inspectedDate"
                 type="date"
@@ -222,7 +275,10 @@
               />
             </v-col>
             <v-col cols="12" sm="6">
-              <div class="field-label mb-1"><div>ผู้ตรวจ</div><div class="field-label-en">Inspector Name</div></div>
+              <div class="field-label mb-1">
+                <div>ผู้ตรวจ</div>
+                <div class="field-label-en">Inspector Name</div>
+              </div>
               <v-autocomplete
                 v-model="dialogItem.inspector"
                 :items="inspectorOptions"
@@ -234,10 +290,16 @@
               />
             </v-col>
             <v-col cols="12" sm="6">
-              <div class="field-label mb-1"><div>ผลการตรวจ</div><div class="field-label-en">Inspection Result</div></div>
+              <div class="field-label mb-1">
+                <div>ผลการตรวจ</div>
+                <div class="field-label-en">Inspection Result</div>
+              </div>
               <v-autocomplete
                 v-model="dialogItem.result"
-                :items="[{ title: 'ผ่าน', value: 'pass' }, { title: 'ไม่ผ่าน', value: 'fail' }]"
+                :items="[
+                  { title: 'ผ่าน', value: 'pass' },
+                  { title: 'ไม่ผ่าน', value: 'fail' },
+                ]"
                 item-title="title"
                 item-value="value"
                 variant="outlined"
@@ -246,7 +308,10 @@
               />
             </v-col>
             <v-col cols="12">
-              <div class="field-label mb-1"><div>หมายเหตุ</div><div class="field-label-en">Remarks</div></div>
+              <div class="field-label mb-1">
+                <div>หมายเหตุ</div>
+                <div class="field-label-en">Remarks</div>
+              </div>
               <v-textarea
                 v-model="dialogItem.remark"
                 variant="outlined"
@@ -258,9 +323,17 @@
           </v-row>
         </v-card-text>
         <v-card-actions class="px-5 pb-5 ga-2">
-          <v-btn variant="tonal" color="grey" rounded="lg" @click="closeDialog">ยกเลิก</v-btn>
+          <v-btn variant="tonal" color="grey" rounded="lg" @click="closeDialog"
+            >ยกเลิก</v-btn
+          >
           <v-spacer />
-          <v-btn color="el-staff" rounded="lg" prepend-icon="fas fa-floppy-disk" @click="saveRecord">บันทึก</v-btn>
+          <v-btn
+            color="el-staff"
+            rounded="lg"
+            prepend-icon="fas fa-floppy-disk"
+            @click="saveRecord"
+            >บันทึก</v-btn
+          >
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -278,7 +351,6 @@ function goToInspectionNew() {
 }
 
 const activeTab = ref("gmp-haccp");
-
 
 const gmpRecords = ref([
   {
@@ -357,7 +429,8 @@ function openEditDialog(type, index) {
 }
 
 function saveRecord() {
-  const list = dialogType.value === "gmp" ? gmpRecords.value : haccpRecords.value;
+  const list =
+    dialogType.value === "gmp" ? gmpRecords.value : haccpRecords.value;
   if (dialogMode.value === "add") {
     list.push({ id: idCounter++, ...dialogItem.value });
   } else {
@@ -366,4 +439,3 @@ function saveRecord() {
   dialog.value = false;
 }
 </script>
-

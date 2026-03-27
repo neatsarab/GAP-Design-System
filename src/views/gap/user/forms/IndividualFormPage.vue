@@ -1257,10 +1257,7 @@
     <!-- Navigation Buttons -->
     <div class="d-flex justify-space-between align-center mt-6">
       <div class="d-flex ga-2">
-        <v-btn
-          variant="tonal"
-          color="grey"
-          @click="goToApplicationList"
+        <v-btn variant="tonal" color="grey" @click="goToApplicationList"
           >ยกเลิก</v-btn
         >
         <v-btn
@@ -1314,10 +1311,7 @@
             ประเภท: <strong>รายเดี่ยว</strong><br />
             เจ้าหน้าที่จะติดต่อกลับภายใน 3–5 วันทำการ
           </p>
-          <v-btn
-            color="gap-user"
-            block
-            @click="goToApplicationList"
+          <v-btn color="gap-user" block @click="goToApplicationList"
             >ดูรายการคำขอ</v-btn
           >
         </v-card-text>

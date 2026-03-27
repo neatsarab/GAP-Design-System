@@ -42,21 +42,21 @@
 <script setup>
 defineProps({
   modelValue: Boolean,
-  title: { type: String, default: 'ยืนยันการดำเนินการ' },
-  message: { type: String, default: 'คุณต้องการดำเนินการนี้ใช่หรือไม่?' },
-  confirmText: { type: String, default: 'ยืนยัน' },
-  cancelText: { type: String, default: 'ยกเลิก' },
-  confirmColor: { type: String, default: 'error' },
-  icon: { type: String, default: 'fas fa-circle-exclamation' },
-  iconColor: { type: String, default: 'error' },
+  title: { type: String, default: "ยืนยันการดำเนินการ" },
+  message: { type: String, default: "คุณต้องการดำเนินการนี้ใช่หรือไม่?" },
+  confirmText: { type: String, default: "ยืนยัน" },
+  cancelText: { type: String, default: "ยกเลิก" },
+  confirmColor: { type: String, default: "error" },
+  icon: { type: String, default: "fas fa-circle-exclamation" },
+  iconColor: { type: String, default: "error" },
   loading: { type: Boolean, default: false },
-})
+});
 
-const emit = defineEmits(['update:modelValue', 'confirm', 'cancel'])
+const emit = defineEmits(["update:modelValue", "confirm", "cancel"]);
 
 function handleCancel() {
-  emit('cancel')
-  emit('update:modelValue', false)
+  emit("cancel");
+  emit("update:modelValue", false);
 }
 </script>
 

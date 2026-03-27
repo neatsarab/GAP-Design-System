@@ -35,16 +35,37 @@
       <v-card-text class="pa-5">
         <div class="d-flex align-center">
           <template v-for="(step, i) in steps" :key="step.value">
-            <div class="step-item d-flex flex-column align-center" style="min-width: 80px">
+            <div
+              class="step-item d-flex flex-column align-center"
+              style="min-width: 80px"
+            >
               <div class="step-circle mb-1" :class="stepClass(step.value)">
-                <v-icon v-if="currentStep > step.value" icon="fas fa-check" size="14" color="white" />
-                <span v-else class="text-caption font-weight-bold">{{ step.value + 1 }}</span>
+                <v-icon
+                  v-if="currentStep > step.value"
+                  icon="fas fa-check"
+                  size="14"
+                  color="white"
+                />
+                <span v-else class="text-caption font-weight-bold">{{
+                  step.value + 1
+                }}</span>
               </div>
-              <div class="text-caption text-center" :class="currentStep >= step.value ? 'text-gap-staff font-weight-bold' : 'text-medium-emphasis'">
+              <div
+                class="text-caption text-center"
+                :class="
+                  currentStep >= step.value
+                    ? 'text-gap-staff font-weight-bold'
+                    : 'text-medium-emphasis'
+                "
+              >
                 {{ step.title }}
               </div>
             </div>
-            <div v-if="i < steps.length - 1" class="step-line flex-grow-1" :class="{ 'step-line--done': currentStep > step.value }" />
+            <div
+              v-if="i < steps.length - 1"
+              class="step-line flex-grow-1"
+              :class="{ 'step-line--done': currentStep > step.value }"
+            />
           </template>
         </div>
       </v-card-text>
@@ -785,11 +806,7 @@
           </div>
         </v-card-text>
         <v-card-actions class="pa-5 ga-2">
-          <v-btn
-            variant="tonal"
-            color="grey"
-            block
-            @click="closePrintPreview"
+          <v-btn variant="tonal" color="grey" block @click="closePrintPreview"
             >ปิด</v-btn
           >
           <v-btn color="gap-staff" block prepend-icon="fas fa-download"

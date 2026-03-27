@@ -521,11 +521,7 @@
       <!-- Actions -->
       <div class="d-flex justify-space-between align-center mt-6">
         <div class="d-flex ga-2">
-          <v-btn
-            variant="tonal"
-            color="grey"
-            @click="goToApplicationList"
-          >
+          <v-btn variant="tonal" color="grey" @click="goToApplicationList">
             ยกเลิก
           </v-btn>
           <v-btn
@@ -595,10 +591,7 @@
               >
             </v-col>
             <v-col>
-              <v-btn
-                color="hc-user"
-                block
-                @click="goToApplicationDetail"
+              <v-btn color="hc-user" block @click="goToApplicationDetail"
                 >ติดตามสถานะ</v-btn
               >
             </v-col>

@@ -95,6 +95,7 @@
                   prepend-icon="fas fa-right-to-bracket"
                   rounded="lg"
                   block
+                  @click.stop="goToLogin"
                 >
                   เข้าสู่ระบบ
                 </v-btn>
@@ -105,11 +106,7 @@
 
         <!-- Design System -->
         <v-col cols="12" sm="6">
-          <v-card
-            class="portal-card"
-            hover
-            @click="goToDesignSystem"
-          >
+          <v-card class="portal-card" hover @click="goToDesignSystem">
             <v-card-text
               class="pa-8 text-center d-flex flex-column align-center"
             >
@@ -151,6 +148,7 @@
                   prepend-icon="fas fa-arrow-right"
                   rounded="lg"
                   block
+                  @click.stop="goToDesignSystem"
                 >
                   ดู Design System
                 </v-btn>

@@ -517,10 +517,7 @@
             ><br />
             เจ้าหน้าที่จะดำเนินการภายใน 3–7 วันทำการ
           </p>
-          <v-btn
-            color="gap-user"
-            block
-            @click="goToApplicationList"
+          <v-btn color="gap-user" block @click="goToApplicationList"
             >ดูรายการคำขอ</v-btn
           >
         </v-card-text>

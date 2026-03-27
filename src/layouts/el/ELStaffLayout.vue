@@ -11,7 +11,13 @@
       <!-- Brand -->
       <v-list-item nav class="py-4 px-4">
         <template v-slot:prepend>
-          <div class="logo-icon-box rounded-lg mr-3" style="background: rgba(var(--v-theme-el-staff), 0.12); border: 1px solid rgba(var(--v-theme-el-staff), 0.2);">
+          <div
+            class="logo-icon-box rounded-lg mr-3"
+            style="
+              background: rgba(var(--v-theme-el-staff), 0.12);
+              border: 1px solid rgba(var(--v-theme-el-staff), 0.2);
+            "
+          >
             <v-icon icon="fas fa-warehouse" color="el-staff" size="20" />
           </div>
         </template>
@@ -36,7 +42,13 @@
 
       <!-- User Card -->
       <div v-if="!rail" class="px-4 mb-2">
-        <div class="user-card rounded-lg pa-3 d-flex align-center ga-2" style="background: rgba(var(--v-theme-el-staff), 0.06); border: 1px solid rgba(var(--v-theme-el-staff), 0.12);">
+        <div
+          class="user-card rounded-lg pa-3 d-flex align-center ga-2"
+          style="
+            background: rgba(var(--v-theme-el-staff), 0.06);
+            border: 1px solid rgba(var(--v-theme-el-staff), 0.12);
+          "
+        >
           <v-avatar color="el-staff" size="32">
             <v-icon icon="fas fa-user-tie" size="16" color="white" />
           </v-avatar>
@@ -73,7 +85,9 @@
             class="mb-1"
           >
             <template v-if="item.count" #append>
-              <v-chip size="x-small" color="error" variant="flat">{{ item.count }}</v-chip>
+              <v-chip size="x-small" color="error" variant="flat">{{
+                item.count
+              }}</v-chip>
             </template>
           </v-list-item>
           <v-divider v-if="group.divider" class="mx-2 my-2" />
@@ -102,7 +116,12 @@
     </v-navigation-drawer>
 
     <!-- ── App Bar ── -->
-    <v-app-bar flat height="64" class="app-bar" :style="{ '--v-theme-primary': 'var(--v-theme-el-staff)' }">
+    <v-app-bar
+      flat
+      height="64"
+      class="app-bar"
+      :style="{ '--v-theme-primary': 'var(--v-theme-el-staff)' }"
+    >
       <v-btn
         icon="fas fa-bars"
         variant="text"
@@ -158,7 +177,14 @@
     <!-- ── Logout Dialog ── -->
     <v-dialog v-model="logoutDialog" max-width="360" persistent>
       <v-card rounded="xl">
-        <v-btn icon="fas fa-xmark" variant="text" size="small" color="grey" class="position-absolute top-0 right-0 ma-2" @click="closeLogoutDialog" />
+        <v-btn
+          icon="fas fa-xmark"
+          variant="text"
+          size="small"
+          color="grey"
+          class="position-absolute top-0 right-0 ma-2"
+          @click="closeLogoutDialog"
+        />
         <v-card-text class="pa-6 text-center">
           <div class="logout-icon-ring mx-auto mb-4">
             <v-icon icon="fas fa-right-from-bracket" size="28" color="error" />
@@ -192,7 +218,11 @@
 
     <!-- ── Content ── -->
     <v-main class="bg-background">
-      <v-container fluid class="pa-5 pa-md-7" style="max-width: 1320px; --v-theme-primary: var(--v-theme-el-staff)">
+      <v-container
+        fluid
+        class="pa-5 pa-md-7"
+        style="max-width: 1320px; --v-theme-primary: var(--v-theme-el-staff)"
+      >
         <router-view />
       </v-container>
     </v-main>
@@ -238,7 +268,7 @@ function doLogout() {
 }
 
 function isNavActive(to) {
-  return route.path === to || route.path.startsWith(to + '/');
+  return route.path === to || route.path.startsWith(to + "/");
 }
 
 const breadcrumbs = computed(() => [
@@ -291,4 +321,3 @@ const navGroups = [
   },
 ];
 </script>
-

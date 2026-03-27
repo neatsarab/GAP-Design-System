@@ -315,7 +315,10 @@
                 >ความคืบหน้าคำขอ</span
               >
             </div>
-            <v-card-text class="pa-4" style="max-height: 420px; overflow-y: auto;">
+            <v-card-text
+              class="pa-4"
+              style="max-height: 420px; overflow-y: auto"
+            >
               <div class="activity-timeline">
                 <div
                   v-for="(event, i) in application.activityLog"
@@ -743,11 +746,6 @@ div {
   --step-color-tint: rgba(var(--v-theme-export-user), 0.2);
 }
 
-.section-header {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-}
 .sticky-col {
   position: sticky;
   top: 80px;

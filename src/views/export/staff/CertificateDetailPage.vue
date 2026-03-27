@@ -93,7 +93,9 @@
             class="section-header px-4 py-3 border-b d-flex align-center ga-2"
           >
             <v-icon icon="fas fa-user" color="export-staff" size="15" />
-            <span class="text-subtitle-2 font-weight-bold">ข้อมูลผู้ยื่นคำขอ</span>
+            <span class="text-subtitle-2 font-weight-bold"
+              >ข้อมูลผู้ยื่นคำขอ</span
+            >
           </div>
           <v-card-text class="pa-4">
             <v-row dense>
@@ -127,7 +129,9 @@
             class="section-header px-4 py-3 border-b d-flex align-center ga-2"
           >
             <v-icon icon="fas fa-building" color="export-staff" size="15" />
-            <span class="text-subtitle-2 font-weight-bold">ข้อมูลสถานประกอบการ</span>
+            <span class="text-subtitle-2 font-weight-bold"
+              >ข้อมูลสถานประกอบการ</span
+            >
           </div>
           <v-card-text class="pa-4">
             <v-row dense>
@@ -192,7 +196,9 @@
             class="section-header px-4 py-3 border-b d-flex align-center ga-2"
           >
             <v-icon icon="fas fa-industry" color="export-staff" size="15" />
-            <span class="text-subtitle-2 font-weight-bold">ข้อมูลโรงงานผลิตสินค้าพืช</span>
+            <span class="text-subtitle-2 font-weight-bold"
+              >ข้อมูลโรงงานผลิตสินค้าพืช</span
+            >
           </div>
           <v-table density="compact" class="pa-2">
             <thead>
@@ -220,7 +226,9 @@
             class="section-header px-4 py-3 border-b d-flex align-center ga-2"
           >
             <v-icon icon="fas fa-seedling" color="export-staff" size="15" />
-            <span class="text-subtitle-2 font-weight-bold">แหล่งผลิตพืชที่ได้การรับรอง GAP</span>
+            <span class="text-subtitle-2 font-weight-bold"
+              >แหล่งผลิตพืชที่ได้การรับรอง GAP</span
+            >
           </div>
           <v-table density="compact" class="pa-2">
             <thead>
@@ -301,9 +309,14 @@
                 color="export-staff"
                 size="15"
               />
-              <span class="text-subtitle-2 font-weight-bold">ประวัติใบทะเบียน</span>
+              <span class="text-subtitle-2 font-weight-bold"
+                >ประวัติใบทะเบียน</span
+              >
             </div>
-            <v-card-text class="pa-4" style="max-height: 420px; overflow-y: auto;">
+            <v-card-text
+              class="pa-4"
+              style="max-height: 420px; overflow-y: auto"
+            >
               <div class="activity-timeline">
                 <div
                   v-for="(event, i) in cert.activityLog"
@@ -587,11 +600,6 @@ function eventLabel(type) {
 </script>
 
 <style scoped>
-.section-header {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-}
 .sticky-col {
   position: sticky;
   top: 80px;

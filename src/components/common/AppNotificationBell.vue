@@ -36,12 +36,22 @@
 
       <!-- Loading -->
       <div v-if="loading" class="pa-4">
-        <v-skeleton-loader v-for="i in 3" :key="i" type="list-item-avatar" class="mb-2" />
+        <v-skeleton-loader
+          v-for="i in 3"
+          :key="i"
+          type="list-item-avatar"
+          class="mb-2"
+        />
       </div>
 
       <!-- Empty -->
       <div v-else-if="!notifications?.length" class="py-8 text-center">
-        <v-icon icon="fas fa-bell-slash" color="grey-lighten-1" size="32" class="mb-2" />
+        <v-icon
+          icon="fas fa-bell-slash"
+          color="grey-lighten-1"
+          size="32"
+          class="mb-2"
+        />
         <div class="text-body-2 text-medium-emphasis">ไม่มีการแจ้งเตือน</div>
       </div>
 
@@ -57,7 +67,9 @@
           <template #prepend>
             <div
               class="notif-icon rounded-lg d-flex align-center justify-center mr-3 flex-shrink-0"
-              :style="{ background: `rgba(var(--v-theme-${typeColor(n.type)}),0.12)` }"
+              :style="{
+                background: `rgba(var(--v-theme-${typeColor(n.type)}),0.12)`,
+              }"
             >
               <v-icon
                 :icon="n.icon ?? typeIcon(n.type)"
@@ -87,42 +99,53 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed } from "vue";
 
 const props = defineProps({
   notifications: { type: Array, default: () => [] },
   loading: { type: Boolean, default: false },
-})
+});
 
-defineEmits(['mark-all-read', 'click-item'])
+defineEmits(["mark-all-read", "click-item"]);
 
-const menuOpen = ref(false)
+const menuOpen = ref(false);
 
-const unreadCount = computed(() =>
-  (props.notifications ?? []).filter(n => !n.read).length
-)
+const unreadCount = computed(
+  () => (props.notifications ?? []).filter((n) => !n.read).length,
+);
 
 function typeColor(type) {
-  const map = { info: 'info', success: 'success', warning: 'warning', error: 'error' }
-  return map[type]
+  const map = {
+    info: "info",
+    success: "success",
+    warning: "warning",
+    error: "error",
+  };
+  return map[type];
 }
 
 function typeIcon(type) {
   const map = {
-    info:    'fas fa-circle-info',
-    success: 'fas fa-circle-check',
-    warning: 'fas fa-triangle-exclamation',
-    error:   'fas fa-circle-xmark',
-  }
-  return map[type]
+    info: "fas fa-circle-info",
+    success: "fas fa-circle-check",
+    warning: "fas fa-triangle-exclamation",
+    error: "fas fa-circle-xmark",
+  };
+  return map[type];
 }
 </script>
 
 <style scoped>
-.notif-icon { width: 36px; height: 36px; }
-.unread-item { background: rgba(var(--v-theme-primary), 0.04); }
+.notif-icon {
+  width: 36px;
+  height: 36px;
+}
+.unread-item {
+  background: rgba(var(--v-theme-primary), 0.04);
+}
 .unread-dot {
-  width: 8px; height: 8px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
   background: rgb(var(--v-theme-primary));
 }

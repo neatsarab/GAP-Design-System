@@ -10,7 +10,9 @@
       />
       <div>
         <h1 class="page-title mb-0">ยื่นคำขอ HC ใบรับรองสุขอนามัยพืช</h1>
-        <p class="text-body-2 text-medium-emphasis mb-0">เลือกประเภทคำขอที่ต้องการยื่น</p>
+        <p class="text-body-2 text-medium-emphasis mb-0">
+          เลือกประเภทคำขอที่ต้องการยื่น
+        </p>
       </div>
     </div>
 
@@ -33,14 +35,24 @@
 
             <div class="d-flex align-center ga-2 mb-2">
               <h2 class="text-h6 font-weight-bold">{{ type.title }}</h2>
-              <v-chip v-if="type.badge" size="x-small" :color="type.color" variant="tonal">
+              <v-chip
+                v-if="type.badge"
+                size="x-small"
+                :color="type.color"
+                variant="tonal"
+              >
                 {{ type.badge }}
               </v-chip>
             </div>
 
-            <p class="text-body-2 text-medium-emphasis mb-5">{{ type.description }}</p>
+            <p class="text-body-2 text-medium-emphasis mb-5">
+              {{ type.description }}
+            </p>
 
-            <v-list density="compact" class="w-100 text-left mb-6 bg-transparent pa-0">
+            <v-list
+              density="compact"
+              class="w-100 text-left mb-6 bg-transparent pa-0"
+            >
               <v-list-item
                 v-for="f in type.features"
                 :key="f"
@@ -52,7 +64,12 @@
               />
             </v-list>
 
-            <v-btn :color="type.color" block rounded="lg" append-icon="fas fa-arrow-right">
+            <v-btn
+              :color="type.color"
+              block
+              rounded="lg"
+              append-icon="fas fa-arrow-right"
+            >
               เลือกประเภทนี้
             </v-btn>
           </v-card-text>
@@ -68,8 +85,8 @@
       prepend-icon="fas fa-circle-info"
       rounded="xl"
     >
-      <strong>หมายเหตุ:</strong> ใบรับรองสุขอนามัยพืช (Phytosanitary Certificate)
-      ออกโดยกรมวิชาการเกษตรตามพระราชบัญญัติกักพืช พ.ศ. 2507
+      <strong>หมายเหตุ:</strong> ใบรับรองสุขอนามัยพืช (Phytosanitary
+      Certificate) ออกโดยกรมวิชาการเกษตรตามพระราชบัญญัติกักพืช พ.ศ. 2507
       กรุณาเตรียมข้อมูลผู้ส่งออก โรงคัดบรรจุ และรายละเอียดสินค้าให้ครบถ้วน
     </v-alert>
   </div>
@@ -125,7 +142,10 @@ const appTypes = [
   border: 2px solid rgba(var(--v-border-color), var(--v-border-opacity));
   border-radius: 20px !important;
   cursor: pointer;
-  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 .type-card:hover {
   transform: translateY(-4px);

@@ -9,7 +9,13 @@
     >
       <v-list-item nav class="py-4 px-4">
         <template v-slot:prepend>
-          <div class="logo-icon-box rounded-lg mr-3" style="background: rgba(var(--v-theme-admin), 0.12); border: 1px solid rgba(var(--v-theme-admin), 0.2);">
+          <div
+            class="logo-icon-box rounded-lg mr-3"
+            style="
+              background: rgba(var(--v-theme-admin), 0.12);
+              border: 1px solid rgba(var(--v-theme-admin), 0.2);
+            "
+          >
             <v-icon icon="fas fa-user-shield" color="admin" size="20" />
           </div>
         </template>
@@ -33,7 +39,13 @@
       </v-list-item>
 
       <div v-if="!rail" class="px-4 mb-2">
-        <div class="user-card rounded-lg pa-3 d-flex align-center ga-2" style="background: rgba(var(--v-theme-admin), 0.06); border: 1px solid rgba(var(--v-theme-admin), 0.12);">
+        <div
+          class="user-card rounded-lg pa-3 d-flex align-center ga-2"
+          style="
+            background: rgba(var(--v-theme-admin), 0.06);
+            border: 1px solid rgba(var(--v-theme-admin), 0.12);
+          "
+        >
           <v-avatar color="admin" size="32" variant="tonal">
             <v-icon
               :icon="
@@ -101,7 +113,12 @@
       </template>
     </v-navigation-drawer>
 
-    <v-app-bar flat height="64" class="app-bar" :style="{ '--v-theme-primary': 'var(--v-theme-admin)' }">
+    <v-app-bar
+      flat
+      height="64"
+      class="app-bar"
+      :style="{ '--v-theme-primary': 'var(--v-theme-admin)' }"
+    >
       <v-btn
         icon="fas fa-bars"
         variant="text"
@@ -154,7 +171,14 @@
 
     <v-dialog v-model="logoutDialog" max-width="360" persistent>
       <v-card rounded="xl">
-        <v-btn icon="fas fa-xmark" variant="text" size="small" color="grey" class="position-absolute top-0 right-0 ma-2" @click="closeLogoutDialog" />
+        <v-btn
+          icon="fas fa-xmark"
+          variant="text"
+          size="small"
+          color="grey"
+          class="position-absolute top-0 right-0 ma-2"
+          @click="closeLogoutDialog"
+        />
         <v-card-text class="pa-6 text-center">
           <div class="logout-icon-ring mx-auto mb-4">
             <v-icon icon="fas fa-right-from-bracket" size="28" color="error" />
@@ -187,7 +211,11 @@
     </v-dialog>
 
     <v-main class="bg-background">
-      <v-container fluid class="pa-5 pa-md-7" style="max-width: 1320px; --v-theme-primary: var(--v-theme-admin)">
+      <v-container
+        fluid
+        class="pa-5 pa-md-7"
+        style="max-width: 1320px; --v-theme-primary: var(--v-theme-admin)"
+      >
         <router-view />
       </v-container>
     </v-main>
@@ -317,4 +345,3 @@ const navGroups = computed(() => {
   return adminStore.role === "adminsso" ? ssoGroups : sysadminGroups;
 });
 </script>
-

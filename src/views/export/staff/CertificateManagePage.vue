@@ -330,7 +330,12 @@
           </p>
         </v-card-text>
         <v-card-actions class="px-5 pb-5">
-          <v-btn color="export-staff" block rounded="lg" @click="router.push({ name: 'ExportStaffRegistry' })">
+          <v-btn
+            color="export-staff"
+            block
+            rounded="lg"
+            @click="router.push({ name: 'ExportStaffRegistry' })"
+          >
             กลับรายการใบทะเบียน
           </v-btn>
         </v-card-actions>
@@ -485,11 +490,6 @@ function historyLabel(s) {
 </script>
 
 <style scoped>
-.section-header {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-}
 .field-label {
   font-size: 0.8rem;
   font-weight: 600;

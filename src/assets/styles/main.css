@@ -26,11 +26,26 @@
 }
 
 /* Smooth transitions */
-.v-card,
-.v-btn,
-.v-chip,
+.v-card {
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease !important;
+}
+.v-btn {
+  transition:
+    color 0.18s ease,
+    background-color 0.18s ease,
+    box-shadow 0.18s ease !important;
+}
+.v-chip {
+  transition:
+    color 0.18s ease,
+    background-color 0.18s ease !important;
+}
 .v-list-item {
-  transition: all 0.18s ease !important;
+  transition:
+    color 0.18s ease,
+    background-color 0.18s ease !important;
 }
 
 /* App bar frosted glass */
@@ -637,7 +652,7 @@
 .section-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   gap: 8px;
   padding: 12px 16px;
   border-bottom: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));

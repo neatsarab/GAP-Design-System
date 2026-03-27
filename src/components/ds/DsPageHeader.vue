@@ -113,7 +113,6 @@
 </template>
 
 <script setup>
-
 defineProps({ summaryCards: Array });
 </script>
 

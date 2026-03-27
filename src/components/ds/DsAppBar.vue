@@ -1,6 +1,5 @@
 <template>
   <v-app-bar flat height="70" :style="appBarStyle">
-
     <!-- Hamburger -->
     <v-btn
       icon="fas fa-bars"
@@ -11,7 +10,7 @@
     />
 
     <!-- Search -->
-    <div class="d-none d-sm-block ml-3" style="width:210px">
+    <div class="d-none d-sm-block ml-3" style="width: 210px">
       <v-text-field
         placeholder="ค้นหา..."
         prepend-inner-icon="fas fa-magnifying-glass"
@@ -65,20 +64,20 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed } from "vue";
 
-const props = defineProps({ isDark: Boolean, rail: Boolean })
+const props = defineProps({ isDark: Boolean, rail: Boolean });
 
-defineEmits(['update:rail', 'toggle-theme'])
+defineEmits(["update:rail", "toggle-theme"]);
 
 const appBarStyle = computed(() => ({
-  backdropFilter: 'blur(8px)',
-  WebkitBackdropFilter: 'blur(8px)',
+  backdropFilter: "blur(8px)",
+  WebkitBackdropFilter: "blur(8px)",
   background: props.isDark
-    ? 'rgba(28, 28, 28, 0.92)'
-    : 'rgba(255, 255, 255, 0.92)',
+    ? "rgba(28, 28, 28, 0.92)"
+    : "rgba(255, 255, 255, 0.92)",
   borderBottom: props.isDark
-    ? '1px solid rgba(51, 51, 51, 0.8)'
-    : '1px solid rgba(224, 224, 224, 0.8)',
-}))
+    ? "1px solid rgba(51, 51, 51, 0.8)"
+    : "1px solid rgba(224, 224, 224, 0.8)",
+}));
 </script>

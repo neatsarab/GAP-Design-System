@@ -5,7 +5,7 @@
 </template>
 
 <script setup>
-import { useThemeStore } from '@/stores/theme.store'
+import { useThemeStore } from "@/stores/theme.store";
 
-const themeStore = useThemeStore()
+const themeStore = useThemeStore();
 </script>

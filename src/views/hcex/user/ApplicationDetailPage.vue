@@ -321,10 +321,7 @@
               <div class="text-caption text-medium-emphasis">
                 {{ step.desc }}
               </div>
-              <div
-                v-if="step.date"
-                class="text-caption text-hcex-user mt-1"
-              >
+              <div v-if="step.date" class="text-caption text-hcex-user mt-1">
                 {{ step.date }}
               </div>
               <div v-if="step.note" class="text-caption text-warning mt-1">

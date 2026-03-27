@@ -1,13 +1,22 @@
 <template>
   <div>
     <div class="d-flex align-center ga-3 mb-6">
-      <v-btn variant="text" prepend-icon="fas fa-arrow-left" size="small" @click="goToApplicationList">
+      <v-btn
+        variant="text"
+        prepend-icon="fas fa-arrow-left"
+        size="small"
+        @click="goToApplicationList"
+      >
         กลับ
       </v-btn>
-      <v-divider vertical style="height:24px" />
+      <v-divider vertical style="height: 24px" />
       <div>
-        <h1 class="text-h6 font-weight-bold">ยื่นคำขอรับรอง GAP (เจ้าหน้าที่)</h1>
-        <p class="text-body-2 text-medium-emphasis mb-0">บันทึกคำขอรับรองแทนเกษตรกร</p>
+        <h1 class="text-h6 font-weight-bold">
+          ยื่นคำขอรับรอง GAP (เจ้าหน้าที่)
+        </h1>
+        <p class="text-body-2 text-medium-emphasis mb-0">
+          บันทึกคำขอรับรองแทนเกษตรกร
+        </p>
       </div>
     </div>
 
@@ -18,8 +27,12 @@
           <v-card-text class="pa-6">
             <div class="text-center mb-6">
               <v-icon icon="fas fa-file-pen" color="gap-staff" size="40" />
-              <h2 class="text-h6 font-weight-bold mt-3 mb-2">เลือกประเภทคำขอ</h2>
-              <p class="text-body-2 text-medium-emphasis">เลือกประเภทการยื่นขอรับรองมาตรฐาน GAP</p>
+              <h2 class="text-h6 font-weight-bold mt-3 mb-2">
+                เลือกประเภทคำขอ
+              </h2>
+              <p class="text-body-2 text-medium-emphasis">
+                เลือกประเภทการยื่นขอรับรองมาตรฐาน GAP
+              </p>
             </div>
             <v-row>
               <v-col cols="12" sm="6">
@@ -29,10 +42,18 @@
                   @click="goToNewIndividual"
                 >
                   <v-card-text class="pa-6 text-center">
-                    <v-icon icon="fas fa-user" color="gap-staff" size="32" class="mb-3" />
-                    <div class="text-body-1 font-weight-bold mb-2">คำขอแบบเดี่ยว</div>
+                    <v-icon
+                      icon="fas fa-user"
+                      color="gap-staff"
+                      size="32"
+                      class="mb-3"
+                    />
+                    <div class="text-body-1 font-weight-bold mb-2">
+                      คำขอแบบเดี่ยว
+                    </div>
                     <p class="text-caption text-medium-emphasis mb-0">
-                      สำหรับเกษตรกรรายบุคคล หรือนิติบุคคล ยื่นขอรับรองแปลงของตนเอง
+                      สำหรับเกษตรกรรายบุคคล หรือนิติบุคคล
+                      ยื่นขอรับรองแปลงของตนเอง
                     </p>
                   </v-card-text>
                 </v-card>
@@ -44,8 +65,15 @@
                   @click="goToNewGroup"
                 >
                   <v-card-text class="pa-6 text-center">
-                    <v-icon icon="fas fa-users" color="secondary" size="32" class="mb-3" />
-                    <div class="text-body-1 font-weight-bold mb-2">คำขอแบบกลุ่ม</div>
+                    <v-icon
+                      icon="fas fa-users"
+                      color="secondary"
+                      size="32"
+                      class="mb-3"
+                    />
+                    <div class="text-body-1 font-weight-bold mb-2">
+                      คำขอแบบกลุ่ม
+                    </div>
                     <p class="text-caption text-medium-emphasis mb-0">
                       สำหรับกลุ่มเกษตรกรที่รวมกลุ่มขอรับรองพร้อมกัน มีระบบ ICS
                     </p>
@@ -57,7 +85,8 @@
         </v-card>
 
         <v-alert type="info" variant="tonal" icon="fas fa-circle-info">
-          <strong>หมายเหตุ:</strong> เจ้าหน้าที่สามารถบันทึกคำขอแทนเกษตรกรได้ โดยต้องมีหนังสือมอบอำนาจประกอบ
+          <strong>หมายเหตุ:</strong> เจ้าหน้าที่สามารถบันทึกคำขอแทนเกษตรกรได้
+          โดยต้องมีหนังสือมอบอำนาจประกอบ
         </v-alert>
       </v-col>
     </v-row>
@@ -65,8 +94,8 @@
 </template>
 
 <script setup>
-import { useRouter } from 'vue-router'
-const router = useRouter()
+import { useRouter } from "vue-router";
+const router = useRouter();
 
 function goToApplicationList() {
   router.push({ name: "staffApplicationList" });
@@ -83,7 +112,10 @@ function goToNewGroup() {
 
 <style scoped>
 .type-card {
-  cursor: pointer; transition: border-color 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
 }
 .type-card:hover {
   border-color: rgb(var(--v-theme-gap-staff)) !important;

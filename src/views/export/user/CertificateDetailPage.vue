@@ -320,7 +320,10 @@
                 >ประวัติใบทะเบียน</span
               >
             </div>
-            <v-card-text class="pa-4" style="max-height: 420px; overflow-y: auto;">
+            <v-card-text
+              class="pa-4"
+              style="max-height: 420px; overflow-y: auto"
+            >
               <div class="activity-timeline">
                 <div
                   v-for="(event, i) in cert.activityLog"
@@ -735,11 +738,6 @@ function eventLabel(type) {
 </script>
 
 <style scoped>
-.section-header {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-}
 .sticky-col {
   position: sticky;
   top: 80px;

@@ -1297,11 +1297,6 @@ div {
   --step-color-tint: rgba(var(--v-theme-export-staff), 0.2);
 }
 
-.section-header {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-}
 .sticky-col {
   position: sticky;
   top: 80px;

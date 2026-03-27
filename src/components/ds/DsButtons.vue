@@ -43,7 +43,9 @@
     <div class="ds-subtitle mb-3">States</div>
     <v-card class="mb-5">
       <v-card-text class="d-flex flex-wrap ga-3 align-center pa-5">
-        <v-btn color="primary" :loading="loadingDemo" @click="triggerLoad">loading</v-btn>
+        <v-btn color="primary" :loading="loadingDemo" @click="triggerLoad"
+          >loading</v-btn
+        >
         <v-btn color="primary" disabled>disabled</v-btn>
         <v-btn color="error" variant="outlined">outlined error</v-btn>
       </v-card-text>
@@ -54,9 +56,18 @@
     <v-card>
       <v-card-text class="d-flex flex-wrap ga-3 align-center pa-5">
         <v-btn color="primary" prepend-icon="fas fa-plus">เพิ่มคำขอ</v-btn>
-        <v-btn color="success" prepend-icon="fas fa-circle-check">อนุมัติ</v-btn>
-        <v-btn color="error"   prepend-icon="fas fa-circle-xmark" variant="outlined">ปฏิเสธ</v-btn>
-        <v-btn color="primary" append-icon="fas fa-download" variant="tonal">ดาวน์โหลด</v-btn>
+        <v-btn color="success" prepend-icon="fas fa-circle-check"
+          >อนุมัติ</v-btn
+        >
+        <v-btn
+          color="error"
+          prepend-icon="fas fa-circle-xmark"
+          variant="outlined"
+          >ปฏิเสธ</v-btn
+        >
+        <v-btn color="primary" append-icon="fas fa-download" variant="tonal"
+          >ดาวน์โหลด</v-btn
+        >
         <v-btn icon color="primary" variant="tonal" size="small">
           <v-icon icon="fas fa-eye" />
         </v-btn>
@@ -72,21 +83,26 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref } from "vue";
 
-const loadingDemo = ref(false)
+const loadingDemo = ref(false);
 
 function triggerLoad() {
-  loadingDemo.value = true
-  setTimeout(() => { loadingDemo.value = false }, 2000)
+  loadingDemo.value = true;
+  setTimeout(() => {
+    loadingDemo.value = false;
+  }, 2000);
 }
 </script>
 
 <style scoped>
 .ds-subtitle {
-  font-size: 11px; font-weight: 700;
-  text-transform: uppercase; letter-spacing: 0.1em;
-  color: rgb(var(--v-theme-primary)); opacity: 0.75;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgb(var(--v-theme-primary));
+  opacity: 0.75;
   margin-top: 8px;
 }
 </style>

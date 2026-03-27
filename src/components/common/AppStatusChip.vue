@@ -48,35 +48,105 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
-import { useTheme } from 'vuetify'
-import { getStatusDef } from '@/config/gap-status.config'
+import { computed } from "vue";
+import { useTheme } from "vuetify";
+import { getStatusDef } from "@/config/gap-status.config";
 
 // ── Status Config (UX spec — ใช้ Vuetify named colors) ───────────────────────
 
 const STATUS_CONFIG = {
   //                                        ── Light ────────────────────  ── Dark override ───────────
-  DRAFT:                { color: 'blue-grey-darken-1', colorDark: 'blue-grey-lighten-2', icon: 'fas fa-file-pen',                  label: 'ร่าง',               variant: 'tonal', variantDark: 'flat' },
-  SUBMITTED:            { color: 'blue-darken-2',      colorDark: 'blue-lighten-2',      icon: 'fas fa-paper-plane',               label: 'ยื่นคำขอแล้ว',        variant: 'tonal', variantDark: 'flat' },
-  DOC_REVIEW:           { color: 'indigo-darken-1',    colorDark: 'indigo-lighten-3',    icon: 'fas fa-file-magnifying-glass',     label: 'ตรวจสอบเอกสาร',      variant: 'tonal', variantDark: 'flat' },
-  INSPECTION_SCHEDULED: { color: 'cyan-darken-2',      colorDark: 'cyan-lighten-2',      icon: 'fas fa-calendar-check',            label: 'นัดตรวจแปลงแล้ว',    variant: 'tonal', variantDark: 'flat' },
-  INSPECTING:           { color: 'orange-darken-2',    colorDark: 'orange-lighten-1',    icon: 'fas fa-magnifying-glass-location', label: 'กำลังตรวจแปลง',      variant: 'tonal', variantDark: 'flat' },
-  APPROVED:             { color: 'green-darken-3',     colorDark: 'green-lighten-2',     icon: 'fas fa-circle-check',              label: 'อนุมัติแล้ว',         variant: 'tonal', variantDark: 'flat' },
-  REJECTED:             { color: 'red-darken-2',       colorDark: 'red-lighten-2',       icon: 'fas fa-circle-xmark',              label: 'ไม่ผ่านการรับรอง',    variant: 'tonal', variantDark: 'flat' },
-  CANCELLED:            { color: 'blue-grey-darken-3', colorDark: 'blue-grey-lighten-1', icon: 'fas fa-ban',                       label: 'ยกเลิก',             variant: 'tonal', variantDark: 'flat' },
-  CERT_ISSUED:          { color: 'green-darken-2',     colorDark: 'green-lighten-1',     icon: 'fas fa-award',                     label: 'ออกใบรับรองแล้ว',     variant: 'tonal', variantDark: 'flat' },
-  CERT_EXPIRED:         { color: 'amber-darken-3',     colorDark: 'amber-lighten-1',     icon: 'fas fa-clock-rotate-left',         label: 'ใบรับรองหมดอายุ',     variant: 'tonal', variantDark: 'flat' },
-}
+  DRAFT: {
+    color: "blue-grey-darken-1",
+    colorDark: "blue-grey-lighten-2",
+    icon: "fas fa-file-pen",
+    label: "ร่าง",
+    variant: "tonal",
+    variantDark: "flat",
+  },
+  SUBMITTED: {
+    color: "blue-darken-2",
+    colorDark: "blue-lighten-2",
+    icon: "fas fa-paper-plane",
+    label: "ยื่นคำขอแล้ว",
+    variant: "tonal",
+    variantDark: "flat",
+  },
+  DOC_REVIEW: {
+    color: "indigo-darken-1",
+    colorDark: "indigo-lighten-3",
+    icon: "fas fa-file-magnifying-glass",
+    label: "ตรวจสอบเอกสาร",
+    variant: "tonal",
+    variantDark: "flat",
+  },
+  INSPECTION_SCHEDULED: {
+    color: "cyan-darken-2",
+    colorDark: "cyan-lighten-2",
+    icon: "fas fa-calendar-check",
+    label: "นัดตรวจแปลงแล้ว",
+    variant: "tonal",
+    variantDark: "flat",
+  },
+  INSPECTING: {
+    color: "orange-darken-2",
+    colorDark: "orange-lighten-1",
+    icon: "fas fa-magnifying-glass-location",
+    label: "กำลังตรวจแปลง",
+    variant: "tonal",
+    variantDark: "flat",
+  },
+  APPROVED: {
+    color: "green-darken-3",
+    colorDark: "green-lighten-2",
+    icon: "fas fa-circle-check",
+    label: "อนุมัติแล้ว",
+    variant: "tonal",
+    variantDark: "flat",
+  },
+  REJECTED: {
+    color: "red-darken-2",
+    colorDark: "red-lighten-2",
+    icon: "fas fa-circle-xmark",
+    label: "ไม่ผ่านการรับรอง",
+    variant: "tonal",
+    variantDark: "flat",
+  },
+  CANCELLED: {
+    color: "blue-grey-darken-3",
+    colorDark: "blue-grey-lighten-1",
+    icon: "fas fa-ban",
+    label: "ยกเลิก",
+    variant: "tonal",
+    variantDark: "flat",
+  },
+  CERT_ISSUED: {
+    color: "green-darken-2",
+    colorDark: "green-lighten-1",
+    icon: "fas fa-award",
+    label: "ออกใบรับรองแล้ว",
+    variant: "tonal",
+    variantDark: "flat",
+  },
+  CERT_EXPIRED: {
+    color: "amber-darken-3",
+    colorDark: "amber-lighten-1",
+    icon: "fas fa-clock-rotate-left",
+    label: "ใบรับรองหมดอายุ",
+    variant: "tonal",
+    variantDark: "flat",
+  },
+};
 
 const FALLBACK_CONFIG = {
-  color:   'grey',
-  icon:    'fas fa-circle-question',
-  label:   'ไม่ทราบสถานะ',
-  variant: 'tonal',
-}
+  color: "grey",
+  icon: "fas fa-circle-question",
+  label: "ไม่ทราบสถานะ",
+  variant: "tonal",
+};
 
-const { current: currentTheme } = useTheme()
-const isDark = computed(() => currentTheme.value.dark)
+const { current: currentTheme } = useTheme();
+const isDark = computed(() => currentTheme.value.dark);
 
 // ── Props ────────────────────────────────────────────────────────────────────
 
@@ -85,7 +155,7 @@ const props = defineProps({
   status: String,
 
   /** Vuetify chip size */
-  size: { type: String, default: 'small' },
+  size: { type: String, default: "small" },
 
   /** แสดง icon หน้า label หรือไม่ */
   showIcon: { type: Boolean, default: true },
@@ -95,24 +165,30 @@ const props = defineProps({
 
   /** แสดง tooltip คำอธิบายสถานะเมื่อ hover */
   showTooltip: { type: Boolean, default: false },
-})
+});
 
 // ── Computed ─────────────────────────────────────────────────────────────────
 
 /** ดึง StatusConfig และ resolve dark-mode overrides */
 const cfg = computed(() => {
-  const base = STATUS_CONFIG[props.status] ?? FALLBACK_CONFIG
-  if (!isDark.value) return { color: base.color, icon: base.icon, label: base.label, variant: base.variant }
+  const base = STATUS_CONFIG[props.status] ?? FALLBACK_CONFIG;
+  if (!isDark.value)
+    return {
+      color: base.color,
+      icon: base.icon,
+      label: base.label,
+      variant: base.variant,
+    };
   return {
-    color:   base.colorDark   ?? base.color,
-    icon:    base.icon,
-    label:   base.label,
+    color: base.colorDark ?? base.color,
+    icon: base.icon,
+    label: base.label,
     variant: base.variantDark ?? base.variant,
-  }
-})
+  };
+});
 
 /** ดึง description จาก gap-status.config สำหรับ tooltip */
-const statusDef = computed(() => getStatusDef(props.status))
+const statusDef = computed(() => getStatusDef(props.status));
 </script>
 
 <style scoped>

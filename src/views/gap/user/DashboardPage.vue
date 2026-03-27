@@ -53,10 +53,7 @@
           <v-divider />
           <v-list lines="two" class="pa-0">
             <template v-for="(item, i) in recentItems" :key="item.no">
-              <v-list-item
-                class="pa-3"
-                @click="goToApplicationDetail(item.no)"
-              >
+              <v-list-item class="pa-3" @click="goToApplicationDetail(item.no)">
                 <template #prepend>
                   <v-avatar
                     :color="statusColor(item.status)"

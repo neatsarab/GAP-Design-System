@@ -289,9 +289,9 @@ const breadcrumbs = computed(() => {
 
   // 2. ดึงค่า type จาก URL params
   const type = route.params.type;
-  
-  // 3. เลือก Title: 
-  // ถ้ามีค่าใน Dictionary ให้ใช้ค่านั้น 
+
+  // 3. เลือก Title:
+  // ถ้ามีค่าใน Dictionary ให้ใช้ค่านั้น
   // ถ้าไม่มี (เช่นหน้าอื่นๆ) ให้ใช้ค่าจาก meta.title ตามเดิม
   const currentTitle = typeTitles[type] || route.meta.title || "หน้าหลัก";
 

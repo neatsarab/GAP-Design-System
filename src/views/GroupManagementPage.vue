@@ -385,8 +385,6 @@ const themeStore = useThemeStore();
 const router = useRouter();
 const route = useRoute();
 
-
-
 const mockGroups = [
   {
     id: "gr1",
@@ -495,7 +493,7 @@ const mockGroups = [
 // Current user mock — เป็นหัวหน้าของ gr1
 const currentUserId = "u1";
 
-const groupId = computed(() => (route.query.groupId) ?? "gr1");
+const groupId = computed(() => route.query.groupId ?? "gr1");
 const currentGroup = computed(
   () => mockGroups.find((g) => g.id === groupId.value) ?? mockGroups[0],
 );
