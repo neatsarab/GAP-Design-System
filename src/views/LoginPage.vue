@@ -511,7 +511,12 @@ async function doLogin() {
   }
 }
 
-function doThaiDLogin() {
+// function doThaiDLogin() {
+//   thaidLoading.value = true;
+//   setTimeout(() => router.push("/select-company"), 800);
+// }
+async function doThaiDLogin() {
+  if (thaidLoading.value) return; // ป้องกันการกดซ้ำขณะกำลังโหลด
   thaidLoading.value = true;
   setTimeout(() => router.push({ name: "CompanySelection" }), 800);
 }

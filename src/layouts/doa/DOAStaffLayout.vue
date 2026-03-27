@@ -176,7 +176,7 @@ const navGroups = [
     label: "ข้อมูล",
     divider: true,
     items: [
-      { title: "ข้อมูลทะเบียน", icon: "fas fa-industry", to: "/doa/staff/registration-data" },
+      { title: "รายการใบรับรอง", icon: "fas fa-industry", to: "/doa/staff/registration-data" },
     ],
   },
   {
