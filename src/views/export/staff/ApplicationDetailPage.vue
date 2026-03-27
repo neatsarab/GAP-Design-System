@@ -1283,6 +1283,12 @@ function submitSendBack() {
   successMessage.value = "ส่งคำขอกลับให้ผู้ยื่นแก้ไขเรียบร้อยแล้ว";
   successDialog.value = true;
 }
+
+function submitReject() {
+  rejectDialog.value = false;
+  successMessage.value = "ส่งผลการตรวจสอบ 'ไม่ผ่าน' เรียบร้อยแล้ว";
+  successDialog.value = true;
+}
 </script>
 
 <style scoped>
