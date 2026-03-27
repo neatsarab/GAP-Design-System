@@ -49,7 +49,7 @@
                 </v-card-title>
                 <v-divider />
                 <v-card-text class="pa-5">
-                    <!-- กรณีสร้างคำขอใหม่ -->
+                    <!--  กรณีสร้างคำขอใหม่ -->
                     <template v-if="isRegister">
                         <v-radio-group v-model="form.purpose" color="doa-user">
                             <v-radio value="register" label="ขึ้นทะเบียนโรงงานผลิตสินค้าพืช" class="mb-2" />
