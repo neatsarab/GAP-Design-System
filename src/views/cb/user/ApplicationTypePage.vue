@@ -9,7 +9,7 @@
         @click="goToApplicationList"
       />
       <div>
-        <h1 class="page-title mb-0">ยื่นคำขอขึ้นทะเบียนหน่วยรับรอง CB</h1>
+        <h1 class="page-title mb-0">ยื่นคำขอใหม่</h1>
         <p class="text-body-2 text-medium-emphasis mb-0">
           เลือกประเภทคำขอที่ต้องการยื่น
         </p>
@@ -77,20 +77,6 @@
         </v-card>
       </v-col>
     </v-row>
-
-    <!-- Info -->
-    <v-alert
-      type="info"
-      variant="tonal"
-      class="mt-6"
-      prepend-icon="fas fa-circle-info"
-      rounded="xl"
-    >
-      <strong>หมายเหตุ:</strong>
-      สำเนาเอกสารทุกฉบับต้องรับรองสำเนาถูกต้องโดยผู้มีอำนาจลงนาม
-      การขึ้นทะเบียนหน่วยรับรองต้องผ่านการประเมินความสามารถตามมาตรฐาน ISO/IEC
-      17065
-    </v-alert>
   </div>
 </template>
 
@@ -111,16 +97,16 @@ const appTypes = [
   {
     key: "register",
     route: "/cb/user/applications/new/register",
-    title: "ขึ้นทะเบียนหน่วยรับรอง CB",
-    badge: "ใหม่",
+    title: "คำขอขึ้น / ต่ออายุทะเบียน",
+    badge: null,
     icon: "fas fa-building-shield",
     color: "primary",
     description:
-      "สำหรับหน่วยรับรองที่ต้องการขึ้นทะเบียนกับกรมวิชาการเกษตรเป็นครั้งแรก เพื่อให้บริการตรวจรับรองโรงงานผลิตสินค้าพืช",
+      "สำหรับผู้ประกอบการที่ต้องการยื่นขอขึ้นทะเบียนใหม่ เพื่อให้สามารถดำเนินการตามข้อกำหนดของกรมวิชาการเกษตรได้",
     features: [
       "ขึ้นทะเบียนหน่วยรับรองใหม่",
+      "ต่ออายุทะเบียนหน่วยรับรอง",
       "กำหนดขอบข่ายมาตรฐาน",
-      "ISO/IEC 17065",
     ],
   },
   {
@@ -129,7 +115,7 @@ const appTypes = [
     title: "คำขอเพิ่ม-ลด ขอบข่าย",
     badge: null,
     icon: "fas fa-arrows-left-right",
-    color: "warning",
+    color: "info",
     description:
       "สำหรับหน่วยรับรองที่ต้องการเพิ่มหรือลดขอบข่ายการรับรอง เช่น เพิ่มมาตรฐาน หรือเปลี่ยนประเภทสถานประกอบการที่รับรอง",
     features: [
@@ -141,22 +127,22 @@ const appTypes = [
   {
     key: "amend",
     route: "/cb/user/applications/new/amend",
-    title: "คำขอแก้ไขทะเบียน",
+    title: "คำขอแก้ไขใบทะเบียน",
     badge: null,
     icon: "fas fa-file-pen",
-    color: "info",
+    color: "warning",
     description:
       "สำหรับหน่วยรับรองที่ต้องการแก้ไขข้อมูลในทะเบียน เช่น เปลี่ยนแปลงผู้บริหาร ที่อยู่สำนักงาน หรือข้อมูลสำคัญอื่น ๆ",
     features: [
       "แก้ไขข้อมูลหน่วยรับรอง",
-      "เปลี่ยนแปลงผู้บริหาร",
+      "เปลี่ยนแปลงที่ตั้ง",
       "ต้องมีทะเบียนเดิม",
     ],
   },
   {
     key: "cancel",
     route: "/cb/user/applications/new/cancel",
-    title: "คำขอยกเลิกทะเบียน",
+    title: "คำขอยกเลิกใบทะเบียน",
     badge: null,
     icon: "fas fa-file-circle-xmark",
     color: "error",

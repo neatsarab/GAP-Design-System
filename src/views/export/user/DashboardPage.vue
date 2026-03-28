@@ -66,12 +66,17 @@
                   >ยื่นเมื่อ {{ app.submittedDate }}</v-list-item-subtitle
                 >
                 <template #append>
+                  <div class="d-flex flex-column align-end ga-1">
                   <v-chip
                     :color="statusColor(app.status)"
                     size="x-small"
                     variant="tonal"
                     >{{ statusLabel(app.status) }}</v-chip
                   >
+                  <span class="text-caption text-medium-emphasis">{{
+                      app.updatedDate
+                    }}</span>
+                    </div>
                 </template>
               </v-list-item>
               <v-divider v-if="i < recentApplications.length - 1" />
@@ -172,18 +177,21 @@ const recentApplications = [
     id: "EXP-0003",
     requestNo: "EXP-0003",
     submittedDate: "5 มี.ค. 2569",
+    updatedDate: "15 มี.ค. 2569",
     status: "reviewing",
   },
   {
     id: "EXP-0002",
     requestNo: "EXP-0002",
     submittedDate: "20 ก.พ. 2569",
+    updatedDate: "1 มี.ค. 2569",
     status: "signing",
   },
   {
     id: "EXP-0001",
     requestNo: "EXP-0001",
     submittedDate: "10 ม.ค. 2569",
+    updatedDate: "29 ม.ค. 2569",
     status: "approved",
   },
 ];

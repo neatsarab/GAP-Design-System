@@ -61,7 +61,7 @@
                 </div>
               </v-col>
               <v-col cols="12">
-                <div class="info-label">ประเภททะเบียน / Certificate Type</div>
+                <div class="info-label">ประเภททะเบียน / Registration Type</div>
                 <div class="info-value">{{ cert.typecert }}</div>
               </v-col>
               <v-col cols="12" md="4">

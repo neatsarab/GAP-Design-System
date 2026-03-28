@@ -39,7 +39,7 @@
           <v-col cols="12" sm="6" md="6">
             <div class="field-label">
               <div>ประเภททะเบียน</div>
-              <div class="field-label-en">Certificate Type</div>
+              <div class="field-label-en">Registration Type</div>
             </div>
             <v-autocomplete
               v-model="filters.typecert"
@@ -222,7 +222,7 @@
                 class="text-caption text-medium-emphasis"
                 style="line-height: 1.2"
               >
-                Certificate Type
+                Registration Type
               </div>
             </span>
             <v-icon
@@ -342,7 +342,7 @@
                   icon
                   size="x-small"
                   variant="text"
-                  color="info"
+                  color="warning"
                   @click.stop
                 >
                   <v-icon icon="fas fa-pencil" size="14" />
@@ -476,7 +476,7 @@ const allItems = [
     requestNo: "EXP-0003",
     typecert:
       "คำขอหนังสือสำคัญแสดงการจดทะเบียนเป็นผู้ส่งออกกล้วยสดไปประเทศญี่ปุ่น",
-    type: "ขึ้นทะเบียน",
+    type: "แก้ไขทะเบียน",
     applicant: "บ.ไทย เอ็กซ์พอร์ต จก.",
     submittedDate: "10/03/2569",
     status: "reviewing",

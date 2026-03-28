@@ -32,7 +32,7 @@
           <v-col cols="12" sm="6" md="6">
             <div class="field-label">
               <div>ประเภททะเบียน</div>
-              <div class="field-label-en">Certificate Type</div>
+              <div class="field-label-en">Registration Type</div>
             </div>
             <v-autocomplete
               v-model="filters.typecert"
@@ -243,7 +243,7 @@
                 class="text-caption text-medium-emphasis"
                 style="line-height: 1.2"
               >
-                Certificate Type
+                Registration Type
               </div>
             </span>
             <v-icon

@@ -9,7 +9,7 @@
         @click="goToApplicationList"
       />
       <div>
-        <h1 class="page-title mb-0">ยื่นคำขอขึ้นทะเบียนโรงงานผลิตสินค้าพืช</h1>
+        <h1 class="page-title mb-0">ยื่นคำขอใหม่</h1>
         <p class="text-body-2 text-medium-emphasis mb-0">
           เลือกประเภทคำขอที่ต้องการยื่น
         </p>
@@ -117,10 +117,10 @@ function goToAppType(route) {
 const appTypes = [
   {
     route: "/doa/user/applications/new/register",
-    title: "ขึ้นทะเบียน / ต่ออายุทะเบียน",
+    title: "คำขอขึ้น / ต่ออายุทะเบียน",
     badge: null,
     icon: "fas fa-industry",
-    color: "info",
+    color: "primary",
     description:
       "สำหรับผู้ประกอบการที่ต้องการขึ้นทะเบียนโรงงานผลิตสินค้าพืชใหม่ หรือต่ออายุการขึ้นทะเบียนที่หมดอายุแล้ว",
     features: [
@@ -129,23 +129,9 @@ const appTypes = [
       "ระบุมาตรฐานที่ได้รับรอง (GMP/HACCP)",
     ],
   },
-  {
-    route: "/doa/user/applications/new/amendment",
-    title: "คำขอแก้ไขข้อมูลทะเบียน",
-    badge: null,
-    icon: "fas fa-file-pen",
-    color: "warning",
-    description:
-      "สำหรับผู้ประกอบการที่ต้องการแก้ไขข้อมูลทะเบียนโรงงานที่ได้รับรองแล้ว เช่น ที่อยู่ ประเภทผลิตภัณฑ์ หรือมาตรฐาน",
-    features: [
-      "แก้ไขข้อมูลสถานประกอบการ",
-      "เพิ่ม / ลดขอบข่ายมาตรฐาน",
-      "อัปเดตเอกสารประกอบ",
-    ],
-  },
-  {
+    {
     route: "/doa/user/applications/new/scope",
-    title: "คำขอเพิ่ม / ลดขอบข่ายมาตรฐาน",
+    title: "คำขอเพิ่ม-ลดขอบข่าย",
     badge: null,
     icon: "fas fa-sliders",
     color: "info",
@@ -155,6 +141,20 @@ const appTypes = [
       "เพิ่มมาตรฐาน มกษ. ใหม่",
       "ลดมาตรฐาน มกษ. ที่มีอยู่",
       "อัปเดตขอบข่ายผลิตภัณฑ์",
+    ],
+  },
+  {
+    route: "/doa/user/applications/new/amendment",
+    title: "คำขอแก้ไขใบทะเบียน",
+    badge: null,
+    icon: "fas fa-file-pen",
+    color: "warning",
+    description:
+      "สำหรับผู้ประกอบการที่ต้องการแก้ไขข้อมูลทะเบียนโรงงานที่ได้รับรองแล้ว เช่น ที่อยู่ ประเภทผลิตภัณฑ์ หรือมาตรฐาน",
+    features: [
+      "แก้ไขข้อมูลสถานประกอบการ",
+      "เพิ่ม / ลดขอบข่ายมาตรฐาน",
+      "อัปเดตเอกสารประกอบ",
     ],
   },
 ];

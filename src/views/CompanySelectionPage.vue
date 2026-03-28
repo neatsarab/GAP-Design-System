@@ -33,28 +33,74 @@
               size="16"
             />
           </v-btn>
-          <div class="user-pill d-flex align-center ga-2">
-            <div class="user-avatar-sm">
-              <span class="text-caption font-weight-bold">นส</span>
-            </div>
-            <div class="d-none d-sm-block">
+          <v-menu location="bottom end" :close-on-content-click="true">
+            <template #activator="{ props }">
               <div
-                class="text-caption font-weight-semibold text-white lh-tight"
+                v-bind="props"
+                class="user-pill d-flex align-center ga-2"
+                style="cursor: pointer"
               >
-                นิธิพร เทิบจันทึก
+                <div class="user-avatar-sm">
+                  <v-icon icon="fas fa-user" size="14" />
+                </div>
+                <div class="d-none d-sm-block">
+                  <div class="text-caption font-weight-semibold text-white lh-tight">
+                    นิธิพร เทิบจันทึก
+                  </div>
+                  <div
+                    class="text-caption"
+                    style="color: rgba(255,255,255,0.55); line-height: 1.2; font-size: 10px"
+                  >
+                    ผู้ประกอบการ
+                  </div>
+                </div>
+                <v-icon icon="fas fa-chevron-down" size="10" style="color: rgba(255,255,255,0.6)" class="d-none d-sm-block" />
               </div>
-              <div
-                class="text-caption"
-                style="
-                  color: rgba(255, 255, 255, 0.55);
-                  line-height: 1.2;
-                  font-size: 10px;
-                "
-              >
-                ผู้ประกอบการ
+            </template>
+
+            <v-card rounded="xl" elevation="4" min-width="220">
+              <!-- User info header -->
+              <div class="pa-4 d-flex align-center ga-3" style="background: rgba(var(--v-theme-primary), 0.06)">
+                <div
+                  class="d-flex align-center justify-center rounded-circle flex-shrink-0"
+                  style="width: 40px; height: 40px; background: rgba(var(--v-theme-primary), 0.12)"
+                >
+                  <v-icon icon="fas fa-user" size="20" />   
+                </div>
+                <div>
+                  <div class="text-body-2 font-weight-bold">นิธิพร เทิบจันทึก</div>
+                  <div class="text-caption text-medium-emphasis">ผู้ประกอบการ</div>
+                </div>
               </div>
-            </div>
-          </div>
+
+              <v-divider />
+
+              <v-list density="compact" nav>
+                <v-list-item
+                  prepend-icon="fas fa-user-circle"
+                  title="โปรไฟล์ของฉัน"
+                  rounded="lg"
+                />
+                <v-list-item
+                  prepend-icon="fas fa-key"
+                  title="เปลี่ยนรหัสผ่าน"
+                  rounded="lg"
+                />
+              </v-list>
+
+              <v-divider />
+
+              <v-list density="compact" nav>
+                <v-list-item
+                  prepend-icon="fas fa-right-from-bracket"
+                  title="ออกจากระบบ"
+                  base-color="error"
+                  rounded="lg"
+                  @click="goToLogin"
+                />
+              </v-list>
+            </v-card>
+          </v-menu>
         </div>
       </div>
     </div>
@@ -74,7 +120,7 @@
         </div>
 
         <!-- ── ส่วนที่ 1: บุคคล ── -->
-        <div class="section-header mb-3">
+        <div class="section-header-selectionpage mb-3">
           <div class="section-label">
             <div class="section-dot section-dot--personal"></div>
             <span class="text-body-2 font-weight-bold">ในฐานะบุคคล</span>
@@ -144,7 +190,7 @@
         </v-card>
 
         <!-- ── ส่วนที่ 2: บริษัท ── -->
-        <div class="section-header mb-3">
+        <div class="section-header-selectionpage mb-3">
           <div class="section-label">
             <div class="section-dot section-dot--company"></div>
             <span class="text-body-2 font-weight-bold"
@@ -296,7 +342,7 @@
         </v-card>
 
         <!-- ── ส่วนที่ 3: กลุ่ม ── -->
-        <div class="section-header mb-3 mt-6">
+        <div class="section-header-selectionpage mb-3 mt-6">
           <div class="section-label">
             <div class="section-dot section-dot--group"></div>
             <span class="text-body-2 font-weight-bold">ในฐานะกลุ่ม</span>
@@ -432,18 +478,6 @@
           </div>
         </v-card>
 
-        <!-- Bottom action -->
-        <div class="d-flex justify-start align-center mt-6">
-          <v-btn
-            variant="text"
-            color="grey"
-            rounded="lg"
-            prepend-icon="fas fa-right-from-bracket"
-            @click="goToLogin"
-          >
-            ออกจากระบบ
-          </v-btn>
-        </div>
       </div>
     </div>
   </div>

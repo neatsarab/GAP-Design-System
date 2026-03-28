@@ -80,7 +80,7 @@
             <template #activator="{ props }">
               <div class="user-pill d-flex align-center ga-2" v-bind="props">
                 <div class="user-avatar-sm">
-                  <span class="text-caption font-weight-bold">นส</span>
+                  <v-icon icon="fas fa-user" size="14" />
                 </div>
                 <div class="d-none d-sm-block">
                   <div
@@ -111,7 +111,7 @@
               <v-card-text class="pb-2">
                 <div class="d-flex align-center ga-3 mb-3">
                   <div class="user-avatar-md">
-                    <span class="text-body-2 font-weight-bold">นส</span>
+                    <v-icon icon="fas fa-user" size="20" />
                   </div>
                   <div>
                     <div class="text-body-2 font-weight-bold">
@@ -122,7 +122,7 @@
                     </div>
                   </div>
                 </div>
-                <v-divider class="mb-2" />
+                <v-divider/>
               </v-card-text>
               <v-list density="compact" nav class="pt-0 pb-2">
                 <v-list-item

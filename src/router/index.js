@@ -105,7 +105,7 @@ const router = createRouter({
           name: "staffApplicationDetail",
           component: () =>
             import("@/views/gap/staff/ApplicationDetailPage.vue"),
-          meta: { title: "รายละเอียดคำขอ GAP" },
+          meta: { title: "รายละเอียดคำขอ" },
         },
         {
           path: "schedule",
@@ -135,7 +135,7 @@ const router = createRouter({
           path: "certificates",
           name: "staffCertificates",
           component: () => import("@/views/gap/staff/CertificatePage.vue"),
-          meta: { title: "ข้อมูลใบรับรอง GAP" },
+          meta: { title: "ข้อมูลใบรับรอง" },
         },
         {
           path: "notifications",
@@ -168,39 +168,39 @@ const router = createRouter({
           path: "applications/new",
           name: "ApplicationType",
           component: () => import("@/views/gap/user/ApplicationTypePage.vue"),
-          meta: { title: "เลือกประเภทคำขอ GAP" },
+          meta: { title: "เลือกประเภทคำขอ" },
         },
         {
           path: "applications/new/individual",
           name: "NewApplicationIndividual",
           component: () =>
             import("@/views/gap/user/forms/IndividualFormPage.vue"),
-          meta: { title: "ยื่นคำขอใหม่ รายเดี่ยว" },
+          meta: { title: "ยื่นคำขอใหม่" },
         },
         {
           path: "applications/new/group/:subtype",
           name: "NewApplicationGroup",
           component: () => import("@/views/gap/user/forms/GroupFormPage.vue"),
-          meta: { title: "ยื่นคำขอใหม่ รายกลุ่ม" },
+          meta: { title: "ยื่นคำขอใหม่" },
         },
         {
           path: "applications/new/amendment",
           name: "NewApplicationAmendment",
           component: () =>
             import("@/views/gap/user/forms/AmendmentFormPage.vue"),
-          meta: { title: "แก้ไข / ยกเลิกใบรับรอง GAP" },
+          meta: { title: "แก้ไข / ยกเลิกใบรับรอง" },
         },
         {
           path: "applications/:id",
           name: "ApplicationDetail",
           component: () => import("@/views/gap/user/ApplicationDetailPage.vue"),
-          meta: { title: "ติดตามสถานะคำขอ GAP" },
+          meta: { title: "ติดตามสถานะคำขอ" },
         },
         {
           path: "certificates",
           name: "GAPUserCertificates",
           component: () => import("@/views/gap/user/CertificatePage.vue"),
-          meta: { title: "ใบรับรอง GAP ของฉัน" },
+          meta: { title: "รายการใบรับรอง" },
         },
       ],
     },
@@ -227,39 +227,39 @@ const router = createRouter({
           path: "applications/new",
           name: "ORGUserApplicationType",
           component: () => import("@/views/org/user/ApplicationTypePage.vue"),
-          meta: { title: "เลือกประเภทคำขอ ORG" },
+          meta: { title: "เลือกประเภทคำขอ" },
         },
         {
           path: "applications/new/individual",
           name: "ORGUserNewIndividual",
           component: () =>
             import("@/views/org/user/forms/IndividualFormPage.vue"),
-          meta: { title: "ยื่นคำขอใหม่ รายบุคคล" },
+          meta: { title: "ยื่นคำขอใหม่" },
         },
         {
           path: "applications/new/group",
           name: "ORGUserNewGroup",
           component: () => import("@/views/org/user/forms/GroupFormPage.vue"),
-          meta: { title: "ยื่นคำขอใหม่ รายกลุ่ม" },
+          meta: { title: "ยื่นคำขอใหม่" },
         },
         {
           path: "applications/new/amendment",
           name: "ORGUserAmendment",
           component: () =>
             import("@/views/org/user/forms/IndividualFormPage.vue"),
-          meta: { title: "แก้ไข / ยกเลิกใบรับรอง ORG" },
+          meta: { title: "แก้ไข / ยกเลิกใบรับรอง" },
         },
         {
           path: "applications/:id",
           name: "ORGUserApplicationDetail",
           component: () => import("@/views/org/user/ApplicationDetailPage.vue"),
-          meta: { title: "ติดตามสถานะคำขอ ORG" },
+          meta: { title: "ติดตามสถานะคำขอ" },
         },
         {
           path: "certificates",
           name: "ORGUserCertificates",
           component: () => import("@/views/org/user/CertificatePage.vue"),
-          meta: { title: "ใบรับรอง ORG ของฉัน" },
+          meta: { title: "รายการใบรับรอง" },
         },
       ],
     },
@@ -287,13 +287,13 @@ const router = createRouter({
           name: "ORGStaffApplicationDetail",
           component: () =>
             import("@/views/org/staff/ApplicationDetailPage.vue"),
-          meta: { title: "รายละเอียดคำขอ ORG" },
+          meta: { title: "รายละเอียดคำขอ" },
         },
         {
           path: "schedule",
           name: "ORGStaffSchedule",
           component: () => import("@/views/org/staff/ApplicationListPage.vue"),
-          meta: { title: "นัดตรวจแปลง ORG", statusFilter: "inspection" },
+          meta: { title: "นัดตรวจแปลง", statusFilter: "inspection" },
         },
         {
           path: "registry",
@@ -326,7 +326,7 @@ const router = createRouter({
           path: "applications/new",
           name: "DOAUserApplicationType",
           component: () => import("@/views/doa/user/ApplicationTypePage.vue"),
-          meta: { title: "เลือกประเภทคำขอ DOA" },
+          meta: { title: "เลือกประเภทคำขอ" },
         },
         {
           path: "applications/new/:type",
@@ -338,25 +338,25 @@ const router = createRouter({
           path: "applications/:id",
           name: "DOAUserApplicationDetail",
           component: () => import("@/views/doa/user/ApplicationDetailPage.vue"),
-          meta: { title: "ติดตามสถานะคำขอ DOA" },
+          meta: { title: "ติดตามสถานะคำขอ" },
         },
         {
           path: "applications/edit/:id",
           name: "DOAUserApplicationEdit",
           component: () => import("@/views/doa/user/ApplicationEditPage.vue"),
-          meta: { title: "แก้ไขคำขอ DOA" },
+          meta: { title: "แก้ไขคำขอ" },
         },
         {
           path: "certificates",
           name: "DOAUserCertificate",
           component: () => import("@/views/doa/user/CertificatePage.vue"),
-          meta: { title: "ใบรับรอง DOA ของฉัน" },
+          meta: { title: "รายการใบรับรอง" },
         },
         {
           path: "certificates/:id",
           name: "DOAUserCertificateDetail",
           component: () => import("@/views/doa/user/CertificateDetailPage.vue"),
-          meta: { title: "ใบรับรอง" },
+          meta: { title: "รายละเอียดใบรับรอง" },
         },
       ],
     },
@@ -384,13 +384,13 @@ const router = createRouter({
           name: "DOAStaffApplicationDetail",
           component: () =>
             import("@/views/doa/staff/ApplicationDetailPage.vue"),
-          meta: { title: "รายละเอียดคำขอ DOA" },
+          meta: { title: "รายละเอียดคำขอ" },
         },
         {
           path: "review",
           name: "DOAStaffReviewList",
           component: () => import("@/views/doa/staff/ReviewListPage.vue"),
-          meta: { title: "พิจารณาทะเบียน DOA" },
+          meta: { title: "พิจารณาทะเบียน" },
         },
         {
           path: "reviews/:id",
@@ -402,7 +402,7 @@ const router = createRouter({
           path: "signing",
           name: "DOAStaffSigningList",
           component: () => import("@/views/doa/staff/SigningListPage.vue"),
-          meta: { title: "ลงนาม DOA" },
+          meta: { title: "ลงนามทะเบียน" },
         },
         {
           path: "signing/:id",
@@ -414,7 +414,7 @@ const router = createRouter({
           path: "registration-data",
           name: "DOAStaffRegistrationData",
           component: () => import("@/views/doa/staff/RegistrationDataPage.vue"),
-          meta: { title: "ข้อมูลทะเบียน DOA" },
+          meta: { title: "ข้อมูลทะเบียน" },
         },
         {
           path: "registration-data/:id",
@@ -547,7 +547,7 @@ const router = createRouter({
           path: "applications/new",
           name: "CBUserApplicationType",
           component: () => import("@/views/cb/user/ApplicationTypePage.vue"),
-          meta: { title: "เลือกประเภทคำขอ CB" },
+          meta: { title: "เลือกประเภทคำขอ" },
         },
         {
           path: "applications/new/:type",
@@ -559,13 +559,25 @@ const router = createRouter({
           path: "applications/:id",
           name: "CBUserApplicationDetail",
           component: () => import("@/views/cb/user/ApplicationDetailPage.vue"),
-          meta: { title: "ติดตามสถานะคำขอ CB" },
+          meta: { title: "ติดตามสถานะคำขอ" },
+        },
+        {
+          path: "applications/:id/edit",
+          name: "CBUserEditApplication",
+          component: () => import("@/views/cb/user/NewApplicationPage.vue"),
+          meta: { title: "แก้ไขคำขอ" },
         },
         {
           path: "certificates",
           name: "CBUserCertificate",
           component: () => import("@/views/cb/user/CertificatePage.vue"),
-          meta: { title: "ใบรับรอง CB ของฉัน" },
+          meta: { title: "รายการใบรับรอง" },
+        },
+        {
+          path: "certificates/:id",
+          name: "CBUserCertificateDetail",
+          component: () => import("@/views/cb/user/CertificateDetailPage.vue"),
+          meta: { title: "รายละเอียดใบทะเบียน" },
         },
       ],
     },
@@ -592,7 +604,7 @@ const router = createRouter({
           path: "applications/:id",
           name: "CBStaffApplicationDetail",
           component: () => import("@/views/cb/staff/ApplicationDetailPage.vue"),
-          meta: { title: "รายละเอียดคำขอ CB" },
+          meta: { title: "รายละเอียดคำขอ" },
         },
         {
           path: "registration-data",
@@ -627,26 +639,26 @@ const router = createRouter({
           name: "ExportUserApplicationType",
           component: () =>
             import("@/views/export/user/ApplicationTypePage.vue"),
-          meta: { title: "เลือกประเภทคำขอผู้ส่งออก" },
+          meta: { title: "เลือกประเภทคำขอ" },
         },
         {
           path: "applications/new/:type",
           name: "ExportUserNewApplication",
           component: () => import("@/views/export/user/NewApplicationPage.vue"),
-          meta: { title: "จดทะเบียนผู้ส่งออกใหม่" },
+          meta: { title: "ยื่นคำขอใหม่" },
         },
         {
           path: "applications/:id",
           name: "ExportUserApplicationDetail",
           component: () =>
             import("@/views/export/user/ApplicationDetailPage.vue"),
-          meta: { title: "ติดตามสถานะคำขอผู้ส่งออก" },
+          meta: { title: "ติดตามสถานะคำขอ" },
         },
         {
           path: "certificates",
           name: "ExportUserCertificates",
           component: () => import("@/views/export/user/CertificatePage.vue"),
-          meta: { title: "รายการใบรับรอง" },
+          meta: { title: "รายการใบทะเบียน" },
         },
         {
           path: "certificates/:id",
@@ -681,7 +693,7 @@ const router = createRouter({
           name: "ExportStaffApplicationDetail",
           component: () =>
             import("@/views/export/staff/ApplicationDetailPage.vue"),
-          meta: { title: "รายละเอียดคำขอผู้ส่งออก" },
+          meta: { title: "รายละเอียดคำขอ" },
         },
         {
           path: "reviews",
@@ -693,7 +705,7 @@ const router = createRouter({
           path: "registry",
           name: "ExportStaffRegistry",
           component: () => import("@/views/export/staff/RegistryPage.vue"),
-          meta: { title: "ทะเบียนผู้ส่งออก" },
+          meta: { title: "รายการทะเบียน" },
         },
         {
           path: "registry/:id",
@@ -707,7 +719,7 @@ const router = createRouter({
           name: "ExportStaffCertificateManage",
           component: () =>
             import("@/views/export/staff/CertificateManagePage.vue"),
-          meta: { title: "จัดการใบรับรอง" },
+          meta: { title: "จัดการใบทะเบียน" },
         },
         {
           path: "reviews/:id",
@@ -725,7 +737,7 @@ const router = createRouter({
           path: "signing/:id",
           name: "ExportStaffSigningDetail",
           component: () => import("@/views/export/staff/SigningDetailPage.vue"),
-          meta: { title: "ลงนามใบรับรอง" },
+          meta: { title: "ลงนามใบทะเบียน" },
         },
       ],
     },
@@ -758,13 +770,13 @@ const router = createRouter({
           path: "applications/new",
           name: "HCstaffNewApplication",
           component: () => import("@/views/hc/staff/NewApplicationPage.vue"),
-          meta: { title: "สร้างคำขอ HC" },
+          meta: { title: "ยื่นคำขอใหม่" },
         },
         {
           path: "applications/:id",
           name: "HCstaffApplicationDetail",
           component: () => import("@/views/hc/staff/ApplicationDetailPage.vue"),
-          meta: { title: "รายละเอียดคำขอ HC" },
+          meta: { title: "รายละเอียดคำขอ" },
         },
         {
           path: "registry",
@@ -797,7 +809,7 @@ const router = createRouter({
           path: "applications/new",
           name: "HCUserApplicationType",
           component: () => import("@/views/hc/user/ApplicationTypePage.vue"),
-          meta: { title: "เลือกประเภทคำขอ HC" },
+          meta: { title: "เลือกประเภทคำขอ" },
         },
         {
           path: "applications/new/:type",
@@ -809,13 +821,13 @@ const router = createRouter({
           path: "applications/:id",
           name: "HCUserApplicationDetail",
           component: () => import("@/views/hc/user/ApplicationDetailPage.vue"),
-          meta: { title: "ติดตามสถานะคำขอ HC" },
+          meta: { title: "ติดตามสถานะคำขอ" },
         },
         {
           path: "certificates",
           name: "HCUserCertificates",
           component: () => import("@/views/hc/user/CertificatePage.vue"),
-          meta: { title: "ใบรับรอง HC ของฉัน" },
+          meta: { title: "รายการใบรับรอง" },
         },
       ],
     },
@@ -843,25 +855,25 @@ const router = createRouter({
           name: "HCEXstaffApplicationDetail",
           component: () =>
             import("@/views/hcex/staff/ApplicationDetailPage.vue"),
-          meta: { title: "รายละเอียดคำขอ HC แปรรูป" },
+          meta: { title: "รายละเอียดคำขอ" },
         },
         {
           path: "lab-results",
           name: "HCEXstaffLabResults",
           component: () => import("@/views/hcex/staff/LabResultsPage.vue"),
-          meta: { title: "ผล Lab HC แปรรูป" },
+          meta: { title: "ผล Lab" },
         },
         {
           path: "signing",
           name: "HCEXstaffSigning",
           component: () => import("@/views/hcex/staff/SigningPage.vue"),
-          meta: { title: "ลงนามใบรับรอง HC แปรรูป" },
+          meta: { title: "ลงนามใบรับรอง" },
         },
         {
           path: "registry",
           name: "HCEXstaffRegistry",
           component: () => import("@/views/hcex/staff/RegistryPage.vue"),
-          meta: { title: "ทะเบียน HC แปรรูป" },
+          meta: { title: "รายการทะเบียน" },
         },
       ],
     },
@@ -888,7 +900,7 @@ const router = createRouter({
           path: "applications/new",
           name: "HCEXUserApplicationType",
           component: () => import("@/views/hcex/user/ApplicationTypePage.vue"),
-          meta: { title: "เลือกประเภทคำขอ HC แปรรูป" },
+          meta: { title: "เลือกประเภทคำขอ" },
         },
         {
           path: "applications/new/:type",
@@ -901,7 +913,7 @@ const router = createRouter({
           name: "HCEXUserApplicationDetail",
           component: () =>
             import("@/views/hcex/user/ApplicationDetailPage.vue"),
-          meta: { title: "ติดตามสถานะคำขอ HC แปรรูป" },
+          meta: { title: "ติดตามสถานะคำขอ" },
         },
         {
           path: "certificates",
@@ -934,7 +946,7 @@ const router = createRouter({
           path: "applications/new",
           name: "ELUserApplicationType",
           component: () => import("@/views/el/user/ApplicationTypePage.vue"),
-          meta: { title: "เลือกประเภทคำขอ EL" },
+          meta: { title: "เลือกประเภทคำขอ" },
         },
         {
           path: "applications/new/:type",
@@ -946,7 +958,7 @@ const router = createRouter({
           path: "applications/:id",
           name: "ELUserApplicationDetail",
           component: () => import("@/views/el/user/ApplicationDetailPage.vue"),
-          meta: { title: "ติดตามสถานะคำขอ EL" },
+          meta: { title: "ติดตามสถานะคำขอ" },
         },
         {
           path: "registry",
@@ -979,7 +991,7 @@ const router = createRouter({
           path: "applications/:id",
           name: "ELStaffApplicationDetail",
           component: () => import("@/views/el/staff/ApplicationDetailPage.vue"),
-          meta: { title: "รายละเอียดคำขอ EL" },
+          meta: { title: "รายละเอียดคำขอ" },
         },
         {
           path: "monitoring",

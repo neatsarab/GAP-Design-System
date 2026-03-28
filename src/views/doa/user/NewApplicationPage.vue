@@ -63,17 +63,11 @@
     <template v-if="currentStep === 0">
       <!-- ความประสงค์ / เลขทะเบียน -->
       <v-card rounded="xl" elevation="0" class="section-card mb-5">
-        <v-card-title class="pa-5 pb-3 section-title">
-          <v-icon
-            icon="fas fa-file-pen"
-            color="doa-user"
-            class="mr-2"
-            size="25"
-          />
-          {{ isRegister ? "ความประสงค์" : "ทะเบียนที่ประสงค์ขอแก้ไข" }}
-        </v-card-title>
-        <v-divider />
-        <v-card-text class="pa-5">
+        <div class="d-flex align-center ga-2 px-4 py-3 border-b">
+          <v-icon icon="fas fa-file-pen" color="doa-user" size="15" />
+          <span class="text-subtitle-2 font-weight-bold">{{ isRegister ? "ความประสงค์" : "ทะเบียนที่ประสงค์ขอแก้ไข" }}</span>
+        </div>
+        <v-card-text class="pt-5">
           <!--  กรณีสร้างคำขอใหม่ -->
           <template v-if="isRegister">
             <v-radio-group v-model="form.purpose" color="doa-user">
@@ -152,12 +146,11 @@
       </v-card>
       <!-- ข้อมูลผู้ยื่นคำขอ -->
       <v-card rounded="xl" elevation="0" class="section-card mb-5">
-        <v-card-title class="pa-5 pb-3 section-title">
-          <v-icon icon="fas fa-user" color="doa-user" class="mr-2" size="18" />
-          ข้อมูลผู้ยื่นคำขอ
-        </v-card-title>
-        <v-divider />
-        <v-card-text class="pa-5">
+        <div class="d-flex align-center ga-2 px-4 py-3 border-b">
+          <v-icon icon="fas fa-user" color="doa-user" size="15" />
+          <span class="text-subtitle-2 font-weight-bold">ข้อมูลผู้ยื่นคำขอ</span>
+        </div>
+        <v-card-text class="pt-5">
           <!-- ข้อมูลส่วนตัว -->
           <div class="field-section-label mb-2">ข้อมูลส่วนตัว</div>
           <v-row dense>
@@ -366,17 +359,11 @@
       </v-card>
       <!-- ข้อมูลโรงงานผลิตสินค้าพืช -->
       <v-card rounded="xl" elevation="0" class="section-card mb-5">
-        <v-card-title class="pa-5 pb-3 section-title">
-          <v-icon
-            icon="fas fa-industry"
-            color="doa-user"
-            class="mr-2"
-            size="18"
-          />
-          ข้อมูลโรงงานผลิตสินค้าพืช
-        </v-card-title>
-        <v-divider />
-        <v-card-text class="pa-5">
+        <div class="d-flex align-center ga-2 px-4 py-3 border-b">
+          <v-icon icon="fas fa-industry" color="doa-user" size="15" />
+          <span class="text-subtitle-2 font-weight-bold">ข้อมูลโรงงานผลิตสินค้าพืช</span>
+        </div>
+        <v-card-text class="pt-5">
           <!-- ประเภทสถานประกอบการ -->
           <v-row dense>
             <v-col cols="12" class="mt-4 d-flex">
@@ -578,7 +565,7 @@
             </v-col>
           </v-row>
 
-          <!-- ข้อมูลติดต่อ -->
+          <!-- ตำแหน่งที่ตั้งโรงงาน -->
           <div class="field-section-label mt-4 mb-2">ตำแหน่งที่ตั้งโรงงาน</div>
           <v-row dense>
             <v-col cols="12" md="6">
@@ -623,18 +610,10 @@
 
       <!-- ขอบข่ายมาตรฐานที่ขอขึ้นทะเบียน -->
       <v-card rounded="xl" elevation="0" class="section-card mb-5">
-        <v-card-title
-          class="pa-5 pb-3 d-flex align-center justify-space-between section-title"
-        >
-          <span>
-            <v-icon
-              icon="fas fa-certificate"
-              color="doa-user"
-              class="mr-2"
-              size="18"
-            />
-            ขอบข่ายมาตรฐานที่ขอขึ้นทะเบียน
-          </span>
+        <div class="d-flex align-center ga-2 px-4 py-3 border-b">
+          <v-icon icon="fas fa-certificate" color="doa-user" size="15" />
+          <span class="text-subtitle-2 font-weight-bold">ขอบข่ายมาตรฐานที่ขอขึ้นทะเบียน</span>
+          <v-spacer />
           <v-btn
             v-if="isRegister"
             color="doa-user"
@@ -646,8 +625,7 @@
           >
             เพิ่มขอบข่าย
           </v-btn>
-        </v-card-title>
-        <v-divider />
+        </div>
         <v-table density="comfortable" class="pa-2">
           <thead>
             <tr>
@@ -704,17 +682,11 @@
         elevation="0"
         class="section-card mb-5"
       >
-        <v-card-title class="pa-5 pb-3 section-title">
-          <v-icon
-            icon="fas fa-file-pen"
-            color="doa-user"
-            class="mr-2"
-            size="25"
-          />
-          ข้อมูลที่ต้องการแก้ไข
-        </v-card-title>
-        <v-divider />
-        <v-card-text class="pa-5">
+        <div class="d-flex align-center ga-2 px-4 py-3 border-b">
+          <v-icon icon="fas fa-file-pen" color="doa-user" size="15" />
+          <span class="text-subtitle-2 font-weight-bold">ข้อมูลที่ต้องการแก้ไข</span>
+        </div>
+        <v-card-text class="pt-5">
           <v-row dense>
             <v-col
               v-for="main in objectives"
@@ -787,12 +759,11 @@
         elevation="0"
         class="section-card mb-5"
       >
-        <v-card-title class="pa-5 pb-3 section-title">
-          <v-icon icon="fas fa-user" color="doa-user" class="mr-2" size="25" />
-          เพิ่ม / ลดขอบข่ายมาตรฐาน
-        </v-card-title>
-        <v-divider />
-        <v-card-text class="pa-5">
+        <div class="d-flex align-center ga-2 px-4 py-3 border-b">
+          <v-icon icon="fas fa-user" color="doa-user" size="15" />
+          <span class="text-subtitle-2 font-weight-bold">เพิ่ม / ลดขอบข่ายมาตรฐาน</span>
+        </div>
+        <v-card-text class="pt-5">
           <v-row dense>
             <!-- หัวข้อที่ 1: เพิ่ม/ลดขอบข่าย มกษ. -->
             <v-col cols="12" class="mb-4">
@@ -1034,17 +1005,11 @@
 
       <!-- เอกสารประกอบเพิ่มเติม -->
       <v-card rounded="xl" elevation="0" class="section-card mb-5">
-        <v-card-title class="pa-5 pb-3 section-title">
-          <v-icon
-            icon="fas fa-paperclip"
-            color="doa-user"
-            class="mr-2"
-            size="18"
-          />
-          เอกสารไฟล์แนบ
-        </v-card-title>
-        <v-divider />
-        <v-card-text class="pa-5">
+        <div class="d-flex align-center ga-2 px-4 py-3 border-b">
+          <v-icon icon="fas fa-paperclip" color="doa-user" size="15" />
+          <span class="text-subtitle-2 font-weight-bold">เอกสารไฟล์แนบ</span>
+        </div>
+        <v-card-text class="pt-5">
           <v-row dense>
             <v-col v-for="doc in docFileDoa" :key="doc.key" cols="12">
               <div
@@ -1130,16 +1095,10 @@
     <!-- Standard Dialog -->
     <v-dialog v-model="standardDialog" max-width="560">
       <v-card rounded="xl">
-        <v-card-title class="pa-5 pb-3 text-body-1 font-weight-bold">
-          <v-icon
-            icon="fas fa-certificate"
-            color="doa-user"
-            class="mr-2"
-            size="18"
-          />
-          {{ standardDialogIndex === -1 ? "เพิ่มมาตรฐาน" : "แก้ไขมาตรฐาน" }}
-        </v-card-title>
-        <v-divider />
+        <div class="d-flex align-center ga-2 px-4 py-3 border-b">
+          <v-icon icon="fas fa-certificate" color="doa-user" size="15" />
+          <span class="text-subtitle-2 font-weight-bold">{{ standardDialogIndex === -1 ? "เพิ่มมาตรฐาน" : "แก้ไขมาตรฐาน" }}</span>
+        </div>
         <v-card-text class="pa-5">
           <v-row dense>
             <v-col cols="12">
@@ -1750,6 +1709,11 @@ watch([() => form.factoryLat, () => form.factoryLng], ([lat, lng]) => {
 </script>
 
 <style scoped>
+/* Document / upload row */
+.item-row {
+  background: rgba(var(--v-theme-doa-user), 0.03);
+}
+
 .step-done,
 .step-active {
   background: rgb(var(--v-theme-doa-user)) !important;

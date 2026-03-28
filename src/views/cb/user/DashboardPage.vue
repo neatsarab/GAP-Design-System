@@ -70,7 +70,7 @@
                       >{{ statusLabel(app.status) }}</v-chip
                     >
                     <span class="text-caption text-medium-emphasis">{{
-                      app.submittedDate
+                      app.updatedDate
                     }}</span>
                   </div>
                 </template>
@@ -173,18 +173,21 @@ const recentApplications = [
     id: "CB-2569-00003",
     requestNo: "CB-2569-00003",
     submittedDate: "5 มี.ค. 2569",
-    status: "under_review",
+    updatedDate: "6 มี.ค. 2569",
+    status: "reviewing",
   },
   {
     id: "CB-2569-00002",
     requestNo: "CB-2569-00002",
     submittedDate: "20 ก.พ. 2569",
-    status: "inspection_scheduled",
+    updatedDate: "1 มี.ค. 2569",
+    status: "signing",
   },
   {
     id: "CB-2569-00001",
     requestNo: "CB-2569-00001",
     submittedDate: "10 ม.ค. 2569",
+    updatedDate: "28 ม.ค. 2569",
     status: "approved",
   },
 ];
@@ -207,12 +210,11 @@ const quickActions = [
 function statusColor(status) {
   const map = {
     draft: "grey",
-    submitted: "primary",
-    under_review: "info",
-    inspection_scheduled: "secondary",
+    pending: "info",
+    need_edit: "warning",
+    reviewing: "info",
+    signing: "info",
     approved: "success",
-    rejected: "error",
-    revision_required: "warning",
   };
   return map[status] ?? "grey";
 }
@@ -220,12 +222,11 @@ function statusColor(status) {
 function statusLabel(status) {
   const map = {
     draft: "แบบร่าง",
-    submitted: "ยื่นแล้ว",
-    under_review: "อยู่ระหว่างตรวจสอบ",
-    inspection_scheduled: "นัดตรวจแล้ว",
-    approved: "อนุมัติแล้ว",
-    rejected: "ไม่ผ่าน",
-    revision_required: "รอแก้ไข",
+    pending: "รอตรวจสอบ",
+    need_edit: "รอแก้ไขคำขอ",
+    reviewing: "รอพิจารณา",
+    signing: "รอลงนาม",
+    approved: "ได้รับอนุญาต",
   };
   return map[status] ?? status;
 }

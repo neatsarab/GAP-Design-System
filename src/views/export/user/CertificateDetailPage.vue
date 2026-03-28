@@ -61,7 +61,7 @@
                 </div>
               </v-col>
               <v-col cols="12">
-                <div class="info-label">ประเภททะเบียน / Certificate Type</div>
+                <div class="info-label">ประเภททะเบียน / Registration Type</div>
                 <div class="info-value">{{ cert.typecert }}</div>
               </v-col>
               <v-col cols="12" md="4">
@@ -209,13 +209,15 @@
           <v-table density="compact" class="pa-2">
             <thead>
               <tr>
+                <th>#</th>
                 <th>เลขทะเบียน DOA</th>
                 <th>ชื่อโรงงาน</th>
                 <th>วันหมดอายุ</th>
               </tr>
             </thead>
             <tbody>
-              <tr v-for="factory in cert.factories" :key="factory.doaNo">
+              <tr v-for="(factory, i) in cert.factories" :key="i">
+                <td class="text-body-2 text-medium-emphasis">{{ i + 1 }}</td>
                 <td class="text-body-2 font-weight-bold text-export-user">
                   {{ factory.doaNo }}
                 </td>
@@ -239,6 +241,7 @@
           <v-table density="compact" class="pa-2">
             <thead>
               <tr>
+                <th>#</th>
                 <th>เลขใบรับรอง GAP</th>
                 <th>ชื่อแหล่งผลิต</th>
                 <th>หน่วยงานรับรอง</th>
@@ -246,7 +249,8 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="gap in cert.gaps" :key="gap.gapNo">
+              <tr v-for="(gap, i) in cert.gaps" :key="i">
+                <td class="text-body-2 text-medium-emphasis">{{ i + 1 }}</td>
                 <td class="text-body-2 font-weight-bold text-export-user">
                   {{ gap.gapNo }}
                 </td>
@@ -595,10 +599,8 @@ const cert = {
   ],
 
   attachments: [
-    { label: "หนังสือรับรองบริษัท" },
-    { label: "สำเนาบัตรประชาชนกรรมการ" },
-    { label: "หนังสือสำคัญขึ้นทะเบียนโรงงาน (DOA)" },
-    { label: "หนังสือรับรอง GAP" },
+    { label: "หนังสือรับรองของโรงงานผลิตสินค้าพืชที่เราระบุว่าเป็นผู้คัดบรรจุสินค้าผักและผลไม้ให้กับผู้ส่งออก กรณีที่ผู้ส่งออกแจ้งใช้โรงงานผลิตสินค้าพืชของผู้อื่น" },
+    { label: "หนังสือรับรองการซื้อ-ขายกับเกษตรกร" },
   ],
 
   activityLog: [

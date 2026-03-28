@@ -2467,6 +2467,11 @@ function submitApplication() {
 </script>
 
 <style scoped>
+/* Document / upload row */
+.item-row {
+  background: rgba(var(--v-theme-export-user), 0.03);
+}
+
 .step-done,
 .step-active {
   background: rgb(var(--v-theme-export-user)) !important;

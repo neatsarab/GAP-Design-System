@@ -174,14 +174,56 @@
           </template>
         </v-tooltip>
 
-        <v-chip
-          variant="outlined"
-          color="hc-user"
-          class="user-chip mr-2 ml-1"
-          prepend-icon="fas fa-user"
-        >
-          {{ sessionStore.loginName }}
-        </v-chip>
+        <v-menu location="bottom end" :offset="8">
+          <template #activator="{ props }">
+            <v-chip
+              v-bind="props"
+              variant="outlined"
+              color="hc-user"
+              class="user-chip mr-2 ml-1"
+              prepend-icon="fas fa-user"
+              append-icon="fas fa-chevron-down"
+              style="cursor: pointer"
+            >
+              {{ sessionStore.loginName }}
+            </v-chip>
+          </template>
+          <v-card min-width="200" elevation="8" rounded="xl" class="mt-1">
+            <v-card-text class="pb-2">
+              <div class="d-flex align-center ga-3 mb-3">
+                <div class="user-avatar-md">
+                  <v-icon icon="fas fa-user" size="20" />
+                </div>
+                <div>
+                  <div class="text-body-2 font-weight-bold">
+                    {{ sessionStore.displayName }}
+                  </div>
+                  <div class="text-caption text-medium-emphasis">
+                    {{ sessionStore.loginName }}
+                  </div>
+                </div>
+              </div>
+              <v-divider />
+            </v-card-text>
+            <v-list density="compact" nav class="pt-0 pb-2">
+              <v-list-item
+                prepend-icon="fas fa-arrow-left"
+                title="ย้อนกลับไปเลือกบัญชี"
+                subtitle="บุคคล / นิติบุคคล / กลุ่ม"
+                rounded="lg"
+                @click="goToPortal"
+              />
+              <v-divider class="my-1" />
+              <v-list-item
+                prepend-icon="fas fa-right-from-bracket"
+                title="ออกจากระบบ"
+                rounded="lg"
+                base-color="error"
+                @click="openLogoutDialog"
+              />
+            </v-list>
+          </v-card>
+        </v-menu>
       </div>
     </v-app-bar>
 
@@ -323,3 +365,10 @@ const navGroups = [
   },
 ];
 </script>
+
+<style scoped>
+.user-avatar-md {
+  background: rgba(var(--v-theme-hc-user), 0.15);
+  color: rgb(var(--v-theme-hc-user));
+}
+</style>

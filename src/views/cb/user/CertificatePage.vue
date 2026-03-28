@@ -3,9 +3,9 @@
     <!-- Header -->
     <div class="d-flex align-center justify-space-between mb-5 flex-wrap ga-3">
       <div>
-        <h1 class="page-title mb-1">ใบรับรอง CB</h1>
+        <h1 class="page-title mb-1">รายการใบทะเบียน</h1>
         <p class="text-body-2 text-medium-emphasis mb-0">
-          รายการใบรับรองหน่วยรับรองโรงงานผลิตสินค้าพืชของคุณ
+          การขึ้นทะเบียนหน่วยรับรองโรงงานผลิตสินค้าพืช
         </p>
       </div>
       <v-btn variant="tonal" color="cb-user" prepend-icon="fas fa-download"
@@ -14,39 +14,46 @@
     </div>
 
     <!-- Stats -->
-    <v-row class="mb-5">
-      <v-col v-for="s in stats" :key="s.label" cols="6" sm="3">
-        <v-card rounded="xl" elevation="0">
-          <v-card-text class="pa-4 d-flex align-center ga-3">
-            <div
-              class="stat-icon"
-              :style="`background:rgba(var(--v-theme-${s.color}),0.12)`"
-            >
-              <v-icon :icon="s.icon" :color="s.color" size="20" />
-            </div>
-            <div>
-              <div class="text-h5 font-weight-bold" :class="`text-${s.color}`">
-                {{ s.value }}
+    <div class="mb-4">
+      <v-row>
+        <v-col v-for="s in stats" :key="s.label" cols="6" sm="3">
+          <v-card rounded="xl" elevation="0">
+            <v-card-text class="pa-4 d-flex align-center ga-3">
+              <div
+                class="stat-icon"
+                :style="`background:rgba(var(--v-theme-${s.color}),0.12)`"
+              >
+                <v-icon :icon="s.icon" :color="s.color" size="20" />
               </div>
-              <div class="text-caption text-medium-emphasis">{{ s.label }}</div>
-            </div>
-          </v-card-text>
-        </v-card>
-      </v-col>
-    </v-row>
+              <div>
+                <div
+                  class="text-h5 font-weight-bold"
+                  :class="`text-${s.color}`"
+                >
+                  {{ s.value }}
+                </div>
+                <div class="text-caption text-medium-emphasis">
+                  {{ s.label }}
+                </div>
+              </div>
+            </v-card-text>
+          </v-card>
+        </v-col>
+      </v-row>
+    </div>
 
     <!-- Filter -->
     <v-card rounded="xl" elevation="0" class="mb-4 filter-card">
       <v-card-text class="pa-4">
         <v-row dense align="center">
-          <v-col cols="12" sm="5">
+          <v-col cols="12" sm="6" md="3">
             <div class="field-label">
-              <div>ค้นหา</div>
-              <div class="field-label-en">Search</div>
+              <div>เลขทะเบียน</div>
+              <div class="field-label-en">Certificate No.</div>
             </div>
             <v-text-field
-              v-model="search"
-              placeholder="ค้นหาชื่อหน่วยรับรอง"
+              v-model="searchCert"
+              placeholder="ค้นหาเลขทะเบียน"
               prepend-inner-icon="fas fa-search"
               variant="outlined"
               density="compact"
@@ -55,14 +62,32 @@
               clearable
             />
           </v-col>
-          <v-col cols="6" sm="3">
+          <v-col cols="12" sm="6" md="3">
             <div class="field-label">
-              <div>ประเภทใบรับรอง</div>
-              <div class="field-label-en">Certificate Type</div>
+              <div>เลขคำขอ</div>
+              <div class="field-label-en">Request No.</div>
+            </div>
+            <v-text-field
+              v-model="searchRequest"
+              placeholder="ค้นหาเลขคำขอ"
+              prepend-inner-icon="fas fa-search"
+              variant="outlined"
+              density="compact"
+              rounded="lg"
+              hide-details
+              clearable
+            />
+          </v-col>
+          <v-col cols="12" sm="6" md="3">
+            <div class="field-label">
+              <div>สถานะ</div>
+              <div class="field-label-en">Status</div>
             </div>
             <v-autocomplete
-              v-model="filterCertType"
-              :items="certTypeOptions"
+              v-model="filterStatus"
+              :items="statusOptions"
+              item-title="label"
+              item-value="value"
               placeholder="ทั้งหมด"
               variant="outlined"
               density="compact"
@@ -70,6 +95,76 @@
               hide-details
               clearable
             />
+          </v-col>
+          <v-col cols="12" sm="6" md="3">
+            <div class="field-label">
+              <div>วันหมดอายุ (จาก)</div>
+              <div class="field-label-en">Expire Date (From)</div>
+            </div>
+            <v-menu
+              v-model="expireFromMenu"
+              :close-on-content-click="false"
+              location="bottom start"
+            >
+              <template #activator="{ props }">
+                <v-text-field
+                  v-bind="props"
+                  density="compact"
+                  :model-value="expireFromBE"
+                  readonly
+                  clearable
+                  prepend-inner-icon="fas fa-calendar"
+                  placeholder="เลือกวันที่ / เดือน / ปี"
+                  hide-details
+                  style="cursor: pointer"
+                  @click:clear.stop="expireFromObj = null"
+                />
+              </template>
+              <v-date-picker
+                v-model="expireFromObj"
+                color="cb-user"
+                show-adjacent-months
+                :hide-header="!expireFromObj"
+                title="วันหมดอายุ (จาก)"
+                locale="th"
+                @update:model-value="expireFromMenu = false"
+              />
+            </v-menu>
+          </v-col>
+          <v-col cols="12" sm="6" md="3">
+            <div class="field-label">
+              <div>วันหมดอายุ (ถึง)</div>
+              <div class="field-label-en">Expire Date (To)</div>
+            </div>
+            <v-menu
+              v-model="expireToMenu"
+              :close-on-content-click="false"
+              location="bottom start"
+            >
+              <template #activator="{ props }">
+                <v-text-field
+                  v-bind="props"
+                  density="compact"
+                  :model-value="expireToBE"
+                  readonly
+                  clearable
+                  prepend-inner-icon="fas fa-calendar"
+                  placeholder="เลือกวันที่ / เดือน / ปี"
+                  hide-details
+                  style="cursor: pointer"
+                  @click:clear.stop="expireToObj = null"
+                />
+              </template>
+              <v-date-picker
+                v-model="expireToObj"
+                color="cb-user"
+                show-adjacent-months
+                :hide-header="!expireToObj"
+                title="วันหมดอายุ (ถึง)"
+                locale="th"
+                @update:model-value="expireToMenu = false"
+              />
+            </v-menu>
           </v-col>
         </v-row>
         <v-row dense>
@@ -87,71 +182,137 @@
       </v-card-text>
     </v-card>
 
-    <!-- Chip tabs -->
-    <v-chip-group v-model="activeTab" class="mb-4" mandatory>
-      <v-chip value="all" color="cb-user" variant="tonal" filter size="small">
-        <v-icon start icon="fas fa-list" size="12" /> ทั้งหมด
-        <v-badge
-          :content="allItems.length"
-          inline
-          color="cb-user"
-          class="ml-1"
-        />
-      </v-chip>
-      <v-chip
-        value="active"
-        color="success"
-        variant="tonal"
-        filter
-        size="small"
-      >
-        <v-icon start icon="fas fa-circle-check" size="12" /> มีผล
-        <v-badge
-          :content="countByStatus('active')"
-          inline
-          color="success"
-          class="ml-1"
-        />
-      </v-chip>
-      <v-chip
-        value="expiring"
-        color="warning"
-        variant="tonal"
-        filter
-        size="small"
-      >
-        <v-icon start icon="fas fa-clock" size="12" /> ใกล้หมดอายุ
-        <v-badge
-          :content="countByStatus('expiring')"
-          inline
-          color="warning"
-          class="ml-1"
-        />
-      </v-chip>
-      <v-chip value="expired" color="error" variant="tonal" filter size="small">
-        <v-icon start icon="fas fa-circle-xmark" size="12" /> หมดอายุ
-        <v-badge
-          :content="countByStatus('expired')"
-          inline
-          color="error"
-          class="ml-1"
-        />
-      </v-chip>
-    </v-chip-group>
-
     <!-- Table -->
     <v-card rounded="xl" elevation="0" class="data-card">
       <v-data-table
         :headers="headers"
         :items="filteredItems"
-        :search="search"
+        :custom-key-sort="customKeySort"
+        rounded="xl"
         hover
       >
-        <template #item.cbName="{ item }">
+        <template #header.certNo="{ column, isSorted, getSortIcon }">
+          <span class="d-inline-flex align-center ga-1">
+            <span>
+              <div
+                class="text-body-2 font-weight-medium"
+                style="line-height: 1.3"
+              >
+                เลขทะเบียน
+              </div>
+              <div
+                class="text-caption text-medium-emphasis"
+                style="line-height: 1.2"
+              >
+                Certificate No.
+              </div>
+            </span>
+            <v-icon
+              v-if="isSorted(column)"
+              :icon="getSortIcon(column)"
+              size="14"
+            />
+          </span>
+        </template>
+        <template #header.requestNo="{ column, isSorted, getSortIcon }">
+          <span class="d-inline-flex align-center ga-1">
+            <span>
+              <div
+                class="text-body-2 font-weight-medium"
+                style="line-height: 1.3"
+              >
+                เลขคำขอ
+              </div>
+              <div
+                class="text-caption text-medium-emphasis"
+                style="line-height: 1.2"
+              >
+                Request No.
+              </div>
+            </span>
+            <v-icon
+              v-if="isSorted(column)"
+              :icon="getSortIcon(column)"
+              size="14"
+            />
+          </span>
+        </template>
+        <template #header.issueDate="{ column, isSorted, getSortIcon }">
+          <span class="d-inline-flex align-center ga-1">
+            <span>
+              <div
+                class="text-body-2 font-weight-medium"
+                style="line-height: 1.3"
+              >
+                วันที่ออก
+              </div>
+              <div
+                class="text-caption text-medium-emphasis"
+                style="line-height: 1.2"
+              >
+                Issue Date
+              </div>
+            </span>
+            <v-icon
+              v-if="isSorted(column)"
+              :icon="getSortIcon(column)"
+              size="14"
+            />
+          </span>
+        </template>
+        <template #header.expireDate="{ column, isSorted, getSortIcon }">
+          <span class="d-inline-flex align-center ga-1">
+            <span>
+              <div
+                class="text-body-2 font-weight-medium"
+                style="line-height: 1.3"
+              >
+                วันหมดอายุ
+              </div>
+              <div
+                class="text-caption text-medium-emphasis"
+                style="line-height: 1.2"
+              >
+                Expire Date
+              </div>
+            </span>
+            <v-icon
+              v-if="isSorted(column)"
+              :icon="getSortIcon(column)"
+              size="14"
+            />
+          </span>
+        </template>
+        <template #header.status="{ column, isSorted, getSortIcon }">
+          <span class="d-inline-flex align-center ga-1">
+            <span>
+              <div
+                class="text-body-2 font-weight-medium"
+                style="line-height: 1.3"
+              >
+                สถานะ
+              </div>
+              <div
+                class="text-caption text-medium-emphasis"
+                style="line-height: 1.2"
+              >
+                Status
+              </div>
+            </span>
+            <v-icon
+              v-if="isSorted(column)"
+              :icon="getSortIcon(column)"
+              size="14"
+            />
+          </span>
+        </template>
+
+        <template #item.certNo="{ item }">
           <span class="text-body-2 font-weight-medium text-cb-user">{{
-            item.cbName
+            item.certNo
           }}</span>
         </template>
+
         <template #item.status="{ item }">
           <v-chip
             :color="statusColor(item.status)"
@@ -176,115 +337,123 @@
         </template>
         <template #item.actions="{ item }">
           <div class="d-flex ga-1">
-            <v-btn
-              size="small"
-              variant="text"
-              color="cb-user"
-              icon="fas fa-eye"
-              @click.stop="viewCert(item)"
-            />
-            <v-btn
-              size="small"
-              variant="text"
-              color="success"
-              icon="fas fa-download"
-              :disabled="item.status === 'expired'"
-              @click.stop="downloadCert(item)"
-            />
+            <v-tooltip text="ดูรายละเอียด" location="top">
+              <template #activator="{ props }">
+                <v-btn
+                  v-bind="props"
+                  icon
+                  size="x-small"
+                  variant="text"
+                  color="cb-user"
+                  @click.stop="
+                    router.push({
+                      name: 'CBUserCertificateDetail',
+                      params: { id: item.certNo },
+                    })
+                  "
+                >
+                  <v-icon icon="fas fa-eye" size="14" />
+                </v-btn>
+              </template>
+            </v-tooltip>
+            <v-tooltip text="ดาวน์โหลด" location="top">
+              <template #activator="{ props }">
+                <v-btn
+                  v-bind="props"
+                  icon
+                  size="x-small"
+                  variant="text"
+                  color="success"
+                  :disabled="item.status === 'expired'"
+                  @click.stop
+                >
+                  <v-icon icon="fas fa-download" size="14" />
+                </v-btn>
+              </template>
+            </v-tooltip>
           </div>
         </template>
       </v-data-table>
     </v-card>
-
-    <!-- View Dialog -->
-    <v-dialog v-model="viewDialog" max-width="560">
-      <v-card rounded="xl">
-        <v-card-title
-          class="pa-5 pb-3 d-flex align-center justify-space-between text-body-1 font-weight-bold"
-        >
-          <span
-            ><v-icon
-              icon="fas fa-certificate"
-              color="cb-user"
-              class="mr-2"
-              size="18"
-            />รายละเอียดใบรับรอง</span
-          >
-          <v-chip
-            v-if="selectedCert"
-            :color="statusColor(selectedCert.status)"
-            size="small"
-            variant="tonal"
-            >{{ statusLabel(selectedCert.status) }}</v-chip
-          >
-        </v-card-title>
-        <v-divider />
-        <v-card-text v-if="selectedCert" class="pa-5">
-          <v-row dense>
-            <v-col cols="12" sm="6"
-              ><div class="info-label">ประเภท</div>
-              <div class="info-value">{{ selectedCert.certType }}</div></v-col
-            >
-            <v-col cols="12"
-              ><div class="info-label">ชื่อหน่วยรับรอง</div>
-              <div class="info-value">{{ selectedCert.cbName }}</div></v-col
-            >
-            <v-col cols="12" sm="6"
-              ><div class="info-label">วันที่ออก</div>
-              <div class="info-value">{{ selectedCert.issueDate }}</div></v-col
-            >
-            <v-col cols="12" sm="6"
-              ><div class="info-label">วันหมดอายุ</div>
-              <div class="info-value">{{ selectedCert.expireDate }}</div></v-col
-            >
-          </v-row>
-        </v-card-text>
-        <v-card-actions class="px-5 pb-5">
-          <v-spacer />
-          <v-btn
-            variant="tonal"
-            color="grey"
-            rounded="lg"
-            @click="closeViewDialog"
-            >ปิด</v-btn
-          >
-          <v-btn
-            color="cb-user"
-            rounded="lg"
-            prepend-icon="fas fa-download"
-            @click="downloadCert(selectedCert)"
-            >ดาวน์โหลด</v-btn
-          >
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
   </div>
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, watch } from "vue";
+import { useRouter } from "vue-router";
+import { useLocale } from "vuetify";
 
-const search = ref("");
-const filterCertType = ref(null);
-const activeTab = ref("all");
+function beDateToTs(str) {
+  if (!str) return 0;
+  const [d, m, y] = str.split("/").map(Number);
+  return new Date(y - 543, m - 1, d).getTime();
+}
 
-const certTypeOptions = ["CB"];
+const customKeySort = {
+  issueDate: (a, b) => beDateToTs(a) - beDateToTs(b),
+  expireDate: (a, b) => beDateToTs(a) - beDateToTs(b),
+};
+
+const router = useRouter();
+
+const { current: vuetifyLocale } = useLocale();
+vuetifyLocale.value = "th";
+
+const searchCert = ref("");
+const searchRequest = ref("");
+const filterStatus = ref(null);
+
+const expireFromMenu = ref(false);
+const expireFromObj = ref(null);
+const expireToMenu = ref(false);
+const expireToObj = ref(null);
+
+const filterExpireFrom = ref("");
+const filterExpireTo = ref("");
+
+function dateToBE(date) {
+  if (!date) return "";
+  const d = String(date.getDate()).padStart(2, "0");
+  const m = String(date.getMonth() + 1).padStart(2, "0");
+  return `${d}/${m}/${date.getFullYear() + 543}`;
+}
+
+const expireFromBE = computed(() => dateToBE(expireFromObj.value));
+const expireToBE = computed(() => dateToBE(expireToObj.value));
+
+watch(expireFromObj, (v) => {
+  filterExpireFrom.value = v ? v.toISOString().slice(0, 10) : "";
+});
+watch(expireToObj, (v) => {
+  filterExpireTo.value = v ? v.toISOString().slice(0, 10) : "";
+});
+
+const statusOptions = [
+  { label: "มีผล", value: "active" },
+  { label: "ใกล้หมดอายุ", value: "expiring" },
+  { label: "หมดอายุ", value: "expired" },
+];
 
 const allItems = [
   {
-    id: "cert-001",
-    cbName: "บ.ไทยเซอร์ติฟาย จก.",
-    certType: "CB",
-    issueDate: "18/02/2566",
-    expireDate: "18/02/2569",
+    certNo: "CB-2569-001",
+    requestNo: "CB-0005",
+    issueDate: "15/03/2569",
+    expireDate: "14/03/2572",
     status: "active",
   },
   {
-    id: "cert-002",
-    cbName: "บ.สยามแล็บ จก.",
-    certType: "CB",
-    issueDate: "01/06/2564",
-    expireDate: "01/06/2569",
+    certNo: "CB-2569-002",
+    requestNo: "CB-0010",
+    issueDate: "01/06/2569",
+    expireDate: "01/04/2569",
+    status: "expiring",
+  },
+  {
+    certNo: "CB-2566-003",
+    requestNo: "CB-0003",
+    issueDate: "20/02/2566",
+    expireDate: "19/02/2569",
     status: "expired",
   },
 ];
@@ -293,7 +462,7 @@ const stats = computed(() => [
   {
     label: "ทั้งหมด",
     icon: "fas fa-certificate",
-    color: "primary",
+    color: "cb-user",
     value: allItems.length,
   },
   {
@@ -322,40 +491,43 @@ function countByStatus(s) {
 
 const filteredItems = computed(() => {
   let items = allItems;
-  if (activeTab.value !== "all")
-    items = items.filter((i) => i.status === activeTab.value);
-  if (filterCertType.value)
-    items = items.filter((i) => i.certType === filterCertType.value);
+  if (searchCert.value) {
+    const q = searchCert.value.toLowerCase();
+    items = items.filter((i) => i.certNo.toLowerCase().includes(q));
+  }
+  if (searchRequest.value) {
+    const q = searchRequest.value.toLowerCase();
+    items = items.filter((i) => i.requestNo.toLowerCase().includes(q));
+  }
+  if (filterStatus.value)
+    items = items.filter((i) => i.status === filterStatus.value);
+  if (filterExpireFrom.value) {
+    const from = new Date(filterExpireFrom.value).getTime();
+    items = items.filter((i) => beDateToTs(i.expireDate) >= from);
+  }
+  if (filterExpireTo.value) {
+    const to = new Date(filterExpireTo.value).getTime();
+    items = items.filter((i) => beDateToTs(i.expireDate) <= to);
+  }
   return items;
 });
 
 function clearFilters() {
-  search.value = "";
-  filterCertType.value = null;
-  activeTab.value = "all";
+  searchCert.value = "";
+  searchRequest.value = "";
+  filterStatus.value = null;
+  expireFromObj.value = null;
+  expireToObj.value = null;
 }
 
 const headers = [
-  { title: "ชื่อหน่วยรับรอง", key: "cbName", sortable: true },
-  { title: "ประเภท", key: "certType", sortable: false },
-  { title: "วันที่ออก", key: "issueDate", sortable: true },
-  { title: "วันหมดอายุ", key: "expireDate", sortable: true },
-  { title: "สถานะ", key: "status", sortable: false },
-  { title: "", key: "actions", sortable: false, align: "end" },
+  { title: "เลขทะเบียน", key: "certNo", sortable: true, minWidth: "130" },
+  { title: "เลขคำขอ", key: "requestNo", sortable: true, minWidth: "120" },
+  { title: "วันที่ออก", key: "issueDate", sortable: true, minWidth: "120" },
+  { title: "วันหมดอายุ", key: "expireDate", sortable: true, minWidth: "120" },
+  { title: "สถานะ", key: "status", sortable: true, minWidth: "130" },
+  { title: "", key: "actions", sortable: false, align: "end", width: "80" },
 ];
-
-const viewDialog = ref(false);
-function closeViewDialog() {
-  viewDialog.value = false;
-}
-const selectedCert = ref(null);
-function viewCert(item) {
-  selectedCert.value = item;
-  viewDialog.value = true;
-}
-function downloadCert(_item) {
-  /* mock */
-}
 
 function statusColor(s) {
   return (
@@ -379,6 +551,9 @@ function statusLabel(s) {
 </script>
 
 <style scoped>
+:deep(.v-data-table__table) {
+  width: 100%;
+}
 .stat-icon {
   width: 42px;
   height: 42px;
@@ -387,16 +562,5 @@ function statusLabel(s) {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-}
-.info-label {
-  font-size: 11px;
-  color: rgba(var(--v-theme-on-surface), 0.5);
-  text-transform: uppercase;
-  letter-spacing: 0.4px;
-  margin-bottom: 2px;
-}
-.info-value {
-  font-size: 14px;
-  font-weight: 500;
 }
 </style>

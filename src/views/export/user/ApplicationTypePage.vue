@@ -111,7 +111,7 @@ const appTypes = [
   {
     key: "newrequest",
     title: "คำขอขึ้น / ต่ออายุทะเบียน",
-    badge: "ทั่วไป",
+    badge: null,
     icon: "fas fa-file-circle-plus",
     color: "primary",
     description:
