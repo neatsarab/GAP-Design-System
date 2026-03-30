@@ -1022,6 +1022,12 @@ const router = createRouter({
                     meta: { title: "ทะเบียนโรงคัดบรรจุ" },
                 },
                 {
+                    path: "checkdoc",
+                    name: "ELStaffCheckDoc",
+                    component: () => import("@/views/el/staff/CheckListDocPage.vue"),
+                    meta: { title: "รายการตรวจเอกสาร" },
+                },
+                {
                     path: "reports",
                     name: "ELStaffReports",
                     component: () => import("@/views/el/staff/DashboardPage.vue"),
