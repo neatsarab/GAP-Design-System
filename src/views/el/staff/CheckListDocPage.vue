@@ -169,6 +169,130 @@
                                         density="comfortable" readonly hide-details />
                                 </v-col>
                             </v-row>
+                            <v-col cols="12" class="pa-4">
+                                <!-- รายการเอกสารแสดงความประสงค์ (ส่วนบนสุดของฟอร์ม) -->
+                                <div class="field-label mb-2 font-weight-bold">เอกสารประกอบคำขอขึ้นทะเบียน
+                                    (Establishment List)</div>
+                                <v-table density="comfortable" class="border rounded-lg mb-8">
+                                    <thead>
+                                        <tr class="bg-grey-lighten-4">
+                                            <th class="text-left font-weight-bold" style="width: 45%;">รายการเอกสาร</th>
+                                            <th class="text-left font-weight-bold" style="width: 30%;">เอกสารแนบ</th>
+                                            <th class="text-left font-weight-bold" style="width: 25%;">หมายเหตุ</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="pa-4">
+                                                <div class="text-body-2 mb-1">1.
+                                                    หนังสือแสดงความประสงค์การเข้าร่วมการจัดทำบัญชี Establishment List
+                                                    ลงนามโดยผู้มีอำนาจของบริษัท</div>
+                                                <v-btn variant="text" color="error" density="compact"
+                                                    class="pa-0 text-caption" prepend-icon="fas fa-file-pdf">
+                                                    แบบแจ้งความประสงค์
+                                                </v-btn>
+                                            </td>
+                                            <td class="pa-2">
+                                                <v-file-input variant="outlined" rounded="lg" density="compact"
+                                                    hide-details append-inner-icon="fas fa-paperclip" prepend-icon="" />
+                                            </td>
+                                            <td class="pa-2">
+                                                <v-textarea variant="outlined" rounded="lg" density="compact"
+                                                    hide-details rows="1" auto-grow />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="pa-4">
+                                                <div class="text-body-2 mb-1">2.
+                                                    เอกสารการมอบอำนาจให้เจ้าหน้าที่บริษัทดำเนินการจัดทำบัญชี
+                                                    Establishment List ในกรณีที่หนังสือไม่ได้ลงนามโดยผู้มีอำนาจของบริษัท
+                                                </div>
+                                                <v-chip size="x-small" color="error" variant="tonal">DBD V.7</v-chip>
+                                            </td>
+                                            <td class="pa-2">
+                                                <v-file-input variant="outlined" rounded="lg" density="compact"
+                                                    hide-details append-inner-icon="fas fa-paperclip" prepend-icon="" />
+                                            </td>
+                                            <td class="pa-2">
+                                                <v-textarea variant="outlined" rounded="lg" density="compact"
+                                                    hide-details rows="1" auto-grow />
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </v-table>
+
+                                <!-- ตารางผลการพิจารณา (ส่วนล่างสุด) -->
+                                <div class="field-label mb-2 font-weight-bold text-success">ผลการพิจารณา</div>
+                                <v-data-table :headers="resultHeadersDetail" :items="resultItems" density="comfortable"
+                                    class="border rounded-lg custom-result-table" hide-default-footer>
+                                    <!-- Slot สำหรับปุ่ม View ข้อมูล (ไอคอนแว่นขยาย/เอกสารตามในรูป) -->
+                                    <template v-slot:item.view="{ item }">
+                                        <v-btn icon="fas fa-file-lines" variant="text" color="primary" size="small"
+                                            @click="viewDetails(item)" />
+                                    </template>
+
+                                    <!-- Slot สำหรับสถานะ (Status Chip) -->
+                                    <template v-slot:item.status="{ item }">
+                                        <v-chip :color="getStatusColor(item.status)" size="small" variant="tonal">
+                                            {{ item.status }}
+                                        </v-chip>
+                                    </template>
+                                </v-data-table>
+                            </v-col>
+                            <!-- 3. ข้อมูลใบรับรอง GMP (เพิ่มเงื่อนไข View Only สำหรับ สวพ./ศวพ.) -->
+                            <v-card rounded="xl" elevation="0" class="mb-5 section-card">
+                                <v-card-title class="pa-5 pb-0 section-title font-weight-bold d-flex align-center">
+                                    3. ข้อมูลใบรับรอง GMP ของโรงคัดบรรจุ
+                                    <v-chip size="x-small" color="info" variant="flat" class="ml-3">**View Only สำหรับ
+                                        สวพ./ศวพ.**</v-chip>
+                                </v-card-title>
+                                <v-card-text class="pa-5">
+                                    <v-data-table :headers="factoryHeadersDetail" :items="factories" density="compact"
+                                        class="border rounded-lg custom-table" hide-default-footer>
+                                        <!-- ปุ่ม View (ไอคอนรูปเอกสาร/แว่นขยาย) -->
+                                        <template v-slot:item.view="{ item }">
+                                            <v-btn icon="fas fa-file-lines" variant="text" size="small"
+                                                color="primary" @click="viewFactoryDetail(item)" />
+                                        </template>
+
+                                        <template v-slot:item.status="{ item }">
+                                            <v-chip size="small" color="orange" variant="tonal">{{ item.status
+                                                }}</v-chip>
+                                        </template>
+                                    </v-data-table>
+                                </v-card-text>
+                            </v-card>
+
+                            <!-- 4. ผลการพิจารณา (ตารางสรุปด้านล่างสุด) -->
+                            <v-card rounded="xl" elevation="0" class="mb-5 section-card">
+                                <v-card-title class="pa-5 pb-0 section-title font-weight-bold text-success">
+                                    ผลการพิจารณา
+                                </v-card-title>
+                                <v-card-text class="pa-5">
+                                    <v-data-table :headers="resultHeadersDetail" :items="resultItemsDetail" density="compact"
+                                        class="border rounded-lg result-table">
+                                        <!-- ปุ่มดูข้อมูลรายบรรทัด -->
+                                        <template v-slot:item.view="{ item }">
+                                            <v-btn icon="fas fa-file-lines" variant="text" size="small" color="primary"
+                                                @click="viewResultDetail(item)" />
+                                        </template>
+
+                                        <!-- แสดงรายชื่อเกษตรกร (กรณีมีหลายคน/ชื่อยาว) -->
+                                        <template v-slot:item.farmerName="{ item }">
+                                            <div class="text-caption py-1" style="line-height: 1.2">
+                                                {{ item.farmerName }}
+                                            </div>
+                                        </template>
+
+                                        <!-- แสดงสถานะผลการตรวจต่างๆ -->
+                                        <template v-slot:item.status="{ item }">
+                                            <v-chip size="small" color="orange-darken-1" variant="flat" rounded="lg">
+                                                {{ item.status }}
+                                            </v-chip>
+                                        </template>
+                                    </v-data-table>
+                                </v-card-text>
+                            </v-card>
                         </v-card-text>
                     </v-card>
 
@@ -1123,6 +1247,78 @@ const establishmentInfo = reactive({
     approveDate: '2013-12-01',
     status: 'คงอยู่'
 });
+const resultHeaders = [
+    { title: 'ดูข้อมูล', key: 'view', align: 'center', sortable: false, width: '80px' },
+    { title: 'ชนิดพืช', key: 'cropName', align: 'start' },
+    { title: 'ชื่อเกษตรกร', key: 'farmerName', align: 'start' },
+    { title: 'รหัสใบรับรอง', key: 'certNo', align: 'start' },
+    { title: 'รหัสแปลง', key: 'farmCode', align: 'start' },
+    { title: 'ผลการตรวจเอกสาร', key: 'docResult', align: 'center' },
+    { title: 'ผลการตรวจแปลง', key: 'farmResult', align: 'center' },
+    { title: 'ผลการพิจารณา', key: 'finalResult', align: 'center' },
+    { title: 'สถานะ', key: 'status', align: 'center' },
+];
+
+const resultItems = ref([
+    {
+        view: '',
+        cropName: 'ผักชีไทย',
+        farmerName: 'นางสาว พลอย จินดามณี / โชติช่วง ชัชวาล',
+        certNo: 'กษ-1235-2556-1484',
+        farmCode: '-',
+        docResult: 'รอพิจารณา',
+        farmResult: 'รอพิจารณา',
+        finalResult: 'รอพิจารณา',
+        status: 'รอตรวจเอกสาร'
+    }
+]);
+
+const getStatusColor = (status) => {
+    if (status === 'รอตรวจเอกสาร') return 'orange';
+    if (status === 'รออนุมัติผล') return 'blue';
+    return 'grey';
+};
+
+const viewDetails = (item) => {
+    console.log("View item:", item);
+    // Logic สำหรับเปิดหน้า View Only
+};
+// Header สำหรับตาราง GMP
+const factoryHeadersDetail = [
+    { title: 'ดูข้อมูล', key: 'view', align: 'center', width: '80px', sortable: false },
+    { title: 'ชนิดพืช', key: 'cropName', align: 'start' },
+    { title: 'สถานะ', key: 'status', align: 'center' },
+];
+
+// Header สำหรับตารางผลการพิจารณา
+const resultHeadersDetail = [
+    { title: 'ดูข้อมูล', key: 'view', align: 'center', width: '80px', sortable: false },
+    { title: 'ชนิดพืช', key: 'cropName', align: 'start' },
+    { title: 'ชื่อเกษตรกร', key: 'farmerName', align: 'start', width: '200px' },
+    { title: 'รหัสใบรับรอง', key: 'certNo', align: 'start' },
+    { title: 'รหัสแปลง', key: 'farmCode', align: 'center' },
+    { title: 'ผลการตรวจเอกสาร', key: 'docResult', align: 'center' },
+    { title: 'ผลการตรวจแปลง', key: 'farmResult', align: 'center' },
+    { title: 'ผลการพิจารณา', key: 'finalResult', align: 'center' },
+    { title: 'สถานะ', key: 'status', align: 'center' },
+];
+
+// ข้อมูลจำลองตามรูป
+const resultItemsDetail = ref([
+    {
+        cropName: 'ผักชีไทย',
+        farmerName: 'นางสาว พลอย จินดามณี / นาย โชติช่วง ชัชวาล',
+        certNo: 'กษ-1235-2556-1484',
+        farmCode: '-',
+        docResult: 'รอพิจารณาผล',
+        farmResult: 'รอพิจารณาผล',
+        finalResult: 'รอพิจารณาผล',
+        status: 'รอตรวจเอกสาร'
+    }
+]);
+
+const viewFactoryDetail = (item) => { /* Logic เปิดหน้า View Only */ };
+const viewResultDetail = (item) => { /* Logic เปิดหน้าผลการพิจารณา */ };
 </script>
 
 <style scoped>
