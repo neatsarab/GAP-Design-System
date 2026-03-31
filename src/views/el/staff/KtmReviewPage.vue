@@ -165,7 +165,7 @@
 
                 <template #item.status="{ item }">
                     <v-chip :color="statusColor(item.status)" size="small" variant="tonal">{{ statusLabel(item.status)
-                    }}</v-chip>
+                        }}</v-chip>
                 </template>
                 <template #item.actions="{ item }">
                     <div class="d-flex align-center ga-1">
@@ -176,7 +176,7 @@
                                     <v-icon icon="fas fa-eye" size="14" />
                                 </v-btn>
                             </template>
-                        </v-tooltip> -->
+        </v-tooltip> -->
                         <v-btn v-if="
                             ['pending', 'reviewing', 'signing', 'approved'].includes(
                                 item.status,
@@ -237,7 +237,7 @@ const router = useRouter();
 const search = ref("");
 
 function goToApplicationDetail(id) {
-    router.push({ name: "ELStaffCheckDocDetail", params: { id } });
+    router.push({ name: "ELStaffKtmReviewDetail", params: { id } });
 }
 
 const filters = reactive({

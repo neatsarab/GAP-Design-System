@@ -10,10 +10,9 @@
                         <v-icon icon="fas fa-warehouse" color="el-staff" size="20" />
                     </div>
                 </template>
-                <v-list-item-title class="text-body-2 font-weight-bold">ระบบการควบคุมพิเศษ Establishment
-                    List</v-list-item-title>
+                <v-list-item-title class="text-body-2 font-weight-bold">ระบบ Establishment List</v-list-item-title>
                 <v-list-item-subtitle class="text-caption"
-                    style="color: rgb(var(--v-theme-el-staff)); opacity: 0.85">ฝั่งเจ้าหน้าที่</v-list-item-subtitle>
+                    style="color: rgb(var(--v-theme-el-staff)); opacity: 0.85">{{ currentUser.role }}</v-list-item-subtitle>
                 <template v-slot:append>
                     <v-btn :icon="rail ? 'fas fa-chevron-right' : 'fas fa-chevron-left'" variant="text"
                         color="on-surface-variant" size="small" @click="toggleRail" />
@@ -29,10 +28,10 @@
                     </v-avatar>
                     <div class="flex-grow-1 overflow-hidden">
                         <div class="text-truncate text-body-2 font-weight-medium text-el-staff">
-                            นิธิพร เทิบจันทึก
+                            {{ currentUser.name }}
                         </div>
                         <div class="text-caption text-medium-emphasis">
-                            เจ้าหน้าที่ สวพ.
+                            {{ currentUser.position }}
                         </div>
                     </div>
                 </div>
@@ -40,12 +39,13 @@
 
             <v-divider class="mx-3" />
 
-            <!-- Nav -->
+            <!-- Nav (Filtered by Role) -->
             <v-list density="compact" nav class="mt-1 px-2">
-                <template v-for="group in navGroups" :key="group.label">
-                    <div v-if="!rail" class="sidebar-group-label text-medium-emphasis">
+                <template v-for="group in filteredNav" :key="group.label">
+                    <div v-if="!rail" class="sidebar-group-label text-medium-emphasis px-3 pt-2 pb-1" style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.5px;">
                         {{ group.label }}
                     </div>
+                    
                     <v-list-item v-for="item in group.items" :key="item.to" :prepend-icon="item.icon"
                         :title="item.title" :to="item.to" :active="isNavActive(item.to)" active-color="el-staff"
                         rounded="lg" class="mb-1">
@@ -78,24 +78,30 @@
                 </template>
             </v-breadcrumbs>
             <v-spacer />
+            
+            <!-- Role Selector (For Demo Only) -->
+            <v-menu>
+                <template v-slot:activator="{ props }">
+                    <v-btn variant="tonal" size="small" color="secondary" v-bind="props" class="mr-2">
+                        สลับ Role (Demo)
+                    </v-btn>
+                </template>
+                <v-list>
+                    <v-list-item v-for="r in Object.values(ROLES)" :key="r" @click="currentUser.role = r">
+                        {{ r }}
+                    </v-list-item>
+                </v-list>
+            </v-menu>
+
             <div class="d-flex align-center ga-1 mr-3">
-                <!-- Notifications -->
                 <v-btn variant="text" size="small" icon class="mr-1">
                     <v-badge color="error" content="3" floating>
                         <v-icon icon="fas fa-bell" size="20" color="el-staff" />
                     </v-badge>
                 </v-btn>
 
-                <!-- Theme -->
-                <v-tooltip :text="isDark ? 'Light Mode' : 'Dark Mode'" location="bottom">
-                    <template v-slot:activator="{ props }">
-                        <v-btn v-bind="props" :icon="isDark ? 'fas fa-sun' : 'fas fa-moon'" variant="text" size="small"
-                            @click="toggleTheme" />
-                    </template>
-                </v-tooltip>
-
                 <v-chip variant="outlined" color="el-staff" class="user-chip mr-2 ml-1" prepend-icon="fas fa-user-tie">
-                    นิธิพร เทิบจันทึก
+                    {{ currentUser.name }}
                 </v-chip>
             </div>
         </v-app-bar>
@@ -103,35 +109,22 @@
         <!-- ── Logout Dialog ── -->
         <v-dialog v-model="logoutDialog" max-width="360" persistent>
             <v-card rounded="xl">
-                <v-btn icon="fas fa-xmark" variant="text" size="small" color="grey"
-                    class="position-absolute top-0 right-0 ma-2" @click="closeLogoutDialog" />
                 <v-card-text class="pa-6 text-center">
-                    <div class="logout-icon-ring mx-auto mb-4">
-                        <v-icon icon="fas fa-right-from-bracket" size="28" color="error" />
-                    </div>
+                    <v-icon icon="fas fa-right-from-bracket" size="28" color="error" class="mb-4" />
                     <h3 class="text-h6 font-weight-bold mb-2">ออกจากระบบ</h3>
-                    <p class="text-body-2 text-medium-emphasis mb-0">
-                        คุณต้องการออกจากระบบใช่หรือไม่?
-                    </p>
+                    <p class="text-body-2 text-medium-emphasis">คุณต้องการออกจากระบบใช่หรือไม่?</p>
                 </v-card-text>
                 <v-card-actions class="px-5 pb-5">
-                    <v-row no-gutters class="ga-2 w-100">
-                        <v-col>
-                            <v-btn variant="tonal" color="grey" block rounded="lg"
-                                @click="closeLogoutDialog">ยกเลิก</v-btn>
-                        </v-col>
-                        <v-col>
-                            <v-btn color="error" block rounded="lg" @click="doLogout">ออกจากระบบ</v-btn>
-                        </v-col>
-                    </v-row>
+                    <v-spacer />
+                    <v-btn variant="tonal" color="grey" @click="closeLogoutDialog">ยกเลิก</v-btn>
+                    <v-btn color="error" @click="doLogout">ออกจากระบบ</v-btn>
                 </v-card-actions>
             </v-card>
         </v-dialog>
 
         <!-- ── Content ── -->
         <v-main class="bg-background">
-            <v-container fluid class="pa-5 pa-md-7"
-                style="max-width: 1320px; --v-theme-primary: var(--v-theme-el-staff)">
+            <v-container fluid class="pa-5 pa-md-7" style="max-width: 1320px;">
                 <router-view />
             </v-container>
         </v-main>
@@ -141,13 +134,22 @@
 <script setup>
 import { ref, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { useThemeStore } from "@/stores/theme.store";
 
-const themeStore = useThemeStore();
-const isDark = computed(() => themeStore.isDark);
-function toggleTheme() {
-    themeStore.toggle();
-}
+// 1. Define Roles
+const ROLES = {
+    SWP_AREA: 'สวพเขต',
+    SWP_PROVINCE: 'ศวพจังหวัด',
+    KTM: 'กตม',
+    KTM_STAFF: 'เจ้าหน้าที่กตม',
+    SUPER_BOARD: 'Super คณะกรรมการ EL'
+};
+
+// 2. Mock Current User (In real app, get this from Pinia/Auth store)
+const currentUser = ref({
+    name: "นิธิพร เทิบจันทึก",
+    position: "เจ้าหน้าที่ สวพ.",
+    role: ROLES.SWP_AREA // เปลี่ยนเพื่อทดสอบ: ROLES.KTM, ROLES.SUPER_BOARD, ฯลฯ
+});
 
 const router = useRouter();
 const route = useRoute();
@@ -155,83 +157,87 @@ const drawer = ref(true);
 const rail = ref(false);
 const logoutDialog = ref(false);
 
-function toggleRail() {
-    rail.value = !rail.value;
-}
-
-function openLogoutDialog() {
-    logoutDialog.value = true;
-}
-
-function closeLogoutDialog() {
-    logoutDialog.value = false;
-}
-
-function goToPortal() {
-    router.push({ name: "StaffPortal" });
-}
-
-function doLogout() {
-    logoutDialog.value = false;
-    router.push({ name: "Login" });
-}
-
-function isNavActive(to) {
-    return route.path === to || route.path.startsWith(to + '/');
-}
+const toggleRail = () => rail.value = !rail.value;
+const openLogoutDialog = () => logoutDialog.value = true;
+const closeLogoutDialog = () => logoutDialog.value = false;
+const goToPortal = () => router.push({ name: "StaffPortal" });
+const doLogout = () => { logoutDialog.value = false; router.push({ name: "Login" }); };
+const isNavActive = (to) => route.path === to || route.path.startsWith(to + '/');
 
 const breadcrumbs = computed(() => [
-    { title: "ระบบการควบคุมพิเศษ Establishment List", to: "/el/staff" },
-    { title: route.meta.title },
+    { title: "ระบบ Establishment List", to: "/el/staff" },
+    { title: route.meta.title || 'หน้าหลัก' },
 ]);
 
-const navGroups = [
+// 3. Centralized Navigation Configuration with Roles
+const navConfig = [
     {
         label: "ภาพรวม",
         divider: true,
         items: [
-            { title: "แดชบอร์ด", icon: "fas fa-gauge", to: "/el/staff/dashboard" },
+            { title: "แดชบอร์ด", icon: "fas fa-gauge", to: "/el/staff/dashboard", roles: Object.values(ROLES) },
         ],
     },
     {
-        label: "รายการคำขอ EL",
+        label: "สวพ. เขต",
         divider: true,
         items: [
-            {
-                title: "รายการคำขอทั้งหมด",
-                icon: "fas fa-file-lines",
-                to: "/el/staff/applications",
-                count: 7,
-            },
+            { title: "รายการตรวจเอกสาร EL", icon: "fas fa-file-circle-check", to: "/el/staff/checkdoc", roles: [ROLES.SWP_AREA] },
+            { title: "พิจารณาผลการตรวจ", icon: "fas fa-file-signature", to: "/el/staff/area-review", roles: [ROLES.SWP_AREA] },
         ],
     },
     {
-        label: "การตรวจประเมิน",
+        label: "ศวพ. จังหวัด",
         divider: true,
         items: [
-            {
-                title: "บันทึกผลตรวจ GMP",
-                icon: "fas fa-clipboard-check",
-                to: "/el/staff/inspection/new",
-                count: 2,
+            { title: "รายการตรวจ EL (CL-02)", icon: "fas fa-clipboard-check", to: "/el/staff/inspection-cl02", roles: [ROLES.SWP_PROVINCE] },
+        ],
+    },
+    {
+        label: "กตม.",
+        divider: true,
+        items: [
+            { title: "งานตรวจโรงคัดบรรจุ", icon: "fas fa-warehouse", to: "/el/staff/ktm-work", roles: [ROLES.KTM] },
+            { title: "ผลตรวจประเมิน", icon: "fas fa-square-poll-vertical", to: "/el/staff/ktm-results", roles: [ROLES.KTM_STAFF] },
+            { title: "พิจารณาผล", icon: "fas fa-user-check", to: "/el/staff/ktm-review", roles: [ROLES.KTM_STAFF] },
+        ],
+    },
+    {
+        label: "คณะกรรมการ",
+        divider: true,
+        items: [
+            { 
+                title: "รายการคำขอ", 
+                icon: "fas fa-list-check", 
+                to: "/el/staff/board-applications", 
+                roles: [ROLES.SUPER_BOARD],
+                count: 5 
             },
+            // { title: "พิจารณาผลการตรวจ", icon: "fas fa-gavel", to: "/el/staff/board/final", roles: [ROLES.SUPER_BOARD] },
         ],
     },
     {
         label: "ทะเบียน",
-        divider: true,
+        divider: false,
         items: [
-            {
-                title: "ทะเบียนโรงคัดบรรจุ",
-                icon: "fas fa-warehouse",
-                to: "/el/staff/registry",
-            },
-            {
-                title: "รายการตรวจเอกสาร",
-                icon: "fas fa-warehouse",
-                to: "/el/staff/checkdoc",
-            },
+            { title: "ทะเบียนโรงคัดบรรจุ", icon: "fas fa-address-book", to: "/el/staff/registry", roles: Object.values(ROLES) },
         ],
     },
 ];
+
+// 4. Computed Property for Filtering Sidebar
+const filteredNav = computed(() => {
+    return navConfig.map(group => {
+        const visibleItems = group.items.filter(item => item.roles.includes(currentUser.value.role));
+        return { ...group, items: visibleItems };
+    }).filter(group => group.items.length > 0);
+});
 </script>
+
+<style scoped>
+.sidebar-group-label {
+    font-weight: 700;
+    color: var(--v-theme-el-staff);
+    opacity: 0.6;
+}
+</style>

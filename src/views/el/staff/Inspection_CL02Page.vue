@@ -237,7 +237,7 @@ const router = useRouter();
 const search = ref("");
 
 function goToApplicationDetail(id) {
-    router.push({ name: "ELStaffCheckDocDetail", params: { id } });
+    router.push({ name: "ELStaffInspectionEdit", params: { id } });
 }
 
 const filters = reactive({
