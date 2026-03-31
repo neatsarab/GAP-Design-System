@@ -8,8 +8,8 @@
           ข้อมูลใบรับรองสุขอนามัยพืชที่ออกแล้วทั้งหมด
         </p>
       </div>
-      <v-btn color="hc-staff" prepend-icon="fas fa-file-export" variant="tonal">
-        ส่งออกข้อมูล
+      <v-btn color="hc-staff" prepend-icon="fas fa-file-excel" variant="tonal">
+        ส่งออก Excel
       </v-btn>
     </div>
 
@@ -38,8 +38,8 @@
     <!-- Search -->
     <v-card rounded="xl" elevation="0" class="mb-4 filter-card">
       <v-card-text class="pa-4">
-        <v-row dense>
-          <v-col cols="12" sm="5">
+        <v-row dense align="center">
+          <v-col cols="12" sm="6" md="5">
             <div class="field-label mb-1">
               <div>ค้นหา</div>
               <div class="field-label-en">Search</div>
@@ -47,9 +47,79 @@
             <v-text-field
               v-model="searchRegNo"
               prepend-inner-icon="fas fa-barcode"
+              placeholder="เลขทะเบียน / เลขคำขอ / ผู้ส่งออก"
+              variant="outlined"
+              density="compact"
+              rounded="lg"
               clearable
               hide-details
             />
+          </v-col>
+          <v-col cols="12" sm="6" md="3">
+            <div class="field-label mb-1">
+              <div>วันหมดอายุ (จาก)</div>
+              <div class="field-label-en">Expire Date (From)</div>
+            </div>
+            <v-menu v-model="expireFromMenu" :close-on-content-click="false" location="bottom start">
+              <template #activator="{ props }">
+                <v-text-field
+                  v-bind="props"
+                  density="compact"
+                  :model-value="expireFromBE"
+                  readonly
+                  clearable
+                  prepend-inner-icon="fas fa-calendar"
+                  placeholder="เลือกวันที่"
+                  hide-details
+                  variant="outlined"
+                  rounded="lg"
+                  style="cursor: pointer"
+                  @click:clear.stop="expireFromObj = null"
+                />
+              </template>
+              <v-date-picker
+                v-model="expireFromObj"
+                color="hc-staff"
+                show-adjacent-months
+                :hide-header="!expireFromObj"
+                title="วันหมดอายุ (จาก)"
+                locale="th"
+                @update:model-value="expireFromMenu = false"
+              />
+            </v-menu>
+          </v-col>
+          <v-col cols="12" sm="6" md="3">
+            <div class="field-label mb-1">
+              <div>วันหมดอายุ (ถึง)</div>
+              <div class="field-label-en">Expire Date (To)</div>
+            </div>
+            <v-menu v-model="expireToMenu" :close-on-content-click="false" location="bottom start">
+              <template #activator="{ props }">
+                <v-text-field
+                  v-bind="props"
+                  density="compact"
+                  :model-value="expireToBE"
+                  readonly
+                  clearable
+                  prepend-inner-icon="fas fa-calendar"
+                  placeholder="เลือกวันที่"
+                  hide-details
+                  variant="outlined"
+                  rounded="lg"
+                  style="cursor: pointer"
+                  @click:clear.stop="expireToObj = null"
+                />
+              </template>
+              <v-date-picker
+                v-model="expireToObj"
+                color="hc-staff"
+                show-adjacent-months
+                :hide-header="!expireToObj"
+                title="วันหมดอายุ (ถึง)"
+                locale="th"
+                @update:model-value="expireToMenu = false"
+              />
+            </v-menu>
           </v-col>
         </v-row>
         <v-row dense>
@@ -125,7 +195,6 @@
       <v-data-table
         :headers="headers"
         :items="filteredCerts"
-        :search="searchRegNo"
         hover
       >
         <template #no-data>
@@ -181,19 +250,48 @@
 
         <template #item.actions="{ item }">
           <div class="d-flex ga-1">
-            <v-btn
-              size="small"
-              variant="text"
-              color="hc-staff"
-              icon="fas fa-eye"
-            />
-            <v-btn
-              size="small"
-              variant="text"
-              color="success"
-              icon="fas fa-download"
-              :disabled="item.certStatus === 'expired'"
-            />
+            <v-tooltip text="ดูรายละเอียด" location="top">
+              <template #activator="{ props }">
+                <v-btn
+                  v-bind="props"
+                  size="x-small"
+                  variant="text"
+                  color="hc-staff"
+                  icon
+                  @click.stop="goToCertDetail(item.certNo)"
+                >
+                  <v-icon icon="fas fa-eye" size="14" />
+                </v-btn>
+              </template>
+            </v-tooltip>
+            <v-tooltip text="ดาวน์โหลด" location="top">
+              <template #activator="{ props }">
+                <v-btn
+                  v-bind="props"
+                  size="x-small"
+                  variant="text"
+                  color="success"
+                  icon
+                  :disabled="item.certStatus === 'expired'"
+                >
+                  <v-icon icon="fas fa-download" size="14" />
+                </v-btn>
+              </template>
+            </v-tooltip>
+            <v-tooltip text="จัดการ" location="top">
+              <template #activator="{ props }">
+                <v-btn
+                  v-bind="props"
+                  size="x-small"
+                  variant="text"
+                  color="warning"
+                  icon
+                  @click.stop="goToCertManage(item.certNo)"
+                >
+                  <v-icon icon="fas fa-file-pen" size="14" />
+                </v-btn>
+              </template>
+            </v-tooltip>
           </div>
         </template>
       </v-data-table>
@@ -202,14 +300,52 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, watch } from "vue";
+import { useRouter } from "vue-router";
+import { useLocale } from "vuetify";
 
+const { current: vuetifyLocale } = useLocale();
+vuetifyLocale.value = "th";
+
+const router = useRouter();
 const searchRegNo = ref("");
 const filterStatus = ref("all");
+
+const expireFromMenu = ref(false);
+const expireFromObj = ref(null);
+const expireToMenu = ref(false);
+const expireToObj = ref(null);
+const expireFromDate = ref("");
+const expireToDate = ref("");
+
+function dateToBEStr(date) {
+  if (!date) return "";
+  const d = String(date.getDate()).padStart(2, "0");
+  const m = String(date.getMonth() + 1).padStart(2, "0");
+  return `${d}/${m}/${date.getFullYear() + 543}`;
+}
+
+const expireFromBE = computed(() => dateToBEStr(expireFromObj.value));
+const expireToBE = computed(() => dateToBEStr(expireToObj.value));
+
+watch(expireFromObj, (v) => { expireFromDate.value = v ? v.toISOString().slice(0, 10) : ""; });
+watch(expireToObj, (v) => { expireToDate.value = v ? v.toISOString().slice(0, 10) : ""; });
+
+function goToCertDetail(certNo) {
+  router.push({ name: "HCStaffCertificateDetail", params: { id: certNo } });
+}
+
+function goToCertManage(certNo) {
+  router.push({ name: "HCStaffCertificateManage", params: { id: certNo } });
+}
 
 function clearFilters() {
   searchRegNo.value = "";
   filterStatus.value = "all";
+  expireFromObj.value = null;
+  expireToObj.value = null;
+  expireFromDate.value = "";
+  expireToDate.value = "";
 }
 
 const stats = [
@@ -369,6 +505,15 @@ const filteredCerts = computed(() => {
     filterStatus.value === "all"
       ? allCerts
       : allCerts.filter((c) => c.certStatus === filterStatus.value);
+  if (searchRegNo.value) {
+    const q = searchRegNo.value.toLowerCase();
+    items = items.filter(
+      (c) =>
+        c.certNo.toLowerCase().includes(q) ||
+        c.requestNo.toLowerCase().includes(q) ||
+        c.exporter.toLowerCase().includes(q),
+    );
+  }
   return items;
 });
 

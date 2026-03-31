@@ -818,7 +818,45 @@ const router = createRouter({
           path: "registry",
           name: "HCstaffRegistry",
           component: () => import("@/views/hc/staff/RegistryPage.vue"),
-          meta: { title: "ทะเบียนผู้ประกอบการ" },
+          meta: { title: "ทะเบียนใบรับรอง" },
+        },
+        {
+          path: "registry/:id",
+          name: "HCStaffCertificateDetail",
+          component: () =>
+            import("@/views/hc/staff/CertificateDetailPage.vue"),
+          meta: { title: "รายละเอียดใบรับรอง" },
+        },
+        {
+          path: "registry/:id/manage",
+          name: "HCStaffCertificateManage",
+          component: () =>
+            import("@/views/hc/staff/CertificateManagePage.vue"),
+          meta: { title: "จัดการใบรับรอง" },
+        },
+        {
+          path: "review",
+          name: "HCStaffReviewList",
+          component: () => import("@/views/hc/staff/ReviewListPage.vue"),
+          meta: { title: "รายการรอพิจารณา" },
+        },
+        {
+          path: "review/:id",
+          name: "HCStaffReviewDetail",
+          component: () => import("@/views/hc/staff/ReviewDetailPage.vue"),
+          meta: { title: "พิจารณาคำขอ" },
+        },
+        {
+          path: "signing",
+          name: "HCStaffSigningList",
+          component: () => import("@/views/hc/staff/SigningListPage.vue"),
+          meta: { title: "รายการรอลงนาม" },
+        },
+        {
+          path: "signing/:id",
+          name: "HCStaffSigningDetail",
+          component: () => import("@/views/hc/staff/SigningDetailPage.vue"),
+          meta: { title: "ลงนามใบรับรอง" },
         },
       ],
     },

@@ -2,7 +2,7 @@
   <div>
     <div class="d-flex align-center justify-space-between flex-wrap ga-3 mb-6">
       <div>
-        <h1 class="page-title mb-1">รายการคำขอ</h1>
+        <h1 class="page-title mb-1">รายการรอพิจารณา</h1>
         <p class="text-body-2 text-medium-emphasis mb-0">
           ระบบการออกหนังสือรับรองสุขอนามัยพืชสำหรับพืชควบคุมเฉพาะ
         </p>
@@ -20,7 +20,7 @@
             </div>
             <v-text-field
               v-model="search"
-              placeholder="เลขคำขอ / ชื่อผู้ส่งออก / ชื่อผู้ยื่นคำขอ"
+              placeholder="เลขคำขอ / ชื่อผู้ประกอบการ / ชื่อผู้ยื่นคำขอ"
               prepend-inner-icon="fas fa-search"
               variant="outlined"
               density="compact"
@@ -86,8 +86,6 @@
                   placeholder="เลือกวันที่ / เดือน / ปี"
                   hide-details
                   style="cursor: pointer"
-                  variant="outlined"
-                  rounded="lg"
                   @click:clear.stop="dateFromObj = null"
                 />
               </template>
@@ -123,8 +121,6 @@
                   placeholder="เลือกวันที่ / เดือน / ปี"
                   hide-details
                   style="cursor: pointer"
-                  variant="outlined"
-                  rounded="lg"
                   @click:clear.stop="dateToObj = null"
                 />
               </template>
@@ -148,8 +144,9 @@
               size="small"
               prepend-icon="fas fa-rotate-left"
               @click="clearFilters"
-              >ล้างตัวกรอง</v-btn
             >
+              ล้างตัวกรอง
+            </v-btn>
           </v-col>
         </v-row>
       </v-card-text>
@@ -173,11 +170,11 @@
             <v-icon v-if="isSorted(column)" :icon="getSortIcon(column)" size="14" />
           </span>
         </template>
-        <template #header.exporter="{ column, isSorted, getSortIcon }">
+        <template #header.applicant="{ column, isSorted, getSortIcon }">
           <span class="d-inline-flex align-center ga-1">
             <span>
-              <div class="text-body-2 font-weight-medium" style="line-height: 1.3">ชื่อผู้ส่งออก</div>
-              <div class="text-caption text-medium-emphasis" style="line-height: 1.2">Exporter Name</div>
+              <div class="text-body-2 font-weight-medium" style="line-height: 1.3">ชื่อผู้ประกอบการ</div>
+              <div class="text-caption text-medium-emphasis" style="line-height: 1.2">Company Name</div>
             </span>
             <v-icon v-if="isSorted(column)" :icon="getSortIcon(column)" size="14" />
           </span>
@@ -219,9 +216,6 @@
           </span>
         </template>
 
-        <template #item.requestNo="{ item }">
-          <span class="text-body-2">{{ item.requestNo }}</span>
-        </template>
         <template #item.type="{ item }">{{ typeLabel(item.type) }}</template>
         <template #item.status="{ item }">
           <v-chip :color="statusColor(item.status)" size="small" variant="tonal">
@@ -238,22 +232,22 @@
                   size="x-small"
                   variant="text"
                   color="hc-staff"
-                  @click.stop="goToApplicationDetail(item.id)"
+                  @click.stop="goToDetail(item.id)"
                 >
                   <v-icon icon="fas fa-eye" size="14" />
                 </v-btn>
               </template>
             </v-tooltip>
             <v-btn
-              v-if="item.status === 'pending'"
+              v-if="item.status === 'reviewing'"
               size="small"
               variant="tonal"
               color="warning"
               rounded="lg"
-              prepend-icon="fas fa-magnifying-glass"
-              @click.stop="goToApplicationDetail(item.id)"
+              prepend-icon="fas fa-clipboard-check"
+              @click.stop="goToDetail(item.id)"
             >
-              ตรวจคำขอ
+              พิจารณาคำขอ
             </v-btn>
           </div>
         </template>
@@ -288,12 +282,8 @@ function dateToBEStr(date) {
 const dateFromBE = computed(() => dateToBEStr(dateFromObj.value));
 const dateToBE = computed(() => dateToBEStr(dateToObj.value));
 
-watch(dateFromObj, (v) => {
-  filters.dateFrom = v ? v.toISOString().slice(0, 10) : "";
-});
-watch(dateToObj, (v) => {
-  filters.dateTo = v ? v.toISOString().slice(0, 10) : "";
-});
+watch(dateFromObj, (v) => { filters.dateFrom = v ? v.toISOString().slice(0, 10) : ""; });
+watch(dateToObj, (v) => { filters.dateTo = v ? v.toISOString().slice(0, 10) : ""; });
 
 function beDateToTs(str) {
   if (!str) return 0;
@@ -305,15 +295,10 @@ const customKeySort = {
   submittedDate: (a, b) => beDateToTs(a) - beDateToTs(b),
 };
 
-const filters = reactive({
-  dateFrom: "",
-  dateTo: "",
-  type: null,
-  status: null,
-});
+const filters = reactive({ dateFrom: "", dateTo: "", type: null, status: null });
 
-function goToApplicationDetail(id) {
-  router.push({ name: "HCstaffApplicationDetail", params: { id } });
+function goToDetail(id) {
+  router.push({ name: "HCStaffReviewDetail", params: { id } });
 }
 
 function clearFilters() {
@@ -332,17 +317,13 @@ const typeOptions = [
 ];
 
 const statusOptions = [
-  { label: "รอตรวจ", value: "pending" },
-  { label: "อยู่ระหว่างตรวจ", value: "reviewing" },
-  { label: "รอลงนาม", value: "signing" },
+  { label: "รอพิจารณา", value: "reviewing" },
   { label: "รอแก้ไข", value: "need_edit" },
-  { label: "อนุมัติ", value: "approved" },
-  { label: "ไม่อนุมัติ", value: "rejected" },
 ];
 
 const headers = [
   { title: "เลขคำขอ", key: "requestNo", sortable: true },
-  { title: "ชื่อผู้ส่งออก", key: "exporter", sortable: true },
+  { title: "ชื่อผู้ประกอบการ", key: "applicant", sortable: true },
   { title: "ชื่อผู้ยื่นคำขอ", key: "applicantName", sortable: true },
   { title: "ประเภทคำขอ", key: "type", sortable: true },
   { title: "วันที่ยื่น", key: "submittedDate", sortable: true },
@@ -352,49 +333,31 @@ const headers = [
 
 const allItems = [
   {
-    id: "HC-001",
-    requestNo: "HC-2569-00041",
-    exporter: "บ.ไทยฟรุ๊ต จำกัด",
+    id: "HC-2569-001",
+    requestNo: "HC-0001",
+    applicant: "บ.ไทยฟรุ๊ต จก.",
     applicantName: "สมชาย ใจดี",
     type: "new",
-    submittedDate: "15/01/2569",
-    status: "pending",
+    submittedDate: "01/01/2569",
+    status: "reviewing",
   },
   {
-    id: "HC-002",
-    requestNo: "HC-2569-00039",
-    exporter: "บ.สยามเอ็กซ์พอร์ต จำกัด",
+    id: "HC-2569-002",
+    requestNo: "HC-0002",
+    applicant: "บ.สยามเอ็กซ์พอร์ต จก.",
     applicantName: "มาลี รักดี",
-    type: "new",
-    submittedDate: "13/01/2569",
-    status: "pending",
-  },
-  {
-    id: "HC-003",
-    requestNo: "HC-2569-00036",
-    exporter: "บ.กรีนเฟรช จำกัด",
-    applicantName: "ประสิทธิ์ พานิช",
     type: "correction",
-    submittedDate: "10/01/2569",
-    status: "signing",
+    submittedDate: "05/02/2569",
+    status: "reviewing",
   },
   {
-    id: "HC-004",
-    requestNo: "HC-2569-00034",
-    exporter: "บ.ดีเอ็กซ์พอร์ต จำกัด",
+    id: "HC-2569-004",
+    requestNo: "HC-0004",
+    applicant: "บ.กรีนเฟรช จก.",
     applicantName: "วิไล สุขสม",
     type: "new",
-    submittedDate: "08/01/2569",
+    submittedDate: "12/03/2569",
     status: "need_edit",
-  },
-  {
-    id: "HC-005",
-    requestNo: "HC-2569-00030",
-    exporter: "บ.ไทยอะกริ จำกัด",
-    applicantName: "ชัยวัฒน์ เกษตรกร",
-    type: "new",
-    submittedDate: "03/01/2569",
-    status: "approved",
   },
 ];
 
@@ -405,7 +368,7 @@ const filteredItems = computed(() => {
     items = items.filter(
       (i) =>
         i.requestNo.toLowerCase().includes(q) ||
-        i.exporter.toLowerCase().includes(q) ||
+        i.applicant.toLowerCase().includes(q) ||
         i.applicantName.toLowerCase().includes(q),
     );
   }
@@ -424,35 +387,14 @@ const filteredItems = computed(() => {
 
 function typeLabel(t) {
   return (
-    {
-      new: "ขอใบรับรอง",
-      correction: "แก้ไขใบรับรอง",
-    }[t] ?? t
+    { new: "ขอใบรับรอง", correction: "แก้ไขใบรับรอง" }[t] ?? t
   );
 }
 function statusColor(s) {
-  return (
-    {
-      pending: "warning",
-      reviewing: "info",
-      signing: "info",
-      need_edit: "info",
-      approved: "success",
-      rejected: "error",
-    }[s] ?? "grey"
-  );
+  return ({ reviewing: "warning", need_edit: "info" }[s] ?? "grey");
 }
 function statusLabel(s) {
-  return (
-    {
-      pending: "รอตรวจ",
-      reviewing: "อยู่ระหว่างตรวจ",
-      signing: "รอลงนาม",
-      need_edit: "รอแก้ไข",
-      approved: "อนุมัติ",
-      rejected: "ไม่อนุมัติ",
-    }[s] ?? s
-  );
+  return ({ reviewing: "รอพิจารณา", need_edit: "รอแก้ไข" }[s] ?? s);
 }
 </script>
 

@@ -2,7 +2,7 @@
   <div>
     <div class="d-flex align-center justify-space-between flex-wrap ga-3 mb-6">
       <div>
-        <h1 class="page-title mb-1">รายการคำขอ</h1>
+        <h1 class="page-title mb-1">รายการรอลงนาม</h1>
         <p class="text-body-2 text-medium-emphasis mb-0">
           ระบบการออกหนังสือรับรองสุขอนามัยพืชสำหรับพืชควบคุมเฉพาะ
         </p>
@@ -20,7 +20,7 @@
             </div>
             <v-text-field
               v-model="search"
-              placeholder="เลขคำขอ / ชื่อผู้ส่งออก / ชื่อผู้ยื่นคำขอ"
+              placeholder="เลขคำขอ / ชื่อผู้ประกอบการ / ชื่อผู้ยื่นคำขอ"
               prepend-inner-icon="fas fa-search"
               variant="outlined"
               density="compact"
@@ -86,8 +86,6 @@
                   placeholder="เลือกวันที่ / เดือน / ปี"
                   hide-details
                   style="cursor: pointer"
-                  variant="outlined"
-                  rounded="lg"
                   @click:clear.stop="dateFromObj = null"
                 />
               </template>
@@ -123,8 +121,6 @@
                   placeholder="เลือกวันที่ / เดือน / ปี"
                   hide-details
                   style="cursor: pointer"
-                  variant="outlined"
-                  rounded="lg"
                   @click:clear.stop="dateToObj = null"
                 />
               </template>
@@ -173,11 +169,11 @@
             <v-icon v-if="isSorted(column)" :icon="getSortIcon(column)" size="14" />
           </span>
         </template>
-        <template #header.exporter="{ column, isSorted, getSortIcon }">
+        <template #header.applicant="{ column, isSorted, getSortIcon }">
           <span class="d-inline-flex align-center ga-1">
             <span>
-              <div class="text-body-2 font-weight-medium" style="line-height: 1.3">ชื่อผู้ส่งออก</div>
-              <div class="text-caption text-medium-emphasis" style="line-height: 1.2">Exporter Name</div>
+              <div class="text-body-2 font-weight-medium" style="line-height: 1.3">ชื่อผู้ประกอบการ</div>
+              <div class="text-caption text-medium-emphasis" style="line-height: 1.2">Company Name</div>
             </span>
             <v-icon v-if="isSorted(column)" :icon="getSortIcon(column)" size="14" />
           </span>
@@ -224,9 +220,12 @@
         </template>
         <template #item.type="{ item }">{{ typeLabel(item.type) }}</template>
         <template #item.status="{ item }">
-          <v-chip :color="statusColor(item.status)" size="small" variant="tonal">
-            {{ statusLabel(item.status) }}
-          </v-chip>
+          <v-chip
+            :color="statusColor(item.status)"
+            size="small"
+            variant="tonal"
+            >{{ statusLabel(item.status) }}</v-chip
+          >
         </template>
         <template #item.actions="{ item }">
           <div class="d-flex align-center ga-1">
@@ -238,22 +237,21 @@
                   size="x-small"
                   variant="text"
                   color="hc-staff"
-                  @click.stop="goToApplicationDetail(item.id)"
+                  @click.stop="goToSigningDetail(item.id)"
                 >
                   <v-icon icon="fas fa-eye" size="14" />
                 </v-btn>
               </template>
             </v-tooltip>
             <v-btn
-              v-if="item.status === 'pending'"
               size="small"
               variant="tonal"
-              color="warning"
+              color="hc-staff"
               rounded="lg"
-              prepend-icon="fas fa-magnifying-glass"
-              @click.stop="goToApplicationDetail(item.id)"
+              prepend-icon="fas fa-pen-nib"
+              @click.stop="goToSigningDetail(item.id)"
             >
-              ตรวจคำขอ
+              ลงนาม
             </v-btn>
           </div>
         </template>
@@ -312,8 +310,8 @@ const filters = reactive({
   status: null,
 });
 
-function goToApplicationDetail(id) {
-  router.push({ name: "HCstaffApplicationDetail", params: { id } });
+function goToSigningDetail(id) {
+  router.push({ name: "HCStaffSigningDetail", params: { id } });
 }
 
 function clearFilters() {
@@ -332,17 +330,14 @@ const typeOptions = [
 ];
 
 const statusOptions = [
-  { label: "รอตรวจ", value: "pending" },
-  { label: "อยู่ระหว่างตรวจ", value: "reviewing" },
   { label: "รอลงนาม", value: "signing" },
-  { label: "รอแก้ไข", value: "need_edit" },
   { label: "อนุมัติ", value: "approved" },
   { label: "ไม่อนุมัติ", value: "rejected" },
 ];
 
 const headers = [
   { title: "เลขคำขอ", key: "requestNo", sortable: true },
-  { title: "ชื่อผู้ส่งออก", key: "exporter", sortable: true },
+  { title: "ชื่อผู้ประกอบการ", key: "applicant", sortable: true },
   { title: "ชื่อผู้ยื่นคำขอ", key: "applicantName", sortable: true },
   { title: "ประเภทคำขอ", key: "type", sortable: true },
   { title: "วันที่ยื่น", key: "submittedDate", sortable: true },
@@ -352,49 +347,31 @@ const headers = [
 
 const allItems = [
   {
-    id: "HC-001",
-    requestNo: "HC-2569-00041",
-    exporter: "บ.ไทยฟรุ๊ต จำกัด",
-    applicantName: "สมชาย ใจดี",
-    type: "new",
-    submittedDate: "15/01/2569",
-    status: "pending",
-  },
-  {
-    id: "HC-002",
-    requestNo: "HC-2569-00039",
-    exporter: "บ.สยามเอ็กซ์พอร์ต จำกัด",
-    applicantName: "มาลี รักดี",
-    type: "new",
-    submittedDate: "13/01/2569",
-    status: "pending",
-  },
-  {
-    id: "HC-003",
-    requestNo: "HC-2569-00036",
-    exporter: "บ.กรีนเฟรช จำกัด",
+    id: "HC-2569-003",
+    requestNo: "HC-0003",
+    applicant: "บ.กรีนเฟรช จก.",
     applicantName: "ประสิทธิ์ พานิช",
-    type: "correction",
-    submittedDate: "10/01/2569",
+    type: "new",
+    submittedDate: "10/03/2569",
     status: "signing",
   },
   {
-    id: "HC-004",
-    requestNo: "HC-2569-00034",
-    exporter: "บ.ดีเอ็กซ์พอร์ต จำกัด",
-    applicantName: "วิไล สุขสม",
+    id: "HC-2569-006",
+    requestNo: "HC-0006",
+    applicant: "บ.เอเชียแอกริ จก.",
+    applicantName: "วรรณา จันทร์ดี",
     type: "new",
-    submittedDate: "08/01/2569",
-    status: "need_edit",
+    submittedDate: "15/03/2569",
+    status: "signing",
   },
   {
-    id: "HC-005",
-    requestNo: "HC-2569-00030",
-    exporter: "บ.ไทยอะกริ จำกัด",
-    applicantName: "ชัยวัฒน์ เกษตรกร",
-    type: "new",
-    submittedDate: "03/01/2569",
-    status: "approved",
+    id: "HC-2569-007",
+    requestNo: "HC-0007",
+    applicant: "บ.ไทยฟรุ๊ต จก.",
+    applicantName: "สุรชัย แก้วมณี",
+    type: "correction",
+    submittedDate: "18/03/2569",
+    status: "signing",
   },
 ];
 
@@ -405,7 +382,7 @@ const filteredItems = computed(() => {
     items = items.filter(
       (i) =>
         i.requestNo.toLowerCase().includes(q) ||
-        i.exporter.toLowerCase().includes(q) ||
+        i.applicant.toLowerCase().includes(q) ||
         i.applicantName.toLowerCase().includes(q),
     );
   }
@@ -433,10 +410,7 @@ function typeLabel(t) {
 function statusColor(s) {
   return (
     {
-      pending: "warning",
-      reviewing: "info",
-      signing: "info",
-      need_edit: "info",
+      signing: "warning",
       approved: "success",
       rejected: "error",
     }[s] ?? "grey"
@@ -445,10 +419,7 @@ function statusColor(s) {
 function statusLabel(s) {
   return (
     {
-      pending: "รอตรวจ",
-      reviewing: "อยู่ระหว่างตรวจ",
       signing: "รอลงนาม",
-      need_edit: "รอแก้ไข",
       approved: "อนุมัติ",
       rejected: "ไม่อนุมัติ",
     }[s] ?? s

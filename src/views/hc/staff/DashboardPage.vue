@@ -2,7 +2,7 @@
   <div>
     <div class="d-flex align-center justify-space-between flex-wrap ga-3 mb-6">
       <div>
-        <h1 class="page-title mb-1">แดชบอร์ด HC (เจ้าหน้าที่)</h1>
+        <h1 class="page-title mb-1">แดชบอร์ด</h1>
         <p class="text-body-2 text-medium-emphasis mb-0">
           ภาพรวมระบบออกใบรับรองสุขอนามัย (Health Certificate)
           ตามประกาศพืชควบคุมเฉพาะ
@@ -12,7 +12,7 @@
 
     <!-- Stat Cards -->
     <v-row class="mb-6">
-      <v-col v-for="stat in stats" :key="stat.label" cols="6" sm="4" md="2">
+      <v-col v-for="stat in stats" :key="stat.label" cols="12" sm="6" md="3">
         <AppStatCard v-bind="stat" />
       </v-col>
     </v-row>
@@ -27,7 +27,7 @@
               color="hc-staff"
               size="16"
             />
-            <span class="text-body-1 font-weight-bold">คำขอล่าสุด</span>
+            <span class="text-body-1 font-weight-bold">คำขอรอดำเนินการ</span>
             <v-spacer />
             <v-btn
               variant="text"
@@ -41,7 +41,7 @@
           </v-card-title>
           <v-divider />
           <v-list lines="two" class="pa-0">
-            <template v-for="(app, i) in recentApplications" :key="app.id">
+            <template v-for="(app, i) in pendingApplications" :key="app.id">
               <v-list-item class="pa-3" @click="goToApplicationDetail(app.id)">
                 <template #prepend>
                   <v-avatar
@@ -74,7 +74,7 @@
                   </div>
                 </template>
               </v-list-item>
-              <v-divider v-if="i < recentApplications.length - 1" />
+              <v-divider v-if="i < pendingApplications.length - 1" />
             </template>
           </v-list>
         </v-card>
@@ -144,36 +144,29 @@ const stats = [
     label: "คำขอทั้งหมด",
     value: "148",
     icon: "fas fa-file-lines",
-    iconColor: "primary",
+    iconColor: "hc-staff",
   },
   {
-    label: "รอตรวจสอบ",
+    label: "รอตรวจ",
     value: "12",
     icon: "fas fa-magnifying-glass",
     iconColor: "warning",
   },
-  { label: "ตรวจ Lab", value: "8", icon: "fas fa-flask", iconColor: "warning" },
   {
-    label: "รอพิจารณา",
-    value: "5",
-    icon: "fas fa-gavel",
-    iconColor: "warning",
-  },
-  {
-    label: "รอลงนาม",
-    value: "4",
-    icon: "fas fa-signature",
-    iconColor: "warning",
+    label: "อนุมัติแล้ว",
+    value: "9",
+    icon: "fas fa-circle-check",
+    iconColor: "success",
   },
   {
     label: "ออกใบรับรองแล้ว",
     value: "119",
     icon: "fas fa-file-shield",
-    iconColor: "success",
+    iconColor: "info",
   },
 ];
 
-const recentApplications = [
+const pendingApplications = [
   {
     id: "HC-001",
     requestNo: "HC-2569-00041",
@@ -188,7 +181,7 @@ const recentApplications = [
     exporter: "บ.สยามเอ็กซ์พอร์ต",
     type: "ขอใบรับรอง",
     submittedAt: "13 ม.ค. 68",
-    status: "testing",
+    status: "pending_approval",
   },
   {
     id: "HC-003",
@@ -196,60 +189,41 @@ const recentApplications = [
     exporter: "บ.กรีนเฟรช จก.",
     type: "แก้ไขใบรับรอง",
     submittedAt: "10 ม.ค. 68",
-    status: "pending_approval",
-  },
-  {
-    id: "HC-004",
-    requestNo: "HC-2569-00034",
-    exporter: "บ.ดีเอ็กซ์พอร์ต",
-    type: "ขอใบรับรอง",
-    submittedAt: "8 ม.ค. 68",
-    status: "approved",
-  },
-  {
-    id: "HC-005",
-    requestNo: "HC-2569-00030",
-    exporter: "บ.ไทยอะกริ จก.",
-    type: "ขอใบรับรอง",
-    submittedAt: "3 ม.ค. 68",
-    status: "completed",
+    status: "signing",
   },
 ];
 
 const statusBars = [
   { label: "ออกใบรับรองแล้ว", value: 119, pct: 81, color: "success" },
-  { label: "รอตรวจสอบ", value: 12, pct: 8, color: "warning" },
-  { label: "ตรวจ Lab", value: 8, pct: 5, color: "secondary" },
-  { label: "รอพิจารณา", value: 5, pct: 3, color: "primary" },
-  { label: "รอลงนาม", value: 4, pct: 3, color: "error" },
+  { label: "รอตรวจ", value: 12, pct: 8, color: "warning" },
+  { label: "อนุมัติแล้ว", value: 9, pct: 6, color: "info" },
+  { label: "ไม่ผ่าน", value: 8, pct: 5, color: "error" },
 ];
 
 function getStatusColor(s) {
   const m = {
-    draft: "grey",
-    submitted: "info",
+    pending: "warning",
     under_review: "warning",
-    testing: "secondary",
-    pending_approval: "primary",
+    pending_approval: "info",
+    signing: "info",
     approved: "success",
-    correction_required: "error",
     completed: "success",
     rejected: "error",
+    need_edit: "error",
   };
   return m[s] ?? "grey";
 }
 
 function getStatusLabel(s) {
   const m = {
-    draft: "ฉบับร่าง",
-    submitted: "ยื่นแล้ว",
+    pending: "รอตรวจ",
     under_review: "รอตรวจสอบ",
-    testing: "ตรวจ Lab",
     pending_approval: "รอพิจารณา",
+    signing: "รอลงนาม",
     approved: "อนุมัติแล้ว",
-    correction_required: "ต้องแก้ไข",
     completed: "เสร็จสิ้น",
     rejected: "ไม่อนุมัติ",
+    need_edit: "รอแก้ไข",
   };
   return m[s] ?? s;
 }

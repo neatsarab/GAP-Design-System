@@ -335,15 +335,21 @@ const navGroups = [
     divider: true,
     items: [
       {
-        title: "งานที่ได้รับมอบหมาย",
-        icon: "fas fa-list-check",
-        to: "/hc/staff/my-work",
-        count: 29,
-      },
-      {
         title: "คำขอทั้งหมด",
         icon: "fas fa-file-lines",
         to: "/hc/staff/applications",
+      },
+      {
+        title: "รายการรอพิจารณา",
+        icon: "fas fa-gavel",
+        to: "/hc/staff/review",
+        count: 5,
+      },
+      {
+        title: "รายการรอลงนาม",
+        icon: "fas fa-pen-nib",
+        to: "/hc/staff/signing",
+        count: 4,
       },
     ],
   },
