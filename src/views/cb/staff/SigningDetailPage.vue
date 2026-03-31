@@ -6,7 +6,7 @@
         icon="fas fa-arrow-left"
         variant="text"
         size="small"
-        @click="goToApplicationList"
+        @click="goToSigningList"
       />
       <div>
         <h1 class="page-title mb-0">รายละเอียดคำขอ</h1>
@@ -65,20 +65,20 @@
       </v-card-text>
     </v-card>
 
-    <!-- ── Step 0: ตรวจคำขอ ── -->
-    <template v-if="currentStep === 0">
+    <!-- ── Step 1: ลงนาม ── -->
+    <template v-if="currentStep === 2">
       <v-row>
         <v-col cols="12" md="8">
-          <v-tabs v-model="reviewTab" color="cb-staff" class="mb-4">
+          <v-tabs v-model="signingTab" color="cb-staff" class="mb-4">
             <v-tab value="info" prepend-icon="fas fa-file-lines"
               >ข้อมูลคำขอ</v-tab
             >
-            <v-tab value="review" prepend-icon="fas fa-clipboard-check"
-              >บันทึกผลการตรวจ</v-tab
+            <v-tab value="signing" prepend-icon="fas fa-pen-nib"
+              >บันทึกการลงนาม</v-tab
             >
           </v-tabs>
 
-          <v-window v-model="reviewTab">
+          <v-window v-model="signingTab">
             <!-- Tab: ข้อมูลคำขอ -->
             <v-window-item value="info">
               <!-- ข้อมูลคำขอ -->
@@ -255,21 +255,59 @@
               </v-card>
             </v-window-item>
 
-            <!-- Tab: ผลการตรวจ -->
-            <v-window-item value="review">
+            <!-- Tab: ลงนาม -->
+            <v-window-item value="signing">
               <v-card rounded="xl" elevation="0" class="section-card">
                 <v-card-text class="pa-5">
-                  <!-- ผลการตรวจ -->
+                  <!-- เลขทะเบียน -->
+                  <div class="field-label mb-2">
+                    <div>เลขทะเบียน</div>
+                    <div class="field-label-en">Certificate Number</div>
+                  </div>
+                  <v-card variant="outlined" rounded="lg" class="mb-5">
+                    <v-table density="compact">
+                      <thead>
+                        <tr>
+                          <th>เลขทะเบียน</th>
+                          <th style="width: 110px"></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>
+                            <span
+                              class="text-body-2 font-weight-bold text-cb-staff"
+                              >{{ certNo }}</span
+                            >
+                          </td>
+                          <td>
+                            <v-btn
+                              size="small"
+                              variant="tonal"
+                              color="cb-staff"
+                              rounded="lg"
+                              prepend-icon="fas fa-eye"
+                              :disabled="!certNo"
+                            >
+                              ดูตัวอย่าง
+                            </v-btn>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </v-table>
+                  </v-card>
+
+                  <!-- ผลการลงนาม -->
                   <div class="field-label mb-1">
-                    <div>ผลการตรวจ</div>
-                    <div class="field-label-en">Review Result</div>
+                    <div>ผลการลงนาม</div>
+                    <div class="field-label-en">Signing Result</div>
                   </div>
                   <v-radio-group
-                    v-model="review.decision"
+                    v-model="signing.decision"
                     color="cb-staff"
                     inline
                   >
-                    <v-radio value="pass" class="mr-6">
+                    <v-radio value="approve" class="mr-6">
                       <template #label>
                         <div class="d-flex align-center ga-2">
                           <v-icon
@@ -281,19 +319,7 @@
                         </div>
                       </template>
                     </v-radio>
-                    <v-radio value="improve" class="mr-6">
-                      <template #label>
-                        <div class="d-flex align-center ga-2">
-                          <v-icon
-                            icon="fas fa-circle-exclamation"
-                            color="warning"
-                            size="18"
-                          />
-                          <span class="font-weight-medium">ปรับปรุง</span>
-                        </div>
-                      </template>
-                    </v-radio>
-                    <v-radio value="fail">
+                    <v-radio value="reject">
                       <template #label>
                         <div class="d-flex align-center ga-2">
                           <v-icon
@@ -313,7 +339,7 @@
                     <div class="field-label-en">Remarks</div>
                   </div>
                   <v-textarea
-                    v-model="review.remark"
+                    v-model="signing.remark"
                     variant="outlined"
                     density="compact"
                     rounded="lg"
@@ -323,55 +349,9 @@
                     class="mb-5"
                   />
 
-                  <!-- แก้ไขภายในระยะเวลา (เฉพาะ ปรับปรุง) -->
-                  <template v-if="review.decision === 'improve'">
-                    <div class="field-label mb-1">
-                      <div>แก้ไขภายในระยะเวลา</div>
-                      <div class="field-label-en">Deadline</div>
-                    </div>
-                    <v-menu
-                      v-model="deadlineMenu"
-                      :close-on-content-click="false"
-                      min-width="0"
-                    >
-                      <template #activator="{ props }">
-                        <v-text-field
-                          v-bind="props"
-                          :model-value="deadlineBE"
-                          variant="outlined"
-                          density="compact"
-                          rounded="lg"
-                          hide-details
-                          readonly
-                          placeholder="วว/ดด/ปปปป"
-                          prepend-inner-icon="fas fa-calendar"
-                          class="mb-4"
-                        />
-                      </template>
-                      <v-date-picker
-                        v-model="review.deadline"
-                        hide-header
-                        locale="th"
-                        @update:model-value="deadlineMenu = false"
-                      />
-                    </v-menu>
-                  </template>
-
                   <!-- Action buttons -->
                   <v-row class="ga-2" no-gutters>
-                    <v-col v-if="review.decision === 'improve'">
-                      <v-btn
-                        color="warning"
-                        variant="tonal"
-                        block
-                        rounded="lg"
-                        prepend-icon="fas fa-rotate-left"
-                        @click="sendBackDialog = true"
-                      >
-                        ส่งกลับแก้ไข
-                      </v-btn>
-                    </v-col>
-                    <v-col v-if="review.decision === 'fail'">
+                    <v-col v-if="signing.decision === 'reject'">
                       <v-btn
                         color="error"
                         variant="tonal"
@@ -380,19 +360,19 @@
                         prepend-icon="fas fa-circle-xmark"
                         @click="rejectDialog = true"
                       >
-                        ส่งผลไม่ผ่าน
+                        ไม่อนุมัติ
                       </v-btn>
                     </v-col>
-                    <v-col v-if="review.decision === 'pass'">
+                    <v-col v-if="signing.decision === 'approve'">
                       <v-btn
                         color="cb-staff"
                         variant="flat"
                         block
                         rounded="lg"
-                        prepend-icon="fas fa-paper-plane"
-                        @click="saveReviewDialog = true"
+                        prepend-icon="fas fa-pen-nib"
+                        @click="approveDialog = true"
                       >
-                        ส่งต่อพิจารณา
+                        ลงนาม
                       </v-btn>
                     </v-col>
                   </v-row>
@@ -472,7 +452,7 @@
                       </div>
                       <v-btn
                         v-if="
-                          event.type !== 'submit' && event.type !== 'checking'
+                          event.type !== 'submit' && event.type !== 'signing'
                         "
                         size="x-small"
                         variant="text"
@@ -497,16 +477,16 @@
       </v-row>
     </template>
 
-    <!-- Confirm Dialog: ส่งต่อพิจารณา (ผ่าน) -->
-    <v-dialog v-model="saveReviewDialog" max-width="400">
+    <!-- Confirm Dialog: ลงนามอนุมัติ -->
+    <v-dialog v-model="approveDialog" max-width="400">
       <v-card rounded="xl">
         <v-card-text class="pa-7 text-center">
           <div class="confirm-ring mx-auto mb-4">
-            <v-icon icon="fas fa-paper-plane" size="28" color="cb-staff" />
+            <v-icon icon="fas fa-pen-nib" size="28" color="cb-staff" />
           </div>
-          <h3 class="text-h6 font-weight-bold mb-2">ส่งต่อพิจารณา</h3>
+          <h3 class="text-h6 font-weight-bold mb-2">ลงนามอนุมัติ</h3>
           <p class="text-body-2 text-medium-emphasis">
-            ยืนยันการส่งคำขอนี้ไปยังเจ้าหน้าที่พิจารณา
+            ยืนยันการลงนามอนุมัติคำขอนี้ใช่หรือไม่?
           </p>
         </v-card-text>
         <v-card-actions class="px-5 pb-5">
@@ -517,16 +497,12 @@
                 color="grey"
                 block
                 rounded="lg"
-                @click="saveReviewDialog = false"
+                @click="approveDialog = false"
                 >ยกเลิก</v-btn
               >
             </v-col>
             <v-col>
-              <v-btn
-                color="cb-staff"
-                block
-                rounded="lg"
-                @click="submitSaveReview"
+              <v-btn color="cb-staff" block rounded="lg" @click="submitApprove"
                 >ยืนยัน</v-btn
               >
             </v-col>
@@ -544,7 +520,7 @@
           </div>
           <h3 class="text-h6 font-weight-bold mb-2">ส่งกลับแก้ไข</h3>
           <p class="text-body-2 text-medium-emphasis">
-            ยืนยันการส่งคำขอกลับให้ผู้ยื่นแก้ไข
+            ยืนยันการส่งคำขอกลับให้ผู้ยื่นแก้ไขใช่หรือไม่?
           </p>
         </v-card-text>
         <v-card-actions class="px-5 pb-5">
@@ -569,16 +545,16 @@
       </v-card>
     </v-dialog>
 
-    <!-- Confirm Dialog: ส่งผลไม่ผ่าน (ไม่ผ่าน) -->
+    <!-- Confirm Dialog: ไม่อนุมัติ -->
     <v-dialog v-model="rejectDialog" max-width="400">
       <v-card rounded="xl">
         <v-card-text class="pa-7 text-center">
           <div class="confirm-ring mx-auto mb-4">
             <v-icon icon="fas fa-circle-xmark" size="28" color="error" />
           </div>
-          <h3 class="text-h6 font-weight-bold mb-2">ส่งผลไม่ผ่าน</h3>
+          <h3 class="text-h6 font-weight-bold mb-2">ไม่อนุมัติ</h3>
           <p class="text-body-2 text-medium-emphasis">
-            ยืนยันการส่งผลการตรวจ "ไม่ผ่าน" กลับให้ผู้ยื่นคำขอ
+            ยืนยันการไม่อนุมัติคำขอนี้ใช่หรือไม่?
           </p>
         </v-card-text>
         <v-card-actions class="px-5 pb-5">
@@ -616,12 +592,8 @@
           </p>
         </v-card-text>
         <v-card-actions class="px-6 pb-5">
-          <v-btn
-            color="cb-staff"
-            rounded="lg"
-            block
-            @click="goToApplicationList"
-            >กลับรายการคำขอ</v-btn
+          <v-btn color="cb-staff" rounded="lg" block @click="goToSigningList"
+            >กลับรายการรอลงนาม</v-btn
           >
         </v-card-actions>
       </v-card>
@@ -727,16 +699,17 @@ import { ref, reactive, computed } from "vue";
 import { useRouter } from "vue-router";
 import { useStaffSessionStore } from "@/stores/staff-session.store";
 
-const router = useRouter();
 const staffSessionStore = useStaffSessionStore();
 
-function goToApplicationList() {
-  router.push({ name: "CBStaffApplicationList" });
+const router = useRouter();
+
+function goToSigningList() {
+  router.push({ name: "CBStaffSigningList" });
 }
 
-const currentStep = ref(0);
-const reviewTab = ref("info");
-const saveReviewDialog = ref(false);
+const currentStep = ref(2);
+const signingTab = ref("info");
+const approveDialog = ref(false);
 const sendBackDialog = ref(false);
 const rejectDialog = ref(false);
 const successDialog = ref(false);
@@ -749,9 +722,9 @@ function openActivityDetail(event) {
   activityDetailDialog.value = true;
 }
 
-function submitSaveReview() {
-  saveReviewDialog.value = false;
-  successMessage.value = "ส่งต่อคำขอเพื่อพิจารณาเรียบร้อยแล้ว";
+function submitApprove() {
+  approveDialog.value = false;
+  successMessage.value = "ลงนามอนุมัติคำขอเรียบร้อยแล้ว";
   successDialog.value = true;
 }
 
@@ -763,7 +736,7 @@ function submitSendBack() {
 
 function submitReject() {
   rejectDialog.value = false;
-  successMessage.value = "ส่งผลการตรวจ 'ไม่ผ่าน' เรียบร้อยแล้ว";
+  successMessage.value = "บันทึกผลการไม่อนุมัติเรียบร้อยแล้ว";
   successDialog.value = true;
 }
 
@@ -780,42 +753,41 @@ function stepClass(v) {
 }
 
 const app = {
-  requestNo: "CB-0001",
-  requestType: "ขึ้นทะเบียน",
-  submittedDate: "01/01/2569",
-  typecert: "คำขอขึ้นทะเบียนเป็นหน่วยรับรองโรงงานผลิตสินค้าพืช",
-  status: "pending",
-  type: "register",
+  requestNo: "CB-0003",
+  requestType: "เพิ่ม/ลดขอบข่าย",
+  submittedDate: "10/03/2569",
+  status: "signing",
+  type: "scope",
 
-  applicantNameTh: "นายสมชาย ใจดี",
-  applicantHouseNo: "123",
-  applicantMoo: "3",
-  applicantRoad: "พหลโยธิน",
-  applicantTambol: "ลาดยาว",
-  applicantDistrict: "จตุจักร",
+  applicantNameTh: "นายประสิทธิ์ พานิช",
+  applicantHouseNo: "88",
+  applicantMoo: "5",
+  applicantRoad: "รามคำแหง",
+  applicantTambol: "หัวหมาก",
+  applicantDistrict: "บางกะปิ",
   applicantProvince: "กรุงเทพมหานคร",
-  applicantZipcode: "10900",
-  applicantPhone: "02-123-4567",
+  applicantZipcode: "10240",
+  applicantPhone: "02-987-6543",
   applicantFax: "-",
-  applicantEmail: "somchai@example.com",
+  applicantEmail: "prasit@greencert.co.th",
 
-  cbNameTh: "บริษัท ไทยเซอร์ติฟาย จำกัด",
-  cbNameEn: "Thai Certify Co., Ltd.",
-  cbHouseNo: "456",
-  cbRoad: "สุขุมวิท",
-  cbTambol: "คลองเตย",
-  cbDistrict: "คลองเตย",
+  cbNameTh: "บริษัท กรีนเซิร์ต จำกัด",
+  cbNameEn: "Green Cert Co., Ltd.",
+  cbHouseNo: "88",
+  cbRoad: "รามคำแหง",
+  cbTambol: "หัวหมาก",
+  cbDistrict: "บางกะปิ",
   cbProvince: "กรุงเทพมหานคร",
-  cbZipcode: "10110",
-  cbHouseNoEn: "456",
-  cbRoadEn: "Sukhumvit",
-  cbTambolEn: "Khlong Toei",
-  cbDistrictEn: "Khlong Toei",
+  cbZipcode: "10240",
+  cbHouseNoEn: "88",
+  cbRoadEn: "Ramkhamhaeng",
+  cbTambolEn: "Hua Mak",
+  cbDistrictEn: "Bang Kapi",
   cbProvinceEn: "Bangkok",
-  cbZipcodeEn: "10110",
-  cbPhone: "02-456-7890",
-  cbFax: "02-456-7891",
-  cbEmail: "info@thaicertify.co.th",
+  cbZipcodeEn: "10240",
+  cbPhone: "02-987-6543",
+  cbFax: "02-987-6544",
+  cbEmail: "info@greencert.co.th",
 
   standards: [
     {
@@ -853,39 +825,46 @@ const app = {
 
   activityLog: [
     {
-      type: "checking",
-      action: "กำลังตรวจคำขอ",
+      type: "signing",
+      action: "กำลังลงนาม",
       actor: staffSessionStore.displayName,
       timestamp: "",
       remark: "",
     },
     {
-      type: "submit",
-      action: "ยื่นคำขอ",
-      actor: "นายสมชาย ใจดี (ผู้ยื่นคำขอ)",
-      timestamp: "04/01/2569 10:30",
-      remark: "",
+      type: "forward",
+      action: "ผ่านการพิจารณา",
+      actor: "นายสมศักดิ์ มั่นคง (เจ้าหน้าที่พิจารณา)",
+      timestamp: "08/03/2569 15:30",
+      remark: "ตรวจครบถ้วน อนุมัติ",
     },
     {
-      type: "sendback",
-      action: "ส่งกลับแก้ไข",
+      type: "forward",
+      action: "ผ่านการตรวจ",
       actor: "น.ส.วรรณา จันทร์ดี (เจ้าหน้าที่ตรวจ)",
-      timestamp: "03/01/2569 10:30",
-      remark:
-        "เอกสารสำเนาหนังสือรับรองนิติบุคคลไม่ครบถ้วน กรุณาแนบเอกสารฉบับที่ออกโดยกรมพัฒนาธุรกิจการค้าซึ่งออกไม่เกิน 3 เดือน",
+      timestamp: "05/03/2569 11:00",
+      remark: "ตรวจเอกสารครบถ้วน ส่งต่อพิจารณา",
     },
     {
       type: "submit",
       action: "ยื่นคำขอ",
-      actor: "นายสมชาย ใจดี (ผู้ยื่นคำขอ)",
-      timestamp: "01/01/2569 09:12",
+      actor: "นายประสิทธิ์ พานิช (ผู้ยื่นคำขอ)",
+      timestamp: "10/03/2569 09:00",
       remark: "",
     },
   ],
-
-  // compat
-  applicant: "บ.ไทยเซอร์ติฟาย จก.",
 };
+
+const signing = reactive({ decision: "approve", remark: "" });
+
+function generateCertNo() {
+  const now = new Date();
+  const year = now.getFullYear() + 543;
+  const seq = String(Math.floor(Math.random() * 900) + 100);
+  return `CB-${year}-${seq}`;
+}
+
+const certNo = ref(generateCertNo());
 
 const applicantAddress = computed(() => {
   const a = app;
@@ -902,24 +881,14 @@ const cbAddressEn = computed(() => {
   return `${a.cbHouseNoEn} ${a.cbRoadEn} Rd., ${a.cbTambolEn}, ${a.cbDistrictEn}, ${a.cbProvinceEn} ${a.cbZipcodeEn}`;
 });
 
-const review = reactive({ decision: "pass", remark: "", deadline: null });
-const deadlineMenu = ref(false);
-const deadlineBE = computed(() => {
-  if (!review.deadline) return "";
-  const d = review.deadline;
-  const dd = String(d.getDate()).padStart(2, "0");
-  const mm = String(d.getMonth() + 1).padStart(2, "0");
-  return `${dd}/${mm}/${d.getFullYear() + 543}`;
-});
-
 function eventIcon(type) {
   return (
     {
       submit: "fas fa-paper-plane",
+      signing: "fas fa-pen-nib",
       receive: "fas fa-inbox",
       forward: "fas fa-share",
       review: "fas fa-magnifying-glass",
-      checking: "fas fa-magnifying-glass",
       pending: "fas fa-clock",
       approve: "fas fa-circle-check",
       reject: "fas fa-circle-xmark",
@@ -933,9 +902,9 @@ function eventColor(type) {
     {
       submit: "cb-staff",
       receive: "info",
-      forward: "cb-staff",
+      forward: "success",
+      signing: "cb-staff",
       review: "warning",
-      checking: "cb-staff",
       pending: "warning",
       approve: "success",
       reject: "error",
@@ -949,9 +918,9 @@ function eventLabel(type) {
     {
       submit: "ยื่นคำขอ",
       receive: "รับเรื่อง",
-      forward: "ส่งต่อ",
+      forward: "ผ่าน",
+      signing: "กำลังลงนาม",
       review: "กำลังพิจารณา",
-      checking: "ตรวจคำขอ",
       pending: "รอพิจารณา",
       approve: "อนุมัติ",
       reject: "ไม่อนุมัติ",
@@ -965,7 +934,7 @@ function statusColor(s) {
     {
       pending: "warning",
       reviewing: "info",
-      signing: "info",
+      signing: "warning",
       need_edit: "error",
       approved: "success",
       rejected: "error",
@@ -1035,19 +1004,6 @@ function statusLabel(s) {
 .activity-dot--review {
   background: rgb(var(--v-theme-warning));
 }
-.activity-dot--checking {
-  background: rgb(var(--v-theme-cb-staff));
-  animation: pulse-checking 1.6s ease-in-out infinite;
-}
-@keyframes pulse-checking {
-  0%,
-  100% {
-    box-shadow: 0 0 0 0 rgba(var(--v-theme-cb-staff), 0.5);
-  }
-  50% {
-    box-shadow: 0 0 0 8px rgba(var(--v-theme-cb-staff), 0);
-  }
-}
 .activity-dot--pending {
   background: rgb(var(--v-theme-warning));
 }
@@ -1060,6 +1016,19 @@ function statusLabel(s) {
 .activity-dot--sendback {
   background: #fb8c00;
 }
+.activity-dot--signing {
+  background: rgb(var(--v-theme-cb-staff));
+  animation: pulse-signing 1.6s ease-in-out infinite;
+}
+@keyframes pulse-signing {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(var(--v-theme-cb-staff), 0.5);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(var(--v-theme-cb-staff), 0);
+  }
+}
 .activity-line {
   width: 2px;
   flex-grow: 1;
@@ -1071,14 +1040,11 @@ function statusLabel(s) {
   flex: 1;
   min-width: 0;
 }
-</style>
 
-<style scoped>
 div {
   --step-color: rgb(var(--v-theme-cb-staff));
   --step-color-tint: rgba(var(--v-theme-cb-staff), 0.2);
 }
-
 .step-done,
 .step-active {
   background: rgb(var(--v-theme-cb-staff)) !important;
@@ -1107,7 +1073,6 @@ div {
   font-size: 14px;
   font-weight: 500;
 }
-
 .item-row {
   background: rgba(var(--v-theme-cb-staff), 0.03);
 }

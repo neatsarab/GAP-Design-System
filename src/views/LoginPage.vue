@@ -418,9 +418,11 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useThemeStore } from "@/stores/theme.store";
+import { useStaffSessionStore } from "@/stores/staff-session.store";
 
 const router = useRouter();
 const themeStore = useThemeStore();
+const staffSessionStore = useStaffSessionStore();
 
 function goToPortal() {
   router.push({ name: "Portal" });
@@ -529,6 +531,12 @@ async function doStaffLogin() {
   await new Promise((r) => setTimeout(r, 1000));
   staffLoading.value = false;
   if (staffUsername.value && staffPassword.value) {
+    staffSessionStore.setStaff({
+      loginName: staffUsername.value,
+      displayName: "นายประพัฒน์ ตรวจสอบ",
+      role: "นักวิชาการเกษตร",
+      department: "กวก.",
+    });
     router.push({ name: "StaffPortal" });
   } else {
     staffError.value = "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง";
@@ -537,6 +545,12 @@ async function doStaffLogin() {
 
 function doSsoLogin() {
   ssoLoading.value = true;
+  staffSessionStore.setStaff({
+    loginName: "prapunt@doa.org",
+    displayName: "นายประพัฒน์ ตรวจสอบ",
+    role: "นักวิชาการเกษตร",
+    department: "กวก.",
+  });
   setTimeout(() => router.push({ name: "StaffPortal" }), 800);
 }
 </script>

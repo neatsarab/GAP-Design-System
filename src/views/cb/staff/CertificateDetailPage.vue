@@ -1,5 +1,5 @@
 <template>
-  <div style="--v-theme-primary: var(--v-theme-export-staff)">
+  <div style="--v-theme-primary: var(--v-theme-cb-staff)">
     <!-- Header -->
     <div class="d-flex align-center ga-3 mb-4">
       <v-btn
@@ -12,7 +12,7 @@
         <h1 class="page-title mb-0">รายละเอียดใบทะเบียน</h1>
         <p class="text-body-2 text-medium-emphasis mb-0 mt-1">
           เลขทะเบียน:
-          <span class="text-export-staff font-weight-medium">{{
+          <span class="text-cb-staff font-weight-medium">{{
             route.params.id ?? cert.certNo
           }}</span>
         </p>
@@ -32,14 +32,14 @@
           <div
             class="section-header px-4 py-3 border-b d-flex align-center ga-2"
           >
-            <v-icon icon="fas fa-certificate" color="export-staff" size="15" />
+            <v-icon icon="fas fa-certificate" color="cb-staff" size="15" />
             <span class="text-subtitle-2 font-weight-bold">สถานะใบทะเบียน</span>
           </div>
           <v-card-text class="pa-4">
             <v-row dense>
               <v-col cols="12" md="4">
                 <div class="info-label">เลขที่ใบทะเบียน / Certificate No.</div>
-                <div class="info-value text-export-staff font-weight-bold">
+                <div class="info-value text-cb-staff font-weight-bold">
                   {{ cert.certNo }}
                 </div>
               </v-col>
@@ -61,7 +61,7 @@
                 </div>
               </v-col>
               <v-col cols="12">
-                <div class="info-label">ประเภททะเบียน / Registration Type</div>
+                <div class="info-label">ประเภทใบทะเบียน / Certificate Type</div>
                 <div class="info-value">{{ cert.typecert }}</div>
               </v-col>
               <v-col cols="12" md="4">
@@ -92,7 +92,7 @@
           <div
             class="section-header px-4 py-3 border-b d-flex align-center ga-2"
           >
-            <v-icon icon="fas fa-user" color="export-staff" size="15" />
+            <v-icon icon="fas fa-user" color="cb-staff" size="15" />
             <span class="text-subtitle-2 font-weight-bold"
               >ข้อมูลผู้ยื่นคำขอ</span
             >
@@ -128,7 +128,7 @@
           <div
             class="section-header px-4 py-3 border-b d-flex align-center ga-2"
           >
-            <v-icon icon="fas fa-building" color="export-staff" size="15" />
+            <v-icon icon="fas fa-building" color="cb-staff" size="15" />
             <span class="text-subtitle-2 font-weight-bold"
               >ข้อมูลสถานประกอบการ</span
             >
@@ -167,86 +167,29 @@
           </v-card-text>
         </v-card>
 
-        <!-- ขอบข่ายประเทศ -->
+        <!-- ขอบข่ายมาตรฐาน -->
         <v-card rounded="xl" elevation="0" class="section-card mb-4">
           <div
             class="section-header px-4 py-3 border-b d-flex align-center ga-2"
           >
-            <v-icon icon="fas fa-earth-asia" color="export-staff" size="15" />
-            <span class="text-subtitle-2 font-weight-bold">ขอบข่ายประเทศ</span>
-          </div>
-          <v-card-text class="pa-4 pb-3">
-            <div class="info-label mb-2">Scope of countries</div>
-            <div class="d-flex flex-wrap ga-2">
-              <v-chip
-                v-for="c in cert.countries"
-                :key="c"
-                size="small"
-                variant="tonal"
-                color="export-staff"
-                >{{ c }}</v-chip
-              >
-            </div>
-          </v-card-text>
-        </v-card>
-
-        <!-- โรงงาน -->
-        <v-card rounded="xl" elevation="0" class="section-card mb-4">
-          <div
-            class="section-header px-4 py-3 border-b d-flex align-center ga-2"
-          >
-            <v-icon icon="fas fa-industry" color="export-staff" size="15" />
-            <span class="text-subtitle-2 font-weight-bold"
-              >ข้อมูลโรงงานผลิตสินค้าพืช</span
-            >
+            <v-icon icon="fas fa-list-check" color="cb-staff" size="15" />
+            <span class="text-subtitle-2 font-weight-bold">ขอบข่ายมาตรฐาน</span>
           </div>
           <v-table density="compact" class="pa-2">
             <thead>
               <tr>
-                <th>เลขทะเบียน DOA</th>
-                <th>ชื่อโรงงาน</th>
-                <th>วันหมดอายุ</th>
+                <th>รหัสขอบข่าย</th>
+                <th>ชื่อขอบข่ายมาตรฐาน</th>
+                <th>ประเภท</th>
               </tr>
             </thead>
             <tbody>
-              <tr v-for="factory in cert.factories" :key="factory.doaNo">
-                <td class="text-body-2 font-weight-bold text-export-staff">
-                  {{ factory.doaNo }}
+              <tr v-for="scope in cert.standardScopes" :key="scope.code">
+                <td class="text-body-2 font-weight-bold text-cb-staff">
+                  {{ scope.code }}
                 </td>
-                <td class="text-body-2">{{ factory.factoryName }}</td>
-                <td class="text-body-2">{{ factory.expiryDate }}</td>
-              </tr>
-            </tbody>
-          </v-table>
-        </v-card>
-
-        <!-- GAP -->
-        <v-card rounded="xl" elevation="0" class="section-card mb-4">
-          <div
-            class="section-header px-4 py-3 border-b d-flex align-center ga-2"
-          >
-            <v-icon icon="fas fa-seedling" color="export-staff" size="15" />
-            <span class="text-subtitle-2 font-weight-bold"
-              >แหล่งผลิตพืชที่ได้การรับรอง GAP</span
-            >
-          </div>
-          <v-table density="compact" class="pa-2">
-            <thead>
-              <tr>
-                <th>เลขใบรับรอง GAP</th>
-                <th>ชื่อแหล่งผลิต</th>
-                <th>หน่วยงานรับรอง</th>
-                <th>วันหมดอายุ</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="gap in cert.gaps" :key="gap.gapNo">
-                <td class="text-body-2 font-weight-bold text-export-staff">
-                  {{ gap.gapNo }}
-                </td>
-                <td class="text-body-2">{{ gap.siteName }}</td>
-                <td class="text-body-2">{{ gap.certBody }}</td>
-                <td class="text-body-2">{{ gap.expiryDate }}</td>
+                <td class="text-body-2">{{ scope.name }}</td>
+                <td class="text-body-2">{{ scope.type }}</td>
               </tr>
             </tbody>
           </v-table>
@@ -257,7 +200,7 @@
           <div
             class="section-header px-4 py-3 border-b d-flex align-center ga-2"
           >
-            <v-icon icon="fas fa-paperclip" color="export-staff" size="15" />
+            <v-icon icon="fas fa-paperclip" color="cb-staff" size="15" />
             <span class="text-subtitle-2 font-weight-bold">เอกสารแนบ</span>
           </div>
           <v-card-text class="pa-4">
@@ -270,7 +213,7 @@
               <v-btn
                 size="x-small"
                 variant="tonal"
-                color="export-staff"
+                color="cb-staff"
                 rounded="lg"
                 prepend-icon="fas fa-download"
               >
@@ -288,7 +231,7 @@
           <v-card rounded="xl" elevation="0" class="section-card mb-4">
             <v-card-text class="pa-4">
               <v-btn
-                color="export-staff"
+                color="cb-staff"
                 variant="flat"
                 block
                 rounded="lg"
@@ -306,7 +249,7 @@
             >
               <v-icon
                 icon="fas fa-clock-rotate-left"
-                color="export-staff"
+                color="cb-staff"
                 size="15"
               />
               <span class="text-subtitle-2 font-weight-bold"
@@ -386,11 +329,11 @@ const route = useRoute();
 const router = useRouter();
 
 const cert = {
-  certNo: "EXP-2569-005",
-  requestNo: "EXP-0005",
-  typecert: "คำขอหนังสือสำคัญแสดงการขึ้นทะเบียนเป็นผู้ส่งออกผักและผลไม้",
-  issueDate: "15/03/2569",
-  expireDate: "14/03/2571",
+  certNo: "CB-2569-001",
+  requestNo: "CB-0001",
+  typecert: "Certification Body (CB) - หน่วยรับรองโรงงานผลิตสินค้าพืช",
+  issueDate: "01/01/2569",
+  expireDate: "01/01/2572",
   status: "active",
 
   applicantNameTh: "นายสมชาย ใจดี",
@@ -406,61 +349,49 @@ const cert = {
   applicantFax: "-",
   applicantEmail: "somchai@example.com",
 
-  companyNameTh: "บริษัท ไทย เอ็กซ์พอร์ต จำกัด",
-  companyNameEn: "Thai Export Co., Ltd.",
-  houseNo: "88/1",
+  companyNameTh: "บริษัท ไทยเซอร์ติฟาย จำกัด",
+  companyNameEn: "Thai Certify Co., Ltd.",
+  houseNo: "55/2",
   alley: "-",
-  road: "สุขุมวิท",
-  tambol: "บางปะกง",
-  district: "บางปะกง",
-  province: "ฉะเชิงเทรา",
-  zipcode: "24130",
-  houseNoEn: "88/1",
+  road: "รัชดาภิเษก",
+  tambol: "ห้วยขวาง",
+  district: "ห้วยขวาง",
+  province: "กรุงเทพมหานคร",
+  zipcode: "10310",
+  houseNoEn: "55/2",
   alleyEn: "-",
-  roadEn: "Sukhumvit",
-  tambolEn: "Bang Pakong",
-  districtEn: "Bang Pakong",
-  provinceEn: "Chachoengsao",
-  zipcodeEn: "24130",
-  companyPhone: "038-123-456",
-  companyFax: "038-123-457",
-  companyEmail: "info@thaiexport.co.th",
+  roadEn: "Ratchadaphisek",
+  tambolEn: "Huai Khwang",
+  districtEn: "Huai Khwang",
+  provinceEn: "Bangkok",
+  zipcodeEn: "10310",
+  companyPhone: "02-456-7890",
+  companyFax: "02-456-7891",
+  companyEmail: "info@thaicertify.co.th",
 
-  countries: ["สหภาพยุโรป", "ญี่ปุ่น", "สิงคโปร์"],
-
-  factories: [
+  standardScopes: [
     {
-      doaNo: "DOA-12345",
-      factoryName: "โรงบรรจุสินค้าไทยเอ็กซ์พอร์ต 1",
-      expiryDate: "01/01/2570",
+      code: "SC-001",
+      name: "มาตรฐาน GAP พืช",
+      type: "Good Agricultural Practice",
     },
     {
-      doaNo: "DOA-12346",
-      factoryName: "โรงรมทรีทเม้นต์ไทยเอ็กซ์พอร์ต",
-      expiryDate: "01/06/2570",
-    },
-  ],
-
-  gaps: [
-    {
-      gapNo: "GAP-00123",
-      siteName: "สวนมะม่วงไทยเอ็กซ์พอร์ต",
-      certBody: "กรมวิชาการเกษตร (DOA)",
-      expiryDate: "01/03/2570",
+      code: "SC-002",
+      name: "มาตรฐาน GMP โรงงาน",
+      type: "Good Manufacturing Practice",
     },
     {
-      gapNo: "GAP-00456",
-      siteName: "สวนมะละกอไทยเอ็กซ์พอร์ต",
-      certBody: "สำนักงานเกษตรจังหวัด",
-      expiryDate: "15/06/2570",
+      code: "SC-003",
+      name: "มาตรฐาน GLOBALG.A.P.",
+      type: "International Standard",
     },
   ],
 
   attachments: [
     { label: "หนังสือรับรองบริษัท" },
     { label: "สำเนาบัตรประชาชนกรรมการ" },
-    { label: "หนังสือสำคัญขึ้นทะเบียนโรงงาน (DOA)" },
-    { label: "หนังสือรับรอง GAP" },
+    { label: "คู่มือคุณภาพ (Quality Manual)" },
+    { label: "ใบรับรองความสามารถห้องปฏิบัติการ" },
   ],
 
   activityLog: [
@@ -468,40 +399,32 @@ const cert = {
       type: "issue",
       action: "ออกใบทะเบียน",
       actor: "ระบบ",
-      timestamp: "08/01/2569 11:23",
-      remark: "เลขทะเบียน EXP-2569-005",
+      timestamp: "01/01/2569 10:00",
+      remark: "เลขทะเบียน CB-2569-001",
     },
     {
       type: "forward",
       action: "ผ่านการลงนาม",
       actor: "นายศักดิ์ศรี นาดี (ผู้ลงนาม)",
-      timestamp: "08/01/2569 11:23",
+      timestamp: "01/01/2569 09:45",
     },
     {
       type: "forward",
       action: "ผ่านการพิจารณา",
       actor: "นายอนันต์ วิชาการ (ผู้พิจารณา)",
-      timestamp: "06/01/2569 14:20",
+      timestamp: "30/12/2568 14:20",
     },
     {
       type: "forward",
       action: "ผ่านการตรวจ",
       actor: "น.ส.วรรณา จันทร์ดี (เจ้าหน้าที่ตรวจ)",
-      timestamp: "05/01/2569 11:00",
-    },
-    {
-      type: "sendback",
-      action: "ส่งกลับแก้ไข",
-      actor: "น.ส.วรรณา จันทร์ดี (เจ้าหน้าที่ตรวจ)",
-      timestamp: "03/01/2569 10:30",
-      remark:
-        "เอกสารสำเนาหนังสือรับรองนิติบุคคลไม่ครบถ้วน กรุณาแนบเอกสารฉบับที่ออกโดยกรมพัฒนาธุรกิจการค้าซึ่งออกไม่เกิน 3 เดือน และแก้ไขพิกัดที่ตั้งโรงงานให้ถูกต้องตามทะเบียนโรงงาน",
+      timestamp: "28/12/2568 11:00",
     },
     {
       type: "submit",
       action: "ยื่นคำขอ",
       actor: "นายสมชาย ใจดี (ผู้ยื่นคำขอ)",
-      timestamp: "01/01/2569 09:12",
+      timestamp: "20/12/2568 09:12",
       remark: "",
     },
   ],
@@ -565,7 +488,7 @@ function eventIcon(type) {
 function eventColor(type) {
   return (
     {
-      submit: "export-staff",
+      submit: "cb-staff",
       receive: "info",
       forward: "success",
       review: "warning",
@@ -573,7 +496,7 @@ function eventColor(type) {
       approve: "success",
       reject: "error",
       sendback: "warning",
-      issue: "export-staff",
+      issue: "cb-staff",
       renew: "info",
       revoke: "error",
     }[type] ?? "grey"
@@ -643,7 +566,7 @@ function eventLabel(type) {
   z-index: 1;
 }
 .activity-dot--submit {
-  background: rgb(var(--v-theme-export-staff));
+  background: rgb(var(--v-theme-cb-staff));
 }
 .activity-dot--receive {
   background: rgb(var(--v-theme-info));
@@ -667,7 +590,7 @@ function eventLabel(type) {
   background: #fb8c00;
 }
 .activity-dot--issue {
-  background: rgb(var(--v-theme-export-staff));
+  background: rgb(var(--v-theme-cb-staff));
 }
 .activity-dot--renew {
   background: rgb(var(--v-theme-info));

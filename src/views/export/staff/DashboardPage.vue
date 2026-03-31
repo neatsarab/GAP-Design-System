@@ -4,7 +4,7 @@
       <div>
         <h1 class="page-title mb-1">แดชบอร์ด</h1>
         <p class="text-body-2 text-medium-emphasis mb-0">
-          ภาพรวมคำขอระบบการจดทะเบียนผู้ส่งออกสินค้าพืช
+          ภาพรวมระบบการจดทะเบียนผู้ส่งออกสินค้าพืช
         </p>
       </div>
     </div>
@@ -145,7 +145,7 @@ const stats = [
     icon: "fas fa-file-lines",
     iconColor: "export-staff",
   },
-  { label: "รอตรวจสอบ", value: 11, icon: "fas fa-clock", iconColor: "warning" },
+  { label: "รอตรวจ", value: 11, icon: "fas fa-clock", iconColor: "warning" },
   {
     label: "อนุมัติแล้ว",
     value: 38,
@@ -153,7 +153,7 @@ const stats = [
     iconColor: "success",
   },
   {
-    label: "ผู้ส่งออกที่ขึ้นทะเบียน",
+    label: "สถานประกอบการที่ขึ้นทะเบียน",
     value: 38,
     icon: "fas fa-id-card",
     iconColor: "info",
@@ -196,7 +196,7 @@ const pendingApplications = [
 ];
 
 const statusBars = [
-  { label: "รอตรวจสอบ", value: 11, pct: 20, color: "warning" },
+  { label: "รอตรวจ", value: 11, pct: 20, color: "warning" },
   { label: "รอแก้ไข", value: 4, pct: 7, color: "info" },
   { label: "อนุมัติแล้ว", value: 38, pct: 68, color: "success" },
   { label: "ปฏิเสธ", value: 3, pct: 5, color: "error" },
@@ -218,7 +218,7 @@ function statusColor(status) {
 function statusLabel(status) {
   const map = {
     draft: "แบบร่าง",
-    pending: "รอตรวจสอบ",
+    pending: "รอตรวจ",
     need_edit: "รอแก้ไขคำขอ",
     reviewing: "รอพิจารณา",
     signing: "รอลงนาม",

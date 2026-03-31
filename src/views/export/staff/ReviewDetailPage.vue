@@ -564,13 +564,18 @@
                         event.actor
                       }}
                     </div>
-                    <div class="text-caption text-medium-emphasis mt-1">
+                    <div
+                      v-if="event.timestamp"
+                      class="text-caption text-medium-emphasis mt-1"
+                    >
                       <v-icon icon="fas fa-calendar" size="9" class="mr-1" />{{
                         event.timestamp
                       }}
                     </div>
                     <v-btn
-                      v-if="event.type !== 'submit'"
+                      v-if="
+                        event.type !== 'submit' && event.type !== 'reviewing'
+                      "
                       size="x-small"
                       variant="text"
                       color="export-staff"
@@ -903,9 +908,11 @@
 <script setup>
 import { ref, reactive, computed, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import { useStaffSessionStore } from "@/stores/staff-session.store";
 
 const route = useRoute();
 const router = useRouter();
+const staffSessionStore = useStaffSessionStore();
 
 const activeTab = ref("info");
 const approveDialog = ref(false);
@@ -1030,7 +1037,7 @@ const application = {
   submittedDate: "01/01/2569",
   typecert: "คำขอหนังสือสำคัญแสดงการขึ้นทะเบียนเป็นผู้ส่งออกผักและผลไม้",
   status: "reviewing",
-  currentStep: 2,
+  currentStep: 1,
 
   applicantNameTh: "นายสมชาย ใจดี",
   applicantHouseNo: "123",
@@ -1101,15 +1108,22 @@ const application = {
 
   activityLog: [
     {
+      type: "reviewing",
+      action: "กำลังพิจารณา",
+      actor: staffSessionStore.displayName,
+      timestamp: "",
+      remark: "",
+    },
+    {
       type: "forward",
-      action: "ผ่านการตรวจสอบ",
-      actor: "น.ส.วรรณา จันทร์ดี (เจ้าหน้าที่ตรวจสอบ)",
+      action: "ผ่านการตรวจ",
+      actor: "น.ส.วรรณา จันทร์ดี (เจ้าหน้าที่ตรวจ)",
       timestamp: "05/01/2569 11:00",
     },
     {
       type: "sendback",
       action: "ส่งกลับแก้ไข",
-      actor: "น.ส.วรรณา จันทร์ดี (เจ้าหน้าที่ตรวจสอบ)",
+      actor: "น.ส.วรรณา จันทร์ดี (เจ้าหน้าที่ตรวจ)",
       timestamp: "03/01/2569 10:30",
       remark:
         "เอกสารสำเนาหนังสือรับรองนิติบุคคลไม่ครบถ้วน กรุณาแนบเอกสารฉบับที่ออกโดยกรมพัฒนาธุรกิจการค้าซึ่งออกไม่เกิน 3 เดือน และแก้ไขพิกัดที่ตั้งโรงงานให้ถูกต้องตามทะเบียนโรงงาน",
@@ -1149,10 +1163,9 @@ const companyAddressEn = computed(() => {
 });
 
 const timelineSteps = [
-  { value: 0, title: "ยื่นคำขอ" },
-  { value: 1, title: "ตรวจสอบ" },
-  { value: 2, title: "พิจารณา" },
-  { value: 3, title: "ลงนาม" },
+  { value: 0, title: "ตรวจคำขอ" },
+  { value: 1, title: "พิจารณา" },
+  { value: 2, title: "ลงนาม" },
 ];
 
 function stepClass(v) {
@@ -1181,7 +1194,7 @@ function statusIcon(s) {
       draft: "fas fa-pen",
       pending: "fas fa-clock",
       need_edit: "fas fa-pen",
-      reviewing: "fas fa-magnifying-glass",
+      reviewing: "fas fa-clipboard-check",
       signing: "fas fa-pen-nib",
       approved: "fas fa-circle-check",
       rejected: "fas fa-circle-xmark",
@@ -1193,7 +1206,7 @@ function statusLabel(s) {
   return (
     {
       draft: "แบบร่าง",
-      pending: "รอตรวจสอบ",
+      pending: "รอตรวจ",
       need_edit: "รอแก้ไขคำขอ",
       reviewing: "รอพิจารณา",
       signing: "รอลงนาม",
@@ -1210,6 +1223,7 @@ function eventIcon(type) {
       receive: "fas fa-inbox",
       forward: "fas fa-share",
       review: "fas fa-magnifying-glass",
+      reviewing: "fas fa-clipboard-check",
       pending: "fas fa-clock",
       approve: "fas fa-circle-check",
       reject: "fas fa-circle-xmark",
@@ -1225,6 +1239,7 @@ function eventColor(type) {
       receive: "info",
       forward: "success",
       review: "warning",
+      reviewing: "export-staff",
       pending: "warning",
       approve: "success",
       reject: "error",
@@ -1240,6 +1255,7 @@ function eventLabel(type) {
       receive: "รับเรื่อง",
       forward: "ผ่าน",
       review: "กำลังพิจารณา",
+      reviewing: "กำลังพิจารณา",
       pending: "รอพิจารณา",
       approve: "อนุมัติ",
       reject: "ไม่อนุมัติ",
@@ -1352,6 +1368,19 @@ div {
 }
 .activity-dot--review {
   background: rgb(var(--v-theme-warning));
+}
+.activity-dot--reviewing {
+  background: rgb(var(--v-theme-export-staff));
+  animation: pulse-reviewing 1.6s ease-in-out infinite;
+}
+@keyframes pulse-reviewing {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(var(--v-theme-export-staff), 0.5);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(var(--v-theme-export-staff), 0);
+  }
 }
 .activity-dot--pending {
   background: rgb(var(--v-theme-warning));

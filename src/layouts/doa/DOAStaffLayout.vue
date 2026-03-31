@@ -20,7 +20,9 @@
             <v-icon icon="fas fa-industry" color="doa-staff" size="20" />
           </div>
         </template>
-        <v-list-item-title class="text-body-2 font-weight-bold"
+        <v-list-item-title
+          class="text-body-2 font-weight-bold"
+          style="word-break: break-word; white-space: normal"
           >ระบบการขึ้นทะเบียนโรงงานผลิตสินค้าพืช DOA</v-list-item-title
         >
         <v-list-item-subtitle
@@ -54,10 +56,10 @@
             <div
               class="text-truncate text-body-2 font-weight-medium text-doa-staff"
             >
-              นายวิชัย เกษตรกรรม
+              {{ staffSessionStore.displayName || "เจ้าหน้าที่" }}
             </div>
             <div class="text-caption text-medium-emphasis">
-              กวก. / นักวิชาการเกษตร
+              {{ staffSessionStore.department }}{{ staffSessionStore.role ? ' / ' + staffSessionStore.role : '' }}
             </div>
           </div>
         </div>
@@ -154,13 +156,49 @@
             />
           </template>
         </v-tooltip>
-        <v-chip
-          variant="outlined"
-          color="doa-staff"
-          class="user-chip mr-2 ml-1"
-          prepend-icon="fas fa-user-tie"
-          >นายวิชัย เกษตรกรรม</v-chip
-        >
+        <!-- User Menu -->
+        <v-menu location="bottom end" :offset="8">
+          <template #activator="{ props }">
+            <v-chip
+              v-bind="props"
+              variant="outlined"
+              color="doa-staff"
+              class="user-chip mr-2 ml-1"
+              prepend-icon="fas fa-user"
+              append-icon="fas fa-chevron-down"
+              style="cursor: pointer"
+            >
+              {{ staffSessionStore.displayName }}
+            </v-chip>
+          </template>
+          <v-card min-width="200" elevation="8" rounded="xl" class="mt-1">
+            <v-card-text class="pb-2">
+              <div class="d-flex align-center ga-3 mb-3">
+                <div class="user-avatar-md">
+                  <v-icon icon="fas fa-user" size="20" />
+                </div>
+                <div>
+                  <div class="text-body-2 font-weight-bold">
+                    {{ staffSessionStore.displayName }}
+                  </div>
+                  <div class="text-caption text-medium-emphasis">
+                    {{ staffSessionStore.loginName }}
+                  </div>
+                </div>
+              </div>
+              <v-divider />
+            </v-card-text>
+            <v-list density="compact" nav class="pt-0 pb-2">
+              <v-list-item
+                prepend-icon="fas fa-right-from-bracket"
+                title="ออกจากระบบ"
+                rounded="lg"
+                base-color="error"
+                @click="openLogoutDialog"
+              />
+            </v-list>
+          </v-card>
+        </v-menu>
       </div>
     </v-app-bar>
 
@@ -222,9 +260,11 @@ import { ref, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useThemeStore } from "@/stores/theme.store";
 import { useSessionStore } from "@/stores/session.store";
+import { useStaffSessionStore } from "@/stores/staff-session.store";
 
 const themeStore = useThemeStore();
 const sessionStore = useSessionStore();
+const staffSessionStore = useStaffSessionStore();
 const isDark = computed(() => themeStore.isDark);
 function toggleTheme() {
   themeStore.toggle();
@@ -255,6 +295,7 @@ function goToPortal() {
 function doLogout() {
   logoutDialog.value = false;
   sessionStore.clearSession();
+  staffSessionStore.clearSession();
   router.push({ name: "Login" });
 }
 
@@ -326,3 +367,16 @@ const navGroups = [
   },
 ];
 </script>
+
+<style scoped>
+.user-avatar-md {
+  background: rgba(var(--v-theme-doa-staff), 0.15);
+  color: rgb(var(--v-theme-doa-staff));
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+</style>

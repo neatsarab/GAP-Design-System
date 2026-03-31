@@ -7,9 +7,11 @@ import vueDevTools from "vite-plugin-vue-devtools";
 
 export default defineConfig({
   // plugins: [vue(), vuetify({ autoImport: true })],
-  plugins: [vue(), vuetify({ autoImport: true }), 
+  plugins: [
+    vue(),
+    vuetify({ autoImport: true }),
     // --- เปิดบรรทัดข้างล่างเพื่อเปิด vueDevTool --- //
-    vueDevTools()
+    vueDevTools(),
   ],
   resolve: {
     alias: {

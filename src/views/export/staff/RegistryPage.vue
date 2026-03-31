@@ -388,6 +388,16 @@
             {{ statusLabel(item.status) }}
           </v-chip>
         </template>
+        <template #item.certStatus="{ item }">
+          <v-chip
+            :color="certStatusColor(item.certStatus)"
+            size="small"
+            variant="tonal"
+            :prepend-icon="certStatusIcon(item.certStatus)"
+          >
+            {{ certStatusLabel(item.certStatus) }}
+          </v-chip>
+        </template>
         <template #item.expireDate="{ item }">
           <span
             :class="

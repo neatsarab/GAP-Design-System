@@ -2,9 +2,9 @@
   <div>
     <div class="d-flex align-center justify-space-between flex-wrap ga-3 mb-6">
       <div>
-        <h1 class="page-title mb-1">แดชบอร์ด CB (เจ้าหน้าที่)</h1>
+        <h1 class="page-title mb-1">แดชบอร์ด</h1>
         <p class="text-body-2 text-medium-emphasis mb-0">
-          ภาพรวมคำขอขึ้นทะเบียนหน่วยรับรองทั้งหมด
+          ภาพรวมระบบการขึ้นทะเบียนหน่วยรับรองโรงงานผลิตสินค้าพืช
         </p>
       </div>
     </div>
@@ -90,9 +90,7 @@
           <div class="text-body-2 font-weight-medium mb-1">
             สรุปงานที่รอดำเนินการ
           </div>
-          <div class="text-body-2">
-            มีคำขอรอดำเนินการทั้งหมด 3 รายการ รวมถึงการตรวจประเมิน CB 2 รายการ
-          </div>
+          <div class="text-body-2">มีคำขอรอดำเนินการทั้งหมด 3 รายการ</div>
         </v-alert>
         <!-- Status Summary -->
         <v-card rounded="xl" elevation="0" class="mt-4">
@@ -142,79 +140,77 @@ const stats = [
     label: "คำขอทั้งหมด",
     value: 15,
     icon: "fas fa-file-lines",
-    iconColor: "primary",
+    iconColor: "cb-staff",
   },
-  { label: "รอตรวจสอบ", value: 3, icon: "fas fa-clock", iconColor: "warning" },
-  {
-    label: "อยู่ระหว่างตรวจประเมิน",
-    value: 2,
-    icon: "fas fa-magnifying-glass",
-    iconColor: "info",
-  },
+  { label: "รอตรวจ", value: 3, icon: "fas fa-clock", iconColor: "warning" },
   {
     label: "อนุมัติแล้ว",
     value: 9,
     icon: "fas fa-circle-check",
     iconColor: "success",
   },
+  {
+    label: "สถานประกอบการที่ขึ้นทะเบียน",
+    value: 38,
+    icon: "fas fa-id-card",
+    iconColor: "info",
+  },
 ];
 
 const pendingApplications = [
   {
     id: "CB-2569-00008",
-    requestNo: "CB-2569-00008",
+    requestNo: "CB-0001",
     cbName: "บ.เอเชียเซอร์ติฟาย จก.",
     scope: "ผลไม้ส่งออก",
     submittedDate: "9 มี.ค. 2569",
-    status: "submitted",
+    status: "pending",
   },
   {
     id: "CB-2569-00007",
-    requestNo: "CB-2569-00007",
+    requestNo: "CB-0002",
     cbName: "บ.ไทยมาตรฐาน จก.",
     scope: "ผักและสมุนไพร",
     submittedDate: "6 มี.ค. 2569",
-    status: "under_review",
+    status: "signing",
   },
   {
     id: "CB-2569-00006",
-    requestNo: "CB-2569-00006",
+    requestNo: "CB-0003",
     cbName: "บ.กรีนเซอร์ติฟาย จก.",
     scope: "ธัญพืชอินทรีย์",
     submittedDate: "2 มี.ค. 2569",
-    status: "inspection_scheduled",
+    status: "signing",
   },
 ];
 
 const statusBars = [
   { label: "อนุมัติแล้ว", value: 9, pct: 60, color: "success" },
-  { label: "รอตรวจสอบ", value: 3, pct: 20, color: "warning" },
-  { label: "อยู่ระหว่างตรวจประเมิน", value: 2, pct: 13, color: "info" },
+  { label: "รอตรวจ", value: 3, pct: 20, color: "warning" },
+  { label: "อยู่ระหว่างรอลงนาม", value: 2, pct: 13, color: "info" },
   { label: "ไม่ผ่าน", value: 1, pct: 7, color: "error" },
 ];
 
 function statusColor(status) {
   const map = {
-    draft: "grey",
-    submitted: "primary",
-    under_review: "info",
-    inspection_scheduled: "secondary",
+    pending: "warning",
+    reviewing: "info",
+    signing: "info",
+    need_edit: "error",
     approved: "success",
     rejected: "error",
-    revision_required: "warning",
   };
   return map[status] ?? "grey";
 }
 
 function statusLabel(status) {
   const map = {
-    draft: "แบบร่าง",
-    submitted: "ยื่นแล้ว",
-    under_review: "อยู่ระหว่างตรวจสอบ",
-    inspection_scheduled: "นัดตรวจแล้ว",
-    approved: "อนุมัติแล้ว",
-    rejected: "ไม่ผ่าน",
-    revision_required: "รอแก้ไข",
+    pending: "รอตรวจ",
+    reviewing: "อยู่ระหว่างตรวจ",
+    signing: "รอลงนาม",
+    need_edit: "รอแก้ไข",
+    approved: "อนุมัติ",
+    rejected: "ไม่อนุมัติ",
   };
   return map[status] ?? status;
 }

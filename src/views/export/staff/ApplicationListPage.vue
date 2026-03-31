@@ -376,7 +376,7 @@
               variant="tonal"
               color="warning"
               rounded="lg"
-              prepend-icon="fas fa-clipboard-check"
+              prepend-icon="fas fa-magnifying-glass"
               @click.stop="
                 router.push({
                   name: 'ExportStaffApplicationDetail',
@@ -384,7 +384,7 @@
                 })
               "
             >
-              ตรวจสอบคำขอ
+              ตรวจคำขอ
             </v-btn>
           </div>
         </template>
@@ -452,7 +452,7 @@ const typeOptions = [
 ];
 
 const statusOptions = [
-  { label: "รอตรวจสอบ", value: "pending" },
+  { label: "รอตรวจ", value: "pending" },
   { label: "รอแก้ไขคำขอ", value: "need_edit" },
   { label: "รอพิจารณา", value: "reviewing" },
   { label: "รอลงนาม", value: "signing" },
@@ -604,7 +604,7 @@ function statusColor(s) {
 function statusLabel(s) {
   return (
     {
-      pending: "รอตรวจสอบ",
+      pending: "รอตรวจ",
       need_edit: "รอแก้ไขคำขอ",
       reviewing: "รอพิจารณา",
       signing: "รอลงนาม",

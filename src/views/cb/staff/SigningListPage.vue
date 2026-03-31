@@ -4,7 +4,7 @@
       <div>
         <h1 class="page-title mb-1">รายการรอลงนาม</h1>
         <p class="text-body-2 text-medium-emphasis mb-0">
-          การจดทะเบียนผู้ส่งออกสินค้าพืช
+          การขึ้นทะเบียนหน่วยรับรองโรงงานผลิตสินค้าพืช
         </p>
       </div>
     </div>
@@ -22,24 +22,6 @@
               v-model="search"
               placeholder="เลขคำขอ / ชื่อสถานประกอบการ / ชื่อผู้ยื่นคำขอ"
               prepend-inner-icon="fas fa-search"
-              variant="outlined"
-              density="compact"
-              rounded="lg"
-              hide-details
-              clearable
-            />
-          </v-col>
-          <v-col cols="12" sm="6" md="6">
-            <div class="field-label">
-              <div>ประเภททะเบียน</div>
-              <div class="field-label-en">Registration Type</div>
-            </div>
-            <v-autocomplete
-              v-model="filters.typecert"
-              :items="typecertOptions"
-              item-title="label"
-              item-value="value"
-              placeholder="ทั้งหมด"
               variant="outlined"
               density="compact"
               rounded="lg"
@@ -109,7 +91,7 @@
               </template>
               <v-date-picker
                 v-model="dateFromObj"
-                color="export-staff"
+                color="cb-staff"
                 show-adjacent-months
                 :hide-header="!dateFromObj"
                 title="วันที่ยื่น (จาก)"
@@ -144,7 +126,7 @@
               </template>
               <v-date-picker
                 v-model="dateToObj"
-                color="export-staff"
+                color="cb-staff"
                 show-adjacent-months
                 :hide-header="!dateToObj"
                 title="วันที่ยื่น (ถึง)"
@@ -162,9 +144,8 @@
               size="small"
               prepend-icon="fas fa-rotate-left"
               @click="clearFilters"
+              >ล้างตัวกรอง</v-btn
             >
-              ล้างตัวกรอง
-            </v-btn>
           </v-col>
         </v-row>
       </v-card-text>
@@ -202,7 +183,7 @@
             />
           </span>
         </template>
-        <template #header.companyName="{ column, isSorted, getSortIcon }">
+        <template #header.applicant="{ column, isSorted, getSortIcon }">
           <span class="d-inline-flex align-center ga-1">
             <span>
               <div
@@ -239,29 +220,6 @@
                 style="line-height: 1.2"
               >
                 Applicant Name
-              </div>
-            </span>
-            <v-icon
-              v-if="isSorted(column)"
-              :icon="getSortIcon(column)"
-              size="14"
-            />
-          </span>
-        </template>
-        <template #header.typecert="{ column, isSorted, getSortIcon }">
-          <span class="d-inline-flex align-center ga-1">
-            <span>
-              <div
-                class="text-body-2 font-weight-medium"
-                style="line-height: 1.3"
-              >
-                ประเภททะเบียน
-              </div>
-              <div
-                class="text-caption text-medium-emphasis"
-                style="line-height: 1.2"
-              >
-                Registration Type
               </div>
             </span>
             <v-icon
@@ -317,7 +275,6 @@
             />
           </span>
         </template>
-
         <template #header.status="{ column, isSorted, getSortIcon }">
           <span class="d-inline-flex align-center ga-1">
             <span>
@@ -342,16 +299,18 @@
           </span>
         </template>
 
+        <template #item.requestNo="{ item }">
+          <span class="text-body-2">{{ item.requestNo }}</span>
+        </template>
+        <template #item.type="{ item }">{{ typeLabel(item.type) }}</template>
         <template #item.status="{ item }">
           <v-chip
             :color="statusColor(item.status)"
             size="small"
             variant="tonal"
+            >{{ statusLabel(item.status) }}</v-chip
           >
-            {{ statusLabel(item.status) }}
-          </v-chip>
         </template>
-
         <template #item.actions="{ item }">
           <div class="d-flex align-center ga-1">
             <v-tooltip text="ดูคำขอ" location="top">
@@ -361,13 +320,8 @@
                   icon
                   size="x-small"
                   variant="text"
-                  color="export-staff"
-                  @click.stop="
-                    router.push({
-                      name: 'ExportStaffSigningDetail',
-                      params: { id: item.requestNo },
-                    })
-                  "
+                  color="cb-staff"
+                  @click.stop="goToSigningDetail(item.id)"
                 >
                   <v-icon icon="fas fa-eye" size="14" />
                 </v-btn>
@@ -376,15 +330,10 @@
             <v-btn
               size="small"
               variant="tonal"
-              color="warning"
+              color="cb-staff"
               rounded="lg"
               prepend-icon="fas fa-pen-nib"
-              @click.stop="
-                router.push({
-                  name: 'ExportStaffSigningDetail',
-                  params: { id: item.requestNo },
-                })
-              "
+              @click.stop="goToSigningDetail(item.id)"
             >
               ลงนาม
             </v-btn>
@@ -402,6 +351,9 @@ import { useLocale } from "vuetify";
 
 const { current: vuetifyLocale } = useLocale();
 vuetifyLocale.value = "th";
+
+const router = useRouter();
+const search = ref("");
 
 const dateFromMenu = ref(false);
 const dateFromObj = ref(null);
@@ -435,34 +387,44 @@ const customKeySort = {
   submittedDate: (a, b) => beDateToTs(a) - beDateToTs(b),
 };
 
-const router = useRouter();
-const search = ref("");
-
 const filters = reactive({
   dateFrom: "",
   dateTo: "",
-  typecert: null,
   type: null,
   status: null,
 });
 
+function goToSigningDetail(id) {
+  router.push({ name: "CBStaffSigningDetail", params: { id } });
+}
+
+function clearFilters() {
+  search.value = "";
+  filters.dateFrom = "";
+  filters.dateTo = "";
+  filters.type = null;
+  filters.status = null;
+  dateFromObj.value = null;
+  dateToObj.value = null;
+}
+
 const typeOptions = [
-  { label: "ขึ้นทะเบียน", value: "ขึ้นทะเบียน" },
-  { label: "ต่ออายุ", value: "ต่ออายุ" },
-  { label: "แก้ไข", value: "แก้ไข" },
+  { label: "ขึ้นทะเบียน", value: "register" },
+  { label: "ต่ออายุ", value: "renew" },
+  { label: "เพิ่ม/ลดขอบข่าย", value: "scope" },
+  { label: "อื่น ๆ", value: "other" },
 ];
 
 const statusOptions = [
   { label: "รอลงนาม", value: "signing" },
   { label: "อนุมัติ", value: "approved" },
-  { label: "ปฏิเสธ", value: "rejected" },
+  { label: "ไม่อนุมัติ", value: "rejected" },
 ];
 
 const headers = [
   { title: "เลขคำขอ", key: "requestNo", sortable: true },
-  { title: "ชื่อสถานประกอบการ", key: "companyName", sortable: true },
+  { title: "ชื่อสถานประกอบการ", key: "applicant", sortable: true },
   { title: "ชื่อผู้ยื่นคำขอ", key: "applicantName", sortable: true },
-  { title: "ประเภททะเบียน", key: "typecert", sortable: true },
   { title: "ประเภทคำขอ", key: "type", sortable: true },
   { title: "วันที่ยื่น", key: "submittedDate", sortable: true },
   { title: "สถานะคำขอ", key: "status", sortable: true },
@@ -471,55 +433,31 @@ const headers = [
 
 const allItems = [
   {
-    requestNo: "EXP-0004",
-    companyName: "บ.เอเชียแอกโกร จก.",
+    id: "CB-2569-003",
+    requestNo: "CB-0003",
+    applicant: "บ.กรีนเซิร์ต จก.",
     applicantName: "ประสิทธิ์ พานิช",
-    typecert: "คำร้องขึ้นทะเบียนเป็นผู้ส่งออกพืชควบคุม",
-    type: "ต่ออายุ",
-    submittedDate: "12/03/2569",
+    type: "scope",
+    submittedDate: "10/03/2569",
     status: "signing",
   },
   {
-    requestNo: "EXP-0009",
-    companyName: "บ.ไทยอะกริ จก.",
-    applicantName: "วิชัย สุขสันต์",
-    typecert:
-      "คำขอหนังสือสำคัญแสดงการจดทะเบียนเป็นผู้ส่งผลทุเรียนสดออกไปนอกราชอาณาจักร",
-    type: "ขึ้นทะเบียน",
-    submittedDate: "20/03/2569",
+    id: "CB-2569-006",
+    requestNo: "CB-0006",
+    applicant: "บ.เอเชียเซอร์ติฟาย จก.",
+    applicantName: "วรรณา จันทร์ดี",
+    type: "register",
+    submittedDate: "15/03/2569",
     status: "signing",
   },
   {
-    requestNo: "EXP-0011",
-    companyName: "บ.สยามกรีน เทรด จก.",
-    applicantName: "ปิยะ เกษตรสุข",
-    typecert: "คำขอหนังสือสำคัญแสดงการขึ้นทะเบียนเป็นผู้ส่งออกผักและผลไม้",
-    type: "แก้ไข",
-    submittedDate: "22/03/2569",
+    id: "CB-2569-007",
+    requestNo: "CB-0007",
+    applicant: "บ.ไทยมาตรฐาน จก.",
+    applicantName: "สุรชัย แก้วมณี",
+    type: "renew",
+    submittedDate: "18/03/2569",
     status: "signing",
-  },
-];
-
-const typecertOptions = [
-  {
-    label: "คำขอหนังสือสำคัญแสดงการขึ้นทะเบียนเป็นผู้ส่งออกผักและผลไม้",
-    value: "คำขอหนังสือสำคัญแสดงการขึ้นทะเบียนเป็นผู้ส่งออกผักและผลไม้",
-  },
-  {
-    label:
-      "คำขอหนังสือสำคัญแสดงการจดทะเบียนเป็นผู้ส่งออกกล้วยสดไปประเทศญี่ปุ่น",
-    value:
-      "คำขอหนังสือสำคัญแสดงการจดทะเบียนเป็นผู้ส่งออกกล้วยสดไปประเทศญี่ปุ่น",
-  },
-  {
-    label:
-      "คำขอหนังสือสำคัญแสดงการจดทะเบียนเป็นผู้ส่งผลทุเรียนสดออกไปนอกราชอาณาจักร",
-    value:
-      "คำขอหนังสือสำคัญแสดงการจดทะเบียนเป็นผู้ส่งผลทุเรียนสดออกไปนอกราชอาณาจักร",
-  },
-  {
-    label: "คำร้องขึ้นทะเบียนเป็นผู้ส่งออกพืชควบคุม",
-    value: "คำร้องขึ้นทะเบียนเป็นผู้ส่งออกพืชควบคุม",
   },
 ];
 
@@ -530,12 +468,10 @@ const filteredItems = computed(() => {
     items = items.filter(
       (i) =>
         i.requestNo.toLowerCase().includes(q) ||
-        i.companyName.toLowerCase().includes(q) ||
+        i.applicant.toLowerCase().includes(q) ||
         i.applicantName.toLowerCase().includes(q),
     );
   }
-  if (filters.typecert)
-    items = items.filter((i) => i.typecert === filters.typecert);
   if (filters.type) items = items.filter((i) => i.type === filters.type);
   if (filters.status) items = items.filter((i) => i.status === filters.status);
   if (filters.dateFrom) {
@@ -549,22 +485,42 @@ const filteredItems = computed(() => {
   return items;
 });
 
-function clearFilters() {
-  search.value = "";
-  filters.dateFrom = "";
-  filters.dateTo = "";
-  filters.typecert = null;
-  filters.type = null;
-  filters.status = null;
-  dateFromObj.value = null;
-  dateToObj.value = null;
+function typeLabel(t) {
+  return (
+    {
+      register: "ขึ้นทะเบียน",
+      renew: "ต่ออายุ",
+      scope: "เพิ่ม/ลดขอบข่าย",
+      other: "อื่น ๆ",
+    }[t] ?? t
+  );
 }
-
 function statusColor(s) {
-  return { signing: "warning" }[s] ?? "grey";
+  return (
+    {
+      signing: "warning",
+      approved: "success",
+      rejected: "error",
+    }[s] ?? "grey"
+  );
 }
-
 function statusLabel(s) {
-  return { signing: "รอลงนาม" }[s] ?? s;
+  return (
+    {
+      signing: "รอลงนาม",
+      approved: "อนุมัติ",
+      rejected: "ไม่อนุมัติ",
+    }[s] ?? s
+  );
 }
 </script>
+
+<style scoped>
+:deep(.v-data-table td:last-child),
+:deep(.v-data-table th:last-child) {
+  position: sticky;
+  right: 0;
+  z-index: 1;
+  background: rgb(var(--v-theme-surface));
+}
+</style>

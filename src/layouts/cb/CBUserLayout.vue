@@ -166,6 +166,8 @@
             />
           </template>
         </v-tooltip>
+
+        <!-- User Menu -->
         <v-menu location="bottom end" :offset="8">
           <template #activator="{ props }">
             <v-chip

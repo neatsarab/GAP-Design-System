@@ -76,7 +76,7 @@
             >ข้อมูลคำขอ</v-tab
           >
           <v-tab value="review" prepend-icon="fas fa-clipboard-check">
-            บันทึกผลการตรวจสอบ
+            บันทึกผลการตรวจ
           </v-tab>
         </v-tabs>
 
@@ -409,13 +409,13 @@
             </v-card>
           </v-window-item>
 
-          <!-- ── Tab 2: บันทึกผลการตรวจสอบ ── -->
+          <!-- ── Tab 2: บันทึกผลการตรวจ ── -->
           <v-window-item value="review">
             <v-card rounded="xl" elevation="0" class="section-card">
               <v-card-text class="pa-5">
-                <!-- ผลการตรวจสอบ -->
+                <!-- ผลการตรวจ -->
                 <div class="field-label mb-1">
-                  <div>ผลการตรวจสอบ</div>
+                  <div>ผลการตรวจ</div>
                   <div class="field-label-en">Review Result</div>
                 </div>
                 <v-radio-group
@@ -431,7 +431,7 @@
                           color="success"
                           size="18"
                         />
-                        <span class="font-weight-medium">ผ่าน</span>
+                        <span class="font-weight-medium">อนุมัติ</span>
                       </div>
                     </template>
                   </v-radio>
@@ -455,7 +455,7 @@
                           color="error"
                           size="18"
                         />
-                        <span class="font-weight-medium">ไม่ผ่าน</span>
+                        <span class="font-weight-medium">ไม่อนุมัติ</span>
                       </div>
                     </template>
                   </v-radio>
@@ -534,7 +534,7 @@
                       prepend-icon="fas fa-circle-xmark"
                       @click="rejectDialog = true"
                     >
-                      ส่งผลไม่ผ่าน
+                      ส่งผลไม่อนุมัติ
                     </v-btn>
                   </v-col>
                   <v-col v-if="step1Review.result === 'pass'">
@@ -616,13 +616,18 @@
                         event.actor
                       }}
                     </div>
-                    <div class="text-caption text-medium-emphasis mt-1">
+                    <div
+                      v-if="event.timestamp"
+                      class="text-caption text-medium-emphasis mt-1"
+                    >
                       <v-icon icon="fas fa-calendar" size="9" class="mr-1" />{{
                         event.timestamp
                       }}
                     </div>
                     <v-btn
-                      v-if="event.type !== 'submit'"
+                      v-if="
+                        event.type !== 'submit' && event.type !== 'checking'
+                      "
                       size="x-small"
                       variant="text"
                       color="export-staff"
@@ -842,9 +847,9 @@
           >
             <v-icon icon="fas fa-circle-xmark" color="error" size="28" />
           </div>
-          <h3 class="text-h6 font-weight-bold mb-2">ส่งผลไม่ผ่าน</h3>
+          <h3 class="text-h6 font-weight-bold mb-2">ส่งผลไม่อนุมัติ</h3>
           <p class="text-body-2 text-medium-emphasis">
-            ยืนยันการส่งผลการตรวจสอบ "ไม่ผ่าน" กลับให้ผู้ยื่นคำขอ
+            ยืนยันการส่งผลการตรวจ "ไม่อนุมัติ" กลับให้ผู้ยื่นคำขอ
           </p>
         </v-card-text>
         <v-card-actions class="px-6 pb-5">
@@ -992,9 +997,11 @@
 <script setup>
 import { ref, reactive, computed, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import { useStaffSessionStore } from "@/stores/staff-session.store";
 
 const route = useRoute();
 const router = useRouter();
+const staffSessionStore = useStaffSessionStore();
 
 const activeTab = ref("info");
 const forwardDialog = ref(false);
@@ -1062,7 +1069,7 @@ const application = {
   submittedDate: "01/01/2569",
   typecert: "คำขอหนังสือสำคัญแสดงการขึ้นทะเบียนเป็นผู้ส่งออกผักและผลไม้",
   status: "pending",
-  currentStep: 1,
+  currentStep: 0,
 
   applicantNameTh: "นายสมชาย ใจดี",
   applicantHouseNo: "123",
@@ -1133,6 +1140,13 @@ const application = {
 
   activityLog: [
     {
+      type: "checking",
+      action: "กำลังตรวจคำขอ",
+      actor: staffSessionStore.displayName,
+      timestamp: "",
+      remark: "",
+    },
+    {
       type: "submit",
       action: "ยื่นคำขอ",
       actor: "นายสมชาย ใจดี (ผู้ยื่นคำขอ)",
@@ -1142,7 +1156,7 @@ const application = {
     {
       type: "sendback",
       action: "ส่งกลับแก้ไข",
-      actor: "น.ส.วรรณา จันทร์ดี (เจ้าหน้าที่ตรวจสอบ)",
+      actor: "น.ส.วรรณา จันทร์ดี (เจ้าหน้าที่ตรวจ)",
       timestamp: "03/01/2569 10:30",
       remark:
         "เอกสารสำเนาหนังสือรับรองนิติบุคคลไม่ครบถ้วน กรุณาแนบเอกสารฉบับที่ออกโดยกรมพัฒนาธุรกิจการค้าซึ่งออกไม่เกิน 3 เดือน และแก้ไขพิกัดที่ตั้งโรงงานให้ถูกต้องตามทะเบียนโรงงาน",
@@ -1173,10 +1187,9 @@ const companyAddressEn = computed(() => {
 });
 
 const timelineSteps = [
-  { value: 0, title: "ยื่นคำขอ" },
-  { value: 1, title: "ตรวจสอบ" },
-  { value: 2, title: "พิจารณา" },
-  { value: 3, title: "ลงนาม" },
+  { value: 0, title: "ตรวจคำขอ" },
+  { value: 1, title: "พิจารณา" },
+  { value: 2, title: "ลงนาม" },
 ];
 
 function stepClass(v) {
@@ -1217,7 +1230,7 @@ function statusLabel(s) {
   return (
     {
       draft: "แบบร่าง",
-      pending: "รอตรวจสอบ",
+      pending: "รอตรวจ",
       need_edit: "รอแก้ไขคำขอ",
       reviewing: "รอพิจารณา",
       signing: "รอลงนาม",
@@ -1234,6 +1247,7 @@ function eventIcon(type) {
       receive: "fas fa-inbox",
       forward: "fas fa-share",
       review: "fas fa-magnifying-glass",
+      checking: "fas fa-magnifying-glass",
       pending: "fas fa-clock",
       approve: "fas fa-circle-check",
       reject: "fas fa-circle-xmark",
@@ -1249,6 +1263,7 @@ function eventColor(type) {
       receive: "info",
       forward: "export-staff",
       review: "warning",
+      checking: "export-staff",
       pending: "warning",
       approve: "success",
       reject: "error",
@@ -1264,6 +1279,7 @@ function eventLabel(type) {
       receive: "รับเรื่อง",
       forward: "ส่งต่อ",
       review: "กำลังพิจารณา",
+      checking: "ตรวจคำขอ",
       pending: "รอพิจารณา",
       approve: "อนุมัติ",
       reject: "ไม่อนุมัติ",
@@ -1286,65 +1302,15 @@ function submitSendBack() {
 
 function submitReject() {
   rejectDialog.value = false;
-  successMessage.value = "ส่งผลการตรวจสอบ 'ไม่ผ่าน' เรียบร้อยแล้ว";
+  successMessage.value = "ส่งผลการตรวจ 'ไม่อนุมัติ' เรียบร้อยแล้ว";
   successDialog.value = true;
 }
 </script>
 
 <style scoped>
-div {
-  --step-color: rgb(var(--v-theme-export-staff));
-  --step-color-tint: rgba(var(--v-theme-export-staff), 0.2);
-}
-
 .sticky-col {
   position: sticky;
   top: 80px;
-}
-.info-label {
-  font-size: 0.72rem;
-  color: rgba(var(--v-theme-on-surface), 0.55);
-  margin-bottom: 2px;
-}
-.info-value {
-  font-size: 0.875rem;
-  margin-bottom: 8px;
-}
-.item-row {
-  background: rgba(var(--v-theme-on-surface), 0.03);
-  border: 1px solid rgba(var(--v-theme-on-surface), 0.08);
-}
-
-.step-circle {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  font-weight: 600;
-}
-.step-line {
-  height: 2px;
-  background: rgba(var(--v-theme-on-surface), 0.15);
-  margin: 0 4px;
-  margin-bottom: 20px;
-}
-.step-pending {
-  background: rgba(var(--v-theme-on-surface), 0.12);
-  color: rgba(var(--v-theme-on-surface), 0.5);
-}
-.step-done,
-.step-active {
-  background: rgb(var(--v-theme-export-staff)) !important;
-  color: white !important;
-}
-.step-active {
-  box-shadow: 0 0 0 4px rgba(var(--v-theme-export-staff), 0.2) !important;
-}
-.step-line--done {
-  background: rgb(var(--v-theme-export-staff)) !important;
 }
 
 /* Activity timeline */
@@ -1383,6 +1349,19 @@ div {
 .activity-dot--review {
   background: rgb(var(--v-theme-warning));
 }
+.activity-dot--checking {
+  background: rgb(var(--v-theme-export-staff));
+  animation: pulse-checking 1.6s ease-in-out infinite;
+}
+@keyframes pulse-checking {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(var(--v-theme-export-staff), 0.5);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(var(--v-theme-export-staff), 0);
+  }
+}
 .activity-dot--pending {
   background: rgb(var(--v-theme-warning));
 }
@@ -1407,22 +1386,19 @@ div {
   min-width: 0;
 }
 
-.confirm-ring {
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  background: rgba(var(--v-theme-export-staff), 0.1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+/* Step state colors (use module --v-theme-primary override) */
+.step-done {
+  background: rgb(var(--v-theme-export-staff));
 }
-.success-ring {
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  background: rgba(var(--v-theme-success), 0.1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.step-active {
+  background: rgb(var(--v-theme-export-staff));
+  box-shadow: 0 0 0 4px rgba(var(--v-theme-export-staff), 0.2);
+}
+.step-line-done {
+  background: rgb(var(--v-theme-export-staff));
+}
+
+.confirm-ring {
+  background: rgba(var(--v-theme-export-staff), 0.1);
 }
 </style>

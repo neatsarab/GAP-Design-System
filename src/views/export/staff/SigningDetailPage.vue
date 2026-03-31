@@ -412,15 +412,51 @@
           <!-- ── Tab 2: บันทึกการลงนาม ── -->
           <v-window-item value="signing">
             <v-card rounded="xl" elevation="0" class="section-card">
-              <div
-                class="section-header px-4 py-3 border-b d-flex align-center ga-2"
-              >
-                <v-icon icon="fas fa-pen-nib" color="export-staff" size="15" />
-                <span class="text-subtitle-2 font-weight-bold"
-                  >บันทึกการลงนาม</span
-                >
-              </div>
               <v-card-text class="pa-5">
+                <!-- เลขทะเบียน -->
+                <div class="field-label mb-2">
+                  <div>เลขทะเบียน</div>
+                  <div class="field-label-en">Certificate Number(s)</div>
+                </div>
+                <v-card variant="outlined" rounded="lg" class="mb-4">
+                  <v-table density="compact">
+                    <thead>
+                      <tr>
+                        <th style="width: 180px">ขอบเขตประเทศ</th>
+                        <th>เลขทะเบียน</th>
+                        <th style="width: 48px"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr v-for="(item, idx) in certNumbers" :key="idx">
+                        <td>
+                          <v-chip
+                            size="small"
+                            color="export-staff"
+                            variant="tonal"
+                            >{{ item.country }}</v-chip
+                          >
+                        </td>
+                        <td>
+                          <span class="text-body-2 font-weight-bold text-export-staff">{{ item.certNo }}</span>
+                        </td>
+                        <td>
+                          <v-btn
+                            size="small"
+                            variant="tonal"
+                            color="export-staff"
+                            rounded="lg"
+                            prepend-icon="fas fa-eye"
+                            @click="previewCertPdf(item)"
+                          >
+                            ดูตัวอย่าง
+                          </v-btn>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </v-table>
+                </v-card>
+
                 <!-- ผลการลงนาม -->
                 <div class="field-label mb-3">
                   <div>ผลการลงนาม</div>
@@ -458,55 +494,21 @@
                   </v-radio>
                 </v-radio-group>
 
-                <!-- เลขทะเบียน (แสดงเมื่ออนุมัติ) -->
-                <template v-if="signingResult.result === 'approve'">
-                  <div class="field-label mb-2 mt-3">
-                    <div>เลขทะเบียน</div>
-                    <div class="field-label-en">Certificate Number(s)</div>
-                  </div>
-                  <v-card variant="outlined" rounded="lg" class="mb-4">
-                    <v-table density="compact">
-                      <thead>
-                        <tr>
-                          <th style="width: 180px">ขอบเขตประเทศ</th>
-                          <th>เลขทะเบียน</th>
-                          <th style="width: 48px"></th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr v-for="(item, idx) in certNumbers" :key="idx">
-                          <td>
-                            <v-chip
-                              size="small"
-                              color="export-staff"
-                              variant="tonal"
-                              >{{ item.country }}</v-chip
-                            >
-                          </td>
-                          <td>
-                            <span
-                              class="text-body-2 font-weight-bold text-export-staff"
-                            >
-                              {{ item.certNo }}
-                            </span>
-                          </td>
-                          <td>
-                            <v-btn
-                              size="small"
-                              variant="tonal"
-                              color="export-staff"
-                              rounded="lg"
-                              prepend-icon="fas fa-eye"
-                              @click="previewCertPdf(item)"
-                            >
-                              ดูตัวอย่าง
-                            </v-btn>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </v-table>
-                  </v-card>
-                </template>
+                <!-- หมายเหตุ -->
+                <div class="field-label mb-1">
+                  <div>หมายเหตุ</div>
+                  <div class="field-label-en">Remarks</div>
+                </div>
+                <v-textarea
+                  v-model="signingResult.remark"
+                  variant="outlined"
+                  density="compact"
+                  rounded="lg"
+                  hide-details
+                  rows="4"
+                  placeholder="ระบุเหตุผลหรือข้อสังเกต..."
+                  class="mb-5"
+                />
 
                 <!-- Action buttons inline -->
                 <v-row class="ga-2" no-gutters>
@@ -601,13 +603,16 @@
                         event.actor
                       }}
                     </div>
-                    <div class="text-caption text-medium-emphasis mt-1">
+                    <div
+                      v-if="event.timestamp"
+                      class="text-caption text-medium-emphasis mt-1"
+                    >
                       <v-icon icon="fas fa-calendar" size="9" class="mr-1" />{{
                         event.timestamp
                       }}
                     </div>
                     <v-btn
-                      v-if="event.type !== 'submit'"
+                      v-if="event.type !== 'submit' && event.type !== 'signing'"
                       size="x-small"
                       variant="text"
                       color="export-staff"
@@ -940,9 +945,11 @@
 <script setup>
 import { ref, reactive, computed, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import { useStaffSessionStore } from "@/stores/staff-session.store";
 
 const route = useRoute();
 const router = useRouter();
+const staffSessionStore = useStaffSessionStore();
 
 const activeTab = ref("info");
 const signingDialog = ref(false);
@@ -1067,7 +1074,7 @@ const application = {
   submittedDate: "01/01/2569",
   typecert: "คำขอหนังสือสำคัญแสดงการขึ้นทะเบียนเป็นผู้ส่งออกผักและผลไม้",
   status: "signing",
-  currentStep: 3,
+  currentStep: 2,
 
   applicantNameTh: "นายสมชาย ใจดี",
   applicantHouseNo: "123",
@@ -1138,6 +1145,13 @@ const application = {
 
   activityLog: [
     {
+      type: "signing",
+      action: "กำลังลงนาม",
+      actor: staffSessionStore.displayName,
+      timestamp: "",
+      remark: "",
+    },
+    {
       type: "forward",
       action: "ผ่านการพิจารณา",
       actor: "นายอนันต์ วิชาการ (ผู้พิจารณา)",
@@ -1145,14 +1159,14 @@ const application = {
     },
     {
       type: "forward",
-      action: "ผ่านการตรวจสอบ",
-      actor: "น.ส.วรรณา จันทร์ดี (เจ้าหน้าที่ตรวจสอบ)",
+      action: "ผ่านการตรวจ",
+      actor: "น.ส.วรรณา จันทร์ดี (เจ้าหน้าที่ตรวจ)",
       timestamp: "05/01/2569 11:00",
     },
     {
       type: "sendback",
       action: "ส่งกลับแก้ไข",
-      actor: "น.ส.วรรณา จันทร์ดี (เจ้าหน้าที่ตรวจสอบ)",
+      actor: "น.ส.วรรณา จันทร์ดี (เจ้าหน้าที่ตรวจ)",
       timestamp: "03/01/2569 10:30",
       remark:
         "เอกสารสำเนาหนังสือรับรองนิติบุคคลไม่ครบถ้วน กรุณาแนบเอกสารฉบับที่ออกโดยกรมพัฒนาธุรกิจการค้าซึ่งออกไม่เกิน 3 เดือน และแก้ไขพิกัดที่ตั้งโรงงานให้ถูกต้องตามทะเบียนโรงงาน",
@@ -1192,10 +1206,9 @@ const companyAddressEn = computed(() => {
 });
 
 const timelineSteps = [
-  { value: 0, title: "ยื่นคำขอ" },
-  { value: 1, title: "ตรวจสอบ" },
-  { value: 2, title: "พิจารณา" },
-  { value: 3, title: "ลงนาม" },
+  { value: 0, title: "ตรวจคำขอ" },
+  { value: 1, title: "พิจารณา" },
+  { value: 2, title: "ลงนาม" },
 ];
 
 function stepClass(v) {
@@ -1236,7 +1249,7 @@ function statusLabel(s) {
   return (
     {
       draft: "แบบร่าง",
-      pending: "รอตรวจสอบ",
+      pending: "รอตรวจ",
       need_edit: "รอแก้ไขคำขอ",
       reviewing: "รอพิจารณา",
       signing: "รอลงนาม",
@@ -1253,6 +1266,7 @@ function eventIcon(type) {
       receive: "fas fa-inbox",
       forward: "fas fa-share",
       review: "fas fa-magnifying-glass",
+      signing: "fas fa-pen-nib",
       pending: "fas fa-clock",
       approve: "fas fa-circle-check",
       reject: "fas fa-circle-xmark",
@@ -1268,6 +1282,7 @@ function eventColor(type) {
       receive: "info",
       forward: "success",
       review: "warning",
+      signing: "export-staff",
       pending: "warning",
       approve: "success",
       reject: "error",
@@ -1283,6 +1298,7 @@ function eventLabel(type) {
       receive: "รับเรื่อง",
       forward: "ผ่าน",
       review: "กำลังพิจารณา",
+      signing: "กำลังลงนาม",
       pending: "รอพิจารณา",
       approve: "อนุมัติ",
       reject: "ไม่อนุมัติ",
@@ -1395,6 +1411,19 @@ div {
 }
 .activity-dot--review {
   background: rgb(var(--v-theme-warning));
+}
+.activity-dot--signing {
+  background: rgb(var(--v-theme-export-staff));
+  animation: pulse-signing 1.6s ease-in-out infinite;
+}
+@keyframes pulse-signing {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(var(--v-theme-export-staff), 0.5);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(var(--v-theme-export-staff), 0);
+  }
 }
 .activity-dot--pending {
   background: rgb(var(--v-theme-warning));
