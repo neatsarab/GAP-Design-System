@@ -33,7 +33,7 @@
         <v-list-item-title
           class="text-body-2 font-weight-bold"
           style="word-break: break-word; white-space: normal"
-          >ระบบ Health Certificate</v-list-item-title
+          >ระบบการออกหนังสือรับรองสุขอนามัยพืชสำหรับพืชควบคุมเฉพาะ</v-list-item-title
         >
         <v-list-item-subtitle
           class="text-caption"

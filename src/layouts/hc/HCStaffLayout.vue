@@ -24,7 +24,7 @@
         <v-list-item-title
           class="text-body-2 font-weight-bold"
           style="word-break: break-word; white-space: normal"
-          >ระบบ Health Certificate</v-list-item-title
+          >ระบบการออกหนังสือรับรองสุขอนามัยพืชสำหรับพืชควบคุมเฉพาะ</v-list-item-title
         >
         <v-list-item-subtitle
           class="text-caption"
@@ -60,7 +60,12 @@
             >
               {{ staffSessionStore.displayName || "เจ้าหน้าที่" }}
             </div>
-            <div class="text-caption text-medium-emphasis">{{ staffSessionStore.department }}{{ staffSessionStore.role ? ' / ' + staffSessionStore.role : '' }}</div>
+            <div class="text-caption text-medium-emphasis">
+              {{ staffSessionStore.department
+              }}{{
+                staffSessionStore.role ? " / " + staffSessionStore.role : ""
+              }}
+            </div>
           </div>
         </div>
       </div>
