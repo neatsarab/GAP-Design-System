@@ -264,7 +264,7 @@
           <template v-if="appType === 'scope'">
             <div class="field-section-label mb-2">ขอบข่ายปัจจุบัน (บนใบทะเบียน)</div>
             <v-data-table
-              :headers="stdHeaders"
+              :headers="stdReadonlyHeaders"
               :items="certSelected?.standards ?? []"
               density="compact"
               :hide-default-footer="true"
@@ -1240,7 +1240,8 @@
     <!-- ─── STEP 2: ไฟล์แนบ ─── -->
     <template v-if="currentStep === 1 && appType !== 'cancel'">
       <!-- เอกสารเพิ่มเติม -->
-      <v-card elevation="0" border rounded="xl" class="mb-5">
+      <v-card 
+      elevation="0" border rounded="xl" class="mb-5">
         <div class="d-flex align-center ga-2 px-4 py-3 border-b">
           <v-icon icon="fas fa-paperclip" color="cb-user" size="15" />
           <span class="text-subtitle-2 font-weight-bold">เอกสารเพิ่มเติม</span>
@@ -1256,33 +1257,49 @@
           >
             สำเนาเอกสารต้องรับรองสำเนาถูกต้องโดยผู้มีอำนาจลงนาม
           </v-alert>
-          <div
-            v-for="doc in docExtra"
-            :key="doc.key"
-            class="item-row rounded-lg pa-4 mb-2 d-flex align-center justify-space-between flex-wrap ga-3"
-          >
-            <div class="text-body-2 font-weight-medium">{{ doc.label }}</div>
-            <div class="d-flex align-center ga-2">
-              <v-chip
-                v-if="files[doc.key]"
-                color="success"
-                size="x-small"
-                variant="tonal"
-                prepend-icon="fas fa-check"
-                >{{ files[doc.key] }}</v-chip
-              >
-              <v-btn
-                :color="files[doc.key] ? 'success' : 'cb-user'"
-                variant="tonal"
-                size="small"
-                rounded="lg"
-                prepend-icon="fas fa-upload"
-                @click="mockUpload(doc.key)"
-              >
-                {{ files[doc.key] ? "เปลี่ยนไฟล์" : "แนบไฟล์" }}
-              </v-btn>
-            </div>
-          </div>
+          <v-row dense>
+            <v-col v-for="doc in docExtra"
+            :key="doc.key" cols="12">
+              <div class="item-row rounded-lg pa-3 mb-2">
+                <v-row align="center" no-gutters>
+                  <v-col>
+                    <div class="text-body-2 font-weight-medium">
+                      {{ doc.label }}
+                    </div>
+                  </v-col>
+                  <v-col cols="auto" class="d-flex align-center ga-2 pl-3">
+                    <v-chip
+                      v-if="uploadedFiles[doc.key]"
+                      color="success"
+                      size="x-small"
+                      variant="tonal"
+                      prepend-icon="fas fa-check"
+                      >{{ uploadedFiles[doc.key] }}</v-chip
+                    >
+                    <v-btn
+                      v-if="uploadedFiles[doc.key]"
+                      icon="fas fa-xmark"
+                      color="error"
+                      variant="text"
+                      size="small"
+                      @click="removeFile(doc.key)"
+                    />
+                    <v-btn
+                      :color="
+                        uploadedFiles[doc.key] ? 'warning' : 'cb-user'
+                      "
+                      variant="tonal"
+                      size="small"
+                      prepend-icon="fas fa-upload"
+                      @click="triggerFileInput(doc.key)"
+                    >
+                      {{ uploadedFiles[doc.key] ? "เปลี่ยนไฟล์" : "แนบไฟล์" }}
+                    </v-btn>
+                  </v-col>
+                </v-row>
+              </div>
+            </v-col>
+          </v-row>
         </v-card-text>
       </v-card>
 
@@ -1294,7 +1311,7 @@
         <v-btn
           variant="tonal"
           color="grey"
-          @click="goToApplicationList""
+          @click="goToApplicationList"
           >ยกเลิก</v-btn
         >
         <v-btn
@@ -1382,7 +1399,7 @@
             color="cb-user"
             rounded="lg"
             block
-            @click="goToApplicationList""
+            @click="goToApplicationList"
             >ดูรายการคำขอ</v-btn
           >
         </v-card-actions>
@@ -1806,6 +1823,12 @@ const stdHeaders = [
   { title: "จัดการ", key: "actions", width: "80px", sortable: false, align: "center" },
 ];
 
+const stdReadonlyHeaders = [
+  { title: "ลำดับ", key: "index", width: "60px", sortable: false },
+  { title: "ขอบข่ายมาตรฐาน", key: "label", sortable: false },
+  { title: "เลขที่ใบรับรองมาตรฐาน", key: "certNo", width: "200px", sortable: false },
+];
+
 const stdDialog = ref(false);
 const stdEditIndex = ref(-1);
 const stdForm = reactive({ standard: "", certNo: "" });
@@ -1841,7 +1864,23 @@ function removeStandard(index) {
   form.standards.splice(index, 1);
 }
 
-const files = reactive({});
+const uploadedFiles = reactive({});
+
+function triggerFileInput(key) {
+  const input = document.createElement("input");
+  input.type = "file";
+  input.accept = ".pdf,.jpg,.jpeg,.png";
+  input.onchange = (e) => {
+    const file = e.target.files?.[0];
+    if (file) uploadedFiles[key] = file.name;
+  };
+  input.click();
+}
+
+function removeFile(key) {
+  delete uploadedFiles[key];
+}
+
 function stepClass(v) {
   if (currentStep.value > v) return "step-done";
   if (currentStep.value === v) return "step-active";
@@ -1989,6 +2028,24 @@ onMounted(() => {
   background: rgba(var(--v-theme-cb-user), 0.03);
 }
 
+.step-circle {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(var(--v-theme-on-surface), 0.12);
+  color: rgba(var(--v-theme-on-surface), 0.4);
+  transition: background 0.2s, box-shadow 0.2s;
+}
+.step-line {
+  height: 2px;
+  background: rgba(var(--v-theme-on-surface), 0.12);
+  transition: background 0.2s;
+  margin: 0 4px;
+  margin-bottom: 20px;
+}
 .step-done,
 .step-active {
   background: rgb(var(--v-theme-cb-user)) !important;

@@ -59,7 +59,10 @@
               {{ staffSessionStore.displayName || "เจ้าหน้าที่" }}
             </div>
             <div class="text-caption text-medium-emphasis">
-              {{ staffSessionStore.department }}{{ staffSessionStore.role ? " / " + staffSessionStore.role : "" }}
+              {{ staffSessionStore.department
+              }}{{
+                staffSessionStore.role ? " / " + staffSessionStore.role : ""
+              }}
             </div>
           </div>
         </div>
@@ -156,7 +159,7 @@
             />
           </template>
         </v-tooltip>
-        
+
         <!-- User Menu -->
         <v-menu location="bottom end" :offset="8">
           <template #activator="{ props }">
@@ -169,7 +172,7 @@
               append-icon="fas fa-chevron-down"
               style="cursor: pointer"
             >
-            {{ staffSessionStore.displayName}}
+              {{ staffSessionStore.displayName }}
             </v-chip>
           </template>
           <v-card min-width="200" elevation="8" rounded="xl" class="mt-1">
@@ -180,10 +183,10 @@
                 </div>
                 <div>
                   <div class="text-body-2 font-weight-bold">
-                    {{ staffSessionStore.displayName}}
+                    {{ staffSessionStore.displayName }}
                   </div>
                   <div class="text-caption text-medium-emphasis">
-                    {{ staffSessionStore.loginName}}
+                    {{ staffSessionStore.loginName }}
                   </div>
                 </div>
               </div>
@@ -321,18 +324,18 @@ const navGroups = [
     label: "คำขอ",
     divider: true,
     items: [
-      {
-        title: "รายการคำขอ",
-        icon: "fas fa-file-lines",
-        to: "/cb/staff/applications",
-        count: 3,
-      },
-      {
-        title: "รายการรอพิจารณา",
-        icon: "fas fa-clipboard-check",
-        to: "/cb/staff/review",
-        count: 2,
-      },
+      // {
+      //   title: "รายการคำขอ",
+      //   icon: "fas fa-file-lines",
+      //   to: "/cb/staff/applications",
+      //   count: 3,
+      // },
+      // {
+      //   title: "รายการรอพิจารณา",
+      //   icon: "fas fa-clipboard-check",
+      //   to: "/cb/staff/review",
+      //   count: 2,
+      // },
       {
         title: "รายการรอลงนาม",
         icon: "fas fa-pen-nib",
