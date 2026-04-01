@@ -1,5 +1,5 @@
 <template>
-    <div style="--v-theme-primary: var(--v-theme-el-staff)">
+    <div style="--v-theme-el-staff: var(--v-theme-el-staff)">
         <!-- Header -->
         <div class="d-flex align-center ga-3 mb-6">
             <div>
@@ -91,44 +91,48 @@
 
                                 <!-- แผนการเพาะปลูก -->
                                 <v-col cols="12" class="mt-n5">
-                                    <div class="field-label mb-1 font-weight-bold text-success">แผนการเพาะปลูก</div>
+                                    <div class="field-label mb-1 font-weight-bold text-el-staff">แผนการเพาะปลูก</div>
                                     <v-divider class="mb-4" />
                                     <v-table density="comfortable" class="border rounded-lg planting-table mb-8">
                                         <thead>
                                             <tr class="bg-grey-lighten-3">
-                                                <th class="text-center border-right" style="width: 50px;">
+                                                <!-- <th class="text-center border-right" style="width: 50px;">
                                                     <v-checkbox density="compact" hide-details
                                                         @update:model-value="toggleAllPlanting" />
-                                                </th>
+                                                </th> -->
                                                 <th class="text-center border-right font-weight-bold">แผนการเพาะปลูก
                                                 </th>
                                                 <th class="text-center border-right font-weight-bold">ระยะเวลาเก็บเกี่ยว
                                                 </th>
-                                                <th class="text-center font-weight-bold" style="width: 80px;">เพิ่ม</th>
+                                                <!-- <th class="text-center font-weight-bold" style="width: 80px;">เพิ่ม</th> -->
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr v-for="(plan, index) in tempData.plantingPlans" :key="index">
-                                                <td class="text-center border-right">
+                                                <!-- <td class="text-center border-right">
                                                     <v-checkbox v-model="plan.selected" density="compact"
                                                         hide-details />
+                                                </td> -->
+                                                <td class="pa-2 border-right">
+                                                    <!-- <v-text-field v-model="plan.name" variant="outlined" rounded="lg"
+                                                        density="compact" hide-details /> -->
+                                                    <div class="text-center">{{ plan.name }}</div>
+                                                    <!-- Read Only ตามข้อมูลเดิม -->
                                                 </td>
                                                 <td class="pa-2 border-right">
-                                                    <v-text-field v-model="plan.name" variant="outlined" rounded="lg"
-                                                        density="compact" hide-details />
+                                                    <!-- <v-text-field v-model="plan.period" variant="outlined" rounded="lg"
+                                                        density="compact" hide-details /> -->
+                                                    <div class="text-center">{{ plan.period }}</div>
+                                                    <!-- Read Only ตามข้อมูลเดิม -->
                                                 </td>
-                                                <td class="pa-2 border-right">
-                                                    <v-text-field v-model="plan.period" variant="outlined" rounded="lg"
-                                                        density="compact" hide-details />
-                                                </td>
-                                                <td class="text-center">
+                                                <!-- <td class="text-center">
                                                     <v-btn v-if="index === tempData.plantingPlans.length - 1"
                                                         icon="fas fa-plus-circle" color="success" variant="text"
                                                         @click="addPlantingRow" />
                                                     <v-btn v-else icon="fas fa-minus-circle" color="error"
                                                         variant="text"
                                                         @click="tempData.plantingPlans.splice(index, 1)" />
-                                                </td>
+                                                </td> -->
                                             </tr>
                                         </tbody>
                                     </v-table>
@@ -225,7 +229,7 @@
                                                 </td>
                                                 <td class="text-center pa-2">
                                                     <v-btn v-if="!doc.isHeader" icon="fas fa-file-pdf" variant="text"
-                                                        color="primary" size="small" />
+                                                        color="el-staff" size="small" />
                                                 </td>
                                                 <td class="pa-2">
                                                     <v-select v-if="!doc.isHeader"
@@ -242,16 +246,24 @@
                                             </tr>
                                         </tbody>
                                     </v-table>
-                                    <!-- <div class="d-flex justify-center mt-6">
-                                        <v-btn color="success" prepend-icon="fas fa-check" rounded="lg"
-                                            @click="passAllDocuments">ส่ง สวพ. เขต</v-btn>
-                                    </div> -->
+                                    <div class="d-flex justify-center mt-6">
+                                        <v-col cols="12" md="2" class="text-md-right pt-2 font-weight-bold mt-5">เปลี่ยน
+                                            ศวพ.</v-col>
+                                        <v-col cols="12" md="6" class="mt-2">
+                                            <v-select v-model="tempData.changeswp" :items="[]"
+                                                variant="outlined" rounded="lg" density="compact" hide-details />
+                                        </v-col>
+                                        <v-col cols="12" md="2" class="text-md-right pt-2 font-weight-bold mt-3 ml-n8">
+                                            <v-btn color="el-staff" prepend-icon="fas fa-gear" rounded="lg">
+                                                เปลี่ยน</v-btn>
+                                        </v-col>
+                                    </div>
                                 </v-col>
 
                                 <!-- ตารางประวัติ CL-02 -->
                                 <v-col cols="12" class="mt-6">
-                                    <v-card rounded="lg" elevation="0" class="overflow-hidden">
-                                        <v-card-title class="pa-0 border-bottom d-flex align-center bg-white">
+                                    <v-card rounded="lg" elevation="0" class="overflow-hidden border pa-5">
+                                        <v-card-title class="pa-0  d-flex align-center bg-white">
                                             <!-- <v-btn color="el-staff" class="rounded-0 elevation-0 px-4 mb-3" height="48"
                                                 @click="page = 'cl02-form'">
                                                 <v-icon icon="fas fa-plus-circle" class="mr-2" /> สร้าง CL-02 ใหม่
@@ -278,7 +290,7 @@
                                                 <tr v-for="item in cl02History" :key="item.id">
                                                     <td class="text-center border-right">
                                                         <v-btn icon="fas fa-edit" size="x-small" variant="text"
-                                                            color="primary" @click="page = 'cl02-form'" />
+                                                            color="el-staff" />
                                                     </td>
                                                     <td class="text-center border-right">{{ item.count }}</td>
                                                     <td class="text-center border-right">{{ item.schedule }}</td>
@@ -295,7 +307,7 @@
                                 <!-- ผลการพิจารณาโดย สวพ.เขต -->
                                 <v-col cols="12">
                                     <v-card rounded="lg" elevation="0" class="pa-6 border mb-8 mt-4">
-                                        <h3 class="text-success mb-4 font-weight-bold">ผลการพิจารณาโดย สวพ.เขต</h3>
+                                        <h3 class="text-el-staff mb-4 font-weight-bold">ผลการพิจารณาโดย สวพ.เขต</h3>
                                         <v-row dense>
                                             <v-col cols="12" md="2"
                                                 class="text-md-right pt-2 font-weight-bold">ผลการพิจารณา :</v-col>
@@ -316,7 +328,7 @@
                                             <v-col cols="12" md="2"
                                                 class="text-md-right pt-2 font-weight-bold mt-2">แนบไฟล์ :</v-col>
                                             <v-col cols="12" md="10"
-                                                class="pt-2 text-medium-emphasis">ไม่มีไฟล์แนบ</v-col>
+                                                class="pt-2 text-medium-emphasis mt-2">ไม่มีไฟล์แนบ</v-col>
 
                                             <v-col cols="12" md="2"
                                                 class="text-md-right pt-2 font-weight-bold mt-2">ผู้บันทึกผล :</v-col>
@@ -336,11 +348,13 @@
                                         <div class="d-flex justify-center ga-3 mt-8">
                                             <v-btn variant="outlined" rounded="lg" class="px-8 border bg-grey-lighten-4"
                                                 @click="saveData">
-                                                <v-icon icon="fas fa-save" class="mr-2" /> บันทึกผลพิจารณา
+                                                <v-icon icon="fas fa-save" class="mr-2" color="el-staff" />
+                                                บันทึกผลพิจารณา
                                             </v-btn>
-                                            <v-btn variant="outlined" rounded="lg" color="success"
-                                                class="px-8 border bg-grey-lighten-4" @click="BackMain">
-                                                <v-icon icon="fas fa-arrow-left" class="mr-2" /> ย้อนกลับ
+                                            <v-btn variant="outlined" rounded="lg" class="px-8 border bg-grey-lighten-4"
+                                                @click="BackMain">
+                                                <v-icon icon="fas fa-arrow-left" class="mr-2" color="el-staff" />
+                                                ย้อนกลับ
                                             </v-btn>
                                         </div>
                                     </v-card>
@@ -376,11 +390,11 @@
                     </div>
                     <h3 class="text-h6 font-weight-bold mb-2">บันทึกข้อมูลสำเร็จ!</h3>
                     <v-chip color="el-staff" size="large" variant="tonal" class="mb-4">{{ establishmentInfo.appCode
-                    }}</v-chip>
+                        }}</v-chip>
                     <p class="text-body-2 text-medium-emphasis">ระบบได้ทำการอัปเดตข้อมูลของท่านเรียบร้อยแล้ว</p>
                 </v-card-text>
                 <v-card-actions class="px-6 pb-5">
-                    <v-btn color="el-staff" rounded="lg" block @click="successDialog = false">ตกลon</v-btn>
+                    <v-btn color="el-staff" rounded="lg" block @click="successDialog = false">ตกลง</v-btn>
                 </v-card-actions>
             </v-card>
         </v-dialog>
@@ -449,7 +463,8 @@ const tempData = reactive({
     zoneResult: 'ผ่าน',
     zoneRemark: '',
     zoneRecorder: 'เจ้าหน้าที่ตรวจประเมิน',
-    zoneDate: new Date().toISOString().substr(0, 10)
+    zoneDate: new Date().toISOString().substr(0, 10),
+    changeswp: null
 });
 
 // รายการตรวจสอบเอกสาร
@@ -485,7 +500,7 @@ const saveData = () => {
     successDialog.value = true;
 };
 const BackMain = () => {
-    router.push({ name: "ELStaffAreaReview"});
+    router.push({ name: "ELStaffAreaReview" });
 }
 
 </script>

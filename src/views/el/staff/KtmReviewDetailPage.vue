@@ -249,46 +249,118 @@
                                 </v-col>
 
                                 <!-- ตารางประวัติ CL-02 -->
-                                <v-col cols="12" class="mt-6">
-                                    <v-card rounded="lg" elevation="0" class="overflow-hidden">
-                                        <v-card-title class="pa-0 border-bottom d-flex align-center bg-white">
-                                            <!-- <v-btn color="el-staff" class="rounded-0 elevation-0 px-4 mb-3" height="48"
-                                                @click="page = 'cl02-form'">
-                                                <v-icon icon="fas fa-plus-circle" class="mr-2" /> สร้าง CL-02 ใหม่
-                                            </v-btn> -->
-                                        </v-card-title>
-                                        <v-table density="compact" class="cl02-history-table">
-                                            <thead class="bg-grey-lighten-3">
-                                                <tr>
-                                                    <th class="text-center border-right">แก้ไข</th>
-                                                    <th class="text-center border-right">ครั้งที่</th>
-                                                    <th class="text-center border-right">กำหนดตรวจ</th>
-                                                    <th class="text-center border-right">วันที่ตรวจ</th>
-                                                    <th class="text-center border-right">ผู้ตรวจ</th>
-                                                    <th class="text-center border-right">ผลตรวจ</th>
-                                                    <th class="text-center">หมายเหตุ</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr v-if="cl02History.length === 0">
-                                                    <td colspan="7"
-                                                        class="text-center pa-10 text-medium-emphasis italic">
-                                                        ไม่มีข้อมูลการตรวจประเมิน</td>
-                                                </tr>
-                                                <tr v-for="item in cl02History" :key="item.id">
-                                                    <td class="text-center border-right">
-                                                        <v-btn icon="fas fa-edit" size="x-small" variant="text"
-                                                            color="primary" @click="page = 'cl02-form'" />
-                                                    </td>
-                                                    <td class="text-center border-right">{{ item.count }}</td>
-                                                    <td class="text-center border-right">{{ item.schedule }}</td>
-                                                    <td class="text-center border-right">{{ item.date }}</td>
-                                                    <td class="text-center border-right">{{ item.inspector }}</td>
-                                                    <td class="text-center border-right">{{ item.result }}</td>
-                                                    <td class="text-center">{{ item.remark }}</td>
-                                                </tr>
-                                            </tbody>
-                                        </v-table>
+                                <v-col cols="12">
+                                    <v-card rounded="lg" elevation="0" class="mb-5 border overflow-hidden">
+                                        <!-- ส่วนหัว Tab Navigation -->
+                                        <v-tabs v-model="activeStep2Tab" bg-color="grey-lighten-4" color="el-staff"
+                                            align-tabs="start">
+                                            <v-tab value="GMP/HACCP">GMP/HACCP</v-tab>
+                                            <v-tab value="ผลตรวจวิเคราะห์">ผลตรวจวิเคราะห์</v-tab>
+                                            <v-tab value="ผลสอบ">ผลสอบ</v-tab>
+                                        </v-tabs>
+
+                                        <v-divider></v-divider>
+
+                                        <!-- ส่วนเนื้อหาภายใน Tab -->
+                                        <v-window v-model="activeStep2Tab">
+                                            <!-- TAB 1: GMP/HACCP -->
+                                            <v-window-item value="GMP/HACCP">
+                                                <v-container fluid class="pa-4">
+                                                    <v-row dense>
+                                                        <v-col cols="12">
+                                                            <h3
+                                                                class="text-success font-weight-bold mb-3 ml-1 text-body-1">
+                                                                GMP</h3>
+                                                            <v-table density="compact"
+                                                                class="border custom-summary-table mb-6">
+                                                                <thead class="bg-grey-lighten-3">
+                                                                    <tr>
+                                                                        <th class="text-center border-right"
+                                                                            style="width: 80px">ดู / แก้ไข</th>
+                                                                        <th class="text-center border-right">
+                                                                            ครั้งที่ตรวจ</th>
+                                                                        <th class="text-center border-right">กำหนดตรวจ
+                                                                        </th>
+                                                                        <th class="text-center border-right">วันที่ตรวจ
+                                                                        </th>
+                                                                        <th class="text-center border-right">ผู้ตรวจ
+                                                                        </th>
+                                                                        <th class="text-center border-right">ผลการตรวจ
+                                                                        </th>
+                                                                        <th class="text-center">หมายเหตุ</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr v-if="cl02History.length === 0">
+                                                                        <td colspan="7"
+                                                                            class="text-center pa-4 italic text-grey">
+                                                                            ไม่มีข้อมูล</td>
+                                                                    </tr>
+                                                                    <tr v-for="item in cl02History" :key="item.id">
+                                                                        <td class="text-center border-right">
+                                                                            <v-btn icon="fas fa-edit" size="x-small"
+                                                                                variant="text" color="primary"
+                                                                                @click="page = 'cl02-form'" />
+                                                                        </td>
+                                                                        <td class="text-center border-right">{{
+                                                                            item.count }}</td>
+                                                                        <td class="text-center border-right">{{
+                                                                            item.schedule }}</td>
+                                                                        <td class="text-center border-right">{{
+                                                                            item.date }}</td>
+                                                                        <td class="text-center border-right">{{
+                                                                            item.inspector }}</td>
+                                                                        <td class="text-center border-right">{{
+                                                                            item.result }}</td>
+                                                                        <td class="pa-2 text-body-2">{{ item.remark }}
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </v-table>
+
+                                                            <h3
+                                                                class="text-success font-weight-bold mb-3 ml-1 text-body-1">
+                                                                HACCP</h3>
+                                                            <v-table density="compact"
+                                                                class="border custom-summary-table">
+                                                                <thead class="bg-grey-lighten-3 text-center">
+                                                                    <tr>
+                                                                        <th class="border-right" style="width: 80px">ดู
+                                                                            / แก้ไข</th>
+                                                                        <th class="border-right">ครั้งที่ตรวจ</th>
+                                                                        <th class="border-right">กำหนดตรวจ</th>
+                                                                        <th class="border-right">วันที่ตรวจ</th>
+                                                                        <th class="border-right">ผู้ตรวจ</th>
+                                                                        <th class="border-right">ผลการตรวจ</th>
+                                                                        <th>หมายเหตุ</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr class="text-center">
+                                                                        <td colspan="7" class="pa-4 italic text-grey">
+                                                                            ไม่มีข้อมูล</td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </v-table>
+                                                        </v-col>
+                                                    </v-row>
+                                                </v-container>
+                                            </v-window-item>
+
+                                            <!-- TAB 2: ผลตรวจวิเคราะห์ -->
+                                            <v-window-item value="ผลตรวจวิเคราะห์">
+                                                <v-container fluid class="pa-4">
+                                                    <p class="text-center text-grey pa-10">เนื้อหาผลตรวจวิเคราะห์</p>
+                                                </v-container>
+                                            </v-window-item>
+
+                                            <!-- TAB 3: ผลสอบ -->
+                                            <v-window-item value="ผลสอบ">
+                                                <v-container fluid class="pa-4">
+                                                    <p class="text-center text-grey pa-10">เนื้อหาผลสอบการวัดความรู้</p>
+                                                </v-container>
+                                            </v-window-item>
+                                        </v-window>
                                     </v-card>
                                 </v-col>
 
@@ -376,7 +448,7 @@
                     </div>
                     <h3 class="text-h6 font-weight-bold mb-2">บันทึกข้อมูลสำเร็จ!</h3>
                     <v-chip color="el-staff" size="large" variant="tonal" class="mb-4">{{ establishmentInfo.appCode
-                    }}</v-chip>
+                        }}</v-chip>
                     <p class="text-body-2 text-medium-emphasis">ระบบได้ทำการอัปเดตข้อมูลของท่านเรียบร้อยแล้ว</p>
                 </v-card-text>
                 <v-card-actions class="px-6 pb-5">
@@ -485,9 +557,9 @@ const saveData = () => {
     successDialog.value = true;
 };
 const BackMain = () => {
-    router.push({ name: "ELStaffAreaReview"});
+    router.push({ name: "ELStaffAreaReview" });
 }
-
+const activeStep2Tab = ref(null)
 </script>
 
 <style scoped>

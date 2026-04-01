@@ -1,5 +1,5 @@
 <template>
-    <div style="--v-theme-primary: var(--v-theme-el-staff)">
+    <div style="--v-theme-el-staff: var(--v-theme-el-staff)">
         <!-- Header -->
         <div class="d-flex align-center ga-3 mb-6">
             <div>
@@ -28,9 +28,9 @@
                         <div v-if="i < steps.length - 1" class="step-line flex-grow-1"
                             :class="{ 'step-line--done': currentStep > step.value }" />
                     </template>
-                </div>
-            </v-card-text>
-        </v-card> -->
+</div>
+</v-card-text>
+</v-card> -->
 
         <!-- ─── PAGE ROUTING ─── -->
         <v-window v-model="page" :touch="false">
@@ -40,26 +40,28 @@
                 <template v-if="currentStep === 0">
                     <!-- 1. ข้อมูลโรงคัดบรรจุ -->
                     <v-card rounded="xl" elevation="0" class="mb-5 section-card">
+                        <v-row dense class="pa-5">
+                            <v-col cols="12" md="4">
+                                <div class="field-label mb-1">รหัสคำขอ</div>
+                                <v-text-field v-model="establishmentInfo.appCode" variant="outlined" rounded="lg"
+                                    density="comfortable" readonly hide-details />
+                            </v-col>
+                            <v-col cols="12" md="4">
+                                <div class="field-label mb-1">วันที่ยื่นคำขอ</div>
+                                <v-text-field v-model="establishmentInfo.appDate" type="date" variant="outlined"
+                                    rounded="lg" density="comfortable" readonly hide-details />
+                            </v-col>
+                            <v-col cols="12" md="4">
+                                <div class="field-label mb-1">สถานะ</div>
+                                <v-select v-model="establishmentInfo.appStatus" :items="['รอตรวจเอกสาร']"
+                                    variant="outlined" rounded="lg" density="comfortable" readonly hide-details />
+                            </v-col>
+                        </v-row>
+                        <v-divider class="mx-8"></v-divider>
                         <v-card-title class="pa-5 pb-0 section-title font-weight-bold">1.
                             ข้อมูลโรงคัดบรรจุ</v-card-title>
                         <v-card-text class="pa-5">
-                            <v-row dense>
-                                <v-col cols="12" md="4">
-                                    <div class="field-label mb-1">รหัสคำขอ</div>
-                                    <v-text-field v-model="establishmentInfo.appCode" variant="outlined" rounded="lg"
-                                        density="comfortable" readonly hide-details />
-                                </v-col>
-                                <v-col cols="12" md="4">
-                                    <div class="field-label mb-1">วันที่ยื่นคำขอ</div>
-                                    <v-text-field v-model="establishmentInfo.appDate" type="date" variant="outlined"
-                                        rounded="lg" density="comfortable" readonly hide-details />
-                                </v-col>
-                                <v-col cols="12" md="4">
-                                    <div class="field-label mb-1">สถานะ</div>
-                                    <v-select v-model="establishmentInfo.appStatus" :items="['รอตรวจเอกสาร']"
-                                        variant="outlined" rounded="lg" density="comfortable" readonly hide-details />
-                                </v-col>
-                            </v-row>
+
 
                             <v-row dense>
                                 <!-- รหัสรับรอง / วันที่ออก / วันหมดอายุ -->
@@ -233,12 +235,11 @@
                     <v-card rounded="xl" elevation="0" class="mb-5 section-card">
                         <v-card-title class="pa-5 pb-0 section-title font-weight-bold">3. ข้อมูลแปลงเกษตร</v-card-title>
                         <v-card-text class="pa-5">
-                            <div class="field-label mb-2 font-weight-bold text-success">ผลการพิจารณา</div>
                             <v-data-table :headers="resultHeadersDetail" :items="resultItems" density="comfortable"
                                 class="border rounded-lg custom-result-table" hide-default-footer>
                                 <!-- Slot สำหรับปุ่ม View ข้อมูล -->
                                 <template v-slot:item.view="{ item }">
-                                    <v-btn icon="fas fa-file-lines" variant="text" color="primary" size="small"
+                                    <v-btn icon="fas fa-pen-to-square" variant="text" color="el-staff" size="small"
                                         @click="goToCreatePage('farmer')" />
                                 </template>
 
@@ -257,11 +258,10 @@
                         <v-card-title class="pa-5 pb-0 section-title font-weight-bold">4. ข้อมูลแปลงเกษตรที่ขอใบรับรอง
                             GAP</v-card-title>
                         <v-card-text class="pa-5">
-                            <div class="field-label mb-2 font-weight-bold text-success">ผลการพิจารณา</div>
-                            <v-data-table :headers="resultHeadersDetail" :items="resultItems" density="comfortable"
+                            <v-data-table :headers="resultHeadersDetailGap" :items="resultItemsGap" density="comfortable"
                                 class="border rounded-lg custom-result-table" hide-default-footer>
                                 <template v-slot:item.view="{ item }">
-                                    <v-btn icon="fas fa-file-lines" variant="text" color="primary" size="small"
+                                    <v-btn icon="fas fa-file-lines" variant="text" color="el-staff" size="small"
                                         @click="viewDetails(item)" />
                                 </template>
 
@@ -282,7 +282,7 @@
                             <v-data-table :headers="factoryHeadersDetail" :items="factories" density="compact"
                                 class="border rounded-lg custom-table" hide-default-footer>
                                 <template v-slot:item.view="{ item }">
-                                    <v-btn icon="fas fa-file-lines" variant="text" size="small" color="primary"
+                                    <v-btn icon="fas fa-file-lines" variant="text" size="small" color="el-staff"
                                         @click="goToCreatePage('factory')" />
                                 </template>
 
@@ -297,10 +297,10 @@
                     <v-card rounded="xl" elevation="0" class="mb-5 section-card">
                         <v-card-title class="pa-5 pb-0 section-title font-weight-bold">6. ผลการพิจารณา</v-card-title>
                         <v-card-text class="pa-5">
-                            <v-data-table :headers="resultHeadersDetail" :items="resultItemsDetail" density="compact"
+                            <v-data-table :headers="resultHeadersDetailReview" :items="resultItemsDetail" density="compact"
                                 class="border rounded-lg result-table">
                                 <template v-slot:item.view="{ item }">
-                                    <v-btn icon="fas fa-file-lines" variant="text" size="small" color="primary"
+                                    <v-btn icon="fas fa-file-lines" variant="text" size="small" color="el-staff"
                                         @click="viewResultDetail(item)" />
                                 </template>
 
@@ -311,7 +311,7 @@
                                 </template>
 
                                 <template v-slot:item.status="{ item }">
-                                    <v-chip size="small" color="orange-darken-1" variant="flat" rounded="lg">
+                                    <v-chip size="small" color="orange-darken-1" variant="tonal" rounded="lg">
                                         {{ item.status }}
                                     </v-chip>
                                 </template>
@@ -334,8 +334,8 @@
                             'ยกเลิก'
                             : 'ย้อนกลับ' }}</v-btn>
                         <div class="d-flex ga-3">
-                            <v-btn variant="tonal" color="el-staff" rounded="lg" prepend-icon="fas fa-floppy-disk"
-                                @click="saveDraft">บันทึกแบบร่าง</v-btn>
+                            <!-- <v-btn variant="tonal" color="el-staff" rounded="lg" prepend-icon="fas fa-floppy-disk"
+                                @click="saveDraft">บันทึกแบบร่าง</v-btn> -->
                             <v-btn v-if="currentStep < steps.length - 1" color="el-staff" rounded="lg"
                                 append-icon="fas fa-arrow-right" @click="currentStep++">ถัดไป</v-btn>
                             <v-btn v-else color="el-staff" rounded="lg" prepend-icon="fas fa-paper-plane"
@@ -502,7 +502,7 @@
                                             </td>
                                             <td class="text-center pa-2">
                                                 <v-btn v-if="!doc.isHeader" icon="fas fa-file-pdf" variant="text"
-                                                    color="primary" size="small" />
+                                                    color="el-staff" size="small" />
                                             </td>
                                             <td class="pa-2">
                                                 <v-select v-if="!doc.isHeader" v-model="tempData.checkResults[doc.key]"
@@ -518,7 +518,7 @@
                                     </tbody>
                                 </v-table>
                                 <div class="d-flex justify-center mt-6">
-                                    <v-btn color="success" prepend-icon="fas fa-check-double" rounded="lg"
+                                    <v-btn color="el-staff" prepend-icon="fas fa-check-double" rounded="lg"
                                         @click="passAllDocuments">ผ่านทั้งหมด</v-btn>
                                 </div>
                             </v-col>
@@ -572,10 +572,10 @@
                                 </div>
 
                                 <v-card rounded="xl" elevation="0"
-                                    class="mb-8 section-card pa-4 bg-grey-lighten-3 border">
+                                    class="mb-8 section-card pa-4">
                                     <v-table density="comfortable" class="bg-transparent custom-log-table">
                                         <thead>
-                                            <tr class="bg-grey-darken-1">
+                                            <tr class="bg-el-staff">
                                                 <th class="text-center text-white"
                                                     style="border-radius: 12px 0 0 0; width: 100px;">
                                                     ครั้งที่</th>
@@ -633,7 +633,7 @@
                     </div>
                     <h3 class="text-h6 font-weight-bold mb-2">ยื่นคำขอสำเร็จ!</h3>
                     <v-chip color="el-staff" size="large" variant="tonal" class="mb-4">{{ establishmentInfo.appCode
-                    }}</v-chip>
+                        }}</v-chip>
                     <p class="text-body-2 text-medium-emphasis">ระบบได้รับคำขอของท่านแล้ว</p>
                 </v-card-text>
                 <v-card-actions class="px-6 pb-5"><v-btn color="el-staff" rounded="lg" block
@@ -706,7 +706,6 @@ const tempData = reactive({
     coordY: '100.6030',
     coordZ: '0.0',
     plantingPlans: [
-        { selected: false, name: 'มกราคม - มีนาคม', period: '90 วัน' },
         { selected: false, name: 'มิถุนายน - สิงหาคม', period: '90 วัน' }
     ],
     checkResults: {},
@@ -732,17 +731,34 @@ const tempData = reactive({
     ]
 });
 
-const factories = ref([{ id: 1, cropName: "ทุเรียน", gmpNo: "GMP-999", status: "ปกติ" }]);
+const factories = ref([{ id: 1, cropName: "ผักชีไทย", gmpNo: "GMP-999", status: "รออนุมัติผล" }]);
 
 // Headers
 const factoryHeadersDetail = [
-    { title: 'ดูข้อมูล', key: 'view', align: 'center', width: '80px', sortable: false },
+    { title: '', key: 'view', align: 'start', width: '100px', sortable: false },
     { title: 'ชนิดพืช', key: 'cropName', align: 'start' },
     { title: 'สถานะ', key: 'status', align: 'center' },
 ];
 
 const resultHeadersDetail = [
-    { title: 'ดูข้อมูล', key: 'view', align: 'center', width: '80px', sortable: false },
+    { title: 'ตรวจเอกสาร', key: 'view', align: 'center', width: '80px', sortable: false },
+    { title: 'ชื่อเกษตรกร', key: 'farmerName', align: 'start', width: '200px' },
+    { title: 'ชนิดพืช', key: 'cropName', align: 'start' },
+    { title: 'เลขที่ใบรับรอง', key: 'certNo', align: 'start' },
+    { title: 'ที่ตั้งแปลง', key: 'farmCode', align: 'center' },
+    { title: 'แขวง/ตำบล', key: 'subdistrict', align: 'center' },
+];
+const resultHeadersDetailGap = [
+    { title: '', key: 'view', align: 'center', width: '80px', sortable: false },
+    { title: 'ชนิดพืช', key: 'cropName', align: 'start' },
+    { title: 'ชื่อเกษตรกร', key: 'farmerName', align: 'start', width: '200px' },
+    { title: 'รหัสใบรับรอง', key: 'certNo', align: 'start' },
+    { title: 'รหัสแปลง', key: 'farmCode', align: 'center' },
+    { title: 'ผลตรวจเอกสาร', key: 'docResult', align: 'center' },
+    { title: 'สถานะ', key: 'status', align: 'center' },
+];
+const resultHeadersDetailReview = [
+    { title: '', key: 'view', align: 'center', width: '80px', sortable: false },
     { title: 'ชนิดพืช', key: 'cropName', align: 'start' },
     { title: 'ชื่อเกษตรกร', key: 'farmerName', align: 'start', width: '200px' },
     { title: 'รหัสใบรับรอง', key: 'certNo', align: 'start' },
@@ -751,10 +767,13 @@ const resultHeadersDetail = [
     { title: 'สถานะ', key: 'status', align: 'center' },
 ];
 
-const resultItems = ref([
-    { cropName: 'ผักชีไทย', farmerName: 'พลอย จินดามณี', certNo: 'กษ-1484', farmCode: 'F-001', docResult: 'รอตรวจ', status: 'รอตรวจเอกสาร' }
-]);
 
+const resultItems = ref([
+    { cropName: 'ผักชีไทย', farmerName: 'พลอย จินดามณี', certNo: 'กษ-1484', farmCode: 'F-001', subdistrict: 'ลาดพร้าว' }
+]);
+const resultItemsGap = ref([
+    { cropName: 'ผักชีไทย', farmerName: 'พลอย จินดามณี', certNo: 'กษ-1484', farmCode: 'F-001', docResult: 'รอพิจารณา', status: 'รอตรวจเอกสาร' }
+]);
 const resultItemsDetail = ref([
     { cropName: 'ผักชีไทย', farmerName: 'พลอย จินดามณี / โชติช่วง ชัชวาล', certNo: 'กษ-1484', farmCode: '-', docResult: 'รอพิจารณา', status: 'รอตรวจเอกสาร' }
 ]);

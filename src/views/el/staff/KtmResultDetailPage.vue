@@ -1,5 +1,5 @@
 <template>
-    <div style="--v-theme-primary: var(--v-theme-el-staff)">
+    <div style="--v-theme-el-staff: var(--v-theme-el-staff)">
         <!-- Header -->
         <div class="d-flex align-center justify-space-between mb-6">
             <div>
@@ -241,13 +241,12 @@
                     <v-card rounded="xl" elevation="0" class="mb-5 section-card">
                         <v-card-title class="pa-5 pb-0 section-title font-weight-bold">3. ข้อมูลแปลงเกษตร</v-card-title>
                         <v-card-text class="pa-5">
-                            <div class="field-label mb-2 font-weight-bold text-success">ผลการพิจารณา</div>
                             <v-data-table :headers="resultHeadersDetail" :items="resultItems" density="comfortable"
                                 class="border rounded-lg custom-result-table" hide-default-footer>
                                 <!-- Slot สำหรับปุ่ม View ข้อมูล -->
                                 <template v-slot:item.view="{ item }">
-                                    <v-btn icon="fas fa-file-lines" variant="text" color="primary" size="small"
-                                        @click="goToCreatePage('farmer')" />
+                                    <v-btn icon="fas fa-file-lines" variant="text" color="el-staff" size="small"
+                                       />
                                 </template>
 
                                 <!-- Slot สำหรับสถานะ (Status Chip) -->
@@ -265,12 +264,11 @@
                         <v-card-title class="pa-5 pb-0 section-title font-weight-bold">4. ข้อมูลแปลงเกษตรที่ขอใบรับรอง
                             GAP</v-card-title>
                         <v-card-text class="pa-5">
-                            <div class="field-label mb-2 font-weight-bold text-success">ผลการพิจารณา</div>
                             <v-data-table :headers="resultHeadersDetail" :items="resultItems" density="comfortable"
                                 class="border rounded-lg custom-result-table" hide-default-footer>
                                 <template v-slot:item.view="{ item }">
-                                    <v-btn icon="fas fa-file-lines" variant="text" color="primary" size="small"
-                                        @click="viewDetails(item)" />
+                                    <v-btn icon="fas fa-file-lines" variant="text" color="el-staff" size="small"
+                                       />
                                 </template>
 
                                 <template v-slot:item.status="{ item }">
@@ -290,8 +288,8 @@
                             <v-data-table :headers="factoryHeadersDetail" :items="factories" density="compact"
                                 class="border rounded-lg custom-table" hide-default-footer>
                                 <template v-slot:item.view="{ item }">
-                                    <v-btn icon="fas fa-file-lines" variant="text" size="small" color="primary"
-                                        @click="goToCreatePage('factory')" />
+                                    <v-btn icon="fas fa-file-lines" variant="text" size="small" color="el-staff"
+                                     />
                                 </template>
 
                                 <template v-slot:item.status="{ item }">
@@ -308,8 +306,8 @@
                             <v-data-table :headers="resultHeadersDetail" :items="resultItemsDetail" density="compact"
                                 class="border rounded-lg result-table">
                                 <template v-slot:item.view="{ item }">
-                                    <v-btn icon="fas fa-file-lines" variant="text" size="small" color="primary"
-                                        @click="viewResultDetail(item)" />
+                                    <v-btn icon="fas fa-file-lines" variant="text" size="small" color="el-staff"
+                                        />
                                 </template>
 
                                 <template v-slot:item.farmerName="{ item }">
@@ -344,7 +342,6 @@
                             <v-btn v-if="activeStep2Tab === 'GMP/HACCP' && !isStep2Saved" color="grey-lighten-2"
                                 elevation="0" class="text-none border rounded-0" height="40" @click="handleStep2Save">
                                 <span class="text-black font-weight-medium">บันทึกข้อมูล</span>
-                                <div class="red-bar"></div>
                             </v-btn>
                         </div>
 
@@ -352,7 +349,7 @@
                         <div v-if="activeStep2Tab === 'GMP/HACCP'">
                             <div v-if="!isStep2Saved" class="table-container border">
                                 <v-table density="compact" class="custom-step2-table">
-                                    <thead class="bg-grey-darken-3 text-white">
+                                    <thead class="bg-el-staff text-white">
                                         <tr>
                                             <th class="text-center border-right" style="width: 50px;"><v-checkbox-btn
                                                     color="white" density="compact" hide-details /></th>
@@ -1063,10 +1060,6 @@ function viewResultDetail(item) {
     margin-right: 12px;
 }
 
-:deep(.v-field--variant-outlined) {
-    border-radius: 0 !important;
-    background-color: white;
-}
 
 .text-error {
     color: #d32f2f !important;
