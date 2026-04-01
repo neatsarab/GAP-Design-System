@@ -671,7 +671,7 @@
                     icon="fas fa-pen"
                     variant="text"
                     size="x-small"
-                    color="doa-user"
+                    color="warning"
                     @click="openStandardDialog(idx)"
                   />
                   <v-btn

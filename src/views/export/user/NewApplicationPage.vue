@@ -161,7 +161,7 @@
                   <div class="text-caption text-medium-emphasis mb-1">
                     เลขที่ใบทะเบียน
                   </div>
-                  <div class="text-body-1 font-weight-bold">
+                  <div class="text-body-1 font-weight-bold text-export-user">
                     {{ certSearchResult.certNo }}
                   </div>
                   <div class="text-body-2 mt-1">
@@ -843,20 +843,214 @@
                     {{ certSearchResult.expiryDate }}
                   </v-list-item-title>
                 </v-list-item>
+                <v-list-item subtitle="สถานะ">
+                  <v-list-item-title>
+                    <v-chip
+                      size="x-small"
+                      :color="certSearchResult.isExpired ? 'error' : 'success'"
+                      variant="tonal"
+                    >
+                      {{ certSearchResult.isExpired ? "หมดอายุ" : "ใช้งานได้" }}
+                    </v-chip>
+                  </v-list-item-title>
+                </v-list-item>
               </v-list>
             </template>
           </v-card-text>
-          <v-card-actions class="px-5 pb-4">
+          <v-card-actions class="px-5 pb-4 d-flex flex-column ga-2">
             <v-btn
               color="export-user"
               variant="tonal"
               prepend-icon="fas fa-download"
               block
               rounded="lg"
-              :disabled="certSearchResult.isExpired"
-              @click="selectCert"
             >
               ดาวน์โหลด PDF
+            </v-btn>
+            <v-btn
+              color="export-user"
+              variant="flat"
+              prepend-icon="fas fa-check"
+              block
+              rounded="lg"
+              :disabled="certSearchResult?.isExpired"
+              @click="selectCert()"
+            >
+              เลือกใบทะเบียนนี้
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+
+      <!-- View DOA Dialog -->
+      <v-dialog v-model="viewDoaDialog" max-width="480">
+        <v-card rounded="xl">
+          <v-card-title class="d-flex align-center ga-2 pa-5 pb-3">
+            <v-icon icon="fas fa-industry" color="export-user" size="18" />
+            ใบทะเบียนโรงงาน DOA
+            <v-spacer />
+            <v-btn
+              icon="fas fa-xmark"
+              size="small"
+              variant="text"
+              color="grey"
+              @click="viewDoaDialog = false"
+            />
+          </v-card-title>
+          <v-divider />
+          <v-card-text class="pa-5">
+            <template v-if="doaSearchResult">
+              <v-list density="compact" lines="two">
+                <v-list-item subtitle="เลขทะเบียน DOA">
+                  <v-list-item-title class="text-doa-user font-weight-bold">
+                    {{ doaSearchResult.doaNo }}
+                  </v-list-item-title>
+                </v-list-item>
+                <v-list-item subtitle="ชื่อโรงงาน">
+                  <v-list-item-title>{{
+                    doaSearchResult.factoryName
+                  }}</v-list-item-title>
+                </v-list-item>
+                <v-list-item subtitle="วันหมดอายุ">
+                  <v-list-item-title>
+                    <span
+                      :class="
+                        doaSearchResult.isExpired
+                          ? 'text-error'
+                          : 'text-success'
+                      "
+                    >
+                      {{ doaSearchResult.expiryDate }}
+                    </span>
+                    <v-chip
+                      v-if="doaSearchResult.isExpired"
+                      size="x-small"
+                      color="error"
+                      variant="tonal"
+                      class="ml-2"
+                      >หมดอายุ</v-chip
+                    >
+                  </v-list-item-title>
+                </v-list-item>
+              </v-list>
+            </template>
+          </v-card-text>
+          <v-card-actions class="px-5 pb-4 d-flex flex-column ga-2">
+            <v-btn
+              color="export-user"
+              variant="tonal"
+              prepend-icon="fas fa-download"
+              block
+              rounded="lg"
+            >
+              ดาวน์โหลด PDF
+            </v-btn>
+            <v-btn
+              color="export-user"
+              variant="flat"
+              prepend-icon="fas fa-check"
+              block
+              rounded="lg"
+              :disabled="
+                !doaSearchResult ||
+                doaSearchResult.isExpired ||
+                doaAlreadyAdded(doaSearchResult?.doaNo)
+              "
+              @click="addFactoryFromSearch()"
+            >
+              เลือกโรงงานนี้
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+
+      <!-- View GAP Dialog -->
+      <v-dialog v-model="viewGapDialog" max-width="480">
+        <v-card rounded="xl">
+          <v-card-title class="d-flex align-center ga-2 pa-5 pb-3">
+            <v-icon icon="fas fa-seedling" color="export-user" size="18" />
+            ใบรับรอง GAP
+            <v-spacer />
+            <v-btn
+              icon="fas fa-xmark"
+              size="small"
+              variant="text"
+              color="grey"
+              @click="viewGapDialog = false"
+            />
+          </v-card-title>
+          <v-divider />
+          <v-card-text class="pa-5">
+            <template v-if="gapSearchResult">
+              <v-list density="compact" lines="two">
+                <v-list-item subtitle="เลขใบรับรอง GAP">
+                  <v-list-item-title class="text-gap-user font-weight-bold">
+                    {{ gapSearchResult.gapNo }}
+                  </v-list-item-title>
+                </v-list-item>
+                <v-list-item subtitle="ชื่อแหล่งผลิต">
+                  <v-list-item-title>{{
+                    gapSearchResult.siteName
+                  }}</v-list-item-title>
+                </v-list-item>
+                <v-list-item subtitle="หน่วยงานรับรอง">
+                  <v-list-item-title>{{
+                    gapSearchResult.certBody
+                  }}</v-list-item-title>
+                </v-list-item>
+                <v-list-item subtitle="รหัสรับรอง">
+                  <v-list-item-title>{{
+                    gapSearchResult.certCode
+                  }}</v-list-item-title>
+                </v-list-item>
+                <v-list-item subtitle="วันหมดอายุ">
+                  <v-list-item-title>
+                    <span
+                      :class="
+                        gapSearchResult.isExpired
+                          ? 'text-error'
+                          : 'text-success'
+                      "
+                    >
+                      {{ gapSearchResult.expiryDate }}
+                    </span>
+                    <v-chip
+                      v-if="gapSearchResult.isExpired"
+                      size="x-small"
+                      color="error"
+                      variant="tonal"
+                      class="ml-2"
+                      >หมดอายุ</v-chip
+                    >
+                  </v-list-item-title>
+                </v-list-item>
+              </v-list>
+            </template>
+          </v-card-text>
+          <v-card-actions class="px-5 pb-4 d-flex flex-column ga-2">
+            <v-btn
+              color="export-user"
+              variant="tonal"
+              prepend-icon="fas fa-download"
+              block
+              rounded="lg"
+            >
+              ดาวน์โหลด PDF
+            </v-btn>
+            <v-btn
+              color="export-user"
+              variant="flat"
+              prepend-icon="fas fa-check"
+              block
+              rounded="lg"
+              :disabled="
+                !gapSearchResult ||
+                gapSearchResult.isExpired ||
+                gapAlreadyAdded(gapSearchResult?.gapNo)
+              "
+              @click="addGapFromSearch()"
+            >
+              เลือกแหล่งผลิตนี้
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -883,6 +1077,15 @@
           >
             Auto-fill จาก SSO
           </v-chip>
+          <v-spacer />
+          <v-btn
+            size="x-small"
+            variant="tonal"
+            color="export-user"
+            prepend-icon="fas fa-rotate"
+            @click="refreshApplicantData"
+            >ดึงข้อมูลใหม่</v-btn
+          >
         </div>
         <v-card-text class="pt-5">
           <!-- ข้อมูลส่วนตัว -->
@@ -1069,15 +1272,24 @@
         <div class="d-flex align-center ga-2 px-4 py-3 border-b">
           <v-icon icon="fas fa-building" color="export-user" size="15" />
           <span class="text-subtitle-2 font-weight-bold"
-            >ข้อมูลสถานประกอบการ
-            <v-chip
-              size="x-small"
-              color="export-user"
-              variant="tonal"
-              class="ml-1"
-            >
-              Auto-fill บางส่วนจาก DBD
-            </v-chip></span
+            >ข้อมูลสถานประกอบการ</span
+          >
+          <v-chip
+            size="x-small"
+            color="export-user"
+            variant="tonal"
+            class="ml-1"
+          >
+            Auto-fill บางส่วนจาก DBD
+          </v-chip>
+          <v-spacer />
+          <v-btn
+            size="x-small"
+            variant="tonal"
+            color="export-user"
+            prepend-icon="fas fa-rotate"
+            @click="refreshCompanyData"
+            >ดึงข้อมูลใหม่</v-btn
           >
         </div>
         <v-card-text class="pt-5">
@@ -1423,7 +1635,7 @@
               density="compact"
               v-model="doaSearchNo"
               hide-details
-              placeholder="เช่น DOA-12345"
+              placeholder="เช่น DOA-2568-12345"
               clearable
               class="flex-grow-1"
             />
@@ -1438,67 +1650,73 @@
           </div>
 
           <!-- Search result -->
-          <div v-if="doaSearchResult" class="mb-4">
-            <div
-              class="item-row rounded-lg pa-4 d-flex align-center justify-space-between flex-wrap ga-3"
-            >
-              <div class="d-flex align-center ga-4 flex-wrap">
-                <div>
-                  <div class="text-caption text-medium-emphasis">
+          <v-card
+            v-if="doaSearchResult"
+            elevation="0"
+            rounded="lg"
+            class="mb-4"
+            :style="
+              doaSearchResult.isExpired
+                ? 'background: rgba(var(--v-theme-error), 0.1); border: 1px solid rgba(var(--v-theme-error), 0.25)'
+                : 'background: rgba(var(--v-theme-success), 0.08); border: 1px solid rgba(var(--v-theme-success), 0.2)'
+            "
+          >
+            <v-card-text class="pa-4">
+              <v-row align="center" no-gutters>
+                <v-col>
+                  <div class="text-caption text-medium-emphasis mb-1">
                     เลขทะเบียน DOA
                   </div>
-                  <div class="text-body-2 font-weight-bold text-export-user">
+                  <div class="text-body-1 font-weight-bold text-doa-user">
                     {{ doaSearchResult.doaNo }}
                   </div>
-                </div>
-                <v-divider vertical />
-                <div>
-                  <div class="text-caption text-medium-emphasis">
-                    ชื่อโรงงาน
-                  </div>
-                  <div class="text-body-2 font-weight-medium">
+                  <div class="text-body-2 mt-1">
                     {{ doaSearchResult.factoryName }}
                   </div>
-                </div>
-                <v-divider vertical />
-                <div>
-                  <div class="text-caption text-medium-emphasis">
-                    วันหมดอายุ
-                  </div>
-                  <div
-                    class="text-body-2 font-weight-medium"
-                    :class="
-                      doaSearchResult.isExpired ? 'text-error' : 'text-success'
-                    "
-                  >
-                    {{ doaSearchResult.expiryDate }}
+                  <div class="d-flex align-center ga-2 mt-2">
                     <v-chip
-                      v-if="doaSearchResult.isExpired"
                       size="x-small"
-                      color="error"
+                      :color="doaSearchResult.isExpired ? 'error' : 'success'"
                       variant="tonal"
-                      class="ml-1"
-                      >หมดอายุ</v-chip
                     >
+                      {{ doaSearchResult.isExpired ? "หมดอายุ" : "ใช้งานได้" }}
+                    </v-chip>
+                    <span class="text-caption text-medium-emphasis">
+                      หมดอายุ: {{ doaSearchResult.expiryDate }}
+                    </span>
                   </div>
-                </div>
-              </div>
-              <v-btn
-                color="export-user"
-                size="small"
-                prepend-icon="fas fa-plus"
-                :disabled="
-                  doaSearchResult.isExpired ||
-                  doaAlreadyAdded(doaSearchResult.doaNo)
-                "
-                @click="addFactoryFromSearch"
-              >
-                {{
-                  doaAlreadyAdded(doaSearchResult.doaNo) ? "เพิ่มแล้ว" : "เพิ่ม"
-                }}
-              </v-btn>
-            </div>
-          </div>
+                </v-col>
+                <v-col cols="auto" class="d-flex flex-column ga-2 pl-4">
+                  <v-btn
+                    size="small"
+                    variant="flat"
+                    color="export-user"
+                    prepend-icon="fas fa-eye"
+                    @click="viewDoaDialog = true"
+                  >
+                    ดูใบทะเบียน
+                  </v-btn>
+                  <v-btn
+                    size="small"
+                    color="export-user"
+                    variant="flat"
+                    prepend-icon="fas fa-check"
+                    :disabled="
+                      doaSearchResult.isExpired ||
+                      doaAlreadyAdded(doaSearchResult.doaNo)
+                    "
+                    @click="addFactoryFromSearch"
+                  >
+                    {{
+                      doaAlreadyAdded(doaSearchResult.doaNo)
+                        ? "เลือกแล้ว"
+                        : "เลือกโรงงานนี้"
+                    }}
+                  </v-btn>
+                </v-col>
+              </v-row>
+            </v-card-text>
+          </v-card>
 
           <!-- Not found -->
           <v-alert
@@ -1526,7 +1744,7 @@
               </thead>
               <tbody>
                 <tr v-for="(factory, idx) in form.factories" :key="idx">
-                  <td class="text-body-2 font-weight-bold text-export-user">
+                  <td class="text-body-2 font-weight-bold text-doa-user">
                     {{ factory.doaNo }}
                   </td>
                   <td class="text-body-2">{{ factory.factoryName }}</td>
@@ -1579,7 +1797,7 @@
               density="compact"
               v-model="gapSearchNo"
               hide-details
-              placeholder="เช่น GAP-12345"
+              placeholder="เช่น GAP-2568-12345"
               clearable
               class="flex-grow-1"
             />
@@ -1594,85 +1812,76 @@
           </div>
 
           <!-- Search result -->
-          <div v-if="gapSearchResult" class="mb-4">
-            <div
-              class="item-row rounded-lg pa-4 d-flex align-center justify-space-between flex-wrap ga-3"
-            >
-              <div class="d-flex align-center ga-4 flex-wrap">
-                <div>
-                  <div class="text-caption text-medium-emphasis">
+          <v-card
+            v-if="gapSearchResult"
+            elevation="0"
+            rounded="lg"
+            class="mb-4"
+            :style="
+              gapSearchResult.isExpired
+                ? 'background: rgba(var(--v-theme-error), 0.1); border: 1px solid rgba(var(--v-theme-error), 0.25)'
+                : 'background: rgba(var(--v-theme-success), 0.08); border: 1px solid rgba(var(--v-theme-success), 0.2)'
+            "
+          >
+            <v-card-text class="pa-4">
+              <v-row align="center" no-gutters>
+                <v-col>
+                  <div class="text-caption text-medium-emphasis mb-1">
                     เลขใบรับรอง GAP
                   </div>
-                  <div class="text-body-2 font-weight-bold text-export-user">
+                  <div class="text-body-1 font-weight-bold text-gap-user">
                     {{ gapSearchResult.gapNo }}
                   </div>
-                </div>
-                <v-divider vertical />
-                <div>
-                  <div class="text-caption text-medium-emphasis">
-                    ชื่อแหล่งผลิต
-                  </div>
-                  <div class="text-body-2 font-weight-medium">
+                  <div class="text-body-2 mt-1">
                     {{ gapSearchResult.siteName }}
                   </div>
-                </div>
-                <v-divider vertical />
-                <div>
-                  <div class="text-caption text-medium-emphasis">
-                    หน่วยงานรับรอง
-                  </div>
-                  <div class="text-body-2 font-weight-medium">
-                    {{ gapSearchResult.certBody }}
-                  </div>
-                </div>
-                <v-divider vertical />
-                <div>
-                  <div class="text-caption text-medium-emphasis">
-                    รหัสรับรอง
-                  </div>
-                  <div class="text-body-2 font-weight-medium">
-                    {{ gapSearchResult.certCode }}
-                  </div>
-                </div>
-                <v-divider vertical />
-                <div>
-                  <div class="text-caption text-medium-emphasis">
-                    วันหมดอายุ
-                  </div>
-                  <div
-                    class="text-body-2 font-weight-medium"
-                    :class="
-                      gapSearchResult.isExpired ? 'text-error' : 'text-success'
-                    "
-                  >
-                    {{ gapSearchResult.expiryDate }}
+                  <div class="d-flex align-center ga-2 mt-2 flex-wrap">
                     <v-chip
-                      v-if="gapSearchResult.isExpired"
                       size="x-small"
-                      color="error"
+                      :color="gapSearchResult.isExpired ? 'error' : 'success'"
                       variant="tonal"
-                      class="ml-1"
-                      >หมดอายุ</v-chip
                     >
+                      {{ gapSearchResult.isExpired ? "หมดอายุ" : "ใช้งานได้" }}
+                    </v-chip>
+                    <span class="text-caption text-medium-emphasis">
+                      หมดอายุ: {{ gapSearchResult.expiryDate }}
+                    </span>
+                    <span class="text-caption text-medium-emphasis">
+                      หน่วยงาน: {{ gapSearchResult.certBody }}
+                    </span>
                   </div>
-                </div>
-              </div>
-              <v-btn
-                color="export-user"
-                size="small"
-                prepend-icon="fas fa-plus"
-                :disabled="
-                  gapSearchResult.isExpired ||
-                  gapAlreadyAdded(gapSearchResult.gapNo)
-                "
-                @click="addGapFromSearch"
-              >
-                {{
-                  gapAlreadyAdded(gapSearchResult.gapNo) ? "เพิ่มแล้ว" : "เพิ่ม"
-                }}
-              </v-btn>
-            </div>
-          </div>
+                </v-col>
+                <v-col cols="auto" class="d-flex flex-column ga-2 pl-4">
+                  <v-btn
+                    size="small"
+                    variant="flat"
+                    color="export-user"
+                    prepend-icon="fas fa-eye"
+                    @click="viewGapDialog = true"
+                  >
+                    ดูใบทะเบียน
+                  </v-btn>
+                  <v-btn
+                    size="small"
+                    color="export-user"
+                    variant="flat"
+                    prepend-icon="fas fa-check"
+                    :disabled="
+                      gapSearchResult.isExpired ||
+                      gapAlreadyAdded(gapSearchResult.gapNo)
+                    "
+                    @click="addGapFromSearch"
+                  >
+                    {{
+                      gapAlreadyAdded(gapSearchResult.gapNo)
+                        ? "เลือกแล้ว"
+                        : "เลือกแหล่งผลิตนี้"
+                    }}
+                  </v-btn>
+                </v-col>
+              </v-row>
+            </v-card-text>
+          </v-card>
 
           <!-- Not found -->
           <v-alert
@@ -1701,7 +1910,7 @@
               </thead>
               <tbody>
                 <tr v-for="(gap, idx) in form.gaps" :key="idx">
-                  <td class="text-body-2 font-weight-bold text-export-user">
+                  <td class="text-body-2 font-weight-bold text-gap-user">
                     {{ gap.gapNo }}
                   </td>
                   <td class="text-body-2">{{ gap.siteName }}</td>
@@ -1742,10 +1951,8 @@
         class="mb-5"
       >
         <div class="d-flex align-center ga-2 px-4 py-3 border-b">
-          <v-icon icon="fas fa-user" color="export-user" size="15" />
-          <span class="text-subtitle-2 font-weight-bold"
-            >เอกสารกรณีบุคคลธรรมดา</span
-          >
+          <v-icon icon="fas fa-paperclip" color="export-user" size="15" />
+          <span class="text-subtitle-2 font-weight-bold">เอกสารประกอบ</span>
         </div>
         <v-card-text class="pt-5">
           <v-row dense>
@@ -1810,10 +2017,8 @@
         class="mb-5"
       >
         <div class="d-flex align-center ga-2 px-4 py-3 border-b">
-          <v-icon icon="fas fa-building" color="export-user" size="15" />
-          <span class="text-subtitle-2 font-weight-bold"
-            >เอกสารกรณีนิติบุคคล</span
-          >
+          <v-icon icon="fas fa-paperclip" color="export-user" size="15" />
+          <span class="text-subtitle-2 font-weight-bold">เอกสารประกอบ</span>
         </div>
         <v-card-text class="pt-5">
           <v-row dense>
@@ -1823,6 +2028,15 @@
                   <v-col>
                     <div class="text-body-2 font-weight-medium">
                       {{ doc.label }}
+                      <v-chip
+                        v-if="doc.optional"
+                        size="x-small"
+                        color="grey"
+                        variant="tonal"
+                        class="ml-2"
+                        >ไม่บังคับ</v-chip
+                      >
+                      <span v-else class="req ml-1">*</span>
                     </div>
                   </v-col>
                   <v-col cols="auto" class="d-flex align-center ga-2 pl-3">
@@ -1983,6 +2197,14 @@ import { useSessionStore } from "@/stores/session.store";
 const router = useRouter();
 const route = useRoute();
 
+function refreshApplicantData() {
+  form.applicantNameTh = sessionStore.personalName || "นายสมชาย ใจดี";
+  form.applicantEmail = sessionStore.email || "somchai.j@example.co.th";
+}
+function refreshCompanyData() {
+  form.companyNameTh = sessionStore.companyName || "บริษัท ไทยเซอร์ติฟาย จำกัด";
+}
+
 function goToApplicationList() {
   router.push({ name: "ExportUserApplicationList" });
 }
@@ -2121,8 +2343,8 @@ const doaSearchNotFound = ref(false);
 const doaSearchLoading = ref(false);
 
 const doaMockDB = {
-  "DOA-12345": {
-    doaNo: "DOA-12345",
+  "DOA-2568-12345": {
+    doaNo: "DOA-2568-12345",
     factoryName: "โรงงานแปรรูปผลไม้สด จำกัด",
     expiryDate: "31/12/2568",
     isExpired: false,
@@ -2164,6 +2386,7 @@ function doaAlreadyAdded(doaNo) {
 function addFactoryFromSearch() {
   if (!doaSearchResult.value || doaAlreadyAdded(doaSearchResult.value.doaNo))
     return;
+  viewDoaDialog.value = false;
   form.factories.push({ ...doaSearchResult.value });
   doaSearchResult.value = null;
   doaSearchNo.value = "";
@@ -2179,8 +2402,8 @@ const gapSearchNotFound = ref(false);
 const gapSearchLoading = ref(false);
 
 const gapMockDB = {
-  "GAP-12345": {
-    gapNo: "GAP-12345",
+  "GAP-2568-12345": {
+    gapNo: "GAP-2568-12345",
     siteName: "สวนผลไม้สมชาย",
     certBody: "กรมวิชาการเกษตร (DOA)",
     certCode: "0123456789",
@@ -2228,6 +2451,7 @@ function gapAlreadyAdded(gapNo) {
 function addGapFromSearch() {
   if (!gapSearchResult.value || gapAlreadyAdded(gapSearchResult.value.gapNo))
     return;
+  viewGapDialog.value = false;
   form.gaps.push({ ...gapSearchResult.value });
   gapSearchResult.value = null;
   gapSearchNo.value = "";
@@ -2244,6 +2468,8 @@ const certSearchResult = ref(null);
 const certSearchNotFound = ref(false);
 const certSelected = ref(null);
 const viewCertDialog = ref(false);
+const viewDoaDialog = ref(false);
+const viewGapDialog = ref(false);
 const amendFields = ref([]);
 
 const certMockDB = {
@@ -2346,6 +2572,7 @@ const certExpiryMaxDate = computed(() => {
 
 function selectCert() {
   if (!certSearchResult.value) return;
+  viewCertDialog.value = false;
   certSelected.value = { ...certSearchResult.value };
   certSearchResult.value = null;
   amendFields.value = [];
@@ -2475,7 +2702,6 @@ function submitApplication() {
 .step-done,
 .step-active {
   background: rgb(var(--v-theme-export-user)) !important;
-  color: white !important;
 }
 .step-active {
   box-shadow: 0 0 0 4px rgba(var(--v-theme-export-user), 0.2) !important;
@@ -2485,22 +2711,11 @@ function submitApplication() {
 }
 .field-section-label {
   color: rgb(var(--v-theme-export-user)) !important;
-  font-weight: 600;
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
 }
 
-.amend-item {
-  padding: 4px 12px 8px 12px;
-  transition: background 0.15s;
-}
 .amend-item--active {
   background: rgba(var(--v-theme-export-user), 0.04);
   border-radius: 8px;
-}
-.amend-detail-field {
-  padding: 8px 4px 4px 32px;
 }
 
 .confirm-ring {

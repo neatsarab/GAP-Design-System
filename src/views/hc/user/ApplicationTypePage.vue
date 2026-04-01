@@ -9,7 +9,7 @@
         @click="goToApplicationList"
       />
       <div>
-        <h1 class="page-title mb-0">ยื่นคำขอ HC ใบรับรองสุขอนามัยพืช</h1>
+        <h1 class="page-title mb-0">ยื่นคำขอใหม่</h1>
         <p class="text-body-2 text-medium-emphasis mb-0">
           เลือกประเภทคำขอที่ต้องการยื่น
         </p>
@@ -76,19 +76,6 @@
         </v-card>
       </v-col>
     </v-row>
-
-    <!-- Info -->
-    <v-alert
-      type="info"
-      variant="tonal"
-      class="mt-6"
-      prepend-icon="fas fa-circle-info"
-      rounded="xl"
-    >
-      <strong>หมายเหตุ:</strong> ใบรับรองสุขอนามัยพืช (Phytosanitary
-      Certificate) ออกโดยกรมวิชาการเกษตรตามพระราชบัญญัติกักพืช พ.ศ. 2507
-      กรุณาเตรียมข้อมูลผู้ส่งออก โรงคัดบรรจุ และรายละเอียดสินค้าให้ครบถ้วน
-    </v-alert>
   </div>
 </template>
 
@@ -102,18 +89,22 @@ function goToApplicationList() {
 }
 
 function goToNewApplication(key) {
-  router.push({ name: "HCUserNewApplication", params: { key } });
+  if (key === "correction") {
+    router.push({ name: "HCUserCorrectionApplication" });
+  } else {
+    router.push({ name: "HCUserNewApplication", params: { type: key } });
+  }
 }
 
 const appTypes = [
   {
     key: "new",
-    title: "ขอใบรับรองสุขอนามัยพืช",
-    badge: "ทั่วไป",
-    icon: "fas fa-file-shield",
+    title: "คำขอใบรับรอง",
+    badge: null,
+    icon: "fas fa-file-circle-plus",
     color: "primary",
     description:
-      "สำหรับผู้ส่งออกที่ต้องการขอใบรับรองสุขอนามัยพืชเพื่อประกอบการส่งออกสินค้าพืชควบคุมเฉพาะ",
+      "ยื่นคำขอออกใบรับรองสุขอนามัยพืชเพื่อประกอบการส่งออกสินค้าพืชควบคุมเฉพาะ",
     features: [
       "พืชควบคุมเฉพาะเพื่อการส่งออก",
       "ระบุโรงคัดบรรจุและผู้รับสินค้า",
@@ -122,12 +113,12 @@ const appTypes = [
   },
   {
     key: "correction",
-    title: "ขอแก้ไขใบรับรอง",
+    title: "คำขอแก้ไขใบรับรอง",
     badge: null,
     icon: "fas fa-file-pen",
     color: "secondary",
     description:
-      "สำหรับผู้ส่งออกที่ต้องการแก้ไขข้อมูลในใบรับรองสุขอนามัยพืชที่ออกแล้ว เช่น ชื่อ ที่อยู่ หรือรายการสินค้า",
+      "สำหรับผู้ส่งออกที่ต้องการแก้ไขข้อมูลในใบรับรองสุขอนามัยพืชที่ออกแล้ว",
     features: [
       "ต้องมีใบรับรองเดิมที่ออกแล้ว",
       "แก้ไขข้อมูลที่ผิดพลาด",

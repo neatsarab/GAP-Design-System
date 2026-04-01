@@ -694,22 +694,3 @@ function statusLabel(s) {
 }
 </script>
 
-<style scoped>
-:deep(.v-data-table__td:last-child),
-:deep(.v-data-table__th:last-child) {
-  position: sticky;
-  right: 0;
-  z-index: 1;
-  background: rgb(var(--v-theme-surface));
-}
-
-.stat-icon {
-  width: 42px;
-  height: 42px;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-</style>

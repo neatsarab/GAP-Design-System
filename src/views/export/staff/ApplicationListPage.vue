@@ -614,12 +614,3 @@ function statusLabel(s) {
 }
 </script>
 
-<style scope>
-:deep(.v-data-tabletd:last-child),
-:deep(.v-data-tableth:last-child) {
-  position: sticky;
-  right: 0;
-  z-index: 1;
-  background: rgb(var(--v-theme-surface));
-}
-</style>

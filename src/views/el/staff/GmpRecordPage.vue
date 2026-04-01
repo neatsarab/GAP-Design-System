@@ -78,7 +78,7 @@
                   icon="fas fa-pen"
                   variant="text"
                   size="x-small"
-                  color="el-staff"
+                  color="warning"
                   @click="openEditDialog('gmp', idx)"
                 />
               </td>
@@ -158,7 +158,7 @@
                   icon="fas fa-pen"
                   variant="text"
                   size="x-small"
-                  color="el-staff"
+                  color="warning"
                   @click="openEditDialog('haccp', idx)"
                 />
               </td>

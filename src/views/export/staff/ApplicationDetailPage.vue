@@ -1105,7 +1105,7 @@ const application = {
 
   factories: [
     {
-      doaNo: "DOA-12345",
+      doaNo: "DOA-2568-12345",
       factoryName: "โรงบรรจุสินค้าไทยเอ็กซ์พอร์ต 1",
       expiryDate: "01/01/2570",
     },

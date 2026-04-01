@@ -25,6 +25,7 @@ export const useSessionStore = defineStore("session", () => {
 
   const entityType = ref(saved?.entityType ?? "personal");
   const loginName = ref(saved?.loginName ?? "");
+  const email = ref(saved?.email ?? "");
   const personalName = ref(saved?.personalName ?? "");
   const groupName = ref(saved?.groupName ?? "");
   const companyName = ref(saved?.companyName ?? "");
@@ -57,6 +58,7 @@ export const useSessionStore = defineStore("session", () => {
     () => ({
       entityType: entityType.value,
       loginName: loginName.value,
+      email: email.value,
       personalName: personalName.value,
       groupName: groupName.value,
       companyName: companyName.value,
@@ -75,9 +77,11 @@ export const useSessionStore = defineStore("session", () => {
     systems = [],
     juristicTaxId = "",
     personName = "",
+    personEmail = "",
   ) {
     entityType.value = type;
     if (personName) loginName.value = personName;
+    if (personEmail) email.value = personEmail;
     if (type === "group") {
       groupName.value = name;
       companyName.value = "";
@@ -102,6 +106,7 @@ export const useSessionStore = defineStore("session", () => {
   function clearSession() {
     entityType.value = "personal";
     loginName.value = "";
+    email.value = "";
     personalName.value = "";
     groupName.value = "";
     companyName.value = "";
@@ -114,6 +119,7 @@ export const useSessionStore = defineStore("session", () => {
   return {
     entityType,
     loginName,
+    email,
     personalName,
     groupName,
     companyName,

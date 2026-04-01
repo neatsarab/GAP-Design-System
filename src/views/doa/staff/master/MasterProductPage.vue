@@ -121,7 +121,7 @@
             <v-btn
               size="x-small"
               variant="tonal"
-              color="doa-staff"
+              color="warning"
               rounded="lg"
               icon="fas fa-pen"
               @click="openEdit(item)"

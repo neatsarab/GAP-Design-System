@@ -318,7 +318,10 @@ function isNavActive(to) {
 }
 
 const breadcrumbs = computed(() => [
-  { title: "ระบบ Health Certificate", to: "/hc/staff" },
+  {
+    title: "ระบบการออกหนังสือรับรองสุขอนามัยพืชสำหรับพืชควบคุมเฉพาะ",
+    to: "/hc/staff",
+  },
   { title: route.meta.title },
 ]);
 

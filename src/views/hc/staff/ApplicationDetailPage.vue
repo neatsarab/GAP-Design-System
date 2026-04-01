@@ -85,7 +85,9 @@
               <v-card rounded="xl" elevation="0" class="section-card mb-4">
                 <div class="section-header px-4 py-3 d-flex align-center ga-2">
                   <v-icon icon="fas fa-list-check" color="hc-staff" size="15" />
-                  <span class="text-subtitle-2 font-weight-bold">ข้อมูลคำขอ</span>
+                  <span class="text-subtitle-2 font-weight-bold"
+                    >ข้อมูลคำขอ</span
+                  >
                 </div>
                 <v-card-text class="pa-4">
                   <v-row dense>
@@ -115,7 +117,9 @@
               <v-card rounded="xl" elevation="0" class="section-card mb-4">
                 <div class="section-header px-4 py-3 d-flex align-center ga-2">
                   <v-icon icon="fas fa-user" color="hc-staff" size="15" />
-                  <span class="text-subtitle-2 font-weight-bold">ข้อมูลผู้ยื่นคำขอ</span>
+                  <span class="text-subtitle-2 font-weight-bold"
+                    >ข้อมูลผู้ยื่นคำขอ</span
+                  >
                 </div>
                 <v-card-text class="pa-4">
                   <v-row dense>
@@ -147,7 +151,9 @@
               <v-card rounded="xl" elevation="0" class="section-card mb-4">
                 <div class="section-header px-4 py-3 d-flex align-center ga-2">
                   <v-icon icon="fas fa-truck" color="hc-staff" size="15" />
-                  <span class="text-subtitle-2 font-weight-bold">ข้อมูลผู้ส่งออก</span>
+                  <span class="text-subtitle-2 font-weight-bold"
+                    >ข้อมูลผู้ส่งออก</span
+                  >
                 </div>
                 <v-card-text class="pa-4">
                   <v-row dense>
@@ -187,7 +193,9 @@
               <v-card rounded="xl" elevation="0" class="section-card mb-4">
                 <div class="section-header px-4 py-3 d-flex align-center ga-2">
                   <v-icon icon="fas fa-paperclip" color="hc-staff" size="15" />
-                  <span class="text-subtitle-2 font-weight-bold">เอกสารแนบ</span>
+                  <span class="text-subtitle-2 font-weight-bold"
+                    >เอกสารแนบ</span
+                  >
                 </div>
                 <v-card-text class="pa-4">
                   <div
@@ -227,7 +235,11 @@
                     <v-radio value="pass" class="mr-6">
                       <template #label>
                         <div class="d-flex align-center ga-2">
-                          <v-icon icon="fas fa-circle-check" color="success" size="18" />
+                          <v-icon
+                            icon="fas fa-circle-check"
+                            color="success"
+                            size="18"
+                          />
                           <span class="font-weight-medium">อนุมัติ</span>
                         </div>
                       </template>
@@ -235,7 +247,11 @@
                     <v-radio value="improve" class="mr-6">
                       <template #label>
                         <div class="d-flex align-center ga-2">
-                          <v-icon icon="fas fa-circle-exclamation" color="warning" size="18" />
+                          <v-icon
+                            icon="fas fa-circle-exclamation"
+                            color="warning"
+                            size="18"
+                          />
                           <span class="font-weight-medium">ปรับปรุง</span>
                         </div>
                       </template>
@@ -243,7 +259,11 @@
                     <v-radio value="fail">
                       <template #label>
                         <div class="d-flex align-center ga-2">
-                          <v-icon icon="fas fa-circle-xmark" color="error" size="18" />
+                          <v-icon
+                            icon="fas fa-circle-xmark"
+                            color="error"
+                            size="18"
+                          />
                           <span class="font-weight-medium">ไม่อนุมัติ</span>
                         </div>
                       </template>
@@ -351,10 +371,19 @@
             <!-- ความคืบหน้าคำขอ -->
             <v-card rounded="xl" elevation="0" class="section-card mb-4">
               <div class="section-header px-4 py-3 d-flex align-center ga-2">
-                <v-icon icon="fas fa-clock-rotate-left" color="hc-staff" size="15" />
-                <span class="text-subtitle-2 font-weight-bold">ความคืบหน้าคำขอ</span>
+                <v-icon
+                  icon="fas fa-clock-rotate-left"
+                  color="hc-staff"
+                  size="15"
+                />
+                <span class="text-subtitle-2 font-weight-bold"
+                  >ความคืบหน้าคำขอ</span
+                >
               </div>
-              <v-card-text class="pa-4" style="max-height: 420px; overflow-y: auto">
+              <v-card-text
+                class="pa-4"
+                style="max-height: 420px; overflow-y: auto"
+              >
                 <div class="activity-timeline">
                   <div
                     v-for="(event, i) in app.activityLog"
@@ -366,25 +395,49 @@
                         class="activity-dot"
                         :class="`activity-dot--${event.type}`"
                       >
-                        <v-icon :icon="eventIcon(event.type)" size="11" color="white" />
+                        <v-icon
+                          :icon="eventIcon(event.type)"
+                          size="11"
+                          color="white"
+                        />
                       </div>
-                      <div v-if="i < app.activityLog.length - 1" class="activity-line" />
+                      <div
+                        v-if="i < app.activityLog.length - 1"
+                        class="activity-line"
+                      />
                     </div>
                     <div class="activity-content pb-4">
                       <div class="d-flex align-center flex-wrap ga-1 mb-1">
-                        <span class="text-body-2 font-weight-medium">{{ event.action }}</span>
-                        <v-chip size="x-small" :color="eventColor(event.type)" variant="tonal">
+                        <span class="text-body-2 font-weight-medium">{{
+                          event.action
+                        }}</span>
+                        <v-chip
+                          size="x-small"
+                          :color="eventColor(event.type)"
+                          variant="tonal"
+                        >
                           {{ eventLabel(event.type) }}
                         </v-chip>
                       </div>
                       <div class="text-caption text-medium-emphasis">
-                        <v-icon icon="fas fa-user" size="9" class="mr-1" />{{ event.actor }}
+                        <v-icon icon="fas fa-user" size="9" class="mr-1" />{{
+                          event.actor
+                        }}
                       </div>
-                      <div v-if="event.timestamp" class="text-caption text-medium-emphasis mt-1">
-                        <v-icon icon="fas fa-calendar" size="9" class="mr-1" />{{ event.timestamp }}
+                      <div
+                        v-if="event.timestamp"
+                        class="text-caption text-medium-emphasis mt-1"
+                      >
+                        <v-icon
+                          icon="fas fa-calendar"
+                          size="9"
+                          class="mr-1"
+                        />{{ event.timestamp }}
                       </div>
                       <v-btn
-                        v-if="event.type !== 'submit' && event.type !== 'checking'"
+                        v-if="
+                          event.type !== 'submit' && event.type !== 'checking'
+                        "
                         size="x-small"
                         variant="text"
                         color="hc-staff"
@@ -392,7 +445,11 @@
                         @click="openActivityDetail(event)"
                       >
                         ดูรายละเอียด
-                        <v-icon icon="fas fa-chevron-right" size="10" class="ml-1" />
+                        <v-icon
+                          icon="fas fa-chevron-right"
+                          size="10"
+                          class="ml-1"
+                        />
                       </v-btn>
                     </div>
                   </div>
@@ -419,12 +476,23 @@
         <v-card-actions class="px-5 pb-5">
           <v-row no-gutters class="ga-2 w-100">
             <v-col>
-              <v-btn variant="tonal" color="grey" block rounded="lg" @click="saveReviewDialog = false">
+              <v-btn
+                variant="tonal"
+                color="grey"
+                block
+                rounded="lg"
+                @click="saveReviewDialog = false"
+              >
                 ยกเลิก
               </v-btn>
             </v-col>
             <v-col>
-              <v-btn color="hc-staff" block rounded="lg" @click="submitSaveReview">
+              <v-btn
+                color="hc-staff"
+                block
+                rounded="lg"
+                @click="submitSaveReview"
+              >
                 ยืนยัน
               </v-btn>
             </v-col>
@@ -448,12 +516,20 @@
         <v-card-actions class="px-5 pb-5">
           <v-row no-gutters class="ga-2 w-100">
             <v-col>
-              <v-btn variant="tonal" color="grey" block rounded="lg" @click="sendBackDialog = false">
+              <v-btn
+                variant="tonal"
+                color="grey"
+                block
+                rounded="lg"
+                @click="sendBackDialog = false"
+              >
                 ยกเลิก
               </v-btn>
             </v-col>
             <v-col>
-              <v-btn color="warning" block rounded="lg" @click="submitSendBack">ยืนยัน</v-btn>
+              <v-btn color="warning" block rounded="lg" @click="submitSendBack"
+                >ยืนยัน</v-btn
+              >
             </v-col>
           </v-row>
         </v-card-actions>
@@ -475,12 +551,20 @@
         <v-card-actions class="px-5 pb-5">
           <v-row no-gutters class="ga-2 w-100">
             <v-col>
-              <v-btn variant="tonal" color="grey" block rounded="lg" @click="rejectDialog = false">
+              <v-btn
+                variant="tonal"
+                color="grey"
+                block
+                rounded="lg"
+                @click="rejectDialog = false"
+              >
                 ยกเลิก
               </v-btn>
             </v-col>
             <v-col>
-              <v-btn color="error" block rounded="lg" @click="submitReject">ยืนยัน</v-btn>
+              <v-btn color="error" block rounded="lg" @click="submitReject"
+                >ยืนยัน</v-btn
+              >
             </v-col>
           </v-row>
         </v-card-actions>
@@ -495,10 +579,17 @@
             <v-icon icon="fas fa-check" color="success" size="36" />
           </div>
           <h3 class="text-h6 font-weight-bold mb-2">ดำเนินการสำเร็จ</h3>
-          <p class="text-body-2 text-medium-emphasis mb-0">{{ successMessage }}</p>
+          <p class="text-body-2 text-medium-emphasis mb-0">
+            {{ successMessage }}
+          </p>
         </v-card-text>
         <v-card-actions class="px-6 pb-5">
-          <v-btn color="hc-staff" rounded="lg" block @click="goToApplicationList">
+          <v-btn
+            color="hc-staff"
+            rounded="lg"
+            block
+            @click="goToApplicationList"
+          >
             กลับรายการคำขอ
           </v-btn>
         </v-card-actions>
@@ -512,7 +603,9 @@
           <div class="d-flex align-center ga-3 mb-4">
             <div
               class="activity-dot flex-shrink-0"
-              :class="selectedEvent ? `activity-dot--${selectedEvent.type}` : ''"
+              :class="
+                selectedEvent ? `activity-dot--${selectedEvent.type}` : ''
+              "
               style="width: 36px; height: 36px"
             >
               <v-icon
@@ -523,28 +616,39 @@
               />
             </div>
             <div>
-              <div class="text-subtitle-2 font-weight-bold">{{ selectedEvent?.action }}</div>
+              <div class="text-subtitle-2 font-weight-bold">
+                {{ selectedEvent?.action }}
+              </div>
               <v-chip
                 v-if="selectedEvent"
                 size="x-small"
                 :color="eventColor(selectedEvent.type)"
                 variant="tonal"
                 class="mt-1"
-              >{{ eventLabel(selectedEvent.type) }}</v-chip>
+                >{{ eventLabel(selectedEvent.type) }}</v-chip
+              >
             </div>
           </div>
           <v-divider class="mb-4" />
           <div class="d-flex flex-column ga-3">
             <div>
-              <div class="text-caption text-medium-emphasis mb-1">ผู้ดำเนินการ</div>
+              <div class="text-caption text-medium-emphasis mb-1">
+                ผู้ดำเนินการ
+              </div>
               <div class="text-body-2">
-                <v-icon icon="fas fa-user" size="12" class="mr-1" />{{ selectedEvent?.actor }}
+                <v-icon icon="fas fa-user" size="12" class="mr-1" />{{
+                  selectedEvent?.actor
+                }}
               </div>
             </div>
             <div>
-              <div class="text-caption text-medium-emphasis mb-1">วันที่ / เวลา</div>
+              <div class="text-caption text-medium-emphasis mb-1">
+                วันที่ / เวลา
+              </div>
               <div class="text-body-2">
-                <v-icon icon="fas fa-calendar" size="12" class="mr-1" />{{ selectedEvent?.timestamp }}
+                <v-icon icon="fas fa-calendar" size="12" class="mr-1" />{{
+                  selectedEvent?.timestamp
+                }}
               </div>
             </div>
             <div>
@@ -561,7 +665,13 @@
           </div>
         </v-card-text>
         <v-card-actions class="px-6 pb-5 pt-0">
-          <v-btn color="hc-staff" variant="tonal" rounded="lg" block @click="activityDetailDialog = false">
+          <v-btn
+            color="hc-staff"
+            variant="tonal"
+            rounded="lg"
+            block
+            @click="activityDetailDialog = false"
+          >
             ปิด
           </v-btn>
         </v-card-actions>
@@ -665,7 +775,7 @@ const app = {
 
   attachments: [
     { label: "ใบอนุญาตส่งออก (Export License)" },
-    { label: "หนังสือรับรองการตรวจพืช (Phytosanitary Certificate)" },
+    { label: "หนังสือรับรองการตรวจพืช (Haelth Certificate)" },
     { label: "ผลการตรวจวิเคราะห์ (Laboratory Analysis Report)" },
     { label: "บัญชีรายการสินค้า (Packing List)" },
   ],
@@ -801,37 +911,81 @@ function statusLabel(s) {
 
 <style scoped>
 /* Activity timeline */
-.activity-timeline { padding-left: 4px; }
-.activity-item { display: flex; gap: 16px; }
-.activity-dot-wrap { display: flex; flex-direction: column; align-items: center; flex-shrink: 0; }
-.activity-dot {
-  width: 28px; height: 28px; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0; z-index: 1;
+.activity-timeline {
+  padding-left: 4px;
 }
-.activity-dot--submit { background: rgb(var(--v-theme-hc-staff)); }
-.activity-dot--receive { background: rgb(var(--v-theme-info)); }
-.activity-dot--forward { background: rgb(var(--v-theme-hc-staff)); }
-.activity-dot--review { background: rgb(var(--v-theme-warning)); }
+.activity-item {
+  display: flex;
+  gap: 16px;
+}
+.activity-dot-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+}
+.activity-dot {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  z-index: 1;
+}
+.activity-dot--submit {
+  background: rgb(var(--v-theme-hc-staff));
+}
+.activity-dot--receive {
+  background: rgb(var(--v-theme-info));
+}
+.activity-dot--forward {
+  background: rgb(var(--v-theme-hc-staff));
+}
+.activity-dot--review {
+  background: rgb(var(--v-theme-warning));
+}
 .activity-dot--checking {
   background: rgb(var(--v-theme-hc-staff));
   animation: pulse-checking 1.6s ease-in-out infinite;
 }
 @keyframes pulse-checking {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(var(--v-theme-hc-staff), 0.5); }
-  50% { box-shadow: 0 0 0 8px rgba(var(--v-theme-hc-staff), 0); }
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(var(--v-theme-hc-staff), 0.5);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(var(--v-theme-hc-staff), 0);
+  }
 }
-.activity-dot--pending { background: rgb(var(--v-theme-warning)); }
-.activity-dot--approve { background: rgb(var(--v-theme-success)); }
-.activity-dot--reject { background: rgb(var(--v-theme-error)); }
-.activity-dot--sendback { background: #fb8c00; }
+.activity-dot--pending {
+  background: rgb(var(--v-theme-warning));
+}
+.activity-dot--approve {
+  background: rgb(var(--v-theme-success));
+}
+.activity-dot--reject {
+  background: rgb(var(--v-theme-error));
+}
+.activity-dot--sendback {
+  background: #fb8c00;
+}
 .activity-line {
-  width: 2px; flex-grow: 1;
+  width: 2px;
+  flex-grow: 1;
   background: rgba(var(--v-theme-on-surface), 0.12);
-  margin-top: 4px; min-height: 20px;
+  margin-top: 4px;
+  min-height: 20px;
 }
-.activity-content { flex: 1; min-width: 0; }
-.sticky-col { position: sticky; top: 80px; }
+.activity-content {
+  flex: 1;
+  min-width: 0;
+}
+.sticky-col {
+  position: sticky;
+  top: 80px;
+}
 </style>
 
 <style scoped>
@@ -839,14 +993,23 @@ div {
   --step-color: rgb(var(--v-theme-hc-staff));
   --step-color-tint: rgba(var(--v-theme-hc-staff), 0.2);
 }
-.step-done, .step-active {
+.step-done,
+.step-active {
   background: rgb(var(--v-theme-hc-staff)) !important;
   color: white !important;
 }
-.step-active { box-shadow: 0 0 0 4px rgba(var(--v-theme-hc-staff), 0.2) !important; }
-.step-line--done { background: rgb(var(--v-theme-hc-staff)) !important; }
-.confirm-ring { background: rgba(var(--v-theme-hc-staff), 0.1) !important; }
-.section-header { border-bottom: 1px solid rgba(var(--v-theme-on-surface), 0.08); }
+.step-active {
+  box-shadow: 0 0 0 4px rgba(var(--v-theme-hc-staff), 0.2) !important;
+}
+.step-line--done {
+  background: rgb(var(--v-theme-hc-staff)) !important;
+}
+.confirm-ring {
+  background: rgba(var(--v-theme-hc-staff), 0.1) !important;
+}
+.section-header {
+  border-bottom: 1px solid rgba(var(--v-theme-on-surface), 0.08);
+}
 .info-label {
   font-size: 11px;
   color: rgba(var(--v-theme-on-surface), 0.5);
@@ -854,11 +1017,20 @@ div {
   letter-spacing: 0.4px;
   margin-bottom: 2px;
 }
-.info-value { font-size: 14px; font-weight: 500; }
-.item-row { background: rgba(var(--v-theme-hc-staff), 0.03); }
+.info-value {
+  font-size: 14px;
+  font-weight: 500;
+}
+.item-row {
+  background: rgba(var(--v-theme-hc-staff), 0.03);
+}
 .step-circle {
-  width: 32px; height: 32px; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: rgba(var(--v-theme-on-surface), 0.08);
   color: rgba(var(--v-theme-on-surface), 0.4);
 }
@@ -869,9 +1041,13 @@ div {
   margin-bottom: 16px;
 }
 .success-ring {
-  width: 64px; height: 64px; border-radius: 50%;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
   background: rgba(var(--v-theme-success), 0.12);
-  display: flex; align-items: center; justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin: 0 auto;
 }
 </style>

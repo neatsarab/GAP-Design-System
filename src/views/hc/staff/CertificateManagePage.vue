@@ -346,9 +346,4 @@ function historyLabel(s) {
 .section-header { border-bottom: 1px solid rgba(var(--v-theme-on-surface), 0.08); }
 .field-label { font-size: 0.8rem; font-weight: 600; margin-bottom: 4px; }
 .field-label-en { font-size: 0.72rem; color: rgba(var(--v-theme-on-surface), 0.5); font-weight: 400; }
-.success-ring {
-  width: 64px; height: 64px; border-radius: 50%;
-  background: rgba(var(--v-theme-success), 0.12);
-  display: flex; align-items: center; justify-content: center;
-}
 </style>

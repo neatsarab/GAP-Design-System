@@ -564,7 +564,7 @@
                   icon="fas fa-pen"
                   variant="text"
                   size="x-small"
-                  color="el-staff"
+                  color="warning"
                   @click="openEditTest('micro', idx)"
                 />
                 <v-btn
@@ -642,7 +642,7 @@
                   icon="fas fa-pen"
                   variant="text"
                   size="x-small"
-                  color="el-staff"
+                  color="warning"
                   @click="openEditTest('residue', idx)"
                 />
                 <v-btn
@@ -715,7 +715,7 @@
                   icon="fas fa-pen"
                   variant="text"
                   size="x-small"
-                  color="el-staff"
+                  color="warning"
                   @click="openEditTest('insect', idx)"
                 />
                 <v-btn

@@ -1567,7 +1567,7 @@ const pagedGroups = computed(() => {
 });
 
 function selectPersonal() {
-  sessionStore.setContext("personal", personalName, "", [], "", personalName);
+  sessionStore.setContext("personal", personalName, "", [], "", personalName, personalEmail);
   router.push({
     name: "UserPortal",
     query: { entityType: "personal", personalName },
@@ -1582,6 +1582,7 @@ function selectJuristic(company) {
     [],
     company.taxId,
     personalName,
+    personalEmail,
   );
   router.push({
     name: "UserPortal",
@@ -1602,6 +1603,7 @@ function selectGroup(group) {
     group.systems,
     "",
     personalName,
+    personalEmail,
   );
   router.push({
     name: "UserPortal",
@@ -1616,6 +1618,7 @@ function selectGroup(group) {
 }
 
 const personalName = "นิธิพร เทิบจันทึก";
+const personalEmail = "nithiporn.t@thaidopa.go.th";
 const personalSystems = ["GAP", "DOA"];
 
 const companies = [

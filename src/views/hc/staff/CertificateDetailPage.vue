@@ -29,7 +29,9 @@
       <v-col cols="12" md="8">
         <!-- สถานะใบรับรอง -->
         <v-card rounded="xl" elevation="0" class="section-card mb-4">
-          <div class="section-header px-4 py-3 border-b d-flex align-center ga-2">
+          <div
+            class="section-header px-4 py-3 border-b d-flex align-center ga-2"
+          >
             <v-icon icon="fas fa-file-shield" color="hc-staff" size="15" />
             <span class="text-subtitle-2 font-weight-bold">สถานะใบรับรอง</span>
           </div>
@@ -83,9 +85,13 @@
 
         <!-- ข้อมูลผู้ยื่นคำขอ -->
         <v-card rounded="xl" elevation="0" class="section-card mb-4">
-          <div class="section-header px-4 py-3 border-b d-flex align-center ga-2">
+          <div
+            class="section-header px-4 py-3 border-b d-flex align-center ga-2"
+          >
             <v-icon icon="fas fa-user" color="hc-staff" size="15" />
-            <span class="text-subtitle-2 font-weight-bold">ข้อมูลผู้ยื่นคำขอ</span>
+            <span class="text-subtitle-2 font-weight-bold"
+              >ข้อมูลผู้ยื่นคำขอ</span
+            >
           </div>
           <v-card-text class="pa-4">
             <v-row dense>
@@ -115,9 +121,13 @@
 
         <!-- ข้อมูลผู้ส่งออก -->
         <v-card rounded="xl" elevation="0" class="section-card mb-4">
-          <div class="section-header px-4 py-3 border-b d-flex align-center ga-2">
+          <div
+            class="section-header px-4 py-3 border-b d-flex align-center ga-2"
+          >
             <v-icon icon="fas fa-truck" color="hc-staff" size="15" />
-            <span class="text-subtitle-2 font-weight-bold">ข้อมูลผู้ส่งออก</span>
+            <span class="text-subtitle-2 font-weight-bold"
+              >ข้อมูลผู้ส่งออก</span
+            >
           </div>
           <v-card-text class="pa-4">
             <v-row dense>
@@ -155,7 +165,9 @@
 
         <!-- เอกสารแนบ -->
         <v-card rounded="xl" elevation="0" class="section-card mb-4">
-          <div class="section-header px-4 py-3 border-b d-flex align-center ga-2">
+          <div
+            class="section-header px-4 py-3 border-b d-flex align-center ga-2"
+          >
             <v-icon icon="fas fa-paperclip" color="hc-staff" size="15" />
             <span class="text-subtitle-2 font-weight-bold">เอกสารแนบ</span>
           </div>
@@ -210,11 +222,22 @@
 
           <!-- ประวัติใบรับรอง -->
           <v-card rounded="xl" elevation="0" class="section-card">
-            <div class="section-header px-4 py-3 border-b d-flex align-center ga-2">
-              <v-icon icon="fas fa-clock-rotate-left" color="hc-staff" size="15" />
-              <span class="text-subtitle-2 font-weight-bold">ประวัติใบรับรอง</span>
+            <div
+              class="section-header px-4 py-3 border-b d-flex align-center ga-2"
+            >
+              <v-icon
+                icon="fas fa-clock-rotate-left"
+                color="hc-staff"
+                size="15"
+              />
+              <span class="text-subtitle-2 font-weight-bold"
+                >ประวัติใบรับรอง</span
+              >
             </div>
-            <v-card-text class="pa-4" style="max-height: 420px; overflow-y: auto">
+            <v-card-text
+              class="pa-4"
+              style="max-height: 420px; overflow-y: auto"
+            >
               <div class="activity-timeline">
                 <div
                   v-for="(event, i) in cert.activityLog"
@@ -222,26 +245,49 @@
                   class="activity-item"
                 >
                   <div class="activity-dot-wrap">
-                    <div class="activity-dot" :class="`activity-dot--${event.type}`">
-                      <v-icon :icon="eventIcon(event.type)" size="11" color="white" />
+                    <div
+                      class="activity-dot"
+                      :class="`activity-dot--${event.type}`"
+                    >
+                      <v-icon
+                        :icon="eventIcon(event.type)"
+                        size="11"
+                        color="white"
+                      />
                     </div>
-                    <div v-if="i < cert.activityLog.length - 1" class="activity-line" />
+                    <div
+                      v-if="i < cert.activityLog.length - 1"
+                      class="activity-line"
+                    />
                   </div>
                   <div class="activity-content pb-4">
                     <div class="d-flex align-center flex-wrap ga-1 mb-1">
-                      <span class="text-body-2 font-weight-medium">{{ event.action }}</span>
-                      <v-chip size="x-small" :color="eventColor(event.type)" variant="tonal">
+                      <span class="text-body-2 font-weight-medium">{{
+                        event.action
+                      }}</span>
+                      <v-chip
+                        size="x-small"
+                        :color="eventColor(event.type)"
+                        variant="tonal"
+                      >
                         {{ eventLabel(event.type) }}
                       </v-chip>
                     </div>
-                    <div v-if="event.remark" class="text-caption text-medium-emphasis mb-1">
+                    <div
+                      v-if="event.remark"
+                      class="text-caption text-medium-emphasis mb-1"
+                    >
                       {{ event.remark }}
                     </div>
                     <div class="text-caption text-medium-emphasis">
-                      <v-icon icon="fas fa-user" size="9" class="mr-1" />{{ event.actor }}
+                      <v-icon icon="fas fa-user" size="9" class="mr-1" />{{
+                        event.actor
+                      }}
                     </div>
                     <div class="text-caption text-medium-emphasis mt-1">
-                      <v-icon icon="fas fa-calendar" size="9" class="mr-1" />{{ event.timestamp }}
+                      <v-icon icon="fas fa-calendar" size="9" class="mr-1" />{{
+                        event.timestamp
+                      }}
                     </div>
                   </div>
                 </div>
@@ -262,7 +308,10 @@ const route = useRoute();
 const router = useRouter();
 
 function goToManage() {
-  router.push({ name: "HCStaffCertificateManage", params: { id: route.params.id } });
+  router.push({
+    name: "HCStaffCertificateManage",
+    params: { id: route.params.id },
+  });
 }
 
 const cert = {
@@ -304,7 +353,7 @@ const cert = {
 
   attachments: [
     { label: "ใบอนุญาตส่งออก (Export License)" },
-    { label: "หนังสือรับรองการตรวจพืช (Phytosanitary Certificate)" },
+    { label: "หนังสือรับรองการตรวจพืช (Haelth Certificate)" },
     { label: "ผลการตรวจวิเคราะห์ (Laboratory Analysis Report)" },
     { label: "บัญชีรายการสินค้า (Packing List)" },
   ],
@@ -361,7 +410,9 @@ const exporterAddressEn = computed(() => {
 });
 
 function certStatusColor(s) {
-  return { active: "success", expiring: "warning", expired: "error" }[s] ?? "grey";
+  return (
+    { active: "success", expiring: "warning", expired: "error" }[s] ?? "grey"
+  );
 }
 function certStatusIcon(s) {
   return (
@@ -373,7 +424,9 @@ function certStatusIcon(s) {
   );
 }
 function certStatusLabel(s) {
-  return { active: "มีผล", expiring: "ใกล้หมดอายุ", expired: "หมดอายุ" }[s] ?? s;
+  return (
+    { active: "มีผล", expiring: "ใกล้หมดอายุ", expired: "หมดอายุ" }[s] ?? s
+  );
 }
 
 function eventIcon(type) {
@@ -424,41 +477,87 @@ function eventLabel(type) {
 </script>
 
 <style scoped>
-.sticky-col { position: sticky; top: 80px; }
+.sticky-col {
+  position: sticky;
+  top: 80px;
+}
 .info-label {
   font-size: 0.72rem;
   color: rgba(var(--v-theme-on-surface), 0.55);
   margin-bottom: 2px;
 }
-.info-value { font-size: 0.875rem; margin-bottom: 8px; }
+.info-value {
+  font-size: 0.875rem;
+  margin-bottom: 8px;
+}
 .item-row {
   background: rgba(var(--v-theme-on-surface), 0.03);
   border: 1px solid rgba(var(--v-theme-on-surface), 0.08);
 }
-.section-header { border-bottom: 1px solid rgba(var(--v-theme-on-surface), 0.08); }
+.section-header {
+  border-bottom: 1px solid rgba(var(--v-theme-on-surface), 0.08);
+}
 
 /* Activity timeline */
-.activity-timeline { padding-left: 4px; }
-.activity-item { display: flex; gap: 16px; }
-.activity-dot-wrap { display: flex; flex-direction: column; align-items: center; flex-shrink: 0; }
+.activity-timeline {
+  padding-left: 4px;
+}
+.activity-item {
+  display: flex;
+  gap: 16px;
+}
+.activity-dot-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+}
 .activity-dot {
-  width: 28px; height: 28px; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0; z-index: 1;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  z-index: 1;
 }
-.activity-dot--submit { background: rgb(var(--v-theme-hc-staff)); }
-.activity-dot--receive { background: rgb(var(--v-theme-info)); }
-.activity-dot--forward { background: rgb(var(--v-theme-success)); }
-.activity-dot--review { background: rgb(var(--v-theme-warning)); }
-.activity-dot--approve { background: rgb(var(--v-theme-success)); }
-.activity-dot--reject { background: rgb(var(--v-theme-error)); }
-.activity-dot--sendback { background: #fb8c00; }
-.activity-dot--issue { background: rgb(var(--v-theme-hc-staff)); }
-.activity-dot--revoke { background: rgb(var(--v-theme-error)); }
+.activity-dot--submit {
+  background: rgb(var(--v-theme-hc-staff));
+}
+.activity-dot--receive {
+  background: rgb(var(--v-theme-info));
+}
+.activity-dot--forward {
+  background: rgb(var(--v-theme-success));
+}
+.activity-dot--review {
+  background: rgb(var(--v-theme-warning));
+}
+.activity-dot--approve {
+  background: rgb(var(--v-theme-success));
+}
+.activity-dot--reject {
+  background: rgb(var(--v-theme-error));
+}
+.activity-dot--sendback {
+  background: #fb8c00;
+}
+.activity-dot--issue {
+  background: rgb(var(--v-theme-hc-staff));
+}
+.activity-dot--revoke {
+  background: rgb(var(--v-theme-error));
+}
 .activity-line {
-  width: 2px; flex-grow: 1;
+  width: 2px;
+  flex-grow: 1;
   background: rgba(var(--v-theme-on-surface), 0.12);
-  margin-top: 4px; min-height: 20px;
+  margin-top: 4px;
+  min-height: 20px;
 }
-.activity-content { flex: 1; min-width: 0; }
+.activity-content {
+  flex: 1;
+  min-width: 0;
+}
 </style>

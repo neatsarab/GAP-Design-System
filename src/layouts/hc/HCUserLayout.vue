@@ -324,7 +324,10 @@ function doLogout() {
 }
 
 const breadcrumbs = computed(() => [
-  { title: "ระบบ Health Certificate", to: "/hc/user" },
+  {
+    title: "ระบบการออกหนังสือรับรองสุขอนามัยพืชสำหรับพืชควบคุมเฉพาะ",
+    to: "/hc/user",
+  },
   { title: route.meta.title },
 ]);
 

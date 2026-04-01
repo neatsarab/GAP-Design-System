@@ -65,7 +65,9 @@
       <v-card rounded="xl" elevation="0" class="section-card mb-5">
         <div class="d-flex align-center ga-2 px-4 py-3 border-b">
           <v-icon icon="fas fa-file-pen" color="doa-user" size="15" />
-          <span class="text-subtitle-2 font-weight-bold">{{ isRegister ? "ความประสงค์" : "ทะเบียนที่ประสงค์ขอแก้ไข" }}</span>
+          <span class="text-subtitle-2 font-weight-bold">{{
+            isRegister ? "ความประสงค์" : "ทะเบียนที่ประสงค์ขอแก้ไข"
+          }}</span>
         </div>
         <v-card-text class="pt-5">
           <!--  กรณีสร้างคำขอใหม่ -->
@@ -148,7 +150,9 @@
       <v-card rounded="xl" elevation="0" class="section-card mb-5">
         <div class="d-flex align-center ga-2 px-4 py-3 border-b">
           <v-icon icon="fas fa-user" color="doa-user" size="15" />
-          <span class="text-subtitle-2 font-weight-bold">ข้อมูลผู้ยื่นคำขอ</span>
+          <span class="text-subtitle-2 font-weight-bold"
+            >ข้อมูลผู้ยื่นคำขอ</span
+          >
         </div>
         <v-card-text class="pt-5">
           <!-- ข้อมูลส่วนตัว -->
@@ -361,7 +365,9 @@
       <v-card rounded="xl" elevation="0" class="section-card mb-5">
         <div class="d-flex align-center ga-2 px-4 py-3 border-b">
           <v-icon icon="fas fa-industry" color="doa-user" size="15" />
-          <span class="text-subtitle-2 font-weight-bold">ข้อมูลโรงงานผลิตสินค้าพืช</span>
+          <span class="text-subtitle-2 font-weight-bold"
+            >ข้อมูลโรงงานผลิตสินค้าพืช</span
+          >
         </div>
         <v-card-text class="pt-5">
           <!-- ประเภทสถานประกอบการ -->
@@ -612,7 +618,9 @@
       <v-card rounded="xl" elevation="0" class="section-card mb-5">
         <div class="d-flex align-center ga-2 px-4 py-3 border-b">
           <v-icon icon="fas fa-certificate" color="doa-user" size="15" />
-          <span class="text-subtitle-2 font-weight-bold">ขอบข่ายมาตรฐานที่ขอขึ้นทะเบียน</span>
+          <span class="text-subtitle-2 font-weight-bold"
+            >ขอบข่ายมาตรฐานที่ขอขึ้นทะเบียน</span
+          >
           <v-spacer />
           <v-btn
             v-if="isRegister"
@@ -657,7 +665,7 @@
                   icon="fas fa-pen"
                   variant="text"
                   size="x-small"
-                  color="doa-user"
+                  color="warning"
                   @click="openStandardDialog(idx)"
                   v-if="!isScope"
                 />
@@ -684,7 +692,9 @@
       >
         <div class="d-flex align-center ga-2 px-4 py-3 border-b">
           <v-icon icon="fas fa-file-pen" color="doa-user" size="15" />
-          <span class="text-subtitle-2 font-weight-bold">ข้อมูลที่ต้องการแก้ไข</span>
+          <span class="text-subtitle-2 font-weight-bold"
+            >ข้อมูลที่ต้องการแก้ไข</span
+          >
         </div>
         <v-card-text class="pt-5">
           <v-row dense>
@@ -761,7 +771,9 @@
       >
         <div class="d-flex align-center ga-2 px-4 py-3 border-b">
           <v-icon icon="fas fa-user" color="doa-user" size="15" />
-          <span class="text-subtitle-2 font-weight-bold">เพิ่ม / ลดขอบข่ายมาตรฐาน</span>
+          <span class="text-subtitle-2 font-weight-bold"
+            >เพิ่ม / ลดขอบข่ายมาตรฐาน</span
+          >
         </div>
         <v-card-text class="pt-5">
           <v-row dense>
@@ -854,7 +866,7 @@
                               icon="fas fa-pen"
                               variant="text"
                               size="x-small"
-                              color="doa-user"
+                              color="warning"
                               @click="openStandardDialog(idx)"
                             />
                             <v-btn
@@ -1097,7 +1109,9 @@
       <v-card rounded="xl">
         <div class="d-flex align-center ga-2 px-4 py-3 border-b">
           <v-icon icon="fas fa-certificate" color="doa-user" size="15" />
-          <span class="text-subtitle-2 font-weight-bold">{{ standardDialogIndex === -1 ? "เพิ่มมาตรฐาน" : "แก้ไขมาตรฐาน" }}</span>
+          <span class="text-subtitle-2 font-weight-bold">{{
+            standardDialogIndex === -1 ? "เพิ่มมาตรฐาน" : "แก้ไขมาตรฐาน"
+          }}</span>
         </div>
         <v-card-text class="pa-5">
           <v-row dense>

@@ -218,7 +218,7 @@
             <tbody>
               <tr v-for="(factory, i) in cert.factories" :key="i">
                 <td class="text-body-2 text-medium-emphasis">{{ i + 1 }}</td>
-                <td class="text-body-2 font-weight-bold text-export-user">
+                <td class="text-body-2 font-weight-bold text-doa-user">
                   {{ factory.doaNo }}
                 </td>
                 <td class="text-body-2">{{ factory.factoryName }}</td>
@@ -251,7 +251,7 @@
             <tbody>
               <tr v-for="(gap, i) in cert.gaps" :key="i">
                 <td class="text-body-2 text-medium-emphasis">{{ i + 1 }}</td>
-                <td class="text-body-2 font-weight-bold text-export-user">
+                <td class="text-body-2 font-weight-bold text-gap-user">
                   {{ gap.gapNo }}
                 </td>
                 <td class="text-body-2">{{ gap.siteName }}</td>
@@ -572,12 +572,12 @@ const cert = {
 
   factories: [
     {
-      doaNo: "DOA-12345",
+      doaNo: "DOA-2568-12345",
       factoryName: "โรงบรรจุสินค้าไทยเอ็กซ์พอร์ต 1",
       expiryDate: "01/01/2570",
     },
     {
-      doaNo: "DOA-12346",
+      doaNo: "DOA-2568-12346",
       factoryName: "โรงรมทรีทเม้นต์ไทยเอ็กซ์พอร์ต",
       expiryDate: "01/06/2570",
     },
@@ -585,13 +585,13 @@ const cert = {
 
   gaps: [
     {
-      gapNo: "GAP-00123",
+      gapNo: "GAP-2568-00123",
       siteName: "สวนมะม่วงไทยเอ็กซ์พอร์ต",
       certBody: "กรมวิชาการเกษตร (DOA)",
       expiryDate: "01/03/2570",
     },
     {
-      gapNo: "GAP-00456",
+      gapNo: "GAP-2568-00456",
       siteName: "สวนมะละกอไทยเอ็กซ์พอร์ต",
       certBody: "สำนักงานเกษตรจังหวัด",
       expiryDate: "15/06/2570",
@@ -599,7 +599,10 @@ const cert = {
   ],
 
   attachments: [
-    { label: "หนังสือรับรองของโรงงานผลิตสินค้าพืชที่เราระบุว่าเป็นผู้คัดบรรจุสินค้าผักและผลไม้ให้กับผู้ส่งออก กรณีที่ผู้ส่งออกแจ้งใช้โรงงานผลิตสินค้าพืชของผู้อื่น" },
+    {
+      label:
+        "หนังสือรับรองของโรงงานผลิตสินค้าพืชที่เราระบุว่าเป็นผู้คัดบรรจุสินค้าผักและผลไม้ให้กับผู้ส่งออก กรณีที่ผู้ส่งออกแจ้งใช้โรงงานผลิตสินค้าพืชของผู้อื่น",
+    },
     { label: "หนังสือรับรองการซื้อ-ขายกับเกษตรกร" },
   ],
 

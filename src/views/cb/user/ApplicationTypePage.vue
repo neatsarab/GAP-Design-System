@@ -99,7 +99,7 @@ const appTypes = [
     route: "/cb/user/applications/new/register",
     title: "คำขอขึ้น / ต่ออายุทะเบียน",
     badge: null,
-    icon: "fas fa-building-shield",
+    icon: "fas fa-file-circle-plus",
     color: "primary",
     description:
       "สำหรับผู้ประกอบการที่ต้องการยื่นขอขึ้นทะเบียนใหม่ เพื่อให้สามารถดำเนินการตามข้อกำหนดของกรมวิชาการเกษตรได้",

@@ -601,6 +601,15 @@
   justify-content: center;
   flex-shrink: 0;
 }
+.stat-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
 .app-icon-box {
   width: 36px;
   height: 36px;
@@ -642,6 +651,17 @@
 .table-card,
 .summary-card {
   border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
+}
+
+/* Sticky last column in data tables */
+.v-data-table td:last-child,
+.v-data-table th:last-child,
+.v-data-table__td:last-child,
+.v-data-table__th:last-child {
+  position: sticky;
+  right: 0;
+  z-index: 1;
+  background: rgb(var(--v-theme-surface));
 }
 
 /* ═══════════════════════════════════════════════════
@@ -752,6 +772,13 @@
 .item-row {
   background: rgba(var(--v-theme-primary), 0.03);
   border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
+}
+.amend-item {
+  padding: 4px 12px 8px 12px;
+  transition: background 0.15s;
+}
+.amend-detail-field {
+  padding: 8px 4px 4px 32px;
 }
 
 /* Application type selection card */
@@ -966,10 +993,10 @@
 ═══════════════════════════════════════════════════ */
 
 .success-ring {
-  width: 72px;
-  height: 72px;
+  width: 64px;
+  height: 64px;
   border-radius: 50%;
-  background: rgba(var(--v-theme-success), 0.1);
+  background: rgba(var(--v-theme-success), 0.12);
   display: flex;
   align-items: center;
   justify-content: center;

@@ -207,7 +207,7 @@
                   <v-btn
                     size="x-small"
                     variant="tonal"
-                    color="info"
+                    color="warning"
                     rounded="lg"
                     icon="fas fa-pen"
                     @click="openEdit(d)"

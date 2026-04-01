@@ -629,33 +629,3 @@ function statusLabel(s) {
 }
 </script>
 
-<style scoped>
-:deep(.v-data-table__td:last-child),
-:deep(.v-data-table__th:last-child) {
-  position: sticky;
-  right: 0;
-  z-index: 1;
-  background: rgb(var(--v-theme-surface));
-}
-
-.stat-icon {
-  width: 42px;
-  height: 42px;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-.info-label {
-  font-size: 11px;
-  color: rgba(var(--v-theme-on-surface), 0.5);
-  text-transform: uppercase;
-  letter-spacing: 0.4px;
-  margin-bottom: 2px;
-}
-.info-value {
-  font-size: 14px;
-  font-weight: 500;
-}
-</style>

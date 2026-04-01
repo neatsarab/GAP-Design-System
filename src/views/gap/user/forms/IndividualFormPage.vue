@@ -1123,11 +1123,11 @@
                 </div>
               </v-col>
 
-              <!-- 7. เอกสารเพิ่มเติม -->
+              <!-- 7. เอกสารอื่นๆ -->
               <v-col cols="12" sm="6">
                 <div class="doc-section-label">
                   <v-icon icon="fas fa-paperclip" size="13" color="grey" />
-                  เอกสารเพิ่มเติม (ถ้ามี)
+                  เอกสารอื่นๆ
                 </div>
                 <v-file-input
                   v-model="form.docExtra"
