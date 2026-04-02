@@ -1,5 +1,5 @@
 <template>
-  <div style="--v-theme-primary: var(--v-theme-export-staff)">
+  <div>
     <!-- Header -->
     <div class="d-flex align-center ga-3 mb-4">
       <v-btn
@@ -477,10 +477,10 @@
                   class="mb-5"
                 />
 
-                <!-- แก้ไขภายในระยะเวลา (เฉพาะ ปรับปรุง) -->
+                <!-- แก้ไขภายในวันที่ (เฉพาะ ปรับปรุง) -->
                 <template v-if="step1Review.result === 'improve'">
                   <div class="field-label mb-1">
-                    <div>แก้ไขภายในระยะเวลา</div>
+                    <div>แก้ไขภายในวันที่</div>
                     <div class="field-label-en">Deadline</div>
                   </div>
                   <v-menu
@@ -499,7 +499,7 @@
                         readonly
                         placeholder="วว/ดด/ปปปป"
                         prepend-inner-icon="fas fa-calendar"
-                        class="mb-4"
+                        class="mb-1"
                       />
                     </template>
                     <v-date-picker
@@ -509,6 +509,12 @@
                       @update:model-value="deadlineMenu = false"
                     />
                   </v-menu>
+                  <div
+                    v-if="step1Review.deadline"
+                    class="text-caption text-medium-emphasis mb-4"
+                  >
+                    จำนวน {{ deadlineDays }} วัน นับจากวันนี้
+                  </div>
                 </template>
 
                 <!-- Action buttons inline -->
@@ -1062,6 +1068,14 @@ const deadlineBE = computed(() => {
   const mm = String(d.getMonth() + 1).padStart(2, "0");
   return `${dd}/${mm}/${d.getFullYear() + 543}`;
 });
+const deadlineDays = computed(() => {
+  if (!step1Review.deadline) return 0;
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const target = new Date(step1Review.deadline);
+  target.setHours(0, 0, 0, 0);
+  return Math.ceil((target - today) / (1000 * 60 * 60 * 24));
+});
 
 const application = {
   requestNo: "EXP-0001",
@@ -1312,7 +1326,24 @@ function submitReject() {
   position: sticky;
   top: 80px;
 }
+div {
+  --step-color: rgb(var(--v-theme-export-staff));
+  --step-color-tint: rgba(var(--v-theme-export-staff), 0.2);
+}
 
+.step-done,
+.step-active {
+  background: rgb(var(--v-theme-export-staff)) !important;
+}
+.step-active {
+  box-shadow: 0 0 0 4px rgba(var(--v-theme-export-staff), 0.2) !important;
+}
+.step-line--done {
+  background: rgb(var(--v-theme-export-staff)) !important;
+}
+.confirm-ring {
+  background: rgba(var(--v-theme-export-staff), 0.1) !important;
+}
 /* Activity timeline */
 .activity-timeline {
   padding-left: 4px;
@@ -1372,7 +1403,7 @@ function submitReject() {
   background: rgb(var(--v-theme-error));
 }
 .activity-dot--sendback {
-  background: #fb8c00;
+  background: rgb(var(--v-theme-warning));
 }
 .activity-line {
   width: 2px;
@@ -1384,21 +1415,5 @@ function submitReject() {
 .activity-content {
   flex: 1;
   min-width: 0;
-}
-
-/* Step state colors (use module --v-theme-primary override) */
-.step-done {
-  background: rgb(var(--v-theme-export-staff));
-}
-.step-active {
-  background: rgb(var(--v-theme-export-staff));
-  box-shadow: 0 0 0 4px rgba(var(--v-theme-export-staff), 0.2);
-}
-.step-line-done {
-  background: rgb(var(--v-theme-export-staff));
-}
-
-.confirm-ring {
-  background: rgba(var(--v-theme-export-staff), 0.1);
 }
 </style>

@@ -604,6 +604,7 @@ function eventLabel(type) {
   position: sticky;
   top: 80px;
 }
+
 .info-label {
   font-size: 0.72rem;
   color: rgba(var(--v-theme-on-surface), 0.55);
@@ -664,7 +665,7 @@ function eventLabel(type) {
   background: rgb(var(--v-theme-error));
 }
 .activity-dot--sendback {
-  background: #fb8c00;
+  background: rgb(var(--v-theme-warning));
 }
 .activity-dot--issue {
   background: rgb(var(--v-theme-export-staff));

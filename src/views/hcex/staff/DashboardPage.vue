@@ -2,10 +2,9 @@
   <div>
     <div class="d-flex align-center justify-space-between flex-wrap ga-3 mb-6">
       <div>
-        <h1 class="page-title mb-1">แดชบอร์ด HCEX (เจ้าหน้าที่)</h1>
+        <h1 class="page-title mb-1">แดชบอร์ด</h1>
         <p class="text-body-2 text-medium-emphasis mb-0">
-          ภาพรวมระบบออกใบรับรองสุขอนามัย (Health Certificate)
-          สินค้าแปรรูปด้านพืช
+          ภาพรวมระบบการออกหนังสือรับรองสุขอนามัยพืชสำหรับสินค้าแปรรูปด้านพืช
         </p>
       </div>
     </div>
@@ -26,7 +25,7 @@
               color="hcex-staff"
               size="16"
             />
-            <span class="text-body-1 font-weight-bold">คำขอล่าสุด</span>
+            <span class="text-body-1 font-weight-bold">คำขอรอดำเนินการ</span>
             <v-spacer />
             <v-btn
               variant="text"
@@ -40,11 +39,11 @@
           </v-card-title>
           <v-divider />
           <v-list lines="two" class="pa-0">
-            <template v-for="(app, i) in recentApplications" :key="app.id">
+            <template v-for="(app, i) in pendingApplications" :key="app.id">
               <v-list-item class="pa-3" @click="goToApplicationDetail(app.id)">
                 <template #prepend>
                   <v-avatar
-                    :color="getStatusColor(app.status)"
+                    :color="statusColor(app.status)"
                     variant="tonal"
                     size="40"
                     rounded="lg"
@@ -57,23 +56,24 @@
                   app.requestNo
                 }}</v-list-item-title>
                 <v-list-item-subtitle class="text-caption"
-                  >{{ app.exporter }} · {{ app.certType }}</v-list-item-subtitle
+                  >{{ app.companyName }} ·
+                  {{ app.productCategory }}</v-list-item-subtitle
                 >
                 <template #append>
                   <div class="d-flex flex-column align-end ga-1">
                     <v-chip
-                      :color="getStatusColor(app.status)"
+                      :color="statusColor(app.status)"
                       size="x-small"
                       variant="tonal"
-                      >{{ getStatusLabel(app.status) }}</v-chip
+                      >{{ statusLabel(app.status) }}</v-chip
                     >
                     <span class="text-caption text-medium-emphasis">{{
-                      app.submittedAt
+                      app.submittedDate
                     }}</span>
                   </div>
                 </template>
               </v-list-item>
-              <v-divider v-if="i < recentApplications.length - 1" />
+              <v-divider v-if="i < pendingApplications.length - 1" />
             </template>
           </v-list>
         </v-card>
@@ -92,7 +92,7 @@
             สรุปงานที่รอดำเนินการ
           </div>
           <div class="text-body-2">
-            มีคำขอรอดำเนินการ 9 รายการ รวมถึงรอพิจารณา Lab 5 รายการ
+            มีคำขอรอดำเนินการทั้งหมด 11 รายการ รวมถึงรอแก้ไข 3 รายการ
           </div>
         </v-alert>
         <!-- Status Summary -->
@@ -140,104 +140,91 @@ function goToApplicationDetail(id) {
 
 const stats = [
   {
-    label: "คำขอรอตรวจสอบ",
-    value: "9",
-    icon: "fas fa-magnifying-glass",
-    iconColor: "primary",
+    label: "คำขอทั้งหมด",
+    value: 56,
+    icon: "fas fa-file-lines",
+    iconColor: "hcex-staff",
   },
+  { label: "รอตรวจ", value: 11, icon: "fas fa-clock", iconColor: "warning" },
   {
-    label: "รอพิจารณา Lab",
-    value: "5",
-    icon: "fas fa-flask-vial",
-    iconColor: "info",
-  },
-  {
-    label: "รอลงนาม",
-    value: "3",
-    icon: "fas fa-signature",
-    iconColor: "secondary",
-  },
-  {
-    label: "ออกใบรับรองแล้ว",
-    value: "87",
-    icon: "fas fa-industry",
+    label: "อนุมัติแล้ว",
+    value: 38,
+    icon: "fas fa-circle-check",
     iconColor: "success",
+  },
+  {
+    label: "สถานประกอบการที่ขึ้นทะเบียน",
+    value: 38,
+    icon: "fas fa-id-card",
+    iconColor: "info",
   },
 ];
 
-const recentApplications = [
+const pendingApplications = [
   {
-    id: "HCEX-001",
-    requestNo: "HCEX-2569-00012",
-    exporter: "บ.ไทยฟู้ดโปรเซส จก.",
-    certType: "กมพ.1",
-    submittedAt: "10 ม.ค. 68",
-    status: "under_review",
+    id: "EXP-0020",
+    requestNo: "EXP-0020",
+    companyName: "บ.สยาม เอ็กซ์พอร์ต จก.",
+    productCategory: "ทุเรียนสด",
+    submittedDate: "11 มี.ค. 2569",
+    status: "pending",
   },
   {
-    id: "HCEX-002",
-    requestNo: "HCEX-2569-00011",
-    exporter: "บ.สยามแปรรูป จก.",
-    certType: "กมพ.1-1",
-    submittedAt: "9 ม.ค. 68",
-    status: "lab_verification",
+    id: "EXP-0019",
+    requestNo: "EXP-0019",
+    companyName: "บ.ไทยแลนด์ ฟรุ๊ต จก.",
+    productCategory: "มังคุดสด",
+    submittedDate: "8 มี.ค. 2569",
+    status: "reviewing",
   },
   {
-    id: "HCEX-003",
-    requestNo: "HCEX-2569-00010",
-    exporter: "บ.กรีนโปรดักส์ จก.",
-    certType: "กมพ.1-2",
-    submittedAt: "7 ม.ค. 68",
-    status: "pending_signing",
+    id: "EXP-0018",
+    requestNo: "EXP-0018",
+    companyName: "บ.เอเชียแอกโกร จก.",
+    productCategory: "ผักออร์แกนิก",
+    submittedDate: "4 มี.ค. 2569",
+    status: "need_edit",
   },
   {
-    id: "HCEX-004",
-    requestNo: "HCEX-2569-00009",
-    exporter: "บ.ดอยอาหาร จก.",
-    certType: "กมพ.1",
-    submittedAt: "5 ม.ค. 68",
-    status: "completed",
-  },
-  {
-    id: "HCEX-005",
-    requestNo: "HCEX-2569-00008",
-    exporter: "บ.เอเชียฟู้ดส์ จก.",
-    certType: "กมพ.1-3",
-    submittedAt: "3 ม.ค. 68",
-    status: "completed",
+    id: "EXP-0017",
+    requestNo: "EXP-0017",
+    companyName: "บ.กรีนฟาร์ม จก.",
+    productCategory: "ลำไยสด",
+    submittedDate: "1 มี.ค. 2569",
+    status: "signing",
   },
 ];
 
 const statusBars = [
-  { label: "ออกใบรับรองแล้ว", value: 87, pct: 84, color: "success" },
-  { label: "รอตรวจสอบ", value: 9, pct: 9, color: "primary" },
-  { label: "รอพิจารณา Lab", value: 5, pct: 5, color: "info" },
-  { label: "รอลงนาม", value: 3, pct: 3, color: "error" },
+  { label: "รอตรวจ", value: 11, pct: 20, color: "warning" },
+  { label: "รอแก้ไข", value: 4, pct: 7, color: "info" },
+  { label: "อนุมัติแล้ว", value: 38, pct: 68, color: "success" },
+  { label: "ปฏิเสธ", value: 3, pct: 5, color: "error" },
 ];
 
-function getStatusColor(s) {
-  const m = {
+function statusColor(status) {
+  const map = {
     draft: "grey",
-    submitted: "warning",
-    under_review: "info",
-    lab_verification: "secondary",
-    pending_signing: "primary",
-    completed: "success",
+    pending: "warning",
+    need_edit: "info",
+    reviewing: "warning",
+    signing: "warning",
+    approved: "success",
     rejected: "error",
   };
-  return m[s] ?? "grey";
+  return map[status] ?? "grey";
 }
 
-function getStatusLabel(s) {
-  const m = {
-    draft: "ฉบับร่าง",
-    submitted: "ยื่นแล้ว",
-    under_review: "รอตรวจสอบ",
-    lab_verification: "รอพิจารณา Lab",
-    pending_signing: "รอลงนาม",
-    completed: "เสร็จสิ้น",
+function statusLabel(status) {
+  const map = {
+    draft: "แบบร่าง",
+    pending: "รอตรวจ",
+    need_edit: "รอแก้ไขคำขอ",
+    reviewing: "รอพิจารณา",
+    signing: "รอลงนาม",
+    approved: "ได้รับอนุญาต",
     rejected: "ไม่อนุมัติ",
   };
-  return m[s] ?? s;
+  return map[status] ?? status;
 }
 </script>

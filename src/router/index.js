@@ -752,12 +752,6 @@ const routes = [
         meta: { title: "รายการคำขอ" },
       },
       {
-        path: "my-work",
-        name: "HCstaffMyWork",
-        component: () => import("@/views/hc/staff/MyWorkPage.vue"),
-        meta: { title: "งานที่ได้รับมอบหมาย" },
-      },
-      {
         path: "applications/new",
         name: "HCstaffNewApplication",
         component: () => import("@/views/hc/staff/NewApplicationPage.vue"),
@@ -794,10 +788,41 @@ const routes = [
         meta: { title: "ลงนามใบรับรอง" },
       },
       {
+        path: "lab",
+        name: "HCstaffLabList",
+        component: () => import("@/views/hc/staff/LabListPage.vue"),
+        meta: { title: "รายการรอตรวจ Lab" },
+      },
+      {
+        path: "lab/:id",
+        name: "HCstaffLabDetail",
+        component: () => import("@/views/hc/staff/LabDetailPage.vue"),
+        meta: { title: "บันทึกผล Lab" },
+      },
+      {
+        path: "lab-review",
+        name: "HCstaffLabReviewList",
+        component: () => import("@/views/hc/staff/LabReviewListPage.vue"),
+        meta: { title: "รายการรอพิจารณาผล Lab" },
+      },
+      {
+        path: "lab-review/:id",
+        name: "HCstaffLabReviewDetail",
+        component: () => import("@/views/hc/staff/LabReviewDetailPage.vue"),
+        meta: { title: "พิจารณาผล Lab" },
+      },
+      {
         path: "registry",
         name: "HCstaffRegistry",
         component: () => import("@/views/hc/staff/RegistryPage.vue"),
         meta: { title: "ทะเบียนผู้ประกอบการ" },
+      },
+      {
+        path: "registry/:id",
+        name: "HCStaffCertificateDetail",
+        component: () =>
+          import("@/views/hc/staff/CertificateDetailPage.vue"),
+        meta: { title: "รายละเอียดใบรับรอง" },
       },
     ],
   },
@@ -860,49 +885,6 @@ const routes = [
 
   // ── HCEX System ───────────────────────────────────
   {
-    path: "/hcex/staff",
-    component: () => import("@/layouts/hcex/HCEXStaffLayout.vue"),
-    children: [
-      { path: "", redirect: "/hcex/staff/dashboard" },
-      {
-        path: "dashboard",
-        name: "HCEXstaffDashboard",
-        component: () => import("@/views/hcex/staff/DashboardPage.vue"),
-        meta: { title: "แดชบอร์ด" },
-      },
-      {
-        path: "applications",
-        name: "HCEXstaffApplicationList",
-        component: () => import("@/views/hcex/staff/ApplicationListPage.vue"),
-        meta: { title: "รายการคำขอ" },
-      },
-      {
-        path: "applications/:id",
-        name: "HCEXstaffApplicationDetail",
-        component: () => import("@/views/hcex/staff/ApplicationDetailPage.vue"),
-        meta: { title: "รายละเอียดคำขอ" },
-      },
-      {
-        path: "lab-results",
-        name: "HCEXstaffLabResults",
-        component: () => import("@/views/hcex/staff/LabResultsPage.vue"),
-        meta: { title: "ผล Lab" },
-      },
-      {
-        path: "signing",
-        name: "HCEXstaffSigning",
-        component: () => import("@/views/hcex/staff/SigningPage.vue"),
-        meta: { title: "ลงนามใบรับรอง" },
-      },
-      {
-        path: "registry",
-        name: "HCEXstaffRegistry",
-        component: () => import("@/views/hcex/staff/RegistryPage.vue"),
-        meta: { title: "รายการใบรับรอง" },
-      },
-    ],
-  },
-  {
     path: "/hcex/user",
     component: () => import("@/layouts/hcex/HCEXUserLayout.vue"),
     children: [
@@ -923,25 +905,103 @@ const routes = [
         path: "applications/new",
         name: "HCEXUserApplicationType",
         component: () => import("@/views/hcex/user/ApplicationTypePage.vue"),
-        meta: { title: "เลือกประเภทคำขอ" },
+        meta: { title: "เลือกประเภทคำขอผู้ส่งออก" },
       },
       {
         path: "applications/new/:type",
         name: "HCEXUserNewApplication",
         component: () => import("@/views/hcex/user/NewApplicationPage.vue"),
-        meta: { title: "ยื่นคำขอใหม่" },
+        meta: { title: "จดทะเบียนผู้ส่งออกใหม่" },
       },
       {
         path: "applications/:id",
         name: "HCEXUserApplicationDetail",
-        component: () => import("@/views/hcex/user/ApplicationDetailPage.vue"),
-        meta: { title: "ติดตามสถานะคำขอ" },
+        component: () =>
+          import("@/views/hcex/user/ApplicationDetailPage.vue"),
+        meta: { title: "ติดตามสถานะคำขอผู้ส่งออก" },
       },
       {
         path: "certificates",
         name: "HCEXUserCertificates",
         component: () => import("@/views/hcex/user/CertificatePage.vue"),
         meta: { title: "รายการใบรับรอง" },
+      },
+      {
+        path: "certificates/:id",
+        name: "HCEXUserCertificateDetail",
+        component: () =>
+          import("@/views/hcex/user/CertificateDetailPage.vue"),
+        meta: { title: "รายละเอียดใบทะเบียน" },
+      },
+    ],
+  },
+  {
+    path: "/hcex/staff",
+    component: () => import("@/layouts/hcex/HCEXStaffLayout.vue"),
+    children: [
+      { path: "", redirect: "/hcex/staff/dashboard" },
+      {
+        path: "dashboard",
+        name: "HCEXstaffDashboard",
+        component: () => import("@/views/hcex/staff/DashboardPage.vue"),
+        meta: { title: "แดชบอร์ด" },
+      },
+      {
+        path: "applications",
+        name: "HCEXstaffApplicationList",
+        component: () => import("@/views/hcex/staff/ApplicationListPage.vue"),
+        meta: { title: "รายการคำขอ" },
+      },
+      {
+        path: "applications/:id",
+        name: "HCEXstaffApplicationDetail",
+        component: () =>
+          import("@/views/hcex/staff/ApplicationDetailPage.vue"),
+        meta: { title: "รายละเอียดคำขอผู้ส่งออก" },
+      },
+      {
+        path: "reviews",
+        name: "HCEXstaffReviewList",
+        component: () => import("@/views/hcex/staff/ReviewListPage.vue"),
+        meta: { title: "รายการรอพิจารณา" },
+      },
+      {
+        path: "registry",
+        name: "HCEXstaffRegistry",
+        component: () => import("@/views/hcex/staff/RegistryPage.vue"),
+        meta: { title: "ทะเบียนผู้ส่งออก" },
+      },
+      {
+        path: "registry/:id",
+        name: "HCEXstaffCertificateDetail",
+        component: () =>
+          import("@/views/hcex/staff/CertificateDetailPage.vue"),
+        meta: { title: "รายละเอียดใบทะเบียน" },
+      },
+      {
+        path: "registry/:id/manage",
+        name: "HCEXstaffCertificateManage",
+        component: () =>
+          import("@/views/hcex/staff/CertificateManagePage.vue"),
+        meta: { title: "จัดการใบรับรอง" },
+      },
+      {
+        path: "reviews/:id",
+        name: "HCEXstaffReviewDetail",
+        component: () => import("@/views/hcex/staff/ReviewDetailPage.vue"),
+        meta: { title: "พิจารณาคำขอ" },
+      },
+      {
+        path: "signing",
+        name: "HCEXstaffSigningList",
+        component: () => import("@/views/hcex/staff/SigningListPage.vue"),
+        meta: { title: "รายการรอลงนาม" },
+      },
+      {
+        path: "signing/:id",
+        name: "HCEXstaffSigningDetail",
+        component: () => import("@/views/hcex/staff/SigningDetailPage.vue"),
+        meta: { title: "ลงนามใบรับรอง" },
       },
     ],
   },

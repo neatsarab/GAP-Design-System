@@ -1,5 +1,5 @@
 <template>
-  <div style="--v-theme-primary: var(--v-theme-doa-staff)">
+  <div>
     <!-- Header -->
     <div class="d-flex align-center ga-3 mb-4">
       <v-btn
@@ -12,7 +12,7 @@
         <h1 class="page-title mb-0">รายละเอียดคำขอ</h1>
         <p class="text-body-2 text-medium-emphasis mb-0 mt-1">
           เลขคำขอ:
-          <span class="text-doa-staff font-weight-medium">{{
+          <span class="text-hcex-staff font-weight-medium">{{
             route.params.id ?? "EXP-0001"
           }}</span>
         </p>
@@ -48,7 +48,7 @@
                 class="text-caption text-center"
                 :class="
                   application.currentStep >= step.value
-                    ? 'text-doa-staff font-weight-bold'
+                    ? 'text-hcex-staff font-weight-bold'
                     : 'text-medium-emphasis'
                 "
               >
@@ -71,12 +71,12 @@
     <v-row>
       <!-- ── Left: tabs ── -->
       <v-col cols="12" md="8">
-        <v-tabs v-model="activeTab" color="doa-staff" class="mb-4">
+        <v-tabs v-model="activeTab" color="hcex-staff" class="mb-4">
           <v-tab value="info" prepend-icon="fas fa-file-lines"
             >ข้อมูลคำขอ</v-tab
           >
-          <v-tab value="review" prepend-icon="fas fa-scale-balanced">
-            บันทึกผลการพิจารณา
+          <v-tab value="signing" prepend-icon="fas fa-pen-nib">
+            บันทึกการลงนาม
           </v-tab>
         </v-tabs>
 
@@ -88,14 +88,18 @@
               <div
                 class="section-header px-4 py-3 border-b d-flex align-center ga-2"
               >
-                <v-icon icon="fas fa-list-check" color="doa-staff" size="15" />
+                <v-icon
+                  icon="fas fa-list-check"
+                  color="hcex-staff"
+                  size="15"
+                />
                 <span class="text-subtitle-2 font-weight-bold">ข้อมูลคำขอ</span>
               </div>
               <v-card-text class="pa-4">
                 <v-row dense>
                   <v-col cols="6" md="4">
                     <div class="info-label">เลขคำขอ</div>
-                    <div class="info-value text-doa-staff font-weight-bold">
+                    <div class="info-value text-hcex-staff font-weight-bold">
                       {{ application.requestNo }}
                     </div>
                   </v-col>
@@ -104,7 +108,7 @@
                     <div class="info-value">
                       <v-chip
                         size="x-small"
-                        color="doa-staff"
+                        color="hcex-staff"
                         variant="tonal"
                         >{{ application.requestType }}</v-chip
                       >
@@ -129,7 +133,7 @@
               <div
                 class="section-header px-4 py-3 border-b d-flex align-center ga-2"
               >
-                <v-icon icon="fas fa-user" color="doa-staff" size="15" />
+                <v-icon icon="fas fa-user" color="hcex-staff" size="15" />
                 <span class="text-subtitle-2 font-weight-bold"
                   >ข้อมูลผู้ยื่นคำขอ</span
                 >
@@ -171,7 +175,7 @@
               <div
                 class="section-header px-4 py-3 border-b d-flex align-center ga-2"
               >
-                <v-icon icon="fas fa-building" color="doa-staff" size="15" />
+                <v-icon icon="fas fa-building" color="hcex-staff" size="15" />
                 <span class="text-subtitle-2 font-weight-bold"
                   >ข้อมูลสถานประกอบการ</span
                 >
@@ -219,7 +223,11 @@
               <div
                 class="section-header px-4 py-3 border-b d-flex align-center ga-2"
               >
-                <v-icon icon="fas fa-earth-asia" color="doa-staff" size="15" />
+                <v-icon
+                  icon="fas fa-earth-asia"
+                  color="hcex-staff"
+                  size="15"
+                />
                 <span class="text-subtitle-2 font-weight-bold"
                   >ขอบข่ายประเทศ</span
                 >
@@ -232,7 +240,7 @@
                     :key="c"
                     size="small"
                     variant="tonal"
-                    color="doa-staff"
+                    color="hcex-staff"
                     >{{ c }}</v-chip
                   >
                 </div>
@@ -244,7 +252,7 @@
               <div
                 class="section-header px-4 py-3 border-b d-flex align-center ga-2"
               >
-                <v-icon icon="fas fa-industry" color="doa-staff" size="15" />
+                <v-icon icon="fas fa-industry" color="hcex-staff" size="15" />
                 <span class="text-subtitle-2 font-weight-bold"
                   >ข้อมูลโรงงานผลิตสินค้าพืช</span
                 >
@@ -263,7 +271,7 @@
                     v-for="factory in application.factories"
                     :key="factory.doaNo"
                   >
-                    <td class="text-body-2 font-weight-bold text-doa-staff">
+                    <td class="text-body-2 font-weight-bold text-hcex-staff">
                       {{ factory.doaNo }}
                     </td>
                     <td class="text-body-2">{{ factory.factoryName }}</td>
@@ -277,7 +285,7 @@
                               icon
                               size="x-small"
                               variant="text"
-                              color="doa-staff"
+                              color="hcex-staff"
                               @click="openFactoryDialog(factory)"
                             >
                               <v-icon icon="fas fa-eye" size="14" />
@@ -291,7 +299,7 @@
                               icon
                               size="x-small"
                               variant="text"
-                              color="doa-staff"
+                              color="hcex-staff"
                             >
                               <v-icon icon="fas fa-download" size="14" />
                             </v-btn>
@@ -309,7 +317,7 @@
               <div
                 class="section-header px-4 py-3 border-b d-flex align-center ga-2"
               >
-                <v-icon icon="fas fa-seedling" color="doa-staff" size="15" />
+                <v-icon icon="fas fa-seedling" color="hcex-staff" size="15" />
                 <span class="text-subtitle-2 font-weight-bold"
                   >แหล่งผลิตพืชที่ได้การรับรอง GAP</span
                 >
@@ -326,7 +334,7 @@
                 </thead>
                 <tbody>
                   <tr v-for="gap in application.gaps" :key="gap.gapNo">
-                    <td class="text-body-2 font-weight-bold text-doa-staff">
+                    <td class="text-body-2 font-weight-bold text-hcex-staff">
                       {{ gap.gapNo }}
                     </td>
                     <td class="text-body-2">{{ gap.siteName }}</td>
@@ -341,7 +349,7 @@
                               icon
                               size="x-small"
                               variant="text"
-                              color="doa-staff"
+                              color="hcex-staff"
                               @click="openGapDialog(gap)"
                             >
                               <v-icon icon="fas fa-eye" size="14" />
@@ -355,7 +363,7 @@
                               icon
                               size="x-small"
                               variant="text"
-                              color="doa-staff"
+                              color="hcex-staff"
                             >
                               <v-icon icon="fas fa-download" size="14" />
                             </v-btn>
@@ -373,7 +381,11 @@
               <div
                 class="section-header px-4 py-3 border-b d-flex align-center ga-2"
               >
-                <v-icon icon="fas fa-paperclip" color="doa-staff" size="15" />
+                <v-icon
+                  icon="fas fa-paperclip"
+                  color="hcex-staff"
+                  size="15"
+                />
                 <span class="text-subtitle-2 font-weight-bold">เอกสารแนบ</span>
               </div>
               <v-card-text class="pa-4">
@@ -386,7 +398,7 @@
                   <v-btn
                     size="x-small"
                     variant="tonal"
-                    color="doa-staff"
+                    color="hcex-staff"
                     rounded="lg"
                     prepend-icon="fas fa-download"
                   >
@@ -397,83 +409,125 @@
             </v-card>
           </v-window-item>
 
-          <!-- ── Tab 2: บันทึกผลการพิจารณา ── -->
-          <v-window-item value="review">
+          <!-- ── Tab 2: บันทึกการลงนาม ── -->
+          <v-window-item value="signing">
             <v-card rounded="xl" elevation="0" class="section-card">
               <v-card-text class="pa-5">
-                <!-- เลขทะเบียน (แสดงเมื่ออนุมัติ) -->
-                <template v-if="reviewResult.result === 'approve'">
-                  <div class="field-label mb-2 mt-3">
-                    <div>เลขทะเบียน</div>
-                    <div class="field-label-en">Certificate Number(s)</div>
-                  </div>
-                  <div class="text-caption text-medium-emphasis mb-2">
-                    <v-icon icon="fas fa-circle-info" size="11" class="mr-1" />
-                    สร้างเลขทะเบียน 1 เลข ต่อ 1 ขอบเขตประเทศ —
-                    สามารถแก้ไขได้ก่อนยืนยัน
-                  </div>
-                  <v-card variant="outlined" rounded="lg" class="mb-4">
-                    <v-table density="compact">
-                      <thead>
-                        <tr>
-                          <th style="width: 180px">ขอบเขตประเทศ</th>
-                          <th>เลขทะเบียน</th>
-                          <th style="width: 48px"></th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr v-for="(item, idx) in certNumbers" :key="idx">
-                          <td>
-                            <v-chip
-                              size="small"
-                              color="doa-staff"
-                              variant="tonal"
-                              >{{ item.country }}</v-chip
-                            >
-                          </td>
-                          <td class="py-1">
-                            <v-text-field
-                              v-model="item.certNo"
-                              variant="outlined"
-                              density="compact"
-                              rounded="lg"
-                              hide-details
-                              style="min-width: 180px; max-width: 260px"
-                            />
-                          </td>
-                          <td>
-                            <v-btn
-                              size="small"
-                              variant="tonal"
-                              color="doa-staff"
-                              rounded="lg"
-                              prepend-icon="fas fa-eye"
-                              @click="previewCertPdf(item)"
-                            >
-                              ดูตัวอย่าง
-                            </v-btn>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </v-table>
-                  </v-card>
-                </template>
+                <!-- เลขทะเบียน -->
+                <div class="field-label mb-2">
+                  <div>เลขทะเบียน</div>
+                  <div class="field-label-en">Certificate Number(s)</div>
+                </div>
+                <v-card variant="outlined" rounded="lg" class="mb-4">
+                  <v-table density="compact">
+                    <thead>
+                      <tr>
+                        <th style="width: 180px">ขอบเขตประเทศ</th>
+                        <th>เลขทะเบียน</th>
+                        <th style="width: 48px"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr v-for="(item, idx) in certNumbers" :key="idx">
+                        <td>
+                          <v-chip
+                            size="small"
+                            color="hcex-staff"
+                            variant="tonal"
+                            >{{ item.country }}</v-chip
+                          >
+                        </td>
+                        <td>
+                          <span
+                            class="text-body-2 font-weight-bold text-hcex-staff"
+                            >{{ item.certNo }}</span
+                          >
+                        </td>
+                        <td>
+                          <v-btn
+                            size="small"
+                            variant="tonal"
+                            color="hcex-staff"
+                            rounded="lg"
+                            prepend-icon="fas fa-eye"
+                            @click="previewCertPdf(item)"
+                          >
+                            ดูตัวอย่าง
+                          </v-btn>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </v-table>
+                </v-card>
+
+                <!-- ผลการลงนาม -->
+                <div class="field-label mb-3">
+                  <div>ผลการลงนาม</div>
+                  <div class="field-label-en">Signing Result</div>
+                </div>
+                <v-radio-group
+                  v-model="signingResult.result"
+                  color="hcex-staff"
+                  inline
+                  class="mb-4"
+                >
+                  <v-radio value="approve" class="mr-6">
+                    <template #label>
+                      <div class="d-flex align-center ga-2">
+                        <v-icon
+                          icon="fas fa-circle-check"
+                          color="success"
+                          size="16"
+                        />
+                        <span class="font-weight-medium">อนุมัติ</span>
+                      </div>
+                    </template>
+                  </v-radio>
+                  <v-radio value="reject">
+                    <template #label>
+                      <div class="d-flex align-center ga-2">
+                        <v-icon
+                          icon="fas fa-circle-xmark"
+                          color="error"
+                          size="16"
+                        />
+                        <span class="font-weight-medium">ไม่อนุมัติ</span>
+                      </div>
+                    </template>
+                  </v-radio>
+                </v-radio-group>
+
+                <!-- หมายเหตุ -->
+                <div class="field-label mb-1">
+                  <div>หมายเหตุ</div>
+                  <div class="field-label-en">Remarks</div>
+                </div>
+                <v-textarea
+                  v-model="signingResult.remark"
+                  variant="outlined"
+                  density="compact"
+                  rounded="lg"
+                  hide-details
+                  rows="4"
+                  placeholder="ระบุเหตุผลหรือข้อสังเกต..."
+                  class="mb-5"
+                />
 
                 <!-- Action buttons inline -->
                 <v-row class="ga-2" no-gutters>
-                  <v-col v-if="reviewResult.result === 'approve'">
+                  <v-col v-if="signingResult.result === 'approve'">
                     <v-btn
-                      color="doa-staff"
+                      color="hcex-staff"
                       variant="flat"
                       block
                       rounded="lg"
                       prepend-icon="fas fa-pen-nib"
-                      @click="approveDialog = true"
+                      @click="signingDialog = true"
                     >
-                      ส่งลงนาม
+                      ลงนาม
                     </v-btn>
                   </v-col>
-                  <v-col v-if="reviewResult.result === 'reject'">
+                  <v-col v-if="signingResult.result === 'reject'">
                     <v-btn
                       color="error"
                       variant="tonal"
@@ -502,14 +556,17 @@
             >
               <v-icon
                 icon="fas fa-clock-rotate-left"
-                color="doa-staff"
+                color="hcex-staff"
                 size="15"
               />
               <span class="text-subtitle-2 font-weight-bold"
                 >ความคืบหน้าคำขอ</span
               >
             </div>
-            <v-card-text class="pa-4">
+            <v-card-text
+              class="pa-4"
+              style="max-height: 420px; overflow-y: auto"
+            >
               <div class="activity-timeline">
                 <div
                   v-for="(event, i) in application.activityLog"
@@ -549,16 +606,19 @@
                         event.actor
                       }}
                     </div>
-                    <div class="text-caption text-medium-emphasis mt-1">
+                    <div
+                      v-if="event.timestamp"
+                      class="text-caption text-medium-emphasis mt-1"
+                    >
                       <v-icon icon="fas fa-calendar" size="9" class="mr-1" />{{
                         event.timestamp
                       }}
                     </div>
                     <v-btn
-                      v-if="event.type !== 'submit'"
+                      v-if="event.type !== 'submit' && event.type !== 'signing'"
                       size="x-small"
                       variant="text"
-                      color="doa-staff"
+                      color="hcex-staff"
                       class="mt-1 px-0"
                       @click="openActivityDetail(event)"
                     >
@@ -582,7 +642,7 @@
     <v-dialog v-model="factoryDialog" max-width="480">
       <v-card rounded="xl">
         <v-card-title class="d-flex align-center ga-2 pa-5 pb-3">
-          <v-icon icon="fas fa-industry" color="doa-staff" size="16" />
+          <v-icon icon="fas fa-industry" color="hcex-staff" size="16" />
           <span class="text-body-1 font-weight-bold">ข้อมูลโรงงาน</span>
           <v-spacer />
           <v-btn
@@ -600,7 +660,7 @@
                 <div class="text-caption text-medium-emphasis">
                   เลขทะเบียน DOA
                 </div>
-                <div class="text-body-2 font-weight-bold text-doa-staff">
+                <div class="text-body-2 font-weight-bold text-hcex-staff">
                   {{ selectedFactory.doaNo }}
                 </div>
               </div>
@@ -618,7 +678,7 @@
         <v-divider />
         <v-card-actions class="px-5 pb-5 pt-3">
           <v-btn
-            color="doa-staff"
+            color="hcex-staff"
             variant="tonal"
             prepend-icon="fas fa-download"
             rounded="lg"
@@ -634,7 +694,7 @@
     <v-dialog v-model="gapDialog" max-width="480">
       <v-card rounded="xl">
         <v-card-title class="d-flex align-center ga-2 pa-5 pb-3">
-          <v-icon icon="fas fa-seedling" color="doa-staff" size="16" />
+          <v-icon icon="fas fa-seedling" color="hcex-staff" size="16" />
           <span class="text-body-1 font-weight-bold">ข้อมูล GAP</span>
           <v-spacer />
           <v-btn
@@ -652,7 +712,7 @@
                 <div class="text-caption text-medium-emphasis">
                   เลขใบรับรอง GAP
                 </div>
-                <div class="text-body-2 font-weight-bold text-doa-staff">
+                <div class="text-body-2 font-weight-bold text-hcex-staff">
                   {{ selectedGap.gapNo }}
                 </div>
               </div>
@@ -678,7 +738,7 @@
         <v-divider />
         <v-card-actions class="px-5 pb-5 pt-3">
           <v-btn
-            color="doa-staff"
+            color="hcex-staff"
             variant="tonal"
             prepend-icon="fas fa-download"
             rounded="lg"
@@ -690,16 +750,16 @@
       </v-card>
     </v-dialog>
 
-    <!-- Approve Dialog -->
-    <v-dialog v-model="approveDialog" max-width="400">
+    <!-- Signing Dialog -->
+    <v-dialog v-model="signingDialog" max-width="400">
       <v-card rounded="xl">
         <v-card-text class="pa-7 text-center">
           <div class="confirm-ring mx-auto mb-4">
-            <v-icon icon="fas fa-pen-nib" color="doa-staff" size="28" />
+            <v-icon icon="fas fa-pen-nib" color="hcex-staff" size="28" />
           </div>
-          <h3 class="text-h6 font-weight-bold mb-2">ส่งต่อลงนาม</h3>
+          <h3 class="text-h6 font-weight-bold mb-2">ยืนยันการลงนาม</h3>
           <p class="text-body-2 text-medium-emphasis">
-            ยืนยันการส่งคำขอนี้ไปยังเจ้าหน้าที่ลงนาม
+            ยืนยันการลงนามในใบทะเบียน
           </p>
         </v-card-text>
         <v-card-actions class="px-6 pb-5">
@@ -710,12 +770,16 @@
                 color="grey"
                 rounded="lg"
                 block
-                @click="approveDialog = false"
+                @click="signingDialog = false"
                 >ยกเลิก</v-btn
               >
             </v-col>
             <v-col>
-              <v-btn color="doa-staff" rounded="lg" block @click="submitApprove"
+              <v-btn
+                color="hcex-staff"
+                rounded="lg"
+                block
+                @click="submitSigning"
                 >ยืนยัน</v-btn
               >
             </v-col>
@@ -775,12 +839,12 @@
         </v-card-text>
         <v-card-actions class="px-6 pb-5">
           <v-btn
-            color="doa-staff"
+            color="hcex-staff"
             rounded="lg"
             block
-            @click="router.push({ name: 'DOAStaffReviewList' })"
+            @click="router.push({ name: 'HCEXstaffRegistry' })"
           >
-            กลับรายการคำขอ
+            ไปยังหน้ารายการใบทะเบียน
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -867,7 +931,7 @@
         </v-card-text>
         <v-card-actions class="px-6 pb-5 pt-0">
           <v-btn
-            color="doa-staff"
+            color="hcex-staff"
             variant="tonal"
             rounded="lg"
             block
@@ -884,12 +948,14 @@
 <script setup>
 import { ref, reactive, computed, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import { useStaffSessionStore } from "@/stores/staff-session.store";
 
 const route = useRoute();
 const router = useRouter();
+const staffSessionStore = useStaffSessionStore();
 
 const activeTab = ref("info");
-const approveDialog = ref(false);
+const signingDialog = ref(false);
 const rejectDialog = ref(false);
 const successDialog = ref(false);
 const successMessage = ref("");
@@ -937,14 +1003,14 @@ function openGapDialog(gap) {
   gapDialog.value = true;
 }
 
-const reviewResult = reactive({ result: "approve", remark: "" });
+const signingResult = reactive({ result: "approve", remark: "" });
 
 function previewCertPdf(item) {
   const html = `<!DOCTYPE html>
 <html lang="th">
 <head>
   <meta charset="UTF-8" />
-  <title>ตัวอย่างใบรับรอง ${item.certNo}</title>
+  <title>ตัวอย่างใบทะเบียน ${item.certNo}</title>
   <style>
     @page { size: A4; margin: 20mm 25mm; }
     body { font-family: 'Sarabun', 'TH Sarabun New', sans-serif; font-size: 14pt; color: #1a1a1a; }
@@ -965,7 +1031,7 @@ function previewCertPdf(item) {
   <div class="border-box">
     <div class="center">
       <div class="label">กรมวิชาการเกษตร • Department of Agriculture</div>
-      <div style="font-size:16pt;font-weight:700;margin:8px 0">หนังสือสำคัญแสดงการจดทะเบียนผู้ส่งออกสินค้าพืช</div>
+      <div style="font-size:16pt;font-weight:700;margin:8px 0">หนังสือสำคัญแสดงHealth Certificate สินค้าแปรรูปด้านพืช</div>
       <div class="label">Certificate of Export Registration</div>
       <div class="watermark">ร่าง / DRAFT</div>
       <div class="cert-no">${item.certNo}</div>
@@ -1009,8 +1075,8 @@ const application = {
   requestNo: "EXP-0001",
   requestType: "ขึ้นทะเบียน",
   submittedDate: "01/01/2569",
-  typecert: "คำขอหนังสือสำคัญแสดงการขึ้นทะเบียนโรงงานผลิตสินค้าพืช",
-  status: "reviewing",
+  typecert: "คำขอหนังสือสำคัญแสดงการขึ้นทะเบียนเป็นผู้ส่งออกผักและผลไม้",
+  status: "signing",
   currentStep: 2,
 
   applicantNameTh: "นายสมชาย ใจดี",
@@ -1082,25 +1148,38 @@ const application = {
 
   activityLog: [
     {
-      type: "submit",
-      action: "ยื่นคำขอ",
-      actor: "นายสมชาย ใจดี (ผู้ยื่นคำขอ)",
-      timestamp: "01/01/2569 09:12",
+      type: "signing",
+      action: "กำลังลงนาม",
+      actor: staffSessionStore.displayName,
+      timestamp: "",
       remark: "",
+    },
+    {
+      type: "forward",
+      action: "ผ่านการพิจารณา",
+      actor: "นายอนันต์ วิชาการ (ผู้พิจารณา)",
+      timestamp: "06/01/2569 14:20",
+    },
+    {
+      type: "forward",
+      action: "ผ่านการตรวจ",
+      actor: "น.ส.วรรณา จันทร์ดี (เจ้าหน้าที่ตรวจ)",
+      timestamp: "05/01/2569 11:00",
     },
     {
       type: "sendback",
       action: "ส่งกลับแก้ไข",
-      actor: "น.ส.วรรณา จันทร์ดี (เจ้าหน้าที่ตรวจสอบ)",
+      actor: "น.ส.วรรณา จันทร์ดี (เจ้าหน้าที่ตรวจ)",
       timestamp: "03/01/2569 10:30",
       remark:
         "เอกสารสำเนาหนังสือรับรองนิติบุคคลไม่ครบถ้วน กรุณาแนบเอกสารฉบับที่ออกโดยกรมพัฒนาธุรกิจการค้าซึ่งออกไม่เกิน 3 เดือน และแก้ไขพิกัดที่ตั้งโรงงานให้ถูกต้องตามทะเบียนโรงงาน",
     },
     {
-      type: "forward",
-      action: "ผ่านการตรวจสอบ",
-      actor: "น.ส.วรรณา จันทร์ดี (เจ้าหน้าที่ตรวจสอบ)",
-      timestamp: "05/01/2569 11:00",
+      type: "submit",
+      action: "ยื่นคำขอ",
+      actor: "นายสมชาย ใจดี (ผู้ยื่นคำขอ)",
+      timestamp: "01/01/2569 09:12",
+      remark: "",
     },
   ],
 };
@@ -1130,10 +1209,9 @@ const companyAddressEn = computed(() => {
 });
 
 const timelineSteps = [
-  { value: 0, title: "ยื่นคำขอ" },
-  { value: 1, title: "ตรวจสอบ" },
-  { value: 2, title: "พิจารณา" },
-  { value: 3, title: "ลงนาม" },
+  { value: 0, title: "ตรวจคำขอ" },
+  { value: 1, title: "พิจารณา" },
+  { value: 2, title: "ลงนาม" },
 ];
 
 function stepClass(v) {
@@ -1174,7 +1252,7 @@ function statusLabel(s) {
   return (
     {
       draft: "แบบร่าง",
-      pending: "รอตรวจสอบ",
+      pending: "รอตรวจ",
       need_edit: "รอแก้ไขคำขอ",
       reviewing: "รอพิจารณา",
       signing: "รอลงนาม",
@@ -1191,6 +1269,7 @@ function eventIcon(type) {
       receive: "fas fa-inbox",
       forward: "fas fa-share",
       review: "fas fa-magnifying-glass",
+      signing: "fas fa-pen-nib",
       pending: "fas fa-clock",
       approve: "fas fa-circle-check",
       reject: "fas fa-circle-xmark",
@@ -1202,10 +1281,11 @@ function eventIcon(type) {
 function eventColor(type) {
   return (
     {
-      submit: "doa-staff",
+      submit: "hcex-staff",
       receive: "info",
       forward: "success",
       review: "warning",
+      signing: "hcex-staff",
       pending: "warning",
       approve: "success",
       reject: "error",
@@ -1221,6 +1301,7 @@ function eventLabel(type) {
       receive: "รับเรื่อง",
       forward: "ผ่าน",
       review: "กำลังพิจารณา",
+      signing: "กำลังลงนาม",
       pending: "รอพิจารณา",
       approve: "อนุมัติ",
       reject: "ไม่อนุมัติ",
@@ -1229,9 +1310,9 @@ function eventLabel(type) {
   );
 }
 
-function submitApprove() {
-  approveDialog.value = false;
-  successMessage.value = "อนุมัติคำขอและส่งลงนามเรียบร้อยแล้ว";
+function submitSigning() {
+  signingDialog.value = false;
+  successMessage.value = "ลงนามใบทะเบียนเรียบร้อยแล้ว";
   successDialog.value = true;
 }
 
@@ -1243,86 +1324,52 @@ function submitReject() {
 </script>
 
 <style scoped>
-div {
-  --step-color: rgb(var(--v-theme-doa-staff));
-  --step-color-tint: rgba(var(--v-theme-doa-staff), 0.2);
-}
-
 .sticky-col {
   position: sticky;
   top: 80px;
 }
-
 .info-label {
   font-size: 0.72rem;
   color: rgba(var(--v-theme-on-surface), 0.55);
   margin-bottom: 2px;
 }
-
 .info-value {
   font-size: 0.875rem;
   margin-bottom: 8px;
 }
-
 .item-row {
   background: rgba(var(--v-theme-on-surface), 0.03);
   border: 1px solid rgba(var(--v-theme-on-surface), 0.08);
 }
 
-.step-circle {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  font-weight: 600;
-}
-
-.step-line {
-  height: 2px;
-  background: rgba(var(--v-theme-on-surface), 0.15);
-  margin: 0 4px;
-  margin-bottom: 20px;
-}
-
-.step-pending {
-  background: rgba(var(--v-theme-on-surface), 0.12);
-  color: rgba(var(--v-theme-on-surface), 0.5);
-}
-
 .step-done,
 .step-active {
-  background: rgb(var(--v-theme-doa-staff)) !important;
-  color: white !important;
+  background: rgb(var(--v-theme-hcex-staff)) !important;
 }
-
 .step-active {
-  box-shadow: 0 0 0 4px rgba(var(--v-theme-doa-staff), 0.2) !important;
+  box-shadow: 0 0 0 4px rgba(var(--v-theme-hcex-staff), 0.2) !important;
 }
-
 .step-line--done {
-  background: rgb(var(--v-theme-doa-staff)) !important;
+  background: rgb(var(--v-theme-hcex-staff)) !important;
+}
+.confirm-ring {
+  background: rgba(var(--v-theme-hcex-staff), 0.1) !important;
 }
 
 /* Activity timeline */
 .activity-timeline {
   padding-left: 4px;
 }
-
 .activity-item {
   display: flex;
   gap: 16px;
 }
-
 .activity-dot-wrap {
   display: flex;
   flex-direction: column;
   align-items: center;
   flex-shrink: 0;
 }
-
 .activity-dot {
   width: 28px;
   height: 28px;
@@ -1333,39 +1380,43 @@ div {
   flex-shrink: 0;
   z-index: 1;
 }
-
 .activity-dot--submit {
-  background: rgb(var(--v-theme-doa-staff));
+  background: rgb(var(--v-theme-hcex-staff));
 }
-
 .activity-dot--receive {
   background: rgb(var(--v-theme-info));
 }
-
 .activity-dot--forward {
-  background: rgb(var(--v-theme-doa-staff));
+  background: rgb(var(--v-theme-hcex-staff));
 }
-
 .activity-dot--review {
   background: rgb(var(--v-theme-warning));
 }
-
+.activity-dot--signing {
+  background: rgb(var(--v-theme-hcex-staff));
+  animation: pulse-signing 1.6s ease-in-out infinite;
+}
+@keyframes pulse-signing {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(var(--v-theme-hcex-staff), 0.5);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(var(--v-theme-hcex-staff), 0);
+  }
+}
 .activity-dot--pending {
   background: rgb(var(--v-theme-warning));
 }
-
 .activity-dot--approve {
   background: rgb(var(--v-theme-success));
 }
-
 .activity-dot--reject {
   background: rgb(var(--v-theme-error));
 }
-
 .activity-dot--sendback {
   background: rgb(var(--v-theme-warning));
 }
-
 .activity-line {
   width: 2px;
   flex-grow: 1;
@@ -1373,7 +1424,6 @@ div {
   margin-top: 4px;
   min-height: 20px;
 }
-
 .activity-content {
   flex: 1;
   min-width: 0;
@@ -1383,12 +1433,11 @@ div {
   width: 64px;
   height: 64px;
   border-radius: 50%;
-  background: rgba(var(--v-theme-doa-staff), 0.1);
+  background: rgba(var(--v-theme-hcex-staff), 0.1);
   display: flex;
   align-items: center;
   justify-content: center;
 }
-
 .success-ring {
   width: 64px;
   height: 64px;

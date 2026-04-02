@@ -1404,7 +1404,7 @@ div {
 }
 
 .activity-dot--sendback {
-  background: #fb8c00;
+  background: rgb(var(--v-theme-warning));
 }
 
 .activity-line {

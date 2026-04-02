@@ -1,14 +1,13 @@
 <template>
   <div style="--v-theme-primary: var(--v-theme-hcex-staff)">
-    <!-- ── Sidebar ── -->
     <v-navigation-drawer
       v-model="drawer"
       :rail="rail"
       permanent
       color="surface"
       class="app-sidebar"
+      :style="{ '--v-theme-primary': 'var(--v-theme-hcex-staff)' }"
     >
-      <!-- Brand -->
       <v-list-item nav class="py-4 px-4">
         <template v-slot:prepend>
           <div
@@ -24,12 +23,12 @@
         <v-list-item-title
           class="text-body-2 font-weight-bold"
           style="word-break: break-word; white-space: normal"
-          >ระบบ Health Certificate สินค้าแปรรูปด้านพืช</v-list-item-title
+          >ระบบการออกหนังสือรับรองสุขอนามัยพืชสำหรับสินค้าแปรรูปด้านพืช</v-list-item-title
         >
         <v-list-item-subtitle
           class="text-caption"
           style="color: rgb(var(--v-theme-hcex-staff)); opacity: 0.85"
-          >ฝั่งเจ้าหน้าที่</v-list-item-subtitle
+          >สำหรับเจ้าหน้าที่</v-list-item-subtitle
         >
         <template v-slot:append>
           <v-btn
@@ -42,7 +41,6 @@
         </template>
       </v-list-item>
 
-      <!-- User Card -->
       <div v-if="!rail" class="px-4 mb-2">
         <div
           class="user-card rounded-lg pa-3 d-flex align-center ga-2"
@@ -51,8 +49,8 @@
             border: 1px solid rgba(var(--v-theme-hcex-staff), 0.12);
           "
         >
-          <v-avatar color="hcex-staff" size="32">
-            <v-icon icon="fas fa-user-tie" size="16" color="white" />
+          <v-avatar color="hcex-staff" size="32" variant="tonal">
+            <v-icon icon="fas fa-user-tie" size="16" color="hcex-staff" />
           </v-avatar>
           <div class="flex-grow-1 overflow-hidden">
             <div
@@ -61,7 +59,10 @@
               {{ staffSessionStore.displayName || "เจ้าหน้าที่" }}
             </div>
             <div class="text-caption text-medium-emphasis">
-              {{ staffSessionStore.department }}{{ staffSessionStore.role ? ' / ' + staffSessionStore.role : '' }}
+              {{ staffSessionStore.department
+              }}{{
+                staffSessionStore.role ? " / " + staffSessionStore.role : ""
+              }}
             </div>
           </div>
         </div>
@@ -69,7 +70,6 @@
 
       <v-divider class="mx-3" />
 
-      <!-- Nav -->
       <v-list density="compact" nav class="mt-1 px-2">
         <template v-for="group in navGroups" :key="group.label">
           <div v-if="!rail" class="sidebar-group-label text-medium-emphasis">
@@ -81,7 +81,7 @@
             :prepend-icon="item.icon"
             :title="item.title"
             :to="item.to"
-            :active="isNavActive(item.to)"
+            :active="route.path.startsWith(item.to)"
             active-color="hcex-staff"
             rounded="lg"
             class="mb-1"
@@ -96,7 +96,6 @@
         </template>
       </v-list>
 
-      <!-- Bottom -->
       <template v-slot:append>
         <v-divider />
         <v-list density="compact" nav class="px-2 py-2">
@@ -117,7 +116,6 @@
       </template>
     </v-navigation-drawer>
 
-    <!-- ── App Bar ── -->
     <v-app-bar
       flat
       height="64"
@@ -136,20 +134,17 @@
         density="compact"
         class="ml-1 d-none d-sm-flex"
       >
-        <template #divider>
-          <v-icon icon="fas fa-chevron-right" size="10" />
-        </template>
+        <template #divider
+          ><v-icon icon="fas fa-chevron-right" size="10"
+        /></template>
       </v-breadcrumbs>
       <v-spacer />
       <div class="d-flex align-center ga-1 mr-3">
-        <!-- Notifications -->
         <v-btn variant="text" size="small" icon class="mr-1">
-          <v-badge color="error" content="3" floating>
+          <v-badge color="error" content="6" floating>
             <v-icon icon="fas fa-bell" size="20" color="hcex-staff" />
           </v-badge>
         </v-btn>
-
-        <!-- Theme -->
         <v-tooltip
           :text="isDark ? 'Light Mode' : 'Dark Mode'"
           location="bottom"
@@ -164,7 +159,6 @@
             />
           </template>
         </v-tooltip>
-
         <!-- User Menu -->
         <v-menu location="bottom end" :offset="8">
           <template #activator="{ props }">
@@ -211,7 +205,6 @@
       </div>
     </v-app-bar>
 
-    <!-- ── Logout Dialog ── -->
     <v-dialog v-model="logoutDialog" max-width="360" persistent>
       <v-card rounded="xl">
         <v-btn
@@ -253,7 +246,6 @@
       </v-card>
     </v-dialog>
 
-    <!-- ── Content ── -->
     <v-main class="bg-background">
       <v-container
         fluid
@@ -310,12 +302,11 @@ function doLogout() {
   router.push({ name: "Login" });
 }
 
-function isNavActive(to) {
-  return route.path === to || route.path.startsWith(to + "/");
-}
-
 const breadcrumbs = computed(() => [
-  { title: "ระบบ Health Certificate สินค้าแปรรูปด้านพืช", to: "/hcex/staff" },
+  {
+    title: "ระบบการออกหนังสือรับรองสุขอนามัยพืชสำหรับสินค้าแปรรูปด้านพืช",
+    to: "/hcex/staff",
+  },
   { title: route.meta.title },
 ]);
 
@@ -324,46 +315,44 @@ const navGroups = [
     label: "ภาพรวม",
     divider: true,
     items: [
-      { title: "แดชบอร์ด", icon: "fas fa-gauge", to: "/hcex/staff/dashboard" },
+      {
+        title: "แดชบอร์ด",
+        icon: "fas fa-gauge",
+        to: "/hcex/staff/dashboard",
+      },
     ],
   },
   {
-    label: "คำขอออกใบรับรอง",
+    label: "คำขอ",
     divider: true,
     items: [
       {
-        title: "รายการคำขอทั้งหมด",
+        title: "รายการคำขอ",
         icon: "fas fa-file-lines",
         to: "/hcex/staff/applications",
-        count: 9,
+        count: 11,
       },
       {
-        title: "ผล Lab",
-        icon: "fas fa-flask-vial",
-        to: "/hcex/staff/lab-results",
-        count: 5,
+        title: "รายการรอพิจารณา",
+        icon: "fas fa-clipboard-check",
+        to: "/hcex/staff/reviews",
+        count: 2,
+      },
+      {
+        title: "รายการรอลงนาม",
+        icon: "fas fa-pen-nib",
+        to: "/hcex/staff/signing",
+        count: 1,
       },
     ],
   },
   {
-    label: "ดำเนินการ",
+    label: "ใบทะเบียน",
     divider: true,
     items: [
       {
-        title: "ลงนาม",
-        icon: "fas fa-signature",
-        to: "/hcex/staff/signing",
-        count: 3,
-      },
-    ],
-  },
-  {
-    label: "ข้อมูลทะเบียน",
-    divider: false,
-    items: [
-      {
-        title: "ทะเบียนผู้ประกอบการ",
-        icon: "fas fa-building",
+        title: "รายการใบทะเบียน",
+        icon: "fas fa-certificate",
         to: "/hcex/staff/registry",
       },
     ],

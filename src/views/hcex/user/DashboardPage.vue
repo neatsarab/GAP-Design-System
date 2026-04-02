@@ -4,7 +4,7 @@
       <div>
         <h1 class="page-title mb-1">แดชบอร์ด</h1>
         <p class="text-body-2 text-medium-emphasis mb-0">
-          ภาพรวมระบบ Health Certificate สินค้าแปรรูปด้านพืช
+          ภาพรวมระบบการออกหนังสือรับรองสุขอนามัยพืชสำหรับสินค้าแปรรูปด้านพืช
         </p>
       </div>
       <v-btn
@@ -56,7 +56,7 @@
                     rounded="lg"
                     class="mr-3"
                   >
-                    <v-icon icon="fas fa-file-medical" size="18" />
+                    <v-icon icon="fas fa-industry" size="18" />
                   </v-avatar>
                 </template>
                 <v-list-item-title class="text-body-2 font-weight-medium">{{
@@ -74,7 +74,7 @@
                       >{{ statusLabel(app.status) }}</v-chip
                     >
                     <span class="text-caption text-medium-emphasis">{{
-                      app.submittedDate
+                      app.updatedDate
                     }}</span>
                   </div>
                 </template>
@@ -96,7 +96,7 @@
         >
           <div class="text-body-2 font-weight-medium mb-1">อัพเดทสถานะ</div>
           <div class="text-body-2">
-            คำขอ HCEX-2569-00002 อยู่ระหว่างการพิจารณาผล Lab
+            คำขอ EXP-2569-00002 อยู่ระหว่างการตรวจสอบเอกสาร
           </div>
         </v-alert>
         <v-card rounded="xl" elevation="0">
@@ -174,21 +174,24 @@ const stats = [
 
 const recentApplications = [
   {
-    id: "HCEX-2569-00003",
-    requestNo: "HCEX-2569-00003",
+    id: "EXP-0003",
+    requestNo: "EXP-0003",
     submittedDate: "5 มี.ค. 2569",
-    status: "under_review",
+    updatedDate: "15 มี.ค. 2569",
+    status: "reviewing",
   },
   {
-    id: "HCEX-2569-00002",
-    requestNo: "HCEX-2569-00002",
+    id: "EXP-0002",
+    requestNo: "EXP-0002",
     submittedDate: "20 ก.พ. 2569",
-    status: "inspection_scheduled",
+    updatedDate: "1 มี.ค. 2569",
+    status: "signing",
   },
   {
-    id: "HCEX-2569-00001",
-    requestNo: "HCEX-2569-00001",
+    id: "EXP-0001",
+    requestNo: "EXP-0001",
     submittedDate: "10 ม.ค. 2569",
+    updatedDate: "29 ม.ค. 2569",
     status: "approved",
   },
 ];
@@ -198,25 +201,25 @@ const quickActions = [
     title: "ยื่นคำขอใหม่",
     icon: "fas fa-file-pen",
     color: "primary",
-    to: "/hcex/user/applications/new",
+    to: { name: "HCEXUserApplicationType" },
   },
   {
     title: "รายการคำขอ",
     icon: "fas fa-file-lines",
     color: "primary",
-    to: "/hcex/user/applications",
+    to: { name: "HCEXUserApplicationList" },
   },
 ];
 
 function statusColor(status) {
   const map = {
     draft: "grey",
-    submitted: "primary",
-    under_review: "info",
-    inspection_scheduled: "secondary",
+    pending: "info",
+    need_edit: "warning",
+    reviewing: "info",
+    signing: "info",
     approved: "success",
     rejected: "error",
-    revision_required: "warning",
   };
   return map[status] ?? "grey";
 }
@@ -224,12 +227,12 @@ function statusColor(status) {
 function statusLabel(status) {
   const map = {
     draft: "แบบร่าง",
-    submitted: "ยื่นแล้ว",
-    under_review: "อยู่ระหว่างตรวจสอบ",
-    inspection_scheduled: "นัดตรวจแล้ว",
-    approved: "อนุมัติแล้ว",
-    rejected: "ไม่ผ่าน",
-    revision_required: "รอแก้ไข",
+    pending: "รอตรวจสอบ",
+    need_edit: "รอแก้ไขคำขอ",
+    reviewing: "รอพิจารณา",
+    signing: "รอลงนาม",
+    approved: "ได้รับอนุญาต",
+    rejected: "ไม่อนุมัติ",
   };
   return map[status] ?? status;
 }

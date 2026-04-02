@@ -1,5 +1,5 @@
 <template>
-  <div style="--v-theme-primary: var(--v-theme-export-staff)">
+  <div>
     <!-- Header -->
     <div class="d-flex align-center ga-3 mb-4">
       <v-btn
@@ -1324,11 +1324,6 @@ function submitReject() {
 </script>
 
 <style scoped>
-div {
-  --step-color: rgb(var(--v-theme-export-staff));
-  --step-color-tint: rgba(var(--v-theme-export-staff), 0.2);
-}
-
 .sticky-col {
   position: sticky;
   top: 80px;
@@ -1347,36 +1342,18 @@ div {
   border: 1px solid rgba(var(--v-theme-on-surface), 0.08);
 }
 
-.step-circle {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  font-weight: 600;
-}
-.step-line {
-  height: 2px;
-  background: rgba(var(--v-theme-on-surface), 0.15);
-  margin: 0 4px;
-  margin-bottom: 20px;
-}
-.step-pending {
-  background: rgba(var(--v-theme-on-surface), 0.12);
-  color: rgba(var(--v-theme-on-surface), 0.5);
-}
 .step-done,
 .step-active {
   background: rgb(var(--v-theme-export-staff)) !important;
-  color: white !important;
 }
 .step-active {
   box-shadow: 0 0 0 4px rgba(var(--v-theme-export-staff), 0.2) !important;
 }
 .step-line--done {
   background: rgb(var(--v-theme-export-staff)) !important;
+}
+.confirm-ring {
+  background: rgba(var(--v-theme-export-staff), 0.1) !important;
 }
 
 /* Activity timeline */
@@ -1438,7 +1415,7 @@ div {
   background: rgb(var(--v-theme-error));
 }
 .activity-dot--sendback {
-  background: #fb8c00;
+  background: rgb(var(--v-theme-warning));
 }
 .activity-line {
   width: 2px;

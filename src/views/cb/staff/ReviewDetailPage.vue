@@ -744,7 +744,7 @@ function openActivityDetail(event) {
 
 function submitApprove() {
   approveDialog.value = false;
-  successMessage.value = "ส่งคำขอไปยังขั้นตอนลงนามเรียบร้อยแล้ว";
+  successMessage.value = "ส่งคำขอเพื่อลงนามเรียบร้อยแล้ว";
   successDialog.value = true;
 }
 
@@ -1097,7 +1097,7 @@ function statusLabel(s) {
   background: rgb(var(--v-theme-error));
 }
 .activity-dot--sendback {
-  background: #fb8c00;
+  background: rgb(var(--v-theme-warning));
 }
 .activity-line {
   width: 2px;

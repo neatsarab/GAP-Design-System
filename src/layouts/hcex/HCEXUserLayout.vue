@@ -1,6 +1,5 @@
 <template>
   <div style="--v-theme-primary: var(--v-theme-hcex-user)">
-    <!-- ── Sidebar ── -->
     <v-navigation-drawer
       v-model="drawer"
       :rail="rail"
@@ -12,7 +11,7 @@
       <v-list v-if="rail" density="compact" nav class="px-2 py-2">
         <v-list-item rounded="lg" class="mb-1">
           <template v-slot>
-            <v-icon icon="fas fa-file-medical" color="hcex-user" size="20" />
+            <v-icon icon="fas fa-industry" color="hcex-user" size="20" />
           </template>
         </v-list-item>
       </v-list>
@@ -27,13 +26,13 @@
               border: 1px solid rgba(var(--v-theme-hcex-user), 0.2);
             "
           >
-            <v-icon icon="fas fa-file-medical" color="hcex-user" size="20" />
+            <v-icon icon="fas fa-industry" color="hcex-user" size="20" />
           </div>
         </template>
         <v-list-item-title
           class="text-body-2 font-weight-bold"
           style="word-break: break-word; white-space: normal"
-          >ระบบ Health Certificate สินค้าแปรรูปด้านพืช</v-list-item-title
+          >ระบบการออกหนังสือรับรองสุขอนามัยพืชสำหรับสินค้าแปรรูปด้านพืช</v-list-item-title
         >
         <v-list-item-subtitle
           class="text-caption"
@@ -89,7 +88,6 @@
 
       <v-divider class="mx-3" />
 
-      <!-- Nav -->
       <v-list density="compact" nav class="mt-1 px-2">
         <template v-for="group in navGroups" :key="group.label">
           <div v-if="!rail" class="sidebar-group-label text-medium-emphasis">
@@ -109,7 +107,6 @@
         </template>
       </v-list>
 
-      <!-- Bottom -->
       <template v-slot:append>
         <v-divider />
         <v-list density="compact" nav class="px-2 py-2">
@@ -130,7 +127,6 @@
       </template>
     </v-navigation-drawer>
 
-    <!-- ── App Bar ── -->
     <v-app-bar
       flat
       height="64"
@@ -149,20 +145,17 @@
         density="compact"
         class="ml-1 d-none d-sm-flex"
       >
-        <template #divider>
-          <v-icon icon="fas fa-chevron-right" size="10" />
-        </template>
+        <template #divider
+          ><v-icon icon="fas fa-chevron-right" size="10"
+        /></template>
       </v-breadcrumbs>
       <v-spacer />
       <div class="d-flex align-center ga-1 mr-3">
-        <!-- Notifications -->
         <v-btn variant="text" size="small" icon class="mr-1">
           <v-badge color="error" content="1" floating>
             <v-icon icon="fas fa-bell" size="20" color="hcex-user" />
           </v-badge>
         </v-btn>
-
-        <!-- Theme -->
         <v-tooltip
           :text="isDark ? 'Light Mode' : 'Dark Mode'"
           location="bottom"
@@ -177,7 +170,6 @@
             />
           </template>
         </v-tooltip>
-
         <v-menu location="bottom end" :offset="8">
           <template #activator="{ props }">
             <v-chip
@@ -231,7 +223,6 @@
       </div>
     </v-app-bar>
 
-    <!-- ── Logout Dialog ── -->
     <v-dialog v-model="logoutDialog" max-width="360" persistent>
       <v-card rounded="xl">
         <v-btn
@@ -273,7 +264,6 @@
       </v-card>
     </v-dialog>
 
-    <!-- ── Content ── -->
     <v-main class="bg-background">
       <v-container
         fluid
@@ -328,7 +318,10 @@ function doLogout() {
 }
 
 const breadcrumbs = computed(() => [
-  { title: "ระบบ Health Certificate สินค้าแปรรูปด้านพืช", to: "/hcex/user" },
+  {
+    title: "ระบบการออกหนังสือรับรองสุขอนามัยพืชสำหรับสินค้าแปรรูปด้านพืช",
+    to: "/hcex/user",
+  },
   { title: route.meta.title },
 ]);
 
@@ -357,11 +350,11 @@ const navGroups = [
     ],
   },
   {
-    label: "ใบรับรอง",
+    label: "ใบทะเบียน",
     divider: false,
     items: [
       {
-        title: "รายการใบรับรอง",
+        title: "รายการใบทะเบียน",
         icon: "fas fa-certificate",
         to: "/hcex/user/certificates",
       },

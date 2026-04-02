@@ -4,8 +4,7 @@
       <div>
         <h1 class="page-title mb-1">แดชบอร์ด</h1>
         <p class="text-body-2 text-medium-emphasis mb-0">
-          ภาพรวมระบบออกใบรับรองสุขอนามัย (Health Certificate)
-          ตามประกาศพืชควบคุมเฉพาะ
+          ภาพรวมระบบออกใบรับรองสุขอนามัย ตามประกาศพืชควบคุมเฉพาะ
         </p>
       </div>
     </div>
@@ -92,9 +91,7 @@
           <div class="text-body-2 font-weight-medium mb-1">
             สรุปงานที่รอดำเนินการ
           </div>
-          <div class="text-body-2">
-            มีคำขอรอดำเนินการ 12 รายการ รวมถึงรอตรวจ Lab 8 รายการ
-          </div>
+          <div class="text-body-2">มีคำขอรอดำเนินการทั้งหมด 12 รายการ</div>
         </v-alert>
         <!-- Status Summary -->
         <v-card rounded="xl" elevation="0" class="mt-4">
@@ -159,7 +156,7 @@ const stats = [
     iconColor: "success",
   },
   {
-    label: "ออกใบรับรองแล้ว",
+    label: "สถานประกอบการที่ขึ้นทะเบียน",
     value: "119",
     icon: "fas fa-file-shield",
     iconColor: "info",

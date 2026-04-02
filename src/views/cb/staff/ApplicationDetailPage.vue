@@ -323,10 +323,10 @@
                     class="mb-5"
                   />
 
-                  <!-- แก้ไขภายในระยะเวลา (เฉพาะ ปรับปรุง) -->
+                  <!-- แก้ไขภายในวันที่ (เฉพาะ ปรับปรุง) -->
                   <template v-if="review.decision === 'improve'">
                     <div class="field-label mb-1">
-                      <div>แก้ไขภายในระยะเวลา</div>
+                      <div>แก้ไขภายในวันที่</div>
                       <div class="field-label-en">Deadline</div>
                     </div>
                     <v-menu
@@ -345,7 +345,7 @@
                           readonly
                           placeholder="วว/ดด/ปปปป"
                           prepend-inner-icon="fas fa-calendar"
-                          class="mb-4"
+                          class="mb-1"
                         />
                       </template>
                       <v-date-picker
@@ -355,6 +355,12 @@
                         @update:model-value="deadlineMenu = false"
                       />
                     </v-menu>
+                    <div
+                      v-if="review.deadline"
+                      class="text-caption text-medium-emphasis mb-4"
+                    >
+                      จำนวน {{ deadlineDays }} วัน นับจากวันนี้
+                    </div>
                   </template>
 
                   <!-- Action buttons -->
@@ -911,6 +917,14 @@ const deadlineBE = computed(() => {
   const mm = String(d.getMonth() + 1).padStart(2, "0");
   return `${dd}/${mm}/${d.getFullYear() + 543}`;
 });
+const deadlineDays = computed(() => {
+  if (!review.deadline) return 0;
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const target = new Date(review.deadline);
+  target.setHours(0, 0, 0, 0);
+  return Math.ceil((target - today) / (1000 * 60 * 60 * 24));
+});
 
 function eventIcon(type) {
   return (
@@ -1058,7 +1072,7 @@ function statusLabel(s) {
   background: rgb(var(--v-theme-error));
 }
 .activity-dot--sendback {
-  background: #fb8c00;
+  background: rgb(var(--v-theme-warning));
 }
 .activity-line {
   width: 2px;
@@ -1082,7 +1096,6 @@ div {
 .step-done,
 .step-active {
   background: rgb(var(--v-theme-cb-staff)) !important;
-  color: white !important;
 }
 .step-active {
   box-shadow: 0 0 0 4px rgba(var(--v-theme-cb-staff), 0.2) !important;

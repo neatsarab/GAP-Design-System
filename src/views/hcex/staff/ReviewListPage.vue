@@ -2,7 +2,7 @@
   <div>
     <div class="d-flex align-center justify-space-between flex-wrap ga-3 mb-6">
       <div>
-        <h1 class="page-title mb-1">รายการคำขอ</h1>
+        <h1 class="page-title mb-1">รายการรอพิจารณา</h1>
         <p class="text-body-2 text-medium-emphasis mb-0">
           Health Certificate สินค้าแปรรูปด้านพืช
         </p>
@@ -317,6 +317,7 @@
             />
           </span>
         </template>
+
         <template #header.status="{ column, isSorted, getSortIcon }">
           <span class="d-inline-flex align-center ga-1">
             <span>
@@ -346,9 +347,11 @@
             :color="statusColor(item.status)"
             size="small"
             variant="tonal"
-            >{{ statusLabel(item.status) }}</v-chip
           >
+            {{ statusLabel(item.status) }}
+          </v-chip>
         </template>
+
         <template #item.actions="{ item }">
           <div class="d-flex align-center ga-1">
             <v-tooltip text="ดูคำขอ" location="top">
@@ -361,7 +364,7 @@
                   color="hcex-staff"
                   @click.stop="
                     router.push({
-                      name: 'HCEXstaffApplicationDetail',
+                      name: 'HCEXstaffReviewDetail',
                       params: { id: item.requestNo },
                     })
                   "
@@ -371,20 +374,20 @@
               </template>
             </v-tooltip>
             <v-btn
-              v-if="item.status === 'pending'"
+              v-if="['reviewing'].includes(item.status)"
               size="small"
               variant="tonal"
               color="warning"
               rounded="lg"
-              prepend-icon="fas fa-magnifying-glass"
+              prepend-icon="fas fa-clipboard-check"
               @click.stop="
                 router.push({
-                  name: 'HCEXstaffApplicationDetail',
+                  name: 'HCEXstaffReviewDetail',
                   params: { id: item.requestNo },
                 })
               "
             >
-              ตรวจคำขอ
+              พิจารณาคำขอ
             </v-btn>
           </div>
         </template>
@@ -423,7 +426,6 @@ watch(dateToObj, (v) => {
   filters.dateTo = v ? v.toISOString().slice(0, 10) : "";
 });
 
-// แปลง DD/MM/YYYY (พ.ศ.) → timestamp เพื่อ sort
 function beDateToTs(str) {
   if (!str) return 0;
   const [d, m, y] = str.split("/").map(Number);
@@ -445,40 +447,29 @@ const filters = reactive({
   status: null,
 });
 
+const statusOptions = [
+  { label: "รอพิจารณา", value: "reviewing" },
+  { label: "รอลงนาม", value: "signing" },
+];
+
 const typeOptions = [
   { label: "ขึ้นทะเบียน", value: "ขึ้นทะเบียน" },
   { label: "ต่ออายุ", value: "ต่ออายุ" },
   { label: "แก้ไข", value: "แก้ไข" },
 ];
 
-const statusOptions = [
-  { label: "รอตรวจ", value: "pending" },
-  { label: "รอแก้ไขคำขอ", value: "need_edit" },
-  { label: "รอพิจารณา", value: "reviewing" },
-  { label: "รอลงนาม", value: "signing" },
-];
-
 const headers = [
-  { title: "เลขคำขอ", key: "requestNo", sortable: true, fixed: "true" },
+  { title: "เลขคำขอ", key: "requestNo", sortable: true },
   { title: "ชื่อสถานประกอบการ", key: "companyName", sortable: true },
   { title: "ชื่อผู้ยื่นคำขอ", key: "applicantName", sortable: true },
   { title: "ประเภททะเบียน", key: "typecert", sortable: true },
   { title: "ประเภทคำขอ", key: "type", sortable: true },
   { title: "วันที่ยื่น", key: "submittedDate", sortable: true },
   { title: "สถานะคำขอ", key: "status", sortable: true },
-  { title: "", key: "actions", sortable: false, align: "end", fixed: "true" },
+  { title: "", key: "actions", sortable: false, align: "end" },
 ];
 
 const allItems = [
-  {
-    requestNo: "EXP-0001",
-    companyName: "บ.ไทย เอ็กซ์พอร์ต จก.",
-    applicantName: "สมชาย ใจดี",
-    typecert: "คำขอหนังสือสำคัญแสดงการขึ้นทะเบียนเป็นผู้ส่งออกผักและผลไม้",
-    type: "ขึ้นทะเบียน",
-    submittedDate: "01/01/2569",
-    status: "pending",
-  },
   {
     requestNo: "EXP-0003",
     companyName: "บ.สยาม เอ็กซ์พอร์ต จก.",
@@ -490,6 +481,15 @@ const allItems = [
     status: "reviewing",
   },
   {
+    requestNo: "EXP-0007",
+    companyName: "บ.ไทยแลนด์ ฟรุ๊ต จก.",
+    applicantName: "ชัยวัฒน์ เกษตรกร",
+    typecert: "คำขอหนังสือสำคัญแสดงการขึ้นทะเบียนเป็นผู้ส่งออกผักและผลไม้",
+    type: "ต่ออายุ",
+    submittedDate: "18/03/2569",
+    status: "reviewing",
+  },
+  {
     requestNo: "EXP-0004",
     companyName: "บ.เอเชียแอกโกร จก.",
     applicantName: "ประสิทธิ์ พานิช",
@@ -497,25 +497,6 @@ const allItems = [
     type: "ต่ออายุ",
     submittedDate: "12/03/2569",
     status: "signing",
-  },
-  {
-    requestNo: "EXP-0005",
-    companyName: "บ.กรีนฟาร์ม จก.",
-    applicantName: "วิไล สุขสม",
-    typecert:
-      "คำขอหนังสือสำคัญแสดงการจดทะเบียนเป็นผู้ส่งออกกล้วยสดไปประเทศญี่ปุ่น",
-    type: "ขึ้นทะเบียน",
-    submittedDate: "15/03/2569",
-    status: "need_edit",
-  },
-  {
-    requestNo: "EXP-0006",
-    companyName: "บ.ไทยแลนด์ ฟรุ๊ต จก.",
-    applicantName: "ชัยวัฒน์ เกษตรกร",
-    typecert: "คำร้องขึ้นทะเบียนเป็นผู้ส่งออกพืชควบคุม",
-    type: "ขึ้นทะเบียน",
-    submittedDate: "20/03/2569",
-    status: "pending",
   },
 ];
 
@@ -535,16 +516,6 @@ const typecertOptions = [
       "คำขอหนังสือสำคัญแสดงการจดทะเบียนเป็นผู้ส่งผลทุเรียนสดออกไปนอกราชอาณาจักร",
     value:
       "คำขอหนังสือสำคัญแสดงการจดทะเบียนเป็นผู้ส่งผลทุเรียนสดออกไปนอกราชอาณาจักร",
-  },
-  {
-    label: "คำขอจดทะเบียนเป็นผู้ส่งออกสินค้าเกษตรไปนอกราชอาณาจักร",
-    value: "คำขอจดทะเบียนเป็นผู้ส่งออกสินค้าเกษตรไปนอกราชอาณาจักร",
-  },
-  {
-    label:
-      "คำขอหนังสือสำคัญการจดทะเบียนเป็นผู้ส่งออกลูกเดือย, เมล็ดแมงลัก และพริกแห้ง ไปนอกราชอาณาจักร",
-    value:
-      "คำขอหนังสือสำคัญการจดทะเบียนเป็นผู้ส่งออกลูกเดือย, เมล็ดแมงลัก และพริกแห้ง ไปนอกราชอาณาจักร",
   },
   {
     label: "คำร้องขึ้นทะเบียนเป็นผู้ส่งออกพืชควบคุม",
@@ -590,27 +561,10 @@ function clearFilters() {
 }
 
 function statusColor(s) {
-  return (
-    {
-      pending: "warning",
-      need_edit: "info",
-      reviewing: "info",
-      signing: "info",
-      approved: "success",
-    }[s] ?? "grey"
-  );
+  return { reviewing: "warning", signing: "info" }[s] ?? "grey";
 }
 
 function statusLabel(s) {
-  return (
-    {
-      pending: "รอตรวจ",
-      need_edit: "รอแก้ไขคำขอ",
-      reviewing: "รอพิจารณา",
-      signing: "รอลงนาม",
-      approved: "ได้รับอนุญาต",
-    }[s] ?? s
-  );
+  return { reviewing: "รอพิจารณา", signing: "รอลงนาม" }[s] ?? s;
 }
 </script>
-

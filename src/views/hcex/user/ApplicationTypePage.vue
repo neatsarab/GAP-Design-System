@@ -9,44 +9,44 @@
         @click="goToApplicationList"
       />
       <div>
-        <h1 class="page-title mb-0">ยื่นคำขอ HC แปรรูป</h1>
+        <h1 class="page-title mb-0">ยื่นคำขอใหม่</h1>
         <p class="text-body-2 text-medium-emphasis mb-0">
-          เลือกประเภทใบรับรองสุขอนามัยสินค้าแปรรูปด้านพืช
+          เลือกประเภทคำขอที่ต้องการยื่น
         </p>
       </div>
     </div>
 
     <!-- Type Cards -->
     <v-row justify="start">
-      <v-col v-for="type in appTypes" :key="type.key" cols="12" md="6" lg="4">
+      <v-col v-for="appType in appTypes" :key="appType.key" cols="12" md="4">
         <v-card
           class="type-card h-100"
           hover
           :ripple="false"
-          @click="goToNewApplication(type.key)"
+          @click="goToNewApplication(appType.key)"
         >
           <v-card-text class="pa-8 d-flex flex-column align-center text-center">
             <div
               class="type-icon-box mb-5"
-              :style="`background:rgba(var(--v-theme-${type.color}),0.1)`"
+              :style="`background:rgba(var(--v-theme-${appType.color}),0.1)`"
             >
-              <v-icon :icon="type.icon" :color="type.color" size="40" />
+              <v-icon :icon="appType.icon" :color="appType.color" size="40" />
             </div>
 
             <div class="d-flex align-center ga-2 mb-2">
-              <h2 class="text-h6 font-weight-bold">{{ type.title }}</h2>
+              <h2 class="text-h6 font-weight-bold">{{ appType.title }}</h2>
               <v-chip
-                v-if="type.badge"
+                v-if="appType.badge"
                 size="x-small"
-                :color="type.color"
+                :color="appType.color"
                 variant="tonal"
               >
-                {{ type.badge }}
+                {{ appType.badge }}
               </v-chip>
             </div>
 
             <p class="text-body-2 text-medium-emphasis mb-5">
-              {{ type.description }}
+              {{ appType.description }}
             </p>
 
             <v-list
@@ -54,18 +54,18 @@
               class="w-100 text-left mb-6 bg-transparent pa-0"
             >
               <v-list-item
-                v-for="f in type.features"
+                v-for="f in appType.features"
                 :key="f"
                 prepend-icon="fas fa-circle-check"
                 :title="f"
-                :base-color="type.color"
+                :base-color="appType.color"
                 class="px-0"
                 density="compact"
               />
             </v-list>
 
             <v-btn
-              :color="type.color"
+              :color="appType.color"
               block
               rounded="lg"
               append-icon="fas fa-arrow-right"
@@ -78,7 +78,7 @@
     </v-row>
 
     <!-- Info -->
-    <v-alert
+    <!-- <v-alert
       type="info"
       variant="tonal"
       class="mt-6"
@@ -86,10 +86,11 @@
       rounded="xl"
     >
       <strong>หมายเหตุ:</strong>
-      การยื่นคำขอใบรับรองสุขอนามัยสินค้าแปรรูปต้องมีผลการทดสอบห้องปฏิบัติการ
-      (Lab) ที่ผ่านการพิจารณาของเจ้าหน้าที่ก่อน หากยังไม่มีผล Lab สามารถยื่นขอผล
-      Lab ได้ในขั้นตอนถัดไป
-    </v-alert>
+      เอกสารที่ใช้ประกอบการยื่นคำขอต้องรับรองสำเนาถูกต้อง
+      ผู้ยื่นคำขอต้องเป็นผู้มีอำนาจลงนาม หากยื่นด้วยตนเองต้องแสดง<strong
+        >บัตรประชาชนตัวจริง</strong
+      >
+    </v-alert> -->
   </div>
 </template>
 
@@ -102,74 +103,37 @@ function goToApplicationList() {
   router.push({ name: "HCEXUserApplicationList" });
 }
 
-function goToNewApplication(key) {
-  router.push({ name: "HCEXUserNewApplication", params: { key } });
+function goToNewApplication(type) {
+  router.push({ name: "HCEXUserNewApplication", params: { type } });
 }
 
 const appTypes = [
   {
-    key: "kmp1",
-    title: "กมพ.1",
-    badge: "ทั่วไป",
-    icon: "fas fa-file-circle-check",
+    key: "newrequest",
+    title: "คำขอขึ้น / ต่ออายุทะเบียน",
+    badge: null,
+    icon: "fas fa-file-circle-plus",
     color: "primary",
-    description: "ใบรับรองสุขอนามัยสำหรับสินค้าแปรรูปด้านพืชทั่วไป",
+    description:
+      "ยื่นคำขอขึ้นทะเบียนเป็นผู้ส่งออกพืช/สินค้าเกษตร สำหรับผู้ประกอบการรายใหม่ที่ยังไม่เคยขึ้นทะเบียน",
     features: [
-      "สินค้าแปรรูปด้านพืชทั่วไป",
-      "ต้องมีผลการทดสอบ Lab",
-      "ระบุโรงงานและผู้รับสินค้า",
+      "ขึ้นทะเบียนสถานประกอบการ",
+      "รองรับการส่งออกหลายประเทศ",
+      "จัดการข้อมูลผู้ส่งออก",
     ],
   },
   {
-    key: "kmp1-1",
-    title: "กมพ.1-1",
-    badge: "แป้ง / ธัญพืช",
-    icon: "fas fa-wheat-awn",
-    color: "warning",
-    description: "ใบรับรองสุขอนามัยสำหรับผลิตภัณฑ์แป้งและธัญพืชแปรรูป",
-    features: [
-      "แป้งและธัญพืชแปรรูป",
-      "ต้องมีผลการทดสอบ Lab",
-      "แนบมาตรฐานการผลิต",
-    ],
-  },
-  {
-    key: "kmp1-2",
-    title: "กมพ.1-2",
-    badge: "ผัก / ผลไม้",
-    icon: "fas fa-jar",
-    color: "success",
-    description: "ใบรับรองสำหรับผลิตภัณฑ์ผักและผลไม้แปรรูป",
-    features: [
-      "ผักและผลไม้แปรรูป",
-      "ต้องมีผลการทดสอบ Lab",
-      "แนบใบรับรองแหล่งผลิต GAP",
-    ],
-  },
-  {
-    key: "kmp1-3",
-    title: "กมพ.1-3",
-    badge: "เครื่องเทศ",
-    icon: "fas fa-mortar-pestle",
-    color: "primary",
-    description: "ใบรับรองสำหรับเครื่องเทศและสมุนไพรแปรรูป",
-    features: [
-      "เครื่องเทศและสมุนไพรแปรรูป",
-      "ต้องมีผลการทดสอบ Lab",
-      "แนบมาตรฐานการผลิตสมุนไพร",
-    ],
-  },
-  {
-    key: "correction",
-    title: "ขอแก้ไขใบรับรอง",
+    key: "amendment",
+    title: "คำขอแก้ไขใบทะเบียน",
     badge: null,
     icon: "fas fa-file-pen",
-    color: "secondary",
-    description: "ยื่นคำขอแก้ไขข้อมูลในใบรับรองสุขอนามัยสินค้าแปรรูปที่ออกแล้ว",
+    color: "warning",
+    description:
+      "สำหรับผู้ส่งออกที่ได้รับการอนุมัติแล้ว และต้องการแก้ไขข้อมูลในใบทะเบียนที่มีอยู่",
     features: [
-      "ต้องมีใบรับรองเดิมที่ออกแล้ว",
-      "แก้ไขข้อมูลที่ผิดพลาด",
-      "ระบุเหตุผลการแก้ไข",
+      "แก้ไขข้อมูลในใบทะเบียน",
+      "แก้ไขข้อมูลที่อยู่สถานประกอบการ",
+      "แก้ไขชนิดพืช",
     ],
   },
 ];

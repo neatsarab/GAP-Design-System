@@ -1014,7 +1014,7 @@ function statusLabel(s) {
   background: rgb(var(--v-theme-error));
 }
 .activity-dot--sendback {
-  background: #fb8c00;
+  background: rgb(var(--v-theme-warning));
 }
 .activity-dot--signing {
   background: rgb(var(--v-theme-cb-staff));

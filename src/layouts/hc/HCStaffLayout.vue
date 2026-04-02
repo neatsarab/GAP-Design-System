@@ -344,6 +344,18 @@ const navGroups = [
         count: 8,
       },
       {
+        title: "รายการรอตรวจ Lab",
+        icon: "fas fa-flask",
+        to: "/hc/staff/lab",
+        count: 2,
+      },
+      {
+        title: "รายการรอพิจารณาผล Lab",
+        icon: "fas fa-microscope",
+        to: "/hc/staff/lab-review",
+        count: 3,
+      },
+      {
         title: "รายการรอพิจารณา",
         icon: "fas fa-clipboard-check",
         to: "/hc/staff/reviews",

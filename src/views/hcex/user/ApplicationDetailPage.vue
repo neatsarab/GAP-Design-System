@@ -1,412 +1,490 @@
 <template>
-  <div>
+  <div style="--v-theme-primary: var(--v-theme-hcex-user)">
     <!-- Header -->
-    <div class="d-flex align-center ga-3 mb-6 flex-wrap">
+    <div class="d-flex align-center ga-3 mb-4">
       <v-btn
         icon="fas fa-arrow-left"
         variant="text"
         size="small"
-        @click="goToApplicationList"
+        @click="router.back()"
       />
       <div>
-        <h1 class="page-title mb-1">
-          {{ app.requestNo }}
-        </h1>
-        <div class="d-flex align-center ga-2">
-          <v-chip size="small" color="hcex-user" variant="tonal">{{
-            app.certType
-          }}</v-chip>
-          <v-chip
-            size="small"
-            :color="getStatusColor(app.status)"
-            variant="tonal"
-            :prepend-icon="getStatusIcon(app.status)"
-          >
-            {{ getStatusLabel(app.status) }}
-          </v-chip>
-        </div>
+        <h1 class="page-title mb-0">รายละเอียดคำขอ</h1>
+        <p class="text-body-2 text-medium-emphasis mb-0 mt-1">
+          เลขคำขอ:
+          <span class="text-hcex-user font-weight-medium">{{
+            route.params.id ?? "EXP-0005"
+          }}</span>
+        </p>
       </div>
+      <v-spacer />
+      <v-chip :color="statusColor(application.status)" variant="tonal">
+        <v-icon :icon="statusIcon(application.status)" size="13" class="mr-1" />
+        {{ statusLabel(application.status) }}
+      </v-chip>
     </div>
 
-    <!-- Application Info -->
-    <v-row class="mb-2">
-      <v-col cols="12" md="6">
-        <!-- ผู้ส่งออก -->
-        <v-card class="mb-4">
-          <v-card-title
-            class="pa-4 pb-2 text-body-1 font-weight-bold d-flex align-center ga-2"
-          >
-            <v-icon icon="fas fa-building" color="hcex-user" size="16" />
-            ผู้ส่งออก (Exporter)
-          </v-card-title>
-          <v-card-text class="pa-4 pt-0">
-            <div class="info-grid">
-              <div class="info-item">
-                <span class="info-label">ชื่อบริษัท</span>
-                <span class="info-value">{{ app.exporterName }}</span>
+    <!-- Stepper -->
+    <v-card rounded="xl" elevation="0" class="mb-4 section-card">
+      <v-card-text class="pa-4">
+        <div class="d-flex align-center">
+          <template v-for="(step, i) in timelineSteps" :key="step.value">
+            <div
+              class="step-item d-flex flex-column align-center"
+              style="min-width: 72px"
+            >
+              <div class="step-circle mb-1" :class="stepClass(step.value)">
+                <v-icon
+                  v-if="application.currentStep > step.value"
+                  icon="fas fa-check"
+                  size="12"
+                  color="white"
+                />
+                <span v-else class="text-caption font-weight-bold">{{
+                  step.value + 1
+                }}</span>
               </div>
-              <div class="info-item">
-                <span class="info-label">ที่อยู่</span>
-                <span class="info-value">{{ app.exporterAddress }}</span>
-              </div>
-              <div class="info-item">
-                <span class="info-label">ประเทศ</span>
-                <span class="info-value">ไทย</span>
+              <div
+                class="text-caption text-center"
+                :class="
+                  application.currentStep >= step.value
+                    ? 'text-hcex-user font-weight-bold'
+                    : 'text-medium-emphasis'
+                "
+              >
+                {{ step.title }}
               </div>
             </div>
+            <div
+              v-if="i < timelineSteps.length - 1"
+              class="step-line flex-grow-1"
+              :class="{
+                'step-line--done': application.currentStep > step.value,
+              }"
+            />
+          </template>
+        </div>
+      </v-card-text>
+    </v-card>
+
+    <!-- 2-column layout -->
+    <v-row>
+      <!-- ── Left: data sections ── -->
+      <v-col cols="12" md="8">
+        <!-- ข้อมูลคำขอ -->
+        <v-card rounded="xl" elevation="0" class="section-card mb-4">
+          <div
+            class="section-header px-4 py-3 border-b d-flex align-center ga-2"
+          >
+            <v-icon icon="fas fa-list-check" color="hcex-user" size="15" />
+            <span class="text-subtitle-2 font-weight-bold">ข้อมูลคำขอ</span>
+          </div>
+          <v-card-text class="pa-4">
+            <v-row dense>
+              <v-col cols="6" md="4">
+                <div class="info-label">เลขคำขอ</div>
+                <div class="info-value text-hcex-user font-weight-bold">
+                  {{ application.requestNo }}
+                </div>
+              </v-col>
+              <v-col cols="6" md="4">
+                <div class="info-label">ประเภทคำขอ</div>
+                <div class="info-value">
+                  <v-chip size="x-small" color="hcex-user" variant="tonal">{{
+                    application.requestType
+                  }}</v-chip>
+                </div>
+              </v-col>
+              <v-col cols="6" md="4">
+                <div class="info-label">วันที่ยื่นคำขอ</div>
+                <div class="info-value">{{ application.submittedDate }}</div>
+              </v-col>
+              <v-col cols="12">
+                <div class="info-label">ประเภททะเบียน</div>
+                <div class="info-value">{{ application.typecert }}</div>
+              </v-col>
+            </v-row>
           </v-card-text>
         </v-card>
 
-        <!-- ผู้รับสินค้า -->
-        <v-card class="mb-4">
-          <v-card-title
-            class="pa-4 pb-2 text-body-1 font-weight-bold d-flex align-center ga-2"
+        <!-- ข้อมูลผู้ยื่นคำขอ -->
+        <v-card rounded="xl" elevation="0" class="section-card mb-4">
+          <div
+            class="section-header px-4 py-3 border-b d-flex align-center ga-2"
           >
-            <v-icon icon="fas fa-user-tie" color="hcex-user" size="16" />
-            ผู้รับสินค้า (Consignee)
-          </v-card-title>
-          <v-card-text class="pa-4 pt-0">
-            <div class="info-grid">
-              <div class="info-item">
-                <span class="info-label">ชื่อ</span>
-                <span class="info-value">{{ app.consigneeName }}</span>
-              </div>
-              <div class="info-item">
-                <span class="info-label">ที่อยู่</span>
-                <span class="info-value">{{ app.consigneeAddress }}</span>
-              </div>
-              <div class="info-item">
-                <span class="info-label">ประเทศปลายทาง</span>
-                <span class="info-value text-hcex-user font-weight-medium">{{
-                  app.destination
-                }}</span>
-              </div>
+            <v-icon icon="fas fa-user" color="hcex-user" size="15" />
+            <span class="text-subtitle-2 font-weight-bold"
+              >ข้อมูลผู้ยื่นคำขอ</span
+            >
+          </div>
+          <v-card-text class="pa-4">
+            <v-row dense>
+              <v-col cols="12" md="6">
+                <div class="info-label">ชื่อ-นามสกุล / Full Name</div>
+                <div class="info-value">{{ application.applicantNameTh }}</div>
+              </v-col>
+              <v-col cols="12" md="6">
+                <div class="info-label">ที่อยู่ / Address</div>
+                <div class="info-value">{{ applicantAddress }}</div>
+              </v-col>
+              <v-col cols="12" md="4">
+                <div class="info-label">โทรศัพท์ / Phone</div>
+                <div class="info-value">{{ application.applicantPhone }}</div>
+              </v-col>
+              <v-col cols="12" md="4">
+                <div class="info-label">โทรสาร / Fax</div>
+                <div class="info-value">{{ application.applicantFax }}</div>
+              </v-col>
+              <v-col cols="12" md="4">
+                <div class="info-label">อีเมล / Email</div>
+                <div class="info-value">{{ application.applicantEmail }}</div>
+              </v-col>
+            </v-row>
+          </v-card-text>
+        </v-card>
+
+        <!-- ข้อมูลสถานประกอบการ -->
+        <v-card rounded="xl" elevation="0" class="section-card mb-4">
+          <div
+            class="section-header px-4 py-3 border-b d-flex align-center ga-2"
+          >
+            <v-icon icon="fas fa-building" color="hcex-user" size="15" />
+            <span class="text-subtitle-2 font-weight-bold"
+              >ข้อมูลสถานประกอบการ</span
+            >
+          </div>
+          <v-card-text class="pa-4">
+            <v-row dense>
+              <v-col cols="12" md="6">
+                <div class="info-label">ชื่อสถานประกอบการ (ไทย)</div>
+                <div class="info-value">{{ application.companyNameTh }}</div>
+              </v-col>
+              <v-col cols="12" md="6">
+                <div class="info-label">Company Name (English)</div>
+                <div class="info-value">{{ application.companyNameEn }}</div>
+              </v-col>
+              <v-col cols="12" md="6">
+                <div class="info-label">ที่ตั้ง (ภาษาไทย)</div>
+                <div class="info-value">{{ companyAddressTh }}</div>
+              </v-col>
+              <v-col cols="12" md="6">
+                <div class="info-label">Address (English)</div>
+                <div class="info-value">{{ companyAddressEn }}</div>
+              </v-col>
+              <v-col cols="12" md="4">
+                <div class="info-label">โทรศัพท์ / Phone</div>
+                <div class="info-value">{{ application.companyPhone }}</div>
+              </v-col>
+              <v-col cols="12" md="4">
+                <div class="info-label">โทรสาร / Fax</div>
+                <div class="info-value">{{ application.companyFax }}</div>
+              </v-col>
+              <v-col cols="12" md="4">
+                <div class="info-label">อีเมล / Email</div>
+                <div class="info-value">{{ application.companyEmail }}</div>
+              </v-col>
+            </v-row>
+          </v-card-text>
+        </v-card>
+
+        <!-- ขอบข่ายประเทศ -->
+        <v-card rounded="xl" elevation="0" class="section-card mb-4">
+          <div
+            class="section-header px-4 py-3 border-b d-flex align-center ga-2"
+          >
+            <v-icon icon="fas fa-earth-asia" color="hcex-user" size="15" />
+            <span class="text-subtitle-2 font-weight-bold">ขอบข่ายประเทศ</span>
+          </div>
+          <v-card-text class="pa-4 pb-3">
+            <div class="info-label mb-2">Scope of countries</div>
+            <div class="d-flex flex-wrap ga-2">
+              <v-chip
+                v-for="c in application.countries"
+                :key="c"
+                size="small"
+                variant="tonal"
+                color="hcex-user"
+                >{{ c }}</v-chip
+              >
+            </div>
+          </v-card-text>
+        </v-card>
+        <!-- โรงงาน -->
+        <v-card rounded="xl" elevation="0" class="section-card mb-4">
+          <div
+            class="section-header px-4 py-3 border-b d-flex align-center ga-2"
+          >
+            <v-icon icon="fas fa-industry" color="hcex-user" size="15" />
+            <span class="text-subtitle-2 font-weight-bold"
+              >ข้อมูลโรงงานผลิตสินค้าพืช</span
+            >
+          </div>
+          <v-table density="compact" class="pa-2">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>เลขทะเบียน DOA</th>
+                <th>ชื่อโรงงาน</th>
+                <th>วันหมดอายุ</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(factory, i) in application.factories" :key="i">
+                <td class="text-body-2 text-medium-emphasis">{{ i + 1 }}</td>
+                <td class="text-body-2 font-weight-bold text-doa-user">
+                  {{ factory.doaNo }}
+                </td>
+                <td class="text-body-2">{{ factory.factoryName }}</td>
+                <td class="text-body-2">{{ factory.expiryDate }}</td>
+              </tr>
+            </tbody>
+          </v-table>
+        </v-card>
+        <!-- GAP -->
+        <v-card rounded="xl" elevation="0" class="section-card mb-4">
+          <div
+            class="section-header px-4 py-3 border-b d-flex align-center ga-2"
+          >
+            <v-icon icon="fas fa-seedling" color="hcex-user" size="15" />
+            <span class="text-subtitle-2 font-weight-bold"
+              >แหล่งผลิตพืชที่ได้การรับรอง GAP</span
+            >
+          </div>
+          <v-table density="compact" class="pa-2">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>เลขใบรับรอง GAP</th>
+                <th>ชื่อแหล่งผลิต</th>
+                <th>หน่วยงานรับรอง</th>
+                <th>วันหมดอายุ</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(gap, i) in application.gaps" :key="i">
+                <td class="text-body-2 text-medium-emphasis">{{ i + 1 }}</td>
+                <td class="text-body-2 font-weight-bold text-gap-user">
+                  {{ gap.gapNo }}
+                </td>
+                <td class="text-body-2">{{ gap.siteName }}</td>
+                <td class="text-body-2">{{ gap.certBody }}</td>
+                <td class="text-body-2">{{ gap.expiryDate }}</td>
+              </tr>
+            </tbody>
+          </v-table>
+        </v-card>
+
+        <!-- เอกสารแนบ -->
+        <v-card rounded="xl" elevation="0" class="section-card mb-4">
+          <div
+            class="section-header px-4 py-3 border-b d-flex align-center ga-2"
+          >
+            <v-icon icon="fas fa-paperclip" color="hcex-user" size="15" />
+            <span class="text-subtitle-2 font-weight-bold">เอกสารแนบ</span>
+          </div>
+          <v-card-text class="pa-4">
+            <div
+              v-for="doc in application.attachments"
+              :key="doc.label"
+              class="item-row rounded-lg px-3 py-2 mb-2 d-flex align-center justify-space-between"
+            >
+              <div class="text-body-2">{{ doc.label }}</div>
+              <v-btn
+                size="x-small"
+                variant="tonal"
+                color="hcex-user"
+                rounded="lg"
+                prepend-icon="fas fa-download"
+              >
+                ดาวน์โหลด
+              </v-btn>
             </div>
           </v-card-text>
         </v-card>
       </v-col>
 
-      <v-col cols="12" md="6">
-        <!-- ข้อมูลการขนส่ง -->
-        <v-card class="mb-4">
-          <v-card-title
-            class="pa-4 pb-2 text-body-1 font-weight-bold d-flex align-center ga-2"
-          >
-            <v-icon icon="fas fa-ship" color="hcex-user" size="16" />
-            ข้อมูลการขนส่ง
-          </v-card-title>
-          <v-card-text class="pa-4 pt-0">
-            <div class="info-grid">
-              <div class="info-item">
-                <span class="info-label">วันที่ส่งสินค้า</span>
-                <span class="info-value">{{ app.shipDate }}</span>
-              </div>
-              <div class="info-item">
-                <span class="info-label">วิธีการขนส่ง</span>
-                <span class="info-value">{{ app.shipMethod }}</span>
-              </div>
-              <div class="info-item">
-                <span class="info-label">ท่าเรือต้นทาง</span>
-                <span class="info-value">{{ app.portOfLoading }}</span>
-              </div>
-            </div>
-          </v-card-text>
-        </v-card>
-
-        <!-- ผล Lab ที่เลือก -->
-        <v-card class="mb-4">
-          <v-card-title
-            class="pa-4 pb-2 text-body-1 font-weight-bold d-flex align-center ga-2"
-          >
-            <v-icon icon="fas fa-flask-vial" color="hcex-user" size="16" />
-            ผล Lab ที่เลือก
-          </v-card-title>
-          <v-card-text class="pa-4 pt-0">
-            <v-chip
-              v-for="lab in app.selectedLabs"
-              :key="lab"
-              size="small"
-              color="success"
-              variant="tonal"
-              class="mr-2 mb-2"
-              prepend-icon="fas fa-circle-check"
+      <!-- ── Right: activity timeline (sticky) ── -->
+      <v-col cols="12" md="4">
+        <div class="sticky-col">
+          <v-card rounded="xl" elevation="0" class="section-card">
+            <div
+              class="section-header px-4 py-3 border-b d-flex align-center ga-2"
             >
-              {{ lab }}
-            </v-chip>
-          </v-card-text>
-        </v-card>
+              <v-icon
+                icon="fas fa-clock-rotate-left"
+                color="hcex-user"
+                size="15"
+              />
+              <span class="text-subtitle-2 font-weight-bold"
+                >ความคืบหน้าคำขอ</span
+              >
+            </div>
+            <v-card-text
+              class="pa-4"
+              style="max-height: 420px; overflow-y: auto"
+            >
+              <div class="activity-timeline">
+                <div
+                  v-for="(event, i) in application.activityLog"
+                  :key="i"
+                  class="activity-item"
+                >
+                  <div class="activity-dot-wrap">
+                    <div
+                      class="activity-dot"
+                      :class="`activity-dot--${event.type}`"
+                    >
+                      <v-icon
+                        :icon="eventIcon(event.type)"
+                        size="11"
+                        color="white"
+                      />
+                    </div>
+                    <div
+                      v-if="i < application.activityLog.length - 1"
+                      class="activity-line"
+                    />
+                  </div>
+                  <div class="activity-content pb-4">
+                    <div class="d-flex align-center flex-wrap ga-1 mb-1">
+                      <span class="text-body-2 font-weight-medium">{{
+                        event.action
+                      }}</span>
+                      <v-chip
+                        size="x-small"
+                        :color="eventColor(event.type)"
+                        variant="tonal"
+                        >{{ eventLabel(event.type) }}</v-chip
+                      >
+                    </div>
+                    <div
+                      v-if="event.type !== 'pending'"
+                      class="text-caption text-medium-emphasis"
+                    >
+                      <v-icon icon="fas fa-user" size="9" class="mr-1" />{{
+                        event.actor
+                      }}
+                    </div>
+                    <div
+                      v-if="event.type !== 'pending'"
+                      class="text-caption text-medium-emphasis mt-1"
+                    >
+                      <v-icon icon="fas fa-calendar" size="9" class="mr-1" />{{
+                        event.timestamp
+                      }}
+                    </div>
+                    <v-btn
+                      v-if="event.type !== 'submit' && event.type !== 'pending'"
+                      size="x-small"
+                      variant="text"
+                      color="hcex-user"
+                      class="mt-1 px-0"
+                      @click="openActivityDetail(event)"
+                    >
+                      ดูรายละเอียด
+                      <v-icon
+                        icon="fas fa-chevron-right"
+                        size="10"
+                        class="ml-1"
+                      />
+                    </v-btn>
+                  </div>
+                </div>
+              </div>
+            </v-card-text>
+          </v-card>
+        </div>
       </v-col>
     </v-row>
 
-    <!-- รายละเอียดสินค้า -->
-    <v-card class="mb-5">
-      <v-card-title
-        class="pa-4 pb-2 text-body-1 font-weight-bold d-flex align-center ga-2"
-      >
-        <v-icon icon="fas fa-box" color="hcex-user" size="16" />
-        รายละเอียดสินค้า
-      </v-card-title>
-      <v-card-text class="pa-4 pt-0">
-        <v-table density="comfortable">
-          <thead>
-            <tr>
-              <th>Shipping Mark</th>
-              <th>Description of Goods</th>
-              <th>Quantity</th>
-              <th>Net Weight (kg)</th>
-              <th>Total Amount</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="p in app.products" :key="p.description">
-              <td>{{ p.shippingMark }}</td>
-              <td>{{ p.description }}</td>
-              <td>{{ p.quantity }}</td>
-              <td>{{ p.netWeight }}</td>
-              <td>{{ p.totalAmount }}</td>
-            </tr>
-          </tbody>
-        </v-table>
-      </v-card-text>
-    </v-card>
-
-    <!-- Preview Review Section -->
-    <v-card
-      v-if="currentStatus === 'preview_review'"
-      class="mb-5"
-      style="border: 2px solid rgba(var(--v-theme-hcex-user), 0.4)"
-    >
-      <v-card-title
-        class="pa-4 pb-2 text-body-1 font-weight-bold d-flex align-center ga-2"
-      >
-        <v-icon icon="fas fa-file-lines" color="hcex-user" size="16" />
-        ยืนยัน Preview ใบรับรอง
-        <v-chip size="x-small" color="hcex-user" variant="tonal" class="ml-2"
-          >รอการยืนยัน</v-chip
-        >
-      </v-card-title>
-      <v-card-text class="pa-4 pt-0">
-        <!-- Draft Preview Box -->
-        <div class="preview-cert-box mb-4">
-          <div class="d-flex align-center ga-2 mb-3">
-            <v-icon icon="fas fa-industry" color="hcex-user" size="16" />
-            <span class="text-body-2 font-weight-bold">แบบร่างใบรับรอง</span>
-            <v-chip size="x-small" color="hcex-user" variant="tonal"
-              >ร่าง</v-chip
+    <!-- Activity Detail Dialog -->
+    <v-dialog v-model="activityDetailDialog" max-width="420">
+      <v-card rounded="xl">
+        <v-card-text class="pa-6">
+          <div class="d-flex align-center ga-3 mb-4">
+            <div
+              class="activity-dot flex-shrink-0"
+              :class="
+                selectedEvent ? `activity-dot--${selectedEvent.type}` : ''
+              "
+              style="width: 36px; height: 36px"
             >
-          </div>
-          <div class="info-grid">
-            <div class="info-item">
-              <span class="info-label">เลขที่ใบรับรอง (ร่าง)</span>
-              <span class="info-value text-hcex-user font-weight-bold"
-                >DRAFT-THHCEX-2569-00012</span
+              <v-icon
+                v-if="selectedEvent"
+                :icon="eventIcon(selectedEvent.type)"
+                size="14"
+                color="white"
+              />
+            </div>
+            <div>
+              <div class="text-subtitle-2 font-weight-bold">
+                {{ selectedEvent?.action }}
+              </div>
+              <v-chip
+                v-if="selectedEvent"
+                size="x-small"
+                :color="eventColor(selectedEvent.type)"
+                variant="tonal"
+                class="mt-1"
               >
-            </div>
-            <div class="info-item">
-              <span class="info-label">ผู้ส่งออก</span>
-              <span class="info-value">{{ app.exporterName }}</span>
-            </div>
-            <div class="info-item">
-              <span class="info-label">ผู้รับสินค้า</span>
-              <span class="info-value">{{ app.consigneeName }}</span>
-            </div>
-            <div class="info-item">
-              <span class="info-label">ประเทศปลายทาง</span>
-              <span class="info-value">{{ app.destination }}</span>
-            </div>
-            <div class="info-item">
-              <span class="info-label">วันที่ส่งสินค้า</span>
-              <span class="info-value">{{ app.shipDate }}</span>
+                {{ eventLabel(selectedEvent.type) }}
+              </v-chip>
             </div>
           </div>
-        </div>
-
-        <v-alert
-          color="hcex-user"
-          variant="tonal"
-          density="compact"
-          prepend-icon="fas fa-triangle-exclamation"
-          class="mb-4"
-        >
-          กรุณาตรวจสอบข้อมูลให้ถูกต้องก่อนยืนยัน
-        </v-alert>
-
-        <div class="d-flex ga-3 flex-wrap">
-          <v-btn
-            variant="tonal"
-            color="error"
-            prepend-icon="fas fa-rotate-left"
-          >
-            ขอแก้ไขข้อมูล
-          </v-btn>
-          <v-spacer />
+          <v-divider class="mb-4" />
+          <div class="d-flex flex-column ga-3">
+            <div>
+              <div class="text-caption text-medium-emphasis mb-1">
+                ผู้ดำเนินการ
+              </div>
+              <div class="text-body-2">
+                <v-icon icon="fas fa-user" size="12" class="mr-1" />
+                {{ selectedEvent?.actor }}
+              </div>
+            </div>
+            <div>
+              <div class="text-caption text-medium-emphasis mb-1">
+                วันที่ / เวลา
+              </div>
+              <div class="text-body-2">
+                <v-icon icon="fas fa-calendar" size="12" class="mr-1" />
+                {{ selectedEvent?.timestamp }}
+              </div>
+            </div>
+            <div>
+              <div class="text-caption text-medium-emphasis mb-1">
+                ผลการพิจารณา
+              </div>
+              <v-chip
+                size="small"
+                :color="eventColor(selectedEvent.type)"
+                variant="tonal"
+              >
+                {{ eventLabel(selectedEvent.type) }}
+              </v-chip>
+            </div>
+            <div>
+              <div class="text-caption text-medium-emphasis mb-1">หมายเหตุ</div>
+              <div
+                v-if="selectedEvent?.remark"
+                class="text-body-2 pa-3 rounded-lg"
+                style="background: rgba(var(--v-theme-on-surface), 0.05)"
+              >
+                {{ selectedEvent.remark }}
+              </div>
+              <div v-else class="text-body-2 text-medium-emphasis">-</div>
+            </div>
+          </div>
+        </v-card-text>
+        <v-card-actions class="px-6 pb-5 pt-0">
           <v-btn
             color="hcex-user"
-            prepend-icon="fas fa-circle-check"
-            @click="openConfirmPreviewDialog"
-          >
-            ยืนยันข้อมูลถูกต้อง
-          </v-btn>
-        </div>
-      </v-card-text>
-    </v-card>
-
-    <!-- Pending Payment Section -->
-    <v-card
-      v-if="currentStatus === 'pending_payment'"
-      class="mb-5"
-      style="border: 2px solid rgba(var(--v-theme-hcex-user), 0.4)"
-    >
-      <v-card-title
-        class="pa-4 pb-2 text-body-1 font-weight-bold d-flex align-center ga-2"
-      >
-        <v-icon icon="fas fa-money-bill-wave" color="hcex-user" size="16" />
-        ชำระค่าธรรมเนียม
-      </v-card-title>
-      <v-card-text class="pa-4 pt-0">
-        <div class="info-grid mb-4">
-          <div class="info-item">
-            <span class="info-label">ค่าธรรมเนียมใบรับรอง</span>
-            <span class="info-value text-hcex-user font-weight-bold"
-              >500 บาท</span
-            >
-          </div>
-          <div class="info-item">
-            <span class="info-label">ช่องทางชำระ</span>
-            <span class="info-value">โอนเงินผ่านระบบ KTB</span>
-          </div>
-        </div>
-        <v-btn color="hcex-user" prepend-icon="fas fa-credit-card">
-          ชำระค่าธรรมเนียม
-        </v-btn>
-      </v-card-text>
-    </v-card>
-
-    <!-- Timeline -->
-    <v-card class="mb-5" rounded="xl" elevation="0">
-      <v-card-title
-        class="pa-4 pb-2 text-subtitle-2 font-weight-bold d-flex align-center ga-2"
-      >
-        <v-icon icon="fas fa-route" color="hcex-user" size="16" />
-        ความคืบหน้าคำขอ
-      </v-card-title>
-      <v-card-text class="pa-4 pt-0">
-        <div class="timeline">
-          <div
-            v-for="(step, idx) in timeline"
-            :key="step.key"
-            class="timeline-item"
-            :class="{
-              'timeline-item--done': isTimelineDone(idx),
-              'timeline-item--active': isTimelineActive(idx),
-              'timeline-item--pending': isTimelinePending(idx),
-            }"
-          >
-            <div class="timeline-dot">
-              <v-icon
-                v-if="isTimelineDone(idx)"
-                icon="fas fa-check"
-                size="12"
-              />
-              <v-icon
-                v-else-if="isTimelineActive(idx)"
-                icon="fas fa-spinner"
-                size="12"
-                class="fa-spin"
-              />
-              <v-icon v-else icon="fas fa-circle" size="8" />
-            </div>
-            <div class="timeline-content">
-              <div class="text-body-2 font-weight-medium">{{ step.label }}</div>
-              <div class="text-caption text-medium-emphasis">
-                {{ step.desc }}
-              </div>
-              <div v-if="step.date" class="text-caption text-hcex-user mt-1">
-                {{ step.date }}
-              </div>
-              <div v-if="step.note" class="text-caption text-warning mt-1">
-                {{ step.note }}
-              </div>
-            </div>
-            <div v-if="idx < timeline.length - 1" class="timeline-line" />
-          </div>
-        </div>
-      </v-card-text>
-    </v-card>
-
-    <!-- Action Buttons -->
-    <div class="d-flex ga-3 justify-end">
-      <v-btn
-        v-if="isApprovedOrCompleted"
-        color="hcex-user"
-        prepend-icon="fas fa-download"
-        rounded="lg"
-      >
-        ดาวน์โหลดใบรับรอง
-      </v-btn>
-      <v-btn
-        v-if="app.status === 'rejected'"
-        color="error"
-        variant="tonal"
-        prepend-icon="fas fa-file-pen"
-        rounded="lg"
-        @click="goToNewApplication"
-      >
-        ยื่นคำขอใหม่
-      </v-btn>
-    </div>
-
-    <!-- Confirm Preview Dialog -->
-    <v-dialog v-model="confirmPreviewDialog" max-width="400" persistent>
-      <v-card rounded="xl">
-        <v-card-text class="pa-6 text-center">
-          <div class="hcex-user-ring mx-auto mb-4">
-            <v-icon icon="fas fa-circle-check" size="28" color="hcex-user" />
-          </div>
-          <h3 class="text-h6 font-weight-bold mb-2">ยืนยัน Preview ใบรับรอง</h3>
-          <p class="text-body-2 text-medium-emphasis mb-0">
-            ยืนยันว่าข้อมูลใน Preview ใบรับรอง
-            <strong class="text-hcex-user">DRAFT-THHCEX-2569-00012</strong>
-            ถูกต้องแล้วใช่หรือไม่?
-          </p>
-        </v-card-text>
-        <v-card-actions class="px-6 pb-5 ga-2">
-          <v-btn
             variant="tonal"
-            color="grey"
             rounded="lg"
             block
-            @click="closeConfirmPreviewDialog"
+            @click="activityDetailDialog = false"
           >
-            ยกเลิก
-          </v-btn>
-          <v-btn color="hcex-user" rounded="lg" block @click="doConfirmPreview">
-            ยืนยัน
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-
-    <!-- Success Preview Dialog -->
-    <v-dialog v-model="successPreviewDialog" max-width="420" persistent>
-      <v-card rounded="xl">
-        <v-card-text class="pa-8 text-center">
-          <div class="success-ring mx-auto mb-5">
-            <v-icon icon="fas fa-circle-check" size="40" color="success" />
-          </div>
-          <h3 class="text-h6 font-weight-bold mb-2">ยืนยัน Preview สำเร็จ!</h3>
-          <p class="text-body-2 text-medium-emphasis mb-0">
-            ระบบจะส่งให้ผู้มีอำนาจลงนามต่อไป
-          </p>
-        </v-card-text>
-        <v-card-actions class="px-6 pb-6">
-          <v-btn
-            color="hcex-user"
-            rounded="lg"
-            block
-            @click="closeSuccessPreviewDialog"
-          >
-            ตกลง
+            ปิด
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -415,287 +493,383 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
-import { useRouter } from "vue-router";
+import { ref, computed, watch } from "vue";
+import { useRoute, useRouter } from "vue-router";
 
+const route = useRoute();
 const router = useRouter();
 
-function goToApplicationList() {
-  router.push({ name: "HCEXUserApplicationList" });
+const activityDetailDialog = ref(false);
+const selectedEvent = ref(null);
+
+watch(activityDetailDialog, (val) => {
+  if (val) {
+    const scrollY = window.scrollY;
+    document.documentElement.style.overflow = "hidden";
+    document.documentElement.style.height = "100%";
+    document.body.style.overflow = "hidden";
+    document.body.style.position = "fixed";
+    document.body.style.top = `-${scrollY}px`;
+    document.body.style.width = "100%";
+  } else {
+    const scrollY = document.body.style.top;
+    document.documentElement.style.overflow = "";
+    document.documentElement.style.height = "";
+    document.body.style.overflow = "";
+    document.body.style.position = "";
+    document.body.style.top = "";
+    document.body.style.width = "";
+    window.scrollTo(0, parseInt(scrollY || "0") * -1);
+  }
+});
+
+function openActivityDetail(event) {
+  selectedEvent.value = event;
+  activityDetailDialog.value = true;
 }
 
-function goToNewApplication() {
-  router.push({ name: "HCEXUserApplicationType" });
-}
+const application = {
+  requestNo: "EXP-0005",
+  requestType: "ขึ้นทะเบียน",
+  submittedDate: "15/03/2569",
+  typecert: "คำขอหนังสือสำคัญแสดงการขึ้นทะเบียนเป็นผู้ส่งออกผักและผลไม้",
+  status: "pending",
+  currentStep: 1,
 
-const confirmPreviewDialog = ref(false);
-const successPreviewDialog = ref(false);
+  applicantNameTh: "นายสมชาย ใจดี",
+  applicantHouseNo: "123",
+  applicantMoo: "3",
+  applicantAlley: "-",
+  applicantRoad: "พหลโยธิน",
+  applicantTambol: "ลาดยาว",
+  applicantDistrict: "จตุจักร",
+  applicantProvince: "กรุงเทพมหานคร",
+  applicantZipcode: "10900",
+  applicantPhone: "02-123-4567",
+  applicantFax: "-",
+  applicantEmail: "somchai@example.com",
 
-function openConfirmPreviewDialog() {
-  confirmPreviewDialog.value = true;
-}
-function closeConfirmPreviewDialog() {
-  confirmPreviewDialog.value = false;
-}
-function closeSuccessPreviewDialog() {
-  successPreviewDialog.value = false;
-}
+  companyNameTh: "บริษัท ไทย เอ็กซ์พอร์ต จำกัด",
+  companyNameEn: "Thai Export Co., Ltd.",
+  houseNo: "88/1",
+  alley: "-",
+  road: "สุขุมวิท",
+  tambol: "บางปะกง",
+  district: "บางปะกง",
+  province: "ฉะเชิงเทรา",
+  zipcode: "24130",
+  houseNoEn: "88/1",
+  alleyEn: "-",
+  roadEn: "Sukhumvit",
+  tambolEn: "Bang Pakong",
+  districtEn: "Bang Pakong",
+  provinceEn: "Chachoengsao",
+  zipcodeEn: "24130",
+  companyPhone: "038-123-456",
+  companyFax: "038-123-457",
+  companyEmail: "info@thaiexport.co.th",
 
-function doConfirmPreview() {
-  confirmPreviewDialog.value = false;
-  successPreviewDialog.value = true;
-}
+  countries: ["สหภาพยุโรป", "ญี่ปุ่น", "สิงคโปร์"],
 
-const app = {
-  id: "HCEX-001",
-  requestNo: "HCEX-2569-00012",
-  certType: "กมพ.1",
-  status: "preview_review",
-  exporterName: "บริษัท ไทยฟู้ดโปรเซส จำกัด",
-  exporterAddress: "123 ถ.สุขุมวิท แขวงพระโขนง กทม. 10260",
-  consigneeName: "Nippon Foods Trading Co., Ltd.",
-  consigneeAddress:
-    "5-10, Shinjuku 1-chome, Shinjuku-ku, Tokyo 160-0001, Japan",
-  destination: "ญี่ปุ่น",
-  shipDate: "20 ม.ค. 2569",
-  shipMethod: "ทางเรือ",
-  portOfLoading: "ท่าเรือแหลมฉบัง",
-  selectedLabs: ["LAB-2569-00089", "LAB-2569-00085"],
-  products: [
+  factories: [
     {
-      shippingMark: "TFP-JP-001",
-      description: "มันฝรั่งทอดกรอบปรุงรส",
-      quantity: "500 CTN",
-      netWeight: "2,500",
-      totalAmount: "USD 12,500",
+      doaNo: "DOA-2568-12345",
+      factoryName: "โรงบรรจุสินค้าไทยเอ็กซ์พอร์ต 1",
+      expiryDate: "01/01/2570",
     },
     {
-      shippingMark: "TFP-JP-002",
-      description: "ข้าวกล้องบรรจุสุญญากาศ",
-      quantity: "200 BAG",
-      netWeight: "1,000",
-      totalAmount: "USD 4,000",
+      doaNo: "DOA-2568-12346",
+      factoryName: "โรงรมทรีทเม้นต์ไทยเอ็กซ์พอร์ต",
+      expiryDate: "01/06/2570",
     },
   ],
-  history: [
+
+  gaps: [
     {
-      label: "ยื่นคำขอ",
-      status: "ยื่นแล้ว",
-      date: "10 ม.ค. 2569 09:30",
-      note: "ยื่นคำขอผ่านระบบออนไลน์",
-      color: "primary",
-      icon: "fas fa-paper-plane",
+      gapNo: "GAP-2568-00123",
+      siteName: "สวนมะม่วงไทยเอ็กซ์พอร์ต",
+      certBody: "กรมวิชาการเกษตร (DOA)",
+      expiryDate: "01/03/2570",
     },
     {
-      label: "ตรวจสอบเอกสาร",
-      status: "อยู่ระหว่างตรวจสอบ",
-      date: "11 ม.ค. 2569 10:15",
-      note: "เจ้าหน้าที่รับเรื่องและตรวจสอบเอกสาร",
-      color: "info",
-      icon: "fas fa-magnifying-glass",
+      gapNo: "GAP-2568-00456",
+      siteName: "สวนมะละกอไทยเอ็กซ์พอร์ต",
+      certBody: "สำนักงานเกษตรจังหวัด",
+      expiryDate: "15/06/2570",
+    },
+  ],
+
+  attachments: [
+    {
+      label:
+        "หนังสือรับรองของโรงงานผลิตสินค้าพืชที่เราระบุว่าเป็นผู้คัดบรรจุสินค้าผักและผลไม้ให้กับผู้ส่งออก กรณีที่ผู้ส่งออกแจ้งใช้โรงงานผลิตสินค้าพืชของผู้อื่น",
+    },
+    { label: "หนังสือรับรองการซื้อ-ขายกับเกษตรกร" },
+  ],
+
+  activityLog: [
+    {
+      type: "pending",
+      action: "กำลังรอพิจารณา",
+      actor: "นายอนันต์ วิชาการ (ผู้พิจารณา)",
+      timestamp: "05/01/2569 14:00",
+      remark: "",
     },
     {
-      label: "ตรวจสอบเอกสาร",
-      status: "ผ่านการตรวจสอบ",
-      date: "12 ม.ค. 2569 14:00",
-      note: "เอกสารและผล Lab ผ่านการตรวจสอบแล้ว",
-      color: "success",
-      icon: "fas fa-circle-check",
+      type: "forward",
+      action: "ผ่านการตรวจสอบ",
+      actor: "น.ส.วรรณา จันทร์ดี (เจ้าหน้าที่ตรวจสอบ)",
+      timestamp: "05/01/2569 11:00",
     },
     {
-      label: "ยืนยัน Preview",
-      status: "รอยืนยัน",
-      date: "13 ม.ค. 2569 10:30",
-      note: "เจ้าหน้าที่สร้าง Preview ใบรับรองแล้ว รอผู้ประกอบการยืนยัน",
-      color: "primary",
-      icon: "fas fa-file-lines",
+      type: "sendback",
+      action: "ส่งกลับแก้ไข",
+      actor: "น.ส.วรรณา จันทร์ดี (เจ้าหน้าที่ตรวจสอบ)",
+      timestamp: "03/01/2569 10:30",
+      remark:
+        "เอกสารสำเนาหนังสือรับรองนิติบุคคลไม่ครบถ้วน กรุณาแนบเอกสารฉบับที่ออกโดยกรมพัฒนาธุรกิจการค้าซึ่งออกไม่เกิน 3 เดือน และแก้ไขพิกัดที่ตั้งโรงงานให้ถูกต้องตามทะเบียนโรงงาน",
+    },
+    {
+      type: "submit",
+      action: "ยื่นคำขอ",
+      actor: "นายสมชาย ใจดี (ผู้ยื่นคำขอ)",
+      timestamp: "01/01/2569 09:12",
+      remark: "",
     },
   ],
 };
 
-const currentStatus = app.status;
+const applicantAddress = computed(() => {
+  const a = application;
+  return `${a.applicantHouseNo} หมู่ ${a.applicantMoo} ถ.${a.applicantRoad} ต.${a.applicantTambol} อ.${a.applicantDistrict} จ.${a.applicantProvince} ${a.applicantZipcode}`;
+});
 
-const steps = [
+const companyAddressTh = computed(() => {
+  const a = application;
+  return `${a.houseNo} ถ.${a.road} ต.${a.tambol} อ.${a.district} จ.${a.province} ${a.zipcode}`;
+});
+
+const companyAddressEn = computed(() => {
+  const a = application;
+  return `${a.houseNoEn} ${a.roadEn} Rd., ${a.tambolEn}, ${a.districtEn}, ${a.provinceEn} ${a.zipcodeEn}`;
+});
+
+const timelineSteps = [
   { value: 0, title: "ยื่นคำขอ" },
-  { value: 1, title: "ตรวจสอบเอกสาร" },
-  { value: 2, title: "ยืนยัน Preview" },
-  { value: 3, title: "รอลงนาม" },
-  { value: 4, title: "ชำระค่าธรรมเนียม" },
-  { value: 5, title: "รับใบรับรอง" },
+  { value: 1, title: "รอพิจารณา" },
+  { value: 2, title: "ผลการพิจารณา" },
 ];
 
 function stepClass(v) {
-  if (currentStepIndex.value > v) return "step-done";
-  if (currentStepIndex.value === v) return "step-active";
+  if (application.currentStep > v) return "step-done";
+  if (application.currentStep === v) return "step-active";
   return "step-pending";
 }
 
-const statusStepMap = {
-  draft: 0,
-  submitted: 0,
-  under_review: 1,
-  preview_review: 2,
-  pending_signing: 3,
-  pending_payment: 4,
-  completed: 5,
-  rejected: -1,
-};
-
-const currentStepIndex = computed(() => statusStepMap[app.status] ?? 0);
-
-const currentStatusIdx = currentStepIndex;
-
-const timeline = computed(() => [
-  {
-    key: "submitted",
-    label: "ยื่นคำขอ",
-    desc: app.exporterName,
-    date: "10 ม.ค. 2569",
-  },
-  {
-    key: "review",
-    label: "ตรวจสอบเอกสาร",
-    desc: "เจ้าหน้าที่",
-    date: "12 ม.ค. 2569",
-  },
-  {
-    key: "preview",
-    label: "ยืนยัน Preview",
-    desc: "รอผู้ประกอบการยืนยัน",
-    date: "13 ม.ค. 2569",
-  },
-  {
-    key: "signing",
-    label: "รอลงนาม",
-    desc: "ผู้มีอำนาจลงนาม",
-    date: "",
-  },
-  {
-    key: "payment",
-    label: "ชำระค่าธรรมเนียม",
-    desc: "",
-    date: "",
-  },
-  {
-    key: "completed",
-    label: "รับใบรับรอง",
-    desc: "",
-    date: "",
-  },
-]);
-
-function isTimelineDone(idx) {
-  return idx < currentStatusIdx.value;
-}
-function isTimelineActive(idx) {
-  return idx === currentStatusIdx.value;
-}
-function isTimelinePending(idx) {
-  return idx > currentStatusIdx.value;
+function statusColor(s) {
+  return (
+    {
+      draft: "grey",
+      pending: "info",
+      approved: "success",
+      rejected: "error",
+    }[s] ?? "grey"
+  );
 }
 
-const isApprovedOrCompleted = computed(
-  () => app.status === "approved" || app.status === "completed",
-);
+function statusIcon(s) {
+  return (
+    {
+      draft: "fas fa-pen",
+      pending: "fas fa-clock",
+      approved: "fas fa-circle-check",
+      rejected: "fas fa-circle-xmark",
+    }[s] ?? "fas fa-circle"
+  );
+}
 
-function getStatusColor(s) {
-  const m = {
-    draft: "grey",
-    submitted: "primary",
-    under_review: "info",
-    preview_review: "primary",
-    pending_signing: "secondary",
-    pending_payment: "primary",
-    approved: "success",
-    rejected: "error",
-    completed: "success",
-  };
-  return m[s] ?? "grey";
+function statusLabel(s) {
+  return (
+    {
+      draft: "แบบร่าง",
+      pending: "รอพิจารณา",
+      approved: "อนุมัติ",
+      rejected: "ไม่อนุมัติ",
+    }[s] ?? s
+  );
 }
-function getStatusIcon(s) {
-  const m = {
-    draft: "fas fa-pen",
-    submitted: "fas fa-paper-plane",
-    under_review: "fas fa-magnifying-glass",
-    preview_review: "fas fa-file-lines",
-    pending_signing: "fas fa-signature",
-    pending_payment: "fas fa-money-bill-wave",
-    approved: "fas fa-circle-check",
-    completed: "fas fa-industry",
-    rejected: "fas fa-circle-xmark",
-  };
-  return m[s] ?? "fas fa-circle";
+
+function eventIcon(type) {
+  return (
+    {
+      submit: "fas fa-paper-plane",
+      receive: "fas fa-inbox",
+      forward: "fas fa-share",
+      review: "fas fa-magnifying-glass",
+      pending: "fas fa-clock",
+      approve: "fas fa-circle-check",
+      reject: "fas fa-circle-xmark",
+      sendback: "fas fa-rotate-left",
+    }[type] ?? "fas fa-circle"
+  );
 }
-function getStatusLabel(s) {
-  const m = {
-    draft: "ฉบับร่าง",
-    submitted: "ยื่นแล้ว",
-    under_review: "อยู่ระหว่างตรวจสอบ",
-    preview_review: "รอยืนยัน Preview",
-    pending_signing: "รอลงนาม",
-    pending_payment: "รอชำระค่าธรรมเนียม",
-    approved: "อนุมัติแล้ว",
-    completed: "รับใบรับรองแล้ว",
-    rejected: "ไม่อนุมัติ",
-  };
-  return m[s] ?? s;
+
+function eventColor(type) {
+  return (
+    {
+      submit: "hcex-user",
+      receive: "info",
+      forward: "success",
+      review: "warning",
+      pending: "info",
+      approve: "success",
+      reject: "error",
+      sendback: "warning",
+    }[type] ?? "grey"
+  );
+}
+
+function eventLabel(type) {
+  return (
+    {
+      submit: "ยื่นคำขอ",
+      receive: "รับเรื่อง",
+      forward: "ผ่าน",
+      review: "กำลังพิจารณา",
+      pending: "รอพิจารณา",
+      approve: "อนุมัติ",
+      reject: "ไม่อนุมัติ",
+      sendback: "ปรับปรุง",
+    }[type] ?? type
+  );
 }
 </script>
 
 <style scoped>
-.timeline-item--done .timeline-dot {
-  background: rgb(var(--v-theme-hcex-user));
-  color: white;
-}
-.timeline-item--active .timeline-dot {
-  background: rgb(var(--v-theme-hcex-user));
-  color: white;
-  box-shadow: 0 0 0 4px rgba(var(--v-theme-hcex-user), 0.2);
-}
-.timeline-item--pending .timeline-dot {
-  background: rgba(var(--v-theme-on-surface), 0.08);
-  color: rgba(var(--v-theme-on-surface), 0.3);
-}
-.timeline-item--done .timeline-line {
-  background: rgba(var(--v-theme-hcex-user), 0.35);
+div {
+  --step-color: rgb(var(--v-theme-hcex-user));
+  --step-color-tint: rgba(var(--v-theme-hcex-user), 0.2);
 }
 
-.info-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-.info-item {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
+.sticky-col {
+  position: sticky;
+  top: 80px;
 }
 .info-label {
-  font-size: 10px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: rgba(var(--v-theme-on-surface), 0.45);
+  font-size: 0.72rem;
+  color: rgba(var(--v-theme-on-surface), 0.55);
+  margin-bottom: 2px;
 }
 .info-value {
-  font-size: 13px;
-  font-weight: 500;
+  font-size: 0.875rem;
+  margin-bottom: 8px;
+}
+.item-row {
+  background: rgba(var(--v-theme-on-surface), 0.03);
+  border: 1px solid rgba(var(--v-theme-on-surface), 0.08);
 }
 
-.preview-cert-box {
-  border: 1px dashed rgba(var(--v-theme-hcex-user), 0.5);
-  border-radius: 12px;
-  padding: 16px;
-  background: rgba(var(--v-theme-hcex-user), 0.04);
-}
-
-.hcex-user-ring {
-  width: 64px;
-  height: 64px;
+.step-circle {
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
-  background: rgba(var(--v-theme-hcex-user), 0.1);
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+}
+.step-line {
+  height: 2px;
+  background: rgba(var(--v-theme-on-surface), 0.15);
+  margin: 0 4px;
+  margin-bottom: 20px;
+}
+.step-pending {
+  background: rgba(var(--v-theme-on-surface), 0.12);
+  color: rgba(var(--v-theme-on-surface), 0.5);
+}
+.step-done,
+.step-active {
+  background: rgb(var(--v-theme-hcex-user)) !important;
+  color: white !important;
+}
+.step-active {
+  box-shadow: 0 0 0 4px rgba(var(--v-theme-hcex-user), 0.2) !important;
+}
+.step-line--done {
+  background: rgb(var(--v-theme-hcex-user)) !important;
+}
+
+/* Activity timeline */
+.activity-timeline {
+  padding-left: 4px;
+}
+.activity-item {
+  display: flex;
+  gap: 16px;
+}
+.activity-dot-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+}
+.activity-dot {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  z-index: 1;
+}
+.activity-dot--submit {
+  background: rgb(var(--v-theme-hcex-user));
+}
+.activity-dot--receive {
+  background: rgb(var(--v-theme-info));
+}
+.activity-dot--forward {
+  background: rgb(var(--v-theme-hcex-user));
+}
+.activity-dot--review {
+  background: rgb(var(--v-theme-warning));
+}
+.activity-dot--pending {
+  background: rgb(var(--v-theme-info));
+  animation: pulse-pending 1.6s ease-in-out infinite;
+}
+@keyframes pulse-pending {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(var(--v-theme-info), 0.5);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(var(--v-theme-info), 0);
+  }
+}
+.activity-dot--approve {
+  background: rgb(var(--v-theme-success));
+}
+.activity-dot--reject {
+  background: rgb(var(--v-theme-error));
+}
+.activity-dot--sendback {
+  background: rgb(var(--v-theme-warning));
+}
+
+.activity-line {
+  width: 2px;
+  flex-grow: 1;
+  background: rgba(var(--v-theme-on-surface), 0.12);
+  margin-top: 4px;
+  margin-bottom: 0;
+  min-height: 20px;
+}
+.activity-content {
+  flex: 1;
+  min-width: 0;
 }
 </style>

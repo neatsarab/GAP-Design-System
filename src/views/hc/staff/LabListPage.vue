@@ -2,7 +2,7 @@
   <div>
     <div class="d-flex align-center justify-space-between flex-wrap ga-3 mb-6">
       <div>
-        <h1 class="page-title mb-1">รายการรอพิจารณา</h1>
+        <h1 class="page-title mb-1">รายการรอตรวจ Lab</h1>
         <p class="text-body-2 text-medium-emphasis mb-0">
           การออกหนังสือรับรองสุขอนามัยพืช สำหรับพืชควบคุมเฉพาะ
         </p>
@@ -67,12 +67,12 @@
           </v-col>
           <v-col cols="12" sm="6" md="3">
             <div class="field-label">
-              <div>สถานะคำขอ</div>
-              <div class="field-label-en">Status</div>
+              <div>สถานะผล Lab</div>
+              <div class="field-label-en">Lab Status</div>
             </div>
             <v-autocomplete
-              v-model="filters.status"
-              :items="statusOptions"
+              v-model="filters.labStatus"
+              :items="labStatusOptions"
               item-title="label"
               item-value="value"
               placeholder="ทั้งหมด"
@@ -85,8 +85,8 @@
           </v-col>
           <v-col cols="12" sm="6" md="3">
             <div class="field-label">
-              <div>วันที่ยื่น (จาก)</div>
-              <div class="field-label-en">Submit Date (From)</div>
+              <div>วันที่ส่งตรวจ (จาก)</div>
+              <div class="field-label-en">Sent Date (From)</div>
             </div>
             <v-menu
               v-model="dateFromMenu"
@@ -114,7 +114,7 @@
                 color="hc-staff"
                 show-adjacent-months
                 :hide-header="!dateFromObj"
-                title="วันที่ยื่น (จาก)"
+                title="วันที่ส่งตรวจ (จาก)"
                 locale="th"
                 @update:model-value="dateFromMenu = false"
               />
@@ -122,8 +122,8 @@
           </v-col>
           <v-col cols="12" sm="6" md="3">
             <div class="field-label">
-              <div>วันที่ยื่น (ถึง)</div>
-              <div class="field-label-en">Submit Date (To)</div>
+              <div>วันที่ส่งตรวจ (ถึง)</div>
+              <div class="field-label-en">Sent Date (To)</div>
             </div>
             <v-menu
               v-model="dateToMenu"
@@ -151,7 +151,7 @@
                 color="hc-staff"
                 show-adjacent-months
                 :hide-header="!dateToObj"
-                title="วันที่ยื่น (ถึง)"
+                title="วันที่ส่งตรวจ (ถึง)"
                 locale="th"
                 @update:model-value="dateToMenu = false"
               />
@@ -180,6 +180,7 @@
         <v-data-table
           :headers="headers"
           :items="filteredItems"
+          :custom-key-sort="customKeySort"
           rounded="xl"
           hover
         >
@@ -323,20 +324,20 @@
               />
             </span>
           </template>
-          <template #header.submittedAt="{ column, isSorted, getSortIcon }">
+          <template #header.sentDate="{ column, isSorted, getSortIcon }">
             <span class="d-inline-flex align-center ga-1">
               <span>
                 <div
                   class="text-body-2 font-weight-medium"
                   style="line-height: 1.3"
                 >
-                  วันที่ยื่น
+                  วันที่ส่งตรวจ
                 </div>
                 <div
                   class="text-caption text-medium-emphasis"
                   style="line-height: 1.2"
                 >
-                  Submit Date
+                  Sent Date
                 </div>
               </span>
               <v-icon
@@ -346,20 +347,20 @@
               />
             </span>
           </template>
-          <template #header.status="{ column, isSorted, getSortIcon }">
+          <template #header.labStatus="{ column, isSorted, getSortIcon }">
             <span class="d-inline-flex align-center ga-1">
               <span>
                 <div
                   class="text-body-2 font-weight-medium"
                   style="line-height: 1.3"
                 >
-                  สถานะคำขอ
+                  สถานะผล Lab
                 </div>
                 <div
                   class="text-caption text-medium-emphasis"
                   style="line-height: 1.2"
                 >
-                  Status
+                  Lab Status
                 </div>
               </span>
               <v-icon
@@ -374,13 +375,13 @@
             certTypeLabel(item.certType)
           }}</template>
           <template #item.type="{ item }">{{ typeLabel(item.type) }}</template>
-          <template #item.status="{ item }">
+          <template #item.labStatus="{ item }">
             <v-chip
-              :color="statusColor(item.status)"
+              :color="labStatusColor(item.labStatus)"
               size="small"
               variant="tonal"
             >
-              {{ statusLabel(item.status) }}
+              {{ labStatusLabel(item.labStatus) }}
             </v-chip>
           </template>
           <template #item.actions="{ item }">
@@ -400,15 +401,15 @@
                 </template>
               </v-tooltip>
               <v-btn
-                v-if="item.status === 'reviewing'"
+                v-if="item.labStatus === 'pending'"
                 size="small"
                 variant="tonal"
                 color="warning"
                 rounded="lg"
-                prepend-icon="fas fa-clipboard-check"
+                prepend-icon="fas fa-flask"
                 @click.stop="goToDetail(item.id)"
               >
-                พิจารณาคำขอ
+                บันทึกผล Lab
               </v-btn>
             </div>
           </template>
@@ -451,16 +452,26 @@ watch(dateToObj, (v) => {
   filters.dateTo = v ? v.toISOString().slice(0, 10) : "";
 });
 
+function beDateToTs(str) {
+  if (!str) return 0;
+  const [d, m, y] = str.split("/").map(Number);
+  return new Date(y - 543, m - 1, d).getTime();
+}
+
+const customKeySort = {
+  sentDate: (a, b) => beDateToTs(a) - beDateToTs(b),
+};
+
 const filters = reactive({
   dateFrom: "",
   dateTo: "",
   type: null,
-  status: null,
   certType: null,
+  labStatus: null,
 });
 
 function goToDetail(id) {
-  router.push({ name: "HCstaffReviewDetail", params: { id } });
+  router.push({ name: "HCstaffLabDetail", params: { id } });
 }
 
 function clearFilters() {
@@ -468,8 +479,8 @@ function clearFilters() {
   filters.dateFrom = "";
   filters.dateTo = "";
   filters.type = null;
-  filters.status = null;
   filters.certType = null;
+  filters.labStatus = null;
   dateFromObj.value = null;
   dateToObj.value = null;
 }
@@ -484,14 +495,10 @@ const typeOptions = [
   { label: "แก้ไขใบรับรอง", value: "correction" },
 ];
 
-const statusOptions = [
-  { label: "รอตรวจ", value: "submitted" },
-  { label: "ตรวจ Lab", value: "testing" },
-  { label: "รอพิจารณา", value: "reviewing" },
-  { label: "อนุมัติแล้ว", value: "approved" },
-  { label: "ต้องแก้ไข", value: "correction_required" },
-  { label: "รับใบรับรองแล้ว", value: "completed" },
-  { label: "ไม่อนุมัติ", value: "rejected" },
+const labStatusOptions = [
+  { label: "รอผล Lab", value: "pending" },
+  { label: "ผ่าน", value: "pass" },
+  { label: "ไม่ผ่าน", value: "fail" },
 ];
 
 const headers = [
@@ -501,47 +508,59 @@ const headers = [
   { title: "ชื่อผู้ยื่นคำขอ", key: "applicantName", sortable: true },
   { title: "ประเภทใบรับรอง", key: "certType", sortable: true },
   { title: "ประเภทคำขอ", key: "type", sortable: true },
-  { title: "วันที่ยื่น", key: "submittedAt", sortable: false },
-  { title: "สถานะคำขอ", key: "status", sortable: true },
+  { title: "วันที่ส่งตรวจ", key: "sentDate", sortable: true },
+  { title: "สถานะผล Lab", key: "labStatus", sortable: true },
   { title: "", key: "actions", sortable: false, align: "end" },
 ];
 
 const allItems = [
   {
-    id: "HC-2569-001",
-    requestNo: "HC-00001",
+    id: "HC-00013",
+    requestNo: "HC-00013",
     exporterNo: "EXP-2568-00123",
-    establishmentName: "บริษัท ไทยฟรุ๊ต จำกัด",
-    applicantName: "นายสมชาย ใจดี",
+    establishmentName: "บ.ไทยฟรุ๊ต จก.",
+    applicantName: "สมชาย ใจดี",
     certType: "All",
     type: "new",
-    submittedAt: "01 ม.ค. 69",
-    submittedDate: "2026-01-01",
-    status: "reviewing",
+    sentDate: "25/03/2569",
+    sentDateISO: "2026-03-25",
+    labStatus: "pending",
   },
   {
-    id: "HC-2569-002",
-    requestNo: "HC-00002",
+    id: "HC-00014",
+    requestNo: "HC-00014",
     exporterNo: "EXP-2568-00456",
-    establishmentName: "บริษัท สยามเอ็กซ์พอร์ต จำกัด",
-    applicantName: "นางสาวมาลี รักดี",
+    establishmentName: "บ.สยามเอ็กซ์พอร์ต จก.",
+    applicantName: "มาลี รักดี",
     certType: "Some",
     type: "correction",
-    submittedAt: "05 ก.พ. 69",
-    submittedDate: "2026-02-05",
-    status: "reviewing",
+    sentDate: "26/03/2569",
+    sentDateISO: "2026-03-26",
+    labStatus: "pending",
   },
   {
-    id: "HC-2569-004",
-    requestNo: "HC-00004",
+    id: "HC-00015",
+    requestNo: "HC-00015",
     exporterNo: "EXP-2568-00789",
-    establishmentName: "บริษัท กรีนเฟรช จำกัด",
-    applicantName: "นายวิไล สุขสม",
+    establishmentName: "บ.กรีนเฟรช จก.",
+    applicantName: "ประสิทธิ์ พานิช",
     certType: "All",
     type: "new",
-    submittedAt: "12 มี.ค. 69",
-    submittedDate: "2026-03-12",
-    status: "correction_required",
+    sentDate: "20/03/2569",
+    sentDateISO: "2026-03-20",
+    labStatus: "pass",
+  },
+  {
+    id: "HC-00016",
+    requestNo: "HC-00016",
+    exporterNo: "EXP-2568-00321",
+    establishmentName: "บ.อีสานฟาร์ม จก.",
+    applicantName: "วิไล สุขสม",
+    certType: "Some",
+    type: "new",
+    sentDate: "18/03/2569",
+    sentDateISO: "2026-03-18",
+    labStatus: "fail",
   },
 ];
 
@@ -558,13 +577,18 @@ const filteredItems = computed(() => {
     );
   }
   if (filters.type) items = items.filter((i) => i.type === filters.type);
-  if (filters.status) items = items.filter((i) => i.status === filters.status);
   if (filters.certType)
     items = items.filter((i) => i.certType === filters.certType);
-  if (filters.dateFrom)
-    items = items.filter((i) => i.submittedDate >= filters.dateFrom);
-  if (filters.dateTo)
-    items = items.filter((i) => i.submittedDate <= filters.dateTo);
+  if (filters.labStatus)
+    items = items.filter((i) => i.labStatus === filters.labStatus);
+  if (filters.dateFrom) {
+    const from = new Date(filters.dateFrom).getTime();
+    items = items.filter((i) => beDateToTs(i.sentDate) >= from);
+  }
+  if (filters.dateTo) {
+    const to = new Date(filters.dateTo).getTime();
+    items = items.filter((i) => beDateToTs(i.sentDate) <= to);
+  }
   return items;
 });
 
@@ -572,36 +596,20 @@ function certTypeLabel(t) {
   return { All: "คลุมทั้งการส่งออก", Some: "แต่ละรายการส่งออก" }[t] ?? t;
 }
 
+function certTypeColor(t) {
+  return t === "All" ? "hc-staff" : "secondary";
+}
+
 function typeLabel(t) {
   return { new: "ขอใบรับรอง", correction: "แก้ไขใบรับรอง" }[t] ?? t;
 }
 
-function statusColor(s) {
-  return (
-    {
-      submitted: "warning",
-      testing: "info",
-      reviewing: "warning",
-      approved: "success",
-      correction_required: "info",
-      completed: "success",
-      rejected: "error",
-    }[s] ?? "grey"
-  );
+function labStatusColor(s) {
+  return { pending: "warning", pass: "success", fail: "error" }[s] ?? "grey";
 }
 
-function statusLabel(s) {
-  return (
-    {
-      submitted: "รอตรวจ",
-      testing: "รอตรวจ Lab",
-      reviewing: "รอพิจารณา",
-      approved: "อนุมัติแล้ว",
-      correction_required: "รอแก้ไข",
-      completed: "รับใบรับรองแล้ว",
-      rejected: "ไม่อนุมัติ",
-    }[s] ?? s
-  );
+function labStatusLabel(s) {
+  return { pending: "รอผล Lab", pass: "ผ่าน", fail: "ไม่ผ่าน" }[s] ?? s;
 }
 </script>
 

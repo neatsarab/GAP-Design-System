@@ -752,7 +752,9 @@
               <div class="text-subtitle-2 font-weight-bold">
                 รายละเอียดการส่งออกสินค้า
               </div>
-              <div class="text-caption text-medium-emphasis">Export Details</div>
+              <div class="text-caption text-medium-emphasis">
+                Export Details
+              </div>
             </div>
           </div>
           <v-divider class="mb-4" />
@@ -823,9 +825,7 @@
               <v-table
                 density="compact"
                 class="rounded-lg"
-                style="
-                  border: 1px solid rgba(var(--v-theme-on-surface), 0.08);
-                "
+                style="border: 1px solid rgba(var(--v-theme-on-surface), 0.08)"
               >
                 <thead>
                   <tr>
@@ -1062,7 +1062,7 @@ const mockApps = {
     // ผู้ส่งออก
     exporters: [
       {
-        regNo: "EXP-6701-00123",
+        regNo: "EXP-2568-00123",
         companyName: "บริษัท ไทยฟรุ๊ต จำกัด",
         factories: ["DOA-2568-11111"],
         gaps: ["GAP-CM-2569-001"],
@@ -1086,7 +1086,7 @@ const mockApps = {
     exportDetails: [
       {
         certType: "คลุมทั้งการส่งออก (All)",
-        exporterRegNo: "EXP-6701-00123",
+        exporterRegNo: "EXP-2568-00123",
         exporterName: "บริษัท ไทยฟรุ๊ต จำกัด",
         weight: 5000,
         vehicleType: "เรือ",
@@ -1110,10 +1110,7 @@ const mockApps = {
     labName: "ห้องปฏิบัติการกรมวิชาการเกษตร",
     labProduct: "ทุเรียน",
     correctionNote: null,
-    attachments: [
-      { label: "หนังสือรับรองบริษัท (ออกไม่เกิน 6 เดือน)" },
-      { label: "สำเนาบัตรประชาชนผู้มีอำนาจลงนาม" },
-    ],
+    attachments: [{ label: "เอกสารอื่นๆ" }],
     activityLog: [
       {
         type: "pending",
@@ -1158,7 +1155,7 @@ const mockApps = {
     companyEmail: "info@thaifruits.co.th",
     exporters: [
       {
-        regNo: "EXP-6701-00456",
+        regNo: "EXP-2568-00456",
         companyName: "บริษัท ไทยฟรุ๊ต จำกัด",
         factories: ["DOA-2568-22222"],
         gaps: ["GAP-CM-2569-010"],
@@ -1179,7 +1176,7 @@ const mockApps = {
     exportDetails: [
       {
         certType: "คลุมทั้งการส่งออก (All)",
-        exporterRegNo: "EXP-6701-00456",
+        exporterRegNo: "EXP-2568-00456",
         exporterName: "บริษัท ไทยฟรุ๊ต จำกัด",
         weight: 3000,
         vehicleType: "เรือ",
@@ -1203,10 +1200,7 @@ const mockApps = {
     labName: null,
     labProduct: null,
     correctionNote: null,
-    attachments: [
-      { label: "หนังสือรับรองบริษัท (ออกไม่เกิน 6 เดือน)" },
-      { label: "ใบรับรอง GAP" },
-    ],
+    attachments: [{ label: "เอกสารอื่นๆ" }],
     activityLog: [
       {
         type: "approve",
@@ -1266,7 +1260,7 @@ const mockApps = {
     companyEmail: "info@thaigardens.co.th",
     exporters: [
       {
-        regNo: "EXP-6701-00321",
+        regNo: "EXP-2568-00321",
         companyName: "บริษัท สวนผลไม้ไทย จำกัด",
         factories: ["DOA-2568-33333"],
         gaps: ["GAP-CB-2569-015"],
@@ -1287,7 +1281,7 @@ const mockApps = {
     exportDetails: [
       {
         certType: "แต่ละรายการส่งออก (Some)",
-        exporterRegNo: "EXP-6701-00321",
+        exporterRegNo: "EXP-2568-00321",
         exporterName: "บริษัท สวนผลไม้ไทย จำกัด",
         weight: 2500,
         vehicleType: "เครื่องบิน",
@@ -1312,10 +1306,7 @@ const mockApps = {
     labProduct: "ลำไย",
     correctionNote:
       "กรุณาแนบเอกสาร GAP Code ที่ยังไม่หมดอายุ และระบุน้ำหนักสุทธิให้ถูกต้อง",
-    attachments: [
-      { label: "หนังสือรับรองบริษัท (ออกไม่เกิน 6 เดือน)" },
-      { label: "ใบรับรอง GAP (หมดอายุ — รอแนบใหม่)" },
-    ],
+    attachments: [{ label: "เอกสารอื่นๆ" }],
     activityLog: [
       {
         type: "sendback",
@@ -1561,7 +1552,7 @@ div {
   background: rgb(var(--v-theme-error));
 }
 .activity-dot--sendback {
-  background: #fb8c00;
+  background: rgb(var(--v-theme-warning));
 }
 .activity-line {
   width: 2px;

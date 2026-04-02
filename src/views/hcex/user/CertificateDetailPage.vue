@@ -1,5 +1,5 @@
 <template>
-  <div style="--v-theme-primary: var(--v-theme-cb-user)">
+  <div style="--v-theme-primary: var(--v-theme-hcex-user)">
     <!-- Header -->
     <div class="d-flex align-center ga-3 mb-4">
       <v-btn
@@ -12,7 +12,7 @@
         <h1 class="page-title mb-0">รายละเอียดใบทะเบียน</h1>
         <p class="text-body-2 text-medium-emphasis mb-0 mt-1">
           เลขทะเบียน:
-          <span class="text-cb-user font-weight-medium">{{
+          <span class="text-hcex-user font-weight-medium">{{
             route.params.id ?? cert.certNo
           }}</span>
         </p>
@@ -32,14 +32,14 @@
           <div
             class="section-header px-4 py-3 border-b d-flex align-center ga-2"
           >
-            <v-icon icon="fas fa-certificate" color="cb-user" size="15" />
+            <v-icon icon="fas fa-certificate" color="hcex-user" size="15" />
             <span class="text-subtitle-2 font-weight-bold">สถานะใบทะเบียน</span>
           </div>
           <v-card-text class="pa-4">
             <v-row dense>
               <v-col cols="12" md="4">
                 <div class="info-label">เลขที่ใบทะเบียน / Certificate No.</div>
-                <div class="info-value text-cb-user font-weight-bold">
+                <div class="info-value text-hcex-user font-weight-bold">
                   {{ cert.certNo }}
                 </div>
               </v-col>
@@ -59,6 +59,10 @@
                     {{ certStatusLabel(cert.status) }}
                   </v-chip>
                 </div>
+              </v-col>
+              <v-col cols="12">
+                <div class="info-label">ประเภททะเบียน / Registration Type</div>
+                <div class="info-value">{{ cert.typecert }}</div>
               </v-col>
               <v-col cols="12" md="4">
                 <div class="info-label">วันที่ออกใบทะเบียน / Issue Date</div>
@@ -88,11 +92,11 @@
           <div
             class="section-header px-4 py-3 border-b d-flex align-center ga-2"
           >
-            <v-icon icon="fas fa-user" color="cb-user" size="15" />
+            <v-icon icon="fas fa-user" color="hcex-user" size="15" />
             <span class="text-subtitle-2 font-weight-bold"
               >ข้อมูลผู้ยื่นคำขอ</span
             >
-            <v-chip size="x-small" color="cb-user" variant="tonal"
+            <v-chip size="x-small" color="hcex-user" variant="tonal"
               >Auto-fill จาก SSO</v-chip
             >
           </div>
@@ -127,11 +131,11 @@
           <div
             class="section-header px-4 py-3 border-b d-flex align-center ga-2"
           >
-            <v-icon icon="fas fa-building" color="cb-user" size="15" />
+            <v-icon icon="fas fa-building" color="hcex-user" size="15" />
             <span class="text-subtitle-2 font-weight-bold"
               >ข้อมูลสถานประกอบการ</span
             >
-            <v-chip size="x-small" color="cb-user" variant="tonal"
+            <v-chip size="x-small" color="hcex-user" variant="tonal"
               >Auto-fill บางส่วนจาก DBD</v-chip
             >
           </div>
@@ -169,31 +173,90 @@
           </v-card-text>
         </v-card>
 
-        <!-- ขอบข่ายมาตรฐานที่ขึ้นทะเบียน -->
+        <!-- ขอบข่ายประเทศ -->
         <v-card rounded="xl" elevation="0" class="section-card mb-4">
           <div
             class="section-header px-4 py-3 border-b d-flex align-center ga-2"
           >
-            <v-icon icon="fas fa-list-check" color="cb-user" size="15" />
+            <v-icon icon="fas fa-earth-asia" color="hcex-user" size="15" />
+            <span class="text-subtitle-2 font-weight-bold">ขอบข่ายประเทศ</span>
+          </div>
+          <v-card-text class="pa-4 pb-3">
+            <div class="info-label mb-2">Scope of countries</div>
+            <div class="d-flex flex-wrap ga-2">
+              <v-chip
+                v-for="c in cert.countries"
+                :key="c"
+                size="small"
+                variant="tonal"
+                color="hcex-user"
+                >{{ c }}</v-chip
+              >
+            </div>
+          </v-card-text>
+        </v-card>
+
+        <!-- โรงงาน -->
+        <v-card rounded="xl" elevation="0" class="section-card mb-4">
+          <div
+            class="section-header px-4 py-3 border-b d-flex align-center ga-2"
+          >
+            <v-icon icon="fas fa-industry" color="hcex-user" size="15" />
             <span class="text-subtitle-2 font-weight-bold"
-              >ขอบข่ายมาตรฐานที่ขึ้นทะเบียน</span
+              >ข้อมูลโรงงานผลิตสินค้าพืช</span
             >
           </div>
           <v-table density="compact" class="pa-2">
             <thead>
               <tr>
                 <th>#</th>
-                <th>ขอบข่ายมาตรฐาน</th>
-                <th>เลขที่ใบรับรองมาตรฐาน</th>
+                <th>เลขทะเบียน DOA</th>
+                <th>ชื่อโรงงาน</th>
+                <th>วันหมดอายุ</th>
               </tr>
             </thead>
             <tbody>
-              <tr v-for="(std, i) in cert.standards" :key="i">
+              <tr v-for="(factory, i) in cert.factories" :key="i">
                 <td class="text-body-2 text-medium-emphasis">{{ i + 1 }}</td>
-                <td class="text-body-2">{{ std.scope }}</td>
-                <td class="text-body-2 font-weight-medium text-cb-user">
-                  {{ std.certNo }}
+                <td class="text-body-2 font-weight-bold text-doa-user">
+                  {{ factory.doaNo }}
                 </td>
+                <td class="text-body-2">{{ factory.factoryName }}</td>
+                <td class="text-body-2">{{ factory.expiryDate }}</td>
+              </tr>
+            </tbody>
+          </v-table>
+        </v-card>
+
+        <!-- GAP -->
+        <v-card rounded="xl" elevation="0" class="section-card mb-4">
+          <div
+            class="section-header px-4 py-3 border-b d-flex align-center ga-2"
+          >
+            <v-icon icon="fas fa-seedling" color="hcex-user" size="15" />
+            <span class="text-subtitle-2 font-weight-bold"
+              >แหล่งผลิตพืชที่ได้การรับรอง GAP</span
+            >
+          </div>
+          <v-table density="compact" class="pa-2">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>เลขใบรับรอง GAP</th>
+                <th>ชื่อแหล่งผลิต</th>
+                <th>หน่วยงานรับรอง</th>
+                <th>วันหมดอายุ</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(gap, i) in cert.gaps" :key="i">
+                <td class="text-body-2 text-medium-emphasis">{{ i + 1 }}</td>
+                <td class="text-body-2 font-weight-bold text-gap-user">
+                  {{ gap.gapNo }}
+                </td>
+                <td class="text-body-2">{{ gap.siteName }}</td>
+                <td class="text-body-2">{{ gap.certBody }}</td>
+                <td class="text-body-2">{{ gap.expiryDate }}</td>
               </tr>
             </tbody>
           </v-table>
@@ -204,7 +267,7 @@
           <div
             class="section-header px-4 py-3 border-b d-flex align-center ga-2"
           >
-            <v-icon icon="fas fa-paperclip" color="cb-user" size="15" />
+            <v-icon icon="fas fa-paperclip" color="hcex-user" size="15" />
             <span class="text-subtitle-2 font-weight-bold">เอกสารแนบ</span>
           </div>
           <v-card-text class="pa-4">
@@ -217,7 +280,7 @@
               <v-btn
                 size="x-small"
                 variant="tonal"
-                color="cb-user"
+                color="hcex-user"
                 rounded="lg"
                 prepend-icon="fas fa-download"
               >
@@ -228,14 +291,14 @@
         </v-card>
       </v-col>
 
-      <!-- ── Right: actions + activity log (sticky) ── -->
+      <!-- ── Right: cert actions + activity log ── -->
       <v-col cols="12" md="4">
         <div class="sticky-col">
           <!-- ปุ่มดาวน์โหลดใบทะเบียน -->
           <v-card rounded="xl" elevation="0" class="section-card mb-4">
             <v-card-text class="pa-4">
               <v-btn
-                color="cb-user"
+                color="hcex-user"
                 variant="flat"
                 block
                 rounded="lg"
@@ -247,14 +310,14 @@
             </v-card-text>
           </v-card>
 
-          <!-- ประวัติใบทะเบียน -->
+          <!-- ความคืบหน้า -->
           <v-card rounded="xl" elevation="0" class="section-card">
             <div
               class="section-header px-4 py-3 border-b d-flex align-center ga-2"
             >
               <v-icon
                 icon="fas fa-clock-rotate-left"
-                color="cb-user"
+                color="hcex-user"
                 size="15"
               />
               <span class="text-subtitle-2 font-weight-bold"
@@ -313,7 +376,7 @@
                       v-if="event.type !== 'submit'"
                       size="x-small"
                       variant="text"
-                      color="cb-user"
+                      color="hcex-user"
                       class="mt-1 px-0"
                       @click="openActivityDetail(event)"
                     >
@@ -393,10 +456,10 @@
               </div>
               <v-chip
                 size="small"
-                :color="eventColor(selectedEvent?.type)"
+                :color="eventColor(selectedEvent.type)"
                 variant="tonal"
               >
-                {{ eventLabel(selectedEvent?.type) }}
+                {{ eventLabel(selectedEvent.type) }}
               </v-chip>
             </div>
             <div>
@@ -414,7 +477,7 @@
         </v-card-text>
         <v-card-actions class="px-6 pb-5 pt-0">
           <v-btn
-            color="cb-user"
+            color="hcex-user"
             variant="tonal"
             rounded="lg"
             block
@@ -465,77 +528,82 @@ function openActivityDetail(event) {
 }
 
 const cert = {
-  certNo: "CB-2569-001",
-  requestNo: "CB-0001",
-  typecert: "คำขอขึ้นทะเบียนหน่วยรับรองมาตรฐานสินค้าเกษตร",
-  issueDate: "15/01/2569",
-  expireDate: "14/01/2572",
+  certNo: "EXP-2569-005",
+  requestNo: "EXP-0005",
+  typecert: "คำขอหนังสือสำคัญแสดงการขึ้นทะเบียนเป็นผู้ส่งออกผักและผลไม้",
+  issueDate: "15/03/2569",
+  expireDate: "14/03/2571",
   status: "active",
 
-  applicantNameTh: "นายวิชัย รับรองดี",
-  applicantHouseNo: "999",
-  applicantMoo: "-",
+  applicantNameTh: "นายสมชาย ใจดี",
+  applicantHouseNo: "123",
+  applicantMoo: "3",
   applicantAlley: "-",
-  applicantRoad: "เจริญนคร",
-  applicantTambol: "คลองสาน",
-  applicantDistrict: "คลองสาน",
+  applicantRoad: "พหลโยธิน",
+  applicantTambol: "ลาดยาว",
+  applicantDistrict: "จตุจักร",
   applicantProvince: "กรุงเทพมหานคร",
-  applicantZipcode: "10600",
-  applicantPhone: "02-345-6789",
+  applicantZipcode: "10900",
+  applicantPhone: "02-123-4567",
   applicantFax: "-",
-  applicantEmail: "wichai@cbcert.co.th",
+  applicantEmail: "somchai@example.com",
 
-  companyNameTh: "บริษัท ไทยเซิร์ทแล็บ จำกัด",
-  companyNameEn: "Thai CertLab Co., Ltd.",
-  houseNo: "999",
+  companyNameTh: "บริษัท ไทย เอ็กซ์พอร์ต จำกัด",
+  companyNameEn: "Thai Export Co., Ltd.",
+  houseNo: "88/1",
   alley: "-",
-  road: "เจริญนคร",
-  tambol: "คลองสาน",
-  district: "คลองสาน",
-  province: "กรุงเทพมหานคร",
-  zipcode: "10600",
-  houseNoEn: "999",
+  road: "สุขุมวิท",
+  tambol: "บางปะกง",
+  district: "บางปะกง",
+  province: "ฉะเชิงเทรา",
+  zipcode: "24130",
+  houseNoEn: "88/1",
   alleyEn: "-",
-  roadEn: "Charoen Nakhon",
-  tambolEn: "Khlong San",
-  districtEn: "Khlong San",
-  provinceEn: "Bangkok",
-  zipcodeEn: "10600",
-  companyPhone: "02-345-6789",
-  companyFax: "02-345-6790",
-  companyEmail: "info@thaicertlab.co.th",
+  roadEn: "Sukhumvit",
+  tambolEn: "Bang Pakong",
+  districtEn: "Bang Pakong",
+  provinceEn: "Chachoengsao",
+  zipcodeEn: "24130",
+  companyPhone: "038-123-456",
+  companyFax: "038-123-457",
+  companyEmail: "info@thaiexport.co.th",
 
-  standards: [
+  countries: ["สหภาพยุโรป", "ญี่ปุ่น", "สิงคโปร์"],
+
+  factories: [
     {
-      scope: "มกษ. 9001-2564 การปฏิบัติทางการเกษตรที่ดีสำหรับพืชอาหาร",
-      certNo: "NAC-2024-0001",
+      doaNo: "DOA-2568-12345",
+      factoryName: "โรงบรรจุสินค้าไทยเอ็กซ์พอร์ต 1",
+      expiryDate: "01/01/2570",
     },
     {
-      scope:
-        "มกษ. 9000-2564 เกษตรอินทรีย์ เล่ม 1 การผลิต แปรรูป แสดงฉลาก และจำหน่ายผลิตผลและผลิตภัณฑ์เกษตรอินทรีย์",
-      certNo: "NAC-2024-0002",
+      doaNo: "DOA-2568-12346",
+      factoryName: "โรงรมทรีทเม้นต์ไทยเอ็กซ์พอร์ต",
+      expiryDate: "01/06/2570",
+    },
+  ],
+
+  gaps: [
+    {
+      gapNo: "GAP-2568-00123",
+      siteName: "สวนมะม่วงไทยเอ็กซ์พอร์ต",
+      certBody: "กรมวิชาการเกษตร (DOA)",
+      expiryDate: "01/03/2570",
     },
     {
-      scope: "มกษ. 4403-2554 การปฏิบัติทางการเกษตรที่ดีสำหรับข้าว",
-      certNo: "NAC-2024-0003",
+      gapNo: "GAP-2568-00456",
+      siteName: "สวนมะละกอไทยเอ็กซ์พอร์ต",
+      certBody: "สำนักงานเกษตรจังหวัด",
+      expiryDate: "15/06/2570",
     },
   ],
 
   attachments: [
     {
       label:
-        "แผนที่ตั้งสำนักงานใหญ่และสำนักงานสาขาในประเทศไทยที่ขอการรับรองโดยละเอียด",
+        "หนังสือรับรองของโรงงานผลิตสินค้าพืชที่เราระบุว่าเป็นผู้คัดบรรจุสินค้าผักและผลไม้ให้กับผู้ส่งออก กรณีที่ผู้ส่งออกแจ้งใช้โรงงานผลิตสินค้าพืชของผู้อื่น",
     },
-    {
-      label:
-        "ใบรับรองระบบงาน (Accreditation Certificate) จากสำนักงานมาตรฐานสินค้าเกษตรและอาหารแห่งชาติ (มกอช.)",
-    },
-    { label: "สำเนาหลักฐานการอนุญาตเป็นผู้ประกอบการตรวจสอบมาตรฐาน" },
-    {
-      label:
-        "ทะเบียนรายชื่อผู้ตรวจประเมินของหน่วยรับรองโรงงานผลิตสินค้าพืช พร้อมประวัติการตรวจประเมินโรงงานผลิตสินค้าพืช",
-    },
-    { label: "ที่อยู่และรายชื่อสาขาที่อยู่ในประเทศไทย" },
+    { label: "หนังสือรับรองการซื้อ-ขายกับเกษตรกร" },
   ],
 
   activityLog: [
@@ -543,35 +611,40 @@ const cert = {
       type: "issue",
       action: "ออกใบทะเบียน",
       actor: "ระบบ",
-      timestamp: "15/01/2569 10:00",
-      remark: "เลขทะเบียน CB-2569-001",
+      timestamp: "08/01/2569 11:23",
+      remark: "เลขทะเบียน EXP-2569-005",
     },
     {
       type: "forward",
       action: "ผ่านการลงนาม",
       actor: "นายศักดิ์ศรี นาดี (ผู้ลงนาม)",
-      timestamp: "14/01/2569 15:30",
-      remark: "",
+      timestamp: "08/01/2569 11:23",
     },
     {
       type: "forward",
       action: "ผ่านการพิจารณา",
       actor: "นายอนันต์ วิชาการ (ผู้พิจารณา)",
-      timestamp: "12/01/2569 14:00",
-      remark: "",
+      timestamp: "06/01/2569 14:20",
     },
     {
       type: "forward",
       action: "ผ่านการตรวจสอบ",
       actor: "น.ส.วรรณา จันทร์ดี (เจ้าหน้าที่ตรวจสอบ)",
-      timestamp: "18/01/2569 11:00",
-      remark: "",
+      timestamp: "05/01/2569 11:00",
+    },
+    {
+      type: "sendback",
+      action: "ส่งกลับแก้ไข",
+      actor: "น.ส.วรรณา จันทร์ดี (เจ้าหน้าที่ตรวจสอบ)",
+      timestamp: "03/01/2569 10:30",
+      remark:
+        "เอกสารสำเนาหนังสือรับรองนิติบุคคลไม่ครบถ้วน กรุณาแนบเอกสารฉบับที่ออกโดยกรมพัฒนาธุรกิจการค้าซึ่งออกไม่เกิน 3 เดือน และแก้ไขพิกัดที่ตั้งโรงงานให้ถูกต้องตามทะเบียนโรงงาน",
     },
     {
       type: "submit",
       action: "ยื่นคำขอ",
-      actor: "นายวิชัย รับรองดี (ผู้ยื่นคำขอ)",
-      timestamp: "15/01/2569 09:12",
+      actor: "นายสมชาย ใจดี (ผู้ยื่นคำขอ)",
+      timestamp: "01/01/2569 09:12",
       remark: "",
     },
   ],
@@ -579,7 +652,7 @@ const cert = {
 
 const applicantAddress = computed(() => {
   const a = cert;
-  return `${a.applicantHouseNo} ถ.${a.applicantRoad} ต.${a.applicantTambol} อ.${a.applicantDistrict} จ.${a.applicantProvince} ${a.applicantZipcode}`;
+  return `${a.applicantHouseNo} หมู่ ${a.applicantMoo} ถ.${a.applicantRoad} ต.${a.applicantTambol} อ.${a.applicantDistrict} จ.${a.applicantProvince} ${a.applicantZipcode}`;
 });
 
 const companyAddressTh = computed(() => {
@@ -635,7 +708,7 @@ function eventIcon(type) {
 function eventColor(type) {
   return (
     {
-      submit: "cb-user",
+      submit: "hcex-user",
       receive: "info",
       forward: "success",
       review: "warning",
@@ -643,7 +716,7 @@ function eventColor(type) {
       approve: "success",
       reject: "error",
       sendback: "warning",
-      issue: "cb-user",
+      issue: "hcex-user",
       renew: "info",
       revoke: "error",
     }[type] ?? "grey"
@@ -713,7 +786,7 @@ function eventLabel(type) {
   z-index: 1;
 }
 .activity-dot--submit {
-  background: rgb(var(--v-theme-cb-user));
+  background: rgb(var(--v-theme-hcex-user));
 }
 .activity-dot--receive {
   background: rgb(var(--v-theme-info));
@@ -747,7 +820,7 @@ function eventLabel(type) {
   background: rgb(var(--v-theme-warning));
 }
 .activity-dot--issue {
-  background: rgb(var(--v-theme-cb-user));
+  background: rgb(var(--v-theme-hcex-user));
 }
 .activity-dot--renew {
   background: rgb(var(--v-theme-info));

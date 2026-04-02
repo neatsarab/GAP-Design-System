@@ -1,48 +1,15 @@
 <template>
   <div>
-    <!-- Header -->
-    <div class="d-flex align-center justify-space-between mb-5 flex-wrap ga-3">
+    <div class="d-flex align-center justify-space-between flex-wrap ga-3 mb-6">
       <div>
-        <h1 class="page-title mb-1">รายการใบทะเบียน</h1>
+        <h1 class="page-title mb-1">รายการรอลงนาม</h1>
         <p class="text-body-2 text-medium-emphasis mb-0">
           Health Certificate สินค้าแปรรูปด้านพืช
         </p>
       </div>
-      <v-btn variant="tonal" color="hcex-staff" prepend-icon="fas fa-download"
-        >ส่งออก Excel</v-btn
-      >
     </div>
 
-    <!-- Stats -->
-    <div class="mb-4">
-      <v-row>
-        <v-col v-for="s in stats" :key="s.label" cols="6" sm="3">
-          <v-card rounded="xl" elevation="0">
-            <v-card-text class="pa-4 d-flex align-center ga-3">
-              <div
-                class="stat-icon"
-                :style="`background:rgba(var(--v-theme-${s.color}),0.12)`"
-              >
-                <v-icon :icon="s.icon" :color="s.color" size="20" />
-              </div>
-              <div>
-                <div
-                  class="text-h5 font-weight-bold"
-                  :class="`text-${s.color}`"
-                >
-                  {{ s.value }}
-                </div>
-                <div class="text-caption text-medium-emphasis">
-                  {{ s.label }}
-                </div>
-              </div>
-            </v-card-text>
-          </v-card>
-        </v-col>
-      </v-row>
-    </div>
-
-    <!-- Filter -->
+    <!-- Filters -->
     <v-card rounded="xl" elevation="0" class="mb-4 filter-card">
       <v-card-text class="pa-4">
         <v-row dense align="center">
@@ -52,8 +19,8 @@
               <div class="field-label-en">Search</div>
             </div>
             <v-text-field
-              v-model="searchRequest"
-              placeholder="เลขทะเบียน / เลขคำขอ / ชื่อสถานประกอบการ / ชื่อผู้ยื่นคำขอ"
+              v-model="search"
+              placeholder="เลขคำขอ / ชื่อสถานประกอบการ / ชื่อผู้ยื่นคำขอ"
               prepend-inner-icon="fas fa-search"
               variant="outlined"
               density="compact"
@@ -68,7 +35,7 @@
               <div class="field-label-en">Registration Type</div>
             </div>
             <v-autocomplete
-              v-model="filterTypecert"
+              v-model="filters.typecert"
               :items="typecertOptions"
               item-title="label"
               item-value="value"
@@ -82,11 +49,29 @@
           </v-col>
           <v-col cols="12" sm="6" md="3">
             <div class="field-label">
-              <div>สถานะ</div>
+              <div>ประเภทคำขอ</div>
+              <div class="field-label-en">Request Type</div>
+            </div>
+            <v-autocomplete
+              v-model="filters.type"
+              :items="typeOptions"
+              item-title="label"
+              item-value="value"
+              placeholder="ทั้งหมด"
+              variant="outlined"
+              density="compact"
+              rounded="lg"
+              hide-details
+              clearable
+            />
+          </v-col>
+          <v-col cols="12" sm="6" md="3">
+            <div class="field-label">
+              <div>สถานะคำขอ</div>
               <div class="field-label-en">Status</div>
             </div>
             <v-autocomplete
-              v-model="filterStatus"
+              v-model="filters.status"
               :items="statusOptions"
               item-title="label"
               item-value="value"
@@ -100,11 +85,11 @@
           </v-col>
           <v-col cols="12" sm="6" md="3">
             <div class="field-label">
-              <div>วันหมดอายุ (จาก)</div>
-              <div class="field-label-en">Expire Date (From)</div>
+              <div>วันที่ยื่น (จาก)</div>
+              <div class="field-label-en">Submit Date (From)</div>
             </div>
             <v-menu
-              v-model="expireFromMenu"
+              v-model="dateFromMenu"
               :close-on-content-click="false"
               location="bottom start"
             >
@@ -112,34 +97,34 @@
                 <v-text-field
                   v-bind="props"
                   density="compact"
-                  :model-value="expireFromBE"
+                  :model-value="dateFromBE"
                   readonly
                   clearable
                   prepend-inner-icon="fas fa-calendar"
                   placeholder="เลือกวันที่ / เดือน / ปี"
                   hide-details
                   style="cursor: pointer"
-                  @click:clear.stop="expireFromObj = null"
+                  @click:clear.stop="dateFromObj = null"
                 />
               </template>
               <v-date-picker
-                v-model="expireFromObj"
+                v-model="dateFromObj"
                 color="hcex-staff"
                 show-adjacent-months
-                :hide-header="!expireFromObj"
-                title="วันหมดอายุ (จาก)"
+                :hide-header="!dateFromObj"
+                title="วันที่ยื่น (จาก)"
                 locale="th"
-                @update:model-value="expireFromMenu = false"
+                @update:model-value="dateFromMenu = false"
               />
             </v-menu>
           </v-col>
           <v-col cols="12" sm="6" md="3">
             <div class="field-label">
-              <div>วันหมดอายุ (ถึง)</div>
-              <div class="field-label-en">Expire Date (To)</div>
+              <div>วันที่ยื่น (ถึง)</div>
+              <div class="field-label-en">Submit Date (To)</div>
             </div>
             <v-menu
-              v-model="expireToMenu"
+              v-model="dateToMenu"
               :close-on-content-click="false"
               location="bottom start"
             >
@@ -147,24 +132,24 @@
                 <v-text-field
                   v-bind="props"
                   density="compact"
-                  :model-value="expireToBE"
+                  :model-value="dateToBE"
                   readonly
                   clearable
                   prepend-inner-icon="fas fa-calendar"
                   placeholder="เลือกวันที่ / เดือน / ปี"
                   hide-details
                   style="cursor: pointer"
-                  @click:clear.stop="expireToObj = null"
+                  @click:clear.stop="dateToObj = null"
                 />
               </template>
               <v-date-picker
-                v-model="expireToObj"
+                v-model="dateToObj"
                 color="hcex-staff"
                 show-adjacent-months
-                :hide-header="!expireToObj"
-                title="วันหมดอายุ (ถึง)"
+                :hide-header="!dateToObj"
+                title="วันที่ยื่น (ถึง)"
                 locale="th"
-                @update:model-value="expireToMenu = false"
+                @update:model-value="dateToMenu = false"
               />
             </v-menu>
           </v-col>
@@ -177,8 +162,9 @@
               size="small"
               prepend-icon="fas fa-rotate-left"
               @click="clearFilters"
-              >ล้างตัวกรอง</v-btn
             >
+              ล้างตัวกรอง
+            </v-btn>
           </v-col>
         </v-row>
       </v-card-text>
@@ -186,30 +172,13 @@
 
     <!-- Table -->
     <v-card rounded="xl" elevation="0" class="data-card">
-      <v-data-table :headers="headers" :items="filteredItems" hover>
-        <template #header.certNo="{ column, isSorted, getSortIcon }">
-          <span class="d-inline-flex align-center ga-1">
-            <span>
-              <div
-                class="text-body-2 font-weight-medium"
-                style="line-height: 1.3"
-              >
-                เลขทะเบียน
-              </div>
-              <div
-                class="text-caption text-medium-emphasis"
-                style="line-height: 1.2"
-              >
-                Certificate No.
-              </div>
-            </span>
-            <v-icon
-              v-if="isSorted(column)"
-              :icon="getSortIcon(column)"
-              size="14"
-            />
-          </span>
-        </template>
+      <v-data-table
+        :headers="headers"
+        :items="filteredItems"
+        :custom-key-sort="customKeySort"
+        rounded="xl"
+        hover
+      >
         <template #header.requestNo="{ column, isSorted, getSortIcon }">
           <span class="d-inline-flex align-center ga-1">
             <span>
@@ -302,20 +271,20 @@
             />
           </span>
         </template>
-        <template #header.issueDate="{ column, isSorted, getSortIcon }">
+        <template #header.type="{ column, isSorted, getSortIcon }">
           <span class="d-inline-flex align-center ga-1">
             <span>
               <div
                 class="text-body-2 font-weight-medium"
                 style="line-height: 1.3"
               >
-                วันที่ออก
+                ประเภทคำขอ
               </div>
               <div
                 class="text-caption text-medium-emphasis"
                 style="line-height: 1.2"
               >
-                Issue Date
+                Request Type
               </div>
             </span>
             <v-icon
@@ -325,20 +294,20 @@
             />
           </span>
         </template>
-        <template #header.expireDate="{ column, isSorted, getSortIcon }">
+        <template #header.submittedDate="{ column, isSorted, getSortIcon }">
           <span class="d-inline-flex align-center ga-1">
             <span>
               <div
                 class="text-body-2 font-weight-medium"
                 style="line-height: 1.3"
               >
-                วันหมดอายุ
+                วันที่ยื่น
               </div>
               <div
                 class="text-caption text-medium-emphasis"
                 style="line-height: 1.2"
               >
-                Expire Date
+                Submit Date
               </div>
             </span>
             <v-icon
@@ -348,6 +317,7 @@
             />
           </span>
         </template>
+
         <template #header.status="{ column, isSorted, getSortIcon }">
           <span class="d-inline-flex align-center ga-1">
             <span>
@@ -355,7 +325,7 @@
                 class="text-body-2 font-weight-medium"
                 style="line-height: 1.3"
               >
-                สถานะ
+                สถานะคำขอ
               </div>
               <div
                 class="text-caption text-medium-emphasis"
@@ -372,47 +342,19 @@
           </span>
         </template>
 
-        <template #item.certNo="{ item }">
-          <span class="text-body-2 font-weight-medium text-hcex-staff">{{
-            item.certNo
-          }}</span>
-        </template>
-
         <template #item.status="{ item }">
           <v-chip
             :color="statusColor(item.status)"
             size="small"
             variant="tonal"
-            :prepend-icon="statusIcon(item.status)"
           >
             {{ statusLabel(item.status) }}
           </v-chip>
         </template>
-        <template #item.certStatus="{ item }">
-          <v-chip
-            :color="certStatusColor(item.certStatus)"
-            size="small"
-            variant="tonal"
-            :prepend-icon="certStatusIcon(item.certStatus)"
-          >
-            {{ certStatusLabel(item.certStatus) }}
-          </v-chip>
-        </template>
-        <template #item.expireDate="{ item }">
-          <span
-            :class="
-              item.status === 'expiring'
-                ? 'text-warning font-weight-medium'
-                : item.status === 'expired'
-                  ? 'text-error'
-                  : ''
-            "
-            >{{ item.expireDate }}</span
-          >
-        </template>
+
         <template #item.actions="{ item }">
           <div class="d-flex align-center ga-1">
-            <v-tooltip text="ดูรายละเอียด" location="top">
+            <v-tooltip text="ดูคำขอ" location="top">
               <template #activator="{ props }">
                 <v-btn
                   v-bind="props"
@@ -422,8 +364,8 @@
                   color="hcex-staff"
                   @click.stop="
                     router.push({
-                      name: 'HCEXstaffCertificateDetail',
-                      params: { id: item.certNo },
+                      name: 'HCEXstaffSigningDetail',
+                      params: { id: item.requestNo },
                     })
                   "
                 >
@@ -431,37 +373,20 @@
                 </v-btn>
               </template>
             </v-tooltip>
-            <v-tooltip text="ดาวน์โหลด" location="top">
-              <template #activator="{ props }">
-                <v-btn
-                  v-bind="props"
-                  icon
-                  size="x-small"
-                  variant="text"
-                  color="success"
-                  :disabled="item.status === 'expired'"
-                  @click.stop
-                >
-                  <v-icon icon="fas fa-download" size="14" />
-                </v-btn>
-              </template>
-            </v-tooltip>
             <v-btn
               size="small"
               variant="tonal"
-              color="hcex-staff"
+              color="warning"
               rounded="lg"
-              prepend-icon="fas fa-file-pen"
-              :disabled="item.status === 'expired'"
+              prepend-icon="fas fa-pen-nib"
               @click.stop="
                 router.push({
-                  name: 'HCEXstaffCertificateManage',
-                  params: { id: item.certNo },
-                  query: { status: item.status },
+                  name: 'HCEXstaffSigningDetail',
+                  params: { id: item.requestNo },
                 })
               "
             >
-              จัดการใบทะเบียน
+              ลงนาม
             </v-btn>
           </div>
         </template>
@@ -471,55 +396,108 @@
 </template>
 
 <script setup>
-import { ref, computed, watch } from "vue";
+import { ref, reactive, computed, watch } from "vue";
 import { useRouter } from "vue-router";
 import { useLocale } from "vuetify";
-
-const router = useRouter();
 
 const { current: vuetifyLocale } = useLocale();
 vuetifyLocale.value = "th";
 
-const searchRequest = ref("");
-const filterTypecert = ref(null);
-const filterStatus = ref(null);
+const dateFromMenu = ref(false);
+const dateFromObj = ref(null);
+const dateToMenu = ref(false);
+const dateToObj = ref(null);
 
-const expireFromMenu = ref(false);
-const expireFromObj = ref(null);
-const expireToMenu = ref(false);
-const expireToObj = ref(null);
-
-const filterExpireFrom = ref("");
-const filterExpireTo = ref("");
-
-function dateToBE(date) {
+function dateToBEStr(date) {
   if (!date) return "";
   const d = String(date.getDate()).padStart(2, "0");
   const m = String(date.getMonth() + 1).padStart(2, "0");
   return `${d}/${m}/${date.getFullYear() + 543}`;
 }
 
-const expireFromBE = computed(() => dateToBE(expireFromObj.value));
-const expireToBE = computed(() => dateToBE(expireToObj.value));
+const dateFromBE = computed(() => dateToBEStr(dateFromObj.value));
+const dateToBE = computed(() => dateToBEStr(dateToObj.value));
 
-// แปลง DD/MM/YYYY (พ.ศ.) → timestamp
+watch(dateFromObj, (v) => {
+  filters.dateFrom = v ? v.toISOString().slice(0, 10) : "";
+});
+watch(dateToObj, (v) => {
+  filters.dateTo = v ? v.toISOString().slice(0, 10) : "";
+});
+
 function beDateToTs(str) {
   if (!str) return 0;
   const [d, m, y] = str.split("/").map(Number);
   return new Date(y - 543, m - 1, d).getTime();
 }
 
-watch(expireFromObj, (v) => {
-  filterExpireFrom.value = v ? v.toISOString().slice(0, 10) : "";
-});
-watch(expireToObj, (v) => {
-  filterExpireTo.value = v ? v.toISOString().slice(0, 10) : "";
+const customKeySort = {
+  submittedDate: (a, b) => beDateToTs(a) - beDateToTs(b),
+};
+
+const router = useRouter();
+const search = ref("");
+
+const filters = reactive({
+  dateFrom: "",
+  dateTo: "",
+  typecert: null,
+  type: null,
+  status: null,
 });
 
+const typeOptions = [
+  { label: "ขึ้นทะเบียน", value: "ขึ้นทะเบียน" },
+  { label: "ต่ออายุ", value: "ต่ออายุ" },
+  { label: "แก้ไข", value: "แก้ไข" },
+];
+
 const statusOptions = [
-  { label: "มีผล", value: "active" },
-  { label: "ใกล้หมดอายุ", value: "expiring" },
-  { label: "หมดอายุ", value: "expired" },
+  { label: "รอลงนาม", value: "signing" },
+  { label: "อนุมัติ", value: "approved" },
+  { label: "ปฏิเสธ", value: "rejected" },
+];
+
+const headers = [
+  { title: "เลขคำขอ", key: "requestNo", sortable: true },
+  { title: "ชื่อสถานประกอบการ", key: "companyName", sortable: true },
+  { title: "ชื่อผู้ยื่นคำขอ", key: "applicantName", sortable: true },
+  { title: "ประเภททะเบียน", key: "typecert", sortable: true },
+  { title: "ประเภทคำขอ", key: "type", sortable: true },
+  { title: "วันที่ยื่น", key: "submittedDate", sortable: true },
+  { title: "สถานะคำขอ", key: "status", sortable: true },
+  { title: "", key: "actions", sortable: false, align: "end" },
+];
+
+const allItems = [
+  {
+    requestNo: "EXP-0004",
+    companyName: "บ.เอเชียแอกโกร จก.",
+    applicantName: "ประสิทธิ์ พานิช",
+    typecert: "คำร้องขึ้นทะเบียนเป็นผู้ส่งออกพืชควบคุม",
+    type: "ต่ออายุ",
+    submittedDate: "12/03/2569",
+    status: "signing",
+  },
+  {
+    requestNo: "EXP-0009",
+    companyName: "บ.ไทยอะกริ จก.",
+    applicantName: "วิชัย สุขสันต์",
+    typecert:
+      "คำขอหนังสือสำคัญแสดงการจดทะเบียนเป็นผู้ส่งผลทุเรียนสดออกไปนอกราชอาณาจักร",
+    type: "ขึ้นทะเบียน",
+    submittedDate: "20/03/2569",
+    status: "signing",
+  },
+  {
+    requestNo: "EXP-0011",
+    companyName: "บ.สยามกรีน เทรด จก.",
+    applicantName: "ปิยะ เกษตรสุข",
+    typecert: "คำขอหนังสือสำคัญแสดงการขึ้นทะเบียนเป็นผู้ส่งออกผักและผลไม้",
+    type: "แก้ไข",
+    submittedDate: "22/03/2569",
+    status: "signing",
+  },
 ];
 
 const typecertOptions = [
@@ -540,157 +518,53 @@ const typecertOptions = [
       "คำขอหนังสือสำคัญแสดงการจดทะเบียนเป็นผู้ส่งผลทุเรียนสดออกไปนอกราชอาณาจักร",
   },
   {
-    label: "คำขอจดทะเบียนเป็นผู้ส่งออกสินค้าเกษตรไปนอกราชอาณาจักร",
-    value: "คำขอจดทะเบียนเป็นผู้ส่งออกสินค้าเกษตรไปนอกราชอาณาจักร",
-  },
-  {
-    label:
-      "คำขอหนังสือสำคัญการจดทะเบียนเป็นผู้ส่งออกลูกเดือย, เมล็ดแมงลัก และพริกแห้ง ไปนอกราชอาณาจักร",
-    value:
-      "คำขอหนังสือสำคัญการจดทะเบียนเป็นผู้ส่งออกลูกเดือย, เมล็ดแมงลัก และพริกแห้ง ไปนอกราชอาณาจักร",
-  },
-  {
     label: "คำร้องขึ้นทะเบียนเป็นผู้ส่งออกพืชควบคุม",
     value: "คำร้องขึ้นทะเบียนเป็นผู้ส่งออกพืชควบคุม",
   },
 ];
 
-const allItems = [
-  {
-    id: "EXP-2569-005",
-    certNo: "EXP-2569-005",
-    requestNo: "EXP-0005",
-    companyName: "บ.ไทย เอ็กซ์พอร์ต จก.",
-    applicantName: "สมชาย ใจดี",
-    typecert: "คำขอหนังสือสำคัญแสดงการขึ้นทะเบียนเป็นผู้ส่งออกผักและผลไม้",
-    type: "แก้ไข",
-    issueDate: "15/03/2569",
-    expireDate: "14/03/2571",
-    status: "active",
-  },
-  {
-    id: "EXP-2569-010",
-    certNo: "EXP-2569-010",
-    requestNo: "EXP-0010",
-    companyName: "บ.สยาม เอ็กซ์พอร์ต จก.",
-    applicantName: "มาลี รักดี",
-    typecert: "คำร้องขึ้นทะเบียนเป็นผู้ส่งออกพืชควบคุม",
-    type: "ขึ้นทะเบียน",
-    issueDate: "01/06/2569",
-    expireDate: "01/03/2569",
-    status: "expiring",
-  },
-  {
-    id: "EXP-2569-003",
-    certNo: "EXP-2569-003",
-    requestNo: "EXP-0003",
-    companyName: "บ.เอเชียแอกโกร จก.",
-    applicantName: "ประสิทธิ์ พานิช",
-    typecert:
-      "คำขอหนังสือสำคัญแสดงการจดทะเบียนเป็นผู้ส่งผลทุเรียนสดออกไปนอกราชอาณาจักร",
-    type: "ต่ออายุ",
-    issueDate: "20/02/2566",
-    expireDate: "19/02/2566",
-    status: "expired",
-  },
-];
-
-const stats = computed(() => [
-  {
-    label: "ทั้งหมด",
-    icon: "fas fa-certificate",
-    color: "hcex-staff",
-    value: allItems.length,
-  },
-  {
-    label: "มีผล",
-    icon: "fas fa-circle-check",
-    color: "success",
-    value: countByStatus("active"),
-  },
-  {
-    label: "ใกล้หมดอายุ",
-    icon: "fas fa-clock",
-    color: "warning",
-    value: countByStatus("expiring"),
-  },
-  {
-    label: "หมดอายุ",
-    icon: "fas fa-circle-xmark",
-    color: "error",
-    value: countByStatus("expired"),
-  },
-]);
-
-function countByStatus(s) {
-  return allItems.filter((i) => i.status === s).length;
-}
-
 const filteredItems = computed(() => {
   let items = allItems;
-  if (searchRequest.value) {
-    const q = searchRequest.value.toLowerCase();
+  if (search.value) {
+    const q = search.value.toLowerCase();
     items = items.filter(
       (i) =>
-        i.certNo.toLowerCase().includes(q) ||
         i.requestNo.toLowerCase().includes(q) ||
         i.companyName.toLowerCase().includes(q) ||
         i.applicantName.toLowerCase().includes(q),
     );
   }
-  if (filterTypecert.value)
-    items = items.filter((i) => i.typecert === filterTypecert.value);
-  if (filterStatus.value)
-    items = items.filter((i) => i.status === filterStatus.value);
-  if (filterExpireFrom.value) {
-    const from = new Date(filterExpireFrom.value).getTime();
-    items = items.filter((i) => beDateToTs(i.expireDate) >= from);
+  if (filters.typecert)
+    items = items.filter((i) => i.typecert === filters.typecert);
+  if (filters.type) items = items.filter((i) => i.type === filters.type);
+  if (filters.status) items = items.filter((i) => i.status === filters.status);
+  if (filters.dateFrom) {
+    const from = new Date(filters.dateFrom).getTime();
+    items = items.filter((i) => beDateToTs(i.submittedDate) >= from);
   }
-  if (filterExpireTo.value) {
-    const to = new Date(filterExpireTo.value).getTime();
-    items = items.filter((i) => beDateToTs(i.expireDate) <= to);
+  if (filters.dateTo) {
+    const to = new Date(filters.dateTo).getTime();
+    items = items.filter((i) => beDateToTs(i.submittedDate) <= to);
   }
   return items;
 });
 
 function clearFilters() {
-  searchRequest.value = "";
-  filterTypecert.value = null;
-  filterStatus.value = null;
-  expireFromObj.value = null;
-  expireToObj.value = null;
+  search.value = "";
+  filters.dateFrom = "";
+  filters.dateTo = "";
+  filters.typecert = null;
+  filters.type = null;
+  filters.status = null;
+  dateFromObj.value = null;
+  dateToObj.value = null;
 }
-
-const headers = [
-  { title: "เลขทะเบียน", key: "certNo", sortable: true },
-  { title: "เลขคำขอ", key: "requestNo", sortable: true },
-  { title: "ชื่อสถานประกอบการ", key: "companyName", sortable: true },
-  { title: "ชื่อผู้ยื่นคำขอ", key: "applicantName", sortable: true },
-  { title: "ประเภททะเบียน", key: "typecert", sortable: true },
-  { title: "วันที่ออก", key: "issueDate", sortable: true },
-  { title: "วันหมดอายุ", key: "expireDate", sortable: true },
-  { title: "สถานะ", key: "status", sortable: true },
-  { title: "", key: "actions", sortable: false, align: "end", fixed: true },
-];
 
 function statusColor(s) {
-  return (
-    { active: "success", expiring: "warning", expired: "error" }[s] ?? "grey"
-  );
+  return { signing: "warning" }[s] ?? "grey";
 }
-function statusIcon(s) {
-  return (
-    {
-      active: "fas fa-circle-check",
-      expiring: "fas fa-clock",
-      expired: "fas fa-circle-xmark",
-    }[s] ?? "fas fa-circle"
-  );
-}
+
 function statusLabel(s) {
-  return (
-    { active: "มีผล", expiring: "ใกล้หมดอายุ", expired: "หมดอายุ" }[s] ?? s
-  );
+  return { signing: "รอลงนาม" }[s] ?? s;
 }
 </script>
-

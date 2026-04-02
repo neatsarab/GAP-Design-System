@@ -324,18 +324,18 @@ const navGroups = [
     label: "คำขอ",
     divider: true,
     items: [
-      // {
-      //   title: "รายการคำขอ",
-      //   icon: "fas fa-file-lines",
-      //   to: "/cb/staff/applications",
-      //   count: 3,
-      // },
-      // {
-      //   title: "รายการรอพิจารณา",
-      //   icon: "fas fa-clipboard-check",
-      //   to: "/cb/staff/review",
-      //   count: 2,
-      // },
+      {
+        title: "รายการคำขอ",
+        icon: "fas fa-file-lines",
+        to: "/cb/staff/applications",
+        count: 3,
+      },
+      {
+        title: "รายการรอพิจารณา",
+        icon: "fas fa-clipboard-check",
+        to: "/cb/staff/review",
+        count: 2,
+      },
       {
         title: "รายการรอลงนาม",
         icon: "fas fa-pen-nib",

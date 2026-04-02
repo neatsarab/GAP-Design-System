@@ -889,7 +889,7 @@ const cert = {
 
   exporters: [
     {
-      regNo: "EXP-6701-00456",
+      regNo: "EXP-2568-00456",
       companyName: "บริษัท ไทยฟรุ๊ต จำกัด",
       factories: ["DOA-2568-22222"],
       gaps: ["GAP-CM-2569-010"],
@@ -913,7 +913,7 @@ const cert = {
   exportDetails: [
     {
       certType: "คลุมทั้งการส่งออก (All)",
-      exporterRegNo: "EXP-6701-00456",
+      exporterRegNo: "EXP-2568-00456",
       exporterName: "บริษัท ไทยฟรุ๊ต จำกัด",
       weight: 3000,
       vehicleType: "เรือ",
@@ -947,10 +947,7 @@ const cert = {
   labName: null,
   labProduct: null,
 
-  attachments: [
-    { label: "หนังสือรับรองบริษัท (ออกไม่เกิน 6 เดือน)" },
-    { label: "ใบรับรอง GAP" },
-  ],
+  attachments: [{ label: "เอกสารอื่นๆ" }],
 
   activityLog: [
     {
@@ -1127,7 +1124,7 @@ function eventLabel(type) {
   background: rgb(var(--v-theme-error));
 }
 .activity-dot--sendback {
-  background: #fb8c00;
+  background: rgb(var(--v-theme-warning));
 }
 .activity-line {
   width: 2px;

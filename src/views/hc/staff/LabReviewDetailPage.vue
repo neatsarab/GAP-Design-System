@@ -6,7 +6,7 @@
         icon="fas fa-arrow-left"
         variant="text"
         size="small"
-        @click="goToReviewList"
+        @click="goToList"
       />
       <div>
         <h1 class="page-title mb-0">รายละเอียดคำขอ</h1>
@@ -51,6 +51,7 @@
                     ? 'text-hc-staff font-weight-bold'
                     : 'text-medium-emphasis'
                 "
+                style="line-height: 1.3; font-size: 11px"
               >
                 {{ step.title }}
               </div>
@@ -58,23 +59,30 @@
             <div
               v-if="i < timelineSteps.length - 1"
               class="step-line flex-grow-1"
-              :class="{ 'step-line--done': currentStep > step.value }"
+              :class="currentStep > step.value ? 'step-line--done' : ''"
             />
           </template>
         </div>
       </v-card-text>
     </v-card>
 
-    <!-- Content -->
     <v-row>
+      <!-- Main content -->
       <v-col cols="12" md="8">
+        <!-- Tabs -->
         <v-tabs v-model="activeTab" color="hc-staff" class="mb-4">
-          <v-tab value="info" prepend-icon="fas fa-file-lines"
-            >ข้อมูลคำขอ</v-tab
-          >
-          <v-tab value="review" prepend-icon="fas fa-gavel"
-            >บันทึกผลการพิจารณา</v-tab
-          >
+          <v-tab value="info">
+            <v-icon icon="fas fa-file-lines" size="14" class="mr-2" />
+            ข้อมูลคำขอ
+          </v-tab>
+          <v-tab value="lab">
+            <v-icon icon="fas fa-flask" size="14" class="mr-2" />
+            ผลการตรวจ Lab
+          </v-tab>
+          <v-tab value="review">
+            <v-icon icon="fas fa-clipboard-check" size="14" class="mr-2" />
+            บันทึกผลการพิจารณา
+          </v-tab>
         </v-tabs>
 
         <v-window v-model="activeTab">
@@ -230,7 +238,7 @@
               </v-card-text>
             </v-card>
 
-            <!-- ข้อมูลผู้ส่งออก (ตาราง) -->
+            <!-- ข้อมูลผู้ส่งออก -->
             <v-card rounded="xl" elevation="0" class="section-card mb-4">
               <div class="section-header px-4 py-3 d-flex align-center ga-2">
                 <v-icon icon="fas fa-table-list" color="hc-staff" size="15" />
@@ -287,7 +295,7 @@
                           :key="g"
                           size="x-small"
                           variant="tonal"
-                          color="gap-user"
+                          color="gap-staff"
                           label
                           >{{ g }}</v-chip
                         >
@@ -516,68 +524,210 @@
             </v-card>
           </v-window-item>
 
+          <!-- Tab: ผลการตรวจ Lab -->
+          <v-window-item value="lab">
+            <!-- Overall result -->
+            <v-card
+              rounded="xl"
+              elevation="0"
+              class="mb-4"
+              :style="{
+                background:
+                  app.labOverall === 'pass'
+                    ? 'rgba(var(--v-theme-success), 0.06)'
+                    : 'rgba(var(--v-theme-error), 0.06)',
+                border:
+                  app.labOverall === 'pass'
+                    ? '1px solid rgba(var(--v-theme-success), 0.2)'
+                    : '1px solid rgba(var(--v-theme-error), 0.2)',
+              }"
+            >
+              <v-card-text class="pa-4 d-flex align-center ga-3">
+                <div
+                  class="rounded-circle d-flex align-center justify-center flex-shrink-0"
+                  style="width: 44px; height: 44px"
+                  :style="{
+                    background:
+                      app.labOverall === 'pass'
+                        ? 'rgba(var(--v-theme-success), 0.15)'
+                        : 'rgba(var(--v-theme-error), 0.15)',
+                  }"
+                >
+                  <v-icon
+                    :icon="
+                      app.labOverall === 'pass'
+                        ? 'fas fa-circle-check'
+                        : 'fas fa-circle-xmark'
+                    "
+                    :color="app.labOverall === 'pass' ? 'success' : 'error'"
+                    size="22"
+                  />
+                </div>
+                <div>
+                  <div class="text-body-2 font-weight-bold">
+                    ผลการตรวจ Lab โดยรวม
+                    <span v-if="app.labOverall === 'fail'" class="text-error"
+                      >: ไม่ผ่าน</span
+                    >
+                  </div>
+                  <div class="text-caption text-medium-emphasis">
+                    วันที่บันทึกผล: {{ app.labResultDate }}
+                  </div>
+                </div>
+              </v-card-text>
+            </v-card>
+
+            <!-- Lab sections summary -->
+            <v-card rounded="xl" elevation="0" class="section-card mb-4">
+              <div class="section-header px-4 py-3 d-flex align-center ga-2">
+                <v-icon icon="fas fa-list-check" color="hc-staff" size="15" />
+                <span class="text-subtitle-2 font-weight-bold"
+                  >สรุปผลการตรวจรายหัวข้อ</span
+                >
+              </div>
+              <v-table density="compact" class="pa-2">
+                <thead>
+                  <tr>
+                    <th class="text-body-2" style="width: 36px"></th>
+                    <th class="text-body-2">หัวข้อการตรวจ</th>
+                    <th class="text-body-2 text-center" style="width: 130px">
+                      ผลรวม
+                    </th>
+                    <th class="text-body-2">รายละเอียด</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <template v-for="section in labSections" :key="section.key">
+                    <!-- แถวหลัก -->
+                    <tr
+                      class="section-row"
+                      :class="{
+                        'section-row--expanded': expandedSections.has(
+                          section.key,
+                        ),
+                      }"
+                      style="cursor: pointer"
+                      @click="toggleSection(section.key)"
+                    >
+                      <td class="text-center">
+                        <v-icon
+                          :icon="
+                            expandedSections.has(section.key)
+                              ? 'fas fa-chevron-down'
+                              : 'fas fa-chevron-right'
+                          "
+                          size="11"
+                          :color="
+                            expandedSections.has(section.key)
+                              ? 'hc-staff'
+                              : 'medium-emphasis'
+                          "
+                        />
+                      </td>
+                      <td class="text-body-2 font-weight-medium">
+                        {{ section.label }}
+                      </td>
+                      <td class="text-center py-2">
+                        <v-chip
+                          :color="
+                            section.result === 'detected' ? 'error' : 'success'
+                          "
+                          size="x-small"
+                          variant="tonal"
+                        >
+                          {{
+                            section.result === "detected"
+                              ? "Detected"
+                              : "Not Detected"
+                          }}
+                        </v-chip>
+                      </td>
+                      <td class="text-caption text-medium-emphasis">
+                        {{ section.detail || "—" }}
+                      </td>
+                    </tr>
+                    <!-- แถวย่อย -->
+                    <template v-if="expandedSections.has(section.key)">
+                      <tr
+                        v-for="item in section.items"
+                        :key="item.name"
+                        class="subitem-row"
+                      >
+                        <td></td>
+                        <td class="text-body-2 text-medium-emphasis ps-4">
+                          <v-icon
+                            icon="fas fa-circle"
+                            size="5"
+                            class="mr-2 mb-1"
+                            color="medium-emphasis"
+                          />
+                          {{ item.name }}
+                        </td>
+                        <td class="text-center py-1">
+                          <v-chip
+                            :color="
+                              item.result === 'detected' ? 'error' : 'success'
+                            "
+                            size="x-small"
+                            variant="tonal"
+                          >
+                            {{
+                              item.result === "detected"
+                                ? "Detected"
+                                : "Not Detected"
+                            }}
+                          </v-chip>
+                        </td>
+                        <td class="text-caption text-medium-emphasis">
+                          {{ item.value }} {{ item.unit }}
+                        </td>
+                      </tr>
+                    </template>
+                  </template>
+                </tbody>
+              </v-table>
+            </v-card>
+
+            <!-- เอกสารเพิ่มเติม -->
+            <v-card rounded="xl" elevation="0" class="section-card mb-4">
+              <div class="section-header px-4 py-3 d-flex align-center ga-2">
+                <v-icon icon="fas fa-paperclip" color="hc-staff" size="15" />
+                <span class="text-subtitle-2 font-weight-bold"
+                  >เอกสารประกอบผล Lab</span
+                >
+              </div>
+              <v-card-text class="pa-4">
+                <div
+                  v-for="doc in app.labDocs"
+                  :key="doc.label"
+                  class="item-row rounded-lg px-3 py-2 mb-2 d-flex align-center justify-space-between"
+                >
+                  <div class="d-flex align-center ga-2">
+                    <v-icon icon="fas fa-file" size="13" color="hc-staff" />
+                    <div>
+                      <div class="text-body-2">{{ doc.label }}</div>
+                      <div class="text-caption text-medium-emphasis">
+                        {{ doc.type }}
+                      </div>
+                    </div>
+                  </div>
+                  <v-btn
+                    size="x-small"
+                    variant="tonal"
+                    color="hc-staff"
+                    rounded="lg"
+                    prepend-icon="fas fa-download"
+                    >ดาวน์โหลด</v-btn
+                  >
+                </div>
+              </v-card-text>
+            </v-card>
+          </v-window-item>
+
           <!-- Tab: บันทึกผลการพิจารณา -->
           <v-window-item value="review">
             <v-card rounded="xl" elevation="0" class="section-card">
               <v-card-text class="pa-5">
-                <!-- ตารางรายละเอียดการส่งออกสินค้า -->
-                <div class="field-label mb-2 mt-1">
-                  <div>ตารางรายละเอียดการส่งออกสินค้า</div>
-                  <div class="field-label-en">Export Details</div>
-                </div>
-                <div class="text-caption text-medium-emphasis mb-2">
-                  <v-icon icon="fas fa-circle-info" size="11" class="mr-1" />
-                  ระบบสร้างเลขใบรับรองให้อัตโนมัติ — สามารถแก้ไขได้ก่อนยืนยัน
-                </div>
-                <v-card variant="outlined" rounded="lg" class="mb-5">
-                  <v-table density="compact">
-                    <thead>
-                      <tr>
-                        <th>ประเภทใบรับรอง</th>
-                        <th>เลขทะเบียนผู้ส่งออก</th>
-                        <th>ชื่อผู้ส่งออก</th>
-                        <th>น้ำหนัก (กก.)</th>
-                        <th>เลขใบรับรอง</th>
-                        <th style="width: 130px"></th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr v-for="(d, i) in app.exportDetails" :key="i">
-                        <td class="text-body-2">{{ d.certType }}</td>
-                        <td class="text-body-2">{{ d.exporterRegNo }}</td>
-                        <td class="text-body-2">{{ d.exporterName }}</td>
-                        <td class="text-body-2">
-                          {{ d.weight.toLocaleString() }}
-                        </td>
-                        <td class="py-2">
-                          <v-text-field
-                            v-model="certNos[i]"
-                            variant="outlined"
-                            density="compact"
-                            rounded="lg"
-                            hide-details
-                            placeholder="ระบุเลขใบรับรอง"
-                            style="min-width: 180px; max-width: 260px"
-                          />
-                        </td>
-                        <td>
-                          <v-btn
-                            size="small"
-                            variant="tonal"
-                            color="hc-staff"
-                            rounded="lg"
-                            prepend-icon="fas fa-eye"
-                            :disabled="!certNos[i]"
-                            @click="previewCertPdf(i)"
-                          >
-                            ดูตัวอย่าง
-                          </v-btn>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </v-table>
-                </v-card>
-
                 <!-- ผลการพิจารณา -->
                 <div class="field-label mb-1">
                   <div>ผลการพิจารณา</div>
@@ -586,60 +736,39 @@
                 <v-radio-group
                   v-model="reviewResult.result"
                   color="hc-staff"
-                  class="mb-1"
+                  inline
                 >
-                  <v-radio value="approve">
+                  <v-radio v-if="app.labOverall === 'pass'" value="approve" class="mr-6">
                     <template #label>
                       <div class="d-flex align-center ga-2">
                         <v-icon
                           icon="fas fa-circle-check"
                           color="success"
-                          size="15"
+                          size="18"
                         />
                         <span class="font-weight-medium">อนุมัติ</span>
                       </div>
                     </template>
                   </v-radio>
-                  <template v-if="reviewResult.result === 'approve'">
-                    <v-radio-group
-                      v-model="reviewResult.signingType"
-                      color="hc-staff"
-                      inline
-                      class="ml-8 mt-1 mb-1"
-                    >
-                      <v-radio value="self_sign" class="mr-6">
-                        <template #label>
-                          <span class="text-body-2">ลงนามโดยผู้พิจารณา</span>
-                        </template>
-                      </v-radio>
-                      <v-radio value="delegate_sign">
-                        <template #label>
-                          <span class="text-body-2">ลงนามโดยผู้ลงนาม</span>
-                        </template>
-                      </v-radio>
-                    </v-radio-group>
-                  </template>
-                  <v-radio value="draft">
+                  <v-radio value="improve" class="mr-6">
                     <template #label>
                       <div class="d-flex align-center ga-2">
                         <v-icon
-                          icon="fas fa-file-pen"
+                          icon="fas fa-circle-exclamation"
                           color="warning"
-                          size="15"
+                          size="18"
                         />
-                        <span class="font-weight-medium"
-                          >ส่งพิจารณาแบบร่าง</span
-                        >
+                        <span class="font-weight-medium">ปรับปรุง</span>
                       </div>
                     </template>
                   </v-radio>
-                  <v-radio value="cancel">
+                  <v-radio value="reject">
                     <template #label>
                       <div class="d-flex align-center ga-2">
                         <v-icon
                           icon="fas fa-circle-xmark"
                           color="error"
-                          size="15"
+                          size="18"
                         />
                         <span class="font-weight-medium">ไม่อนุมัติ</span>
                       </div>
@@ -648,7 +777,7 @@
                 </v-radio-group>
 
                 <!-- หมายเหตุ -->
-                <div class="field-label mb-1">
+                <div class="field-label mb-1 mt-4">
                   <div>หมายเหตุ</div>
                   <div class="field-label-en">Remarks</div>
                 </div>
@@ -663,55 +792,49 @@
                   class="mb-5"
                 />
 
+                <!-- แก้ไขภายในวันที่ (เฉพาะ ปรับปรุง) -->
+                <template v-if="reviewResult.result === 'improve'">
+                  <div class="field-label mb-1">
+                    <div>แก้ไขภายในวันที่</div>
+                    <div class="field-label-en">Deadline</div>
+                  </div>
+                  <v-menu
+                    v-model="deadlineMenu"
+                    :close-on-content-click="false"
+                    min-width="0"
+                  >
+                    <template #activator="{ props }">
+                      <v-text-field
+                        v-bind="props"
+                        :model-value="deadlineBE"
+                        variant="outlined"
+                        density="compact"
+                        rounded="lg"
+                        hide-details
+                        readonly
+                        placeholder="วว/ดด/ปปปป"
+                        prepend-inner-icon="fas fa-calendar"
+                        class="mb-1"
+                      />
+                    </template>
+                    <v-date-picker
+                      v-model="reviewResult.deadline"
+                      hide-header
+                      locale="th"
+                      @update:model-value="deadlineMenu = false"
+                    />
+                  </v-menu>
+                  <div
+                    v-if="reviewResult.deadline"
+                    class="text-caption text-medium-emphasis mb-4"
+                  >
+                    จำนวน {{ deadlineDays }} วัน นับจากวันนี้
+                  </div>
+                </template>
+
                 <!-- Action buttons -->
                 <v-row no-gutters class="ga-2">
-                  <v-col
-                    v-if="
-                      reviewResult.result === 'approve' &&
-                      reviewResult.signingType === 'self_sign'
-                    "
-                  >
-                    <v-btn
-                      color="hc-staff"
-                      variant="flat"
-                      block
-                      rounded="lg"
-                      prepend-icon="fas fa-certificate"
-                      @click="issueCertDialog = true"
-                    >
-                      ออกใบรับรอง
-                    </v-btn>
-                  </v-col>
-                  <v-col
-                    v-if="
-                      reviewResult.result === 'approve' &&
-                      reviewResult.signingType === 'delegate_sign'
-                    "
-                  >
-                    <v-btn
-                      color="hc-staff"
-                      variant="flat"
-                      block
-                      rounded="lg"
-                      prepend-icon="fas fa-paper-plane"
-                      @click="approveDialog = true"
-                    >
-                      ส่งลงนาม
-                    </v-btn>
-                  </v-col>
-                  <v-col v-if="reviewResult.result === 'draft'">
-                    <v-btn
-                      color="warning"
-                      variant="tonal"
-                      block
-                      rounded="lg"
-                      prepend-icon="fas fa-file-pen"
-                      @click="sendBackDialog = true"
-                    >
-                      ส่งพิจารณาแบบร่าง
-                    </v-btn>
-                  </v-col>
-                  <v-col v-if="reviewResult.result === 'cancel'">
+                  <v-col v-if="reviewResult.result === 'reject'">
                     <v-btn
                       color="error"
                       variant="tonal"
@@ -720,7 +843,31 @@
                       prepend-icon="fas fa-circle-xmark"
                       @click="rejectDialog = true"
                     >
-                      ส่งผลไม่ผ่าน
+                      ไม่อนุมัติ
+                    </v-btn>
+                  </v-col>
+                  <v-col v-if="reviewResult.result === 'improve'">
+                    <v-btn
+                      color="warning"
+                      variant="tonal"
+                      block
+                      rounded="lg"
+                      prepend-icon="fas fa-rotate-left"
+                      @click="sendBackDialog = true"
+                    >
+                      ส่งกลับแก้ไข
+                    </v-btn>
+                  </v-col>
+                  <v-col v-if="reviewResult.result === 'approve'">
+                    <v-btn
+                      color="hc-staff"
+                      variant="flat"
+                      block
+                      rounded="lg"
+                      prepend-icon="fas fa-paper-plane"
+                      @click="approveDialog = true"
+                    >
+                      ส่งต่อพิจารณา
                     </v-btn>
                   </v-col>
                 </v-row>
@@ -776,11 +923,13 @@
                         event.action
                       }}</span>
                       <v-chip
+                        v-if="!!eventLabel(event.type)"
                         size="x-small"
                         :color="eventColor(event.type)"
                         variant="tonal"
-                        >{{ eventLabel(event.type) }}</v-chip
                       >
+                        {{ eventLabel(event.type) }}
+                      </v-chip>
                     </div>
                     <div class="text-caption text-medium-emphasis">
                       <v-icon icon="fas fa-user" size="9" class="mr-1" />{{
@@ -795,23 +944,6 @@
                         event.timestamp
                       }}
                     </div>
-                    <v-btn
-                      v-if="
-                        event.type !== 'submit' && event.type !== 'reviewing'
-                      "
-                      size="x-small"
-                      variant="text"
-                      color="hc-staff"
-                      class="mt-1 px-0"
-                      @click="openActivityDetail(event)"
-                    >
-                      ดูรายละเอียด
-                      <v-icon
-                        icon="fas fa-chevron-right"
-                        size="10"
-                        class="ml-1"
-                      />
-                    </v-btn>
                   </div>
                 </div>
               </div>
@@ -821,18 +953,128 @@
       </v-col>
     </v-row>
 
+    <!-- Confirm Dialog: ส่งต่อพิจารณา -->
+    <v-dialog v-model="approveDialog" max-width="400">
+      <v-card rounded="xl">
+        <v-card-text class="pa-7 text-center">
+          <div
+            class="confirm-ring mx-auto mb-4"
+            style="background: rgba(var(--v-theme-hc-staff), 0.1)"
+          >
+            <v-icon icon="fas fa-paper-plane" size="28" color="hc-staff" />
+          </div>
+          <h3 class="text-h6 font-weight-bold mb-2">ส่งต่อพิจารณา</h3>
+          <p class="text-body-2 text-medium-emphasis">
+            ยืนยันการส่งคำขอนี้ไปยังเจ้าหน้าที่พิจารณา
+          </p>
+        </v-card-text>
+        <v-card-actions class="px-5 pb-5">
+          <v-row no-gutters class="ga-2 w-100">
+            <v-col>
+              <v-btn
+                variant="tonal"
+                color="grey"
+                block
+                rounded="lg"
+                @click="approveDialog = false"
+                >ยกเลิก</v-btn
+              >
+            </v-col>
+            <v-col>
+              <v-btn color="hc-staff" block rounded="lg" @click="submitApprove"
+                >ยืนยัน</v-btn
+              >
+            </v-col>
+          </v-row>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <!-- Send Back Dialog -->
+    <v-dialog v-model="sendBackDialog" max-width="400">
+      <v-card rounded="xl">
+        <v-card-text class="pa-7 text-center">
+          <div
+            class="confirm-ring mx-auto mb-4"
+            style="background: rgba(var(--v-theme-warning), 0.1)"
+          >
+            <v-icon icon="fas fa-rotate-left" color="warning" size="28" />
+          </div>
+          <h3 class="text-h6 font-weight-bold mb-2">ส่งกลับแก้ไข</h3>
+          <p class="text-body-2 text-medium-emphasis">
+            ยืนยันการส่งคำขอกลับให้ผู้ยื่นแก้ไข
+          </p>
+        </v-card-text>
+        <v-card-actions class="px-6 pb-5">
+          <v-row no-gutters class="ga-2 w-100">
+            <v-col>
+              <v-btn
+                variant="tonal"
+                color="grey"
+                rounded="lg"
+                block
+                @click="sendBackDialog = false"
+                >ยกเลิก</v-btn
+              >
+            </v-col>
+            <v-col>
+              <v-btn color="warning" rounded="lg" block @click="submitSendBack"
+                >ยืนยัน</v-btn
+              >
+            </v-col>
+          </v-row>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <!-- Confirm Dialog: ไม่อนุมัติ -->
+    <v-dialog v-model="rejectDialog" max-width="400">
+      <v-card rounded="xl">
+        <v-card-text class="pa-7 text-center">
+          <div
+            class="confirm-ring mx-auto mb-4"
+            style="background: rgba(var(--v-theme-error), 0.1)"
+          >
+            <v-icon icon="fas fa-circle-xmark" size="28" color="error" />
+          </div>
+          <h3 class="text-h6 font-weight-bold mb-2">ไม่อนุมัติ</h3>
+          <p class="text-body-2 text-medium-emphasis">
+            ยืนยันการไม่อนุมัติคำขอนี้ใช่หรือไม่?
+          </p>
+        </v-card-text>
+        <v-card-actions class="px-5 pb-5">
+          <v-row no-gutters class="ga-2 w-100">
+            <v-col>
+              <v-btn
+                variant="tonal"
+                color="grey"
+                block
+                rounded="lg"
+                @click="rejectDialog = false"
+                >ยกเลิก</v-btn
+              >
+            </v-col>
+            <v-col>
+              <v-btn color="error" block rounded="lg" @click="submitReject"
+                >ยืนยัน</v-btn
+              >
+            </v-col>
+          </v-row>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
     <!-- Export Detail Dialog -->
     <v-dialog v-model="exportDetailDialog" max-width="680">
       <v-card rounded="xl">
         <v-card-text class="pa-6">
           <div class="d-flex align-center ga-3 mb-4">
             <div
-              class="rounded-lg d-flex align-center justify-center"
+              class="rounded-lg d-flex align-center justify-center flex-shrink-0"
               style="
                 width: 40px;
                 height: 40px;
                 background: rgba(var(--v-theme-hc-staff), 0.12);
-                flex-shrink: 0;
               "
             >
               <v-icon icon="fas fa-file-export" color="hc-staff" size="18" />
@@ -874,8 +1116,8 @@
               <div
                 class="text-caption text-medium-emphasis mb-2 d-flex align-center ga-1"
               >
-                <v-icon icon="fas fa-ship" size="11" /> ข้อมูลพาหนะ / Mode of
-                Transport
+                <v-icon icon="fas fa-ship" size="11" />
+                ข้อมูลพาหนะ / Mode of Transport
               </div>
               <v-row dense>
                 <v-col cols="6">
@@ -974,155 +1216,6 @@
       </v-card>
     </v-dialog>
 
-    <!-- Confirm Dialog: ออกใบรับรอง -->
-    <v-dialog v-model="issueCertDialog" max-width="400">
-      <v-card rounded="xl">
-        <v-card-text class="pa-7 text-center">
-          <div
-            class="confirm-ring mx-auto mb-4"
-            style="background: rgba(var(--v-theme-hc-staff), 0.1)"
-          >
-            <v-icon icon="fas fa-certificate" size="28" color="hc-staff" />
-          </div>
-          <h3 class="text-h6 font-weight-bold mb-2">ออกใบรับรอง</h3>
-          <p class="text-body-2 text-medium-emphasis">
-            ยืนยันการออกใบรับรองโดยผู้พิจารณาผล
-          </p>
-        </v-card-text>
-        <v-card-actions class="px-5 pb-5">
-          <v-row no-gutters class="ga-2 w-100">
-            <v-col>
-              <v-btn
-                variant="tonal"
-                color="grey"
-                block
-                rounded="lg"
-                @click="issueCertDialog = false"
-                >ยกเลิก</v-btn
-              >
-            </v-col>
-            <v-col>
-              <v-btn
-                color="hc-staff"
-                block
-                rounded="lg"
-                @click="submitIssueCert"
-                >ยืนยัน</v-btn
-              >
-            </v-col>
-          </v-row>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-
-    <!-- Confirm Dialog: ส่งลงนาม -->
-    <v-dialog v-model="approveDialog" max-width="400">
-      <v-card rounded="xl">
-        <v-card-text class="pa-7 text-center">
-          <div class="confirm-ring mx-auto mb-4">
-            <v-icon icon="fas fa-paper-plane" size="28" color="hc-staff" />
-          </div>
-          <h3 class="text-h6 font-weight-bold mb-2">ส่งลงนาม</h3>
-          <p class="text-body-2 text-medium-emphasis">
-            ยืนยันการส่งคำขอนี้ไปยังเจ้าหน้าที่ลงนาม
-          </p>
-        </v-card-text>
-        <v-card-actions class="px-5 pb-5">
-          <v-row no-gutters class="ga-2 w-100">
-            <v-col>
-              <v-btn
-                variant="tonal"
-                color="grey"
-                block
-                rounded="lg"
-                @click="approveDialog = false"
-                >ยกเลิก</v-btn
-              >
-            </v-col>
-            <v-col>
-              <v-btn color="hc-staff" block rounded="lg" @click="submitApprove"
-                >ยืนยัน</v-btn
-              >
-            </v-col>
-          </v-row>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-
-    <!-- Send Draft Dialog -->
-    <v-dialog v-model="sendBackDialog" max-width="400">
-      <v-card rounded="xl">
-        <v-card-text class="pa-7 text-center">
-          <div
-            class="confirm-ring mx-auto mb-4"
-            style="background: rgba(var(--v-theme-warning), 0.1)"
-          >
-            <v-icon icon="fas fa-file-pen" color="warning" size="28" />
-          </div>
-          <h3 class="text-h6 font-weight-bold mb-2">ส่งพิจารณาแบบร่าง</h3>
-          <p class="text-body-2 text-medium-emphasis">
-            ยืนยันการส่งคำขอกลับให้ผู้ยื่นพิจารณาแบบร่าง
-          </p>
-        </v-card-text>
-        <v-card-actions class="px-6 pb-5">
-          <v-row no-gutters class="ga-2 w-100">
-            <v-col>
-              <v-btn
-                variant="tonal"
-                color="grey"
-                rounded="lg"
-                block
-                @click="sendBackDialog = false"
-                >ยกเลิก</v-btn
-              >
-            </v-col>
-            <v-col>
-              <v-btn color="warning" rounded="lg" block @click="submitSendBack"
-                >ยืนยัน</v-btn
-              >
-            </v-col>
-          </v-row>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-
-    <!-- Confirm Dialog: ไม่อนุมัติ -->
-    <v-dialog v-model="rejectDialog" max-width="400">
-      <v-card rounded="xl">
-        <v-card-text class="pa-7 text-center">
-          <div
-            class="confirm-ring mx-auto mb-4"
-            style="background: rgba(var(--v-theme-error), 0.1)"
-          >
-            <v-icon icon="fas fa-circle-xmark" size="28" color="error" />
-          </div>
-          <h3 class="text-h6 font-weight-bold mb-2">ไม่อนุมัติ</h3>
-          <p class="text-body-2 text-medium-emphasis">
-            ยืนยันการส่งผลการตรวจ "ไม่ผ่าน" กลับให้ผู้ยื่นคำขอ
-          </p>
-        </v-card-text>
-        <v-card-actions class="px-5 pb-5">
-          <v-row no-gutters class="ga-2 w-100">
-            <v-col>
-              <v-btn
-                variant="tonal"
-                color="grey"
-                block
-                rounded="lg"
-                @click="rejectDialog = false"
-                >ยกเลิก</v-btn
-              >
-            </v-col>
-            <v-col>
-              <v-btn color="error" block rounded="lg" @click="submitReject"
-                >ยืนยัน</v-btn
-              >
-            </v-col>
-          </v-row>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-
     <!-- Success Dialog -->
     <v-dialog v-model="successDialog" max-width="420" persistent>
       <v-card rounded="xl">
@@ -1136,102 +1229,9 @@
           </p>
         </v-card-text>
         <v-card-actions class="px-6 pb-5">
-          <v-btn color="hc-staff" rounded="lg" block @click="goToReviewList"
-            >กลับรายการรอพิจารณา</v-btn
-          >
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-
-    <!-- Activity Detail Dialog -->
-    <v-dialog v-model="activityDetailDialog" max-width="420">
-      <v-card rounded="xl">
-        <v-card-text class="pa-6">
-          <div class="d-flex align-center ga-3 mb-4">
-            <div
-              class="activity-dot flex-shrink-0"
-              :class="
-                selectedEvent ? `activity-dot--${selectedEvent.type}` : ''
-              "
-              style="width: 36px; height: 36px"
-            >
-              <v-icon
-                v-if="selectedEvent"
-                :icon="eventIcon(selectedEvent.type)"
-                size="14"
-                color="white"
-              />
-            </div>
-            <div>
-              <div class="text-subtitle-2 font-weight-bold">
-                {{ selectedEvent?.action }}
-              </div>
-              <v-chip
-                v-if="selectedEvent"
-                size="x-small"
-                :color="eventColor(selectedEvent.type)"
-                variant="tonal"
-                class="mt-1"
-              >
-                {{ eventLabel(selectedEvent.type) }}
-              </v-chip>
-            </div>
-          </div>
-          <v-divider class="mb-4" />
-          <div class="d-flex flex-column ga-3">
-            <div>
-              <div class="text-caption text-medium-emphasis mb-1">
-                ผู้ดำเนินการ
-              </div>
-              <div class="text-body-2">
-                <v-icon icon="fas fa-user" size="12" class="mr-1" />{{
-                  selectedEvent?.actor
-                }}
-              </div>
-            </div>
-            <div>
-              <div class="text-caption text-medium-emphasis mb-1">
-                วันที่ / เวลา
-              </div>
-              <div class="text-body-2">
-                <v-icon icon="fas fa-calendar" size="12" class="mr-1" />{{
-                  selectedEvent?.timestamp
-                }}
-              </div>
-            </div>
-            <div>
-              <div class="text-caption text-medium-emphasis mb-1">
-                ผลการพิจารณา
-              </div>
-              <v-chip
-                size="small"
-                :color="eventColor(selectedEvent?.type)"
-                variant="tonal"
-                >{{ eventLabel(selectedEvent?.type) }}</v-chip
-              >
-            </div>
-            <div>
-              <div class="text-caption text-medium-emphasis mb-1">หมายเหตุ</div>
-              <div
-                v-if="selectedEvent?.remark"
-                class="text-body-2 pa-3 rounded-lg"
-                style="background: rgba(var(--v-theme-on-surface), 0.05)"
-              >
-                {{ selectedEvent.remark }}
-              </div>
-              <div v-else class="text-body-2 text-medium-emphasis">-</div>
-            </div>
-          </div>
-        </v-card-text>
-        <v-card-actions class="px-6 pb-5 pt-0">
-          <v-btn
-            color="hc-staff"
-            variant="tonal"
-            rounded="lg"
-            block
-            @click="activityDetailDialog = false"
-            >ปิด</v-btn
-          >
+          <v-btn color="hc-staff" rounded="lg" block @click="goToList">
+            กลับรายการรอพิจารณาผล Lab
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -1239,72 +1239,91 @@
 </template>
 
 <script setup>
-import { ref, reactive } from "vue";
-import { useRouter } from "vue-router";
+import { ref, reactive, computed } from "vue";
+import { useRouter, useRoute } from "vue-router";
 import { useStaffSessionStore } from "@/stores/staff-session.store";
 
 const router = useRouter();
+const route = useRoute();
 const staffSessionStore = useStaffSessionStore();
 
-function goToReviewList() {
-  router.push({ name: "HCstaffReviewList" });
-}
-
-const currentStep = ref(3);
-const activeTab = ref("info");
-const approveDialog = ref(false);
-const issueCertDialog = ref(false);
-const sendBackDialog = ref(false);
-const rejectDialog = ref(false);
-const successDialog = ref(false);
-const successMessage = ref("");
-const activityDetailDialog = ref(false);
-const selectedEvent = ref(null);
 const exportDetailDialog = ref(false);
 const selectedExportDetail = ref(null);
-
 function openExportDetail(detail) {
   selectedExportDetail.value = detail;
   exportDetailDialog.value = true;
 }
 
-function openActivityDetail(event) {
-  selectedEvent.value = event;
-  activityDetailDialog.value = true;
+function goToList() {
+  router.push({ name: "HCstaffLabReviewList" });
 }
 
-function submitIssueCert() {
-  issueCertDialog.value = false;
-  successMessage.value = "ออกใบรับรองเรียบร้อยแล้ว";
-  successDialog.value = true;
+const expandedSections = ref(new Set());
+function toggleSection(key) {
+  const s = new Set(expandedSections.value);
+  if (s.has(key)) s.delete(key);
+  else s.add(key);
+  expandedSections.value = s;
 }
+
+const currentStep = ref(2);
+const activeTab = ref("info");
+const approveDialog = ref(false);
+const sendBackDialog = ref(false);
+const rejectDialog = ref(false);
+const successDialog = ref(false);
+const successMessage = ref("");
 
 function submitApprove() {
   approveDialog.value = false;
-  successMessage.value = "ส่งคำขอไปยังเจ้าหน้าที่ลงนามเรียบร้อยแล้ว";
+  successMessage.value = "ส่งคำขอเพื่อลงนามเรียบร้อยแล้ว";
   successDialog.value = true;
 }
 
 function submitSendBack() {
   sendBackDialog.value = false;
-  successMessage.value = "ส่งคำขอกลับให้ผู้ยื่นพิจารณาแบบร่างเรียบร้อยแล้ว";
+  successMessage.value = "ส่งคำขอกลับให้ผู้ยื่นแก้ไขเรียบร้อยแล้ว";
   successDialog.value = true;
 }
 
 function submitReject() {
   rejectDialog.value = false;
-  successMessage.value = "ส่งผลการตรวจ 'ไม่ผ่าน' เรียบร้อยแล้ว";
+  successMessage.value = "บันทึกผลการไม่อนุมัติเรียบร้อยแล้ว";
   successDialog.value = true;
 }
 
 const reviewResult = reactive({
   result: "approve",
-  signingType: "self_sign",
   remark: "",
+  deadline: null,
+});
+const deadlineMenu = ref(false);
+const deadlineBE = computed(() => {
+  if (!reviewResult.deadline) return "";
+  const d = reviewResult.deadline;
+  const dd = String(d.getDate()).padStart(2, "0");
+  const mm = String(d.getMonth() + 1).padStart(2, "0");
+  return `${dd}/${mm}/${d.getFullYear() + 543}`;
+});
+const deadlineDays = computed(() => {
+  if (!reviewResult.deadline) return 0;
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const target = new Date(reviewResult.deadline);
+  target.setHours(0, 0, 0, 0);
+  return Math.ceil((target - today) / (1000 * 60 * 60 * 24));
 });
 
-function previewCertPdf(i = 0) {
-  const no = certNos.value[i];
+function generateCertNo() {
+  const now = new Date();
+  const year = now.getFullYear() + 543;
+  const seq = String(Math.floor(Math.random() * 900) + 100);
+  return `HC-${year}-${seq}`;
+}
+const certNo = ref(generateCertNo());
+
+function previewCertPdf() {
+  const no = certNo.value;
   const html = `<!DOCTYPE html>
 <html lang="th">
 <head>
@@ -1366,12 +1385,6 @@ function previewCertPdf(i = 0) {
   setTimeout(() => URL.revokeObjectURL(url), 60_000);
 }
 
-function generateCertNo() {
-  const now = new Date();
-  const year = now.getFullYear() + 543;
-  const seq = String(Math.floor(Math.random() * 900) + 100);
-  return `HC-${year}-${seq}`;
-}
 const timelineSteps = [
   { value: 0, title: "ตรวจคำขอ" },
   { value: 1, title: "ตรวจ Lab" },
@@ -1386,173 +1399,332 @@ function stepClass(v) {
   return "step-pending";
 }
 
-const app = {
-  requestNo: "HC-0001",
-  requestType: "ขอใบรับรอง",
-  submittedAt: "01/01/2569",
-  status: "reviewing",
-  agency: "สำนักงานเกษตรจังหวัดเชียงใหม่",
-  registryType: "has_doa_gap",
-  exportDuration: "7 วัน",
-  dateStart: "01/01/2569",
-  dateEnd: "08/01/2569",
-  applicantNameTh: "นายสมชาย ใจดี",
-  applicantAddress:
-    "123 หมู่ 1 ถ.พระราม 9 ต.ลาดยาว อ.จตุจักร จ.กรุงเทพมหานคร 10900",
-  applicantPhone: "02-123-4567",
-  applicantFax: "-",
-  applicantEmail: "somchai@thaifruits.co.th",
-  companyNameTh: "บริษัท ไทยฟรุ๊ต จำกัด",
-  companyNameEn: "Thai Fruits Co., Ltd.",
-  companyAddressTh:
-    "123 ถ.พระราม 9 ต.ห้วยขวาง อ.ห้วยขวาง จ.กรุงเทพมหานคร 10310",
-  companyAddressEn: "123 Rama 9 Rd., Huai Khwang, Huai Khwang, Bangkok 10310",
-  companyPhone: "02-123-4567",
-  companyFax: "02-123-4568",
-  companyEmail: "info@thaifruits.co.th",
-  exporters: [
-    {
-      regNo: "EXP-2568-00123",
-      companyName: "บริษัท ไทยฟรุ๊ต จำกัด",
-      factories: ["DOA-2568-11111"],
-      gaps: ["GAP-CM-2569-001"],
-      countries: ["จีน", "ญี่ปุ่น"],
-      expDate: "14/01/2570",
-    },
-  ],
-  factories: [
-    {
-      doaNo: "DOA-2568-11111",
-      factoryName: "โรงคัดบรรจุเชียงใหม่ฟาร์ม",
-      plantType: "ทุเรียน",
-      province: "เชียงใหม่",
-      expDate: "01/06/2570",
-    },
-  ],
-  pathogens: ["Salmonella spp.", "E.coli"],
-  exportDetails: [
-    {
-      certType: "คลุมทั้งการส่งออก (All)",
-      exporterRegNo: "EXP-2568-00123",
-      exporterName: "บริษัท ไทยฟรุ๊ต จำกัด",
-      weight: 5000,
-      vehicleType: "เรือ",
-      vehicleName: "THAI STAR 001",
-      shipments: [
-        {
-          consignee: "Guangzhou Fresh Import Co., Ltd.",
-          address: "No.88 Tianhe Rd., Guangzhou, China",
-          country: "จีน",
-          checkpoint: "ด่านท่าเรือแหลมฉบัง",
-          lotNo: "LOT-2569-001",
-          weight: 5000,
-          exportDate: "01/01/2569",
-        },
-      ],
-    },
-    {
-      certType: "แต่ละรายการส่งออก (Some)",
-      exporterRegNo: "EXP-2568-00456",
-      exporterName: "บริษัท สยามเอ็กซ์พอร์ต จำกัด",
-      weight: 3200,
-      vehicleType: "เครื่องบิน",
-      vehicleName: "TG 668",
-      shipments: [
-        {
-          consignee: "Tokyo Fresh Market Co., Ltd.",
-          address: "2-5-1 Tsukiji, Chuo-ku, Tokyo, Japan",
-          country: "ญี่ปุ่น",
-          checkpoint: "ด่านท่าอากาศยานสุวรรณภูมิ",
-          lotNo: "LOT-2569-002",
-          weight: 3200,
-          exportDate: "02/01/2569",
-        },
-      ],
-    },
-    {
-      certType: "คลุมทั้งการส่งออก (All)",
-      exporterRegNo: "EXP-2568-00789",
-      exporterName: "บริษัท กรีนเฟรช จำกัด",
-      weight: 7500,
-      vehicleType: "รถบรรทุก",
-      vehicleName: "กท-1234",
-      shipments: [
-        {
-          consignee: "Seoul Fresh Import Ltd.",
-          address: "38 Yangjae-daero, Seocho-gu, Seoul, Korea",
-          country: "เกาหลีใต้",
-          checkpoint: "ด่านสะพานมิตรภาพไทย-ลาว",
-          lotNo: "LOT-2569-003",
-          weight: 7500,
-          exportDate: "03/01/2569",
-        },
-      ],
-    },
-    {
-      certType: "แต่ละรายการส่งออก (Some)",
-      exporterRegNo: "EXP-2568-00321",
-      exporterName: "ห้างหุ้นส่วนจำกัด ไทยอินเตอร์ฟู้ด",
-      weight: 1800,
-      vehicleType: "เรือ",
-      vehicleName: "THAI STAR 002",
-      shipments: [
-        {
-          consignee: "Singapore Fresh Pte. Ltd.",
-          address: "10 Pasir Panjang Rd., Singapore 117438",
-          country: "สิงคโปร์",
-          checkpoint: "ด่านท่าเรือแหลมฉบัง",
-          lotNo: "LOT-2569-004",
-          weight: 1800,
-          exportDate: "04/01/2569",
-        },
-      ],
-    },
-  ],
-  totalWeight: 17500,
-  totalValue: 250000,
-  labTest: "yes",
-  labName: "ห้องปฏิบัติการกรมวิชาการเกษตร",
-  labProduct: "ทุเรียน",
-  attachments: [{ label: "เอกสารอื่นๆ" }],
+const labSections = [
+  {
+    key: "pesticides",
+    label: "สารตกค้าง",
+    result: "not_detected",
+    detail: "ไม่พบสารตกค้างในทุกรายการที่เลือก",
+    items: [
+      {
+        name: "Chlorpyrifos",
+        result: "not_detected",
+        value: "< 0.01",
+        unit: "mg/kg",
+      },
+      {
+        name: "Cypermethrin",
+        result: "not_detected",
+        value: "< 0.01",
+        unit: "mg/kg",
+      },
+      {
+        name: "Dimethoate",
+        result: "not_detected",
+        value: "< 0.01",
+        unit: "mg/kg",
+      },
+      {
+        name: "Profenofos",
+        result: "not_detected",
+        value: "< 0.01",
+        unit: "mg/kg",
+      },
+    ],
+  },
+  {
+    key: "microbes",
+    label: "จุลินทรีย์",
+    result: "detected",
+    detail: "พบ E. coli 50 cfu/g",
+    items: [
+      { name: "E. coli", result: "detected", value: "50", unit: "cfu/g" },
+      {
+        name: "Salmonella spp.",
+        result: "not_detected",
+        value: "Not Detected",
+        unit: "",
+      },
+      {
+        name: "Listeria monocytogenes",
+        result: "not_detected",
+        value: "Not Detected",
+        unit: "",
+      },
+    ],
+  },
+  {
+    key: "gmo",
+    label: "GMO",
+    result: "not_detected",
+    detail: "",
+    items: [
+      {
+        name: "CaMV 35S promoter",
+        result: "not_detected",
+        value: "Not Detected",
+        unit: "",
+      },
+      {
+        name: "NOS terminator",
+        result: "not_detected",
+        value: "Not Detected",
+        unit: "",
+      },
+    ],
+  },
+  {
+    key: "sulfur",
+    label: "ซัลเฟอร์ไดออกไซด์",
+    result: "not_detected",
+    detail: "",
+    items: [
+      {
+        name: "Sulfur Dioxide (SO₂)",
+        result: "not_detected",
+        value: "< 10",
+        unit: "mg/kg",
+      },
+    ],
+  },
+  {
+    key: "aflatoxin",
+    label: "อัลฟาท็อกซิน",
+    result: "not_detected",
+    detail: "",
+    items: [
+      {
+        name: "Aflatoxin B1",
+        result: "not_detected",
+        value: "< 2",
+        unit: "μg/kg",
+      },
+      {
+        name: "Aflatoxin B2",
+        result: "not_detected",
+        value: "< 2",
+        unit: "μg/kg",
+      },
+      {
+        name: "Aflatoxin G1",
+        result: "not_detected",
+        value: "< 2",
+        unit: "μg/kg",
+      },
+      {
+        name: "Aflatoxin G2",
+        result: "not_detected",
+        value: "< 2",
+        unit: "μg/kg",
+      },
+    ],
+  },
+  {
+    key: "toxins",
+    label: "สารพิษตกค้าง",
+    result: "not_detected",
+    detail: "",
+    items: [
+      {
+        name: "Ochratoxin A",
+        result: "not_detected",
+        value: "< 2",
+        unit: "μg/kg",
+      },
+      {
+        name: "Deoxynivalenol (DON)",
+        result: "not_detected",
+        value: "< 750",
+        unit: "μg/kg",
+      },
+    ],
+  },
+];
+
+const mockApps = {
+  "HC-2569-001": {
+    requestNo: "HC-0001",
+    requestType: "ขอใบรับรอง",
+    submittedAt: "01/01/2569",
+    status: "lab_reviewing",
+    agency: "สำนักงานเกษตรจังหวัดเชียงใหม่",
+    registryType: "has_doa_gap",
+    exportDuration: "7 วัน",
+    dateStart: "01/01/2569",
+    dateEnd: "08/01/2569",
+    applicantNameTh: "นายสมชาย ใจดี",
+    applicantAddress:
+      "123 หมู่ 1 ถ.พระราม 9 ต.ลาดยาว อ.จตุจักร จ.กรุงเทพมหานคร 10900",
+    applicantPhone: "02-123-4567",
+    applicantFax: "-",
+    applicantEmail: "somchai@thaifruits.co.th",
+    companyNameTh: "บริษัท ไทยฟรุ๊ต จำกัด",
+    companyNameEn: "Thai Fruits Co., Ltd.",
+    companyAddressTh:
+      "123 ถ.พระราม 9 ต.ห้วยขวาง อ.ห้วยขวาง จ.กรุงเทพมหานคร 10310",
+    companyAddressEn: "123 Rama 9 Rd., Huai Khwang, Huai Khwang, Bangkok 10310",
+    companyPhone: "02-123-4567",
+    companyFax: "02-123-4568",
+    companyEmail: "info@thaifruits.co.th",
+    exporters: [
+      {
+        regNo: "EXP-2568-00123",
+        companyName: "บริษัท ไทยฟรุ๊ต จำกัด",
+        factories: ["DOA-2568-11111"],
+        gaps: ["GAP-CM-2569-001"],
+        countries: ["จีน", "ญี่ปุ่น"],
+        expDate: "14/01/2570",
+      },
+    ],
+    factories: [
+      {
+        doaNo: "DOA-2568-11111",
+        factoryName: "โรงคัดบรรจุเชียงใหม่ฟาร์ม",
+        plantType: "ทุเรียน",
+        province: "เชียงใหม่",
+        expDate: "01/06/2570",
+      },
+    ],
+    pathogens: ["Salmonella spp.", "E.coli"],
+    exportDetails: [
+      {
+        certType: "คลุมทั้งการส่งออก (All)",
+        exporterRegNo: "EXP-2568-00123",
+        exporterName: "บริษัท ไทยฟรุ๊ต จำกัด",
+        weight: 5000,
+        vehicleType: "เรือ",
+        vehicleName: "THAI STAR 001",
+        shipments: [
+          {
+            consignee: "Guangzhou Fresh Import Co., Ltd.",
+            address: "No.88 Tianhe Rd., Guangzhou, China",
+            country: "จีน",
+            checkpoint: "ด่านท่าเรือแหลมฉบัง",
+            lotNo: "LOT-2569-001",
+            weight: 5000,
+            exportDate: "01/01/2569",
+          },
+        ],
+      },
+    ],
+    totalWeight: 5000,
+    totalValue: 250000,
+    labTest: "yes",
+    labName: "ห้องปฏิบัติการกรมวิชาการเกษตร",
+    labProduct: "ทุเรียน",
+    labResultDate: "10/01/2569",
+    labReportNo: "LAB-2569-0042",
+    labOverall: "pass",
+    attachments: [{ label: "เอกสารอื่นๆ" }],
+    labDocs: [
+      { label: "ผลทดสอบสารตกค้าง.pdf", type: "ผลทดสอบ" },
+      { label: "ผลทดสอบจุลินทรีย์.pdf", type: "ผลทดสอบ" },
+    ],
+    activityLog: [
+      {
+        type: "reviewing",
+        action: "กำลังพิจารณาผล Lab",
+        actor: staffSessionStore.displayName,
+        timestamp: "",
+        remark: "",
+      },
+      {
+        type: "forwardlab",
+        action: "บันทึกผล Lab",
+        actor: "น.ส.วรรณา จันทร์ดี (เจ้าหน้าที่ตรวจ Lab)",
+        timestamp: "10/01/2569 14:30",
+        remark: "",
+      },
+      {
+        type: "forward",
+        action: "ผ่านการตรวจ",
+        actor: "น.ส.วรรณา จันทร์ดี (เจ้าหน้าที่ตรวจ)",
+        timestamp: "05/01/2569 11:00",
+        remark: "",
+      },
+      {
+        type: "submit",
+        action: "ยื่นคำขอ",
+        actor: "นายสมชาย ใจดี (ผู้ยื่นคำขอ)",
+        timestamp: "01/01/2569 09:12",
+        remark: "",
+      },
+    ],
+  },
+};
+
+mockApps["HC-2569-002"] = {
+  ...mockApps["HC-2569-001"],
+  requestNo: "HC-0002",
+  status: "lab_reviewing",
+  applicantNameTh: "มาลี รักดี",
+  applicantEmail: "malee@siamexport.co.th",
+  companyNameTh: "บริษัท สยามเอ็กซ์พอร์ต จำกัด",
+  companyNameEn: "Siam Export Co., Ltd.",
+  labOverall: "fail",
+  labResultDate: "26/03/2569",
+  labReportNo: "LAB-2569-0087",
   activityLog: [
     {
       type: "reviewing",
-      action: "กำลังพิจารณา",
+      action: "กำลังพิจารณาผล Lab",
       actor: staffSessionStore.displayName,
       timestamp: "",
-      remark: "",
-    },
-    {
-      type: "forwardreviewing",
-      action: "ผ่านการพิจารณาผล Lab",
-      actor: "นายอเนก แคกาลี (เจ้าหน้าที่พิจารณาผล Lab)",
-      timestamp: "07/01/2569 09:34",
       remark: "",
     },
     {
       type: "forwardlab",
       action: "บันทึกผล Lab",
       actor: "น.ส.วรรณา จันทร์ดี (เจ้าหน้าที่ตรวจ Lab)",
-      timestamp: "06/01/2569 10:00",
-      remark: "",
-    },
-    {
-      type: "forward",
-      action: "ผ่านการตรวจ",
-      actor: "น.ส.มารดี สีสรรค์ (เจ้าหน้าที่ตรวจ)",
-      timestamp: "05/01/2569 11:00",
+      timestamp: "26/03/2569 10:00",
       remark: "",
     },
     {
       type: "submit",
       action: "ยื่นคำขอ",
-      actor: "นายสมชาย ใจดี (ผู้ยื่นคำขอ)",
-      timestamp: "01/01/2569 09:12",
+      actor: "มาลี รักดี (ผู้ยื่นคำขอ)",
+      timestamp: "05/02/2569 09:00",
       remark: "",
     },
   ],
 };
-const certNos = ref(app.exportDetails.map(() => generateCertNo()));
+
+mockApps["HC-2569-003"] = {
+  ...mockApps["HC-2569-001"],
+  requestNo: "HC-0003",
+  status: "approved",
+  applicantNameTh: "วิไล สุขสม",
+  applicantEmail: "wilai@greenfresh.co.th",
+  companyNameTh: "บริษัท กรีนเฟรช จำกัด",
+  companyNameEn: "Green Fresh Co., Ltd.",
+  labOverall: "pass",
+  activityLog: [
+    {
+      type: "approve",
+      action: "อนุมัติแล้ว",
+      actor: staffSessionStore.displayName,
+      timestamp: "15/03/2569 14:00",
+      remark: "",
+    },
+    {
+      type: "forwardlab",
+      action: "บันทึกผล Lab",
+      actor: "น.ส.วรรณา จันทร์ดี (เจ้าหน้าที่ตรวจ Lab)",
+      timestamp: "20/03/2569 11:00",
+      remark: "",
+    },
+    {
+      type: "submit",
+      action: "ยื่นคำขอ",
+      actor: "วิไล สุขสม (ผู้ยื่นคำขอ)",
+      timestamp: "12/03/2569 08:30",
+      remark: "",
+    },
+  ],
+};
+
+const appId = route.params.id;
+const app = mockApps[appId] ?? mockApps["HC-2569-001"];
 
 function eventIcon(type) {
   return (
@@ -1561,7 +1733,6 @@ function eventIcon(type) {
       receive: "fas fa-inbox",
       forward: "fas fa-share",
       forwardlab: "fas fa-share",
-      forwardreviewing: "fas fa-share",
       review: "fas fa-magnifying-glass",
       reviewing: "fas fa-clipboard-check",
       pending: "fas fa-clock",
@@ -1578,7 +1749,6 @@ function eventColor(type) {
       receive: "info",
       forward: "success",
       forwardlab: "success",
-      forwardreviewing: "success",
       review: "warning",
       reviewing: "hc-staff",
       pending: "warning",
@@ -1589,27 +1759,25 @@ function eventColor(type) {
   );
 }
 function eventLabel(type) {
-  return (
-    {
-      submit: "ยื่นคำขอ",
-      receive: "รับเรื่อง",
-      forward: "ผ่าน",
-      forwardlab: "ผ่าน",
-      forwardreviewing: "ผ่าน",
-      review: "กำลังพิจารณา",
-      reviewing: "กำลังพิจารณา",
-      pending: "รอพิจารณา",
-      approve: "อนุมัติ",
-      reject: "ไม่อนุมัติ",
-      sendback: "ปรับปรุง",
-    }[type] ?? type
-  );
+  const map = {
+    submit: "ยื่นคำขอ",
+    receive: "รับเรื่อง",
+    forward: "ผ่าน",
+    forwardlab: null,
+    review: "กำลังพิจารณา",
+    reviewing: "กำลังพิจารณา",
+    pending: "รอพิจารณา",
+    approve: "อนุมัติ",
+    reject: "ไม่อนุมัติ",
+    sendback: "ปรับปรุง",
+  };
+  return type in map ? map[type] : type;
 }
 function statusColor(s) {
   return (
     {
       pending: "warning",
-      reviewing: "warning",
+      lab_reviewing: "warning",
       signing: "info",
       need_edit: "error",
       approved: "success",
@@ -1621,7 +1789,7 @@ function statusIcon(s) {
   return (
     {
       pending: "fas fa-clock",
-      reviewing: "fas fa-magnifying-glass",
+      lab_reviewing: "fas fa-microscope",
       signing: "fas fa-pen-nib",
       need_edit: "fas fa-rotate-left",
       approved: "fas fa-circle-check",
@@ -1633,7 +1801,7 @@ function statusLabel(s) {
   return (
     {
       pending: "รอตรวจ",
-      reviewing: "อยู่ระหว่างพิจารณา",
+      lab_reviewing: "รอพิจารณาผล Lab",
       signing: "รอลงนาม",
       need_edit: "รอแก้ไข",
       approved: "อนุมัติ",
@@ -1653,6 +1821,14 @@ function statusLabel(s) {
 }
 .step-line--done {
   background: rgb(var(--v-theme-hc-staff)) !important;
+}
+.confirm-ring {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .activity-timeline {
   padding-left: 4px;
@@ -1686,12 +1862,6 @@ function statusLabel(s) {
 .activity-dot--forward {
   background: rgb(var(--v-theme-hc-staff));
 }
-.activity-dot--forwardlab {
-  background: rgb(var(--v-theme-hc-staff));
-}
-.activity-dot--forwardreviewing {
-  background: rgb(var(--v-theme-hc-staff));
-}
 .activity-dot--review {
   background: rgb(var(--v-theme-warning));
 }
@@ -1720,6 +1890,9 @@ function statusLabel(s) {
 .activity-dot--sendback {
   background: rgb(var(--v-theme-warning));
 }
+.activity-dot--forwardlab {
+  background: rgb(var(--v-theme-hc-staff));
+}
 .activity-line {
   width: 2px;
   flex-grow: 1;
@@ -1734,7 +1907,16 @@ function statusLabel(s) {
 .item-row {
   background: rgba(var(--v-theme-hc-staff), 0.03);
 }
-.confirm-ring {
-  background: rgba(var(--v-theme-hc-staff), 0.1) !important;
+.section-row {
+  transition: background 0.15s;
+}
+.section-row:hover {
+  background: rgba(var(--v-theme-hc-staff), 0.04);
+}
+.section-row--expanded {
+  background: rgba(var(--v-theme-hc-staff), 0.06);
+}
+.subitem-row td {
+  background: rgba(var(--v-theme-on-surface), 0.02);
 }
 </style>

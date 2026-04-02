@@ -2,9 +2,9 @@
   <div>
     <div class="d-flex align-center justify-space-between flex-wrap ga-3 mb-6">
       <div>
-        <h1 class="page-title mb-1">รายการรอพิจารณา</h1>
+        <h1 class="page-title mb-1">รายการรอพิจารณาผล Lab</h1>
         <p class="text-body-2 text-medium-emphasis mb-0">
-          การออกหนังสือรับรองสุขอนามัยพืช สำหรับพืชควบคุมเฉพาะ
+          ระบบการออกหนังสือรับรองสุขอนามัยพืชสำหรับพืชควบคุมเฉพาะ
         </p>
       </div>
     </div>
@@ -65,6 +65,25 @@
               clearable
             />
           </v-col>
+
+          <v-col cols="12" sm="6" md="3">
+            <div class="field-label">
+              <div>สถานะผล Lab</div>
+              <div class="field-label-en">Lab Result</div>
+            </div>
+            <v-autocomplete
+              v-model="filters.labResult"
+              :items="labResultOptions"
+              item-title="label"
+              item-value="value"
+              placeholder="ทั้งหมด"
+              variant="outlined"
+              density="compact"
+              rounded="lg"
+              hide-details
+              clearable
+            />
+          </v-col>
           <v-col cols="12" sm="6" md="3">
             <div class="field-label">
               <div>สถานะคำขอ</div>
@@ -104,8 +123,6 @@
                   placeholder="เลือกวันที่ / เดือน / ปี"
                   hide-details
                   style="cursor: pointer"
-                  variant="outlined"
-                  rounded="lg"
                   @click:clear.stop="dateFromObj = null"
                 />
               </template>
@@ -141,8 +158,6 @@
                   placeholder="เลือกวันที่ / เดือน / ปี"
                   hide-details
                   style="cursor: pointer"
-                  variant="outlined"
-                  rounded="lg"
                   @click:clear.stop="dateToObj = null"
                 />
               </template>
@@ -180,6 +195,7 @@
         <v-data-table
           :headers="headers"
           :items="filteredItems"
+          :custom-key-sort="customKeySort"
           rounded="xl"
           hover
         >
@@ -229,9 +245,7 @@
               />
             </span>
           </template>
-          <template
-            #header.establishmentName="{ column, isSorted, getSortIcon }"
-          >
+          <template #header.applicant="{ column, isSorted, getSortIcon }">
             <span class="d-inline-flex align-center ga-1">
               <span>
                 <div
@@ -323,7 +337,30 @@
               />
             </span>
           </template>
-          <template #header.submittedAt="{ column, isSorted, getSortIcon }">
+          <template #header.labResult="{ column, isSorted, getSortIcon }">
+            <span class="d-inline-flex align-center ga-1">
+              <span>
+                <div
+                  class="text-body-2 font-weight-medium"
+                  style="line-height: 1.3"
+                >
+                  ผล Lab
+                </div>
+                <div
+                  class="text-caption text-medium-emphasis"
+                  style="line-height: 1.2"
+                >
+                  Lab Result
+                </div>
+              </span>
+              <v-icon
+                v-if="isSorted(column)"
+                :icon="getSortIcon(column)"
+                size="14"
+              />
+            </span>
+          </template>
+          <template #header.submittedDate="{ column, isSorted, getSortIcon }">
             <span class="d-inline-flex align-center ga-1">
               <span>
                 <div
@@ -353,7 +390,7 @@
                   class="text-body-2 font-weight-medium"
                   style="line-height: 1.3"
                 >
-                  สถานะคำขอ
+                  สถานะ
                 </div>
                 <div
                   class="text-caption text-medium-emphasis"
@@ -374,6 +411,24 @@
             certTypeLabel(item.certType)
           }}</template>
           <template #item.type="{ item }">{{ typeLabel(item.type) }}</template>
+          <template #item.labResult="{ item }">
+            <v-chip
+              :color="item.labResult === 'pass' ? 'success' : 'error'"
+              size="x-small"
+              variant="tonal"
+            >
+              <v-icon
+                :icon="
+                  item.labResult === 'pass'
+                    ? 'fas fa-circle-check'
+                    : 'fas fa-circle-xmark'
+                "
+                size="11"
+                class="mr-1"
+              />
+              {{ item.labResult === "pass" ? "ผ่าน" : "ไม่ผ่าน" }}
+            </v-chip>
+          </template>
           <template #item.status="{ item }">
             <v-chip
               :color="statusColor(item.status)"
@@ -385,7 +440,7 @@
           </template>
           <template #item.actions="{ item }">
             <div class="d-flex align-center ga-1">
-              <v-tooltip text="ดูคำขอ" location="top">
+              <v-tooltip text="ดูรายละเอียด" location="top">
                 <template #activator="{ props }">
                   <v-btn
                     v-bind="props"
@@ -400,15 +455,15 @@
                 </template>
               </v-tooltip>
               <v-btn
-                v-if="item.status === 'reviewing'"
+                v-if="item.status === 'pending_review'"
                 size="small"
                 variant="tonal"
                 color="warning"
                 rounded="lg"
-                prepend-icon="fas fa-clipboard-check"
+                prepend-icon="fas fa-microscope"
                 @click.stop="goToDetail(item.id)"
               >
-                พิจารณาคำขอ
+                พิจารณาผล Lab
               </v-btn>
             </div>
           </template>
@@ -451,25 +506,37 @@ watch(dateToObj, (v) => {
   filters.dateTo = v ? v.toISOString().slice(0, 10) : "";
 });
 
+function beDateToTs(str) {
+  if (!str) return 0;
+  const [d, m, y] = str.split("/").map(Number);
+  return new Date(y - 543, m - 1, d).getTime();
+}
+
+const customKeySort = {
+  submittedDate: (a, b) => beDateToTs(a) - beDateToTs(b),
+};
+
 const filters = reactive({
   dateFrom: "",
   dateTo: "",
-  type: null,
-  status: null,
   certType: null,
+  type: null,
+  labResult: null,
+  status: null,
 });
 
 function goToDetail(id) {
-  router.push({ name: "HCstaffReviewDetail", params: { id } });
+  router.push({ name: "HCstaffLabReviewDetail", params: { id } });
 }
 
 function clearFilters() {
   search.value = "";
   filters.dateFrom = "";
   filters.dateTo = "";
-  filters.type = null;
-  filters.status = null;
   filters.certType = null;
+  filters.type = null;
+  filters.labResult = null;
+  filters.status = null;
   dateFromObj.value = null;
   dateToObj.value = null;
 }
@@ -484,25 +551,27 @@ const typeOptions = [
   { label: "แก้ไขใบรับรอง", value: "correction" },
 ];
 
+const labResultOptions = [
+  { label: "ผ่าน", value: "pass" },
+  { label: "ไม่ผ่าน", value: "fail" },
+];
+
 const statusOptions = [
-  { label: "รอตรวจ", value: "submitted" },
-  { label: "ตรวจ Lab", value: "testing" },
-  { label: "รอพิจารณา", value: "reviewing" },
-  { label: "อนุมัติแล้ว", value: "approved" },
-  { label: "ต้องแก้ไข", value: "correction_required" },
-  { label: "รับใบรับรองแล้ว", value: "completed" },
+  { label: "รอพิจารณา", value: "pending_review" },
+  { label: "อนุมัติ", value: "approved" },
   { label: "ไม่อนุมัติ", value: "rejected" },
 ];
 
 const headers = [
   { title: "เลขคำขอ", key: "requestNo", sortable: true },
   { title: "เลขทะเบียนผู้ส่งออก", key: "exporterNo", sortable: true },
-  { title: "ชื่อสถานประกอบการ", key: "establishmentName", sortable: true },
+  { title: "ชื่อสถานประกอบการ", key: "applicant", sortable: true },
   { title: "ชื่อผู้ยื่นคำขอ", key: "applicantName", sortable: true },
   { title: "ประเภทใบรับรอง", key: "certType", sortable: true },
   { title: "ประเภทคำขอ", key: "type", sortable: true },
-  { title: "วันที่ยื่น", key: "submittedAt", sortable: false },
-  { title: "สถานะคำขอ", key: "status", sortable: true },
+  { title: "ผล Lab", key: "labResult", sortable: true },
+  { title: "วันที่ยื่น", key: "submittedDate", sortable: true },
+  { title: "สถานะ", key: "status", sortable: true },
   { title: "", key: "actions", sortable: false, align: "end" },
 ];
 
@@ -511,37 +580,37 @@ const allItems = [
     id: "HC-2569-001",
     requestNo: "HC-00001",
     exporterNo: "EXP-2568-00123",
-    establishmentName: "บริษัท ไทยฟรุ๊ต จำกัด",
-    applicantName: "นายสมชาย ใจดี",
+    applicant: "บ.ไทยฟรุ๊ต จก.",
+    applicantName: "สมชาย ใจดี",
     certType: "All",
     type: "new",
-    submittedAt: "01 ม.ค. 69",
-    submittedDate: "2026-01-01",
-    status: "reviewing",
+    labResult: "pass",
+    submittedDate: "01/01/2569",
+    status: "pending_review",
   },
   {
     id: "HC-2569-002",
     requestNo: "HC-00002",
     exporterNo: "EXP-2568-00456",
-    establishmentName: "บริษัท สยามเอ็กซ์พอร์ต จำกัด",
-    applicantName: "นางสาวมาลี รักดี",
+    applicant: "บ.สยามเอ็กซ์พอร์ต จก.",
+    applicantName: "มาลี รักดี",
     certType: "Some",
     type: "correction",
-    submittedAt: "05 ก.พ. 69",
-    submittedDate: "2026-02-05",
-    status: "reviewing",
+    labResult: "fail",
+    submittedDate: "05/02/2569",
+    status: "pending_review",
   },
   {
-    id: "HC-2569-004",
-    requestNo: "HC-00004",
+    id: "HC-2569-003",
+    requestNo: "HC-00003",
     exporterNo: "EXP-2568-00789",
-    establishmentName: "บริษัท กรีนเฟรช จำกัด",
-    applicantName: "นายวิไล สุขสม",
+    applicant: "บ.กรีนเฟรช จก.",
+    applicantName: "วิไล สุขสม",
     certType: "All",
     type: "new",
-    submittedAt: "12 มี.ค. 69",
-    submittedDate: "2026-03-12",
-    status: "correction_required",
+    labResult: "pass",
+    submittedDate: "12/03/2569",
+    status: "approved",
   },
 ];
 
@@ -552,19 +621,25 @@ const filteredItems = computed(() => {
     items = items.filter(
       (i) =>
         i.requestNo.toLowerCase().includes(q) ||
-        i.establishmentName.toLowerCase().includes(q) ||
-        i.applicantName.toLowerCase().includes(q) ||
-        i.exporterNo.toLowerCase().includes(q),
+        i.exporterNo.toLowerCase().includes(q) ||
+        i.applicant.toLowerCase().includes(q) ||
+        i.applicantName.toLowerCase().includes(q),
     );
   }
-  if (filters.type) items = items.filter((i) => i.type === filters.type);
-  if (filters.status) items = items.filter((i) => i.status === filters.status);
   if (filters.certType)
     items = items.filter((i) => i.certType === filters.certType);
-  if (filters.dateFrom)
-    items = items.filter((i) => i.submittedDate >= filters.dateFrom);
-  if (filters.dateTo)
-    items = items.filter((i) => i.submittedDate <= filters.dateTo);
+  if (filters.type) items = items.filter((i) => i.type === filters.type);
+  if (filters.labResult)
+    items = items.filter((i) => i.labResult === filters.labResult);
+  if (filters.status) items = items.filter((i) => i.status === filters.status);
+  if (filters.dateFrom) {
+    const from = new Date(filters.dateFrom).getTime();
+    items = items.filter((i) => beDateToTs(i.submittedDate) >= from);
+  }
+  if (filters.dateTo) {
+    const to = new Date(filters.dateTo).getTime();
+    items = items.filter((i) => beDateToTs(i.submittedDate) <= to);
+  }
   return items;
 });
 
@@ -575,30 +650,17 @@ function certTypeLabel(t) {
 function typeLabel(t) {
   return { new: "ขอใบรับรอง", correction: "แก้ไขใบรับรอง" }[t] ?? t;
 }
-
 function statusColor(s) {
   return (
-    {
-      submitted: "warning",
-      testing: "info",
-      reviewing: "warning",
-      approved: "success",
-      correction_required: "info",
-      completed: "success",
-      rejected: "error",
-    }[s] ?? "grey"
+    { pending_review: "warning", approved: "success", rejected: "error" }[s] ??
+    "grey"
   );
 }
-
 function statusLabel(s) {
   return (
     {
-      submitted: "รอตรวจ",
-      testing: "รอตรวจ Lab",
-      reviewing: "รอพิจารณา",
-      approved: "อนุมัติแล้ว",
-      correction_required: "รอแก้ไข",
-      completed: "รับใบรับรองแล้ว",
+      pending_review: "รอพิจารณา",
+      approved: "อนุมัติ",
       rejected: "ไม่อนุมัติ",
     }[s] ?? s
   );
