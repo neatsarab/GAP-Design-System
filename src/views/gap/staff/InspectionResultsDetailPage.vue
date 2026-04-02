@@ -30,7 +30,7 @@
                                 <v-icon v-if="currentStep > step.value" icon="fas fa-check" size="14" color="white" />
                                 <span v-else class="text-caption font-weight-bold">{{
                                     step.value + 1
-                                    }}</span>
+                                }}</span>
                             </div>
                             <div class="text-caption text-center" :class="currentStep >= step.value
                                 ? 'text-gap-staff font-weight-bold'
@@ -499,7 +499,7 @@
                             <v-card-text class="pa-5">
                                 <!-- ผลการตรวจสอบ -->
                                 <div class="field-label mb-1">
-                                     <span class="text-subtitle-2 font-weight-bold">ผลการตรวจสอบ</span>
+                                    <span class="text-subtitle-2 font-weight-bold">ผลการตรวจสอบ</span>
                                 </div>
                                 <v-radio-group v-model="step1Review.result" color="doa-staff" inline>
                                     <v-radio value="pass" class="mr-6">
@@ -530,7 +530,7 @@
 
                                 <!-- หมายเหตุ -->
                                 <div class="field-label mb-1">
-                                     <span class="text-subtitle-2 font-weight-bold">หมายเหตุ</span>
+                                    <span class="text-subtitle-2 font-weight-bold">หมายเหตุ</span>
                                 </div>
                                 <v-textarea v-model="step1Review.remark" variant="outlined" density="compact"
                                     rounded="lg" hide-details rows="4" placeholder="ระบุเหตุผลหรือข้อสังเกต..."
@@ -629,54 +629,125 @@
                 <v-card elevation="0" border rounded="xl" class="mb-4">
                     <div class="section-header border-b">
                         <v-icon size="15" color="gap-staff">fas fa-location-dot</v-icon>
-                        <span class="text-subtitle-2">ที่อยู่สำนักงานกลุ่ม / แหล่งผลิตหลัก</span>
+                        <span class="text-subtitle-2">ข้อมูลแปลง</span>
                     </div>
                     <v-card-text class="pt-5">
+                        <div class="field-section-label mb-2">ที่ตั้งฟาร์ม</div>
                         <v-row dense>
-                            <v-col cols="12" sm="9">
-                                <div class="field-label">
-                                    <div>ที่อยู่ <span class="req">*</span></div>
-                                    <div class="field-label-en">Address</div>
-                                </div>
-                                <v-textarea variant="outlined" density="compact" rounded="lg" v-model="form.address"
-                                    placeholder="บ้านเลขที่ / หมู่ที่ / ซอย / ถนน" prepend-inner-icon="fas fa-house"
-                                    rows="2" auto-grow :rules="[rules.required]" hide-details="auto" />
+                            <v-col cols="12" md="4">
+                                <div class="field-label">ชื่อหมู่บ้าน</div>
+                                <v-text-field v-model="form.village" rounded="lg" variant="outlined" density="compact"
+                                    hide-details></v-text-field>
                             </v-col>
-                            <v-col cols="12" sm="3">
-                                <div class="field-label">
-                                    <div>รหัสไปรษณีย์</div>
-                                    <div class="field-label-en">Postal Code</div>
-                                </div>
-                                <v-text-field variant="outlined" density="compact" rounded="lg"
-                                    v-model="form.postalCode" maxlength="5" prepend-inner-icon="fas fa-map-pin"
-                                    hide-details="auto" />
+                            <v-col cols="12" md="4">
+                                <div class="field-label">Village</div>
+                                <v-text-field v-model="form.village" rounded="lg" variant="outlined" density="compact"
+                                    hide-details></v-text-field>
                             </v-col>
-                            <v-col cols="12" sm="4">
-                                <div class="field-label">
-                                    <div>จังหวัด <span class="req">*</span></div>
-                                    <div class="field-label-en">Province</div>
-                                </div>
-                                <v-autocomplete variant="outlined" density="compact" rounded="lg"
-                                    v-model="form.province" :items="provinces" prepend-inner-icon="fas fa-map"
-                                    :rules="[rules.required]" hide-details="auto" />
+                            <v-col cols="12" md="4">
+                                <div class="field-label">หมู่ที่</div>
+                                <v-text-field v-model="form.moo" rounded="lg" variant="outlined" density="compact"
+                                    hide-details></v-text-field>
                             </v-col>
-                            <v-col cols="12" sm="4">
-                                <div class="field-label">
-                                    <div>อำเภอ / เขต</div>
-                                    <div class="field-label-en">District</div>
-                                </div>
-                                <v-autocomplete variant="outlined" density="compact" rounded="lg"
-                                    v-model="form.district" :items="['อำเภอเมือง', 'อำเภอปากช่อง']"
-                                    prepend-inner-icon="fas fa-city" hide-details="auto" />
+                            <v-col cols="12" md="3">
+                                <div class="field-label">ถนน</div>
+                                <v-text-field v-model="form.road" rounded="lg" variant="outlined" density="compact"
+                                    hide-details></v-text-field>
                             </v-col>
-                            <v-col cols="12" sm="4">
-                                <div class="field-label">
-                                    <div>ตำบล / แขวง</div>
-                                    <div class="field-label-en">Sub-district</div>
-                                </div>
-                                <v-autocomplete variant="outlined" density="compact" rounded="lg"
-                                    v-model="form.subDistrict" :items="['ตำบลในเมือง', 'ตำบลโพธิ์กลาง']"
-                                    prepend-inner-icon="fas fa-map-pin" hide-details="auto" />
+                            <v-col cols="12" md="3">
+                                <div class="field-label">Road</div>
+                                <v-text-field v-model="form.road" rounded="lg" variant="outlined" density="compact"
+                                    hide-details></v-text-field>
+                            </v-col>
+                            <v-col cols="12" md="3">
+                                <div class="field-label">ตรอก/ซอย</div>
+                                <v-text-field v-model="form.road" rounded="lg" variant="outlined" density="compact"
+                                    hide-details></v-text-field>
+                            </v-col>
+                            <v-col cols="12" md="3">
+                                <div class="field-label">Lane/Alley</div>
+                                <v-text-field v-model="form.road" rounded="lg" variant="outlined" density="compact"
+                                    hide-details></v-text-field>
+                            </v-col>
+                            <v-col cols="12" md="3">
+                                <div class="field-label">แขวง/ตำบล <span class="text-red">*</span></div>
+                                <v-select v-model="form.province" :items="provinces" rounded="lg" variant="outlined"
+                                    density="compact" hide-details></v-select>
+                            </v-col>
+                            <v-col cols="12" md="3">
+                                <div class="field-label">เขต/อำเภอ <span class="text-red">*</span></div>
+                                <v-select v-model="form.province" :items="provinces" rounded="lg" variant="outlined"
+                                    density="compact" hide-details></v-select>
+                            </v-col>
+                            <v-col cols="12" md="3">
+                                <div class="field-label">จังหวัด <span class="text-red">*</span></div>
+                                <v-select v-model="form.province" :items="provinces" rounded="lg" variant="outlined"
+                                    density="compact" hide-details></v-select>
+                            </v-col>
+                            <v-col cols="12" md="3">
+                                <div class="field-label">พื้นที่ขอรับรอง (ไร่)</div>
+                                <v-text-field v-model="form.totalArea" type="number" rounded="lg" variant="outlined"
+                                    density="compact" hide-details></v-text-field>
+                            </v-col>
+                            <div class="field-section-label mb-2 mt-2">ชนิดและพันธุ์พืชที่ขอรับการรับรอง</div>
+                            <v-col cols="12" md="12">
+                                 <v-table density="compact" class="border rounded-lg mb-2 crop-table custom-table">
+                                    <thead class="bg-grey-lighten-3">
+                                        <tr>
+                                            <th class="text-center font-weight-bold border" style="min-width: 220px">
+                                                ชนิดพืช / พันธุ์พืช
+                                            </th>
+                                            <th class="text-center font-weight-bold border" style="width: 100px">พื้นที่
+                                                (ไร่)</th>
+                                            <th class="text-center font-weight-bold border" style="width: 120px">อายุพืช
+                                                (วัน/ปี)</th>
+                                            <th class="text-center font-weight-bold border" style="width: 120px">
+                                                กรณีไม้ผล (ต้น)</th>
+                                            <th class="text-center font-weight-bold border">ระยะเวลาผลิต</th>
+                                            <th class="text-center font-weight-bold border">คาดว่าจะเก็บเกี่ยว
+                                            </th>
+                                            <th class="text-center font-weight-bold border">ผลผลิต/ปี (กก.)</th>
+                                            <th class="text-center font-weight-bold border">
+                                                เลขประจำแปลง <br /> <small class="text-grey">(เจ้าหน้าที่กรอก)</small>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="(item, index) in activeStandardData.crops" :key="index">
+                                            <td class="border pa-1">
+                                                <v-autocomplete v-model="item.name"
+                                                    :items="['มะม่วงน้ำดอกไม้', 'มะม่วงอกร่อง', 'ทุเรียนหมอนทอง', 'มังคุด']"
+                                                    variant="outlined" density="compact" hide-details rounded="lg"
+                                                    placeholder="ค้นหาพืช..."></v-autocomplete>
+                                            </td>
+                                            <td class="border pa-1"><v-text-field v-model="item.area" variant="outlined"
+                                                    density="compact" hide-details rounded="lg"></v-text-field></td>
+                                            <td class="border pa-1"><v-text-field v-model="item.age" variant="outlined"
+                                                    density="compact" hide-details rounded="lg"></v-text-field></td>
+                                            <td class="border pa-1"><v-text-field v-model="item.quantity"
+                                                    variant="outlined" density="compact" hide-details
+                                                    rounded="lg"></v-text-field></td>
+                                            <td class="border pa-1"><v-text-field v-model="item.period"
+                                                    variant="outlined" density="compact" hide-details
+                                                    rounded="lg"></v-text-field></td>
+                                            <td class="border pa-1"><v-text-field v-model="item.harvest"
+                                                    variant="outlined" density="compact" hide-details
+                                                    rounded="lg"></v-text-field></td>
+                                            <td class="border pa-1"><v-text-field v-model="item.yield"
+                                                    variant="outlined" density="compact" hide-details
+                                                    rounded="lg"></v-text-field></td>
+                                            <td class="border pa-1">
+                                                <v-text-field v-model="item.farmId" placeholder="" readonly
+                                                    bg-color="grey-lighten-4" variant="outlined" density="compact"
+                                                    hide-details rounded="lg"></v-text-field>
+                                            </td>
+                                        </tr>
+                                        <tr v-if="activeStandardData.crops.length === 0">
+                                            <td colspan="9" class="pa-10 text-center text-grey italic">
+                                                ไม่มีข้อมูล</td>
+                                        </tr>
+                                    </tbody>
+                                </v-table>
                             </v-col>
                         </v-row>
                     </v-card-text>
@@ -1130,7 +1201,7 @@ const mockApps = {
         certType: "มกษ. 9001",
         province: "เชียงใหม่",
         status: "reviewing",
-        currentStep: 1,
+        currentStep: 3,
         farmer: {
             name: "นายสมชาย ใจดี",
             idCard: "1-1020-34567-89-0",
@@ -1682,11 +1753,11 @@ const application = {
 const step1Review = reactive({ result: "pass", remark: "", deadline: null });
 const deadlineMenu = ref(false);
 const deadlineBE = computed(() => {
-  if (!step1Review.deadline) return "";
-  const d = step1Review.deadline;
-  const dd = String(d.getDate()).padStart(2, "0");
-  const mm = String(d.getMonth() + 1).padStart(2, "0");
-  return `${dd}/${mm}/${d.getFullYear() + 543}`;
+    if (!step1Review.deadline) return "";
+    const d = step1Review.deadline;
+    const dd = String(d.getDate()).padStart(2, "0");
+    const mm = String(d.getMonth() + 1).padStart(2, "0");
+    return `${dd}/${mm}/${d.getFullYear() + 543}`;
 });
 onMounted(() => {
     initLeafletMap();

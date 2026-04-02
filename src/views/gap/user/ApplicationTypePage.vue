@@ -145,7 +145,7 @@ const appTypes = computed(() => [
     ],
   },
   {
-    route: "/gap/user/applications/new/group/new",
+    route: "/gap/user/applications/new/group",
     title: "คำขอรายกลุ่ม",
     badge: "กลุ่มเกษตรกร",
     icon: "fas fa-users",
