@@ -298,19 +298,35 @@ const navGroups = [
                 to: "/gap/staff/inspection-results",
             },
             {
-                title: "เสนอแปลงต่อ",
+                title: "เสนอแปลงต่อ CC",
                 icon: "fas fa-paper-plane",
                 to: "/gap/staff/propose-cc",
             },
             {
-                title: "บันทึกครั้งที่เสนอ",
+                title: "บันทึกครั้งที่เสนอ CC",
                 icon: "fas fa-gavel",
                 to: "/gap/staff/cc-results",
             },
             {
-                title: "บันทึกผลจาก",
+                title: "บันทึกผลจาก CC",
                 icon: "fas fa-gavel",
-                to: "/gap/staff/cc-results",
+                to: "/gap/staff/cc-saveresults",
+            },
+        ],
+    },
+    {
+        label: "ยื่นขอใบรับรองแบบกลุ่ม",
+        divider: true,
+        items: [
+            {
+                title: "นัดตรวจเยี่ยม Previsit",
+                icon: "fas fa-file-pen",
+                to: "/gap/staff/previsit-appointment",
+            },
+            {
+                title: "ผลการตรวจเยี่ยม Previsit",
+                icon: "fas fa-file-lines",
+                to: "/gap/staff/previsit-results",
             },
         ],
     },
@@ -319,7 +335,7 @@ const navGroups = [
         divider: false,
         items: [
             {
-                title: "ข้อมูลใบรับรอง",
+                title: "ลงนาม",
                 icon: "fas fa-certificate",
                 to: "/gap/staff/certificates",
             },

@@ -108,14 +108,20 @@ const routes = [
             {
                 path: "propose-cc",
                 name: "staffProposeCC",
-                component: () => import("@/views/gap/staff/ApplicationListPage.vue"),
+                component: () => import("@/views/gap/staff/ProposeListPage.vue"),
                 meta: { title: "เสนอแปลงต่อ CC", statusFilter: "pending_cc" },
             },
             {
                 path: "cc-results",
                 name: "staffCCResults",
-                component: () => import("@/views/gap/staff/ApplicationListPage.vue"),
-                meta: { title: "บันทึกผลจาก CC", statusFilter: "cc_reviewing" },
+                component: () => import("@/views/gap/staff/ResultsCCPage.vue"),
+                meta: { title: "บันทึกครั้งที่เสนอ CC", statusFilter: "cc_reviewing" },
+            },
+            {
+                path: "cc-saveresults",
+                name: "staffSaveCCResults",
+                component: () => import("@/views/gap/staff/ResultsSaveCCPage.vue"),
+                meta: { title: "บันทึกผลจาก CC", statusFilter: "cc_savereviewing" },
             },
             {
                 path: "certificates",
@@ -128,6 +134,18 @@ const routes = [
                 name: "staffNotifications",
                 component: () => import("@/views/gap/staff/NotificationPage.vue"),
                 meta: { title: "การแจ้งเตือน" },
+            },
+            {
+                path: "previsit-appointment",
+                name: "staffPrevisitAppointment",
+                component: () => import("@/views/gap/staff/PrevisitAppointmentPage.vue"),
+                meta: { title: "นัดหมายการตรวจเยี่ยม Previsit" },
+            },
+            {
+                path: "previsit-results",
+                name: "staffPrevisitResults",
+                component: () => import("@/views/gap/staff/ResultsPrevisitAppointmentPage.vue"),
+                meta: { title: "ผลการตรวจเยี่ยม Previsit", statusFilter: "previsit_completed" },
             },
         ],
     },
