@@ -97,7 +97,7 @@
       location="bottom end"
       timeout="3000"
     >
-      <v-icon icon="fas fa-paper-plane" class="mr-2" />ยื่นคำขอสำเร็จ!
+      <v-icon icon="fas fa-paper-plane" class="mr-2" />ยื่นคำขอสำเร็จ
     </v-snackbar>
   </v-card>
 </template>

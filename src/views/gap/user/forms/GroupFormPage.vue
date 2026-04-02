@@ -797,7 +797,7 @@
             size="64"
             class="mb-4"
           />
-          <h2 class="text-h6 font-weight-bold mb-2">ยื่นคำขอสำเร็จ!</h2>
+          <h2 class="text-h6 font-weight-bold mb-2">ยื่นคำขอสำเร็จ</h2>
           <p class="text-body-2 text-medium-emphasis mb-5">
             เลขที่คำขอ: <strong class="text-gap-user">GAP-2569-012</strong
             ><br />

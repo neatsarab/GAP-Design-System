@@ -712,7 +712,7 @@
             <tbody>
               <tr v-for="(exp, idx) in form.exporters" :key="idx">
                 <td class="text-body-2 px-4">
-                  <div class="font-weight-medium text-export-user">
+                  <div class="font-weight-bold text-export-user">
                     {{ exp.regNo }}
                   </div>
                   <div class="text-caption text-medium-emphasis">
@@ -996,7 +996,9 @@
                     d.certType
                   }}
                 </td>
-                <td class="text-body-2">{{ d.exporterRegNo }}</td>
+                <td class="text-body-2 font-weight-bold text-export-user">
+                  {{ d.exporterRegNo }}
+                </td>
                 <td class="text-body-2">{{ d.exporterName }}</td>
                 <td class="text-body-2">
                   {{
@@ -2042,7 +2044,7 @@
           </div>
           <h3 class="text-h6 font-weight-bold mb-1">ยืนยันการยื่นคำขอ</h3>
           <p class="text-body-2 text-medium-emphasis mb-0">
-            ตรวจสอบข้อมูลให้ครบถ้วนก่อนยืนยัน
+            ตรวจสอบข้อมูลให้ครบถ้วนก่อนยืนยัน เมื่อยืนยันแล้วจะไม่สามารถแก้ไขได้
           </p>
         </v-card-text>
         <v-card-actions class="px-5 pb-5">
@@ -2223,15 +2225,12 @@
     <v-dialog v-model="successDialog" max-width="420" persistent>
       <v-card rounded="xl">
         <v-card-text class="pa-8 text-center">
-          <div class="success-ring mx-auto mb-5">
-            <v-icon icon="fas fa-circle-check" size="40" color="success" />
+          <div class="success-ring mx-auto mb-4">
+            <v-icon icon="fas fa-check" color="success" size="36" />
           </div>
-          <h3 class="text-h6 font-weight-bold mb-2">ยื่นคำขอสำเร็จ!</h3>
-          <p class="text-body-2 font-weight-bold text-hc-user mb-1">
-            {{ newRequestNo }}
-          </p>
+          <h3 class="text-h6 font-weight-bold mb-2">ยื่นคำขอสำเร็จ</h3>
           <p class="text-body-2 text-medium-emphasis mb-0">
-            เจ้าหน้าที่จะตรวจสอบคำขอของท่านและแจ้งผลทางอีเมล
+            ระบบได้รับคำขอของท่านแล้ว เจ้าหน้าที่จะตรวจสอบและติดต่อกลับ
           </p>
         </v-card-text>
         <v-card-actions class="px-6 pb-6">

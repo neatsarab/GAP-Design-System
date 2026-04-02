@@ -231,7 +231,7 @@
             <tbody>
               <tr v-for="(factory, i) in application.factories" :key="i">
                 <td class="text-body-2 text-medium-emphasis">{{ i + 1 }}</td>
-                <td class="text-body-2 font-weight-bold text-export-user">
+                <td class="text-body-2 font-weight-bold text-doa-user">
                   {{ factory.doaNo }}
                 </td>
                 <td class="text-body-2">{{ factory.factoryName }}</td>
@@ -263,7 +263,7 @@
             <tbody>
               <tr v-for="(gap, i) in application.gaps" :key="i">
                 <td class="text-body-2 text-medium-emphasis">{{ i + 1 }}</td>
-                <td class="text-body-2 font-weight-bold text-export-user">
+                <td class="text-body-2 font-weight-bold text-gap-user">
                   {{ gap.gapNo }}
                 </td>
                 <td class="text-body-2">{{ gap.siteName }}</td>

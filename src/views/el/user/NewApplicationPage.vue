@@ -1436,7 +1436,7 @@
           <div class="success-ring mx-auto mb-4">
             <v-icon icon="fas fa-check" color="success" size="36" />
           </div>
-          <h3 class="text-h6 font-weight-bold mb-2">ยื่นคำขอสำเร็จ!</h3>
+          <h3 class="text-h6 font-weight-bold mb-2">ยื่นคำขอสำเร็จ</h3>
           <v-chip color="el-user" size="large" variant="tonal" class="mb-4"
             >EL-2569-00003</v-chip
           >

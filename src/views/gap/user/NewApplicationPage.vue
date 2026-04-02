@@ -602,7 +602,7 @@
           <div class="mb-4">
             <v-icon icon="fas fa-circle-check" color="success" size="64" />
           </div>
-          <h2 class="text-h6 font-weight-bold mb-2">ยื่นคำขอสำเร็จ!</h2>
+          <h2 class="text-h6 font-weight-bold mb-2">ยื่นคำขอสำเร็จ</h2>
           <p class="text-body-2 text-medium-emphasis mb-4">
             เลขที่คำขอ: <strong class="text-gap-user">GAP-2569-011</strong
             ><br />

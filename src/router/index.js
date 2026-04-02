@@ -770,6 +770,30 @@ const routes = [
         meta: { title: "รายละเอียดคำขอ" },
       },
       {
+        path: "reviews",
+        name: "HCstaffReviewList",
+        component: () => import("@/views/hc/staff/ReviewListPage.vue"),
+        meta: { title: "รายการรอพิจารณา" },
+      },
+      {
+        path: "reviews/:id",
+        name: "HCstaffReviewDetail",
+        component: () => import("@/views/hc/staff/ReviewDetailPage.vue"),
+        meta: { title: "พิจารณาคำขอ" },
+      },
+      {
+        path: "signing",
+        name: "HCstaffSigningList",
+        component: () => import("@/views/hc/staff/SigningListPage.vue"),
+        meta: { title: "รายการรอลงนาม" },
+      },
+      {
+        path: "signing/:id",
+        name: "HCstaffSigningDetail",
+        component: () => import("@/views/hc/staff/SigningDetailPage.vue"),
+        meta: { title: "ลงนามใบรับรอง" },
+      },
+      {
         path: "registry",
         name: "HCstaffRegistry",
         component: () => import("@/views/hc/staff/RegistryPage.vue"),
@@ -824,6 +848,12 @@ const routes = [
         name: "HCUserCertificates",
         component: () => import("@/views/hc/user/CertificatePage.vue"),
         meta: { title: "รายการใบรับรอง" },
+      },
+      {
+        path: "certificates/:id",
+        name: "HCUserCertificateDetail",
+        component: () => import("@/views/hc/user/CertificateDetailPage.vue"),
+        meta: { title: "รายละเอียดใบรับรอง" },
       },
     ],
   },

@@ -20,7 +20,7 @@
             </div>
             <v-text-field
               v-model="search"
-              placeholder="เลขคำขอ / ชื่อผู้ส่งออก / ชื่อผู้ยื่นคำขอ"
+              placeholder="เลขคำขอ / เลขทะเบียนผู้ส่งออก / ชนิดสินค้า"
               prepend-inner-icon="fas fa-search"
               variant="outlined"
               density="compact"
@@ -148,8 +148,9 @@
               size="small"
               prepend-icon="fas fa-rotate-left"
               @click="clearFilters"
-              >ล้างตัวกรอง</v-btn
             >
+              ล้างตัวกรอง
+            </v-btn>
           </v-col>
         </v-row>
       </v-card-text>
@@ -160,7 +161,6 @@
       <v-data-table
         :headers="headers"
         :items="filteredItems"
-        :custom-key-sort="customKeySort"
         rounded="xl"
         hover
       >
@@ -173,20 +173,29 @@
             <v-icon v-if="isSorted(column)" :icon="getSortIcon(column)" size="14" />
           </span>
         </template>
-        <template #header.exporter="{ column, isSorted, getSortIcon }">
+        <template #header.exporterNo="{ column, isSorted, getSortIcon }">
           <span class="d-inline-flex align-center ga-1">
             <span>
-              <div class="text-body-2 font-weight-medium" style="line-height: 1.3">ชื่อผู้ส่งออก</div>
-              <div class="text-caption text-medium-emphasis" style="line-height: 1.2">Exporter Name</div>
+              <div class="text-body-2 font-weight-medium" style="line-height: 1.3">เลขทะเบียนผู้ส่งออก</div>
+              <div class="text-caption text-medium-emphasis" style="line-height: 1.2">Exporter No.</div>
             </span>
             <v-icon v-if="isSorted(column)" :icon="getSortIcon(column)" size="14" />
           </span>
         </template>
-        <template #header.applicantName="{ column, isSorted, getSortIcon }">
+        <template #header.product="{ column, isSorted, getSortIcon }">
           <span class="d-inline-flex align-center ga-1">
             <span>
-              <div class="text-body-2 font-weight-medium" style="line-height: 1.3">ชื่อผู้ยื่นคำขอ</div>
-              <div class="text-caption text-medium-emphasis" style="line-height: 1.2">Applicant Name</div>
+              <div class="text-body-2 font-weight-medium" style="line-height: 1.3">ชนิดสินค้า</div>
+              <div class="text-caption text-medium-emphasis" style="line-height: 1.2">Product</div>
+            </span>
+            <v-icon v-if="isSorted(column)" :icon="getSortIcon(column)" size="14" />
+          </span>
+        </template>
+        <template #header.destination="{ column, isSorted, getSortIcon }">
+          <span class="d-inline-flex align-center ga-1">
+            <span>
+              <div class="text-body-2 font-weight-medium" style="line-height: 1.3">ประเทศปลายทาง</div>
+              <div class="text-caption text-medium-emphasis" style="line-height: 1.2">Destination</div>
             </span>
             <v-icon v-if="isSorted(column)" :icon="getSortIcon(column)" size="14" />
           </span>
@@ -200,7 +209,7 @@
             <v-icon v-if="isSorted(column)" :icon="getSortIcon(column)" size="14" />
           </span>
         </template>
-        <template #header.submittedDate="{ column, isSorted, getSortIcon }">
+        <template #header.submittedAt="{ column, isSorted, getSortIcon }">
           <span class="d-inline-flex align-center ga-1">
             <span>
               <div class="text-body-2 font-weight-medium" style="line-height: 1.3">วันที่ยื่น</div>
@@ -219,10 +228,15 @@
           </span>
         </template>
 
-        <template #item.requestNo="{ item }">
-          <span class="text-body-2">{{ item.requestNo }}</span>
+        <template #item.type="{ item }">
+          <v-chip
+            size="x-small"
+            :color="item.type === 'correction' ? 'secondary' : 'hc-staff'"
+            variant="tonal"
+          >
+            {{ typeLabel(item.type) }}
+          </v-chip>
         </template>
-        <template #item.type="{ item }">{{ typeLabel(item.type) }}</template>
         <template #item.status="{ item }">
           <v-chip :color="statusColor(item.status)" size="small" variant="tonal">
             {{ statusLabel(item.status) }}
@@ -245,7 +259,7 @@
               </template>
             </v-tooltip>
             <v-btn
-              v-if="item.status === 'pending'"
+              v-if="item.status === 'submitted'"
               size="small"
               variant="tonal"
               color="warning"
@@ -295,16 +309,6 @@ watch(dateToObj, (v) => {
   filters.dateTo = v ? v.toISOString().slice(0, 10) : "";
 });
 
-function beDateToTs(str) {
-  if (!str) return 0;
-  const [d, m, y] = str.split("/").map(Number);
-  return new Date(y - 543, m - 1, d).getTime();
-}
-
-const customKeySort = {
-  submittedDate: (a, b) => beDateToTs(a) - beDateToTs(b),
-};
-
 const filters = reactive({
   dateFrom: "",
   dateTo: "",
@@ -332,20 +336,23 @@ const typeOptions = [
 ];
 
 const statusOptions = [
-  { label: "รอตรวจ", value: "pending" },
-  { label: "อยู่ระหว่างตรวจ", value: "reviewing" },
-  { label: "รอลงนาม", value: "signing" },
-  { label: "รอแก้ไข", value: "need_edit" },
-  { label: "อนุมัติ", value: "approved" },
+  { label: "ยื่นแล้ว", value: "submitted" },
+  { label: "อยู่ระหว่างตรวจสอบ", value: "under_review" },
+  { label: "ตรวจ Lab", value: "testing" },
+  { label: "รอพิจารณา", value: "pending_approval" },
+  { label: "อนุมัติแล้ว", value: "approved" },
+  { label: "ต้องแก้ไข", value: "correction_required" },
+  { label: "รับใบรับรองแล้ว", value: "completed" },
   { label: "ไม่อนุมัติ", value: "rejected" },
 ];
 
 const headers = [
   { title: "เลขคำขอ", key: "requestNo", sortable: true },
-  { title: "ชื่อผู้ส่งออก", key: "exporter", sortable: true },
-  { title: "ชื่อผู้ยื่นคำขอ", key: "applicantName", sortable: true },
+  { title: "เลขทะเบียนผู้ส่งออก", key: "exporterNo", sortable: true },
+  { title: "ชนิดสินค้า", key: "product", sortable: true },
+  { title: "ประเทศปลายทาง", key: "destination", sortable: true },
   { title: "ประเภทคำขอ", key: "type", sortable: true },
-  { title: "วันที่ยื่น", key: "submittedDate", sortable: true },
+  { title: "วันที่ยื่น", key: "submittedAt", sortable: false },
   { title: "สถานะคำขอ", key: "status", sortable: true },
   { title: "", key: "actions", sortable: false, align: "end" },
 ];
@@ -353,48 +360,99 @@ const headers = [
 const allItems = [
   {
     id: "HC-001",
-    requestNo: "HC-2569-00041",
-    exporter: "บ.ไทยฟรุ๊ต จำกัด",
-    applicantName: "สมชาย ใจดี",
+    requestNo: "HC-00041",
+    exporterNo: "EXP-6701-00123",
+    product: "ทุเรียน",
+    destination: "จีน",
+    certType: "All",
     type: "new",
-    submittedDate: "15/01/2569",
-    status: "pending",
-  },
-  {
-    id: "HC-002",
-    requestNo: "HC-2569-00039",
-    exporter: "บ.สยามเอ็กซ์พอร์ต จำกัด",
-    applicantName: "มาลี รักดี",
-    type: "new",
-    submittedDate: "13/01/2569",
-    status: "pending",
+    submittedAt: "15 ม.ค. 68",
+    submittedDate: "2025-01-15",
+    status: "under_review",
   },
   {
     id: "HC-003",
-    requestNo: "HC-2569-00036",
-    exporter: "บ.กรีนเฟรช จำกัด",
-    applicantName: "ประสิทธิ์ พานิช",
+    requestNo: "HC-00036",
+    exporterNo: "EXP-6701-00123",
+    product: "ลำไย",
+    destination: "เวียดนาม",
+    certType: "All",
     type: "correction",
-    submittedDate: "10/01/2569",
-    status: "signing",
+    submittedAt: "10 ม.ค. 68",
+    submittedDate: "2025-01-10",
+    status: "approved",
   },
   {
     id: "HC-004",
-    requestNo: "HC-2569-00034",
-    exporter: "บ.ดีเอ็กซ์พอร์ต จำกัด",
-    applicantName: "วิไล สุขสม",
+    requestNo: "HC-00034",
+    exporterNo: "EXP-6701-00456",
+    product: "กระเทียม",
+    destination: "เกาหลีใต้",
+    certType: "All",
     type: "new",
-    submittedDate: "08/01/2569",
-    status: "need_edit",
+    submittedAt: "8 ม.ค. 68",
+    submittedDate: "2025-01-08",
+    status: "testing",
   },
   {
-    id: "HC-005",
-    requestNo: "HC-2569-00030",
-    exporter: "บ.ไทยอะกริ จำกัด",
-    applicantName: "ชัยวัฒน์ เกษตรกร",
+    id: "HC-008",
+    requestNo: "HC-00025",
+    exporterNo: "EXP-6701-00456",
+    product: "มังคุด",
+    destination: "จีน",
+    certType: "Some",
     type: "new",
-    submittedDate: "03/01/2569",
-    status: "approved",
+    submittedAt: "2 ม.ค. 68",
+    submittedDate: "2025-01-02",
+    status: "completed",
+  },
+  {
+    id: "HC-010",
+    requestNo: "HC-00042",
+    exporterNo: "EXP-6701-00789",
+    product: "ลิ้นจี่",
+    destination: "เกาหลีใต้",
+    certType: "All",
+    type: "new",
+    submittedAt: "16 ม.ค. 68",
+    submittedDate: "2025-01-16",
+    status: "submitted",
+  },
+  {
+    id: "HC-009",
+    requestNo: "HC-00022",
+    exporterNo: "EXP-6701-00789",
+    product: "กล้วยหอม",
+    destination: "ญี่ปุ่น",
+    certType: "Some",
+    type: "new",
+    submittedAt: "1 ม.ค. 68",
+    submittedDate: "2025-01-01",
+    status: "completed",
+  },
+  {
+    id: "HC-011",
+    requestNo: "HC-00020",
+    exporterNo: "EXP-6701-00321",
+    product: "ส้มโอ",
+    destination: "สิงคโปร์",
+    certType: "All",
+    type: "new",
+    submittedAt: "28 ธ.ค. 67",
+    submittedDate: "2024-12-28",
+    status: "rejected",
+  },
+  {
+    id: "HC-012",
+    requestNo: "HC-00018",
+    exporterNo: "EXP-6701-00321",
+    product: "มะม่วง",
+    destination: "ญี่ปุ่น",
+    certType: "Some",
+    type: "new",
+    submittedAt: "20 ธ.ค. 67",
+    submittedDate: "2024-12-20",
+    status: "completed",
   },
 ];
 
@@ -405,20 +463,16 @@ const filteredItems = computed(() => {
     items = items.filter(
       (i) =>
         i.requestNo.toLowerCase().includes(q) ||
-        i.exporter.toLowerCase().includes(q) ||
-        i.applicantName.toLowerCase().includes(q),
+        i.exporterNo.toLowerCase().includes(q) ||
+        i.product.toLowerCase().includes(q),
     );
   }
   if (filters.type) items = items.filter((i) => i.type === filters.type);
   if (filters.status) items = items.filter((i) => i.status === filters.status);
-  if (filters.dateFrom) {
-    const from = new Date(filters.dateFrom).getTime();
-    items = items.filter((i) => beDateToTs(i.submittedDate) >= from);
-  }
-  if (filters.dateTo) {
-    const to = new Date(filters.dateTo).getTime();
-    items = items.filter((i) => beDateToTs(i.submittedDate) <= to);
-  }
+  if (filters.dateFrom)
+    items = items.filter((i) => i.submittedDate >= filters.dateFrom);
+  if (filters.dateTo)
+    items = items.filter((i) => i.submittedDate <= filters.dateTo);
   return items;
 });
 
@@ -430,29 +484,34 @@ function typeLabel(t) {
     }[t] ?? t
   );
 }
+
 function statusColor(s) {
   return (
     {
-      pending: "warning",
-      reviewing: "info",
-      signing: "info",
-      need_edit: "info",
+      submitted: "warning",
+      under_review: "info",
+      testing: "secondary",
+      pending_approval: "info",
       approved: "success",
+      correction_required: "error",
+      completed: "success",
       rejected: "error",
     }[s] ?? "grey"
   );
 }
+
 function statusLabel(s) {
   return (
     {
-      pending: "รอตรวจ",
-      reviewing: "อยู่ระหว่างตรวจ",
-      signing: "รอลงนาม",
-      need_edit: "รอแก้ไข",
-      approved: "อนุมัติ",
+      submitted: "ยื่นแล้ว",
+      under_review: "อยู่ระหว่างตรวจสอบ",
+      testing: "ตรวจ Lab",
+      pending_approval: "รอพิจารณา",
+      approved: "อนุมัติแล้ว",
+      correction_required: "ต้องแก้ไข",
+      completed: "รับใบรับรองแล้ว",
       rejected: "ไม่อนุมัติ",
     }[s] ?? s
   );
 }
 </script>
-

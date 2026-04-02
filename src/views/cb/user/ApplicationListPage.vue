@@ -262,7 +262,9 @@
         </template>
 
         <template #item.type="{ item }">
-          {{ typeLabel(item.type) }}
+          <v-chip size="x-small" :color="typeColor(item.type)" variant="tonal">
+            {{ typeLabel(item.type) }}
+          </v-chip>
         </template>
         <template #item.status="{ item }">
           <v-chip
@@ -548,6 +550,18 @@ function clearFilters() {
   filters.status = null;
   dateFromObj.value = null;
   dateToObj.value = null;
+}
+
+function typeColor(t) {
+  return (
+    {
+      register: "primary",
+      renew: "primary",
+      scope: "info",
+      amend: "warning",
+      cancel: "error",
+    }[t] ?? "primary"
+  );
 }
 
 function typeLabel(t) {

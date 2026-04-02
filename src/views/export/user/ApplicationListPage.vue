@@ -302,6 +302,11 @@
           </span>
         </template>
 
+        <template #item.type="{ item }">
+          <v-chip size="x-small" :color="typeColor(item.type)" variant="tonal">
+            {{ item.type }}
+          </v-chip>
+        </template>
         <template #item.status="{ item }">
           <v-chip
             :color="statusColor(item.status)"
@@ -571,6 +576,17 @@ function clearFilters() {
   filters.status = null;
   dateFromObj.value = null;
   dateToObj.value = null;
+}
+
+function typeColor(t) {
+  return (
+    {
+      ขึ้นทะเบียน: "primary",
+      ต่ออายุ: "primary",
+      แก้ไข: "warning",
+      แก้ไขทะเบียน: "warning",
+    }[t] ?? "primary"
+  );
 }
 
 function statusColor(s) {

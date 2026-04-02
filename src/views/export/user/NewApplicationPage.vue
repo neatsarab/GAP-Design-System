@@ -2125,7 +2125,7 @@
           </div>
           <h3 class="text-h6 font-weight-bold mb-1">ยืนยันการยื่นคำขอ</h3>
           <p class="text-body-2 text-medium-emphasis mb-0">
-            ตรวจสอบข้อมูลให้ครบถ้วนก่อนยืนยัน
+            ตรวจสอบข้อมูลให้ครบถ้วนก่อนยืนยัน เมื่อยืนยันแล้วจะไม่สามารถแก้ไขได้
           </p>
         </v-card-text>
         <v-card-actions class="px-5 pb-5">

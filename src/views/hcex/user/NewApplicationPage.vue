@@ -712,12 +712,12 @@
           <div class="success-ring mx-auto mb-5">
             <v-icon icon="fas fa-circle-check" size="40" color="success" />
           </div>
-          <h3 class="text-h6 font-weight-bold mb-2">ยื่นคำขอสำเร็จ!</h3>
+          <h3 class="text-h6 font-weight-bold mb-2">ยื่นคำขอสำเร็จ</h3>
           <p class="text-body-2 font-weight-bold text-hcex-user mb-1">
             {{ newRequestNo }}
           </p>
           <p class="text-body-2 text-medium-emphasis mb-0">
-            เจ้าหน้าที่จะตรวจสอบคำขอของท่านและแจ้งผลทางอีเมล
+            ระบบได้รับคำขอของท่านแล้ว เจ้าหน้าที่จะตรวจสอบและติดต่อกลับ
           </p>
         </v-card-text>
         <v-card-actions class="px-6 pb-6">

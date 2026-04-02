@@ -334,18 +334,19 @@ const navGroups = [
     ],
   },
   {
-    label: "รายการคำขอ",
+    label: "คำขอ",
     divider: true,
     items: [
       {
-        title: "คำขอทั้งหมด",
+        title: "รายการคำขอ",
         icon: "fas fa-file-lines",
         to: "/hc/staff/applications",
+        count: 8,
       },
       {
         title: "รายการรอพิจารณา",
-        icon: "fas fa-gavel",
-        to: "/hc/staff/review",
+        icon: "fas fa-clipboard-check",
+        to: "/hc/staff/reviews",
         count: 5,
       },
       {
@@ -357,12 +358,12 @@ const navGroups = [
     ],
   },
   {
-    label: "ข้อมูลทะเบียน",
+    label: "ใบรับรอง",
     divider: false,
     items: [
       {
-        title: "ข้อมูลทะเบียน",
-        icon: "fas fa-database",
+        title: "รายการใบรับรอง",
+        icon: "fas fa-certificate",
         to: "/hc/staff/registry",
       },
     ],
