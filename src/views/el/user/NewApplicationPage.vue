@@ -12,7 +12,7 @@
         </div>
 
         <!-- Step Indicator -->
-        <v-card v-if="page === 'main'" rounded="xl" elevation="0" class="mb-6 section-card">
+        <!-- <v-card v-if="page === 'main'" rounded="xl" elevation="0" class="mb-6 section-card">
             <v-card-text class="pa-5">
                 <div class="d-flex align-center">
                     <template v-for="(step, i) in steps" :key="step.value">
@@ -31,7 +31,7 @@
                     </template>
                 </div>
             </v-card-text>
-        </v-card>
+        </v-card> -->
 
         <!-- ─── PAGE ROUTING ─── -->
         <v-window v-model="page" :touch="false">
@@ -814,7 +814,7 @@ const editType = ref(''); // farmer, farm, factory
 const successDialog = ref(false);
 const draftSnackbar = ref(false);
 
-const steps = [{ value: 0, title: "ข้อมูลรายละเอียด" }, { value: 1, title: "ไฟล์แนบ" }];
+const steps = [{ value: 0, title: "ข้อมูลรายละเอียด" }];
 
 // ─── DATA LISTS ───
 const farmers = ref([{ id: 1, name: "นายเกษตร มั่นคง", idNo: "1-1001-00223-34-4", addressNo: "1/2", province: "กรุงเทพฯ" }]);

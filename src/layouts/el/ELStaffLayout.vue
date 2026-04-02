@@ -211,7 +211,6 @@ const navConfig = [
                 icon: "fas fa-list-check", 
                 to: "/el/staff/board-applications", 
                 roles: [ROLES.SUPER_BOARD],
-                count: 5 
             },
             // { title: "พิจารณาผลการตรวจ", icon: "fas fa-gavel", to: "/el/staff/board/final", roles: [ROLES.SUPER_BOARD] },
         ],
