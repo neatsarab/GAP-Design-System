@@ -1012,8 +1012,8 @@ const activeStandard = ref(null)
 
 // ข้อมูลสถานะหน้าหลัก
 const standards = ref([
-    { title: 'มาตรฐาน 1', isCompleted: true },
-    { title: 'มาตรฐาน n', isCompleted: false }
+    { title: 'มาตรฐานการปฏิบัติทางการเกษตรที่ดีสำหรับพืชอาหาร (มกษ. 9001)', isCompleted: true },
+    { title: 'มาตรฐานการปฏิบัติทางการเกษตรที่ดีสำหรับพืชสมุนไพร (มกษ. 3502)', isCompleted: false }
 ])
 
 // ข้อมูลชั่วคราวสำหรับตัวอย่างการบันทึก (ในระบบจริงควรดึงจาก DB ตาม ID มาตรฐาน)

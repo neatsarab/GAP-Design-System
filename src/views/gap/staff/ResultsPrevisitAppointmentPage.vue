@@ -2,9 +2,9 @@
     <div>
         <div class="d-flex align-center justify-space-between flex-wrap ga-3 mb-6">
             <div>
-                <h1 class="page-title mb-1">รายการคำขอ GAP</h1>
+                <h1 class="page-title mb-1">ผลการตรวจเยี่ยม Previsit</h1>
                 <p class="text-body-2 text-medium-emphasis mb-0">
-                    จัดการคำขอรับรองมาตรฐาน GAP แบบเดี่ยว
+                    จัดการคำขอรับรองมาตรฐาน GAP แบบกลุ่ม
                 </p>
             </div>
         </div>

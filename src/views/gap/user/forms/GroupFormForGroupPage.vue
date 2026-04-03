@@ -245,46 +245,191 @@
                             </v-row>
                         </v-card>
 
-                        <v-card variant="outlined" class="pa-6  rounded-xl bg-white">
-                            <div class="text-subtitle-1 font-weight-bold mb-4">2. ข้อมูลสมาชิกและพื้นที่ขอรับรอง</div>
-
-                            <div class="mt-6 d-flex justify-space-between align-center">
-                                <div class="text-subtitle-2 font-weight-bold">รายชื่อสมาชิกและข้อมูลแปลง (ภาคผนวก)</div>
-                                <v-btn color="primary" prepend-icon="mdi-plus" size="small" rounded="lg"
-                                    @click="addMember">เพิ่มสมาชิก</v-btn>
+                                                <v-container class="pa-6">
+                            <div class="text-subtitle-1 font-weight-bold mb-4">ข้อมูลชนิดและพันธุ์พืชที่ขอรับการรับรอง
                             </div>
-                            <v-table density="compact" class="border rounded-lg mt-3">
-                                <thead class="bg-grey-lighten-3">
-                                    <tr>
-                                        <th class="border text-center">ลำดับ</th>
-                                        <th class="border text-center">ชื่อ-สกุล (Name Surname)</th>
-                                        <th class="border text-center">เลขบัตรประชาชน</th>
-                                        <th class="border text-center">ที่ตั้งแปลง</th>
-                                        <th class="border text-center">ชนิดพืช/พันธุ์</th>
-                                        <th class="border text-center">พื้นที่ (ไร่)</th>
-                                        <th class="border text-center text-red" style="width: 120px">เลขประจำแปลง</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr v-for="(m, i) in groupForm.members" :key="i">
-                                        <td class="border text-center">{{ i + 1 }}</td>
-                                        <td class="border pa-1"><v-text-field v-model="m.name" variant="outlined"
-                                                density="compact" hide-details rounded="lg"></v-text-field></td>
-                                        <td class="border pa-1"><v-text-field v-model="m.idCard" variant="outlined"
-                                                density="compact" hide-details rounded="lg"></v-text-field></td>
-                                        <td class="border pa-1"><v-text-field v-model="m.address" variant="outlined"
-                                                density="compact" hide-details rounded="lg"></v-text-field></td>
-                                        <td class="border pa-1"><v-text-field v-model="m.crop" variant="outlined"
-                                                density="compact" hide-details rounded="lg"></v-text-field></td>
-                                        <td class="border pa-1"><v-text-field v-model="m.area" variant="outlined"
-                                                density="compact" hide-details rounded="lg"></v-text-field></td>
-                                        <td class="border pa-1"><v-text-field placeholder="จนท. กรอก" readonly
-                                                variant="outlined" density="compact" hide-details rounded="lg"
-                                                bg-color="grey-lighten-4"></v-text-field></td>
-                                    </tr>
-                                </tbody>
-                            </v-table>
-                        </v-card>
+
+                            <div v-for="(item, index) in standards" :key="index">
+                                <v-card variant="outlined" class="pa-4 mb-4 rounded-xl transition-all border-md"
+                                    :class="item.isCompleted ? 'bg-green-lighten-5' : 'border-grey-lighten-2 bg-white'">
+                                    <v-row align="center" no-gutters>
+                                        <v-col cols="auto">
+                                            <v-avatar :color="item.isCompleted ? 'success' : 'transparent'" size="44"
+                                                class="mr-4">
+                                                <v-icon :icon="item.isCompleted ? 'fas fa-check' : ''"
+                                                    :color="item.isCompleted ? 'white' : 'grey-darken-1'"
+                                                    size="20"></v-icon>
+                                            </v-avatar>
+                                        </v-col>
+
+                                        <v-col>
+                                            <div class="font-weight-bold"
+                                                :class="item.isCompleted ? 'text-blue-darken-4' : 'text-black'">
+                                                {{ item.title }}
+                                            </div>
+                                            <div v-if="item.isCompleted"
+                                                class="text-caption text-success font-weight-bold">
+                                                <v-icon icon="mdi-check-all" size="14" class="mr-1"></v-icon>
+                                                ชนิดและพันธุ์พืชเรียบร้อยแล้ว
+                                            </div>
+                                        </v-col>
+
+                                        <v-col cols="12" md="auto" class="text-right pt-2 pt-md-0">
+                                            <v-btn :color="item.isCompleted ? 'white' : 'grey-lighten-2'" variant="flat"
+                                                class="text-none font-weight-bold px-6 border" rounded="lg"
+                                                @click="openCropDialog(index)">
+                                                <v-icon :icon="item.isCompleted ? 'mdi-pencil' : 'mdi-plus'" start
+                                                    size="18"></v-icon>
+                                                {{ item.isCompleted ? 'แก้ไขข้อมูลพืช' : 'เพิ่มข้อมูลพืช' }}
+                                            </v-btn>
+                                        </v-col>
+                                    </v-row>
+                                </v-card>
+                            </div>
+
+                            <v-dialog v-model="dialogVisible" max-width="1300px" persistent scrollable>
+                                <v-card class="rounded-xl overflow-hidden">
+                                    <v-card-title
+                                        class="pa-6 d-flex justify-space-between align-center bg-grey-lighten-4">
+                                        <div class="d-flex align-center">
+                                            <v-icon icon="mdi-leaf" color="success" class="mr-2"></v-icon>
+                                            <span class="text-h6 font-weight-bold">จัดการข้อมูลพืช: {{
+                                                activeStandard?.title
+                                                }}</span>
+                                        </div>
+                                        <v-btn icon="mdi-close" variant="text" @click="dialogVisible = false"></v-btn>
+                                    </v-card-title>
+
+                                    <v-divider></v-divider>
+
+                                    <v-card-text class="pa-6 bg-white">
+                                        <v-row dense class="mb-8 align-center">
+                                            <v-col cols="12" md="4">
+                                                <div class="field-label font-weight-bold mb-1">ขอบข่ายพืช (Category)
+                                                </div>
+                                                <v-select v-model="activeStandardData.plantCategory"
+                                                    :items="['พืชอาหาร', 'พืชสมุนไพร', 'พืชประดับ']"
+                                                    placeholder="กรุณาเลือกขอบข่ายพืช" variant="outlined" rounded="lg"
+                                                    density="compact" hide-details bg-color="white"></v-select>
+                                            </v-col>
+
+                                        </v-row>
+
+                                        <div class="d-flex justify-space-between align-center mb-4">
+                                            <div class="text-subtitle-1 font-weight-bold">
+                                                ชนิดและพันธุ์พืชที่ขอรับการรับรอง
+                                            </div>
+                                            <v-btn color="success" prepend-icon="mdi-plus" size="small" rounded="lg"
+                                                @click="addCropRow">
+                                                เพิ่มแถวรายการ
+                                            </v-btn>
+                                        </div>
+
+                                        <v-table density="compact"
+                                            class="border rounded-lg mb-2 crop-table custom-table">
+                                            <thead class="bg-grey-lighten-3">
+                                                <tr>
+                                                    <th class="text-center font-weight-bold border"
+                                                        style="min-width: 220px">
+                                                        ลำดับ
+                                                    </th>
+                                                    <th class="text-center font-weight-bold border"
+                                                        style="min-width: 220px">
+                                                        ชื่อ สกุล (Name Surname)
+                                                    </th>
+                                                    <th class="text-center font-weight-bold border"
+                                                        style="width: 100px">
+                                                        เลขบัตรประจำตัวประชาชน</th>
+                                                    <th class="text-center font-weight-bold border"
+                                                        style="width: 120px">
+                                                        ที่ตั้งแปลง</th>
+                                                    <th class="text-center font-weight-bold border"
+                                                        style="width: 120px">
+                                                        ชนิดพืชพันธุ์</th>
+                                                    <th class="text-center font-weight-bold border">พื้นที่ (ไร่)</th>
+                                                    <th class="text-center font-weight-bold border">
+                                                        ช่วงระยะเวลาการผลิต(เฉพาะพืชผัก สมุนไพร พืชไร่ โดยระบุเดือน)
+                                                    </th>
+                                                    <th class="text-center font-weight-bold border">
+                                                        คาดว่าจะเก็บเกี่ยวผลผลิต(ระบุเดือน)</th>
+                                                    <th class="text-center font-weight-bold border">
+                                                        ผลผลิตรวมที่คาดว่าจะได้รับต่อปี</th>
+                                                    <th class="text-center font-weight-bold border text-red"
+                                                        style="width: 180px">
+                                                        เลขประจำแปลง <br /> <small
+                                                            class="text-grey">(เจ้าหน้าที่กรอก)</small>
+                                                    </th>
+                                                    <th class="text-center border" style="width: 50px"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr v-for="(item, index) in activeStandardData.crops" :key="index">
+                                                    <td class="border pa-1">
+                                                        <v-autocomplete v-model="item.name"
+                                                            :items="['มะม่วงน้ำดอกไม้', 'มะม่วงอกร่อง', 'ทุเรียนหมอนทอง', 'มังคุด']"
+                                                            variant="outlined" density="compact" hide-details
+                                                            rounded="lg" placeholder="ค้นหาพืช..."></v-autocomplete>
+                                                    </td>
+                                                    <td class="border pa-1"><v-text-field v-model="item.area"
+                                                            variant="outlined" density="compact" hide-details
+                                                            rounded="lg"></v-text-field></td>
+                                                    <td class="border pa-1"><v-text-field v-model="item.age"
+                                                            variant="outlined" density="compact" hide-details
+                                                            rounded="lg"></v-text-field></td>
+                                                    <td class="border pa-1"><v-text-field v-model="item.quantity"
+                                                            variant="outlined" density="compact" hide-details
+                                                            rounded="lg"></v-text-field></td>
+                                                    <td class="border pa-1"><v-text-field v-model="item.period"
+                                                            variant="outlined" density="compact" hide-details
+                                                            rounded="lg"></v-text-field></td>
+                                                    <td class="border pa-1"><v-text-field v-model="item.harvest"
+                                                            variant="outlined" density="compact" hide-details
+                                                            rounded="lg"></v-text-field></td>
+                                                    <td class="border pa-1"><v-text-field v-model="item.yield"
+                                                            variant="outlined" density="compact" hide-details
+                                                            rounded="lg"></v-text-field></td>
+                                                    <td class="border pa-1"><v-text-field v-model="item.yield"
+                                                            variant="outlined" density="compact" hide-details
+                                                            rounded="lg"></v-text-field></td>
+                                                    <td class="border pa-1"><v-text-field v-model="item.yield"
+                                                            variant="outlined" density="compact" hide-details
+                                                            rounded="lg"></v-text-field></td>
+                                                    <td class="border pa-1">
+                                                        <v-text-field v-model="item.farmId" placeholder="" readonly
+                                                            bg-color="grey-lighten-4" variant="outlined"
+                                                            density="compact" hide-details rounded="lg"></v-text-field>
+                                                    </td>
+                                                    <td class="border text-center pa-0">
+                                                        <v-btn icon="fas fa-trash" variant="text" color="red"
+                                                            size="small" @click="removeCropRow(index)"></v-btn>
+                                                    </td>
+                                                </tr>
+                                                <tr v-if="activeStandardData.crops.length === 0">
+                                                    <td colspan="9" class="pa-10 text-center text-grey italic">
+                                                        กรุณากดปุ่มเพิ่มรายการพืช</td>
+                                                </tr>
+                                            </tbody>
+                                        </v-table>
+                                    </v-card-text>
+
+                                    <v-divider></v-divider>
+
+                                    <v-card-actions class="pa-6 bg-grey-lighten-4">
+                                        <v-spacer></v-spacer>
+                                        <v-btn variant="flat" color="grey-darken-1" class="px-6"
+                                            @click="dialogVisible = false">ยกเลิก</v-btn>
+                                        <v-btn color="primary" class="px-10" rounded="lg" elevation="1"
+                                            @click="saveCropData">
+                                            บันทึกข้อมูลพืช
+                                        </v-btn>
+                                    </v-card-actions>
+                                </v-card>
+                            </v-dialog>
+
+                            <v-snackbar v-model="snackbar" color="success" timeout="2000" rounded="lg">
+                                บันทึกข้อมูล {{ activeStandard?.title }} สำเร็จ
+                            </v-snackbar>
+                        </v-container>
 
                         <!-- <v-card variant="outlined" class="rounded-xl pa-6 bg-surface mb-6">
                             <div class="text-subtitle-1 font-weight-bold mb-4 text-gap-user">
@@ -358,6 +503,7 @@
                             </v-table>
                         </v-card>
 
+
                         <v-card variant="flat" class="pa-6 rounded-xl bg-white">
                             <div class="text-subtitle-1 font-weight-bold mb-2">4. บุคคลที่สามารถติดต่อได้ (อย่างน้อย 1
                                 คน)</div>
@@ -365,7 +511,7 @@
                             </div>
                             <v-row v-for="n in 2" :key="n" class="mb-4">
                                 <v-col cols="12">
-                                    <div class="text-body-2 font-weight-bold">คนที่ {{ n }}</div>
+                                    <div class="text-body-2 font-weight-bold text-blue">คนที่ {{ n }}</div>
                                 </v-col>
                                 <v-col cols="12" md="6">
                                     <v-text-field label="ชื่อ-นามสกุล" v-model="groupForm.contacts[n - 1].name"
@@ -828,8 +974,8 @@ const groupForm = reactive({
     docs: [],
     otherDetail: '',
     producerCount: null,
-  plotCount: null,
-  totalAreaSize: null
+    plotCount: null,
+    totalAreaSize: null
 })
 
 
@@ -843,24 +989,76 @@ const internalControls = ref([
     { label: 'อื่นๆ โปรดระบุ', value: null },
 ]);
 const docChecklist = [
-  {
-    id: 'id_card',
-    label: 'แสดงบัตรประชาชน หรือทะเบียนบ้านของ ประธานกลุ่ม หรือผู้มีอำนาจลงนามของกลุ่ม'
-  },
-  {
-    id: 'juristic_reg',
-    label: 'แนบหลักฐานการจดทะเบียนนิติบุคคล (กรณีเป็นนิติบุคคล)'
-  },
-  {
-    id: 'power_of_attorney',
-    label: 'แนบหนังสือมอบอำนาจ พร้อมสำเนาบัตรประชาชนของผู้มอบอำนาจ'
-  },
-  {
-    id: 'herb_license',
-    label: 'ใบอนุญาต/หนังสือสำคัญ กรณีการผลิตพืชสมุนไพรที่ต้องได้รับอนุญาตผลิต (ปลูก) ตามกฎหมายที่เกี่ยวข้อง เช่น กัญชา และกัญชง และอื่นๆ'
-  }
+    {
+        id: 'id_card',
+        label: 'แสดงบัตรประชาชน หรือทะเบียนบ้านของ ประธานกลุ่ม หรือผู้มีอำนาจลงนามของกลุ่ม'
+    },
+    {
+        id: 'juristic_reg',
+        label: 'แนบหลักฐานการจดทะเบียนนิติบุคคล (กรณีเป็นนิติบุคคล)'
+    },
+    {
+        id: 'power_of_attorney',
+        label: 'แนบหนังสือมอบอำนาจ พร้อมสำเนาบัตรประชาชนของผู้มอบอำนาจ'
+    },
+    {
+        id: 'herb_license',
+        label: 'ใบอนุญาต/หนังสือสำคัญ กรณีการผลิตพืชสมุนไพรที่ต้องได้รับอนุญาตผลิต (ปลูก) ตามกฎหมายที่เกี่ยวข้อง เช่น กัญชา และกัญชง และอื่นๆ'
+    }
 ];
 
+const dialogVisible = ref(false)
+const snackbar = ref(false)
+const activeIndex = ref(null)
+const activeStandard = ref(null)
+
+// ข้อมูลสถานะหน้าหลัก
+const standards = ref([
+    { title: 'มาตรฐานการปฏิบัติทางการเกษตรที่ดีสำหรับพืชอาหาร (มกษ. 9001)', isCompleted: true },
+    { title: 'มาตรฐานการปฏิบัติทางการเกษตรที่ดีสำหรับพืชสมุนไพร (มกษ. 3502)', isCompleted: false }
+])
+
+// ข้อมูลชั่วคราวสำหรับตัวอย่างการบันทึก (ในระบบจริงควรดึงจาก DB ตาม ID มาตรฐาน)
+const activeStandardData = reactive({
+    plantCategory: null,
+    crops: []
+})
+
+const openCropDialog = (index) => {
+    activeIndex.value = index
+    activeStandard.value = standards.value[index]
+
+    // จำลองการดึงข้อมูลเดิม (ถ้ามี)
+    if (activeStandard.value.isCompleted) {
+        activeStandardData.plantCategory = 'พืชอาหาร'
+        activeStandardData.crops = [
+            { name: 'มะม่วงน้ำดอกไม้', area: '10', age: '5 ปี', quantity: '400', period: '4 เดือน', harvest: 'มิ.ย.', yield: '5000', farmId: '7301-2569-001' }
+        ]
+    } else {
+        activeStandardData.plantCategory = null
+        activeStandardData.crops = []
+        addCropRow() // เพิ่มแถวเปล่ารอไว้
+    }
+
+    dialogVisible.value = true
+}
+
+const addCropRow = () => {
+    activeStandardData.crops.push({
+        name: null, area: '', age: '', quantity: '', period: '', harvest: '', yield: '', farmId: ''
+    })
+}
+
+const removeCropRow = (idx) => {
+    activeStandardData.crops.splice(idx, 1)
+}
+
+const saveCropData = () => {
+    // Update UI หน้าหลัก
+    standards.value[activeIndex.value].isCompleted = true
+    dialogVisible.value = false
+    snackbar.value = true
+}
 
 </script>
 
