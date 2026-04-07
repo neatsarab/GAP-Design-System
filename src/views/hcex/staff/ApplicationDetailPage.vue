@@ -13,7 +13,7 @@
         <p class="text-body-2 text-medium-emphasis mb-0 mt-1">
           เลขคำขอ:
           <span class="text-hcex-staff font-weight-medium">{{
-            route.params.id ?? "EXP-0001"
+            route.params.id ?? "HC-0001"
           }}</span>
         </p>
       </div>
@@ -83,309 +83,178 @@
         <v-window v-model="activeTab">
           <!-- ── Tab 1: ข้อมูลคำขอ ── -->
           <v-window-item value="info">
-            <!-- ข้อมูลคำขอ -->
+
+            <!-- ข้อมูลทั่วไป -->
             <v-card rounded="xl" elevation="0" class="section-card mb-4">
-              <div
-                class="section-header px-4 py-3 border-b d-flex align-center ga-2"
-              >
-                <v-icon
-                  icon="fas fa-list-check"
-                  color="hcex-staff"
-                  size="15"
-                />
-                <span class="text-subtitle-2 font-weight-bold">ข้อมูลคำขอ</span>
+              <div class="section-header px-4 py-3 border-b d-flex align-center ga-2">
+                <v-icon icon="fas fa-list-check" color="hcex-staff" size="15" />
+                <span class="text-subtitle-2 font-weight-bold">ข้อมูลทั่วไป</span>
               </div>
               <v-card-text class="pa-4">
                 <v-row dense>
-                  <v-col cols="6" md="4">
+                  <v-col cols="6" md="3">
                     <div class="info-label">เลขคำขอ</div>
-                    <div class="info-value text-hcex-staff font-weight-bold">
-                      {{ application.requestNo }}
+                    <div class="info-value text-hcex-staff font-weight-bold">{{ application.requestNo }}</div>
+                  </v-col>
+                  <v-col cols="6" md="3">
+                    <div class="info-label">วันที่ยื่นคำขอ</div>
+                    <div class="info-value">{{ application.submittedDate }}</div>
+                  </v-col>
+                  <v-col cols="12" md="4">
+                    <div class="info-label">ผู้ยื่นคำขอ</div>
+                    <div class="info-value">{{ application.applicantName }}</div>
+                  </v-col>
+                  <v-col cols="6" md="2">
+                    <div class="info-label">จำนวนใบรับรองที่ต้องการ</div>
+                    <div class="info-value font-weight-bold">{{ application.certQty }} ฉบับ</div>
+                  </v-col>
+                  <v-col cols="12">
+                    <div class="info-label">ประเภทใบรับรอง</div>
+                    <div class="info-value">
+                      <v-chip size="small" color="hcex-staff" variant="tonal">
+                        {{ application.typecert }}
+                      </v-chip>
                     </div>
                   </v-col>
-                  <v-col cols="6" md="4">
-                    <div class="info-label">ประเภทคำขอ</div>
-                    <div class="info-value">
+                </v-row>
+              </v-card-text>
+            </v-card>
+
+            <!-- ข้อมูลผู้ส่งออก / ผู้นำเข้า -->
+            <v-card rounded="xl" elevation="0" class="section-card mb-4">
+              <div class="section-header px-4 py-3 border-b d-flex align-center ga-2">
+                <v-icon icon="fas fa-user-tie" color="hcex-staff" size="15" />
+                <span class="text-subtitle-2 font-weight-bold">ข้อมูลผู้ส่งออก / ผู้นำเข้า</span>
+              </div>
+              <v-card-text class="pa-4">
+                <v-row dense>
+                  <v-col cols="12" md="6">
+                    <div class="info-label mb-1">Exporter Name and Address</div>
+                    <div
+                      class="info-value-block rounded-lg pa-3"
+                      style="background: rgba(var(--v-theme-surface-variant), 0.5); font-family: monospace; white-space: pre-wrap; text-transform: uppercase"
+                    >{{ application.exporterNameAddress }}</div>
+                  </v-col>
+                  <v-col cols="12" md="6">
+                    <div class="info-label mb-1">Consignee Name and Address Including Country</div>
+                    <div
+                      class="info-value-block rounded-lg pa-3"
+                      style="background: rgba(var(--v-theme-surface-variant), 0.5); font-family: monospace; white-space: pre-wrap; text-transform: uppercase"
+                    >{{ application.consigneeNameAddress }}</div>
+                  </v-col>
+                </v-row>
+              </v-card-text>
+            </v-card>
+
+            <!-- ข้อมูลการขนส่ง -->
+            <v-card rounded="xl" elevation="0" class="section-card mb-4">
+              <div class="section-header px-4 py-3 border-b d-flex align-center ga-2">
+                <v-icon icon="fas fa-ship" color="hcex-staff" size="15" />
+                <span class="text-subtitle-2 font-weight-bold">ข้อมูลการขนส่ง</span>
+              </div>
+              <v-card-text class="pa-4">
+                <v-row dense>
+                  <v-col cols="12" md="3">
+                    <div class="info-label">Date of Shipment</div>
+                    <div class="info-value">{{ application.shipment.date }}</div>
+                  </v-col>
+                  <v-col cols="12" md="3">
+                    <div class="info-label">Mode of Transport</div>
+                    <div class="d-flex flex-wrap ga-1 mt-1">
                       <v-chip
+                        v-for="m in application.shipment.modes"
+                        :key="m"
                         size="x-small"
                         color="hcex-staff"
                         variant="tonal"
-                        >{{ application.requestType }}</v-chip
-                      >
+                      >{{ m }}</v-chip>
                     </div>
                   </v-col>
-                  <v-col cols="6" md="4">
-                    <div class="info-label">วันที่ยื่นคำขอ</div>
-                    <div class="info-value">
-                      {{ application.submittedDate }}
-                    </div>
+                  <v-col cols="12" md="3">
+                    <div class="info-label">Country of Destination</div>
+                    <div class="info-value">{{ application.shipment.countryDestination }}</div>
+                  </v-col>
+                  <v-col cols="12" md="3">
+                    <div class="info-label">Place of Departure</div>
+                    <div class="info-value">{{ application.shipment.placeOfDeparture }}</div>
+                  </v-col>
+                  <v-col cols="12" md="6">
+                    <div class="info-label">Vessel / Vehicle</div>
+                    <div class="info-value">{{ application.shipment.vessel }}</div>
+                  </v-col>
+                </v-row>
+              </v-card-text>
+            </v-card>
+
+            <!-- ข้อมูลสินค้า -->
+            <v-card rounded="xl" elevation="0" class="section-card mb-4">
+              <div class="section-header px-4 py-3 border-b d-flex align-center ga-2">
+                <v-icon icon="fas fa-boxes-stacked" color="hcex-staff" size="15" />
+                <span class="text-subtitle-2 font-weight-bold">ข้อมูลสินค้า</span>
+              </div>
+              <v-card-text class="pa-4">
+                <v-row dense>
+                  <v-col cols="12" md="6">
+                    <div class="info-label">Manufacturer</div>
+                    <div class="info-value">{{ application.goods.manufacturer }}</div>
+                  </v-col>
+                  <v-col cols="12" md="3">
+                    <div class="info-label">Analysis Report No.</div>
+                    <div class="info-value text-hcex-staff font-weight-bold">{{ application.goods.analysisReportNo }}</div>
+                  </v-col>
+                  <v-col cols="12" md="3">
+                    <div class="info-label">Date</div>
+                    <div class="info-value">{{ application.goods.analysisDate }}</div>
+                  </v-col>
+                  <v-col cols="12" md="6">
+                    <div class="info-label">Shipping Mark</div>
+                    <div class="info-value">{{ application.goods.shippingMark }}</div>
                   </v-col>
                   <v-col cols="12">
-                    <div class="info-label">ประเภททะเบียน</div>
-                    <div class="info-value">{{ application.typecert }}</div>
+                    <div class="info-label mb-1">Description of Goods</div>
+                    <div
+                      class="info-value-block rounded-lg pa-3"
+                      style="background: rgba(var(--v-theme-surface-variant), 0.5); font-family: monospace; white-space: pre-wrap; text-transform: uppercase"
+                    >{{ application.goods.descriptionOfGoods }}</div>
+                  </v-col>
+                  <v-col cols="12" md="4">
+                    <div class="info-label">Quantity (CTNS.)</div>
+                    <div class="info-value">{{ application.goods.quantity }}</div>
+                  </v-col>
+                  <v-col cols="12" md="4">
+                    <div class="info-label">Weight N.W. / G.W.</div>
+                    <div class="info-value">{{ application.goods.weightNW }} / {{ application.goods.weightGW }} KGS.</div>
+                  </v-col>
+                  <v-col cols="12" md="4">
+                    <div class="info-label">Total Amount (USD)</div>
+                    <div class="info-value font-weight-bold">{{ application.goods.totalAmount }}</div>
                   </v-col>
                 </v-row>
               </v-card-text>
             </v-card>
 
-            <!-- ข้อมูลผู้ยื่นคำขอ -->
-            <v-card rounded="xl" elevation="0" class="section-card mb-4">
-              <div
-                class="section-header px-4 py-3 border-b d-flex align-center ga-2"
-              >
-                <v-icon icon="fas fa-user" color="hcex-staff" size="15" />
-                <span class="text-subtitle-2 font-weight-bold"
-                  >ข้อมูลผู้ยื่นคำขอ</span
-                >
+            <!-- Special Remark -->
+            <v-card
+              v-if="application.specialRemark"
+              rounded="xl"
+              elevation="0"
+              class="section-card mb-4"
+            >
+              <div class="section-header px-4 py-3 border-b d-flex align-center ga-2">
+                <v-icon icon="fas fa-comment-dots" color="hcex-staff" size="15" />
+                <span class="text-subtitle-2 font-weight-bold">Special Remark</span>
               </div>
               <v-card-text class="pa-4">
-                <v-row dense>
-                  <v-col cols="12" md="6">
-                    <div class="info-label">ชื่อ-นามสกุล / Full Name</div>
-                    <div class="info-value">
-                      {{ application.applicantNameTh }}
-                    </div>
-                  </v-col>
-                  <v-col cols="12" md="6">
-                    <div class="info-label">ที่อยู่ / Address</div>
-                    <div class="info-value">{{ applicantAddress }}</div>
-                  </v-col>
-                  <v-col cols="12" md="4">
-                    <div class="info-label">โทรศัพท์ / Phone</div>
-                    <div class="info-value">
-                      {{ application.applicantPhone }}
-                    </div>
-                  </v-col>
-                  <v-col cols="12" md="4">
-                    <div class="info-label">โทรสาร / Fax</div>
-                    <div class="info-value">{{ application.applicantFax }}</div>
-                  </v-col>
-                  <v-col cols="12" md="4">
-                    <div class="info-label">อีเมล / Email</div>
-                    <div class="info-value">
-                      {{ application.applicantEmail }}
-                    </div>
-                  </v-col>
-                </v-row>
-              </v-card-text>
-            </v-card>
-
-            <!-- ข้อมูลสถานประกอบการ -->
-            <v-card rounded="xl" elevation="0" class="section-card mb-4">
-              <div
-                class="section-header px-4 py-3 border-b d-flex align-center ga-2"
-              >
-                <v-icon icon="fas fa-building" color="hcex-staff" size="15" />
-                <span class="text-subtitle-2 font-weight-bold"
-                  >ข้อมูลสถานประกอบการ</span
-                >
-              </div>
-              <v-card-text class="pa-4">
-                <v-row dense>
-                  <v-col cols="12" md="6">
-                    <div class="info-label">ชื่อสถานประกอบการ (ไทย)</div>
-                    <div class="info-value">
-                      {{ application.companyNameTh }}
-                    </div>
-                  </v-col>
-                  <v-col cols="12" md="6">
-                    <div class="info-label">Company Name (English)</div>
-                    <div class="info-value">
-                      {{ application.companyNameEn }}
-                    </div>
-                  </v-col>
-                  <v-col cols="12" md="6">
-                    <div class="info-label">ที่ตั้ง (ภาษาไทย)</div>
-                    <div class="info-value">{{ companyAddressTh }}</div>
-                  </v-col>
-                  <v-col cols="12" md="6">
-                    <div class="info-label">Address (English)</div>
-                    <div class="info-value">{{ companyAddressEn }}</div>
-                  </v-col>
-                  <v-col cols="12" md="4">
-                    <div class="info-label">โทรศัพท์ / Phone</div>
-                    <div class="info-value">{{ application.companyPhone }}</div>
-                  </v-col>
-                  <v-col cols="12" md="4">
-                    <div class="info-label">โทรสาร / Fax</div>
-                    <div class="info-value">{{ application.companyFax }}</div>
-                  </v-col>
-                  <v-col cols="12" md="4">
-                    <div class="info-label">อีเมล / Email</div>
-                    <div class="info-value">{{ application.companyEmail }}</div>
-                  </v-col>
-                </v-row>
-              </v-card-text>
-            </v-card>
-
-            <!-- ขอบข่ายประเทศ -->
-            <v-card rounded="xl" elevation="0" class="section-card mb-4">
-              <div
-                class="section-header px-4 py-3 border-b d-flex align-center ga-2"
-              >
-                <v-icon
-                  icon="fas fa-earth-asia"
-                  color="hcex-staff"
-                  size="15"
-                />
-                <span class="text-subtitle-2 font-weight-bold"
-                  >ขอบข่ายประเทศ</span
-                >
-              </div>
-              <v-card-text class="pa-4 pb-3">
-                <div class="info-label mb-2">Scope of countries</div>
-                <div class="d-flex flex-wrap ga-2">
-                  <v-chip
-                    v-for="c in application.countries"
-                    :key="c"
-                    size="small"
-                    variant="tonal"
-                    color="hcex-staff"
-                    >{{ c }}</v-chip
-                  >
+                <div class="info-value" style="font-family: monospace; text-transform: uppercase">
+                  {{ application.specialRemark }}
                 </div>
               </v-card-text>
             </v-card>
 
-            <!-- โรงงาน -->
-            <v-card rounded="xl" elevation="0" class="section-card mb-4">
-              <div
-                class="section-header px-4 py-3 border-b d-flex align-center ga-2"
-              >
-                <v-icon icon="fas fa-industry" color="hcex-staff" size="15" />
-                <span class="text-subtitle-2 font-weight-bold"
-                  >ข้อมูลโรงงานผลิตสินค้าพืช</span
-                >
-              </div>
-              <v-table density="compact" class="pa-2">
-                <thead>
-                  <tr>
-                    <th>เลขทะเบียน DOA</th>
-                    <th>ชื่อโรงงาน</th>
-                    <th>วันหมดอายุ</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr
-                    v-for="factory in application.factories"
-                    :key="factory.doaNo"
-                  >
-                    <td class="text-body-2 font-weight-bold text-hcex-staff">
-                      {{ factory.doaNo }}
-                    </td>
-                    <td class="text-body-2">{{ factory.factoryName }}</td>
-                    <td class="text-body-2">{{ factory.expiryDate }}</td>
-                    <td>
-                      <div class="d-flex ga-1 justify-end">
-                        <v-tooltip text="ดูข้อมูล" location="top">
-                          <template #activator="{ props }">
-                            <v-btn
-                              v-bind="props"
-                              icon
-                              size="x-small"
-                              variant="text"
-                              color="hcex-staff"
-                              @click="openFactoryDialog(factory)"
-                            >
-                              <v-icon icon="fas fa-eye" size="14" />
-                            </v-btn>
-                          </template>
-                        </v-tooltip>
-                        <v-tooltip text="ดาวน์โหลด" location="top">
-                          <template #activator="{ props }">
-                            <v-btn
-                              v-bind="props"
-                              icon
-                              size="x-small"
-                              variant="text"
-                              color="hcex-staff"
-                            >
-                              <v-icon icon="fas fa-download" size="14" />
-                            </v-btn>
-                          </template>
-                        </v-tooltip>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </v-table>
-            </v-card>
-
-            <!-- GAP -->
-            <v-card rounded="xl" elevation="0" class="section-card mb-4">
-              <div
-                class="section-header px-4 py-3 border-b d-flex align-center ga-2"
-              >
-                <v-icon icon="fas fa-seedling" color="hcex-staff" size="15" />
-                <span class="text-subtitle-2 font-weight-bold"
-                  >แหล่งผลิตพืชที่ได้การรับรอง GAP</span
-                >
-              </div>
-              <v-table density="compact" class="pa-2">
-                <thead>
-                  <tr>
-                    <th>เลขใบรับรอง GAP</th>
-                    <th>ชื่อแหล่งผลิต</th>
-                    <th>หน่วยงานรับรอง</th>
-                    <th>วันหมดอายุ</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="gap in application.gaps" :key="gap.gapNo">
-                    <td class="text-body-2 font-weight-bold text-hcex-staff">
-                      {{ gap.gapNo }}
-                    </td>
-                    <td class="text-body-2">{{ gap.siteName }}</td>
-                    <td class="text-body-2">{{ gap.certBody }}</td>
-                    <td class="text-body-2">{{ gap.expiryDate }}</td>
-                    <td>
-                      <div class="d-flex ga-1 justify-end">
-                        <v-tooltip text="ดูข้อมูล" location="top">
-                          <template #activator="{ props }">
-                            <v-btn
-                              v-bind="props"
-                              icon
-                              size="x-small"
-                              variant="text"
-                              color="hcex-staff"
-                              @click="openGapDialog(gap)"
-                            >
-                              <v-icon icon="fas fa-eye" size="14" />
-                            </v-btn>
-                          </template>
-                        </v-tooltip>
-                        <v-tooltip text="ดาวน์โหลด" location="top">
-                          <template #activator="{ props }">
-                            <v-btn
-                              v-bind="props"
-                              icon
-                              size="x-small"
-                              variant="text"
-                              color="hcex-staff"
-                            >
-                              <v-icon icon="fas fa-download" size="14" />
-                            </v-btn>
-                          </template>
-                        </v-tooltip>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </v-table>
-            </v-card>
-
             <!-- เอกสารแนบ -->
             <v-card rounded="xl" elevation="0" class="section-card mb-4">
-              <div
-                class="section-header px-4 py-3 border-b d-flex align-center ga-2"
-              >
-                <v-icon
-                  icon="fas fa-paperclip"
-                  color="hcex-staff"
-                  size="15"
-                />
+              <div class="section-header px-4 py-3 border-b d-flex align-center ga-2">
+                <v-icon icon="fas fa-paperclip" color="hcex-staff" size="15" />
                 <span class="text-subtitle-2 font-weight-bold">เอกสารแนบ</span>
               </div>
               <v-card-text class="pa-4">
@@ -394,7 +263,13 @@
                   :key="doc.label"
                   class="item-row rounded-lg px-3 py-2 mb-2 d-flex align-center justify-space-between"
                 >
-                  <div class="text-body-2">{{ doc.label }}</div>
+                  <div class="d-flex align-center ga-2">
+                    <v-icon icon="fas fa-file-pdf" color="error" size="16" />
+                    <div>
+                      <div class="text-body-2">{{ doc.label }}</div>
+                      <div class="text-caption text-medium-emphasis">{{ doc.docType }}</div>
+                    </div>
+                  </div>
                   <v-btn
                     size="x-small"
                     variant="tonal"
@@ -1078,78 +953,46 @@ const deadlineDays = computed(() => {
 });
 
 const application = {
-  requestNo: "EXP-0001",
-  requestType: "ขึ้นทะเบียน",
+  requestNo: "HC-0001",
+  typecert: "คำร้องขอใบรับรองสุขอนามัย Health Certificate (กมพ.1)",
   submittedDate: "01/01/2569",
-  typecert: "คำขอหนังสือสำคัญแสดงการขึ้นทะเบียนเป็นผู้ส่งออกผักและผลไม้",
+  applicantName: "นายสมชาย ใจดี",
+  certQty: 3,
   status: "pending",
   currentStep: 0,
 
-  applicantNameTh: "นายสมชาย ใจดี",
-  applicantHouseNo: "123",
-  applicantMoo: "3",
-  applicantRoad: "พหลโยธิน",
-  applicantTambol: "ลาดยาว",
-  applicantDistrict: "จตุจักร",
-  applicantProvince: "กรุงเทพมหานคร",
-  applicantZipcode: "10900",
-  applicantPhone: "02-123-4567",
-  applicantFax: "-",
-  applicantEmail: "somchai@example.com",
+  exporterNameAddress:
+    "THAI EXPORT CO., LTD.\n88/1 SUKHUMVIT ROAD, BANG PAKONG,\nCHACHOENGSAO 24130, THAILAND",
 
-  companyNameTh: "บริษัท ไทย เอ็กซ์พอร์ต จำกัด",
-  companyNameEn: "Thai Export Co., Ltd.",
-  houseNo: "88/1",
-  road: "สุขุมวิท",
-  tambol: "บางปะกง",
-  district: "บางปะกง",
-  province: "ฉะเชิงเทรา",
-  zipcode: "24130",
-  houseNoEn: "88/1",
-  roadEn: "Sukhumvit",
-  tambolEn: "Bang Pakong",
-  districtEn: "Bang Pakong",
-  provinceEn: "Chachoengsao",
-  zipcodeEn: "24130",
-  companyPhone: "038-123-456",
-  companyFax: "038-123-457",
-  companyEmail: "info@thaiexport.co.th",
+  consigneeNameAddress:
+    "JAPAN FOOD IMPORT CO., LTD.\n1-2-3 SHIBUYA, TOKYO 150-0001\nJAPAN",
 
-  countries: ["สหภาพยุโรป", "ญี่ปุ่น", "สิงคโปร์"],
+  shipment: {
+    date: "15/01/2569",
+    modes: ["SEA"],
+    countryDestination: "JAPAN",
+    placeOfDeparture: "ท่าเรือแหลมฉบัง (LAEM CHABANG PORT)",
+    vessel: "EVER GIVEN V.001E",
+  },
 
-  factories: [
-    {
-      doaNo: "DOA-2568-12345",
-      factoryName: "โรงบรรจุสินค้าไทยเอ็กซ์พอร์ต 1",
-      expiryDate: "01/01/2570",
-    },
-    {
-      doaNo: "DOA-12346",
-      factoryName: "โรงรมทรีทเม้นต์ไทยเอ็กซ์พอร์ต",
-      expiryDate: "01/06/2570",
-    },
-  ],
+  goods: {
+    manufacturer: "บริษัท ไทยฟู้ดส์ แปรรูป จำกัด (DOA-2566-00123)",
+    analysisReportNo: "LAB-0001",
+    analysisDate: "03/01/2569",
+    shippingMark: "TH/EX/2569/001",
+    descriptionOfGoods:
+      "DRIED MANGO\nPRODUCED FROM FRESH MANGO\nCOUNTRY OF ORIGIN: THAILAND",
+    quantity: "500",
+    weightNW: "5,000",
+    weightGW: "5,500",
+    totalAmount: "USD 25,000.00",
+  },
 
-  gaps: [
-    {
-      gapNo: "GAP-00123",
-      siteName: "สวนมะม่วงไทยเอ็กซ์พอร์ต",
-      certBody: "กรมวิชาการเกษตร (DOA)",
-      expiryDate: "01/03/2570",
-    },
-    {
-      gapNo: "GAP-00456",
-      siteName: "สวนมะละกอไทยเอ็กซ์พอร์ต",
-      certBody: "สำนักงานเกษตรจังหวัด",
-      expiryDate: "15/06/2570",
-    },
-  ],
+  specialRemark: "FIT FOR HUMAN CONSUMPTION",
 
   attachments: [
-    { label: "หนังสือรับรองบริษัท" },
-    { label: "สำเนาบัตรประชาชนกรรมการ" },
-    { label: "หนังสือสำคัญขึ้นทะเบียนโรงงาน (DOA)" },
-    { label: "หนังสือรับรอง GAP" },
+    { label: "Test_Report_LAB0001.pdf", docType: "Test Report" },
+    { label: "Certificate_ISO22000.pdf", docType: "เอกสารประกอบ" },
   ],
 
   activityLog: [
@@ -1164,41 +1007,11 @@ const application = {
       type: "submit",
       action: "ยื่นคำขอ",
       actor: "นายสมชาย ใจดี (ผู้ยื่นคำขอ)",
-      timestamp: "04/01/2569 10:30",
-      remark: "",
-    },
-    {
-      type: "sendback",
-      action: "ส่งกลับแก้ไข",
-      actor: "น.ส.วรรณา จันทร์ดี (เจ้าหน้าที่ตรวจ)",
-      timestamp: "03/01/2569 10:30",
-      remark:
-        "เอกสารสำเนาหนังสือรับรองนิติบุคคลไม่ครบถ้วน กรุณาแนบเอกสารฉบับที่ออกโดยกรมพัฒนาธุรกิจการค้าซึ่งออกไม่เกิน 3 เดือน และแก้ไขพิกัดที่ตั้งโรงงานให้ถูกต้องตามทะเบียนโรงงาน",
-    },
-    {
-      type: "submit",
-      action: "ยื่นคำขอ",
-      actor: "นายสมชาย ใจดี (ผู้ยื่นคำขอ)",
       timestamp: "01/01/2569 09:12",
       remark: "",
     },
   ],
 };
-
-const applicantAddress = computed(() => {
-  const a = application;
-  return `${a.applicantHouseNo} หมู่ ${a.applicantMoo} ถ.${a.applicantRoad} ต.${a.applicantTambol} อ.${a.applicantDistrict} จ.${a.applicantProvince} ${a.applicantZipcode}`;
-});
-
-const companyAddressTh = computed(() => {
-  const a = application;
-  return `${a.houseNo} ถ.${a.road} ต.${a.tambol} อ.${a.district} จ.${a.province} ${a.zipcode}`;
-});
-
-const companyAddressEn = computed(() => {
-  const a = application;
-  return `${a.houseNoEn} ${a.roadEn} Rd., ${a.tambolEn}, ${a.districtEn}, ${a.provinceEn} ${a.zipcodeEn}`;
-});
 
 const timelineSteps = [
   { value: 0, title: "ตรวจคำขอ" },

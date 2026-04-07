@@ -96,7 +96,7 @@
         >
           <div class="text-body-2 font-weight-medium mb-1">อัพเดทสถานะ</div>
           <div class="text-body-2">
-            คำขอ EXP-2569-00002 อยู่ระหว่างการตรวจสอบเอกสาร
+            คำขอ HC-2569-00002 อยู่ระหว่างการตรวจสอบเอกสาร
           </div>
         </v-alert>
         <v-card rounded="xl" elevation="0">
@@ -174,22 +174,22 @@ const stats = [
 
 const recentApplications = [
   {
-    id: "EXP-0003",
-    requestNo: "EXP-0003",
+    id: "HC-0003",
+    requestNo: "HC-0003",
     submittedDate: "5 มี.ค. 2569",
     updatedDate: "15 มี.ค. 2569",
     status: "reviewing",
   },
   {
-    id: "EXP-0002",
-    requestNo: "EXP-0002",
+    id: "HC-0002",
+    requestNo: "HC-0002",
     submittedDate: "20 ก.พ. 2569",
     updatedDate: "1 มี.ค. 2569",
     status: "signing",
   },
   {
-    id: "EXP-0001",
-    requestNo: "EXP-0001",
+    id: "HC-0001",
+    requestNo: "HC-0001",
     submittedDate: "10 ม.ค. 2569",
     updatedDate: "29 ม.ค. 2569",
     status: "approved",

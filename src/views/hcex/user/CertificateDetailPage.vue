@@ -9,9 +9,9 @@
         @click="router.back()"
       />
       <div>
-        <h1 class="page-title mb-0">รายละเอียดใบทะเบียน</h1>
+        <h1 class="page-title mb-0">รายละเอียดใบรับรอง</h1>
         <p class="text-body-2 text-medium-emphasis mb-0 mt-1">
-          เลขทะเบียน:
+          เลขใบรับรอง:
           <span class="text-hcex-user font-weight-medium">{{
             route.params.id ?? cert.certNo
           }}</span>
@@ -27,18 +27,18 @@
     <v-row>
       <!-- ── Left: data sections ── -->
       <v-col cols="12" md="8">
-        <!-- สถานะใบทะเบียน -->
+        <!-- สถานะใบรับรอง -->
         <v-card rounded="xl" elevation="0" class="section-card mb-4">
           <div
             class="section-header px-4 py-3 border-b d-flex align-center ga-2"
           >
             <v-icon icon="fas fa-certificate" color="hcex-user" size="15" />
-            <span class="text-subtitle-2 font-weight-bold">สถานะใบทะเบียน</span>
+            <span class="text-subtitle-2 font-weight-bold">สถานะใบรับรอง</span>
           </div>
           <v-card-text class="pa-4">
             <v-row dense>
               <v-col cols="12" md="4">
-                <div class="info-label">เลขที่ใบทะเบียน / Certificate No.</div>
+                <div class="info-label">เลขที่ใบรับรอง / Certificate No.</div>
                 <div class="info-value text-hcex-user font-weight-bold">
                   {{ cert.certNo }}
                 </div>
@@ -61,205 +61,198 @@
                 </div>
               </v-col>
               <v-col cols="12">
-                <div class="info-label">ประเภททะเบียน / Registration Type</div>
-                <div class="info-value">{{ cert.typecert }}</div>
+                <div class="info-label">ประเภทใบรับรอง / Certificate Type</div>
+                <div class="info-value">
+                  <v-chip size="small" color="hcex-user" variant="tonal">{{
+                    cert.typecert
+                  }}</v-chip>
+                </div>
               </v-col>
               <v-col cols="12" md="4">
-                <div class="info-label">วันที่ออกใบทะเบียน / Issue Date</div>
+                <div class="info-label">วันที่ออกใบรับรอง / Issue Date</div>
                 <div class="info-value">{{ cert.issueDate }}</div>
               </v-col>
-              <v-col cols="12" md="4">
-                <div class="info-label">วันหมดอายุ / Expire Date</div>
+            </v-row>
+          </v-card-text>
+        </v-card>
+
+        <!-- ผู้ส่งออก / ผู้นำเข้า -->
+        <v-card rounded="xl" elevation="0" class="section-card mb-4">
+          <div
+            class="section-header px-4 py-3 border-b d-flex align-center ga-2"
+          >
+            <v-icon icon="fas fa-user-tie" color="hcex-user" size="15" />
+            <span class="text-subtitle-2 font-weight-bold"
+              >ผู้ส่งออก / ผู้นำเข้า</span
+            >
+          </div>
+          <v-card-text class="pa-4">
+            <v-row dense>
+              <v-col cols="12" md="6">
+                <div class="info-label">
+                  ผู้ส่งออก / Exporter Name &amp; Address
+                </div>
                 <div
                   class="info-value"
-                  :class="
-                    cert.status === 'expiring'
-                      ? 'text-warning font-weight-medium'
-                      : cert.status === 'expired'
-                        ? 'text-error'
-                        : ''
+                  style="
+                    font-family: monospace;
+                    white-space: pre-line;
+                    text-transform: uppercase;
                   "
                 >
-                  {{ cert.expireDate }}
+                  {{ cert.exporterNameAddress }}
+                </div>
+              </v-col>
+              <v-col cols="12" md="6">
+                <div class="info-label">
+                  ผู้นำเข้า / Consignee Name &amp; Address
+                </div>
+                <div
+                  class="info-value"
+                  style="
+                    font-family: monospace;
+                    white-space: pre-line;
+                    text-transform: uppercase;
+                  "
+                >
+                  {{ cert.consigneeNameAddress }}
                 </div>
               </v-col>
             </v-row>
           </v-card-text>
         </v-card>
 
-        <!-- ข้อมูลผู้ยื่นคำขอ -->
+        <!-- การขนส่ง -->
         <v-card rounded="xl" elevation="0" class="section-card mb-4">
           <div
             class="section-header px-4 py-3 border-b d-flex align-center ga-2"
           >
-            <v-icon icon="fas fa-user" color="hcex-user" size="15" />
-            <span class="text-subtitle-2 font-weight-bold"
-              >ข้อมูลผู้ยื่นคำขอ</span
-            >
-            <v-chip size="x-small" color="hcex-user" variant="tonal"
-              >Auto-fill จาก SSO</v-chip
-            >
+            <v-icon icon="fas fa-ship" color="hcex-user" size="15" />
+            <span class="text-subtitle-2 font-weight-bold">การขนส่ง</span>
           </div>
           <v-card-text class="pa-4">
             <v-row dense>
-              <v-col cols="12" md="6">
-                <div class="info-label">ชื่อ-นามสกุล / Full Name</div>
-                <div class="info-value">{{ cert.applicantNameTh }}</div>
-              </v-col>
-              <v-col cols="12" md="6">
-                <div class="info-label">ที่อยู่ / Address</div>
-                <div class="info-value">{{ applicantAddress }}</div>
+              <v-col cols="12" md="4">
+                <div class="info-label">วันที่ส่งออก / Date of Departure</div>
+                <div class="info-value">{{ cert.shipment.date }}</div>
               </v-col>
               <v-col cols="12" md="4">
-                <div class="info-label">โทรศัพท์ / Phone</div>
-                <div class="info-value">{{ cert.applicantPhone }}</div>
+                <div class="info-label">วิธีการขนส่ง / Mode of Transport</div>
+                <div class="info-value d-flex flex-wrap ga-1">
+                  <v-chip
+                    v-for="m in cert.shipment.modes"
+                    :key="m"
+                    size="x-small"
+                    variant="tonal"
+                    color="hcex-user"
+                    >{{ m }}</v-chip
+                  >
+                </div>
               </v-col>
               <v-col cols="12" md="4">
-                <div class="info-label">โทรสาร / Fax</div>
-                <div class="info-value">{{ cert.applicantFax }}</div>
+                <div class="info-label">
+                  ประเทศปลายทาง / Country of Destination
+                </div>
+                <div class="info-value">{{ cert.shipment.countryDestination }}</div>
               </v-col>
               <v-col cols="12" md="4">
-                <div class="info-label">อีเมล / Email</div>
-                <div class="info-value">{{ cert.applicantEmail }}</div>
+                <div class="info-label">
+                  สถานที่ส่งออก / Place of Departure
+                </div>
+                <div class="info-value">{{ cert.shipment.placeOfDeparture }}</div>
               </v-col>
             </v-row>
           </v-card-text>
         </v-card>
 
-        <!-- ข้อมูลสถานประกอบการ -->
+        <!-- สินค้า -->
         <v-card rounded="xl" elevation="0" class="section-card mb-4">
           <div
             class="section-header px-4 py-3 border-b d-flex align-center ga-2"
           >
-            <v-icon icon="fas fa-building" color="hcex-user" size="15" />
-            <span class="text-subtitle-2 font-weight-bold"
-              >ข้อมูลสถานประกอบการ</span
-            >
-            <v-chip size="x-small" color="hcex-user" variant="tonal"
-              >Auto-fill บางส่วนจาก DBD</v-chip
-            >
+            <v-icon icon="fas fa-box-open" color="hcex-user" size="15" />
+            <span class="text-subtitle-2 font-weight-bold">สินค้า</span>
           </div>
           <v-card-text class="pa-4">
             <v-row dense>
               <v-col cols="12" md="6">
-                <div class="info-label">ชื่อสถานประกอบการ (ไทย)</div>
-                <div class="info-value">{{ cert.companyNameTh }}</div>
+                <div class="info-label">
+                  ผู้ผลิต / Name and Address of Manufacturer
+                </div>
+                <div class="info-value">{{ cert.goods.manufacturer }}</div>
               </v-col>
-              <v-col cols="12" md="6">
-                <div class="info-label">Company Name (English)</div>
-                <div class="info-value">{{ cert.companyNameEn }}</div>
+              <v-col cols="12" md="3">
+                <div class="info-label">เลขที่รายงาน / Analysis Report No.</div>
+                <div class="info-value">{{ cert.goods.analysisReportNo }}</div>
               </v-col>
-              <v-col cols="12" md="6">
-                <div class="info-label">ที่ตั้ง (ภาษาไทย)</div>
-                <div class="info-value">{{ companyAddressTh }}</div>
-              </v-col>
-              <v-col cols="12" md="6">
-                <div class="info-label">Address (English)</div>
-                <div class="info-value">{{ companyAddressEn }}</div>
+              <v-col cols="12" md="3">
+                <div class="info-label">วันที่วิเคราะห์ / Analysis Date</div>
+                <div class="info-value">{{ cert.goods.analysisDate }}</div>
               </v-col>
               <v-col cols="12" md="4">
-                <div class="info-label">โทรศัพท์ / Phone</div>
-                <div class="info-value">{{ cert.companyPhone }}</div>
+                <div class="info-label">เครื่องหมายสินค้า / Shipping Mark</div>
+                <div
+                  class="info-value"
+                  style="
+                    font-family: monospace;
+                    white-space: pre-line;
+                    text-transform: uppercase;
+                  "
+                >
+                  {{ cert.goods.shippingMark }}
+                </div>
               </v-col>
-              <v-col cols="12" md="4">
-                <div class="info-label">โทรสาร / Fax</div>
-                <div class="info-value">{{ cert.companyFax }}</div>
+              <v-col cols="12" md="8">
+                <div class="info-label">
+                  รายละเอียดสินค้า / Description of Goods
+                </div>
+                <div
+                  class="info-value"
+                  style="
+                    font-family: monospace;
+                    white-space: pre-line;
+                    text-transform: uppercase;
+                  "
+                >
+                  {{ cert.goods.descriptionOfGoods }}
+                </div>
               </v-col>
-              <v-col cols="12" md="4">
-                <div class="info-label">อีเมล / Email</div>
-                <div class="info-value">{{ cert.companyEmail }}</div>
+              <v-col cols="12" md="3">
+                <div class="info-label">จำนวน / Quantity</div>
+                <div class="info-value">{{ cert.goods.quantity }}</div>
+              </v-col>
+              <v-col cols="12" md="3">
+                <div class="info-label">น้ำหนักสุทธิ / Net Weight</div>
+                <div class="info-value">{{ cert.goods.weightNW }}</div>
+              </v-col>
+              <v-col cols="12" md="3">
+                <div class="info-label">น้ำหนักรวม / Gross Weight</div>
+                <div class="info-value">{{ cert.goods.weightGW }}</div>
+              </v-col>
+              <v-col cols="12" md="3">
+                <div class="info-label">มูลค่ารวม / Total Amount</div>
+                <div class="info-value">{{ cert.goods.totalAmount }}</div>
               </v-col>
             </v-row>
           </v-card-text>
         </v-card>
 
-        <!-- ขอบข่ายประเทศ -->
-        <v-card rounded="xl" elevation="0" class="section-card mb-4">
+        <!-- Special Remark -->
+        <v-card
+          v-if="cert.specialRemark"
+          rounded="xl"
+          elevation="0"
+          class="section-card mb-4"
+        >
           <div
             class="section-header px-4 py-3 border-b d-flex align-center ga-2"
           >
-            <v-icon icon="fas fa-earth-asia" color="hcex-user" size="15" />
-            <span class="text-subtitle-2 font-weight-bold">ขอบข่ายประเทศ</span>
+            <v-icon icon="fas fa-comment-dots" color="hcex-user" size="15" />
+            <span class="text-subtitle-2 font-weight-bold">Special Remark</span>
           </div>
-          <v-card-text class="pa-4 pb-3">
-            <div class="info-label mb-2">Scope of countries</div>
-            <div class="d-flex flex-wrap ga-2">
-              <v-chip
-                v-for="c in cert.countries"
-                :key="c"
-                size="small"
-                variant="tonal"
-                color="hcex-user"
-                >{{ c }}</v-chip
-              >
-            </div>
+          <v-card-text class="pa-4">
+            <div class="text-body-2">{{ cert.specialRemark }}</div>
           </v-card-text>
-        </v-card>
-
-        <!-- โรงงาน -->
-        <v-card rounded="xl" elevation="0" class="section-card mb-4">
-          <div
-            class="section-header px-4 py-3 border-b d-flex align-center ga-2"
-          >
-            <v-icon icon="fas fa-industry" color="hcex-user" size="15" />
-            <span class="text-subtitle-2 font-weight-bold"
-              >ข้อมูลโรงงานผลิตสินค้าพืช</span
-            >
-          </div>
-          <v-table density="compact" class="pa-2">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>เลขทะเบียน DOA</th>
-                <th>ชื่อโรงงาน</th>
-                <th>วันหมดอายุ</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(factory, i) in cert.factories" :key="i">
-                <td class="text-body-2 text-medium-emphasis">{{ i + 1 }}</td>
-                <td class="text-body-2 font-weight-bold text-doa-user">
-                  {{ factory.doaNo }}
-                </td>
-                <td class="text-body-2">{{ factory.factoryName }}</td>
-                <td class="text-body-2">{{ factory.expiryDate }}</td>
-              </tr>
-            </tbody>
-          </v-table>
-        </v-card>
-
-        <!-- GAP -->
-        <v-card rounded="xl" elevation="0" class="section-card mb-4">
-          <div
-            class="section-header px-4 py-3 border-b d-flex align-center ga-2"
-          >
-            <v-icon icon="fas fa-seedling" color="hcex-user" size="15" />
-            <span class="text-subtitle-2 font-weight-bold"
-              >แหล่งผลิตพืชที่ได้การรับรอง GAP</span
-            >
-          </div>
-          <v-table density="compact" class="pa-2">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>เลขใบรับรอง GAP</th>
-                <th>ชื่อแหล่งผลิต</th>
-                <th>หน่วยงานรับรอง</th>
-                <th>วันหมดอายุ</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(gap, i) in cert.gaps" :key="i">
-                <td class="text-body-2 text-medium-emphasis">{{ i + 1 }}</td>
-                <td class="text-body-2 font-weight-bold text-gap-user">
-                  {{ gap.gapNo }}
-                </td>
-                <td class="text-body-2">{{ gap.siteName }}</td>
-                <td class="text-body-2">{{ gap.certBody }}</td>
-                <td class="text-body-2">{{ gap.expiryDate }}</td>
-              </tr>
-            </tbody>
-          </v-table>
         </v-card>
 
         <!-- เอกสารแนบ -->

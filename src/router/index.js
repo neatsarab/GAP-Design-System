@@ -986,6 +986,13 @@ const routes = [
         meta: { title: "จัดการใบรับรอง" },
       },
       {
+        path: "certificates/:id",
+        name: "HCEXstaffIssuedCertificateDetail",
+        component: () =>
+          import("@/views/hcex/staff/IssuedCertificateDetailPage.vue"),
+        meta: { title: "รายละเอียดใบรับรอง" },
+      },
+      {
         path: "reviews/:id",
         name: "HCEXstaffReviewDetail",
         component: () => import("@/views/hcex/staff/ReviewDetailPage.vue"),
@@ -1002,6 +1009,34 @@ const routes = [
         name: "HCEXstaffSigningDetail",
         component: () => import("@/views/hcex/staff/SigningDetailPage.vue"),
         meta: { title: "ลงนามใบรับรอง" },
+      },
+      {
+        path: "history-applications",
+        name: "HCEXstaffHistoryApplicationList",
+        component: () =>
+          import("@/views/hcex/staff/HistoryApplicationListPage.vue"),
+        meta: { title: "คำขอทะเบียนประวัติ" },
+      },
+      {
+        path: "history-applications/:id",
+        name: "HCEXstaffHistoryApplicationDetail",
+        component: () =>
+          import("@/views/hcex/staff/HistoryApplicationDetailPage.vue"),
+        meta: { title: "รายละเอียดคำขอทะเบียนประวัติ" },
+      },
+      {
+        path: "lab-applications",
+        name: "HCEXstaffLabApplicationList",
+        component: () =>
+          import("@/views/hcex/staff/LabApplicationListPage.vue"),
+        meta: { title: "คำขอพิจารณาผล Lab" },
+      },
+      {
+        path: "lab-applications/:id",
+        name: "HCEXstaffLabApplicationDetail",
+        component: () =>
+          import("@/views/hcex/staff/LabApplicationDetailPage.vue"),
+        meta: { title: "รายละเอียดคำขอพิจารณาผล Lab" },
       },
     ],
   },

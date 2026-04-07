@@ -61,7 +61,11 @@
     <template v-if="currentStep === 0">
       <!-- ประเภทคำขอ -->
       <v-card
-        v-if="route.params.type !== 'amendment'"
+        v-if="
+          !['amendment', 'history', 'lab', 'newrequest'].includes(
+            route.params.type,
+          )
+        "
         elevation="0"
         border
         rounded="xl"
@@ -95,15 +99,13 @@
         <div class="d-flex align-center ga-2 px-4 py-3 border-b">
           <v-icon icon="fas fa-certificate" color="hcex-user" size="15" />
           <span class="text-subtitle-2 font-weight-bold"
-            >ระบุใบทะเบียนผู้ส่งออกที่ต้องการแก้ไข</span
+            >ระบุใบรับรองสุขอนามัยพืชที่ต้องการแก้ไข</span
           >
         </div>
         <v-card-text class="pt-5">
           <div class="field-label mb-2">
-            เลขที่ใบทะเบียนผู้ส่งออก <span class="req">*</span>
-            <div class="field-label-en">
-              Exporter Registration Certificate No.
-            </div>
+            เลขที่ใบรับรองสุขอนามัยพืช <span class="req">*</span>
+            <div class="field-label-en">Health Certificate No.</div>
           </div>
           <v-row dense align="center">
             <v-col cols="12" sm="6">
@@ -112,7 +114,7 @@
                 variant="outlined"
                 rounded="lg"
                 v-model="certSearchNo"
-                placeholder="เช่น EXP-2568-00123"
+                placeholder="เช่น HC-2568-00123"
                 prepend-inner-icon="fas fa-certificate"
                 hide-details
                 @keyup.enter="searchCert"
@@ -140,7 +142,7 @@
             class="mt-3"
             prepend-icon="fas fa-circle-xmark"
           >
-            ไม่พบใบทะเบียนเลขที่ "{{ certSearchNo }}" กรุณาตรวจสอบอีกครั้ง
+            ไม่พบใบรับรองเลขที่ "{{ certSearchNo }}" กรุณาตรวจสอบอีกครั้ง
           </v-alert>
 
           <!-- Result card -->
@@ -159,7 +161,7 @@
               <v-row align="center" no-gutters>
                 <v-col>
                   <div class="text-caption text-medium-emphasis mb-1">
-                    เลขที่ใบทะเบียน
+                    เลขที่ใบรับรองสุขอนามัยพืช
                   </div>
                   <div class="text-body-1 font-weight-bold text-hcex-user">
                     {{ certSearchResult.certNo }}
@@ -188,7 +190,7 @@
                     prepend-icon="fas fa-eye"
                     @click="viewCertDialog = true"
                   >
-                    ดูใบทะเบียน
+                    ดูใบรับรอง
                   </v-btn>
                   <v-btn
                     size="small"
@@ -198,7 +200,7 @@
                     :disabled="certSearchResult.isExpired"
                     @click="selectCert"
                   >
-                    เลือกใบทะเบียนนี้
+                    เลือกใบรับรองนี้
                   </v-btn>
                 </v-col>
               </v-row>
@@ -209,7 +211,7 @@
           <div v-if="certSelected" class="mt-4 d-flex align-center ga-2">
             <v-icon icon="fas fa-circle-check" color="success" size="16" />
             <span class="text-body-2 font-weight-medium text-success">
-              เลือกใบทะเบียน:
+              เลือกใบรับรอง:
             </span>
             <v-chip color="hcex-user" variant="tonal" size="small">
               {{ certSelected.certNo }} — {{ certSelected.companyNameTh }}
@@ -290,7 +292,7 @@
                     <!-- ชื่อสถานประกอบการ (บนใบทะเบียน → DBD) -->
                     <template v-if="item.inputType === 'company_name'">
                       <div class="field-section-label mb-2">
-                        ข้อมูลปัจจุบัน (บนใบทะเบียน)
+                        ข้อมูลปัจจุบัน (บนใบรับรอง)
                       </div>
                       <v-row dense class="mb-3">
                         <v-col cols="12" sm="6">
@@ -362,7 +364,7 @@
                     <!-- ที่อยู่สถานประกอบการ (บนใบทะเบียน → DBD) -->
                     <template v-else-if="item.inputType === 'address'">
                       <div class="field-section-label mb-2">
-                        ข้อมูลปัจจุบัน (บนใบทะเบียน)
+                        ข้อมูลปัจจุบัน (บนใบรับรอง)
                       </div>
                       <v-row dense class="mb-3">
                         <v-col cols="6" sm="3">
@@ -731,7 +733,7 @@
                     <!-- วันหมดอายุ -->
                     <template v-else-if="item.inputType === 'expire_date'">
                       <div class="field-section-label mb-2">
-                        ข้อมูลปัจจุบัน (บนใบทะเบียน)
+                        ข้อมูลปัจจุบัน (บนใบรับรอง)
                       </div>
                       <v-row dense class="mb-3">
                         <v-col cols="12" sm="6">
@@ -809,7 +811,7 @@
         <v-card rounded="xl">
           <v-card-title class="d-flex align-center ga-2 pa-5 pb-3">
             <v-icon icon="fas fa-certificate" color="hcex-user" size="18" />
-            ใบทะเบียนผู้ส่งออก
+            ใบรับรองสุขอนามัยพืช
             <v-spacer />
             <v-btn
               icon="fas fa-xmark"
@@ -823,7 +825,7 @@
           <v-card-text class="pa-5">
             <template v-if="certSearchResult">
               <v-list density="compact" lines="two">
-                <v-list-item subtitle="เลขที่ใบทะเบียน">
+                <v-list-item subtitle="เลขที่ใบรับรองสุขอนามัยพืช">
                   <v-list-item-title class="text-hcex-user font-weight-bold">
                     {{ certSearchResult.certNo }}
                   </v-list-item-title>
@@ -833,7 +835,7 @@
                     certSearchResult.companyNameTh
                   }}</v-list-item-title>
                 </v-list-item>
-                <v-list-item subtitle="วันที่ออกใบทะเบียน">
+                <v-list-item subtitle="วันที่ออกใบรับรอง">
                   <v-list-item-title>{{
                     certSearchResult.issuedDate
                   }}</v-list-item-title>
@@ -876,7 +878,7 @@
               :disabled="certSearchResult?.isExpired"
               @click="selectCert()"
             >
-              เลือกใบทะเบียนนี้
+              เลือกใบรับรองนี้
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -1058,7 +1060,11 @@
 
       <!-- ข้อมูลผู้ยื่นคำขอ -->
       <v-card
-        v-if="route.params.type !== 'amendment'"
+        v-if="
+          !['amendment', 'history', 'lab', 'newrequest'].includes(
+            route.params.type,
+          )
+        "
         elevation="0"
         border
         rounded="xl"
@@ -1069,12 +1075,7 @@
           <span class="text-subtitle-2 font-weight-bold"
             >ข้อมูลผู้ยื่นคำขอ</span
           >
-          <v-chip
-            size="x-small"
-            color="hcex-user"
-            variant="tonal"
-            class="ml-1"
-          >
+          <v-chip size="x-small" color="hcex-user" variant="tonal" class="ml-1">
             Auto-fill จาก SSO
           </v-chip>
           <v-spacer />
@@ -1263,7 +1264,11 @@
 
       <!-- ข้อมูลสถานประกอบการ -->
       <v-card
-        v-if="route.params.type !== 'amendment'"
+        v-if="
+          !['amendment', 'history', 'lab', 'newrequest'].includes(
+            route.params.type,
+          )
+        "
         elevation="0"
         border
         rounded="xl"
@@ -1274,12 +1279,7 @@
           <span class="text-subtitle-2 font-weight-bold"
             >ข้อมูลสถานประกอบการ</span
           >
-          <v-chip
-            size="x-small"
-            color="hcex-user"
-            variant="tonal"
-            class="ml-1"
-          >
+          <v-chip size="x-small" color="hcex-user" variant="tonal" class="ml-1">
             Auto-fill บางส่วนจาก DBD
           </v-chip>
           <v-spacer />
@@ -1563,7 +1563,11 @@
 
       <!-- ขอบข่ายประเทศ -->
       <v-card
-        v-if="route.params.type !== 'amendment'"
+        v-if="
+          !['amendment', 'history', 'lab', 'newrequest'].includes(
+            route.params.type,
+          )
+        "
         elevation="0"
         border
         rounded="xl"
@@ -1612,7 +1616,11 @@
 
       <!-- ข้อมูลโรงงานผลิตสินค้าพืช -->
       <v-card
-        v-if="route.params.type !== 'amendment'"
+        v-if="
+          !['amendment', 'history', 'lab', 'newrequest'].includes(
+            route.params.type,
+          )
+        "
         elevation="0"
         border
         rounded="xl"
@@ -1774,7 +1782,11 @@
 
       <!-- ข้อมูลแหล่งผลิตพืชที่ได้การรับรอง GAP -->
       <v-card
-        v-if="route.params.type !== 'amendment'"
+        v-if="
+          !['amendment', 'history', 'lab', 'newrequest'].includes(
+            route.params.type,
+          )
+        "
         elevation="0"
         border
         rounded="xl"
@@ -1938,13 +1950,3622 @@
           </div>
         </v-card-text>
       </v-card>
+
+      <!-- ─── NEWREQUEST TYPE ─── -->
+      <template v-if="route.params.type === 'newrequest'">
+        <!-- เลือก Test Report (prerequisite) -->
+        <v-card elevation="0" border rounded="xl" class="mb-5">
+          <div class="d-flex align-center ga-2 px-4 py-3 border-b">
+            <v-icon icon="fas fa-file-waveform" color="hcex-user" size="15" />
+            <span class="text-subtitle-2 font-weight-bold"
+              >เลือก Test Report ที่ผ่านการพิจารณาแล้ว</span
+            >
+            <span class="req ml-1">*</span>
+          </div>
+          <v-card-text class="pt-4">
+            <v-alert
+              density="compact"
+              variant="tonal"
+              color="info"
+              rounded="lg"
+              class="mb-4"
+              prepend-icon="fas fa-circle-info"
+            >
+              ต้องเลือก Test Report ที่ได้รับการพิจารณาอนุมัติแล้วก่อนกรอกคำขอ —
+              ข้อมูลบางส่วนจะถูกดึงมาโดยอัตโนมัติ
+            </v-alert>
+            <v-row dense align="center">
+              <v-col cols="12" sm="7">
+                <div class="field-label mb-1">
+                  เลขที่ Test Report <span class="req">*</span>
+                </div>
+                <v-text-field
+                  density="compact"
+                  variant="outlined"
+                  rounded="lg"
+                  v-model="regForm.testReportSearchNo"
+                  hide-details
+                  placeholder="เช่น LAB-2568-00123"
+                  prepend-inner-icon="fas fa-magnifying-glass"
+                  @keyup.enter="searchTestReport"
+                />
+              </v-col>
+              <v-col cols="auto">
+                <v-btn
+                  color="hcex-user"
+                  variant="tonal"
+                  prepend-icon="fas fa-magnifying-glass"
+                  :loading="testReportSearchLoading"
+                  @click="searchTestReport"
+                  class="mt-5"
+                  >ค้นหา</v-btn
+                >
+              </v-col>
+            </v-row>
+            <v-alert
+              v-if="testReportNotFound"
+              type="error"
+              variant="tonal"
+              density="compact"
+              class="mt-3"
+              prepend-icon="fas fa-circle-xmark"
+            >
+              ไม่พบ Test Report เลขที่ "{{ regForm.testReportSearchNo }}"
+              กรุณาตรวจสอบอีกครั้ง
+            </v-alert>
+            <v-card
+              v-if="selectedTestReport && !regForm.testReportSelected"
+              elevation="0"
+              rounded="lg"
+              class="mt-4"
+              style="
+                background: rgba(var(--v-theme-success), 0.08);
+                border: 1px solid rgba(var(--v-theme-success), 0.2);
+              "
+            >
+              <v-card-text class="pa-4">
+                <v-row align="center" no-gutters>
+                  <v-col>
+                    <div class="text-caption text-medium-emphasis mb-1">
+                      เลขที่ Test Report
+                    </div>
+                    <div class="text-body-1 font-weight-bold text-hcex-user">
+                      {{ selectedTestReport.no }}
+                    </div>
+                    <div class="text-body-2 mt-1">
+                      {{ selectedTestReport.productName }}
+                    </div>
+                    <div class="text-caption text-medium-emphasis mt-1">
+                      ผู้ผลิต: {{ selectedTestReport.manufacturer }} |
+                      วันที่รับผล: {{ selectedTestReport.date }}
+                    </div>
+                  </v-col>
+                  <v-col cols="auto" class="pl-4">
+                    <v-btn
+                      size="small"
+                      color="hcex-user"
+                      variant="flat"
+                      prepend-icon="fas fa-check"
+                      @click="regForm.testReportSelected = selectedTestReport"
+                      >เลือก Test Report นี้</v-btn
+                    >
+                  </v-col>
+                </v-row>
+              </v-card-text>
+            </v-card>
+            <div
+              v-if="regForm.testReportSelected"
+              class="mt-4 d-flex align-center ga-2"
+            >
+              <v-icon icon="fas fa-circle-check" color="success" size="16" />
+              <span class="text-body-2 font-weight-medium text-success"
+                >เลือก Test Report แล้ว:</span
+              >
+              <v-chip color="hcex-user" variant="tonal" size="small"
+                >{{ regForm.testReportSelected.no }} —
+                {{ regForm.testReportSelected.productName }}</v-chip
+              >
+              <v-btn
+                icon="fas fa-xmark"
+                size="x-small"
+                variant="text"
+                color="grey"
+                @click="regForm.testReportSelected = null"
+              />
+            </div>
+          </v-card-text>
+        </v-card>
+
+        <!-- เลือกประเภทแบบฟอร์ม -->
+        <v-card elevation="0" border rounded="xl" class="mb-5">
+          <div class="d-flex align-center ga-2 px-4 py-3 border-b">
+            <v-icon icon="fas fa-list-check" color="hcex-user" size="15" />
+            <span class="text-subtitle-2 font-weight-bold"
+              >ประเภทแบบฟอร์มใบรับรองสุขอนามัย</span
+            >
+          </div>
+          <v-card-text class="pt-4">
+            <v-radio-group
+              v-model="regForm.formType"
+              color="hcex-user"
+              density="compact"
+            >
+              <v-radio value="kmpor1" class="mb-2">
+                <template #label
+                  ><div>
+                    <div class="font-weight-bold">
+                      ใบรับรองสุขอนามัยพืช สินค้าแปรรูปด้านพืช (กมพ.1)
+                    </div>
+                  </div></template
+                >
+              </v-radio>
+              <v-radio value="kmpor1_1" class="mb-2">
+                <template #label
+                  ><div>
+                    <div class="font-weight-bold">
+                      ใบรับรองสุขอนามัยสําหรับประเทศในกลุ่มอ่าว (กมพ. 1-1)
+                    </div>
+                  </div></template
+                >
+              </v-radio>
+              <v-radio value="kmpor1_2" class="mb-2">
+                <template #label
+                  ><div>
+                    <div class="font-weight-bold">
+                      ใบรับรองสุขอนามัยแบบฟอร์ม สําหรับพืชงอก
+                      (Sprout)ส่งออกไปสหภาพยุโรป (กมพ. 1–2)
+                    </div>
+                  </div></template
+                >
+              </v-radio>
+              <v-radio value="kmpor1_3">
+                <template #label
+                  ><div>
+                    <div class="font-weight-bold">
+                      ใบรับรองสุขอนามัย สําหรับส่งออกไปราชอาณาจักรโมร็อกโก (กมพ.
+                      1–3)
+                    </div>
+                  </div></template
+                >
+              </v-radio>
+            </v-radio-group>
+          </v-card-text>
+        </v-card>
+
+        <!-- ข้อมูลทั่วไป (shared) -->
+        <v-card elevation="0" border rounded="xl" class="mb-5">
+          <div class="d-flex align-center ga-2 px-4 py-3 border-b">
+            <v-icon icon="fas fa-circle-info" color="hcex-user" size="15" />
+            <span class="text-subtitle-2 font-weight-bold">ข้อมูลทั่วไป</span>
+          </div>
+          <v-card-text class="pt-4">
+            <v-row dense>
+              <v-col cols="12" sm="4">
+                <div class="field-label mb-1">เลขที่คำขอ</div>
+                <v-text-field
+                  density="compact"
+                  variant="outlined"
+                  rounded="lg"
+                  model-value="Auto Generate"
+                  readonly
+                  class="field-readonly"
+                  hide-details
+                />
+              </v-col>
+              <v-col cols="12" sm="4">
+                <div class="field-label mb-1">วันที่ยื่นคำขอ</div>
+                <v-text-field
+                  density="compact"
+                  variant="outlined"
+                  rounded="lg"
+                  :model-value="todayStr"
+                  readonly
+                  class="field-readonly"
+                  hide-details
+                />
+              </v-col>
+              <v-col cols="12" sm="4">
+                <div class="field-label mb-1">ผู้ยื่นคำขอ</div>
+                <v-text-field
+                  density="compact"
+                  variant="outlined"
+                  rounded="lg"
+                  :model-value="form.applicantNameTh"
+                  readonly
+                  class="field-readonly"
+                  hide-details
+                />
+              </v-col>
+              <v-col cols="12" sm="4">
+                <div class="field-label mb-1">
+                  จำนวนใบรับรองที่ต้องการ <span class="req">*</span>
+                </div>
+                <v-text-field
+                  density="compact"
+                  variant="outlined"
+                  rounded="lg"
+                  v-model="regForm.certQty"
+                  type="number"
+                  min="1"
+                  hide-details
+                  placeholder="ระบุจำนวน"
+                />
+                <div class="text-caption text-medium-emphasis mt-1">
+                  ต้องมากกว่า 0
+                </div>
+              </v-col>
+            </v-row>
+            <v-alert
+              density="compact"
+              variant="tonal"
+              color="warning"
+              rounded="lg"
+              class="mt-3"
+              prepend-icon="fas fa-triangle-exclamation"
+            >
+              ข้อมูลทั้งหมดในใบรับรองต้องกรอกเป็น<strong
+                >ภาษาอังกฤษตัวพิมพ์ใหญ่ (UPPERCASE)</strong
+              >
+            </v-alert>
+          </v-card-text>
+        </v-card>
+
+        <!-- ════════════ กมพ.1 ════════════ -->
+        <template v-if="regForm.formType === 'kmpor1'">
+          <v-card elevation="0" border rounded="xl" class="mb-5">
+            <div class="d-flex align-center ga-2 px-4 py-3 border-b">
+              <v-icon icon="fas fa-user-tie" color="hcex-user" size="15" />
+              <span class="text-subtitle-2 font-weight-bold"
+                >ข้อมูลผู้ส่งออก / ผู้นำเข้า</span
+              >
+            </div>
+            <v-card-text class="pt-4">
+              <v-row dense>
+                <v-col cols="12" sm="6">
+                  <div class="field-label mb-1">
+                    Exporter Name and Address <span class="req">*</span>
+                  </div>
+                  <v-textarea
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="regKmpor1.exporterAddress"
+                    rows="3"
+                    hide-details
+                    placeholder="EXPORTER NAME AND ADDRESS..."
+                  />
+                </v-col>
+                <v-col cols="12" sm="6">
+                  <div class="field-label mb-1">
+                    Consignee Name and Address Including Country
+                    <span class="req">*</span>
+                  </div>
+                  <v-textarea
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="regKmpor1.consigneeAddress"
+                    rows="3"
+                    hide-details
+                    placeholder="CONSIGNEE NAME AND ADDRESS..."
+                  />
+                </v-col>
+              </v-row>
+            </v-card-text>
+          </v-card>
+
+          <v-card elevation="0" border rounded="xl" class="mb-5">
+            <div class="d-flex align-center ga-2 px-4 py-3 border-b">
+              <v-icon icon="fas fa-ship" color="hcex-user" size="15" />
+              <span class="text-subtitle-2 font-weight-bold"
+                >ข้อมูลการขนส่ง</span
+              >
+            </div>
+            <v-card-text class="pt-4">
+              <v-row dense>
+                <v-col cols="12" sm="4">
+                  <div class="field-label mb-1">
+                    Date of Shipment <span class="req">*</span>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="regKmpor1.shipmentDate"
+                    hide-details
+                    placeholder="วว/ดด/ปปปป"
+                    prepend-inner-icon="fas fa-calendar"
+                  />
+                </v-col>
+                <v-col cols="12" sm="4">
+                  <div class="field-label mb-1">
+                    Country of Destination <span class="req">*</span>
+                  </div>
+                  <v-select
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="regKmpor1.countryDestination"
+                    :items="countryOptions"
+                    hide-details
+                    placeholder="Select country"
+                  />
+                </v-col>
+                <v-col cols="12" sm="4">
+                  <div class="field-label mb-1">
+                    Place of Departure <span class="req">*</span>
+                  </div>
+                  <v-select
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="regKmpor1.placeOfDeparture"
+                    :items="departureOptions"
+                    hide-details
+                    placeholder="Select place"
+                  />
+                </v-col>
+                <v-col cols="12" sm="4">
+                  <div class="field-label mb-1">
+                    Vessel / Vehicle <span class="req">*</span>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="regKmpor1.vessel"
+                    hide-details
+                    placeholder="VESSEL / VEHICLE NAME"
+                  />
+                </v-col>
+                <v-col cols="12" sm="8">
+                  <div class="field-label mb-1">
+                    Mode of Transport <span class="req">*</span>
+                  </div>
+                  <div class="d-flex ga-4 mt-1">
+                    <v-checkbox
+                      v-model="regKmpor1.transport"
+                      value="SEA"
+                      label="SEA"
+                      color="hcex-user"
+                      density="compact"
+                      hide-details
+                    />
+                    <v-checkbox
+                      v-model="regKmpor1.transport"
+                      value="ROAD"
+                      label="ROAD"
+                      color="hcex-user"
+                      density="compact"
+                      hide-details
+                    />
+                    <v-checkbox
+                      v-model="regKmpor1.transport"
+                      value="AIR"
+                      label="AIR"
+                      color="hcex-user"
+                      density="compact"
+                      hide-details
+                    />
+                  </div>
+                </v-col>
+              </v-row>
+            </v-card-text>
+          </v-card>
+
+          <v-card elevation="0" border rounded="xl" class="mb-5">
+            <div class="d-flex align-center ga-2 px-4 py-3 border-b">
+              <v-icon icon="fas fa-boxes-stacked" color="hcex-user" size="15" />
+              <span class="text-subtitle-2 font-weight-bold">ข้อมูลสินค้า</span>
+            </div>
+            <v-card-text class="pt-4">
+              <v-row dense>
+                <v-col cols="12" sm="6">
+                  <div class="field-label mb-1">Manufacturer</div>
+                  <v-text-field
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    :model-value="
+                      regForm.testReportSelected?.manufacturer ?? ''
+                    "
+                    readonly
+                    class="field-readonly"
+                    hide-details
+                    placeholder="Auto fill จากทะเบียนประวัติ"
+                  />
+                </v-col>
+                <v-col cols="12" sm="3">
+                  <div class="field-label mb-1">Analysis Report No.</div>
+                  <v-text-field
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    :model-value="regForm.testReportSelected?.no ?? ''"
+                    readonly
+                    class="field-readonly"
+                    hide-details
+                    placeholder="Auto fill จาก Test Report"
+                  />
+                </v-col>
+                <v-col cols="12" sm="3">
+                  <div class="field-label mb-1">Date</div>
+                  <v-text-field
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    :model-value="regForm.testReportSelected?.date ?? ''"
+                    readonly
+                    class="field-readonly"
+                    hide-details
+                    placeholder="Auto fill"
+                  />
+                </v-col>
+                <v-col cols="12" sm="4">
+                  <div class="field-label mb-1">
+                    Shipping Mark <span class="req">*</span>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="regKmpor1.shippingMark"
+                    hide-details
+                    placeholder="SHIPPING MARK"
+                  />
+                </v-col>
+                <v-col cols="12">
+                  <div class="field-label mb-1">
+                    Description of Goods <span class="req">*</span>
+                  </div>
+                  <v-textarea
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="regKmpor1.descriptionOfGoods"
+                    rows="3"
+                    hide-details
+                    placeholder="DESCRIPTION OF GOODS..."
+                  />
+                </v-col>
+                <v-col cols="12" sm="3">
+                  <div class="field-label mb-1">
+                    Quantity (CTNS.) <span class="req">*</span>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="regKmpor1.quantity"
+                    type="number"
+                    min="1"
+                    hide-details
+                    placeholder="0"
+                  />
+                </v-col>
+                <v-col cols="12" sm="3">
+                  <div class="field-label mb-1">
+                    Weight N.W. (KGS.) <span class="req">*</span>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="regKmpor1.weightNW"
+                    type="number"
+                    min="0"
+                    hide-details
+                    placeholder="0.00"
+                  />
+                </v-col>
+                <v-col cols="12" sm="3">
+                  <div class="field-label mb-1">
+                    Weight G.W. (KGS.) <span class="req">*</span>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="regKmpor1.weightGW"
+                    type="number"
+                    min="0"
+                    hide-details
+                    placeholder="0.00"
+                  />
+                </v-col>
+                <v-col cols="12" sm="3">
+                  <div class="field-label mb-1">
+                    Total Amount (USD) <span class="req">*</span>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="regKmpor1.totalAmount"
+                    type="number"
+                    min="0"
+                    hide-details
+                    placeholder="0.00"
+                  />
+                </v-col>
+              </v-row>
+            </v-card-text>
+          </v-card>
+
+          <v-card elevation="0" border rounded="xl" class="mb-5">
+            <div class="d-flex align-center ga-2 px-4 py-3 border-b">
+              <v-icon icon="fas fa-comment-dots" color="hcex-user" size="15" />
+              <span class="text-subtitle-2 font-weight-bold"
+                >Special Remark</span
+              >
+            </div>
+            <v-card-text class="pt-4">
+              <v-checkbox
+                v-model="regKmpor1.remarkFFC"
+                label="FIT FOR HUMAN CONSUMPTION"
+                color="hcex-user"
+                density="compact"
+                hide-details
+                class="mb-3"
+              />
+              <div class="field-label mb-1">
+                ข้อความพิเศษเพิ่มเติม (ENGLISH UPPERCASE)
+              </div>
+              <v-textarea
+                density="compact"
+                variant="outlined"
+                rounded="lg"
+                v-model="regKmpor1.remark"
+                rows="2"
+                hide-details
+                placeholder="ADDITIONAL SPECIAL REMARK..."
+              />
+            </v-card-text>
+          </v-card>
+        </template>
+
+        <!-- ════════════ กมพ.1-1 ════════════ -->
+        <template v-if="regForm.formType === 'kmpor1_1'">
+          <v-card elevation="0" border rounded="xl" class="mb-5">
+            <div class="d-flex align-center ga-2 px-4 py-3 border-b">
+              <v-icon icon="fas fa-user-tie" color="hcex-user" size="15" />
+              <span class="text-subtitle-2 font-weight-bold"
+                >ข้อมูลผู้ส่งออก / ผู้นำเข้า</span
+              >
+            </div>
+            <v-card-text class="pt-4">
+              <v-row dense>
+                <v-col cols="12" sm="6">
+                  <div class="field-label mb-1">
+                    Exporter Name and Address <span class="req">*</span>
+                  </div>
+                  <v-textarea
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="regKmpor1_1.exporterAddress"
+                    rows="3"
+                    hide-details
+                    placeholder="EXPORTER NAME AND ADDRESS..."
+                  />
+                </v-col>
+                <v-col cols="12" sm="6">
+                  <div class="field-label mb-1">
+                    Consignee Name and Address Including Country
+                    <span class="req">*</span>
+                  </div>
+                  <v-textarea
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="regKmpor1_1.consigneeAddress"
+                    rows="3"
+                    hide-details
+                    placeholder="CONSIGNEE NAME AND ADDRESS..."
+                  />
+                </v-col>
+                <v-col cols="12" sm="6">
+                  <div class="field-label mb-1">
+                    Producer Name and Address <span class="req">*</span>
+                  </div>
+                  <v-textarea
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="regKmpor1_1.producerAddress"
+                    rows="3"
+                    hide-details
+                    placeholder="PRODUCER NAME AND ADDRESS..."
+                  />
+                </v-col>
+                <v-col cols="12" sm="6">
+                  <div class="field-label mb-1">
+                    Packing Establishment Name and Address
+                    <span class="req">*</span>
+                  </div>
+                  <v-textarea
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="regKmpor1_1.packingAddress"
+                    rows="3"
+                    hide-details
+                    placeholder="PACKING ESTABLISHMENT NAME AND ADDRESS..."
+                  />
+                </v-col>
+              </v-row>
+            </v-card-text>
+          </v-card>
+
+          <v-card elevation="0" border rounded="xl" class="mb-5">
+            <div class="d-flex align-center ga-2 px-4 py-3 border-b">
+              <v-icon icon="fas fa-ship" color="hcex-user" size="15" />
+              <span class="text-subtitle-2 font-weight-bold"
+                >ข้อมูลการขนส่ง</span
+              >
+            </div>
+            <v-card-text class="pt-4">
+              <v-row dense>
+                <v-col cols="12" sm="4">
+                  <div class="field-label mb-1">
+                    Date of Shipment <span class="req">*</span>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="regKmpor1_1.shipmentDate"
+                    hide-details
+                    placeholder="วว/ดด/ปปปป"
+                    prepend-inner-icon="fas fa-calendar"
+                  />
+                </v-col>
+                <v-col cols="12" sm="4">
+                  <div class="field-label mb-1">
+                    Vessel / Vehicle Identification <span class="req">*</span>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="regKmpor1_1.vessel"
+                    hide-details
+                    placeholder="VESSEL / VEHICLE NAME"
+                  />
+                </v-col>
+                <v-col cols="12" sm="4">
+                  <div class="field-label mb-1">
+                    Border of Loading / Country of Dispatch
+                    <span class="req">*</span>
+                  </div>
+                  <v-select
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="regKmpor1_1.borderLoading"
+                    :items="departureOptions"
+                    hide-details
+                    placeholder="Select"
+                  />
+                </v-col>
+                <v-col cols="12" sm="4">
+                  <div class="field-label mb-1">Country of Origin</div>
+                  <v-text-field
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    model-value="THAILAND"
+                    readonly
+                    class="field-readonly"
+                    hide-details
+                  />
+                </v-col>
+                <v-col cols="12" sm="2">
+                  <div class="field-label mb-1">ISO Code</div>
+                  <v-text-field
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    model-value="764"
+                    readonly
+                    class="field-readonly"
+                    hide-details
+                  />
+                </v-col>
+                <v-col cols="12" sm="6">
+                  <div class="field-label mb-1">
+                    Border of Entry / Country of Destination
+                    <span class="req">*</span>
+                  </div>
+                  <v-select
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="regKmpor1_1.borderEntry"
+                    :items="countryOptions"
+                    hide-details
+                    placeholder="Select country"
+                  />
+                </v-col>
+                <v-col cols="12">
+                  <div class="field-label mb-1">
+                    Mode of Transport <span class="req">*</span>
+                  </div>
+                  <div class="d-flex ga-4 mt-1">
+                    <v-checkbox
+                      v-model="regKmpor1_1.transport"
+                      value="SEA"
+                      label="SEA"
+                      color="hcex-user"
+                      density="compact"
+                      hide-details
+                    />
+                    <v-checkbox
+                      v-model="regKmpor1_1.transport"
+                      value="ROAD"
+                      label="ROAD"
+                      color="hcex-user"
+                      density="compact"
+                      hide-details
+                    />
+                    <v-checkbox
+                      v-model="regKmpor1_1.transport"
+                      value="AIR"
+                      label="AIR"
+                      color="hcex-user"
+                      density="compact"
+                      hide-details
+                    />
+                  </div>
+                </v-col>
+              </v-row>
+            </v-card-text>
+          </v-card>
+
+          <v-card elevation="0" border rounded="xl" class="mb-5">
+            <div class="d-flex align-center ga-2 px-4 py-3 border-b">
+              <v-icon
+                icon="fas fa-thermometer-half"
+                color="hcex-user"
+                size="15"
+              />
+              <span class="text-subtitle-2 font-weight-bold"
+                >ข้อมูลอุณหภูมิสินค้า <span class="req">*</span></span
+              >
+            </div>
+            <v-card-text class="pt-4">
+              <v-radio-group
+                v-model="regKmpor1_1.temperature"
+                color="hcex-user"
+                density="compact"
+                inline
+              >
+                <v-radio value="Ambient" label="Ambient" class="mr-6" />
+                <v-radio value="Chilled" label="Chilled" class="mr-6" />
+                <v-radio value="Frozen" label="Frozen" />
+              </v-radio-group>
+            </v-card-text>
+          </v-card>
+
+          <v-card elevation="0" border rounded="xl" class="mb-5">
+            <div class="d-flex align-center ga-2 px-4 py-3 border-b">
+              <v-icon icon="fas fa-boxes-stacked" color="hcex-user" size="15" />
+              <span class="text-subtitle-2 font-weight-bold"
+                >ข้อมูลเอกสารและสินค้า</span
+              >
+            </div>
+            <v-card-text class="pt-4">
+              <v-row dense>
+                <v-col cols="12" sm="4">
+                  <div class="field-label mb-1">Halal Certificate No.</div>
+                  <v-text-field
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="regKmpor1_1.halalCertNo"
+                    hide-details
+                    placeholder="HALAL CERT NO."
+                  />
+                </v-col>
+                <v-col cols="12" sm="4">
+                  <div class="field-label mb-1">Analysis Report No.</div>
+                  <v-text-field
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    :model-value="regForm.testReportSelected?.no ?? ''"
+                    readonly
+                    class="field-readonly"
+                    hide-details
+                    placeholder="Auto fill"
+                  />
+                </v-col>
+                <v-col cols="12" sm="4">
+                  <div class="field-label mb-1">Date</div>
+                  <v-text-field
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    :model-value="regForm.testReportSelected?.date ?? ''"
+                    readonly
+                    class="field-readonly"
+                    hide-details
+                    placeholder="Auto fill"
+                  />
+                </v-col>
+                <v-col cols="12">
+                  <div class="field-label mb-1">
+                    Name & Description of Food <span class="req">*</span>
+                  </div>
+                  <v-textarea
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="regKmpor1_1.descriptionOfFood"
+                    rows="3"
+                    hide-details
+                    placeholder="NAME & DESCRIPTION OF FOOD..."
+                  />
+                </v-col>
+                <v-col cols="12" sm="3">
+                  <div class="field-label mb-1">
+                    HS Code <span class="req">*</span>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="regKmpor1_1.hsCode"
+                    hide-details
+                    placeholder="0000.00.00"
+                  />
+                </v-col>
+                <v-col cols="12" sm="3">
+                  <div class="field-label mb-1">Treatment Type</div>
+                  <v-text-field
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="regKmpor1_1.treatmentType"
+                    hide-details
+                    placeholder="TREATMENT TYPE"
+                  />
+                </v-col>
+                <v-col cols="12" sm="3">
+                  <div class="field-label mb-1">Brand Name</div>
+                  <v-text-field
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="regKmpor1_1.brandName"
+                    hide-details
+                    placeholder="BRAND NAME"
+                  />
+                </v-col>
+                <v-col cols="12" sm="3">
+                  <div class="field-label mb-1">
+                    Batch / Lot No. <span class="req">*</span>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="regKmpor1_1.batchNo"
+                    hide-details
+                    placeholder="BATCH / LOT NO."
+                  />
+                </v-col>
+                <v-col cols="12" sm="3">
+                  <div class="field-label mb-1">
+                    Production Date <span class="req">*</span>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="regKmpor1_1.productionDate"
+                    hide-details
+                    placeholder="วว/ดด/ปปปป"
+                    prepend-inner-icon="fas fa-calendar"
+                  />
+                </v-col>
+                <v-col cols="12" sm="3">
+                  <div class="field-label mb-1">
+                    Expiry Date <span class="req">*</span>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="regKmpor1_1.expiryDate"
+                    hide-details
+                    placeholder="วว/ดด/ปปปป"
+                    prepend-inner-icon="fas fa-calendar"
+                  />
+                </v-col>
+                <v-col cols="12" sm="3">
+                  <div class="field-label mb-1">
+                    No. Packages (CTN/BAG/BOX) <span class="req">*</span>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="regKmpor1_1.noPackages"
+                    type="number"
+                    min="1"
+                    hide-details
+                    placeholder="0"
+                  />
+                </v-col>
+                <v-col cols="12" sm="3">
+                  <div class="field-label mb-1">
+                    Total Weight (KGS.) <span class="req">*</span>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="regKmpor1_1.totalWeight"
+                    type="number"
+                    min="0"
+                    hide-details
+                    placeholder="0.00"
+                  />
+                </v-col>
+                <v-col cols="12" sm="3">
+                  <div class="field-label mb-1">
+                    Total Amount (USD) <span class="req">*</span>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="regKmpor1_1.totalAmount"
+                    type="number"
+                    min="0"
+                    hide-details
+                    placeholder="0.00"
+                  />
+                </v-col>
+              </v-row>
+            </v-card-text>
+          </v-card>
+
+          <v-card elevation="0" border rounded="xl" class="mb-5">
+            <div class="d-flex align-center ga-2 px-4 py-3 border-b">
+              <v-icon icon="fas fa-certificate" color="hcex-user" size="15" />
+              <span class="text-subtitle-2 font-weight-bold"
+                >Commodities Certified For <span class="req">*</span></span
+              >
+            </div>
+            <v-card-text class="pt-4">
+              <v-checkbox
+                v-model="regKmpor1_1.certifiedFor"
+                value="OTHER"
+                label="OTHER"
+                color="hcex-user"
+                density="compact"
+                hide-details
+              />
+              <v-checkbox
+                v-model="regKmpor1_1.certifiedFor"
+                value="AFTER FURTHER PROCESS"
+                label="AFTER FURTHER PROCESS"
+                color="hcex-user"
+                density="compact"
+                hide-details
+              />
+              <v-checkbox
+                v-model="regKmpor1_1.certifiedFor"
+                value="HUMAN CONSUMPTION DIRECTLY"
+                label="HUMAN CONSUMPTION DIRECTLY"
+                color="hcex-user"
+                density="compact"
+                hide-details
+              />
+            </v-card-text>
+          </v-card>
+        </template>
+
+        <!-- ════════════ กมพ.1-2 ════════════ -->
+        <template v-if="regForm.formType === 'kmpor1_2'">
+          <v-card elevation="0" border rounded="xl" class="mb-5">
+            <div class="d-flex align-center ga-2 px-4 py-3 border-b">
+              <v-icon icon="fas fa-file-contract" color="hcex-user" size="15" />
+              <span class="text-subtitle-2 font-weight-bold"
+                >ข้อมูลอ้างอิงใบรับรอง</span
+              >
+            </div>
+            <v-card-text class="pt-4">
+              <v-row dense>
+                <v-col cols="12" sm="4">
+                  <div class="field-label mb-1">Certificate Reference</div>
+                  <v-text-field
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    model-value="Auto Generate"
+                    readonly
+                    class="field-readonly"
+                    hide-details
+                  />
+                </v-col>
+                <v-col cols="12" sm="4">
+                  <div class="field-label mb-1">IMSOC Reference / QR Code</div>
+                  <v-text-field
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    model-value="Auto Generate"
+                    readonly
+                    class="field-readonly"
+                    hide-details
+                  />
+                </v-col>
+                <v-col cols="12" sm="4">
+                  <div class="field-label mb-1">
+                    Central Competent Authority
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    model-value="DEPARTMENT OF AGRICULTURE"
+                    readonly
+                    class="field-readonly"
+                    hide-details
+                  />
+                </v-col>
+                <v-col cols="12" sm="4">
+                  <div class="field-label mb-1">Local Competent Authority</div>
+                  <v-text-field
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    model-value="PLANT QUARANTINE STATION"
+                    readonly
+                    class="field-readonly"
+                    hide-details
+                  />
+                </v-col>
+              </v-row>
+            </v-card-text>
+          </v-card>
+
+          <v-card elevation="0" border rounded="xl" class="mb-5">
+            <div class="d-flex align-center ga-2 px-4 py-3 border-b">
+              <v-icon icon="fas fa-user-tie" color="hcex-user" size="15" />
+              <span class="text-subtitle-2 font-weight-bold"
+                >ข้อมูลผู้ส่งออก / ผู้นำเข้า</span
+              >
+            </div>
+            <v-card-text class="pt-4">
+              <v-row dense>
+                <v-col cols="12" sm="4">
+                  <div class="field-label mb-1">
+                    Consignor / Exporter <span class="req">*</span>
+                  </div>
+                  <v-textarea
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="regKmpor1_2.consignor"
+                    rows="3"
+                    hide-details
+                    placeholder="CONSIGNOR / EXPORTER..."
+                  />
+                </v-col>
+                <v-col cols="12" sm="4">
+                  <div class="field-label mb-1">
+                    Consignee / Importer <span class="req">*</span>
+                  </div>
+                  <v-textarea
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="regKmpor1_2.consignee"
+                    rows="3"
+                    hide-details
+                    placeholder="CONSIGNEE / IMPORTER..."
+                  />
+                </v-col>
+                <v-col cols="12" sm="4">
+                  <div class="field-label mb-1">
+                    Operator Responsible for the Consignment
+                    <span class="req">*</span>
+                  </div>
+                  <v-textarea
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="regKmpor1_2.operator"
+                    rows="3"
+                    hide-details
+                    placeholder="OPERATOR RESPONSIBLE..."
+                  />
+                </v-col>
+              </v-row>
+            </v-card-text>
+          </v-card>
+
+          <v-card elevation="0" border rounded="xl" class="mb-5">
+            <div class="d-flex align-center ga-2 px-4 py-3 border-b">
+              <v-icon icon="fas fa-earth-europe" color="hcex-user" size="15" />
+              <span class="text-subtitle-2 font-weight-bold"
+                >ข้อมูลประเทศและสถานที่</span
+              >
+            </div>
+            <v-card-text class="pt-4">
+              <v-row dense>
+                <v-col cols="12" sm="3">
+                  <div class="field-label mb-1">Country of Origin</div>
+                  <v-text-field
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    model-value="THAILAND"
+                    readonly
+                    class="field-readonly"
+                    hide-details
+                  />
+                </v-col>
+                <v-col cols="12" sm="3">
+                  <div class="field-label mb-1">
+                    Region of Origin <span class="req">*</span>
+                  </div>
+                  <v-select
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="regKmpor1_2.regionOrigin"
+                    :items="regionOptions"
+                    hide-details
+                    placeholder="Select region"
+                  />
+                </v-col>
+                <v-col cols="12" sm="3">
+                  <div class="field-label mb-1">
+                    Country of Destination <span class="req">*</span>
+                  </div>
+                  <v-select
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="regKmpor1_2.countryDestination"
+                    :items="euCountryOptions"
+                    hide-details
+                    placeholder="Select country"
+                  />
+                </v-col>
+                <v-col cols="12" sm="3">
+                  <div class="field-label mb-1">Region of Destination</div>
+                  <v-text-field
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="regKmpor1_2.regionDestination"
+                    hide-details
+                    placeholder="REGION OF DESTINATION"
+                  />
+                </v-col>
+                <v-col cols="12" sm="4">
+                  <div class="field-label mb-1">
+                    Place of Dispatch <span class="req">*</span>
+                  </div>
+                  <v-textarea
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="regKmpor1_2.placeDispatch"
+                    rows="2"
+                    hide-details
+                    placeholder="PLACE OF DISPATCH..."
+                  />
+                </v-col>
+                <v-col cols="12" sm="4">
+                  <div class="field-label mb-1">
+                    Place of Destination <span class="req">*</span>
+                  </div>
+                  <v-textarea
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="regKmpor1_2.placeDestination"
+                    rows="2"
+                    hide-details
+                    placeholder="PLACE OF DESTINATION..."
+                  />
+                </v-col>
+                <v-col cols="12" sm="2">
+                  <div class="field-label mb-1">
+                    Place of Loading <span class="req">*</span>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="regKmpor1_2.placeLoading"
+                    hide-details
+                    placeholder="PLACE OF LOADING"
+                  />
+                </v-col>
+                <v-col cols="12" sm="2">
+                  <div class="field-label mb-1">Entry Border Control Post</div>
+                  <v-select
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="regKmpor1_2.entryBorderPost"
+                    :items="borderPostOptions"
+                    hide-details
+                    placeholder="Select"
+                  />
+                </v-col>
+              </v-row>
+            </v-card-text>
+          </v-card>
+
+          <v-card elevation="0" border rounded="xl" class="mb-5">
+            <div class="d-flex align-center ga-2 px-4 py-3 border-b">
+              <v-icon icon="fas fa-ship" color="hcex-user" size="15" />
+              <span class="text-subtitle-2 font-weight-bold"
+                >ข้อมูลการขนส่ง</span
+              >
+            </div>
+            <v-card-text class="pt-4">
+              <v-row dense>
+                <v-col cols="12" sm="6">
+                  <div class="field-label mb-1">
+                    Mode of Transport <span class="req">*</span>
+                  </div>
+                  <div class="d-flex flex-wrap ga-4 mt-1">
+                    <v-checkbox
+                      v-model="regKmpor1_2.transport"
+                      value="Aircraft"
+                      label="Aircraft"
+                      color="hcex-user"
+                      density="compact"
+                      hide-details
+                    />
+                    <v-checkbox
+                      v-model="regKmpor1_2.transport"
+                      value="Vessel"
+                      label="Vessel"
+                      color="hcex-user"
+                      density="compact"
+                      hide-details
+                    />
+                    <v-checkbox
+                      v-model="regKmpor1_2.transport"
+                      value="Railway"
+                      label="Railway"
+                      color="hcex-user"
+                      density="compact"
+                      hide-details
+                    />
+                    <v-checkbox
+                      v-model="regKmpor1_2.transport"
+                      value="Road Vehicle"
+                      label="Road Vehicle"
+                      color="hcex-user"
+                      density="compact"
+                      hide-details
+                    />
+                  </div>
+                </v-col>
+                <v-col cols="12" sm="6">
+                  <div class="field-label mb-1">
+                    Transport Conditions <span class="req">*</span>
+                  </div>
+                  <div class="d-flex ga-4 mt-1">
+                    <v-checkbox
+                      v-model="regKmpor1_2.transportCondition"
+                      value="Ambient"
+                      label="Ambient"
+                      color="hcex-user"
+                      density="compact"
+                      hide-details
+                    />
+                    <v-checkbox
+                      v-model="regKmpor1_2.transportCondition"
+                      value="Chilled"
+                      label="Chilled"
+                      color="hcex-user"
+                      density="compact"
+                      hide-details
+                    />
+                    <v-checkbox
+                      v-model="regKmpor1_2.transportCondition"
+                      value="Frozen"
+                      label="Frozen"
+                      color="hcex-user"
+                      density="compact"
+                      hide-details
+                    />
+                  </div>
+                </v-col>
+                <v-col cols="12" sm="3">
+                  <div class="field-label mb-1">Container Number</div>
+                  <v-text-field
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="regKmpor1_2.containerNo"
+                    hide-details
+                    placeholder="CONTAINER NUMBER"
+                  />
+                </v-col>
+                <v-col cols="12" sm="3">
+                  <div class="field-label mb-1">Seal Number</div>
+                  <v-text-field
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="regKmpor1_2.sealNo"
+                    hide-details
+                    placeholder="SEAL NUMBER"
+                  />
+                </v-col>
+                <v-col cols="12" sm="3">
+                  <div class="field-label mb-1">
+                    Date and Time of Departure <span class="req">*</span>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="regKmpor1_2.departureDateTime"
+                    hide-details
+                    placeholder="วว/ดด/ปปปป HH:MM"
+                    prepend-inner-icon="fas fa-calendar"
+                  />
+                </v-col>
+                <v-col cols="12" sm="3">
+                  <div class="field-label mb-1">Accompanying Documents</div>
+                  <v-textarea
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="regKmpor1_2.accompanyingDocs"
+                    rows="1"
+                    hide-details
+                    placeholder="ACCOMPANYING DOCUMENTS..."
+                  />
+                </v-col>
+              </v-row>
+            </v-card-text>
+          </v-card>
+
+          <v-card elevation="0" border rounded="xl" class="mb-5">
+            <div class="d-flex align-center ga-2 px-4 py-3 border-b">
+              <v-icon icon="fas fa-certificate" color="hcex-user" size="15" />
+              <span class="text-subtitle-2 font-weight-bold"
+                >Certified As Or For <span class="req">*</span></span
+              >
+            </div>
+            <v-card-text class="pt-4">
+              <v-checkbox
+                v-model="regKmpor1_2.certifiedFor"
+                value="Products for Human Consumption"
+                label="Products for Human Consumption"
+                color="hcex-user"
+                density="compact"
+                hide-details
+              />
+              <v-checkbox
+                v-model="regKmpor1_2.certifiedFor"
+                value="Further Processing"
+                label="Further Processing"
+                color="hcex-user"
+                density="compact"
+                hide-details
+              />
+              <v-checkbox
+                v-model="regKmpor1_2.certifiedFor"
+                value="Other"
+                label="Other"
+                color="hcex-user"
+                density="compact"
+                hide-details
+              />
+              <div class="field-section-label mt-3 mb-2">ตัวเลือกเพิ่มเติม</div>
+              <v-checkbox
+                v-model="regKmpor1_2.certifiedForExtra"
+                value="For Transit"
+                label="For Transit"
+                color="hcex-user"
+                density="compact"
+                hide-details
+              />
+              <v-checkbox
+                v-model="regKmpor1_2.certifiedForExtra"
+                value="For Internal Market"
+                label="For Internal Market"
+                color="hcex-user"
+                density="compact"
+                hide-details
+              />
+              <v-checkbox
+                v-model="regKmpor1_2.certifiedForExtra"
+                value="For Re-entry"
+                label="For Re-entry"
+                color="hcex-user"
+                density="compact"
+                hide-details
+              />
+            </v-card-text>
+          </v-card>
+
+          <v-card elevation="0" border rounded="xl" class="mb-5">
+            <div class="d-flex align-center ga-2 px-4 py-3 border-b">
+              <v-icon icon="fas fa-boxes-stacked" color="hcex-user" size="15" />
+              <span class="text-subtitle-2 font-weight-bold">ข้อมูลสินค้า</span>
+            </div>
+            <v-card-text class="pt-4">
+              <v-row dense>
+                <v-col cols="12" sm="3">
+                  <div class="field-label mb-1">
+                    Total Number of Packages <span class="req">*</span>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="regKmpor1_2.totalPackages"
+                    type="number"
+                    min="1"
+                    hide-details
+                    placeholder="0"
+                  />
+                </v-col>
+                <v-col cols="12" sm="3">
+                  <div class="field-label mb-1">
+                    Total Quantity <span class="req">*</span>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="regKmpor1_2.totalQuantity"
+                    type="number"
+                    min="0"
+                    hide-details
+                    placeholder="0"
+                  />
+                </v-col>
+                <v-col cols="12" sm="3">
+                  <div class="field-label mb-1">
+                    Total Net Weight (Kg) <span class="req">*</span>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="regKmpor1_2.totalNetWeight"
+                    type="number"
+                    min="0"
+                    hide-details
+                    placeholder="0.00"
+                  />
+                </v-col>
+                <v-col cols="12" sm="3">
+                  <div class="field-label mb-1">
+                    Gross Weight (Kg) <span class="req">*</span>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="regKmpor1_2.grossWeight"
+                    type="number"
+                    min="0"
+                    hide-details
+                    placeholder="0.00"
+                  />
+                </v-col>
+                <v-col cols="12" sm="3">
+                  <div class="field-label mb-1">
+                    Total Amount USD <span class="req">*</span>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="regKmpor1_2.totalAmount"
+                    type="number"
+                    min="0"
+                    hide-details
+                    placeholder="0.00"
+                  />
+                </v-col>
+                <v-col cols="12" sm="3">
+                  <div class="field-label mb-1">CN Code</div>
+                  <v-text-field
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="regKmpor1_2.cnCode"
+                    hide-details
+                    placeholder="CN CODE"
+                  />
+                </v-col>
+                <v-col cols="12" sm="3">
+                  <div class="field-label mb-1">Category</div>
+                  <v-text-field
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="regKmpor1_2.category"
+                    hide-details
+                    placeholder="CATEGORY"
+                  />
+                </v-col>
+                <v-col cols="12" sm="3">
+                  <div class="field-label mb-1">Identification Mark</div>
+                  <v-text-field
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="regKmpor1_2.identificationMark"
+                    hide-details
+                    placeholder="IDENTIFICATION MARK"
+                  />
+                </v-col>
+                <v-col cols="12" sm="3">
+                  <div class="field-label mb-1">Type of Packaging</div>
+                  <v-text-field
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="regKmpor1_2.typeOfPackaging"
+                    hide-details
+                    placeholder="TYPE OF PACKAGING"
+                  />
+                </v-col>
+                <v-col cols="12" sm="3">
+                  <div class="field-label mb-1">Net Weight (Kg)</div>
+                  <v-text-field
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="regKmpor1_2.netWeight"
+                    type="number"
+                    min="0"
+                    hide-details
+                    placeholder="0.00"
+                  />
+                </v-col>
+                <v-col cols="12" sm="3">
+                  <div class="field-label mb-1">Nature of Commodity</div>
+                  <v-text-field
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="regKmpor1_2.natureOfCommodity"
+                    hide-details
+                    placeholder="NATURE OF COMMODITY"
+                  />
+                </v-col>
+                <v-col cols="12" sm="3">
+                  <div class="field-label mb-1">Number of Packages</div>
+                  <v-text-field
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="regKmpor1_2.numberOfPackages"
+                    type="number"
+                    min="0"
+                    hide-details
+                    placeholder="0"
+                  />
+                </v-col>
+                <v-col cols="12" sm="3">
+                  <div class="field-label mb-1">
+                    Batch No. <span class="req">*</span>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="regKmpor1_2.batchNo"
+                    hide-details
+                    placeholder="BATCH NO."
+                  />
+                </v-col>
+                <v-col cols="12" sm="3">
+                  <div class="field-label mb-1">
+                    Date of Collection / Production <span class="req">*</span>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="regKmpor1_2.collectionDate"
+                    hide-details
+                    placeholder="วว/ดด/ปปปป"
+                    prepend-inner-icon="fas fa-calendar"
+                  />
+                </v-col>
+                <v-col cols="12" sm="3">
+                  <div class="field-label mb-1">Manufacturing Plant</div>
+                  <v-text-field
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    :model-value="
+                      regForm.testReportSelected?.manufacturer ?? ''
+                    "
+                    readonly
+                    class="field-readonly"
+                    hide-details
+                    placeholder="Auto fill"
+                  />
+                </v-col>
+                <v-col cols="12" sm="3">
+                  <div class="field-label mb-1">
+                    Approval / Registration Number
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    model-value="Auto fill"
+                    readonly
+                    class="field-readonly"
+                    hide-details
+                  />
+                </v-col>
+                <v-col cols="12">
+                  <div class="field-label mb-1">
+                    Description of Consignment <span class="req">*</span>
+                  </div>
+                  <v-textarea
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="regKmpor1_2.descriptionConsignment"
+                    rows="3"
+                    hide-details
+                    placeholder="DESCRIPTION OF CONSIGNMENT..."
+                  />
+                </v-col>
+              </v-row>
+            </v-card-text>
+          </v-card>
+        </template>
+
+        <!-- ════════════ กมพ.1-3 ════════════ -->
+        <template v-if="regForm.formType === 'kmpor1_3'">
+          <v-card elevation="0" border rounded="xl" class="mb-5">
+            <div class="d-flex align-center ga-2 px-4 py-3 border-b">
+              <v-icon icon="fas fa-user-tie" color="hcex-user" size="15" />
+              <span class="text-subtitle-2 font-weight-bold"
+                >ข้อมูลผู้ประกอบการ</span
+              >
+            </div>
+            <v-card-text class="pt-4">
+              <v-row dense>
+                <v-col cols="12" sm="6">
+                  <div class="field-label mb-1">
+                    Exporter Name, Full Address, Country
+                    <span class="req">*</span>
+                  </div>
+                  <v-textarea
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="regKmpor1_3.exporterAddress"
+                    rows="3"
+                    hide-details
+                    placeholder="EXPORTER NAME, FULL ADDRESS, COUNTRY..."
+                  />
+                </v-col>
+                <v-col cols="12" sm="6">
+                  <div class="field-label mb-1">
+                    Registration / Declaration / Accreditation of Exporter
+                  </div>
+                  <v-textarea
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="regKmpor1_3.exporterAccreditation"
+                    rows="3"
+                    hide-details
+                    placeholder="REGISTRATION / DECLARATION..."
+                  />
+                </v-col>
+                <v-col cols="12" sm="6">
+                  <div class="field-label mb-1">
+                    Producer Name, Full Address, Country
+                    <span class="req">*</span>
+                  </div>
+                  <v-textarea
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="regKmpor1_3.producerAddress"
+                    rows="3"
+                    hide-details
+                    placeholder="PRODUCER NAME, FULL ADDRESS, COUNTRY..."
+                  />
+                </v-col>
+                <v-col cols="12" sm="6">
+                  <div class="field-label mb-1">
+                    Registration / Declaration / Accreditation of Producer
+                  </div>
+                  <v-textarea
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="regKmpor1_3.producerAccreditation"
+                    rows="3"
+                    hide-details
+                    placeholder="REGISTRATION / DECLARATION..."
+                  />
+                </v-col>
+                <v-col cols="12" sm="6">
+                  <div class="field-label mb-1">
+                    Consignee / Importer <span class="req">*</span>
+                  </div>
+                  <v-textarea
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="regKmpor1_3.consignee"
+                    rows="3"
+                    hide-details
+                    placeholder="CONSIGNEE / IMPORTER..."
+                  />
+                </v-col>
+              </v-row>
+            </v-card-text>
+          </v-card>
+
+          <v-card elevation="0" border rounded="xl" class="mb-5">
+            <div class="d-flex align-center ga-2 px-4 py-3 border-b">
+              <v-icon icon="fas fa-ship" color="hcex-user" size="15" />
+              <span class="text-subtitle-2 font-weight-bold"
+                >ข้อมูลการขนส่ง</span
+              >
+            </div>
+            <v-card-text class="pt-4">
+              <v-row dense>
+                <v-col cols="12" sm="3">
+                  <div class="field-label mb-1">
+                    Date of Shipment <span class="req">*</span>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="regKmpor1_3.shipmentDate"
+                    hide-details
+                    placeholder="วว/ดด/ปปปป"
+                    prepend-inner-icon="fas fa-calendar"
+                  />
+                </v-col>
+                <v-col cols="12" sm="3">
+                  <div class="field-label mb-1">Sample Submitted By</div>
+                  <v-text-field
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    :model-value="form.applicantNameTh"
+                    readonly
+                    class="field-readonly"
+                    hide-details
+                  />
+                </v-col>
+                <v-col cols="12" sm="3">
+                  <div class="field-label mb-1">Analysis Report Number</div>
+                  <v-text-field
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    :model-value="regForm.testReportSelected?.no ?? ''"
+                    readonly
+                    class="field-readonly"
+                    hide-details
+                    placeholder="Auto fill"
+                  />
+                </v-col>
+                <v-col cols="12" sm="3">
+                  <div class="field-label mb-1">Received Date</div>
+                  <v-text-field
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    :model-value="regForm.testReportSelected?.date ?? ''"
+                    readonly
+                    class="field-readonly"
+                    hide-details
+                    placeholder="Auto fill"
+                  />
+                </v-col>
+                <v-col cols="12" sm="3">
+                  <div class="field-label mb-1">Country of Origin</div>
+                  <v-text-field
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    model-value="THAILAND"
+                    readonly
+                    class="field-readonly"
+                    hide-details
+                  />
+                </v-col>
+                <v-col cols="12" sm="3">
+                  <div class="field-label mb-1">Country of Destination</div>
+                  <v-text-field
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    model-value="KOREA"
+                    readonly
+                    class="field-readonly"
+                    hide-details
+                  />
+                </v-col>
+                <v-col cols="12" sm="3">
+                  <div class="field-label mb-1">
+                    Loading Place <span class="req">*</span>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="regKmpor1_3.loadingPlace"
+                    hide-details
+                    placeholder="LOADING PLACE"
+                  />
+                </v-col>
+                <v-col cols="12" sm="3">
+                  <div class="field-label mb-1">Declared Entry Point</div>
+                  <v-text-field
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="regKmpor1_3.entryPoint"
+                    hide-details
+                    placeholder="DECLARED ENTRY POINT"
+                  />
+                </v-col>
+                <v-col cols="12" sm="3">
+                  <div class="field-label mb-1">Bill Number</div>
+                  <v-text-field
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="regKmpor1_3.billNo"
+                    hide-details
+                    placeholder="BILL NUMBER"
+                  />
+                </v-col>
+                <v-col cols="12" sm="5">
+                  <div class="field-label mb-1">
+                    Mode of Transport <span class="req">*</span>
+                  </div>
+                  <div class="d-flex ga-4 mt-1">
+                    <v-checkbox
+                      v-model="regKmpor1_3.transport"
+                      value="SEA"
+                      label="SEA"
+                      color="hcex-user"
+                      density="compact"
+                      hide-details
+                    />
+                    <v-checkbox
+                      v-model="regKmpor1_3.transport"
+                      value="ROAD"
+                      label="ROAD"
+                      color="hcex-user"
+                      density="compact"
+                      hide-details
+                    />
+                    <v-checkbox
+                      v-model="regKmpor1_3.transport"
+                      value="AIR"
+                      label="AIR"
+                      color="hcex-user"
+                      density="compact"
+                      hide-details
+                    />
+                  </div>
+                </v-col>
+                <v-col cols="12" sm="4">
+                  <div class="field-label mb-1">
+                    Temperature of Food Product <span class="req">*</span>
+                  </div>
+                  <div class="d-flex ga-4 mt-1">
+                    <v-checkbox
+                      v-model="regKmpor1_3.temperature"
+                      value="Ambient"
+                      label="Ambient"
+                      color="hcex-user"
+                      density="compact"
+                      hide-details
+                    />
+                    <v-checkbox
+                      v-model="regKmpor1_3.temperature"
+                      value="Chilled"
+                      label="Chilled"
+                      color="hcex-user"
+                      density="compact"
+                      hide-details
+                    />
+                    <v-checkbox
+                      v-model="regKmpor1_3.temperature"
+                      value="Frozen"
+                      label="Frozen"
+                      color="hcex-user"
+                      density="compact"
+                      hide-details
+                    />
+                  </div>
+                </v-col>
+              </v-row>
+            </v-card-text>
+          </v-card>
+
+          <v-card elevation="0" border rounded="xl" class="mb-5">
+            <div class="d-flex align-center ga-2 px-4 py-3 border-b">
+              <v-icon icon="fas fa-boxes-stacked" color="hcex-user" size="15" />
+              <span class="text-subtitle-2 font-weight-bold">ข้อมูลสินค้า</span>
+            </div>
+            <v-card-text class="pt-4">
+              <v-row dense>
+                <v-col cols="12">
+                  <div class="field-label mb-1">
+                    Description of Products <span class="req">*</span>
+                  </div>
+                  <v-textarea
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="regKmpor1_3.descriptionProducts"
+                    rows="3"
+                    hide-details
+                    placeholder="DESCRIPTION OF PRODUCTS..."
+                  />
+                </v-col>
+                <v-col cols="12" sm="6">
+                  <div class="field-label mb-1">
+                    Name of Product <span class="req">*</span>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="regKmpor1_3.productName"
+                    hide-details
+                    placeholder="PRODUCT NAME (แก้ไขได้)"
+                  />
+                </v-col>
+                <v-col cols="12" sm="3">
+                  <div class="field-label mb-1">
+                    Date of Production <span class="req">*</span>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="regKmpor1_3.productionDate"
+                    hide-details
+                    placeholder="วว/ดด/ปปปป"
+                    prepend-inner-icon="fas fa-calendar"
+                  />
+                </v-col>
+                <v-col cols="12" sm="3">
+                  <div class="field-label mb-1">
+                    Expiry Date <span class="req">*</span>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="regKmpor1_3.expiryDate"
+                    hide-details
+                    placeholder="วว/ดด/ปปปป"
+                    prepend-inner-icon="fas fa-calendar"
+                  />
+                </v-col>
+                <v-col cols="12">
+                  <div class="field-label mb-1">
+                    State or Type of Processing <span class="req">*</span>
+                  </div>
+                  <div class="d-flex flex-wrap ga-4 mt-1">
+                    <v-checkbox
+                      v-model="regKmpor1_3.processingType"
+                      value="AFTER FURTHER PROCESS"
+                      label="AFTER FURTHER PROCESS"
+                      color="hcex-user"
+                      density="compact"
+                      hide-details
+                    />
+                    <v-checkbox
+                      v-model="regKmpor1_3.processingType"
+                      value="HUMAN CONSUMPTION DIRECTLY"
+                      label="HUMAN CONSUMPTION DIRECTLY"
+                      color="hcex-user"
+                      density="compact"
+                      hide-details
+                    />
+                    <v-checkbox
+                      v-model="regKmpor1_3.processingType"
+                      value="OTHER"
+                      label="OTHER"
+                      color="hcex-user"
+                      density="compact"
+                      hide-details
+                    />
+                  </div>
+                </v-col>
+              </v-row>
+            </v-card-text>
+          </v-card>
+
+          <v-card elevation="0" border rounded="xl" class="mb-5">
+            <div class="d-flex align-center ga-2 px-4 py-3 border-b">
+              <v-icon
+                icon="fas fa-weight-hanging"
+                color="hcex-user"
+                size="15"
+              />
+              <span class="text-subtitle-2 font-weight-bold"
+                >ปริมาณและบรรจุภัณฑ์</span
+              >
+            </div>
+            <v-card-text class="pt-4">
+              <v-row dense>
+                <v-col cols="12" sm="3">
+                  <div class="field-label mb-1">
+                    Gross Mass or Volume (Kgs.) <span class="req">*</span>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="regKmpor1_3.grossMass"
+                    type="number"
+                    min="0"
+                    hide-details
+                    placeholder="0.00"
+                  />
+                </v-col>
+                <v-col cols="12" sm="3">
+                  <div class="field-label mb-1">
+                    Net Mass or Volume (Kgs.) <span class="req">*</span>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="regKmpor1_3.netMass"
+                    type="number"
+                    min="0"
+                    hide-details
+                    placeholder="0.00"
+                  />
+                </v-col>
+                <v-col cols="12" sm="3">
+                  <div class="field-label mb-1">
+                    Number and Nature of Packages <span class="req">*</span>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="regKmpor1_3.numberOfPackages"
+                    hide-details
+                    placeholder="NUMBER AND NATURE"
+                  />
+                </v-col>
+                <v-col cols="12" sm="3">
+                  <div class="field-label mb-1">
+                    Batch Number or Document Reference
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="regKmpor1_3.batchNo"
+                    hide-details
+                    placeholder="BATCH NUMBER"
+                  />
+                </v-col>
+                <v-col cols="12" sm="3">
+                  <div class="field-label mb-1">
+                    Total Amount (USD) <span class="req">*</span>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="regKmpor1_3.totalAmount"
+                    type="number"
+                    min="0"
+                    hide-details
+                    placeholder="0.00"
+                  />
+                </v-col>
+              </v-row>
+            </v-card-text>
+          </v-card>
+        </template>
+      </template>
+
+      <!-- ─── HISTORY TYPE ─── -->
+      <template v-if="route.params.type === 'history'">
+        <!-- ประเภทการยื่น -->
+        <v-card elevation="0" border rounded="xl" class="mb-5">
+          <div class="d-flex align-center ga-2 px-4 py-3 border-b">
+            <v-icon icon="fas fa-list-check" color="hcex-user" size="15" />
+            <span class="text-subtitle-2 font-weight-bold">ประเภทการยื่น</span>
+          </div>
+          <v-card-text class="pt-5">
+            <v-radio-group
+              v-model="historySubmissionType"
+              color="hcex-user"
+              density="compact"
+              inline
+            >
+              <v-radio value="all" label="ทั้งระบบการผลิต" class="mr-8" />
+              <v-radio value="batch" label="แต่ละรุ่นการผลิต" />
+            </v-radio-group>
+            <v-alert
+              v-if="historySubmissionType === 'batch'"
+              density="compact"
+              variant="tonal"
+              color="info"
+              rounded="lg"
+              class="mt-3"
+              prepend-icon="fas fa-circle-info"
+            >
+              กรณีนี้ไม่บังคับให้มีทะเบียนโรงงานจาก DOA
+            </v-alert>
+          </v-card-text>
+        </v-card>
+
+        <!-- ข้อมูลโรงงานผู้ผลิต -->
+        <v-card elevation="0" border rounded="xl" class="mb-5">
+          <div class="d-flex align-center ga-2 px-4 py-3 border-b">
+            <v-icon icon="fas fa-industry" color="hcex-user" size="15" />
+            <span class="text-subtitle-2 font-weight-bold"
+              >ข้อมูลโรงงานผู้ผลิต</span
+            >
+          </div>
+          <v-card-text class="pt-4">
+            <!-- 1. ชื่อบริษัทผู้ผลิต -->
+            <div class="field-section-label mb-3">1. ชื่อบริษัทผู้ผลิต</div>
+            <v-row dense>
+              <v-col cols="12">
+                <div class="field-label mb-1">
+                  ชื่อบริษัทผู้ผลิต <span class="req">*</span>
+                </div>
+                <v-text-field
+                  density="compact"
+                  variant="outlined"
+                  rounded="lg"
+                  v-model="historyFactory.name"
+                  hide-details
+                  placeholder="กรอกชื่อบริษัทผู้ผลิต"
+                />
+              </v-col>
+              <v-col cols="12" class="mt-2">
+                <div class="field-label mb-1">
+                  ที่อยู่ <span class="req">*</span>
+                </div>
+                <v-textarea
+                  density="compact"
+                  variant="outlined"
+                  rounded="lg"
+                  v-model="historyFactory.address"
+                  hide-details
+                  placeholder="กรอกที่อยู่"
+                  rows="2"
+                  auto-grow
+                />
+              </v-col>
+              <v-col cols="12" sm="4">
+                <div class="field-label mb-1">
+                  โทรศัพท์ <span class="req">*</span>
+                </div>
+                <v-text-field
+                  density="compact"
+                  variant="outlined"
+                  rounded="lg"
+                  v-model="historyFactory.phone"
+                  hide-details
+                  placeholder="เช่น 02-xxx-xxxx"
+                />
+              </v-col>
+              <v-col cols="12" sm="4">
+                <div class="field-label mb-1">โทรสาร</div>
+                <v-text-field
+                  density="compact"
+                  variant="outlined"
+                  rounded="lg"
+                  v-model="historyFactory.fax"
+                  hide-details
+                  placeholder="เช่น 02-xxx-xxxx"
+                />
+              </v-col>
+              <v-col cols="12" sm="4">
+                <div class="field-label mb-1">E-mail Address</div>
+                <v-text-field
+                  density="compact"
+                  variant="outlined"
+                  rounded="lg"
+                  v-model="historyFactory.email"
+                  hide-details
+                  placeholder="example@email.com"
+                />
+              </v-col>
+            </v-row>
+
+            <!-- 2. ผู้ประสานงานโรงงานผู้ผลิต -->
+            <div class="field-section-label mt-5 mb-3">
+              2. ผู้ประสานงานโรงงานผู้ผลิต
+            </div>
+            <v-row dense>
+              <v-col cols="12" sm="6">
+                <div class="field-label mb-1">
+                  ชื่อ-นามสกุล <span class="req">*</span>
+                </div>
+                <v-text-field
+                  density="compact"
+                  variant="outlined"
+                  rounded="lg"
+                  v-model="historyFactory.contactName"
+                  hide-details
+                  placeholder="กรอกชื่อ-นามสกุล"
+                />
+              </v-col>
+              <v-col cols="12" sm="6">
+                <div class="field-label mb-1">ตำแหน่ง</div>
+                <v-text-field
+                  density="compact"
+                  variant="outlined"
+                  rounded="lg"
+                  v-model="historyFactory.contactPosition"
+                  hide-details
+                  placeholder="กรอกตำแหน่ง"
+                />
+              </v-col>
+              <v-col cols="12" sm="4">
+                <div class="field-label mb-1">
+                  โทรศัพท์ <span class="req">*</span>
+                </div>
+                <v-text-field
+                  density="compact"
+                  variant="outlined"
+                  rounded="lg"
+                  v-model="historyFactory.contactPhone"
+                  hide-details
+                  placeholder="เช่น 02-xxx-xxxx"
+                />
+              </v-col>
+              <v-col cols="12" sm="4">
+                <div class="field-label mb-1">โทรสาร</div>
+                <v-text-field
+                  density="compact"
+                  variant="outlined"
+                  rounded="lg"
+                  v-model="historyFactory.contactFax"
+                  hide-details
+                  placeholder="เช่น 02-xxx-xxxx"
+                />
+              </v-col>
+            </v-row>
+
+            <!-- 3. หนังสือสำคัญ DOA (ไม่บังคับ) -->
+            <div class="d-flex align-center ga-2 mt-5 mb-1">
+              <div class="field-section-label mb-0">
+                3.
+                หนังสือสำคัญแสดงการขึ้นทะเบียนโรงงานผลิตสินค้าเพื่อการส่งออกกับกรมวิชาการเกษตร
+              </div>
+              <v-chip size="x-small" color="grey" variant="tonal"
+                >ไม่บังคับ</v-chip
+              >
+            </div>
+            <p class="text-caption text-medium-emphasis mb-3">
+              สามารถเว้นว่างได้ หากยังไม่มีทะเบียนจาก DOA
+            </p>
+            <v-row dense>
+              <v-col cols="12" sm="6">
+                <div class="field-label mb-1">ทะเบียนเลขที่</div>
+                <v-text-field
+                  density="compact"
+                  variant="outlined"
+                  rounded="lg"
+                  v-model="historyFactory.doaRegNo"
+                  hide-details
+                  placeholder="เช่น DOA-2568-12345"
+                />
+              </v-col>
+              <v-col cols="12" sm="6">
+                <div class="field-label mb-1">วันที่หมดอายุ</div>
+                <v-text-field
+                  density="compact"
+                  variant="outlined"
+                  rounded="lg"
+                  v-model="historyFactory.doaExpiry"
+                  hide-details
+                  placeholder="วว/ดด/ปปปป"
+                  prepend-inner-icon="fas fa-calendar"
+                />
+              </v-col>
+            </v-row>
+          </v-card-text>
+        </v-card>
+
+        <!-- 4. มาตรฐานการผลิตของโรงงาน -->
+        <v-card elevation="0" border rounded="xl" class="mb-5">
+          <div class="d-flex align-center ga-2 px-4 py-3 border-b">
+            <v-icon icon="fas fa-award" color="hcex-user" size="15" />
+            <span class="text-subtitle-2 font-weight-bold"
+              >4. มาตรฐานการผลิตของโรงงาน</span
+            >
+          </div>
+          <v-card-text class="pt-4">
+            <!-- 4.1 มาตรฐานหลัก -->
+            <div class="d-flex align-center justify-space-between mb-3">
+              <div class="field-section-label mb-0">
+                4.1 มาตรฐานหลัก <span class="req">*</span>
+              </div>
+              <v-btn
+                size="small"
+                variant="tonal"
+                color="hcex-user"
+                prepend-icon="fas fa-plus"
+                @click="addHistoryStandard"
+                >เพิ่มมาตรฐาน</v-btn
+              >
+            </div>
+            <div
+              v-for="(std, idx) in historyStandards"
+              :key="'std-' + idx"
+              class="item-row rounded-lg pa-3 mb-2"
+            >
+              <v-row dense align="center">
+                <v-col cols="12" sm="3">
+                  <div class="field-label mb-1">
+                    ชื่อมาตรฐาน <span class="req">*</span>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="std.name"
+                    hide-details
+                    placeholder="เช่น GMP, HACCP"
+                  />
+                </v-col>
+                <v-col cols="12" sm="3">
+                  <div class="field-label mb-1">
+                    หน่วยงานที่รับรอง <span class="req">*</span>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="std.certBody"
+                    hide-details
+                    placeholder="กรอกหน่วยงาน"
+                  />
+                </v-col>
+                <v-col cols="12" sm="3">
+                  <div class="field-label mb-1">
+                    หมายเลขการรับรอง <span class="req">*</span>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="std.certNo"
+                    hide-details
+                    placeholder="กรอกหมายเลข"
+                  />
+                </v-col>
+                <v-col cols="12" sm="2">
+                  <div class="field-label mb-1">
+                    วันที่หมดอายุ <span class="req">*</span>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="std.expiry"
+                    hide-details
+                    placeholder="วว/ดด/ปปปป"
+                  />
+                </v-col>
+                <v-col cols="auto">
+                  <v-btn
+                    icon="fas fa-trash"
+                    variant="text"
+                    size="small"
+                    color="error"
+                    :disabled="historyStandards.length <= 1"
+                    @click="removeHistoryStandard(idx)"
+                  />
+                </v-col>
+              </v-row>
+            </div>
+
+            <!-- 4.2 มาตรฐานเพิ่มเติม -->
+            <div class="d-flex align-center justify-space-between mt-5 mb-3">
+              <div class="field-section-label mb-0">4.2 มาตรฐานเพิ่มเติม</div>
+              <v-btn
+                size="small"
+                variant="tonal"
+                color="grey"
+                prepend-icon="fas fa-plus"
+                @click="addHistoryExtraStandard"
+                >เพิ่มมาตรฐาน</v-btn
+              >
+            </div>
+            <div
+              v-if="historyExtraStandards.length === 0"
+              class="text-center text-medium-emphasis text-body-2 py-2"
+            >
+              ยังไม่มีมาตรฐานเพิ่มเติม
+            </div>
+            <div
+              v-for="(std, idx) in historyExtraStandards"
+              :key="'exstd-' + idx"
+              class="item-row rounded-lg pa-3 mb-2"
+            >
+              <v-row dense align="center">
+                <v-col cols="12" sm="3">
+                  <div class="field-label mb-1">ชื่อมาตรฐาน</div>
+                  <v-text-field
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="std.name"
+                    hide-details
+                    placeholder="กรอกชื่อมาตรฐาน"
+                  />
+                </v-col>
+                <v-col cols="12" sm="3">
+                  <div class="field-label mb-1">หน่วยงานที่รับรอง</div>
+                  <v-text-field
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="std.certBody"
+                    hide-details
+                    placeholder="กรอกหน่วยงาน"
+                  />
+                </v-col>
+                <v-col cols="12" sm="3">
+                  <div class="field-label mb-1">หมายเลขการรับรอง</div>
+                  <v-text-field
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="std.certNo"
+                    hide-details
+                    placeholder="กรอกหมายเลข"
+                  />
+                </v-col>
+                <v-col cols="12" sm="2">
+                  <div class="field-label mb-1">วันที่หมดอายุ</div>
+                  <v-text-field
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="std.expiry"
+                    hide-details
+                    placeholder="วว/ดด/ปปปป"
+                  />
+                </v-col>
+                <v-col cols="auto">
+                  <v-btn
+                    icon="fas fa-trash"
+                    variant="text"
+                    size="small"
+                    color="error"
+                    @click="removeHistoryExtraStandard(idx)"
+                  />
+                </v-col>
+              </v-row>
+            </div>
+          </v-card-text>
+        </v-card>
+
+        <!-- 5-6. ข้อมูลบริษัทผู้ส่งออก -->
+        <v-card elevation="0" border rounded="xl" class="mb-5">
+          <div class="d-flex align-center ga-2 px-4 py-3 border-b">
+            <v-icon icon="fas fa-building" color="hcex-user" size="15" />
+            <span class="text-subtitle-2 font-weight-bold"
+              >ข้อมูลบริษัทผู้ส่งออก</span
+            >
+          </div>
+          <v-card-text class="pt-4">
+            <div class="field-section-label mb-3">5. ข้อมูลบริษัทผู้ส่งออก</div>
+            <v-row dense>
+              <v-col cols="12">
+                <div class="field-label mb-1">
+                  ชื่อบริษัทผู้ส่งออก <span class="req">*</span>
+                </div>
+                <v-text-field
+                  density="compact"
+                  variant="outlined"
+                  rounded="lg"
+                  v-model="historyExporter.name"
+                  hide-details
+                  placeholder="กรอกชื่อบริษัทผู้ส่งออก"
+                />
+              </v-col>
+              <v-col cols="12" class="mt-2">
+                <div class="field-label mb-1">
+                  ที่อยู่ <span class="req">*</span>
+                </div>
+                <v-textarea
+                  density="compact"
+                  variant="outlined"
+                  rounded="lg"
+                  v-model="historyExporter.address"
+                  hide-details
+                  placeholder="กรอกที่อยู่"
+                  rows="2"
+                  auto-grow
+                />
+              </v-col>
+              <v-col cols="12" sm="4">
+                <div class="field-label mb-1">
+                  โทรศัพท์ <span class="req">*</span>
+                </div>
+                <v-text-field
+                  density="compact"
+                  variant="outlined"
+                  rounded="lg"
+                  v-model="historyExporter.phone"
+                  hide-details
+                  placeholder="เช่น 02-xxx-xxxx"
+                />
+              </v-col>
+              <v-col cols="12" sm="4">
+                <div class="field-label mb-1">โทรสาร</div>
+                <v-text-field
+                  density="compact"
+                  variant="outlined"
+                  rounded="lg"
+                  v-model="historyExporter.fax"
+                  hide-details
+                  placeholder="เช่น 02-xxx-xxxx"
+                />
+              </v-col>
+              <v-col cols="12" sm="4">
+                <div class="field-label mb-1">E-mail Address</div>
+                <v-text-field
+                  density="compact"
+                  variant="outlined"
+                  rounded="lg"
+                  v-model="historyExporter.email"
+                  hide-details
+                  placeholder="example@email.com"
+                />
+              </v-col>
+            </v-row>
+
+            <div class="field-section-label mt-5 mb-3">
+              6. ผู้ประสานงานบริษัทผู้ส่งออก
+            </div>
+            <v-row dense>
+              <v-col cols="12" sm="6">
+                <div class="field-label mb-1">
+                  ชื่อ-นามสกุล <span class="req">*</span>
+                </div>
+                <v-text-field
+                  density="compact"
+                  variant="outlined"
+                  rounded="lg"
+                  v-model="historyExporter.contactName"
+                  hide-details
+                  placeholder="กรอกชื่อ-นามสกุล"
+                />
+              </v-col>
+              <v-col cols="12" sm="6">
+                <div class="field-label mb-1">ตำแหน่ง</div>
+                <v-text-field
+                  density="compact"
+                  variant="outlined"
+                  rounded="lg"
+                  v-model="historyExporter.contactPosition"
+                  hide-details
+                  placeholder="กรอกตำแหน่ง"
+                />
+              </v-col>
+              <v-col cols="12" sm="4">
+                <div class="field-label mb-1">
+                  โทรศัพท์ <span class="req">*</span>
+                </div>
+                <v-text-field
+                  density="compact"
+                  variant="outlined"
+                  rounded="lg"
+                  v-model="historyExporter.contactPhone"
+                  hide-details
+                  placeholder="เช่น 02-xxx-xxxx"
+                />
+              </v-col>
+              <v-col cols="12" sm="4">
+                <div class="field-label mb-1">โทรสาร</div>
+                <v-text-field
+                  density="compact"
+                  variant="outlined"
+                  rounded="lg"
+                  v-model="historyExporter.contactFax"
+                  hide-details
+                  placeholder="เช่น 02-xxx-xxxx"
+                />
+              </v-col>
+            </v-row>
+          </v-card-text>
+        </v-card>
+
+        <!-- 7. รายละเอียดสินค้า -->
+        <v-card elevation="0" border rounded="xl" class="mb-5">
+          <div class="d-flex align-center ga-2 px-4 py-3 border-b">
+            <v-icon icon="fas fa-boxes-stacked" color="hcex-user" size="15" />
+            <span class="text-subtitle-2 font-weight-bold"
+              >รายละเอียดสินค้า</span
+            >
+            <v-chip size="x-small" color="grey" variant="tonal" class="ml-1"
+              >1 ผู้ผลิต / 1 ใบคำขอ</v-chip
+            >
+          </div>
+          <v-card-text class="pt-4">
+            <div
+              v-for="(product, idx) in historyProducts"
+              :key="'prod-' + idx"
+              class="item-row rounded-lg pa-4 mb-3"
+            >
+              <div class="d-flex align-center justify-space-between mb-3">
+                <span class="text-body-2 font-weight-bold"
+                  >สินค้าที่ {{ idx + 1 }}</span
+                >
+                <v-btn
+                  icon="fas fa-trash"
+                  variant="text"
+                  size="x-small"
+                  color="error"
+                  :disabled="historyProducts.length <= 1"
+                  @click="removeHistoryProduct(idx)"
+                />
+              </div>
+              <v-row dense>
+                <v-col cols="12" sm="6">
+                  <div class="field-label mb-1">
+                    รายการสินค้าเพื่อส่งออกด้านพืช <span class="req">*</span>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="product.productName"
+                    hide-details
+                    placeholder="กรอกชื่อสินค้า"
+                  />
+                </v-col>
+                <v-col cols="12" sm="6">
+                  <div class="field-label mb-1">มาตรฐานสินค้า</div>
+                  <v-text-field
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="product.standard"
+                    hide-details
+                    placeholder="กรอกมาตรฐานสินค้า"
+                  />
+                </v-col>
+                <v-col cols="12">
+                  <div class="field-label mb-1">
+                    ประเทศปลายทาง <span class="req">*</span>
+                    <span class="text-caption text-medium-emphasis ml-1"
+                      >(เลือกได้มากกว่า 1 ประเทศ)</span
+                    >
+                  </div>
+                  <v-autocomplete
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="product.countries"
+                    :items="countryOptions"
+                    multiple
+                    chips
+                    closable-chips
+                    hide-details
+                    placeholder="เลือกประเทศปลายทาง"
+                  />
+                </v-col>
+                <v-col cols="12">
+                  <div class="field-label mb-1">
+                    รายการทดสอบ <span class="req">*</span>
+                    <span class="text-caption text-medium-emphasis ml-1"
+                      >(เลือกได้มากกว่า 1 รายการ)</span
+                    >
+                  </div>
+                  <v-autocomplete
+                    density="compact"
+                    variant="outlined"
+                    rounded="lg"
+                    v-model="product.tests"
+                    :items="testItems"
+                    multiple
+                    chips
+                    closable-chips
+                    hide-details
+                    placeholder="เลือกรายการทดสอบ"
+                  />
+                </v-col>
+              </v-row>
+            </div>
+            <v-btn
+              variant="tonal"
+              color="hcex-user"
+              prepend-icon="fas fa-plus"
+              size="small"
+              @click="addHistoryProduct"
+              >เพิ่มสินค้า</v-btn
+            >
+          </v-card-text>
+        </v-card>
+      </template>
+
+      <!-- ─── LAB TYPE ─── -->
+      <template v-if="route.params.type === 'lab'">
+        <!-- ข้อมูลตัวอย่างและสินค้า -->
+        <v-card elevation="0" border rounded="xl" class="mb-5">
+          <div class="d-flex align-center ga-2 px-4 py-3 border-b">
+            <v-icon icon="fas fa-flask" color="hcex-user" size="15" />
+            <span class="text-subtitle-2 font-weight-bold"
+              >ข้อมูลตัวอย่างและสินค้า</span
+            >
+          </div>
+          <v-card-text class="pt-4">
+            <v-row dense>
+              <v-col cols="12" sm="6">
+                <div class="field-label mb-1">
+                  วันที่สุ่มเก็บตัวอย่าง (Date Collected)
+                  <span class="req">*</span>
+                </div>
+                <v-text-field
+                  density="compact"
+                  variant="outlined"
+                  rounded="lg"
+                  v-model="labForm.dateCollected"
+                  hide-details
+                  placeholder="วว/ดด/ปปปป"
+                  prepend-inner-icon="fas fa-calendar"
+                />
+              </v-col>
+              <v-col cols="12" sm="6">
+                <div class="field-label mb-1">
+                  รหัสผลิตภัณฑ์ (Product Code) <span class="req">*</span>
+                </div>
+                <v-text-field
+                  density="compact"
+                  variant="outlined"
+                  rounded="lg"
+                  v-model="labForm.productCode"
+                  hide-details
+                  placeholder="กรอกรหัสผลิตภัณฑ์"
+                />
+              </v-col>
+              <v-col cols="12" sm="6">
+                <div class="field-label mb-1">
+                  วันที่ผลิต (MFG Date) <span class="req">*</span>
+                </div>
+                <v-text-field
+                  density="compact"
+                  variant="outlined"
+                  rounded="lg"
+                  v-model="labForm.mfgDate"
+                  hide-details
+                  placeholder="วว/ดด/ปปปป"
+                  prepend-inner-icon="fas fa-calendar"
+                />
+              </v-col>
+              <v-col cols="12" sm="6">
+                <div class="field-label mb-1">
+                  วันหมดอายุ (EXP Date) <span class="req">*</span>
+                </div>
+                <v-text-field
+                  density="compact"
+                  variant="outlined"
+                  rounded="lg"
+                  v-model="labForm.expDate"
+                  hide-details
+                  placeholder="วว/ดด/ปปปป"
+                  prepend-inner-icon="fas fa-calendar"
+                />
+                <div class="text-caption text-medium-emphasis mt-1">
+                  ต้องมากกว่าวันที่ผลิต
+                </div>
+              </v-col>
+            </v-row>
+          </v-card-text>
+        </v-card>
+
+        <!-- 5. ข้อมูลผลิตภัณฑ์ + 6. สถานที่ผู้ผลิต -->
+        <v-card elevation="0" border rounded="xl" class="mb-5">
+          <div class="d-flex align-center ga-2 px-4 py-3 border-b">
+            <v-icon icon="fas fa-box-open" color="hcex-user" size="15" />
+            <span class="text-subtitle-2 font-weight-bold"
+              >ข้อมูลผลิตภัณฑ์และสถานที่ผู้ผลิต</span
+            >
+          </div>
+          <v-card-text class="pt-4">
+            <!-- 6. เลือกผู้ผลิตจากทะเบียน -->
+            <div class="field-section-label mb-3">
+              6. สถานที่ผู้ผลิต (Name and Address of Manufacturer)
+            </div>
+            <v-alert
+              density="compact"
+              variant="tonal"
+              color="info"
+              rounded="lg"
+              class="mb-4"
+              prepend-icon="fas fa-circle-info"
+            >
+              เลือกผู้ผลิตจากทะเบียนประวัติที่เคยบันทึกไว้ —
+              ระบบจะดึงข้อมูลมาแสดงอัตโนมัติ
+            </v-alert>
+            <v-row dense>
+              <v-col cols="12" sm="8">
+                <div class="field-label mb-1">
+                  ผู้ผลิต <span class="req">*</span>
+                </div>
+                <v-autocomplete
+                  density="compact"
+                  variant="outlined"
+                  rounded="lg"
+                  v-model="labForm.manufacturer"
+                  :items="manufacturerOptions"
+                  item-title="name"
+                  item-value="id"
+                  hide-details
+                  placeholder="เลือกผู้ผลิตจากทะเบียนประวัติ"
+                  prepend-inner-icon="fas fa-industry"
+                  @update:model-value="onManufacturerChange"
+                />
+              </v-col>
+            </v-row>
+            <v-row dense class="mt-2" v-if="labForm.manufacturer">
+              <v-col cols="12">
+                <div class="field-label mb-1">ที่อยู่โรงงาน</div>
+                <v-text-field
+                  density="compact"
+                  variant="outlined"
+                  rounded="lg"
+                  :model-value="selectedManufacturerAddress"
+                  readonly
+                  class="field-readonly"
+                  hide-details
+                />
+              </v-col>
+            </v-row>
+
+            <!-- 5. ชื่อผลิตภัณฑ์ (auto fill) -->
+            <div class="field-section-label mt-5 mb-3">5. ข้อมูลผลิตภัณฑ์</div>
+            <v-row dense>
+              <v-col cols="12" sm="6">
+                <div class="field-label mb-1">ชื่อผลิตภัณฑ์ (ภาษาไทย)</div>
+                <v-autocomplete
+                  density="compact"
+                  variant="outlined"
+                  rounded="lg"
+                  v-model="labForm.product"
+                  :items="productOptions"
+                  item-title="nameTh"
+                  item-value="id"
+                  hide-details
+                  placeholder="เลือกผลิตภัณฑ์"
+                  :disabled="!labForm.manufacturer"
+                  @update:model-value="onProductChange"
+                />
+              </v-col>
+              <v-col cols="12" sm="6">
+                <div class="field-label mb-1">ชื่อผลิตภัณฑ์ (ภาษาอังกฤษ)</div>
+                <v-text-field
+                  density="compact"
+                  variant="outlined"
+                  rounded="lg"
+                  :model-value="selectedProductNameEn"
+                  readonly
+                  class="field-readonly"
+                  hide-details
+                  placeholder="Auto fill จากทะเบียนประวัติ"
+                />
+              </v-col>
+            </v-row>
+          </v-card-text>
+        </v-card>
+
+        <!-- 7. สถานที่สุ่มเก็บตัวอย่าง + 8. ห้องปฏิบัติการ + 9. วันนำส่ง -->
+        <v-card elevation="0" border rounded="xl" class="mb-5">
+          <div class="d-flex align-center ga-2 px-4 py-3 border-b">
+            <v-icon icon="fas fa-microscope" color="hcex-user" size="15" />
+            <span class="text-subtitle-2 font-weight-bold"
+              >สถานที่เก็บตัวอย่างและห้องปฏิบัติการ</span
+            >
+          </div>
+          <v-card-text class="pt-4">
+            <v-row dense>
+              <v-col cols="12">
+                <div class="field-label mb-1">
+                  7. สถานที่สุ่มเก็บตัวอย่าง (Collecting Location)
+                  <span class="req">*</span>
+                </div>
+                <v-textarea
+                  density="compact"
+                  variant="outlined"
+                  rounded="lg"
+                  v-model="labForm.collectingLocation"
+                  hide-details
+                  placeholder="ระบุสถานที่สุ่มเก็บตัวอย่าง"
+                  rows="2"
+                  auto-grow
+                />
+              </v-col>
+              <v-col cols="12" sm="8">
+                <div class="field-label mb-1 mt-2">
+                  8. ห้องปฏิบัติการที่ส่งทดสอบ (Testing Laboratory)
+                  <span class="req">*</span>
+                </div>
+                <v-select
+                  density="compact"
+                  variant="outlined"
+                  rounded="lg"
+                  v-model="labForm.laboratory"
+                  :items="laboratoryOptions"
+                  item-title="name"
+                  item-value="id"
+                  hide-details
+                  placeholder="เลือกห้องปฏิบัติการ"
+                  prepend-inner-icon="fas fa-flask"
+                />
+              </v-col>
+              <v-col cols="12" sm="4">
+                <div class="field-label mb-1 mt-2">
+                  9. วันที่นำส่งตัวอย่าง (Date Delivered)
+                  <span class="req">*</span>
+                </div>
+                <v-text-field
+                  density="compact"
+                  variant="outlined"
+                  rounded="lg"
+                  v-model="labForm.dateDelivered"
+                  hide-details
+                  placeholder="วว/ดด/ปปปป"
+                  prepend-inner-icon="fas fa-calendar"
+                />
+                <div class="text-caption text-medium-emphasis mt-1">
+                  ต้องไม่น้อยกว่าวันที่สุ่มเก็บตัวอย่าง
+                </div>
+              </v-col>
+            </v-row>
+          </v-card-text>
+        </v-card>
+
+        <!-- 13. ประเทศปลายทาง -->
+        <v-card elevation="0" border rounded="xl" class="mb-5">
+          <div class="d-flex align-center ga-2 px-4 py-3 border-b">
+            <v-icon icon="fas fa-earth-asia" color="hcex-user" size="15" />
+            <span class="text-subtitle-2 font-weight-bold"
+              >13. ประเทศปลายทางที่ส่งออก (Country of Destination)</span
+            >
+          </div>
+          <v-card-text class="pt-4">
+            <div class="field-label mb-1">
+              เลือกประเทศปลายทาง <span class="req">*</span>
+              <span class="text-caption text-medium-emphasis"
+                >(เลือกได้มากกว่า 1 ประเทศ)</span
+              >
+            </div>
+            <v-autocomplete
+              density="compact"
+              variant="outlined"
+              rounded="lg"
+              v-model="labForm.countries"
+              :items="labCountryOptions"
+              multiple
+              chips
+              closable-chips
+              hide-details
+              placeholder="เลือกประเทศปลายทาง"
+            />
+            <v-alert
+              v-if="labForm.countries.some((c) => ['USA / CANADA'].includes(c))"
+              density="compact"
+              variant="tonal"
+              color="warning"
+              rounded="lg"
+              class="mt-3"
+              prepend-icon="fas fa-triangle-exclamation"
+            >
+              การเลือก USA / CANADA จะ filter
+              รายการทดสอบตามข้อกำหนดเฉพาะของประเทศ
+            </v-alert>
+          </v-card-text>
+        </v-card>
+
+        <!-- 10. วัตถุประสงค์ -->
+        <v-card elevation="0" border rounded="xl" class="mb-5">
+          <div class="d-flex align-center ga-2 px-4 py-3 border-b">
+            <v-icon icon="fas fa-bullseye" color="hcex-user" size="15" />
+            <span class="text-subtitle-2 font-weight-bold"
+              >10. วัตถุประสงค์การสุ่มเก็บตัวอย่าง (Objective of
+              Collection)</span
+            >
+          </div>
+          <v-card-text class="pt-4">
+            <v-radio-group
+              v-model="labForm.objective"
+              color="hcex-user"
+              density="compact"
+            >
+              <v-radio
+                value="hc"
+                label="ขอใบรับรองเพื่อขอใบรับรองสุขอนามัย (Issuance of HC)"
+              />
+              <v-radio
+                value="lotbylot"
+                label="แนบทะเบียนประวัติ (Lot by Lot)"
+              />
+              <v-radio
+                value="whole"
+                label="แบบทั้งระบบการผลิต (Whole Product System)"
+              />
+            </v-radio-group>
+
+            <!-- กรณีเลือก Whole Product System -->
+            <v-expand-transition>
+              <div v-if="labForm.objective === 'whole'" class="mt-2">
+                <div class="field-section-label mb-3">
+                  ข้อมูลจากทะเบียนประวัติ (Auto fill)
+                </div>
+                <v-row dense class="mb-4">
+                  <v-col cols="12" sm="4">
+                    <div class="field-label mb-1">หมายเลขทะเบียนโรงงาน</div>
+                    <v-text-field
+                      density="compact"
+                      variant="outlined"
+                      rounded="lg"
+                      model-value="DOA-2568-12345"
+                      readonly
+                      class="field-readonly"
+                      hide-details
+                    />
+                  </v-col>
+                  <v-col cols="12" sm="4">
+                    <div class="field-label mb-1">มาตรฐาน GMP / HACCP</div>
+                    <v-text-field
+                      density="compact"
+                      variant="outlined"
+                      rounded="lg"
+                      model-value="GMP, HACCP"
+                      readonly
+                      class="field-readonly"
+                      hide-details
+                    />
+                  </v-col>
+                  <v-col cols="12" sm="4">
+                    <div class="field-label mb-1">วันหมดอายุ</div>
+                    <v-text-field
+                      density="compact"
+                      variant="outlined"
+                      rounded="lg"
+                      model-value="31/12/2569"
+                      readonly
+                      class="field-readonly"
+                      hide-details
+                    />
+                  </v-col>
+                </v-row>
+                <div class="field-section-label mb-2">ตัวเลือกเพิ่มเติม</div>
+                <v-checkbox
+                  v-model="labForm.wholeOptions"
+                  value="new_apply"
+                  color="hcex-user"
+                  density="compact"
+                  hide-details
+                  label="ทดสอบเพื่อยื่นขึ้นทะเบียนใหม่ (New Apply)"
+                />
+                <v-checkbox
+                  v-model="labForm.wholeOptions"
+                  value="maintain"
+                  color="hcex-user"
+                  density="compact"
+                  hide-details
+                  label="ทดสอบเพื่อขยายขอบเขต (Maintain System)"
+                />
+                <v-checkbox
+                  v-model="labForm.wholeOptions"
+                  value="extend"
+                  color="hcex-user"
+                  density="compact"
+                  hide-details
+                  label="ทดสอบเพื่อขยายขอบข่าย (Extend Scope)"
+                />
+              </div>
+            </v-expand-transition>
+          </v-card-text>
+        </v-card>
+
+        <!-- 11. ปริมาณการส่งออก -->
+        <v-card elevation="0" border rounded="xl" class="mb-5">
+          <div class="d-flex align-center ga-2 px-4 py-3 border-b">
+            <v-icon icon="fas fa-weight-hanging" color="hcex-user" size="15" />
+            <span class="text-subtitle-2 font-weight-bold"
+              >11. ปริมาณการส่งออก (Export Volume)</span
+            >
+          </div>
+          <v-card-text class="pt-4">
+            <v-row dense align="center">
+              <v-col cols="12" sm="3">
+                <div class="field-label mb-1">
+                  จำนวน <span class="req">*</span>
+                </div>
+                <v-text-field
+                  density="compact"
+                  variant="outlined"
+                  rounded="lg"
+                  v-model="labForm.exportVolume"
+                  hide-details
+                  placeholder="0"
+                  type="number"
+                  min="1"
+                />
+              </v-col>
+              <v-col cols="12" sm="9">
+                <div class="field-label mb-1">
+                  หน่วย <span class="req">*</span>
+                </div>
+                <v-radio-group
+                  v-model="labForm.exportUnit"
+                  color="hcex-user"
+                  density="compact"
+                  inline
+                  hide-details
+                >
+                  <v-radio value="cartons" label="Cartons" class="mr-4" />
+                  <v-radio value="boxes" label="Boxes" class="mr-4" />
+                  <v-radio value="tons" label="Tons" class="mr-4" />
+                  <v-radio value="others" label="Others" />
+                </v-radio-group>
+                <v-text-field
+                  v-if="labForm.exportUnit === 'others'"
+                  density="compact"
+                  variant="outlined"
+                  rounded="lg"
+                  v-model="labForm.exportUnitOther"
+                  hide-details
+                  placeholder="ระบุหน่วย"
+                  class="mt-2"
+                  style="max-width: 200px"
+                />
+              </v-col>
+            </v-row>
+          </v-card-text>
+        </v-card>
+
+        <!-- 14. รายการทดสอบ (auto display) -->
+        <v-card elevation="0" border rounded="xl" class="mb-5">
+          <div class="d-flex align-center ga-2 px-4 py-3 border-b">
+            <v-icon icon="fas fa-list-check" color="hcex-user" size="15" />
+            <span class="text-subtitle-2 font-weight-bold"
+              >14. รายการทดสอบตามมาตรฐานที่ใช้ส่งออก</span
+            >
+            <v-chip size="x-small" color="grey" variant="tonal" class="ml-1"
+              >Auto</v-chip
+            >
+          </div>
+          <v-card-text class="pt-4">
+            <v-alert
+              density="compact"
+              variant="tonal"
+              color="info"
+              rounded="lg"
+              class="mb-4"
+              prepend-icon="fas fa-circle-info"
+            >
+              รายการทดสอบถูกกำหนดอัตโนมัติตามประเทศปลายทาง มาตรฐานสินค้า
+              และข้อมูลทะเบียนประวัติ — ไม่สามารถแก้ไขได้
+            </v-alert>
+            <v-list density="compact" class="bg-transparent pa-0">
+              <v-list-item
+                v-for="item in autoTestItems"
+                :key="item.name"
+                prepend-icon="fas fa-circle-check"
+                base-color="hcex-user"
+                class="px-0"
+              >
+                <template #title>
+                  <span class="text-body-2 font-weight-medium">{{
+                    item.name
+                  }}</span>
+                </template>
+                <template #subtitle>
+                  <span class="text-caption">{{ item.criteria }}</span>
+                </template>
+              </v-list-item>
+            </v-list>
+          </v-card-text>
+        </v-card>
+
+        <!-- 15. Special Remark -->
+        <v-card elevation="0" border rounded="xl" class="mb-5">
+          <div class="d-flex align-center ga-2 px-4 py-3 border-b">
+            <v-icon icon="fas fa-comment-dots" color="hcex-user" size="15" />
+            <span class="text-subtitle-2 font-weight-bold"
+              >15. การระบุข้อความพิเศษ (Special Remark)</span
+            >
+          </div>
+          <v-card-text class="pt-4">
+            <v-radio-group
+              v-model="labForm.specialRemark"
+              color="hcex-user"
+              density="compact"
+            >
+              <v-radio value="none" label="ไม่ระบุ (None)" />
+              <v-radio value="custom" label="ระบุข้อความพิเศษตามความประสงค์" />
+              <v-radio value="ffc" label='ระบุ "Fit for Human Consumption"' />
+            </v-radio-group>
+            <v-expand-transition>
+              <div v-if="labForm.specialRemark === 'custom'" class="mt-2">
+                <div class="field-label mb-1">
+                  ข้อความพิเศษ <span class="req">*</span>
+                </div>
+                <v-textarea
+                  density="compact"
+                  variant="outlined"
+                  rounded="lg"
+                  v-model="labForm.specialRemarkText"
+                  hide-details
+                  placeholder="ระบุข้อความพิเศษ"
+                  rows="3"
+                />
+              </div>
+            </v-expand-transition>
+          </v-card-text>
+        </v-card>
+
+        <!-- 16. มาตรฐานกรมวิชาการเกษตร (auto display) -->
+        <v-card elevation="0" border rounded="xl" class="mb-5">
+          <div class="d-flex align-center ga-2 px-4 py-3 border-b">
+            <v-icon icon="fas fa-book-open" color="hcex-user" size="15" />
+            <span class="text-subtitle-2 font-weight-bold"
+              >16. ระบุมาตรฐานกรมวิชาการเกษตร ตามคู่มือ</span
+            >
+            <v-chip size="x-small" color="grey" variant="tonal" class="ml-1"
+              >Auto</v-chip
+            >
+          </div>
+          <v-card-text class="pt-4">
+            <v-alert
+              density="compact"
+              variant="tonal"
+              color="grey"
+              rounded="lg"
+              prepend-icon="fas fa-lock"
+              class="mb-3"
+              >ระบบแสดงมาตรฐานอ้างอิงอัตโนมัติ — ไม่สามารถแก้ไขได้</v-alert
+            >
+            <v-list density="compact" class="bg-transparent pa-0">
+              <v-list-item
+                prepend-icon="fas fa-circle-dot"
+                base-color="hcex-user"
+                class="px-0"
+              >
+                <template #title
+                  ><span class="text-body-2"
+                    >ภาคผนวก 3 ลำดับที่ 1 —
+                    มาตรฐานทั่วไปสำหรับสินค้าแปรรูปด้านพืช</span
+                  ></template
+                >
+              </v-list-item>
+              <v-list-item
+                prepend-icon="fas fa-circle-dot"
+                base-color="hcex-user"
+                class="px-0"
+              >
+                <template #title
+                  ><span class="text-body-2"
+                    >มาตรฐานเฉพาะประเทศปลายทาง (ตามที่เลือก)</span
+                  ></template
+                >
+              </v-list-item>
+            </v-list>
+          </v-card-text>
+        </v-card>
+
+        <!-- 19. ข้อมูลอื่นๆ -->
+        <v-card elevation="0" border rounded="xl" class="mb-5">
+          <div class="d-flex align-center ga-2 px-4 py-3 border-b">
+            <v-icon icon="fas fa-pen-to-square" color="hcex-user" size="15" />
+            <span class="text-subtitle-2 font-weight-bold"
+              >19. ข้อมูลอื่น ๆ (Other Data)</span
+            >
+          </div>
+          <v-card-text class="pt-4">
+            <v-textarea
+              density="compact"
+              variant="outlined"
+              rounded="lg"
+              v-model="labForm.otherData"
+              hide-details
+              placeholder="ระบุข้อมูลเพิ่มเติม (ถ้ามี)"
+              rows="3"
+            />
+          </v-card-text>
+        </v-card>
+      </template>
     </template>
 
     <!-- ─── STEP 2: ไฟล์แนบ ─── -->
     <template v-if="currentStep === 1">
+      <!-- เอกสารสำหรับ newrequest type -->
+      <v-card
+        v-if="route.params.type === 'newrequest'"
+        elevation="0"
+        border
+        rounded="xl"
+        class="mb-5"
+      >
+        <div class="d-flex align-center ga-2 px-4 py-3 border-b">
+          <v-icon icon="fas fa-paperclip" color="hcex-user" size="15" />
+          <span class="text-subtitle-2 font-weight-bold">เอกสารประกอบ</span>
+        </div>
+        <v-card-text class="pt-5">
+          <div
+            v-for="doc in regDocs"
+            :key="doc.key"
+            class="item-row rounded-lg pa-3 mb-2"
+          >
+            <v-row align="center" no-gutters>
+              <v-col>
+                <div class="text-body-2 font-weight-medium">
+                  {{ doc.label }}
+                  <v-chip
+                    v-if="doc.optional"
+                    size="x-small"
+                    color="grey"
+                    variant="tonal"
+                    class="ml-2"
+                    >ไม่บังคับ</v-chip
+                  >
+                  <span v-else class="req ml-1">*</span>
+                </div>
+                <div class="text-caption text-medium-emphasis">
+                  PDF, JPG, JPEG, PNG ขนาดไม่เกิน 10 MB
+                </div>
+              </v-col>
+              <v-col cols="auto" class="d-flex align-center ga-2 pl-3">
+                <v-chip
+                  v-if="uploadedFiles[doc.key]"
+                  color="success"
+                  size="x-small"
+                  variant="tonal"
+                  prepend-icon="fas fa-check"
+                  >{{ uploadedFiles[doc.key] }}</v-chip
+                >
+                <v-btn
+                  v-if="uploadedFiles[doc.key]"
+                  icon="fas fa-xmark"
+                  color="error"
+                  variant="text"
+                  size="small"
+                  @click="removeFile(doc.key)"
+                />
+                <v-btn
+                  :color="uploadedFiles[doc.key] ? 'warning' : 'hcex-user'"
+                  variant="tonal"
+                  size="small"
+                  prepend-icon="fas fa-upload"
+                  @click="triggerFileInput(doc.key)"
+                >
+                  {{ uploadedFiles[doc.key] ? "เปลี่ยนไฟล์" : "แนบไฟล์" }}
+                </v-btn>
+              </v-col>
+            </v-row>
+          </div>
+        </v-card-text>
+      </v-card>
+
+      <!-- เอกสารสำหรับ lab type -->
+      <v-card
+        v-if="route.params.type === 'lab'"
+        elevation="0"
+        border
+        rounded="xl"
+        class="mb-5"
+      >
+        <div class="d-flex align-center ga-2 px-4 py-3 border-b">
+          <v-icon icon="fas fa-paperclip" color="hcex-user" size="15" />
+          <span class="text-subtitle-2 font-weight-bold">เอกสารประกอบ</span>
+        </div>
+        <v-card-text class="pt-5">
+          <div
+            v-for="doc in labDocs"
+            :key="doc.key"
+            class="item-row rounded-lg pa-3 mb-2"
+          >
+            <v-row align="center" no-gutters>
+              <v-col>
+                <div class="text-body-2 font-weight-medium">
+                  {{ doc.label }}
+                  <v-chip
+                    v-if="doc.optional"
+                    size="x-small"
+                    color="grey"
+                    variant="tonal"
+                    class="ml-2"
+                    >ไม่บังคับ</v-chip
+                  >
+                  <span v-else class="req ml-1">*</span>
+                </div>
+                <div class="text-caption text-medium-emphasis">
+                  PDF, JPG, JPEG, PNG ขนาดไม่เกิน 10 MB
+                </div>
+              </v-col>
+              <v-col cols="auto" class="d-flex align-center ga-2 pl-3">
+                <v-chip
+                  v-if="uploadedFiles[doc.key]"
+                  color="success"
+                  size="x-small"
+                  variant="tonal"
+                  prepend-icon="fas fa-check"
+                  >{{ uploadedFiles[doc.key] }}</v-chip
+                >
+                <v-btn
+                  v-if="uploadedFiles[doc.key]"
+                  icon="fas fa-xmark"
+                  color="error"
+                  variant="text"
+                  size="small"
+                  @click="removeFile(doc.key)"
+                />
+                <v-btn
+                  :color="uploadedFiles[doc.key] ? 'warning' : 'hcex-user'"
+                  variant="tonal"
+                  size="small"
+                  prepend-icon="fas fa-upload"
+                  @click="triggerFileInput(doc.key)"
+                >
+                  {{ uploadedFiles[doc.key] ? "เปลี่ยนไฟล์" : "แนบไฟล์" }}
+                </v-btn>
+              </v-col>
+            </v-row>
+          </div>
+        </v-card-text>
+      </v-card>
+
+      <!-- เอกสารสำหรับ history type -->
+      <v-card
+        v-if="route.params.type === 'history'"
+        elevation="0"
+        border
+        rounded="xl"
+        class="mb-5"
+      >
+        <div class="d-flex align-center ga-2 px-4 py-3 border-b">
+          <v-icon icon="fas fa-paperclip" color="hcex-user" size="15" />
+          <span class="text-subtitle-2 font-weight-bold">เอกสารประกอบ</span>
+        </div>
+        <v-card-text class="pt-5">
+          <div class="field-section-label mb-2">
+            ใบรับรองมาตรฐาน
+            <v-chip size="x-small" color="grey" variant="tonal" class="ml-1"
+              >ไม่บังคับ</v-chip
+            >
+          </div>
+          <div class="item-row rounded-lg pa-3 mb-3">
+            <v-row align="center" no-gutters>
+              <v-col>
+                <div class="text-body-2 font-weight-medium">
+                  ใบรับรองมาตรฐาน (GMP, HACCP, ISO 22000 ฯลฯ)
+                </div>
+                <div class="text-caption text-medium-emphasis">
+                  PDF, JPG, JPEG, PNG ขนาดไม่เกิน 10 MB
+                </div>
+              </v-col>
+              <v-col cols="auto" class="d-flex align-center ga-2 pl-3">
+                <v-chip
+                  v-if="uploadedFiles['history_std_cert']"
+                  color="success"
+                  size="x-small"
+                  variant="tonal"
+                  prepend-icon="fas fa-check"
+                  >{{ uploadedFiles["history_std_cert"] }}</v-chip
+                >
+                <v-btn
+                  v-if="uploadedFiles['history_std_cert']"
+                  icon="fas fa-xmark"
+                  color="error"
+                  variant="text"
+                  size="small"
+                  @click="removeFile('history_std_cert')"
+                />
+                <v-btn
+                  :color="
+                    uploadedFiles['history_std_cert'] ? 'warning' : 'hcex-user'
+                  "
+                  variant="tonal"
+                  size="small"
+                  prepend-icon="fas fa-upload"
+                  @click="triggerFileInput('history_std_cert')"
+                >
+                  {{
+                    uploadedFiles["history_std_cert"]
+                      ? "เปลี่ยนไฟล์"
+                      : "แนบไฟล์"
+                  }}
+                </v-btn>
+              </v-col>
+            </v-row>
+          </div>
+
+          <div class="field-section-label mt-4 mb-2">
+            เอกสารหลักฐานอื่น ๆ <span class="req">*</span>
+          </div>
+          <div class="item-row rounded-lg pa-3 mb-2">
+            <v-row align="center" no-gutters>
+              <v-col>
+                <div class="text-body-2 font-weight-medium">
+                  เอกสารหลักฐานอื่น ๆ <span class="req">*</span>
+                </div>
+                <div class="text-caption text-medium-emphasis">
+                  PDF, JPG, JPEG, PNG ขนาดไม่เกิน 10 MB ต่อไฟล์
+                </div>
+              </v-col>
+              <v-col cols="auto" class="d-flex align-center ga-2 pl-3">
+                <v-chip
+                  v-if="uploadedFiles['history_other']"
+                  color="success"
+                  size="x-small"
+                  variant="tonal"
+                  prepend-icon="fas fa-check"
+                  >{{ uploadedFiles["history_other"] }}</v-chip
+                >
+                <v-btn
+                  v-if="uploadedFiles['history_other']"
+                  icon="fas fa-xmark"
+                  color="error"
+                  variant="text"
+                  size="small"
+                  @click="removeFile('history_other')"
+                />
+                <v-btn
+                  :color="
+                    uploadedFiles['history_other'] ? 'warning' : 'hcex-user'
+                  "
+                  variant="tonal"
+                  size="small"
+                  prepend-icon="fas fa-upload"
+                  @click="triggerFileInput('history_other')"
+                >
+                  {{
+                    uploadedFiles["history_other"] ? "เปลี่ยนไฟล์" : "แนบไฟล์"
+                  }}
+                </v-btn>
+              </v-col>
+            </v-row>
+          </div>
+        </v-card-text>
+      </v-card>
+
       <!-- เอกสารบุคคลธรรมดา -->
       <v-card
-        v-if="entityType === 'personal'"
+        v-if="
+          entityType === 'personal' &&
+          !['history', 'lab', 'newrequest'].includes(route.params.type)
+        "
         elevation="0"
         border
         rounded="xl"
@@ -1990,9 +5611,7 @@
                       @click="removeFile(doc.key)"
                     />
                     <v-btn
-                      :color="
-                        uploadedFiles[doc.key] ? 'warning' : 'hcex-user'
-                      "
+                      :color="uploadedFiles[doc.key] ? 'warning' : 'hcex-user'"
                       variant="tonal"
                       size="small"
                       prepend-icon="fas fa-upload"
@@ -2010,7 +5629,10 @@
 
       <!-- เอกสารนิติบุคคล -->
       <v-card
-        v-if="entityType === 'juristic'"
+        v-if="
+          entityType === 'juristic' &&
+          !['history', 'lab', 'newrequest'].includes(route.params.type)
+        "
         elevation="0"
         border
         rounded="xl"
@@ -2057,9 +5679,7 @@
                       @click="removeFile(doc.key)"
                     />
                     <v-btn
-                      :color="
-                        uploadedFiles[doc.key] ? 'warning' : 'hcex-user'
-                      "
+                      :color="uploadedFiles[doc.key] ? 'warning' : 'hcex-user'"
                       variant="tonal"
                       size="small"
                       prepend-icon="fas fa-upload"
@@ -2216,9 +5836,11 @@ function nextStep() {
 }
 
 const typeTitles = {
-  newrequest: "คำขอขึ้น / ต่ออายุทะเบียน",
+  newrequest: "คำขอขึ้นทะเบียน",
   renew: "คำขอต่ออายุทะเบียน",
-  amendment: "คำขอแก้ไขใบทะเบียน",
+  amendment: "คำขอแก้ไขใบรับรองสุขอนามัยพืช",
+  history: "คำขอขึ้นทะเบียนประวัติ",
+  lab: "คำขอพิจารณาผล Lab",
 };
 const pageTitle = computed(
   () => typeTitles[route.params.type] ?? "คำขอจดทะเบียนผู้ส่งออก",
@@ -2473,12 +6095,12 @@ const viewGapDialog = ref(false);
 const amendFields = ref([]);
 
 const certMockDB = {
-  "EXP-2568-00123": {
-    certNo: "EXP-2568-00123",
+  "HC-2568-00123": {
+    certNo: "HC-2568-00123",
     issuedDate: "01/01/2568",
     expiryDate: "31/12/2569",
     isExpired: false,
-    // ข้อมูลบนใบทะเบียน (ณ วันที่ออก)
+    // ข้อมูลบนใบรับรองสุขอนามัยพืช (ณ วันที่ออก)
     applicantNameTh: "นายสมชาย ใจดี",
     applicantNameEn: "MR. SOMCHAI JAIDEE",
     companyNameTh: "บริษัท สยามเฟรชฟู้ด จำกัด",
@@ -2491,8 +6113,8 @@ const certMockDB = {
     province: "กรุงเทพมหานคร",
     zipcode: "10240",
   },
-  "EXP-2567-00456": {
-    certNo: "EXP-2567-00456",
+  "HC-2567-00456": {
+    certNo: "HC-2567-00456",
     issuedDate: "16/03/2567",
     expiryDate: "15/03/2568",
     isExpired: false,
@@ -2508,8 +6130,8 @@ const certMockDB = {
     province: "กรุงเทพมหานคร",
     zipcode: "10110",
   },
-  "EXP-2565-00789": {
-    certNo: "EXP-2565-00789",
+  "HC-2565-00789": {
+    certNo: "HC-2565-00789",
     issuedDate: "01/07/2565",
     expiryDate: "30/06/2567",
     isExpired: true,
@@ -2597,25 +6219,425 @@ function selectCert() {
   amendNewValues.address.provinceEn = form.provinceEn ?? "";
 }
 
+// ─── Registration (newrequest) form data ───
+const regForm = reactive({
+  testReportSearchNo: "",
+  testReportSelected: null,
+  formType: "kmpor1",
+  certQty: "",
+});
+
+const testReportSearchLoading = ref(false);
+const testReportNotFound = ref(false);
+const selectedTestReport = ref(null);
+
+function searchTestReport() {
+  testReportSearchLoading.value = true;
+  testReportNotFound.value = false;
+  selectedTestReport.value = null;
+  setTimeout(() => {
+    testReportSearchLoading.value = false;
+    if (regForm.testReportSearchNo === "LAB-2568-00123") {
+      selectedTestReport.value = {
+        no: "LAB-2568-00123",
+        productName: "มะม่วงอบแห้ง (Dried Mango)",
+        manufacturer: "THAI FRESH EXPORT CO., LTD.",
+        date: "15/03/2568",
+      };
+    } else {
+      testReportNotFound.value = true;
+    }
+  }, 600);
+}
+
+const regKmpor1 = reactive({
+  exporterAddress: "",
+  consigneeAddress: "",
+  shipmentDate: "",
+  countryDestination: null,
+  placeOfDeparture: null,
+  vessel: "",
+  transport: [],
+  shippingMark: "",
+  descriptionOfGoods: "",
+  quantity: "",
+  weightNW: "",
+  weightGW: "",
+  totalAmount: "",
+  remark: "",
+  remarkFFC: false,
+});
+
+const regKmpor1_1 = reactive({
+  exporterAddress: "",
+  consigneeAddress: "",
+  producerAddress: "",
+  packingAddress: "",
+  shipmentDate: "",
+  vessel: "",
+  borderLoading: null,
+  borderEntry: null,
+  transport: [],
+  temperature: null,
+  halalCertNo: "",
+  descriptionOfFood: "",
+  hsCode: "",
+  treatmentType: "",
+  brandName: "",
+  batchNo: "",
+  productionDate: "",
+  expiryDate: "",
+  noPackages: "",
+  totalWeight: "",
+  totalAmount: "",
+  certifiedFor: [],
+});
+
+const regKmpor1_2 = reactive({
+  consignor: "",
+  consignee: "",
+  operator: "",
+  regionOrigin: null,
+  countryDestination: null,
+  regionDestination: "",
+  placeDispatch: "",
+  placeDestination: "",
+  placeLoading: "",
+  entryBorderPost: null,
+  transport: [],
+  transportCondition: [],
+  containerNo: "",
+  sealNo: "",
+  departureDateTime: "",
+  accompanyingDocs: "",
+  certifiedFor: [],
+  certifiedForExtra: [],
+  totalPackages: "",
+  totalQuantity: "",
+  totalNetWeight: "",
+  grossWeight: "",
+  totalAmount: "",
+  cnCode: "",
+  category: "",
+  identificationMark: "",
+  typeOfPackaging: "",
+  netWeight: "",
+  natureOfCommodity: "",
+  numberOfPackages: "",
+  batchNo: "",
+  collectionDate: "",
+  descriptionConsignment: "",
+});
+
+const regKmpor1_3 = reactive({
+  exporterAddress: "",
+  exporterAccreditation: "",
+  producerAddress: "",
+  producerAccreditation: "",
+  consignee: "",
+  shipmentDate: "",
+  loadingPlace: "",
+  entryPoint: "",
+  billNo: "",
+  transport: [],
+  temperature: [],
+  descriptionProducts: "",
+  productName: "",
+  productionDate: "",
+  expiryDate: "",
+  processingType: [],
+  grossMass: "",
+  netMass: "",
+  numberOfPackages: "",
+  batchNo: "",
+  totalAmount: "",
+});
+
+const departureOptions = [
+  "ท่าเรือแหลมฉบัง",
+  "ท่าเรือกรุงเทพ",
+  "ท่าอากาศยานสุวรรณภูมิ",
+  "ท่าอากาศยานดอนเมือง",
+  "ด่านพรมแดนอรัญประเทศ",
+  "ด่านพรมแดนหนองคาย",
+];
+
+const euCountryOptions = [
+  "AUSTRIA",
+  "BELGIUM",
+  "BULGARIA",
+  "CROATIA",
+  "CYPRUS",
+  "CZECH REPUBLIC",
+  "DENMARK",
+  "ESTONIA",
+  "FINLAND",
+  "FRANCE",
+  "GERMANY",
+  "GREECE",
+  "HUNGARY",
+  "IRELAND",
+  "ITALY",
+  "LATVIA",
+  "LITHUANIA",
+  "LUXEMBOURG",
+  "MALTA",
+  "NETHERLANDS",
+  "POLAND",
+  "PORTUGAL",
+  "ROMANIA",
+  "SLOVAKIA",
+  "SLOVENIA",
+  "SPAIN",
+  "SWEDEN",
+];
+
+const regionOptions = [
+  "CENTRAL",
+  "NORTHERN",
+  "NORTHEASTERN",
+  "EASTERN",
+  "WESTERN",
+  "SOUTHERN",
+];
+
+const borderPostOptions = [
+  "Rotterdam",
+  "Hamburg",
+  "Antwerp",
+  "Felixstowe",
+  "Le Havre",
+  "Other",
+];
+
+const regDocs = [
+  {
+    key: "reg_test_report",
+    label: "สำเนา Test Report ที่ได้รับการพิจารณาแล้ว",
+    optional: false,
+  },
+  { key: "reg_other", label: "เอกสารประกอบอื่น ๆ", optional: true },
+];
+
+// ─── Lab form data ───
+const labForm = reactive({
+  dateCollected: "",
+  productCode: "",
+  mfgDate: "",
+  expDate: "",
+  manufacturer: null,
+  product: null,
+  collectingLocation: "",
+  laboratory: null,
+  dateDelivered: "",
+  countries: [],
+  objective: "hc",
+  wholeOptions: [],
+  exportVolume: "",
+  exportUnit: "",
+  exportUnitOther: "",
+  specialRemark: "none",
+  specialRemarkText: "",
+  otherData: "",
+});
+
+const manufacturerOptions = [
+  {
+    id: 1,
+    name: "บริษัท ไทยฟู้ดส์ โปรเซสซิ่ง จำกัด",
+    address: "123 ถนนสุขุมวิท แขวงคลองเตย เขตคลองเตย กรุงเทพมหานคร 10110",
+  },
+  {
+    id: 2,
+    name: "บริษัท กรีนเฮิร์บ แปรรูป จำกัด",
+    address: "88/5 หมู่ 3 ตำบลคลองหลวง อำเภอคลองหลวง จังหวัดปทุมธานี 12120",
+  },
+  {
+    id: 3,
+    name: "บริษัท อีสเทิร์น ฟรุ้ต โปรดักส์ จำกัด",
+    address:
+      "45 นิคมอุตสาหกรรมอมตะ ตำบลมาบยางพร อำเภอปลวกแดง จังหวัดระยอง 21140",
+  },
+];
+
+const productsByManufacturer = {
+  1: [
+    { id: 101, nameTh: "มะม่วงอบแห้ง", nameEn: "Dried Mango" },
+    { id: 102, nameTh: "สับปะรดกระป๋อง", nameEn: "Canned Pineapple" },
+  ],
+  2: [
+    { id: 201, nameTh: "ขิงแปรรูป", nameEn: "Processed Ginger" },
+    { id: 202, nameTh: "ใบเตยอบแห้ง", nameEn: "Dried Pandan Leaf" },
+  ],
+  3: [
+    { id: 301, nameTh: "ลำไยอบแห้ง", nameEn: "Dried Longan" },
+    { id: 302, nameTh: "ทุเรียนแช่แข็ง", nameEn: "Frozen Durian" },
+  ],
+};
+
+const productOptions = computed(() =>
+  labForm.manufacturer
+    ? (productsByManufacturer[labForm.manufacturer] ?? [])
+    : [],
+);
+
+const selectedManufacturerAddress = computed(() => {
+  const m = manufacturerOptions.find((m) => m.id === labForm.manufacturer);
+  return m ? m.address : "";
+});
+
+const selectedProductNameEn = computed(() => {
+  const list = productsByManufacturer[labForm.manufacturer] ?? [];
+  const p = list.find((p) => p.id === labForm.product);
+  return p ? p.nameEn : "";
+});
+
+function onManufacturerChange() {
+  labForm.product = null;
+}
+function onProductChange() {}
+
+const laboratoryOptions = [
+  { id: 1, name: "กรมวิทยาศาสตร์การแพทย์ (DMSc)" },
+  { id: 2, name: "ศูนย์วิทยาศาสตร์การแพทย์ที่ 1 กรุงเทพฯ" },
+  { id: 3, name: "มหาวิทยาลัยเกษตรศาสตร์ (KU Lab)" },
+  { id: 4, name: "สถาบันอาหาร (National Food Institute)" },
+];
+
+const labCountryOptions = [
+  "USA / CANADA",
+  "สหภาพยุโรป",
+  "นอร์เวย์",
+  "ไอร์แลนด์",
+  "สมาพันธรัฐสวิส",
+  "ญี่ปุ่น",
+  "สิงคโปร์",
+  "สาธารณะรัฐประชาชนจีน",
+  "ไต้หวัน",
+  "เวียดนาม",
+  "อื่นๆ (ระบุ)",
+];
+
+const autoTestItems = [
+  { name: "Sulfites", criteria: "≤ 30 mg/kg" },
+  { name: "Total Plate Count", criteria: "≤ 1.0 × 10⁶ CFU/g" },
+  { name: "Total Mold Count", criteria: "≤ 1.0 × 10² CFU/g" },
+  { name: "Escherichia coli", criteria: "≤ 3.0 MPN/g" },
+  { name: "Staphylococcus aureus", criteria: "ND in 0.1 g" },
+  { name: "Salmonella spp.", criteria: "ND in 25 g" },
+  { name: "Clostridium perfringens", criteria: "≤ 1.0 × 10³ CFU/g" },
+  { name: "Bacillus cereus", criteria: "≤ 1.0 × 10³ CFU/g" },
+];
+
+const labDocs = [
+  { key: "lab_test_report", label: "ผล Test Report", optional: false },
+  { key: "lab_kmpor29", label: "กรมวิชาการเกษตร 29 (กมพ.29)", optional: true },
+  { key: "lab_other", label: "เอกสารอ้างอิงอื่น ๆ", optional: true },
+];
+
+// ─── History form data ───
+const historySubmissionType = ref("batch");
+
+const historyFactory = reactive({
+  name: "",
+  address: "",
+  phone: "",
+  fax: "",
+  email: "",
+  contactName: "",
+  contactPosition: "",
+  contactPhone: "",
+  contactFax: "",
+  doaRegNo: "",
+  doaExpiry: "",
+});
+
+const historyStandards = ref([
+  { name: "", certBody: "", certNo: "", expiry: "" },
+]);
+
+const historyExtraStandards = ref([]);
+
+const historyExporter = reactive({
+  name: "",
+  address: "",
+  phone: "",
+  fax: "",
+  email: "",
+  contactName: "",
+  contactPosition: "",
+  contactPhone: "",
+  contactFax: "",
+});
+
+const historyProducts = ref([
+  { productName: "", countries: [], standard: "", tests: [] },
+]);
+
+const testItems = [
+  "Sulfites",
+  "Total Plate Count",
+  "Total Mold Count",
+  "Escherichia coli",
+  "Staphylococcus aureus",
+  "Salmonella spp.",
+  "Clostridium perfringens",
+  "Bacillus cereus",
+];
+
+function addHistoryStandard() {
+  historyStandards.value.push({
+    name: "",
+    certBody: "",
+    certNo: "",
+    expiry: "",
+  });
+}
+function removeHistoryStandard(idx) {
+  if (historyStandards.value.length > 1) historyStandards.value.splice(idx, 1);
+}
+function addHistoryExtraStandard() {
+  historyExtraStandards.value.push({
+    name: "",
+    certBody: "",
+    certNo: "",
+    expiry: "",
+  });
+}
+function removeHistoryExtraStandard(idx) {
+  historyExtraStandards.value.splice(idx, 1);
+}
+function addHistoryProduct() {
+  historyProducts.value.push({
+    productName: "",
+    countries: [],
+    standard: "",
+    tests: [],
+  });
+}
+function removeHistoryProduct(idx) {
+  if (historyProducts.value.length > 1) historyProducts.value.splice(idx, 1);
+}
+
 const amendItems = [
   {
     value: "company_name",
-    label: "ชื่อสถานประกอบการ",
-    labelEn: "Company Name",
+    label: "ชื่อผู้รับใบรับรอง",
+    labelEn: "Certificate Holder Name",
     source: "Auto-fill จาก DBD",
     inputType: "company_name",
   },
   {
     value: "address",
-    label: "ที่อยู่สถานประกอบการ",
-    labelEn: "Company Address",
+    label: "ที่อยู่ผู้รับใบรับรอง",
+    labelEn: "Certificate Holder Address",
     source: "Auto-fill จาก DBD",
     inputType: "address",
   },
   {
     value: "expire_date",
-    label: "วันหมดอายุ",
-    labelEn: "Expire date",
+    label: "วันหมดอายุใบรับรอง",
+    labelEn: "Certificate Expiry Date",
     source: null,
     inputType: "expire_date",
   },

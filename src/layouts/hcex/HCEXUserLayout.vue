@@ -354,7 +354,7 @@ const navGroups = [
     divider: false,
     items: [
       {
-        title: "รายการใบทะเบียน",
+        title: "รายการใบรับรอง",
         icon: "fas fa-certificate",
         to: "/hcex/user/certificates",
       },
