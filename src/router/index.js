@@ -226,6 +226,18 @@ const routes = [
                 component: () => import("@/views/gap/user/CertificatePage.vue"),
                 meta: { title: "ใบรับรอง GAP ของฉัน" },
             },
+            {
+                path: "applications/edit/:id",
+                name: "GAPUserEditApplication",
+                component: () => import("@/views/gap/user/ApplicationEditPage.vue"),
+                meta: { title: "แก้ไขคำขอ GAP" },
+            },
+            {
+                path: "applications/cancel/:id",
+                name: "GAPUserCancelApplication",
+                component: () => import("@/views/gap/user/ApplicationCancelPage.vue"),
+                meta: { title: "ยกเลิกคำขอ GAP" },
+            },
         ],
     },
 
