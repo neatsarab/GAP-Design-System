@@ -245,8 +245,7 @@
                                 class="border rounded-lg custom-result-table" hide-default-footer>
                                 <!-- Slot สำหรับปุ่ม View ข้อมูล -->
                                 <template v-slot:item.view="{ item }">
-                                    <v-btn icon="fas fa-file-lines" variant="text" color="el-staff" size="small"
-                                       />
+                                    <v-btn icon="fas fa-file-lines" variant="text" color="el-staff" size="small" />
                                 </template>
 
                                 <!-- Slot สำหรับสถานะ (Status Chip) -->
@@ -267,8 +266,7 @@
                             <v-data-table :headers="resultHeadersDetail" :items="resultItems" density="comfortable"
                                 class="border rounded-lg custom-result-table" hide-default-footer>
                                 <template v-slot:item.view="{ item }">
-                                    <v-btn icon="fas fa-file-lines" variant="text" color="el-staff" size="small"
-                                       />
+                                    <v-btn icon="fas fa-file-lines" variant="text" color="el-staff" size="small" />
                                 </template>
 
                                 <template v-slot:item.status="{ item }">
@@ -288,8 +286,7 @@
                             <v-data-table :headers="factoryHeadersDetail" :items="factories" density="compact"
                                 class="border rounded-lg custom-table" hide-default-footer>
                                 <template v-slot:item.view="{ item }">
-                                    <v-btn icon="fas fa-file-lines" variant="text" size="small" color="el-staff"
-                                     />
+                                    <v-btn icon="fas fa-file-lines" variant="text" size="small" color="el-staff" />
                                 </template>
 
                                 <template v-slot:item.status="{ item }">
@@ -306,8 +303,7 @@
                             <v-data-table :headers="resultHeadersDetail" :items="resultItemsDetail" density="compact"
                                 class="border rounded-lg result-table">
                                 <template v-slot:item.view="{ item }">
-                                    <v-btn icon="fas fa-file-lines" variant="text" size="small" color="el-staff"
-                                        />
+                                    <v-btn icon="fas fa-file-lines" variant="text" size="small" color="el-staff" />
                                 </template>
 
                                 <template v-slot:item.farmerName="{ item }">
@@ -371,7 +367,7 @@
                             </div>
                             <div v-else class="ghp-haccp-container animate-fade">
                                 <div class="d-flex align-center mb-2"><span
-                                        class="text-error font-weight-bold mr-2">GHP</span><v-btn variant="outlined"
+                                        class="text-success font-weight-bold mr-2">GHP</span><v-btn variant="outlined"
                                         rounded="0" density="compact" class="bg-white border text-none"
                                         @click="page = 'gmp-form'"><v-icon icon="fas fa-plus-circle" color="success"
                                             size="small" class="mr-1" /> สร้างใหม่</v-btn><span
@@ -409,10 +405,28 @@
                                             size="small" class="mr-1" /> สร้างใหม่</v-btn><span
                                         class="ml-4 text-error font-weight-bold"
                                         style="font-size: 12px;">สร้างได้มากกว่า 1</span></div>
-                                <v-table density="compact" class="border custom-ghp-table">
-                                    <tbody>
+                                <v-table density="compact" class="border mb-6 custom-ghp-table">
+                                    <thead class="bg-grey-lighten-3">
                                         <tr>
-                                            <td colspan="7" class="text-center pa-4 text-grey italic">ไม่มีข้อมูล</td>
+                                            <th class="text-center border-right">ดู-แก้ไข</th>
+                                            <th class="text-center border-right">ครั้งที่ตรวจ</th>
+                                            <th class="text-center border-right">กำหนดตรวจ</th>
+                                            <th class="text-center border-right">วันที่ตรวจ</th>
+                                            <th class="text-center border-right">ผู้ตรวจ</th>
+                                            <th class="text-center border-right">ผลการตรวจ</th>
+                                            <th class="text-center">หมายเหตุ</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="text-center text-body-2">
+                                            <td class="border-right"><v-btn icon="fas fa-edit" size="x-small"
+                                                    variant="text" color="orange" @click="page = 'gmp-form'" /></td>
+                                            <td class="border-right">1</td>
+                                            <td class="border-right"></td>
+                                            <td class="border-right">22/01/2014</td>
+                                            <td class="border-right">เจ้าหน้าที่ กตม. 1</td>
+                                            <td class="border-right">ผ่าน</td>
+                                            <td></td>
                                         </tr>
                                     </tbody>
                                 </v-table>
@@ -427,7 +441,7 @@
                                 สร้างข้อมูลผลตรวจวิเคราะห์
                             </v-btn>
                             <div v-for="section in analysisDashboardSections" :key="section.title" class="mb-6">
-                                <h3 class="text-success font-weight-bold mb-2 text-body-1">{{ section.title }}</h3>
+                                <h3 class="text-el-staff font-weight-bold mb-2 text-body-1">{{ section.title }}</h3>
                                 <v-table density="compact" class="border custom-ghp-table">
                                     <thead class="bg-grey-lighten-3">
                                         <tr>
@@ -455,6 +469,11 @@
                                     </tbody>
                                 </v-table>
                             </div>
+                            <v-row dense class="mb-6">
+                                <v-col cols="12" md="6" class="d-flex align-center justify-content-start ml-n14">
+                                    <span class="label-fixed">สรุปผลการวิเคราะห์:</span><v-select :items="['ผ่าน']"
+                                        variant="outlined" rounded="0" density="compact" hide-details /></v-col>
+                            </v-row>
                         </div>
 
                         <!-- ─── TAB: ผลสอบ ─── -->
@@ -516,7 +535,7 @@
             <!-- ─── PAGE: GMP FORM ─── -->
             <v-window-item value="gmp-form">
                 <v-card elevation="0" class="border pa-8 bg-white mx-auto mb-10" max-width="1100">
-                    <v-row dense class="mb-6">
+                    <!-- <v-row dense class="mb-6">
                         <v-col cols="12" md="6">
                             <div class="d-flex align-center mb-1"><span class="label-fixed">ชื่อเกษตรกร
                                     :</span><v-text-field v-model="gmpForm.farmerName" variant="outlined" rounded="0"
@@ -536,32 +555,32 @@
                                     :</span><v-select :items="['GMP-20140424032']" variant="outlined" rounded="0"
                                     density="compact" hide-details bg-color="blue-lighten-5" /></div>
                         </v-col>
-                    </v-row>
+                    </v-row> -->
                     <v-table class="border checklist-table mb-6" density="compact">
                         <thead>
                             <tr class="bg-grey-lighten-4">
                                 <th class="text-center border-right font-weight-bold" style="width: 50%">รายการลงตรวจ
                                 </th>
-                                <th class="text-center border-right font-weight-bold" style="width: 15%">คะแนน</th>
+                                <!-- <th class="text-center border-right font-weight-bold" style="width: 15%">คะแนน</th> -->
                                 <th class="text-center font-weight-bold">ผลการประเมิน</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr v-for="(item, idx) in gmpChecklist" :key="idx">
                                 <td class="pa-3 border-right text-body-2">{{ idx + 1 }}. {{ item }}</td>
-                                <td class="pa-1 border-right"><v-text-field variant="outlined" rounded="0"
-                                        density="compact" hide-details bg-color="white" /></td>
+                                <!-- <td class="pa-1 border-right"><v-text-field variant="outlined" rounded="0"
+                                        density="compact" hide-details bg-color="white" /></td> -->
                                 <td class="text-center"><v-radio-group inline hide-details
                                         class="d-inline-flex"><v-radio label="ผ่าน" value="pass" color="success"
                                             class="mr-4" /><v-radio label="ไม่ผ่าน" value="fail"
                                             color="error" /></v-radio-group></td>
                             </tr>
                             <tr class="bg-grey-lighten-5 font-weight-bold">
-                                <td class="text-center border-right">คะแนนรวม</td>
-                                <td class="pa-1 border-right"><v-text-field variant="outlined" rounded="0"
-                                        density="compact" hide-details bg-color="white" /></td>
-                                <td class="text-center"><v-btn variant="text" color="error" size="small"
-                                        class="text-none font-weight-bold" @click="passAllGmp">เพิ่มผ่านทั้งหมด</v-btn>
+                                <td class="text-center border-right"></td>
+                                <!-- <td class="pa-1 border-right"><v-text-field variant="outlined" rounded="0"
+                                        density="compact" hide-details bg-color="white" /></td> -->
+                                <td class="text-center"><v-btn variant="flat" color="success" size="small"
+                                        class="text-none font-weight-bold" @click="passAllGmp">ผ่านทั้งหมด</v-btn>
                                 </td>
                             </tr>
                         </tbody>
@@ -575,10 +594,12 @@
                             rounded="0" density="compact" rows="3" hide-details bg-color="white" />
                     </div>
                     <div class="d-flex justify-center ga-3"><v-btn variant="tonal" rounded="0" class="border px-8"
-                            color="grey-lighten-3" @click="page = 'main'"><v-icon icon="fas fa-arrow-left" class="mr-2"
-                                color="success" /> ย้อนกลับ</v-btn><v-btn variant="tonal" rounded="0"
-                            class="border px-8" color="grey-lighten-3" @click="page = 'main'"><v-icon icon="fas fa-save"
-                                class="mr-2" color="grey-darken-3" /> บันทึก</v-btn></div>
+                            color="" @click="page = 'main'"><v-icon icon="fas fa-arrow-left" class="mr-2"
+                                color="success" />
+                            ย้อนกลับ</v-btn><v-btn variant="tonal" rounded="0" class="border px-8" color=""
+                            @click="page = 'main'"><v-icon icon="fas fa-save" class="mr-2" color="grey-darken-3" />
+                            บันทึก</v-btn>
+                    </div>
                 </v-card>
             </v-window-item>
 
@@ -594,15 +615,26 @@
                         </thead>
                         <tbody>
                             <tr v-for="(item, idx) in haccpChecklistItems" :key="idx">
-                                <td class="pa-3 border-right text-body-2 align-start">
-                                    <div :class="item.isSub ? 'ml-6' : 'font-weight-bold'">{{ item.label }}</div>
-                                </td>
-                                <td class="pa-1"><v-textarea variant="outlined" rounded="0" density="compact"
-                                        hide-details rows="2" auto-grow bg-color="white" /></td>
+                                <template v-if="item.hasSub">
+                                    <td colspan="2"
+                                        class="pa-3 bg-grey-lighten-5 font-weight-bold text-subtitle-2 color-primary">
+                                        {{ item.label }}
+                                    </td>
+                                </template>
+
+                                <template v-else>
+                                    <td class="pa-3 border-right text-body-2 align-start">
+                                        <div :class="item.isSub ? 'ml-8' : 'font-weight-bold'">{{ item.label }}</div>
+                                    </td>
+                                    <td class="pa-1">
+                                        <v-textarea variant="outlined" rounded="0" density="compact" hide-details
+                                            rows="2" auto-grow bg-color="white" />
+                                    </td>
+                                </template>
                             </tr>
                         </tbody>
                     </v-table>
-                    <div class="pa-4 border-top mt-6 d-flex align-center justify-space-between"><span
+                    <!-- <div class="pa-4 border-top mt-6 d-flex align-center justify-space-between"><span
                             class="text-body-2 font-weight-bold">คะแนนเต็ม 51 คะแนน</span>
                         <div class="d-flex ga-4">
                             <div class="d-flex align-center"><span class="mr-2">คะแนนรวม :</span><v-text-field
@@ -612,7 +644,7 @@
                                     variant="outlined" rounded="0" density="compact" hide-details style="width: 80px" />
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="pa-6 border mt-6 bg-grey-lighten-5"><v-radio-group inline hide-details
                             class="d-flex justify-center mb-4"><v-radio label="ผ่าน" value="pass" color="success"
                                 class="mr-15 font-weight-bold" /><v-radio label="ไม่ผ่าน" value="fail" color="error"
@@ -621,10 +653,12 @@
                             density="compact" rows="3" hide-details bg-color="white" />
                     </div>
                     <div class="d-flex justify-center ga-3 mt-10"><v-btn variant="tonal" rounded="0" class="border px-8"
-                            color="grey-lighten-3" @click="page = 'main'"><v-icon icon="fas fa-arrow-left" class="mr-2"
-                                color="success" /> ย้อนกลับ</v-btn><v-btn variant="tonal" rounded="0"
-                            class="border px-8" color="grey-lighten-3" @click="page = 'main'"><v-icon icon="fas fa-save"
-                                class="mr-2" color="grey-darken-3" /> บันทึก</v-btn></div>
+                            color="" @click="page = 'main'"><v-icon icon="fas fa-arrow-left" class="mr-2"
+                                color="success" />
+                            ย้อนกลับ</v-btn><v-btn variant="tonal" rounded="0" class="border px-8" color=""
+                            @click="page = 'main'"><v-icon icon="fas fa-save" class="mr-2" color="grey-darken-3" />
+                            บันทึก</v-btn>
+                    </div>
                 </v-card>
             </v-window-item>
 
@@ -639,9 +673,15 @@
                             class="d-flex align-center"><span class="label-fixed"><span class="text-error">*</span>
                                 วันที่ตรวจ :</span><v-text-field type="date" variant="outlined" rounded="0"
                                 density="compact" hide-details /></v-col></v-row>
+                    <v-row dense class="mb-6">
+                        <v-col cols="12" md="6" class="d-flex align-center justify-content-start ml-n14">
+                            <span class="label-fixed">แปลงเกษตรกร:</span><v-select :items="['ผ่าน']"
+                                variant="outlined" rounded="0" density="compact" hide-details /></v-col>
+                    </v-row>
                     <div v-for="section in analysisInputSections" :key="section.title" class="mb-8">
+
                         <div class="d-flex align-center justify-space-between mb-2">
-                            <h3 class="text-success font-weight-bold">{{ section.title }}</h3><v-btn color="error"
+                            <h3 class="text-el-staff font-weight-bold">{{ section.title }}</h3><v-btn color="error"
                                 variant="flat" size="x-small" class="rounded-0"><v-icon icon="fas fa-times"
                                     class="mr-1" />ลบ</v-btn>
                         </div>
@@ -662,7 +702,7 @@
                                 <tr v-for="(row, idx) in analysisForm[section.key]" :key="idx">
                                     <td class="border-right text-center"><v-checkbox-btn density="compact"
                                             hide-details /></td>
-                                    <td class="pa-1 border-right"><v-select placeholder="มี master data"
+                                    <td class="pa-1 border-right"><v-select placeholder=""
                                             variant="outlined" rounded="0" density="compact" hide-details /></td>
                                     <td class="pa-1 border-right"><v-text-field variant="outlined" rounded="0"
                                             density="compact" hide-details /></td>
@@ -678,10 +718,12 @@
                         </v-table>
                     </div>
                     <div class="d-flex justify-center ga-3"><v-btn variant="tonal" rounded="0" class="border px-8"
-                            color="grey-lighten-3" @click="page = 'main'"><v-icon icon="fas fa-arrow-left" class="mr-2"
-                                color="success" /> ย้อนกลับ</v-btn><v-btn variant="tonal" rounded="0"
-                            class="border px-8" color="grey-lighten-3" @click="page = 'main'"><v-icon icon="fas fa-save"
-                                class="mr-2" color="grey-darken-3" /> บันทึก</v-btn></div>
+                            color="" @click="page = 'main'"><v-icon icon="fas fa-arrow-left" class="mr-2"
+                                color="success" />
+                            ย้อนกลับ</v-btn><v-btn variant="tonal" rounded="0" class="border px-8" color=""
+                            @click="page = 'main'"><v-icon icon="fas fa-save" class="mr-2" color="grey-darken-3" />
+                            บันทึก</v-btn>
+                    </div>
                 </v-card>
             </v-window-item>
 
@@ -713,7 +755,7 @@
                     <h3 class="text-body-1 font-weight-bold mb-2">รายชื่อผู้สอบ</h3>
 
                     <!-- ตารางรายชื่อผู้สอบ -->
-                    <v-table density="compact" class="border custom-analysis-table mb-4">
+                    <v-table density="compact" class="border custom-analysis-table mb-4" rounded="0">
                         <thead class="bg-grey-lighten-3">
                             <tr>
                                 <th style="width: 40px" class="border-right"><v-checkbox-btn density="compact"
@@ -781,10 +823,10 @@
 
                     <!-- ปุ่ม Action -->
                     <div class="d-flex justify-center ga-3">
-                        <v-btn variant="tonal" rounded="0" class="border px-8" color="grey-lighten-3">
+                        <v-btn variant="tonal" rounded="0" class="border px-8" color="">
                             <v-icon icon="fas fa-save" class="mr-2" color="grey-darken-3" />บันทึก
                         </v-btn>
-                        <v-btn variant="tonal" rounded="0" class="border px-8" color="grey-lighten-3"
+                        <v-btn variant="tonal" rounded="0" class="border px-8" color=""
                             @click="page = 'main'">
                             <v-icon icon="fas fa-arrow-left" class="mr-2" color="success" />ย้อนกลับ
                         </v-btn>
@@ -828,11 +870,20 @@ const analysisInputSections = [{ title: 'ผลตรวจเชื้อจุ
 const examForm = reactive({ students: [{}] });
 
 const haccpChecklistItems = [
-    { label: '9.1 มีการกำหนดการตรวจเฝ้าระวังที่รวดเร็ว เหมาะสม ครบทุก CCP', isSub: false },
-    { label: '10. กำหนดการปฏิบัติการแก้ไข (หลักการที่ 5)', isSub: false },
-    { label: '10.1 มีการกำหนดการแก้ไขในแต่ละ CCP', isSub: true },
-    { label: '11. กำหนดวิธีการทวนสอบ (หลักการที่ 6)', isSub: false },
-    { label: '12. การกำหนดวิธีการจัดทำเอกสารและการจัดเก็บบันทึกข้อมูล (หลักการที่ 7)', isSub: false },
+    { label: '1. มีการกำหนดการตรวจเฝ้าระวังที่รวดเร็ว เหมาะสม ครบทุก CCP', isSub: false, hasSub: false },
+    { label: '2. พนักงานตรวจเฝ้าระวังมีความรู้ความเข้าใจ', isSub: false, hasSub: false },
+    { label: '3. มีการบันทึก การตรวจเฝ้าระวังจุดวิกฤตครบถ้วน', isSub: false, hasSub: false },
+
+    { label: '4. กำหนดการปฏิบัติการแก้ไข (หลักการที่ 5)', isSub: false, hasSub: true }, // หัวข้อหลัก
+    { label: '4.1. มีการกำหนดการแก้ไขในแต่ละ CCP', isSub: true, hasSub: false },
+    { label: '4.2. มีการแก้ไขเมื่อเกิดการเบี่ยงเบนและมีบันทึก', isSub: true, hasSub: false },
+
+    { label: '5. กำหนดวิธีการทวนสอบ (หลักการที่ 6)', isSub: false, hasSub: true }, // หัวข้อหลัก
+    { label: '5.1. มีการทวนสอบ ระบบและแผน HACCP บันทึกและความถี่ในการทวนสอบเพียงพอ', isSub: true, hasSub: false },
+    { label: '5.2. มีการสุ่มตัวอย่างวิเคราะห์', isSub: true, hasSub: false },
+
+    { label: '6. การกำหนดวิธีการจัดทำเอกสารและการจัดเก็บบันทึกข้อมูล (หลักการที่ 7)', isSub: false, hasSub: true }, // หัวข้อหลัก
+    { label: '6.1. มีเอกสารและบันทึก เพียงพอ ถูกต้อง ครบถ้วน', isSub: true, hasSub: false },
 ];
 
 const refGmpList = ['GMP-20140502002', 'GMP-20140502008', 'GMP-20140424032'];
