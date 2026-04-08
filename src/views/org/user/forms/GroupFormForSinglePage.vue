@@ -1,22 +1,15 @@
 <template>
-    <div style="--v-theme-primary: var(--v-theme-org-staff)">
-        <!-- Back + Header -->
-        <div class="d-flex align-center ga-3 mb-5 flex-wrap">
-            <v-btn variant="text" prepend-icon="fas fa-arrow-left" size="small" @click="goToApplicationList">
-                กลับ
-            </v-btn>
-            <v-divider vertical style="height: 24px" />
-            <div class="flex-grow-1">
-                <div class="d-flex align-center ga-2 flex-wrap">
-                    <h1 class="text-h6 font-weight-bold">{{ app.requestNo }}</h1>
-                    <v-chip size="small" :color="statusColor" variant="tonal" :prepend-icon="statusIcon">
-                        {{ statusLabel }}
-                    </v-chip>
+    <div style="--v-theme-primary: var(--v-theme-org-user)">
+        <!-- Header -->
+        <div class="d-flex align-center ga-3 mb-6">
+            <v-btn icon="fas fa-arrow-left" variant="text" size="small" @click="router.back()" />
+            <div>
+                <div class="d-flex align-center ga-2 mb-1">
+                    <v-chip size="x-small" color="org-user" variant="tonal"
+                        prepend-icon="fas fa-users">รายเดี่ยว</v-chip>
                 </div>
-                <p class="text-body-2 text-medium-emphasis mb-0 mt-1">
-                    ยื่นเมื่อ {{ app.submittedAt }} · {{ app.certType }} ·
-                    {{ app.province }}
-                </p>
+                <h1 class="page-title mb-0">แบบคำขอใบรับรองแหล่งผลิต ORG พืช (สำหรับรายเดี่ยว)</h1>
+               
             </div>
         </div>
 
@@ -33,7 +26,7 @@
                                 }}</span>
                             </div>
                             <div class="text-caption text-center" :class="currentStep >= step.value
-                                ? 'text-org-staff font-weight-bold'
+                                ? 'text-org-user font-weight-bold'
                                 : 'text-medium-emphasis'
                                 ">
                                 {{ step.title }}
@@ -51,11 +44,16 @@
             <v-window-item :value="0">
                 <v-card elevation="0" border rounded="xl" class="mb-4">
                     <div class="section-header border-b">
-                        <v-icon size="15" color="org-staff">fas fa-users</v-icon>
+                        <v-icon size="15" color="org-user">fas fa-users</v-icon>
                         <span class="text-subtitle-2">ข้อมูลรายละเอียด</span>
                     </div>
                     <v-card-text class="pa-5">
-
+                        <v-row justify="center" class="radio-farm d-flex justify-center mb-4 mt-4">
+                            <v-radio-group inline hide-details v-model="form.requestType">
+                                <v-radio label="คำขอใหม่" value="new" class="mr-10"></v-radio>
+                                <v-radio label="ต่ออายุ" value="renew"></v-radio>
+                            </v-radio-group>
+                        </v-row>
                         <v-card variant="outlined" class="pa-6 rounded-xl bg-white">
                             <div class="text-subtitle-1 font-weight-bold mb-4 text-black">1. ผู้ยื่นคำขอ
                                 (บุคคล/นิติบุคคล)</div>
@@ -349,98 +347,100 @@
                             </v-row>
                         </v-card>
 
-                        <!-- เอกสารแนบ -->
-                        <v-card rounded="xl" elevation="0" class="section-card mb-4">
-                            <div class="section-header px-4 py-3 border-b d-flex align-center ga-2">
-                                <span class="text-subtitle-2 font-weight-bold">6.เอกสารแนบ</span>
-                            </div>
-                            <v-card-text class="pa-4">
-                                <div v-for="doc in application.attachments" :key="doc.label"
-                                    class="item-row rounded-lg px-3 py-2 mb-2 d-flex align-center justify-space-between">
-                                    <div class="text-body-2">{{ doc.label }}</div>
-                                    <v-btn size="x-small" variant="tonal" color="org-staff" rounded="lg"
-                                        prepend-icon="fas fa-download">
-                                        ดาวน์โหลด
-                                    </v-btn>
-                                </div>
-                            </v-card-text>
+                        <v-card variant="outlined" class="pa-6">
+                            <v-row align="center" no-gutters class="text-subtitle-1 mb-4">
+                                <v-col cols="auto" class="mr-2">
+                                    <strong>8. จำนวนชนิดพืชที่ขอการรับรองทั้งหมด</strong>
+                                </v-col>
+
+                                <v-col cols="3" class="mx-2">
+                                    <v-text-field :model-value="totalCrops" readonly density="compact"
+                                        variant="underlined" hide-details text-align="center" placeholder="0"
+                                        class="centered-input"></v-text-field>
+                                </v-col>
+
+                                <v-col cols="auto" class="mr-6">ชนิด</v-col>
+
+                                <v-col cols="auto" class="mr-2">
+                                    <strong>พื้นที่ขอการรับรองทั้งหมด</strong>
+                                </v-col>
+
+                                <v-col cols="2" class="mx-2">
+                                    <v-text-field v-model="totalArea" type="number" density="compact"
+                                        variant="underlined" hide-details placeholder="ระบุจำนวน"
+                                        class="centered-input"></v-text-field>
+                                </v-col>
+
+                                <v-col cols="auto">ไร่</v-col>
+                            </v-row>
+
+                            <v-row no-gutters>
+                                <v-col cols="12">
+                                    <div class="d-flex align-start">
+                                        <span class="text-subtitle-1 mr-2"
+                                            style="white-space: nowrap;">(ระบุชนิดพืช)</span>
+                                        <div class="flex-grow-1">
+                                            <div class="crop-display-area">
+                                                <v-text-field :model-value="totalCrops" density="compact"
+                                                    variant="underlined" hide-details text-align="center"
+                                                     class="centered-input"></v-text-field>
+                                            </div>
+                                            <div class="dotted-line"></div>
+                                            <div class="dotted-line"></div>
+                                        </div>
+                                    </div>
+                                </v-col>
+                            </v-row>
                         </v-card>
 
-                        <v-card rounded="xl" elevation="0" class="section-card">
-                            <v-card-text class="pa-5">
-                                <!-- ผลการตรวจสอบ -->
-                                <div class="field-label mb-1">
-                                    <span class="text-subtitle-2 font-weight-bold">ผลการตรวจสอบ</span>
-                                </div>
-                                <v-radio-group v-model="step1Review.result" color="doa-staff" inline>
-                                    <v-radio value="pass" class="mr-6">
-                                        <template #label>
-                                            <div class="d-flex align-center ga-2">
-                                                <v-icon icon="fas fa-circle-check" color="success" size="18" />
-                                                <span class="font-weight-medium">ผ่าน</span>
-                                            </div>
-                                        </template>
-                                    </v-radio>
-                                    <v-radio value="improve" class="mr-6">
-                                        <template #label>
-                                            <div class="d-flex align-center ga-2">
-                                                <v-icon icon="fas fa-circle-exclamation" color="warning" size="18" />
-                                                <span class="font-weight-medium">ปรับปรุง</span>
-                                            </div>
-                                        </template>
-                                    </v-radio>
-                                    <v-radio value="fail">
-                                        <template #label>
-                                            <div class="d-flex align-center ga-2">
-                                                <v-icon icon="fas fa-circle-xmark" color="error" size="18" />
-                                                <span class="font-weight-medium">ไม่ผ่าน</span>
-                                            </div>
-                                        </template>
-                                    </v-radio>
-                                </v-radio-group>
+                        <v-card variant="flat" class="pa-6 rounded-xl bg-white mt-n5">
+                            <div class="text-subtitle-1 font-weight-bold mb-4">9. ระบุถนนสายหลัก สายรอง จุดสังเกต หรือสถานที่ที่ใช้เป็นจุดสังเกต
+                                เพื่อสะดวกในการเดินทางเข้าสู่แหล่งผลิต
+                            </div>
 
-                                <!-- หมายเหตุ -->
-                                <div class="field-label mb-1">
-                                    <span class="text-subtitle-2 font-weight-bold">หมายเหตุ</span>
-                                </div>
-                                <v-textarea v-model="step1Review.remark" variant="outlined" density="compact"
-                                    rounded="lg" hide-details rows="4" placeholder="ระบุเหตุผลหรือข้อสังเกต..."
-                                    class="mb-5" />
+                            <div class="rounded-lg bg-grey-lighten-5 overflow-hidden"
+                                style="height: 400px; border: 1px solid #ddd">
+                                <div id="leaflet-map" style="height: 100%; width: 100%; z-index: 1;"></div>
+                            </div>
 
-                                <!-- แก้ไขภายในระยะเวลา (เฉพาะ ปรับปรุง) -->
-                                <template v-if="step1Review.result === 'improve'">
-                                    <div class="field-label mb-1">
-                                        <div>แก้ไขภายในระยะเวลา</div>
-                                        <div class="field-label-en">Deadline</div>
-                                    </div>
-                                    <v-menu v-model="deadlineMenu" :close-on-content-click="false" min-width="0">
-                                        <template #activator="{ props }">
-                                            <v-text-field v-bind="props" :model-value="deadlineBE" variant="outlined"
-                                                density="compact" rounded="lg" hide-details readonly
-                                                placeholder="วว/ดด/ปปปป" prepend-inner-icon="fas fa-calendar"
-                                                class="mb-4" />
-                                        </template>
-                                        <v-date-picker v-model="step1Review.deadline" hide-header locale="th"
-                                            @update:model-value="deadlineMenu = false" />
-                                    </v-menu>
-                                </template>
+                            <!-- <v-row class="mt-4" dense>
+                                <v-col cols="12" md="4">
+                                    <v-text-field label="พิกัด Latitude (X)" v-model="form.lat" variant="outlined"
+                                        density="compact" hide-details rounded="lg" readonly></v-text-field>
+                                </v-col>
+                                <v-col cols="12" md="4">
+                                    <v-text-field label="พิกัด Longitude (Y)" v-model="form.lng" variant="outlined"
+                                        density="compact" hide-details rounded="lg" readonly></v-text-field>
+                                </v-col>
+                                <v-col cols="12" md="4">
+                                    <v-text-field label="ความสูง (Z)" v-model="form.alt" variant="outlined"
+                                        density="compact" hide-details rounded="lg"></v-text-field>
+                                </v-col>
+                            </v-row> -->
+                        </v-card>
+                        <v-card variant="flat" class="pa-6 rounded-xl bg-white mt-n5">
+                            <div class="text-subtitle-1 font-weight-bold mb-4">10. ระบุแปลงย่อย ขนาดแปลง ชนิดพืชที่ปลูก
+                                แหล่งน้ำ สิ่งปลูกสร้าง แนวกันชน และการใช้ประโยชน์ที่ดินของพื้นที่ข้างเคียงที่อยู่โดยรอบ </div>
 
-                                <!-- Action buttons inline -->
-                                <v-row class="ga-2" no-gutters>
-                                    <v-col v-if="step1Review.result !== 'pass'">
-                                        <v-btn color="warning" variant="tonal" block rounded="lg"
-                                            prepend-icon="fas fa-rotate-left" @click="sendBackDialog = true">
-                                            ส่งกลับแก้ไข
-                                        </v-btn>
-                                    </v-col>
-                                    <!-- <v-col v-if="step1Review.result === 'pass'">
-                                        <v-btn color="doa-staff" variant="flat" block rounded="lg"
-                                            prepend-icon="fas fa-paper-plane" @click="forwardDialog = true">
-                                            ส่งต่อพิจารณา
-                                        </v-btn>
-                                    </v-col> -->
-                                </v-row>
-                            </v-card-text>
+                            <div class="rounded-lg bg-grey-lighten-5 overflow-hidden"
+                                style="height: 400px; border: 1px solid #ddd">
+                                <div id="size-leaflet-map" style="height: 100%; width: 100%; z-index: 1;"></div>
+                            </div>
+
+                            <!-- <v-row class="mt-4" dense>
+                                <v-col cols="12" md="4">
+                                    <v-text-field label="พิกัด Latitude (X)" v-model="form.lat" variant="outlined"
+                                        density="compact" hide-details rounded="lg" readonly></v-text-field>
+                                </v-col>
+                                <v-col cols="12" md="4">
+                                    <v-text-field label="พิกัด Longitude (Y)" v-model="form.lng" variant="outlined"
+                                        density="compact" hide-details rounded="lg" readonly></v-text-field>
+                                </v-col>
+                                <v-col cols="12" md="4">
+                                    <v-text-field label="ความสูง (Z)" v-model="form.alt" variant="outlined"
+                                        density="compact" hide-details rounded="lg"></v-text-field>
+                                </v-col>
+                            </v-row> -->
                         </v-card>
                     </v-card-text>
                 </v-card>
@@ -451,7 +451,7 @@
             <v-window-item :value="1">
                 <v-card elevation="0" rounded="xl">
                     <div class="section-header">
-                        <v-icon size="15" color="org-staff">fas fa-users</v-icon>
+                        <v-icon size="15" color="org-user">fas fa-users</v-icon>
                         <span class="text-subtitle-2">ข้อมูลรายละเอียด</span>
                         <v-spacer />
                     </div>
@@ -499,7 +499,7 @@
             <v-window-item :value="2">
                 <v-card elevation="0" border rounded="xl" class="mb-4">
                     <div class="section-header border-b">
-                        <v-icon size="15" color="org-staff">fas fa-location-dot</v-icon>
+                        <v-icon size="15" color="org-user">fas fa-location-dot</v-icon>
                         <span class="text-subtitle-2">ที่อยู่สำนักงานกลุ่ม / แหล่งผลิตหลัก</span>
                     </div>
                     <v-card-text class="pt-5">
@@ -555,7 +555,7 @@
 
                 <v-card elevation="0" border rounded="xl">
                     <div class="section-header border-b">
-                        <v-icon size="15" color="org-staff">fas fa-seedling</v-icon>
+                        <v-icon size="15" color="org-user">fas fa-seedling</v-icon>
                         <span class="text-subtitle-2">ข้อมูลการผลิตรวมกลุ่ม</span>
                     </div>
                     <v-card-text class="pt-5">
@@ -596,9 +596,9 @@
                                     <div class="field-label-en">GAP Requirements</div>
                                 </div>
                                 <div class="rounded-lg pa-3 bg-surface-variant">
-                                    <v-checkbox v-model="form.water" label="มีแหล่งน้ำในพื้นที่" color="org-staff"
+                                    <v-checkbox v-model="form.water" label="มีแหล่งน้ำในพื้นที่" color="org-user"
                                         density="compact" hide-details class="mb-1" />
-                                    <v-checkbox v-model="form.record" label="มีการบันทึกการผลิต" color="org-staff"
+                                    <v-checkbox v-model="form.record" label="มีการบันทึกการผลิต" color="org-user"
                                         density="compact" hide-details class="mb-1" />
                                     <v-checkbox v-model="form.chemical" label="บันทึกการใช้สารเคมี" color="warning"
                                         density="compact" hide-details />
@@ -613,7 +613,7 @@
             <v-window-item :value="3">
                 <v-card elevation="0" border rounded="xl">
                     <div class="section-header border-b">
-                        <v-icon size="15" color="org-staff">fas fa-paperclip</v-icon>
+                        <v-icon size="15" color="org-user">fas fa-paperclip</v-icon>
                         <span class="text-subtitle-2">เอกสารและหลักฐาน</span>
                         <v-spacer />
                         <v-chip size="x-small" variant="tonal" color="warning">ไม่เกินไฟล์ละ 10 MB</v-chip>
@@ -708,11 +708,11 @@
                     @click="prevStep">ย้อนกลับ</v-btn>
             </div>
             <div class="d-flex ga-2">
-                <v-btn variant="tonal" color="org-staff" prepend-icon="fas fa-floppy-disk"
+                <v-btn variant="tonal" color="org-user" prepend-icon="fas fa-floppy-disk"
                     @click="saveDraft">บันทึกแบบร่าง</v-btn>
-                <v-btn v-if="currentStep < steps.length - 1" color="org-staff" append-icon="fas fa-arrow-right"
+                <v-btn v-if="currentStep < steps.length - 1" color="org-user" append-icon="fas fa-arrow-right"
                     @click="nextStep">ถัดไป</v-btn>
-                <v-btn v-else color="org-staff" prepend-icon="fas fa-paper-plane"
+                <v-btn v-else color="org-user" prepend-icon="fas fa-paper-plane"
                     @click="openSuccessDialog">ยื่นคำขอ</v-btn>
             </div>
         </div>
@@ -724,12 +724,12 @@
                     <v-icon icon="fas fa-circle-check" color="success" size="64" class="mb-4" />
                     <h2 class="text-h6 font-weight-bold mb-2">ยื่นคำขอสำเร็จ!</h2>
                     <p class="text-body-2 text-medium-emphasis mb-5">
-                        เลขที่คำขอ: <strong class="text-org-staff">GAP-2569-012</strong><br />
+                        เลขที่คำขอ: <strong class="text-org-user">GAP-2569-012</strong><br />
                         ประเภท: <strong>รายกลุ่ม</strong> · สมาชิก
                         {{ members.length }} คน<br />
                         เจ้าหน้าที่จะติดต่อกลับภายใน 3–5 วันทำการ
                     </p>
-                    <v-btn color="org-staff" block @click="goToApplicationList">ดูรายการคำขอ</v-btn>
+                    <v-btn color="org-user" block @click="goToApplicationList">ดูรายการคำขอ</v-btn>
                 </v-card-text>
             </v-card>
         </v-dialog>
@@ -743,13 +743,19 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted, defineComponent, computed } from "vue";
-import { useRouter, useRoute } from "vue-router";
+import { ref, reactive, onMounted } from "vue";
+import { useRouter } from "vue-router";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
 
 const router = useRouter();
+const currentStep = ref(0);
+
+function goToApplicationList() {
+    router.push({ name: "ApplicationList" });
+}
+
 function prevStep() {
     currentStep.value--;
 }
@@ -763,8 +769,16 @@ function openSuccessDialog() {
 }
 const draftSnackbar = ref(false);
 
+const steps = [
+    { value: 0, title: "ข้อมูลกลุ่ม" },
+    { value: 1, title: "แนบไฟล์" },
+];
 
-
+function stepClass(v) {
+    if (currentStep.value > v) return "step-done";
+    if (currentStep.value === v) return "step-active";
+    return "step-pending";
+}
 
 function saveDraft() {
     draftSnackbar.value = true;
@@ -862,6 +876,7 @@ const addCrop = () => {
     })
 }
 const dialogVisible = ref(false)
+const snackbar = ref(false)
 const activeIndex = ref(null)
 const activeStandard = ref(null)
 
@@ -918,9 +933,9 @@ const mapform = reactive({
     alt: ''
 });
 
-const initialPos = [mapform.lat, mapform.lng];
-let map = null;
-let marker = null;
+// เก็บ instance แยกกันถ้าต้องใช้ 2 แผนที่พร้อมกัน
+let maps = {}; 
+let markers = {};
 
 const redIcon = new L.Icon({
     iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png",
@@ -931,643 +946,60 @@ const redIcon = new L.Icon({
     shadowSize: [41, 41],
 });
 
-const setMarker = (lat, lng) => {
-    if (marker) {
-        marker.setLatLng([lat, lng]);
+// ปรับ setMarker ให้รับ mapInstance และ markerKey
+const setMarker = (lat, lng, mapId) => {
+    if (markers[mapId]) {
+        markers[mapId].setLatLng([lat, lng]);
     } else {
-        marker = L.marker([lat, lng], { icon: redIcon }).addTo(map);
+        markers[mapId] = L.marker([lat, lng], { icon: redIcon }).addTo(maps[mapId]);
     }
-    mapform.lat = lat.toFixed(6);
-    mapform.lng = lng.toFixed(6);
+    
+    // อัปเดตค่าเข้า reactive form (ใช้ toFixed เพื่อความสวยงาม)
+    mapform.lat = Number(lat.toFixed(6));
+    mapform.lng = Number(lng.toFixed(6));
 };
 
-const initLeafletMap = () => {
-    // สร้างแผนที่
-    map = L.map("leaflet-map").setView(initialPos, 15);
+const initLeafletMap = (containerId) => {
+    // 1. ตรวจสอบว่าเคยมี map เดิมอยู่ไหม ถ้ามีให้ลบออกก่อน (กัน Error)
+    if (maps[containerId]) {
+        maps[containerId].remove();
+    }
+
+    const initialPos = [mapform.lat, mapform.lng];
+
+    // 2. สร้าง Map Instance
+    maps[containerId] = L.map(containerId).setView(initialPos, 15);
 
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         maxZoom: 19,
         attribution: "&copy; OpenStreetMap",
-    }).addTo(map);
+    }).addTo(maps[containerId]);
 
-    // ปักหมุดเริ่มต้น
-    setMarker(initialPos[0], initialPos[1]);
+    // 3. ปักหมุดเริ่มต้น
+    setMarker(initialPos[0], initialPos[1], containerId);
 
-    // คลิกเพื่อเปลี่ยนพิกัด
-    map.on("click", (e) => {
+    // 4. Event Click
+    maps[containerId].on("click", (e) => {
         const { lat, lng } = e.latlng;
-        setMarker(lat, lng);
+        setMarker(lat, lng, containerId);
     });
 
-    // สำคัญ: สั่งให้แผนที่วาดใหม่ในกรณีที่ขนาด container เปลี่ยน
+    // 5. invalidateSize
     setTimeout(() => {
-        map.invalidateSize();
+        maps[containerId].invalidateSize();
     }, 400);
 };
 
-function goToApplicationList() {
-    router.push({ name: "staffApplicationList" });
-}
-const route = useRoute();
-
-// ── InfoField helper component ──
-const InfoField = defineComponent({
-    props: { label: String, value: String },
-    setup(props) {
-        return () =>
-            h("div", { class: "info-field" }, [
-                h(
-                    "div",
-                    { class: "text-caption text-medium-emphasis mb-1" },
-                    props.label,
-                ),
-                h(
-                    "div",
-                    { class: "text-body-2 font-weight-medium" },
-                    props.value ?? "-",
-                ),
-            ]);
-    },
-});
-
-// ── Mock application data ──
-const appId = route.params.id;
-
-const mockApps = {
-    "APP-001": {
-        id: "APP-001",
-        requestNo: "ORG-2569-00041",
-        submittedAt: "15 ม.ค. 2569",
-        certType: "มกษ. 9001",
-        province: "เชียงใหม่",
-        status: "reviewing",
-        currentStep: 1,
-        farmer: {
-            name: "นายสมชาย ใจดี",
-            idCard: "1-1020-34567-89-0",
-            phone: "081-234-5678",
-            email: "somchai@email.com",
-            address: "12 หมู่ 5 ต.ดอนแก้ว อ.แม่ริม จ.เชียงใหม่ 50180",
-        },
-        plots: [
-            {
-                crop: "มะม่วง",
-                variety: "น้ำดอกไม้เบอร์ 4",
-                area: 8,
-                province: "เชียงใหม่",
-                age: "5 ปี",
-                plotId: "CM-1234-5678",
-            },
-            {
-                crop: "มะม่วง",
-                variety: "มหาชนก",
-                area: 4,
-                province: "เชียงใหม่",
-                age: "3 ปี",
-                plotId: "CM-1234-5679",
-            },
-        ],
-        documents: [
-            { name: "สำเนาบัตรประชาชน", uploaded: true },
-            { name: "สำเนาทะเบียนบ้าน", uploaded: true },
-            { name: "แผนที่แปลง", uploaded: true },
-            { name: "หนังสือมอบอำนาจ", uploaded: false },
-        ],
-    },
-    "APP-002": {
-        id: "APP-002",
-        requestNo: "GAP-2569-00039",
-        submittedAt: "13 ม.ค. 2569",
-        certType: "มกษ. 9001",
-        province: "เพชรบูรณ์",
-        status: "scheduling",
-        currentStep: 2,
-        farmer: {
-            name: "น.ส.วิไล สุขใส",
-            idCard: "1-6703-12345-67-8",
-            phone: "089-876-5432",
-            email: "wilai@email.com",
-            address: "88 ม.3 ต.บ้านโตก อ.เมือง จ.เพชรบูรณ์ 67000",
-        },
-        plots: [
-            {
-                crop: "ข้าวโพดหวาน",
-                variety: "ซูเปอร์สวีท",
-                area: 8,
-                province: "เพชรบูรณ์",
-                age: "90 วัน",
-                plotId: "PB-2341-8765",
-            },
-        ],
-        documents: [
-            { name: "สำเนาบัตรประชาชน", uploaded: true },
-            { name: "สำเนาทะเบียนบ้าน", uploaded: true },
-            { name: "แผนที่แปลง", uploaded: true },
-        ],
-    },
-    "APP-003": {
-        id: "APP-003",
-        requestNo: "GAP-2569-00036",
-        submittedAt: "10 ม.ค. 2569",
-        certType: "มกษ. 9001",
-        province: "นครปฐม",
-        status: "pending_cc",
-        currentStep: 4,
-        farmer: {
-            name: "นายประสิทธิ์ มั่นคง",
-            idCard: "1-7302-54321-23-4",
-            phone: "082-345-6789",
-            email: "prasit@email.com",
-            address: "5/2 ม.7 ต.ทุ่งลูกนก อ.กำแพงแสน จ.นครปฐม 73140",
-        },
-        plots: [
-            {
-                crop: "กล้วยหอม",
-                variety: "กล้วยหอมทอง",
-                area: 20,
-                province: "นครปฐม",
-                age: "10 เดือน",
-                plotId: "NP-3456-2109",
-            },
-        ],
-        documents: [
-            { name: "สำเนาบัตรประชาชน", uploaded: true },
-            { name: "สำเนาทะเบียนบ้าน", uploaded: true },
-            { name: "แผนที่แปลง", uploaded: true },
-        ],
-        inspection: {
-            dateFrom: "20 ม.ค. 68",
-            dateTo: "21 ม.ค. 68",
-            inspector: "นายวิโรจน์ ตรวจแปลง",
-            result: "pass",
-            defects: "พบการใช้สารเคมีเกินกว่าค่ามาตรฐานเล็กน้อย (แก้ไขแล้ว)",
-            labResult: "ผลวิเคราะห์สารตกค้าง: ผ่านมาตรฐาน",
-        },
-    },
-    "APP-004": {
-        id: "APP-004",
-        requestNo: "GAP-2569-00034",
-        submittedAt: "8 ม.ค. 2569",
-        certType: "มกษ. 3502",
-        province: "เชียงราย",
-        status: "cc_reviewing",
-        currentStep: 5,
-        farmer: {
-            name: "น.ส.มาลี รุ่งเรือง",
-            idCard: "1-5702-09876-54-3",
-            phone: "086-543-2109",
-            email: "malee@email.com",
-            address: "123 ม.2 ต.เวียง อ.เมือง จ.เชียงราย 57000",
-        },
-        plots: [
-            {
-                crop: "ลำไย",
-                variety: "อีดอ",
-                area: 30,
-                province: "เชียงราย",
-                age: "8 ปี",
-                plotId: "CR-5678-3456",
-            },
-        ],
-        documents: [
-            { name: "สำเนาบัตรประชาชน", uploaded: true },
-            { name: "สำเนาทะเบียนบ้าน", uploaded: true },
-            { name: "แผนที่แปลง", uploaded: true },
-        ],
-        inspection: {
-            dateFrom: "18 ม.ค. 68",
-            dateTo: "18 ม.ค. 68",
-            inspector: "น.ส.สมหญิง ตรวจแปลง",
-            result: "pass",
-            labResult: "ผ่านทุกรายการ",
-        },
-        committee: { round: 1, meetingDate: "25 ม.ค. 68" },
-    },
-};
-
-// Fallback for unknown IDs
-const app = ref(mockApps[appId] ?? mockApps["APP-001"]);
-
-const viewStep = ref(app.value.currentStep);
-
-// Step indicator (0-indexed for reference pattern)
-const currentStep = computed(() => app.value.currentStep - 1);
-const steps = [
-    { value: 0, title: "ข้อมูลคำขอ" },
-    { value: 1, title: "ตรวจแปลง" },
-    { value: 2, title: "เสนอแปลง CC" },
-    { value: 3, title: "บันทึกครั้งที่ CC" },
-    { value: 4, title: "บันทึกผล CC" },
-    { value: 5, title: "ลงนาม" },
-];
-function stepClass(v) {
-    if (currentStep.value > v) return "step-done";
-    if (currentStep.value === v) return "step-active";
-    return "step-pending";
-}
-
-// Workflow steps
-const workflowSteps = [
-    {
-        id: 1,
-        label: "ข้อมูลคำขอ",
-        shortLabel: "ข้อมูลคำขอ",
-        icon: "fas fa-file-alt",
-    },
-    {
-        id: 2,
-        label: "นัดตรวจแปลง",
-        shortLabel: "นัดตรวจ",
-        icon: "fas fa-calendar-check",
-    },
-    {
-        id: 3,
-        label: "ผลตรวจแปลง",
-        shortLabel: "ผลตรวจ",
-        icon: "fas fa-clipboard-check",
-    },
-    {
-        id: 4,
-        label: "เสนอแปลงต่อ CC",
-        shortLabel: "เสนอ CC",
-        icon: "fas fa-paper-plane",
-    },
-    { id: 5, label: "บันทึกผล CC", shortLabel: "ผล CC", icon: "fas fa-gavel" },
-    { id: 6, label: "ลงนาม", shortLabel: "ลงนาม", icon: "fas fa-signature" },
-];
-
-// Status display
-const statusMap = {
-    reviewing: {
-        color: "warning",
-        icon: "fas fa-magnifying-glass",
-        label: "รอตรวจคำขอ",
-    },
-    scheduling: {
-        color: "info",
-        icon: "fas fa-calendar-clock",
-        label: "รอนัดตรวจแปลง",
-    },
-    inspecting: {
-        color: "secondary",
-        icon: "fas fa-person-walking",
-        label: "อยู่ระหว่างตรวจแปลง",
-    },
-    inspected: {
-        color: "secondary",
-        icon: "fas fa-clipboard-check",
-        label: "ตรวจแปลงแล้ว",
-    },
-    pending_cc: {
-        color: "org-staff",
-        icon: "fas fa-paper-plane",
-        label: "รอเสนอ CC",
-    },
-    cc_reviewing: {
-        color: "error",
-        icon: "fas fa-gavel",
-        label: "อยู่ระหว่าง CC",
-    },
-    approved: {
-        color: "success",
-        icon: "fas fa-circle-check",
-        label: "อนุมัติแล้ว",
-    },
-    cert_issued: {
-        color: "success",
-        icon: "fas fa-certificate",
-        label: "ออกใบรับรองแล้ว",
-    },
-    rejected: {
-        color: "error",
-        icon: "fas fa-circle-xmark",
-        label: "ไม่อนุมัติ",
-    },
-};
-const statusColor = computed(
-    () => statusMap[app.value.status]?.color ?? "grey",
-);
-const statusIcon = computed(
-    () => statusMap[app.value.status]?.icon ?? "fas fa-circle",
-);
-const statusLabel = computed(
-    () => statusMap[app.value.status]?.label ?? app.value.status,
-);
-
-// Dialogs
-const rejectDialog = ref(false);
-const printPreview = ref(false);
-const rejectNote = ref("");
-
-function openRejectDialog() {
-    rejectDialog.value = true;
-}
-
-function closeRejectDialog() {
-    rejectDialog.value = false;
-}
-
-function openPrintPreview() {
-    printPreview.value = true;
-}
-
-function closePrintPreview() {
-    printPreview.value = false;
-}
-
-function goToViewStep1() {
-    viewStep.value = 1;
-}
-
-function goToViewStep2() {
-    viewStep.value = 2;
-}
-
-function goToViewStep3() {
-    viewStep.value = 3;
-}
-
-function goToViewStep4() {
-    viewStep.value = 4;
-}
-
-function goToViewStep5() {
-    viewStep.value = 5;
-}
-
-// Snackbar
-const snackbar = ref({
-    show: false,
-    message: "",
-    color: "success",
-    icon: "fas fa-check",
-});
-function showSnack(message, color = "success", icon = "fas fa-circle-check") {
-    snackbar.value = { show: true, message, color, icon };
-}
-
-// Step 2 form
-const scheduleForm = ref({ dateFrom: "", dateTo: "", inspector: "", note: "" });
-
-// Step 3 form
-const inspectionForm = ref({
-    result: "pass",
-    inspectorName: "",
-    defects: "",
-    labResult: "",
-    inspectedDate: "",
-});
-
-// Step 4 form
-const ccProposeForm = ref({ round: 1, meetingDate: "", summary: "" });
-
-// Step 5 form
-const ccResultForm = ref({ meetingDate: "", decision: "", notes: "" });
-const ccDecisionOptions = [
-    { label: "ให้การรับรอง", value: "approve" },
-    { label: "นัดตรวจเพิ่มเติม", value: "reinspect" },
-    { label: "ตรวจสอบเอกสารใหม่", value: "re-document" },
-    { label: "ไม่ให้การรับรอง", value: "reject" },
-    { label: "ยกเลิกคำขอ", value: "cancel" },
-    { label: "เสนอแก้ไขข้อมูล", value: "revise" },
-];
-function getCCDecisionLabel(val) {
-    return ccDecisionOptions.find((o) => o.value === val)?.label ?? val;
-}
-
-// Step 6 form
-const certForm = ref({
-    certNo: `GAP-CERT-2569-${Math.floor(Math.random() * 9000 + 1000)}`,
-    issuedDate: "",
-    expiryDate: "",
-    signedBy: "",
-    position: "",
-});
-const signerOptions = [
-    "นายอรรถพล วงศ์ประเสริฐ (ผู้อำนวยการกอง)",
-    "น.ส.สุนันทา ไชยวงค์ (รองผู้อำนวยการ)",
-    "นายพิทักษ์ อนุรักษ์ (ผู้เชี่ยวชาญ)",
-];
-
-const totalArea = computed(() =>
-    app.value.plots.reduce((s, p) => s + p.area, 0),
-);
-
-// Actions
-function approveStep1() {
-    app.value.status = "scheduling";
-    app.value.currentStep = 2;
-    viewStep.value = 2;
-    showSnack("ผ่านการตรวจสอบเอกสาร — รอนัดตรวจแปลง");
-}
-
-function confirmReject() {
-    rejectDialog.value = false;
-    app.value.status = "reviewing";
-    showSnack("ส่งกลับแก้ไขแล้ว", "warning", "fas fa-arrow-rotate-left");
-}
-
-function saveSchedule() {
-    if (!scheduleForm.value.dateFrom || !scheduleForm.value.dateTo) {
-        showSnack("กรุณาระบุวันที่ตรวจ", "error", "fas fa-triangle-exclamation");
-        return;
-    }
-    if (!app.value.inspection)
-        app.value.inspection = { dateFrom: "", dateTo: "" };
-    app.value.inspection.dateFrom = scheduleForm.value.dateFrom;
-    app.value.inspection.dateTo = scheduleForm.value.dateTo;
-    app.value.inspection.inspector = scheduleForm.value.inspector;
-    app.value.status = "inspecting";
-    app.value.currentStep = 3;
-    viewStep.value = 3;
-    showSnack("บันทึกนัดตรวจแปลงแล้ว");
-}
-
-function saveInspection() {
-    if (!app.value.inspection)
-        app.value.inspection = { dateFrom: "", dateTo: "" };
-    app.value.inspection.result = inspectionForm.value.result;
-    app.value.inspection.defects = inspectionForm.value.defects;
-    app.value.inspection.labResult = inspectionForm.value.labResult;
-    app.value.status = "inspected";
-    app.value.currentStep = 4;
-    viewStep.value = 4;
-    showSnack("บันทึกผลตรวจแปลงแล้ว");
-}
-
-function proposeCC() {
-    if (!app.value.committee) app.value.committee = {};
-    app.value.committee.round = ccProposeForm.value.round;
-    app.value.committee.meetingDate = ccProposeForm.value.meetingDate;
-    app.value.status = "cc_reviewing";
-    app.value.currentStep = 5;
-    viewStep.value = 5;
-    showSnack("เสนอแปลงต่อ CC แล้ว");
-}
-
-function saveCCResult() {
-    if (!ccResultForm.value.decision) {
-        showSnack("กรุณาเลือกผลการพิจารณา", "error", "fas fa-triangle-exclamation");
-        return;
-    }
-    if (!app.value.committee) app.value.committee = {};
-    app.value.committee.decision = ccResultForm.value.decision;
-    app.value.committee.meetingDate = ccResultForm.value.meetingDate;
-    app.value.committee.notes = ccResultForm.value.notes;
-    if (ccResultForm.value.decision === "approve") {
-        app.value.status = "approved";
-        app.value.currentStep = 6;
-        viewStep.value = 6;
-        showSnack("บันทึกผล CC แล้ว — อนุมัติ รอลงนาม", "success");
-    } else if (
-        ccResultForm.value.decision === "reject" ||
-        ccResultForm.value.decision === "cancel"
-    ) {
-        app.value.status = "rejected";
-        showSnack("บันทึกผล CC แล้ว — ไม่อนุมัติ", "error", "fas fa-circle-xmark");
-    } else {
-        showSnack(
-            "บันทึกผล CC แล้ว — รอดำเนินการต่อ",
-            "warning",
-            "fas fa-arrow-rotate-right",
-        );
-    }
-}
-
-function issueCert() {
-    if (
-        !certForm.value.certNo ||
-        !certForm.value.issuedDate ||
-        !certForm.value.signedBy
-    ) {
-        showSnack(
-            "กรุณากรอกข้อมูลใบรับรองให้ครบ",
-            "error",
-            "fas fa-triangle-exclamation",
-        );
-        return;
-    }
-    app.value.certificate = {
-        certNo: certForm.value.certNo,
-        issuedDate: certForm.value.issuedDate,
-        expiryDate: certForm.value.expiryDate,
-        signedBy: certForm.value.signedBy,
-    };
-    app.value.status = "cert_issued";
-    showSnack("ออกใบรับรอง GAP เรียบร้อยแล้ว 🎉", "success");
-}
-
-const application = {
-    requestNo: "EXP-0001",
-    requestType: "ขึ้นทะเบียน",
-    submittedDate: "01/01/2569",
-    typecert: "คำขอหนังสือสำคัญแสดงการขึ้นทะเบียนโรงงานผลิตสินค้าพืช",
-    status: "pending",
-    currentStep: 1,
-
-    applicantNameTh: "นายสมชาย ใจดี",
-    applicantHouseNo: "123",
-    applicantMoo: "3",
-    applicantRoad: "พหลโยธิน",
-    applicantTambol: "ลาดยาว",
-    applicantDistrict: "จตุจักร",
-    applicantProvince: "กรุงเทพมหานคร",
-    applicantZipcode: "10900",
-    applicantPhone: "02-123-4567",
-    applicantFax: "-",
-    applicantEmail: "somchai@example.com",
-
-    companyNameTh: "บริษัท ไทย เอ็กซ์พอร์ต จำกัด",
-    companyNameEn: "Thai Export Co., Ltd.",
-    houseNo: "88/1",
-    road: "สุขุมวิท",
-    tambol: "บางปะกง",
-    district: "บางปะกง",
-    province: "ฉะเชิงเทรา",
-    zipcode: "24130",
-    houseNoEn: "88/1",
-    roadEn: "Sukhumvit",
-    tambolEn: "Bang Pakong",
-    districtEn: "Bang Pakong",
-    provinceEn: "Chachoengsao",
-    zipcodeEn: "24130",
-    companyPhone: "038-123-456",
-    companyFax: "038-123-457",
-    companyEmail: "info@thaiexport.co.th",
-
-    countries: ["สหภาพยุโรป", "ญี่ปุ่น", "สิงคโปร์"],
-
-    factories: [
-        {
-            doaNo: "DOA-12345",
-            factoryName: "โรงบรรจุสินค้าไทยเอ็กซ์พอร์ต 1",
-            expiryDate: "01/01/2570",
-        },
-        {
-            doaNo: "DOA-12346",
-            factoryName: "โรงรมทรีทเม้นต์ไทยเอ็กซ์พอร์ต",
-            expiryDate: "01/06/2570",
-        },
-    ],
-
-    gaps: [
-        {
-            gapNo: "GAP-00123",
-            siteName: "สวนมะม่วงไทยเอ็กซ์พอร์ต",
-            certBody: "กรมวิชาการเกษตร (DOA)",
-            expiryDate: "01/03/2570",
-        },
-        {
-            gapNo: "GAP-00456",
-            siteName: "สวนมะละกอไทยเอ็กซ์พอร์ต",
-            certBody: "สำนักงานเกษตรจังหวัด",
-            expiryDate: "15/06/2570",
-        },
-    ],
-
-    attachments: [
-        { label: "หนังสือรับรองบริษัท" },
-        { label: "สำเนาบัตรประชาชนกรรมการ" },
-        { label: "หนังสือสำคัญขึ้นทะเบียนโรงงาน (DOA)" },
-        { label: "หนังสือรับรอง GAP" },
-    ],
-
-    activityLog: [
-        {
-            type: "submit",
-            action: "ยื่นคำขอ",
-            actor: "นายสมชาย ใจดี (ผู้ยื่นคำขอ)",
-            timestamp: "01/01/2569 09:12",
-            remark: "",
-        },
-        {
-            type: "receive",
-            action: "รับคำขอเข้าสู่ระบบ",
-            actor: "น.ส.วรรณา จันทร์ดี (เจ้าหน้าที่รับเรื่อง)",
-            timestamp: "01/01/2569 10:45",
-            remark: "ตรวจสอบเอกสารเบื้องต้นครบถ้วน",
-        },
-    ],
-};
-
-const step1Review = reactive({ result: "pass", remark: "", deadline: null });
-const deadlineMenu = ref(false);
-const deadlineBE = computed(() => {
-    if (!step1Review.deadline) return "";
-    const d = step1Review.deadline;
-    const dd = String(d.getDate()).padStart(2, "0");
-    const mm = String(d.getMonth() + 1).padStart(2, "0");
-    return `${dd}/${mm}/${d.getFullYear() + 543}`;
-});
 onMounted(() => {
-    initLeafletMap();
+    initLeafletMap("leaflet-map");
+    initLeafletMap("size-leaflet-map"); 
 });
 </script>
 
 <style scoped>
 div {
-    --step-color: rgb(var(--v-theme-org-staff));
-    --step-color-tint: rgba(var(--v-theme-org-staff), 0.2);
+    --step-color: rgb(var(--v-theme-org-user));
+    --step-color-tint: rgba(var(--v-theme-org-user), 0.2);
 }
 
 .member-row {
@@ -1577,20 +1009,20 @@ div {
 
 .step-done,
 .step-active {
-    background: rgb(var(--v-theme-org-staff)) !important;
+    background: rgb(var(--v-theme-org-user)) !important;
     color: white !important;
 }
 
 .step-active {
-    box-shadow: 0 0 0 4px rgba(var(--v-theme-org-staff), 0.2) !important;
+    box-shadow: 0 0 0 4px rgba(var(--v-theme-org-user), 0.2) !important;
 }
 
 .step-line--done {
-    background: rgb(var(--v-theme-org-staff)) !important;
+    background: rgb(var(--v-theme-org-user)) !important;
 }
 
 .field-section-label {
-    color: rgb(var(--v-theme-org-staff)) !important;
+    color: rgb(var(--v-theme-org-user)) !important;
 }
 
 :deep(.radio-farm .v-selection-control-group) {

@@ -2,9 +2,9 @@
     <div>
         <div class="d-flex align-center justify-space-between flex-wrap ga-3 mb-6">
             <div>
-                <h1 class="page-title mb-1">นัดตรวจเยี่ยม Previsit</h1>
+                <h1 class="page-title mb-1">ผลการตรวจเยี่ยม Previsit</h1>
                 <p class="text-body-2 text-medium-emphasis mb-0">
-                    จัดการคำขอรับรองมาตรฐาน GAP แบบกลุ่ม
+                    จัดการคำขอรับรองมาตรฐานเกษตรอินทรีย์ ORG แบบกลุ่ม
                 </p>
             </div>
         </div>
@@ -61,7 +61,7 @@
                                     placeholder="เลือกวันที่ / เดือน / ปี" hide-details style="cursor: pointer"
                                     @click:clear.stop="dateFromObj = null" />
                             </template>
-                            <v-date-picker v-model="dateFromObj" color="gap-staff" show-adjacent-months
+                            <v-date-picker v-model="dateFromObj" color="org-staff" show-adjacent-months
                                 :hide-header="!dateFromObj" title="วันที่ยื่น (จาก)" locale="th"
                                 @update:model-value="dateFromMenu = false" />
                         </v-menu>
@@ -78,7 +78,7 @@
                                     placeholder="เลือกวันที่ / เดือน / ปี" hide-details style="cursor: pointer"
                                     @click:clear.stop="dateToObj = null" />
                             </template>
-                            <v-date-picker v-model="dateToObj" color="gap-staff" show-adjacent-months
+                            <v-date-picker v-model="dateToObj" color="org-staff" show-adjacent-months
                                 :hide-header="!dateToObj" title="วันที่ยื่น (ถึง)" locale="th"
                                 @update:model-value="dateToMenu = false" />
                         </v-menu>
@@ -96,36 +96,202 @@
         </v-card>
 
         <v-row class="pa-4 mb-1 mt-n5 d-flex align-center justify-end ga-2">
-            <v-btn variant="tonal" color="gap-staff" prepend-icon="fas fa-download">ส่งออก</v-btn>
-            <v-btn variant="tonal" color="gap-staff" prepend-icon="fas fa-paper-plane"
+            <v-btn variant="tonal" color="org-staff" prepend-icon="fas fa-download">ส่งออก</v-btn>
+            <v-btn variant="tonal" color="org-staff" prepend-icon="fas fa-paper-plane"
                 @click="dialogProposeToCC = true">
-                นัดหมายตรวจเยี่ยม Previsit
+                บันทึกผลตรวจ Previsit
             </v-btn>
         </v-row>
         <template>
             <div class="text-center pa-4">
-                <v-dialog v-model="dialogProposeToCC" max-width="600" persistent>
-                    <v-card class="mx-auto" width="600">
-                         <template v-slot:title>
+                <v-dialog v-model="dialogProposeToCC" max-width="900" persistent>
+                    <v-card class="mx-auto rounded-xl" width="900">
+                        <template v-slot:title>
                             <div class="d-flex align-center pa-2">
-                                <v-icon icon="fas fa-file-check" class="mr-3" color="gap-staff" size="22" />
-                                <h5 class="font-weight-black text-h6">นัดหมายตรวจเยี่ยม Previsit</h5>
+                                <v-icon icon="fas fa-file-check" class="mr-3" color="org-staff" size="22" />
+                                <h5 class="font-weight-black text-h6">บันทึกผลตรวจ Previsit</h5>
                             </div>
                         </template>
 
                         <v-divider />
-                        <v-card-text class="pt-4">
-                            <div class="field-label mb-1">วันนัดหมาย</div>
-                            <v-text-field v-model="filters.dateProposeToCC" type="date" variant="outlined" rounded="lg"
-                                density="comfortable" readonly hide-details />
+
+                        <v-card-text class="pa-6">
+                            <v-row>
+                                <v-col cols="12" sm="3">
+                                    <div class="field-label mb-1 mt-4">วันที่เข้าตรวจ</div>
+
+                                </v-col>
+                                <v-col cols="12" sm="9">
+                                    <v-text-field v-model="ccForm.personInCharge" placeholder="วันที่เข้าตรวจ"
+                                        variant="outlined" rounded="lg" hide-details type="date" />
+                                </v-col>
+                                <v-col cols="12" sm="3">
+                                    <div class="field-label mb-1 mt-4">ผลการตรวจแปลง</div>
+
+                                </v-col>
+                                <v-col cols="12" sm="9">
+                                    <v-select v-model="ccForm.personInCharge" :items="['ผ่าน', 'ไม่ผ่าน']"
+                                        placeholder="กรุณาระบุผลการตรวจแปลง" variant="outlined" rounded="lg"
+                                        hide-details>
+                                    </v-select>
+                                </v-col>
+                            </v-row>
+                            <v-row>
+                                <v-container>
+                                    <v-card variant="outlined" class="pa-6">
+                                        <v-row align="center" class="mb-10">
+                                            <v-col cols="12" md="3">
+                                                <div class="text-subtitle-1 font-weight-bold">ผู้ทำการตรวจรับรอง
+                                                    (หัวหน้าทีม)</div>
+                                            </v-col>
+
+                                            <v-col cols="12" md="9">
+                                                <v-row no-gutters align="center">
+                                                    <v-col>
+                                                        <v-text-field v-model="searchLead" placeholder="ค้นหา..."
+                                                            variant="outlined" density="compact" hide-details
+                                                            class="mb-1"></v-text-field>
+                                                        <v-list border height="250" class="overflow-y-auto rounded">
+                                                            <v-list-item v-for="item in filteredLeads" :key="item.id"
+                                                                @click="moveLead(item, 'select')">
+                                                                {{ item.name }}
+                                                            </v-list-item>
+                                                        </v-list>
+                                                    </v-col>
+
+                                                    <v-col cols="auto" class="px-4 d-flex flex-column gap-2">
+                                                        <v-btn icon="fas fa-angle-double-right" variant="text"
+                                                            color="org-staff" @click="moveAllLeads('select')"
+                                                            title="ย้ายไปขวาทั้งหมด"></v-btn>
+
+                                                        <v-btn icon="fas fa-angles-left" variant="text"
+                                                            color="org-staff" @click="moveAllLeads('remove')"
+                                                            title="ย้ายไปซ้ายทั้งหมด"></v-btn>
+                                                    </v-col>
+
+                                                    <v-col>
+                                                        <v-text-field readonly variant="outlined" density="compact"
+                                                            hide-details class="mb-1"
+                                                            placeholder="ค้นหา..."></v-text-field>
+                                                        <v-list border height="250"
+                                                            class="overflow-y-auto rounded bg-grey-lighten-4">
+                                                            <v-list-item v-for="item in leadSelectedList" :key="item.id"
+                                                                @click="moveLead(item, 'remove')">
+                                                                {{ item.name }}
+                                                            </v-list-item>
+                                                        </v-list>
+                                                    </v-col>
+                                                </v-row>
+                                            </v-col>
+                                        </v-row>
+
+                                        <v-divider class="mb-10"></v-divider>
+
+                                        <v-row align="center">
+                                            <v-col cols="12" md="3">
+                                                <div class="text-subtitle-1 font-weight-bold">ผู้ทำการตรวจรับรอง</div>
+                                                <div class="text-subtitle-1 font-weight-bold">
+                                                    (ลูกทีม)</div>
+                                            </v-col>
+
+                                            <v-col cols="12" md="9">
+                                                <v-row no-gutters align="center">
+                                                    <v-col>
+                                                        <v-text-field v-model="searchMember" placeholder="ค้นหา..."
+                                                            variant="outlined" density="compact" hide-details
+                                                            class="mb-1"></v-text-field>
+                                                        <v-list border height="250" class="overflow-y-auto rounded">
+                                                            <v-list-item v-for="item in filteredMembers" :key="item.id"
+                                                                @click="moveMember(item, 'select')">
+                                                                {{ item.name }}
+                                                            </v-list-item>
+                                                        </v-list>
+                                                    </v-col>
+
+                                                    <v-col cols="auto" class="px-4 d-flex flex-column gap-2">
+                                                        <v-btn icon="fas fa-angle-double-right" variant="text"
+                                                            color="org-staff" @click="moveAllMembers('select')"></v-btn>
+
+                                                        <v-btn icon="fas fa-angle-double-left" variant="text"
+                                                            color="org-staff" @click="moveAllMembers('remove')"></v-btn>
+                                                    </v-col>
+
+                                                    <v-col>
+                                                        <v-text-field readonly variant="outlined" density="compact"
+                                                            hide-details class="mb-1"
+                                                            placeholder="ค้นหา..."></v-text-field>
+                                                        <v-list border height="250"
+                                                            class="overflow-y-auto rounded bg-grey-lighten-4">
+                                                            <v-list-item v-for="item in memberSelectedList"
+                                                                :key="item.id" @click="moveMember(item, 'remove')">
+                                                                {{ item.name }}
+                                                            </v-list-item>
+                                                        </v-list>
+                                                    </v-col>
+                                                </v-row>
+                                            </v-col>
+                                        </v-row>
+                                    </v-card>
+                                </v-container>
+
+                            </v-row>
+                            <v-row>
+                                <v-card rounded="xl" elevation="0" class="section-card mb-5" width="900">
+                                    <v-card-text class="pa-5">
+                                        <v-table class="no-border-table">
+                                            <thead>
+                                                <tr>
+                                                    <!-- <th class="text-left" style="width: 50px"></th> -->
+                                                    <th class="text-left"></th>
+                                                    <th class="text-center" style="width: 200px"></th>
+                                                    <th class="text-left" style="width: 250px"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr v-for="(item, idx) in inspectionChecklist" :key="idx">
+                                                    <!-- <td class="text-caption text-medium-emphasis">
+                                                        {{ idx + 1 }}
+                                                    </td> -->
+
+                                                    <td>
+                                                        <div class="text-caption text-primary">{{ item.section }}</div>
+                                                        <div class="text-body-2 font-weight-medium text-wrap">
+                                                            {{ item.question }}
+                                                        </div>
+                                                    </td>
+
+                                                    <td class="text-center">
+                                                        <v-radio-group v-model="item.answer" inline hide-details
+                                                            density="compact" class="d-flex justify-center">
+                                                            <v-radio label="ผ่าน" value="yes" color="success"
+                                                                class="mr-2" />
+                                                            <v-radio label="ไม่ผ่าน" value="no" color="error" />
+                                                        </v-radio-group>
+                                                    </td>
+
+                                                    <td>
+                                                        <v-text-field v-model="item.inspectionDate"
+                                                            placeholder="หมายเหตุ" variant="outlined" rounded="lg"
+                                                            density="compact" hide-details />
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </v-table>
+                                    </v-card-text>
+                                </v-card>
+
+                            </v-row>
                         </v-card-text>
+
+                        <v-divider />
+
                         <v-card-actions class="pa-4 bg-grey-lighten-4">
                             <v-spacer></v-spacer>
                             <v-btn @click="dialogProposeToCC = false" color="grey-darken-1" variant="flat"
                                 class="px-6 font-weight-bold">
                                 ยกเลิก
                             </v-btn>
-                            <v-btn @click="dialogProposeToCC = false" color="gap-staff" variant="flat"
+                            <v-btn @click="dialogProposeToCC = false" color="org-staff" variant="flat"
                                 class="px-10 rounded-lg font-weight-bold" elevation="2">
                                 <v-icon icon="fas fa-save" start size="14" />
                                 ยืนยัน
@@ -235,13 +401,13 @@
 
                 <template #item.status="{ item }">
                     <v-chip :color="statusColor(item.status)" size="small" variant="tonal">{{ statusLabel(item.status)
-                    }}</v-chip>
+                        }}</v-chip>
                 </template>
                 <template #item.actions="{ item }">
                     <div class="d-flex align-center ga-1">
                         <v-tooltip text="ดูคำขอ" location="top">
                             <template #activator="{ props }">
-                                <v-btn v-bind="props" icon size="x-small" variant="text" color="gap-staff"
+                                <v-btn v-bind="props" icon size="x-small" variant="text" color="org-staff"
                                     @click.stop="goToApplicationDetail(item.requestNo)">
                                     <v-icon icon="fas fa-eye" size="14" />
                                 </v-btn>
@@ -275,6 +441,18 @@ const dateFromObj = ref(null);
 const dateToMenu = ref(false);
 const dateToObj = ref(null);
 const dialogProposeToCC = ref(false);
+
+const ccActionType = ref('propose'); // ค่าเริ่มต้น
+const ccForm = reactive({
+    personInCharge: null,
+    proposeCount: '',
+});
+
+const submitCCAction = () => {
+    // Logic การส่งข้อมูลตาม ccActionType
+    console.log('Action:', ccActionType.value, ccForm);
+    dialogProposeToCC.value = false;
+};
 
 function dateToBE(date) {
     if (!date) return "";
@@ -487,6 +665,110 @@ function statusLabel(s) {
             approved: "ได้รับอนุญาต",
         }[s] ?? s
     );
+}
+
+const inspectionChecklist = reactive([
+    {
+
+        question: "การบริหารและจัดการองค์กร",
+        answer: "",
+    },
+    {
+
+        question: "เอกสารสัญญา/ใบสมัคร/คำรับรอง",
+        answer: "",
+    },
+    {
+
+        question: "หลักเกณฑ์และเงื่อนไขของกลุ่ม",
+        answer: "",
+    },
+    {
+
+        question: "การฝึกอบรม",
+        answer: "",
+    },
+    {
+
+        question: "การจัดการข้อร้องเรียน",
+        answer: "",
+    },
+    {
+
+        question: "กระบวนการตรวจติดตามภายใน",
+        answer: "",
+    },
+    {
+
+        question: "การควบคุมเอกสาร และบันทึก",
+        answer: "",
+    },
+]);
+const rawData = [
+    { id: 1, name: 'กัลยา ธรรมเรือน' },
+    { id: 2, name: 'ชญานันท์ โค้วอินทร์' },
+    { id: 3, name: 'ชญานันท์ โค้วอินทร์ (2)' },
+    { id: 4, name: 'ชูรีพร ปันดอย' },
+    { id: 5, name: 'ณิชาภรณ์ โกศล' },
+    { id: 6, name: 'ทิพย์วิมล แก้วพรัตน์' },
+]
+
+// --- Logic หัวหน้าทีม ---
+const searchLead = ref('')
+const leadAvailableList = ref([...rawData])
+const leadSelectedList = ref([])
+
+const filteredLeads = computed(() =>
+    leadAvailableList.value.filter(item => item.name.includes(searchLead.value))
+)
+
+const moveLead = (item, type) => {
+    if (type === 'select') {
+        leadSelectedList.value.push(item)
+        leadAvailableList.value = leadAvailableList.value.filter(i => i.id !== item.id)
+    } else {
+        leadAvailableList.value.push(item)
+        leadSelectedList.value = leadSelectedList.value.filter(i => i.id !== item.id)
+    }
+}
+
+const moveAllLeads = (type) => {
+    if (type === 'select') {
+        leadSelectedList.value.push(...leadAvailableList.value)
+        leadAvailableList.value = []
+    } else {
+        leadAvailableList.value.push(...leadSelectedList.value)
+        leadSelectedList.value = []
+    }
+}
+
+// --- Logic ลูกทีม ---
+const searchMember = ref('')
+const memberAvailableList = ref([...rawData])
+const memberSelectedList = ref([])
+
+const filteredMembers = computed(() =>
+    memberAvailableList.value.filter(item => item.name.includes(searchMember.value))
+)
+
+const moveMember = (item, type) => {
+    if (type === 'select') {
+        memberSelectedList.value.push(item)
+        memberAvailableList.value = memberAvailableList.value.filter(i => i.id !== item.id)
+    } else {
+        memberAvailableList.value.push(item)
+        memberSelectedList.value = memberSelectedList.value.filter(i => i.id !== item.id)
+    }
+}
+
+const moveAllMembers = (type) => {
+    if (type === 'select') {
+        memberSelectedList.value.push(...memberAvailableList.value)
+        memberAvailableList.value = []
+    } else {
+        memberAvailableList.value.push(...memberSelectedList.value)
+        memberSelectedList.value = []
+    }
 }
 </script>
 

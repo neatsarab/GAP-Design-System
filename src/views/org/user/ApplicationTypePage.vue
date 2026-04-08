@@ -167,7 +167,7 @@ function goToApplicationList() {
 
 function selectType(value) {
   if (value === "individual") router.push({ name: "ORGUserNewIndividual" });
-  else if (value === "group") router.push({ name: "ORGUserNewGroup" });
+  else if (value === "group") router.push({ name: "ORGUserApplicationTypeGroup" });
   else if (value === "amendment") router.push({ name: "ORGUserAmendment" });
   else if (value === "cancel") router.push({ name: "ORGUserCancel" });
 }
