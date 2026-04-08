@@ -37,7 +37,7 @@
                         </div>
                         <div class="text-caption text-medium-emphasis">{{ staffSessionStore.department }}{{
                             staffSessionStore.role ?
-                            ' / ' + staffSessionStore.role : '' }}</div>
+                                ' / ' + staffSessionStore.role : '' }}</div>
                     </div>
                 </div>
             </div>
@@ -56,7 +56,7 @@
                         <template v-if="item.count" #append>
                             <v-chip size="x-small" color="error" variant="flat">{{
                                 item.count
-                                }}</v-chip>
+                            }}</v-chip>
                         </template>
                     </v-list-item>
                     <v-divider v-if="group.divider" class="mx-2 my-2" />
@@ -319,14 +319,49 @@ const navGroups = [
         divider: true,
         items: [
             {
+                title: "ยื่นขอการรับรอง GAP ",
+                icon: "fas fa-file-pen",
+                to: "/gap/staff/group/applications/new",
+            },
+            {
+                title: "รายการคำขอ",
+                icon: "fas fa-file-lines",
+                to: "/gap/staff/group/applications",
+            },
+            {
                 title: "นัดตรวจเยี่ยม Previsit",
                 icon: "fas fa-file-pen",
-                to: "/gap/staff/previsit-appointment",
+                to: "/gap/staff/group/previsit-appointment",
             },
             {
                 title: "ผลการตรวจเยี่ยม Previsit",
                 icon: "fas fa-file-lines",
-                to: "/gap/staff/previsit-results",
+                to: "/gap/staff/group/previsit-results",
+            },
+            {
+                title: "นัดหมายการตรวจ",
+                icon: "fas fa-calendar-check",
+                to: "/gap/staff/group/schedule",
+            },
+            {
+                title: "ผลการตรวจแปลง",
+                icon: "fas fa-clipboard-check",
+                to: "/gap/staff/group/inspection-results",
+            },
+            {
+                title: "เสนอแปลงต่อ CC",
+                icon: "fas fa-paper-plane",
+                to: "/gap/staff/group/propose-cc",
+            },
+            {
+                title: "บันทึกครั้งที่เสนอ CC",
+                icon: "fas fa-gavel",
+                to: "/gap/staff/group/cc-results",
+            },
+            {
+                title: "บันทึกผลจาก CC",
+                icon: "fas fa-gavel",
+                to: "/gap/staff/group/cc-saveresults",
             },
         ],
     },
