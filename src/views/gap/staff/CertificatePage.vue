@@ -1,53 +1,26 @@
 <template>
   <div>
-    <div class="d-flex align-center justify-space-between mb-5 flex-wrap ga-3">
+    <div class="d-flex align-center justify-space-between flex-wrap ga-3 mb-6">
       <div>
-        <h1 class="page-title mb-1">ข้อมูลใบรับรอง GAP</h1>
+        <h1 class="page-title mb-1">รายการรอลงนาม</h1>
         <p class="text-body-2 text-medium-emphasis mb-0">
-          รายการใบรับรองมาตรฐานการปฏิบัติทางการเกษตรที่ดีที่ออกแล้ว
+          การขึ้นทะเบียนหน่วยรับรองโรงงานผลิตสินค้าพืช
         </p>
-      </div>
-      <div class="d-flex ga-2">
-        <v-btn variant="tonal" color="gap-staff" prepend-icon="fas fa-download"
-          >ส่งออก Excel</v-btn
-        >
       </div>
     </div>
 
-    <!-- Stats -->
-    <v-row class="mb-5">
-      <v-col v-for="s in certStats" :key="s.label" cols="6" sm="3">
-        <v-card rounded="xl" elevation="0">
-          <v-card-text class="pa-4 d-flex align-center ga-3">
-            <div
-              class="cert-stat-icon"
-              :style="`background:rgba(var(--v-theme-${s.color}),0.12)`"
-            >
-              <v-icon :icon="s.icon" :color="s.color" size="20" />
-            </div>
-            <div>
-              <div class="text-h5 font-weight-bold" :class="`text-${s.color}`">
-                {{ s.value }}
-              </div>
-              <div class="text-caption text-medium-emphasis">{{ s.label }}</div>
-            </div>
-          </v-card-text>
-        </v-card>
-      </v-col>
-    </v-row>
-
-    <!-- Filter -->
+    <!-- Filters -->
     <v-card rounded="xl" elevation="0" class="mb-4 filter-card">
       <v-card-text class="pa-4">
         <v-row dense align="center">
-          <v-col cols="12" sm="5">
+          <v-col cols="12" sm="6" md="6">
             <div class="field-label">
               <div>ค้นหา</div>
               <div class="field-label-en">Search</div>
             </div>
             <v-text-field
               v-model="search"
-              placeholder="ค้นหาเลขที่ใบรับรอง / ชื่อ"
+              placeholder="เลขคำขอ / ชื่อสถานประกอบการ / ชื่อผู้ยื่นคำขอ"
               prepend-inner-icon="fas fa-search"
               variant="outlined"
               density="compact"
@@ -56,14 +29,16 @@
               clearable
             />
           </v-col>
-          <v-col cols="6" sm="3">
+          <v-col cols="12" sm="6" md="3">
             <div class="field-label">
-              <div>ประเภทใบรับรอง</div>
-              <div class="field-label-en">Certificate Type</div>
+              <div>ประเภทคำขอ</div>
+              <div class="field-label-en">Request Type</div>
             </div>
             <v-autocomplete
-              v-model="filterCert"
-              :items="['มกษ. 9001', 'มกษ. 3502']"
+              v-model="filters.type"
+              :items="typeOptions"
+              item-title="label"
+              item-value="value"
               placeholder="ทั้งหมด"
               variant="outlined"
               density="compact"
@@ -71,6 +46,94 @@
               hide-details
               clearable
             />
+          </v-col>
+          <v-col cols="12" sm="6" md="3">
+            <div class="field-label">
+              <div>สถานะคำขอ</div>
+              <div class="field-label-en">Status</div>
+            </div>
+            <v-autocomplete
+              v-model="filters.status"
+              :items="statusOptions"
+              item-title="label"
+              item-value="value"
+              placeholder="ทั้งหมด"
+              variant="outlined"
+              density="compact"
+              rounded="lg"
+              hide-details
+              clearable
+            />
+          </v-col>
+          <v-col cols="12" sm="6" md="3">
+            <div class="field-label">
+              <div>วันที่ยื่น (จาก)</div>
+              <div class="field-label-en">Submit Date (From)</div>
+            </div>
+            <v-menu
+              v-model="dateFromMenu"
+              :close-on-content-click="false"
+              location="bottom start"
+            >
+              <template #activator="{ props }">
+                <v-text-field
+                  v-bind="props"
+                  density="compact"
+                  :model-value="dateFromBE"
+                  readonly
+                  clearable
+                  prepend-inner-icon="fas fa-calendar"
+                  placeholder="เลือกวันที่ / เดือน / ปี"
+                  hide-details
+                  style="cursor: pointer"
+                  @click:clear.stop="dateFromObj = null"
+                />
+              </template>
+              <v-date-picker
+                v-model="dateFromObj"
+                color="gap-staff"
+                show-adjacent-months
+                :hide-header="!dateFromObj"
+                title="วันที่ยื่น (จาก)"
+                locale="th"
+                @update:model-value="dateFromMenu = false"
+              />
+            </v-menu>
+          </v-col>
+          <v-col cols="12" sm="6" md="3">
+            <div class="field-label">
+              <div>วันที่ยื่น (ถึง)</div>
+              <div class="field-label-en">Submit Date (To)</div>
+            </div>
+            <v-menu
+              v-model="dateToMenu"
+              :close-on-content-click="false"
+              location="bottom start"
+            >
+              <template #activator="{ props }">
+                <v-text-field
+                  v-bind="props"
+                  density="compact"
+                  :model-value="dateToBE"
+                  readonly
+                  clearable
+                  prepend-inner-icon="fas fa-calendar"
+                  placeholder="เลือกวันที่ / เดือน / ปี"
+                  hide-details
+                  style="cursor: pointer"
+                  @click:clear.stop="dateToObj = null"
+                />
+              </template>
+              <v-date-picker
+                v-model="dateToObj"
+                color="gap-staff"
+                show-adjacent-months
+                :hide-header="!dateToObj"
+                title="วันที่ยื่น (ถึง)"
+                locale="th"
+                @update:model-value="dateToMenu = false"
+              />
+            </v-menu>
           </v-col>
         </v-row>
         <v-row dense>
@@ -88,90 +151,192 @@
       </v-card-text>
     </v-card>
 
-    <!-- Chip tabs -->
-    <v-chip-group v-model="filterStatus" class="mb-4" mandatory>
-      <v-chip value="all" color="gap-staff" variant="tonal" filter size="small">
-        <v-icon start icon="fas fa-list" size="12" /> ทั้งหมด
-        <v-badge
-          :content="certificates.length"
-          inline
-          color="gap-staff"
-          class="ml-1"
-        />
-      </v-chip>
-      <v-chip value="มีผล" color="success" variant="tonal" filter size="small">
-        <v-icon start icon="fas fa-circle-check" size="12" /> มีผล
-        <v-badge
-          :content="countByStatus('มีผล')"
-          inline
-          color="success"
-          class="ml-1"
-        />
-      </v-chip>
-      <v-chip
-        value="ใกล้หมดอายุ"
-        color="warning"
-        variant="tonal"
-        filter
-        size="small"
-      >
-        <v-icon start icon="fas fa-clock" size="12" /> ใกล้หมดอายุ
-        <v-badge
-          :content="countByStatus('ใกล้หมดอายุ')"
-          inline
-          color="warning"
-          class="ml-1"
-        />
-      </v-chip>
-      <v-chip value="หมดอายุ" color="error" variant="tonal" filter size="small">
-        <v-icon start icon="fas fa-circle-xmark" size="12" /> หมดอายุ
-        <v-badge
-          :content="countByStatus('หมดอายุ')"
-          inline
-          color="error"
-          class="ml-1"
-        />
-      </v-chip>
-    </v-chip-group>
-
     <!-- Table -->
     <v-card rounded="xl" elevation="0" class="data-card">
       <v-data-table
         :headers="headers"
-        :items="filteredCerts"
-        :search="search"
+        :items="filteredItems"
+        :custom-key-sort="customKeySort"
+        rounded="xl"
         hover
       >
-        <template #item.certNo="{ item }">
-          <span class="text-body-2 font-weight-medium text-gap-staff">{{
-            item.certNo
-          }}</span>
+        <template #header.requestNo="{ column, isSorted, getSortIcon }">
+          <span class="d-inline-flex align-center ga-1">
+            <span>
+              <div
+                class="text-body-2 font-weight-medium"
+                style="line-height: 1.3"
+              >
+                เลขคำขอ
+              </div>
+              <div
+                class="text-caption text-medium-emphasis"
+                style="line-height: 1.2"
+              >
+                Request No.
+              </div>
+            </span>
+            <v-icon
+              v-if="isSorted(column)"
+              :icon="getSortIcon(column)"
+              size="14"
+            />
+          </span>
         </template>
+        <template #header.applicant="{ column, isSorted, getSortIcon }">
+          <span class="d-inline-flex align-center ga-1">
+            <span>
+              <div
+                class="text-body-2 font-weight-medium"
+                style="line-height: 1.3"
+              >
+                ชื่อสถานประกอบการ
+              </div>
+              <div
+                class="text-caption text-medium-emphasis"
+                style="line-height: 1.2"
+              >
+                Company Name
+              </div>
+            </span>
+            <v-icon
+              v-if="isSorted(column)"
+              :icon="getSortIcon(column)"
+              size="14"
+            />
+          </span>
+        </template>
+        <template #header.applicantName="{ column, isSorted, getSortIcon }">
+          <span class="d-inline-flex align-center ga-1">
+            <span>
+              <div
+                class="text-body-2 font-weight-medium"
+                style="line-height: 1.3"
+              >
+                ชื่อผู้ยื่นคำขอ
+              </div>
+              <div
+                class="text-caption text-medium-emphasis"
+                style="line-height: 1.2"
+              >
+                Applicant Name
+              </div>
+            </span>
+            <v-icon
+              v-if="isSorted(column)"
+              :icon="getSortIcon(column)"
+              size="14"
+            />
+          </span>
+        </template>
+        <template #header.type="{ column, isSorted, getSortIcon }">
+          <span class="d-inline-flex align-center ga-1">
+            <span>
+              <div
+                class="text-body-2 font-weight-medium"
+                style="line-height: 1.3"
+              >
+                ประเภทคำขอ
+              </div>
+              <div
+                class="text-caption text-medium-emphasis"
+                style="line-height: 1.2"
+              >
+                Request Type
+              </div>
+            </span>
+            <v-icon
+              v-if="isSorted(column)"
+              :icon="getSortIcon(column)"
+              size="14"
+            />
+          </span>
+        </template>
+        <template #header.submittedDate="{ column, isSorted, getSortIcon }">
+          <span class="d-inline-flex align-center ga-1">
+            <span>
+              <div
+                class="text-body-2 font-weight-medium"
+                style="line-height: 1.3"
+              >
+                วันที่ยื่น
+              </div>
+              <div
+                class="text-caption text-medium-emphasis"
+                style="line-height: 1.2"
+              >
+                Submit Date
+              </div>
+            </span>
+            <v-icon
+              v-if="isSorted(column)"
+              :icon="getSortIcon(column)"
+              size="14"
+            />
+          </span>
+        </template>
+        <template #header.status="{ column, isSorted, getSortIcon }">
+          <span class="d-inline-flex align-center ga-1">
+            <span>
+              <div
+                class="text-body-2 font-weight-medium"
+                style="line-height: 1.3"
+              >
+                สถานะคำขอ
+              </div>
+              <div
+                class="text-caption text-medium-emphasis"
+                style="line-height: 1.2"
+              >
+                Status
+              </div>
+            </span>
+            <v-icon
+              v-if="isSorted(column)"
+              :icon="getSortIcon(column)"
+              size="14"
+            />
+          </span>
+        </template>
+
+        <template #item.requestNo="{ item }">
+          <span class="text-body-2">{{ item.requestNo }}</span>
+        </template>
+        <template #item.type="{ item }">{{ typeLabel(item.type) }}</template>
         <template #item.status="{ item }">
           <v-chip
+            :color="statusColor(item.status)"
             size="small"
-            :color="getCertStatusColor(item.status)"
             variant="tonal"
-            :prepend-icon="getCertStatusIcon(item.status)"
+            >{{ statusLabel(item.status) }}</v-chip
           >
-            {{ item.status }}
-          </v-chip>
         </template>
         <template #item.actions="{ item }">
-          <div class="d-flex ga-1">
+          <div class="d-flex align-center ga-1">
+            <v-tooltip text="ดูคำขอ" location="top">
+              <template #activator="{ props }">
+                <v-btn
+                  v-bind="props"
+                  icon
+                  size="x-small"
+                  variant="text"
+                  color="gap-staff"
+                  @click.stop="goToSigningDetail(item.id)"
+                >
+                  <v-icon icon="fas fa-eye" size="14" />
+                </v-btn>
+              </template>
+            </v-tooltip>
             <v-btn
               size="small"
-              variant="text"
+              variant="tonal"
               color="gap-staff"
-              icon="fas fa-eye"
-            />
-            <v-btn
-              size="small"
-              variant="text"
-              color="success"
-              icon="fas fa-download"
-              :disabled="item.status === 'หมดอายุ'"
-            />
+              rounded="lg"
+              prepend-icon="fas fa-pen-nib"
+              @click.stop="goToSigningDetail(item.id)"
+            >
+              ลงนาม
+            </v-btn>
           </div>
         </template>
       </v-data-table>
@@ -180,171 +345,182 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { ref, reactive, computed, watch } from "vue";
+import { useRouter } from "vue-router";
+import { useLocale } from "vuetify";
 
+const { current: vuetifyLocale } = useLocale();
+vuetifyLocale.value = "th";
+
+const router = useRouter();
 const search = ref("");
-const filterStatus = ref("all");
-const filterCert = ref(null);
 
-const certificates = [
-  {
-    certNo: "GAP-CERT-2569-0035",
-    farmerName: "นายสมชาย ใจดี",
-    crop: "มะม่วง",
-    area: 12,
-    province: "เชียงใหม่",
-    certType: "มกษ. 9001",
-    issuedDate: "20 พ.ย. 67",
-    expiryDate: "19 พ.ย. 68",
-    status: "มีผล",
-  },
-  {
-    certNo: "GAP-CERT-2569-0034",
-    farmerName: "น.ส.รัตนา พงศ์ไพร",
-    crop: "กระเทียม",
-    area: 6,
-    province: "เชียงใหม่",
-    certType: "มกษ. 9001",
-    issuedDate: "18 พ.ย. 67",
-    expiryDate: "17 ก.พ. 68",
-    status: "ใกล้หมดอายุ",
-  },
-  {
-    certNo: "GAP-CERT-2569-0033",
-    farmerName: "นายสุรชัย แสงทอง",
-    crop: "ฝรั่ง",
-    area: 8,
-    province: "กาญจนบุรี",
-    certType: "มกษ. 9001",
-    issuedDate: "15 พ.ย. 67",
-    expiryDate: "14 พ.ย. 68",
-    status: "มีผล",
-  },
-  {
-    certNo: "GAP-CERT-2569-0030",
-    farmerName: "นายพิชัย ชมพู",
-    crop: "มะนาว",
-    area: 5,
-    province: "นครปฐม",
-    certType: "มกษ. 9001",
-    issuedDate: "1 พ.ย. 67",
-    expiryDate: "31 ต.ค. 68",
-    status: "มีผล",
-  },
-  {
-    certNo: "GAP-CERT-2569-0120",
-    farmerName: "นายอำนาจ วีระชัย",
-    crop: "พริก",
-    area: 5,
-    province: "สระแก้ว",
-    certType: "มกษ. 9001",
-    issuedDate: "5 ม.ค. 67",
-    expiryDate: "4 ม.ค. 68",
-    status: "หมดอายุ",
-  },
-  {
-    certNo: "GAP-CERT-2569-0032",
-    farmerName: "น.ส.มาลี รุ่งเรือง",
-    crop: "ลำไย",
-    area: 30,
-    province: "เชียงราย",
-    certType: "มกษ. 3502",
-    issuedDate: "10 พ.ย. 67",
-    expiryDate: "9 พ.ย. 68",
-    status: "มีผล",
-  },
-  {
-    certNo: "GAP-CERT-2569-0031",
-    farmerName: "นายชัยพร ดีงาม",
-    crop: "ส้มโอ",
-    area: 15,
-    province: "นครศรีธรรมราช",
-    certType: "มกษ. 9001",
-    issuedDate: "8 พ.ย. 67",
-    expiryDate: "7 ก.พ. 68",
-    status: "ใกล้หมดอายุ",
-  },
-];
+const dateFromMenu = ref(false);
+const dateFromObj = ref(null);
+const dateToMenu = ref(false);
+const dateToObj = ref(null);
 
-function countByStatus(s) {
-  return certificates.filter((i) => i.status === s).length;
+function dateToBEStr(date) {
+  if (!date) return "";
+  const d = String(date.getDate()).padStart(2, "0");
+  const m = String(date.getMonth() + 1).padStart(2, "0");
+  return `${d}/${m}/${date.getFullYear() + 543}`;
 }
 
-const certStats = [
-  {
-    label: "ทั้งหมด",
-    icon: "fas fa-certificate",
-    color: "gap-staff",
-    value: certificates.length,
-  },
-  {
-    label: "มีผล",
-    icon: "fas fa-circle-check",
-    color: "success",
-    value: countByStatus("มีผล"),
-  },
-  {
-    label: "ใกล้หมดอายุ",
-    icon: "fas fa-clock",
-    color: "warning",
-    value: countByStatus("ใกล้หมดอายุ"),
-  },
-  {
-    label: "หมดอายุ",
-    icon: "fas fa-circle-xmark",
-    color: "error",
-    value: countByStatus("หมดอายุ"),
-  },
-];
+const dateFromBE = computed(() => dateToBEStr(dateFromObj.value));
+const dateToBE = computed(() => dateToBEStr(dateToObj.value));
+
+watch(dateFromObj, (v) => {
+  filters.dateFrom = v ? v.toISOString().slice(0, 10) : "";
+});
+watch(dateToObj, (v) => {
+  filters.dateTo = v ? v.toISOString().slice(0, 10) : "";
+});
+
+function beDateToTs(str) {
+  if (!str) return 0;
+  const [d, m, y] = str.split("/").map(Number);
+  return new Date(y - 543, m - 1, d).getTime();
+}
+
+const customKeySort = {
+  submittedDate: (a, b) => beDateToTs(a) - beDateToTs(b),
+};
+
+const filters = reactive({
+  dateFrom: "",
+  dateTo: "",
+  type: null,
+  status: null,
+});
+
+function goToSigningDetail(id) {
+  router.push({ name: "CBStaffSigningDetail", params: { id } });
+}
 
 function clearFilters() {
   search.value = "";
-  filterCert.value = null;
-  filterStatus.value = "all";
+  filters.dateFrom = "";
+  filters.dateTo = "";
+  filters.type = null;
+  filters.status = null;
+  dateFromObj.value = null;
+  dateToObj.value = null;
 }
 
-const filteredCerts = computed(() => {
-  let items = certificates;
-  if (filterStatus.value && filterStatus.value !== "all")
-    items = items.filter((i) => i.status === filterStatus.value);
-  if (filterCert.value)
-    items = items.filter((i) => i.certType === filterCert.value);
+const typeOptions = [
+  { label: "ขึ้นทะเบียน", value: "register" },
+  { label: "ต่ออายุ", value: "renew" },
+  { label: "เพิ่ม/ลดขอบข่าย", value: "scope" },
+  { label: "อื่น ๆ", value: "other" },
+];
+
+const statusOptions = [
+  { label: "รอลงนาม", value: "signing" },
+  { label: "อนุมัติ", value: "approved" },
+  { label: "ไม่อนุมัติ", value: "rejected" },
+];
+
+const headers = [
+  { title: "เลขคำขอ", key: "requestNo", sortable: true },
+  { title: "ชื่อสถานประกอบการ", key: "applicant", sortable: true },
+  { title: "ชื่อผู้ยื่นคำขอ", key: "applicantName", sortable: true },
+  { title: "ประเภทคำขอ", key: "type", sortable: true },
+  { title: "วันที่ยื่น", key: "submittedDate", sortable: true },
+  { title: "สถานะคำขอ", key: "status", sortable: true },
+  { title: "", key: "actions", sortable: false, align: "end" },
+];
+
+const allItems = [
+  {
+    id: "CB-2569-003",
+    requestNo: "CB-0003",
+    applicant: "บ.กรีนเซิร์ต จก.",
+    applicantName: "ประสิทธิ์ พานิช",
+    type: "scope",
+    submittedDate: "10/03/2569",
+    status: "signing",
+  },
+  {
+    id: "CB-2569-006",
+    requestNo: "CB-0006",
+    applicant: "บ.เอเชียเซอร์ติฟาย จก.",
+    applicantName: "วรรณา จันทร์ดี",
+    type: "register",
+    submittedDate: "15/03/2569",
+    status: "signing",
+  },
+  {
+    id: "CB-2569-007",
+    requestNo: "CB-0007",
+    applicant: "บ.ไทยมาตรฐาน จก.",
+    applicantName: "สุรชัย แก้วมณี",
+    type: "renew",
+    submittedDate: "18/03/2569",
+    status: "signing",
+  },
+];
+
+const filteredItems = computed(() => {
+  let items = allItems;
+  if (search.value) {
+    const q = search.value.toLowerCase();
+    items = items.filter(
+      (i) =>
+        i.requestNo.toLowerCase().includes(q) ||
+        i.applicant.toLowerCase().includes(q) ||
+        i.applicantName.toLowerCase().includes(q),
+    );
+  }
+  if (filters.type) items = items.filter((i) => i.type === filters.type);
+  if (filters.status) items = items.filter((i) => i.status === filters.status);
+  if (filters.dateFrom) {
+    const from = new Date(filters.dateFrom).getTime();
+    items = items.filter((i) => beDateToTs(i.submittedDate) >= from);
+  }
+  if (filters.dateTo) {
+    const to = new Date(filters.dateTo).getTime();
+    items = items.filter((i) => beDateToTs(i.submittedDate) <= to);
+  }
   return items;
 });
 
-const headers = [
-  { title: "เลขที่ใบรับรอง", key: "certNo", width: 180 },
-  { title: "ชื่อเกษตรกร", key: "farmerName", width: 180 },
-  { title: "พืช", key: "crop", width: 110 },
-  { title: "พื้นที่ (ไร่)", key: "area", width: 100 },
-  { title: "จังหวัด", key: "province", width: 130 },
-  { title: "ประเภทใบรับรอง", key: "certType", width: 130 },
-  { title: "วันที่ออก", key: "issuedDate", width: 120 },
-  { title: "วันหมดอายุ", key: "expiryDate", width: 120 },
-  { title: "สถานะ", key: "status", width: 140 },
-  { title: "", key: "actions", width: 120, sortable: false },
-];
-
-function getCertStatusColor(s) {
-  return s === "มีผล" ? "success" : s === "ใกล้หมดอายุ" ? "warning" : "error";
+function typeLabel(t) {
+  return (
+    {
+      register: "ขึ้นทะเบียน",
+      renew: "ต่ออายุ",
+      scope: "เพิ่ม/ลดขอบข่าย",
+      other: "อื่น ๆ",
+    }[t] ?? t
+  );
 }
-function getCertStatusIcon(s) {
-  return s === "มีผล"
-    ? "fas fa-circle-check"
-    : s === "ใกล้หมดอายุ"
-      ? "fas fa-triangle-exclamation"
-      : "fas fa-clock";
+function statusColor(s) {
+  return (
+    {
+      signing: "warning",
+      approved: "success",
+      rejected: "error",
+    }[s] ?? "grey"
+  );
+}
+function statusLabel(s) {
+  return (
+    {
+      signing: "รอลงนาม",
+      approved: "อนุมัติ",
+      rejected: "ไม่อนุมัติ",
+    }[s] ?? s
+  );
 }
 </script>
 
 <style scoped>
-.cert-stat-icon {
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
+:deep(.v-data-table td:last-child),
+:deep(.v-data-table th:last-child) {
+  position: sticky;
+  right: 0;
+  z-index: 1;
+  background: rgb(var(--v-theme-surface));
 }
 </style>
