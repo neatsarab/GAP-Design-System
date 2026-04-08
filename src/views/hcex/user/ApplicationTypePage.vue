@@ -23,13 +23,14 @@
         :key="appType.key"
         cols="12"
         sm="6"
-        md="3"
+        md="4"
+        lg="3"
       >
         <v-card
           class="type-card h-100"
           hover
           :ripple="false"
-          @click="goToNewApplication(appType.key)"
+          @click="goToNewApplication(appType)"
         >
           <v-card-text class="pa-8 d-flex flex-column align-center text-center">
             <div
@@ -83,6 +84,44 @@
       </v-col>
     </v-row>
 
+    <!-- Dialog: ต้องขึ้นทะเบียนประวัติก่อน -->
+    <v-dialog v-model="blockDialog" max-width="420" persistent>
+      <v-card rounded="xl">
+        <v-card-text class="pa-6 text-center">
+          <v-icon
+            :icon="blockInfo.icon"
+            :color="blockInfo.color"
+            size="56"
+            class="mb-4"
+          />
+          <h2 class="text-h6 font-weight-bold mb-2">{{ blockInfo.title }}</h2>
+          <p class="text-body-2 text-medium-emphasis mb-0">
+            {{ blockInfo.message }}
+          </p>
+        </v-card-text>
+        <v-card-actions class="pa-4 pt-0 d-flex flex-column ga-2">
+          <v-btn
+            v-if="blockInfo.actionKey"
+            :color="blockInfo.color"
+            block
+            rounded="lg"
+            variant="flat"
+            @click="goToBlockAction"
+          >
+            {{ blockInfo.actionLabel }}
+          </v-btn>
+          <v-btn
+            block
+            rounded="lg"
+            variant="text"
+            @click="blockDialog = false"
+          >
+            ปิด
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
     <!-- Info -->
     <!-- <v-alert
       type="info"
@@ -101,32 +140,48 @@
 </template>
 
 <script setup>
+import { ref } from "vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
+
+const hasApprovedHistory = ref(false); // mock — จะเชื่อม API จริงในภายหลัง
+
+// Dialog state
+const blockDialog = ref(false);
+const blockInfo = ref({});
 
 function goToApplicationList() {
   router.push({ name: "HCEXUserApplicationList" });
 }
 
 function goToNewApplication(type) {
-  router.push({ name: "HCEXUserNewApplication", params: { type } });
+  router.push({ name: "HCEXUserNewApplication", params: { type: type.key } });
+}
+
+function goToBlockAction() {
+  blockDialog.value = false;
+  router.push({
+    name: "HCEXUserNewApplication",
+    params: { type: blockInfo.value.actionKey },
+  });
 }
 
 const appTypes = [
   {
     key: "history",
-    title: "คำขอขึ้นทะเบียนประวัติ",
+    title: "ทะเบียนประวัติ",
     badge: null,
     icon: "fas fa-clock-rotate-left",
     color: "info",
     description:
-      "ยื่นคำขอขึ้นทะเบียนประวัติสินค้าแปรรูป สำหรับสถานประกอบการที่ต้องการบันทึกประวัติการผลิตและส่งออก",
+      "ยื่นคำขอขึ้นทะเบียนประวัติสินค้าแปรรูป หรือแก้ไขเพิ่ม-ลดรายการสินค้าในทะเบียนที่มีอยู่",
     features: [
-      "บันทึกประวัติสินค้าแปรรูป",
-      "ระบุแหล่งที่มาวัตถุดิบ",
-      "รายละเอียดกระบวนการผลิต",
+      "ขึ้นทะเบียนประวัติครั้งแรก",
+      "เพิ่ม/ลดรายการสินค้าแปรรูป",
+      "แก้ไขข้อมูลโรงงานและมาตรฐาน",
     ],
+    requiresHistory: false,
   },
   {
     key: "lab",
@@ -141,6 +196,7 @@ const appTypes = [
       "ระบุชนิดและปริมาณสินค้า",
       "ติดตามสถานะการพิจารณา",
     ],
+    requiresHistory: false,
   },
   {
     key: "newrequest",
@@ -149,12 +205,13 @@ const appTypes = [
     icon: "fas fa-file-circle-plus",
     color: "primary",
     description:
-      "ยื่นคำขอขึ้นทะเบียนสถานประกอบการสินค้าแปรรูปด้านพืช สำหรับผู้ประกอบการรายใหม่ที่ยังไม่เคยขึ้นทะเบียน",
+      "ยื่นคำขอออกใบรับรองสุขอนามัยพืชสำหรับสินค้าแปรรูปด้านพืช ต้องมีทะเบียนประวัติที่อนุมัติแล้วก่อน",
     features: [
-      "ขึ้นทะเบียนสถานประกอบการ",
-      "รองรับสินค้าแปรรูปหลายประเภท",
-      "จัดการข้อมูลผู้ประกอบการ",
+      "รองรับใบรับรอง 4 ประเภท",
+      "เชื่อมข้อมูลจากทะเบียนประวัติ",
+      "ติดตามสถานะแบบ real-time",
     ],
+    requiresHistory: true,
   },
   {
     key: "amendment",
@@ -169,6 +226,7 @@ const appTypes = [
       "แก้ไขข้อมูลสินค้าและปริมาณ",
       "แก้ไขประเทศปลายทาง",
     ],
+    requiresHistory: true,
   },
 ];
 </script>

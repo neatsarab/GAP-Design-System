@@ -269,7 +269,17 @@
               :key="doc.label"
               class="item-row rounded-lg px-3 py-2 mb-2 d-flex align-center justify-space-between"
             >
-              <div class="text-body-2">{{ doc.label }}</div>
+              <div class="d-flex align-center ga-2">
+                <v-icon
+                  icon="fas fa-file-alt"
+                  size="13"
+                  color="hcex-user"
+                />
+                <div>
+                  <div class="text-caption text-medium-emphasis">{{ doc.docType }}</div>
+                  <div class="text-body-2">{{ doc.label }}</div>
+                </div>
+              </div>
               <v-btn
                 size="x-small"
                 variant="tonal"
@@ -287,18 +297,28 @@
       <!-- ── Right: cert actions + activity log ── -->
       <v-col cols="12" md="4">
         <div class="sticky-col">
-          <!-- ปุ่มดาวน์โหลดใบทะเบียน -->
+          <!-- ปุ่มดาวน์โหลดใบรับรอง -->
           <v-card rounded="xl" elevation="0" class="section-card mb-4">
-            <v-card-text class="pa-4">
+            <v-card-text class="pa-4 d-flex flex-column ga-2">
               <v-btn
                 color="hcex-user"
                 variant="flat"
                 block
                 rounded="lg"
                 prepend-icon="fas fa-download"
-                :disabled="cert.status === 'expired'"
+                @click="downloadCertPdf"
               >
-                ดาวน์โหลดใบทะเบียน (PDF)
+                ดาวน์โหลดใบรับรอง (PDF)
+              </v-btn>
+              <v-btn
+                color="hcex-user"
+                variant="tonal"
+                block
+                rounded="lg"
+                prepend-icon="fas fa-print"
+                @click="downloadCertPdf"
+              >
+                พิมพ์ใบรับรอง
               </v-btn>
             </v-card-text>
           </v-card>
@@ -314,7 +334,7 @@
                 size="15"
               />
               <span class="text-subtitle-2 font-weight-bold"
-                >ประวัติใบทะเบียน</span
+                >ประวัติใบรับรอง</span
               >
             </div>
             <v-card-text
@@ -485,7 +505,7 @@
 </template>
 
 <script setup>
-import { ref, computed, watch } from "vue";
+import { ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
 const route = useRoute();
@@ -521,152 +541,93 @@ function openActivityDetail(event) {
 }
 
 const cert = {
-  certNo: "EXP-2569-005",
-  requestNo: "EXP-0005",
-  typecert: "คำขอหนังสือสำคัญแสดงการขึ้นทะเบียนเป็นผู้ส่งออกผักและผลไม้",
+  certNo: "HC-2569-001",
+  requestNo: "HC-REQ-2569-001",
+  typecert: "กมพ.1 ใบรับรองสุขอนามัยพืชสำหรับการส่งออก",
   issueDate: "15/03/2569",
-  expireDate: "14/03/2571",
-  status: "active",
+  status: "issued",
 
-  applicantNameTh: "นายสมชาย ใจดี",
-  applicantHouseNo: "123",
-  applicantMoo: "3",
-  applicantAlley: "-",
-  applicantRoad: "พหลโยธิน",
-  applicantTambol: "ลาดยาว",
-  applicantDistrict: "จตุจักร",
-  applicantProvince: "กรุงเทพมหานคร",
-  applicantZipcode: "10900",
-  applicantPhone: "02-123-4567",
-  applicantFax: "-",
-  applicantEmail: "somchai@example.com",
+  exporterNameAddress:
+    "THAI EXPORT CO., LTD.\n88/1 SUKHUMVIT RD., BANG PAKONG,\nCHACHOENGSAO 24130, THAILAND",
+  consigneeNameAddress:
+    "JAPAN IMPORT CO., LTD.\n1-2-3 SHINJUKU, TOKYO,\nJAPAN 160-0022",
 
-  companyNameTh: "บริษัท ไทย เอ็กซ์พอร์ต จำกัด",
-  companyNameEn: "Thai Export Co., Ltd.",
-  houseNo: "88/1",
-  alley: "-",
-  road: "สุขุมวิท",
-  tambol: "บางปะกง",
-  district: "บางปะกง",
-  province: "ฉะเชิงเทรา",
-  zipcode: "24130",
-  houseNoEn: "88/1",
-  alleyEn: "-",
-  roadEn: "Sukhumvit",
-  tambolEn: "Bang Pakong",
-  districtEn: "Bang Pakong",
-  provinceEn: "Chachoengsao",
-  zipcodeEn: "24130",
-  companyPhone: "038-123-456",
-  companyFax: "038-123-457",
-  companyEmail: "info@thaiexport.co.th",
+  shipment: {
+    date: "20/03/2569",
+    modes: ["เรือ"],
+    countryDestination: "ญี่ปุ่น",
+    placeOfDeparture: "ท่าเรือแหลมฉบัง",
+  },
 
-  countries: ["สหภาพยุโรป", "ญี่ปุ่น", "สิงคโปร์"],
+  goods: {
+    manufacturer: "บริษัท ไทย เอ็กซ์พอร์ต จำกัด",
+    analysisReportNo: "LAB-2569-12345",
+    analysisDate: "10/03/2569",
+    shippingMark: "THAI EXPORT\nJAPAN",
+    descriptionOfGoods:
+      "FRESH MANGOES (MANGIFERA INDICA L.)\nVARIETY: NAM DOK MAI\nHARVESTED: MARCH 2569",
+    quantity: "500 CARTONS",
+    weightNW: "5,000 KGS",
+    weightGW: "5,500 KGS",
+    totalAmount: "500,000.00 THB",
+  },
 
-  factories: [
-    {
-      doaNo: "DOA-2568-12345",
-      factoryName: "โรงบรรจุสินค้าไทยเอ็กซ์พอร์ต 1",
-      expiryDate: "01/01/2570",
-    },
-    {
-      doaNo: "DOA-2568-12346",
-      factoryName: "โรงรมทรีทเม้นต์ไทยเอ็กซ์พอร์ต",
-      expiryDate: "01/06/2570",
-    },
-  ],
-
-  gaps: [
-    {
-      gapNo: "GAP-2568-00123",
-      siteName: "สวนมะม่วงไทยเอ็กซ์พอร์ต",
-      certBody: "กรมวิชาการเกษตร (DOA)",
-      expiryDate: "01/03/2570",
-    },
-    {
-      gapNo: "GAP-2568-00456",
-      siteName: "สวนมะละกอไทยเอ็กซ์พอร์ต",
-      certBody: "สำนักงานเกษตรจังหวัด",
-      expiryDate: "15/06/2570",
-    },
-  ],
+  specialRemark:
+    "สินค้าผ่านการตรวจสอบตามมาตรฐานการส่งออกของกรมวิชาการเกษตร",
 
   attachments: [
     {
-      label:
-        "หนังสือรับรองของโรงงานผลิตสินค้าพืชที่เราระบุว่าเป็นผู้คัดบรรจุสินค้าผักและผลไม้ให้กับผู้ส่งออก กรณีที่ผู้ส่งออกแจ้งใช้โรงงานผลิตสินค้าพืชของผู้อื่น",
+      docType: "ผลการวิเคราะห์ทางห้องปฏิบัติการ",
+      label: "LAB-2569-12345.pdf",
     },
-    { label: "หนังสือรับรองการซื้อ-ขายกับเกษตรกร" },
+    { docType: "ใบรับรอง GAP", label: "GAP-2568-00123.pdf" },
   ],
 
   activityLog: [
     {
       type: "issue",
-      action: "ออกใบทะเบียน",
+      action: "ออกใบรับรอง",
       actor: "ระบบ",
-      timestamp: "08/01/2569 11:23",
-      remark: "เลขทะเบียน EXP-2569-005",
+      timestamp: "15/03/2569 10:00",
+      remark: "เลขใบรับรอง HC-2569-001",
     },
     {
       type: "forward",
       action: "ผ่านการลงนาม",
       actor: "นายศักดิ์ศรี นาดี (ผู้ลงนาม)",
-      timestamp: "08/01/2569 11:23",
+      timestamp: "15/03/2569 09:30",
     },
     {
       type: "forward",
       action: "ผ่านการพิจารณา",
       actor: "นายอนันต์ วิชาการ (ผู้พิจารณา)",
-      timestamp: "06/01/2569 14:20",
-    },
-    {
-      type: "forward",
-      action: "ผ่านการตรวจสอบ",
-      actor: "น.ส.วรรณา จันทร์ดี (เจ้าหน้าที่ตรวจสอบ)",
-      timestamp: "05/01/2569 11:00",
-    },
-    {
-      type: "sendback",
-      action: "ส่งกลับแก้ไข",
-      actor: "น.ส.วรรณา จันทร์ดี (เจ้าหน้าที่ตรวจสอบ)",
-      timestamp: "03/01/2569 10:30",
-      remark:
-        "เอกสารสำเนาหนังสือรับรองนิติบุคคลไม่ครบถ้วน กรุณาแนบเอกสารฉบับที่ออกโดยกรมพัฒนาธุรกิจการค้าซึ่งออกไม่เกิน 3 เดือน และแก้ไขพิกัดที่ตั้งโรงงานให้ถูกต้องตามทะเบียนโรงงาน",
+      timestamp: "13/03/2569 14:20",
     },
     {
       type: "submit",
       action: "ยื่นคำขอ",
       actor: "นายสมชาย ใจดี (ผู้ยื่นคำขอ)",
-      timestamp: "01/01/2569 09:12",
+      timestamp: "10/03/2569 09:00",
       remark: "",
     },
   ],
 };
 
-const applicantAddress = computed(() => {
-  const a = cert;
-  return `${a.applicantHouseNo} หมู่ ${a.applicantMoo} ถ.${a.applicantRoad} ต.${a.applicantTambol} อ.${a.applicantDistrict} จ.${a.applicantProvince} ${a.applicantZipcode}`;
-});
-
-const companyAddressTh = computed(() => {
-  const a = cert;
-  return `${a.houseNo} ถ.${a.road} ต.${a.tambol} อ.${a.district} จ.${a.province} ${a.zipcode}`;
-});
-
-const companyAddressEn = computed(() => {
-  const a = cert;
-  return `${a.houseNoEn} ${a.roadEn} Rd., ${a.tambolEn}, ${a.districtEn}, ${a.provinceEn} ${a.zipcodeEn}`;
-});
-
 function certStatusColor(s) {
   return (
-    { active: "success", expiring: "warning", expired: "error" }[s] ?? "grey"
+    {
+      issued: "success",
+      active: "success",
+      expiring: "warning",
+      expired: "error",
+    }[s] ?? "grey"
   );
 }
 
 function certStatusIcon(s) {
   return (
     {
+      issued: "fas fa-circle-check",
       active: "fas fa-circle-check",
       expiring: "fas fa-clock",
       expired: "fas fa-circle-xmark",
@@ -676,8 +637,78 @@ function certStatusIcon(s) {
 
 function certStatusLabel(s) {
   return (
-    { active: "มีผล", expiring: "ใกล้หมดอายุ", expired: "หมดอายุ" }[s] ?? s
+    {
+      issued: "ออกใบรับรองแล้ว",
+      active: "มีผล",
+      expiring: "ใกล้หมดอายุ",
+      expired: "หมดอายุ",
+    }[s] ?? s
   );
+}
+
+function downloadCertPdf() {
+  const c = cert;
+  const html = `<!DOCTYPE html>
+<html><head><meta charset="utf-8"/>
+<title>ใบรับรอง ${c.certNo}</title>
+<style>
+  body { font-family: 'Arial', sans-serif; margin: 0; padding: 32px; font-size: 12px; }
+  .title { text-align: center; font-size: 16px; font-weight: bold; margin-bottom: 4px; }
+  .subtitle { text-align: center; font-size: 13px; margin-bottom: 20px; }
+  .cert-no { text-align: center; font-size: 13px; font-weight: bold; margin-bottom: 20px; }
+  table { width: 100%; border-collapse: collapse; margin-bottom: 12px; }
+  td { padding: 6px 8px; vertical-align: top; }
+  .label { width: 38%; font-weight: bold; color: #444; }
+  .mono { font-family: monospace; white-space: pre-line; text-transform: uppercase; }
+  .border-box { border: 1px solid #999; padding: 10px; margin-bottom: 12px; }
+  .section-title { font-weight: bold; font-size: 12px; border-bottom: 1px solid #ccc; padding-bottom: 4px; margin-bottom: 8px; }
+  .sig-area { margin-top: 40px; text-align: right; }
+  .sig-line { border-top: 1px solid #333; width: 220px; display: inline-block; margin-top: 40px; }
+</style></head><body>
+<div class="title">กรมวิชาการเกษตร</div>
+<div class="subtitle">ใบรับรองสุขอนามัยพืชสำหรับการส่งออก (กมพ.1)</div>
+<div class="cert-no">เลขที่ใบรับรอง: ${c.certNo}</div>
+<table>
+  <tr><td class="label">เลขคำขออ้างอิง / Request No.</td><td>${c.requestNo}</td>
+      <td class="label">วันที่ออก / Issue Date</td><td>${c.issueDate}</td></tr>
+</table>
+<div class="border-box">
+  <div class="section-title">ผู้ส่งออก / Exporter</div>
+  <div class="mono">${c.exporterNameAddress}</div>
+</div>
+<div class="border-box">
+  <div class="section-title">ผู้นำเข้า / Consignee</div>
+  <div class="mono">${c.consigneeNameAddress}</div>
+</div>
+<div class="section-title">การขนส่ง / Shipment</div>
+<table>
+  <tr><td class="label">วันที่ส่งออก</td><td>${c.shipment.date}</td>
+      <td class="label">วิธีการขนส่ง</td><td>${c.shipment.modes.join(", ")}</td></tr>
+  <tr><td class="label">ประเทศปลายทาง</td><td>${c.shipment.countryDestination}</td>
+      <td class="label">สถานที่ส่งออก</td><td>${c.shipment.placeOfDeparture}</td></tr>
+</table>
+<div class="section-title">รายละเอียดสินค้า / Goods</div>
+<table>
+  <tr><td class="label">ผู้ผลิต</td><td colspan="3">${c.goods.manufacturer}</td></tr>
+  <tr><td class="label">เลขที่รายงานวิเคราะห์</td><td>${c.goods.analysisReportNo}</td>
+      <td class="label">วันที่วิเคราะห์</td><td>${c.goods.analysisDate}</td></tr>
+  <tr><td class="label">เครื่องหมายสินค้า</td><td class="mono">${c.goods.shippingMark}</td>
+      <td class="label">รายละเอียดสินค้า</td><td class="mono">${c.goods.descriptionOfGoods}</td></tr>
+  <tr><td class="label">จำนวน</td><td>${c.goods.quantity}</td>
+      <td class="label">น้ำหนักสุทธิ</td><td>${c.goods.weightNW}</td></tr>
+  <tr><td class="label">น้ำหนักรวม</td><td>${c.goods.weightGW}</td>
+      <td class="label">มูลค่ารวม</td><td>${c.goods.totalAmount}</td></tr>
+</table>
+${c.specialRemark ? `<div class="section-title">Special Remark</div><p>${c.specialRemark}</p>` : ""}
+<div class="sig-area">
+  <div class="sig-line"></div><br/>
+  <div>เจ้าหน้าที่ผู้ออกใบรับรอง</div>
+  <div>กรมวิชาการเกษตร</div>
+</div>
+</body></html>`;
+  const win = window.open("", "_blank");
+  win.document.write(html);
+  win.document.close();
 }
 
 function eventIcon(type) {
@@ -727,7 +758,7 @@ function eventLabel(type) {
       approve: "อนุมัติ",
       reject: "ไม่อนุมัติ",
       sendback: "ปรับปรุง",
-      issue: "ออกใบทะเบียน",
+      issue: "ออกใบรับรอง",
       renew: "ต่ออายุ",
       revoke: "เพิกถอน",
     }[type] ?? type

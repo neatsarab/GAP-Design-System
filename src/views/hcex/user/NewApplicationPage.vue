@@ -2267,15 +2267,37 @@
                   <div class="field-label mb-1">
                     Date of Shipment <span class="req">*</span>
                   </div>
-                  <v-text-field
-                    density="compact"
-                    variant="outlined"
-                    rounded="lg"
-                    v-model="regKmpor1.shipmentDate"
-                    hide-details
-                    placeholder="วว/ดด/ปปปป"
-                    prepend-inner-icon="fas fa-calendar"
-                  />
+                  <v-menu
+                    v-model="regKmpor1ShipmentDateMenu"
+                    :close-on-content-click="false"
+                    location="bottom start"
+                  >
+                    <template #activator="{ props }">
+                      <v-text-field
+                        v-bind="props"
+                        density="compact"
+                        variant="outlined"
+                        rounded="lg"
+                        :model-value="regKmpor1.shipmentDate"
+                        readonly
+                        clearable
+                        prepend-inner-icon="fas fa-calendar"
+                        placeholder="เลือกวันที่"
+                        hide-details
+                        style="cursor: pointer"
+                        @click:clear.stop="regKmpor1ShipmentDateObj = null"
+                      />
+                    </template>
+                    <v-date-picker
+                      v-model="regKmpor1ShipmentDateObj"
+                      color="hcex-user"
+                      show-adjacent-months
+                      :hide-header="!regKmpor1ShipmentDateObj"
+                      title="เลือกวันที่"
+                      locale="th"
+                      @update:model-value="regKmpor1ShipmentDateMenu = false"
+                    />
+                  </v-menu>
                 </v-col>
                 <v-col cols="12" sm="4">
                   <div class="field-label mb-1">
@@ -2610,15 +2632,37 @@
                   <div class="field-label mb-1">
                     Date of Shipment <span class="req">*</span>
                   </div>
-                  <v-text-field
-                    density="compact"
-                    variant="outlined"
-                    rounded="lg"
-                    v-model="regKmpor1_1.shipmentDate"
-                    hide-details
-                    placeholder="วว/ดด/ปปปป"
-                    prepend-inner-icon="fas fa-calendar"
-                  />
+                  <v-menu
+                    v-model="regKmpor1_1ShipmentDateMenu"
+                    :close-on-content-click="false"
+                    location="bottom start"
+                  >
+                    <template #activator="{ props }">
+                      <v-text-field
+                        v-bind="props"
+                        density="compact"
+                        variant="outlined"
+                        rounded="lg"
+                        :model-value="regKmpor1_1.shipmentDate"
+                        readonly
+                        clearable
+                        prepend-inner-icon="fas fa-calendar"
+                        placeholder="เลือกวันที่"
+                        hide-details
+                        style="cursor: pointer"
+                        @click:clear.stop="regKmpor1_1ShipmentDateObj = null"
+                      />
+                    </template>
+                    <v-date-picker
+                      v-model="regKmpor1_1ShipmentDateObj"
+                      color="hcex-user"
+                      show-adjacent-months
+                      :hide-header="!regKmpor1_1ShipmentDateObj"
+                      title="เลือกวันที่"
+                      locale="th"
+                      @update:model-value="regKmpor1_1ShipmentDateMenu = false"
+                    />
+                  </v-menu>
                 </v-col>
                 <v-col cols="12" sm="4">
                   <div class="field-label mb-1">
@@ -2859,29 +2903,75 @@
                   <div class="field-label mb-1">
                     Production Date <span class="req">*</span>
                   </div>
-                  <v-text-field
-                    density="compact"
-                    variant="outlined"
-                    rounded="lg"
-                    v-model="regKmpor1_1.productionDate"
-                    hide-details
-                    placeholder="วว/ดด/ปปปป"
-                    prepend-inner-icon="fas fa-calendar"
-                  />
+                  <v-menu
+                    v-model="regKmpor1_1ProductionDateMenu"
+                    :close-on-content-click="false"
+                    location="bottom start"
+                  >
+                    <template #activator="{ props }">
+                      <v-text-field
+                        v-bind="props"
+                        density="compact"
+                        variant="outlined"
+                        rounded="lg"
+                        :model-value="regKmpor1_1.productionDate"
+                        readonly
+                        clearable
+                        prepend-inner-icon="fas fa-calendar"
+                        placeholder="เลือกวันที่"
+                        hide-details
+                        style="cursor: pointer"
+                        @click:clear.stop="regKmpor1_1ProductionDateObj = null"
+                      />
+                    </template>
+                    <v-date-picker
+                      v-model="regKmpor1_1ProductionDateObj"
+                      color="hcex-user"
+                      show-adjacent-months
+                      :hide-header="!regKmpor1_1ProductionDateObj"
+                      title="เลือกวันที่"
+                      locale="th"
+                      @update:model-value="
+                        regKmpor1_1ProductionDateMenu = false
+                      "
+                    />
+                  </v-menu>
                 </v-col>
                 <v-col cols="12" sm="3">
                   <div class="field-label mb-1">
                     Expiry Date <span class="req">*</span>
                   </div>
-                  <v-text-field
-                    density="compact"
-                    variant="outlined"
-                    rounded="lg"
-                    v-model="regKmpor1_1.expiryDate"
-                    hide-details
-                    placeholder="วว/ดด/ปปปป"
-                    prepend-inner-icon="fas fa-calendar"
-                  />
+                  <v-menu
+                    v-model="regKmpor1_1ExpiryDateMenu"
+                    :close-on-content-click="false"
+                    location="bottom start"
+                  >
+                    <template #activator="{ props }">
+                      <v-text-field
+                        v-bind="props"
+                        density="compact"
+                        variant="outlined"
+                        rounded="lg"
+                        :model-value="regKmpor1_1.expiryDate"
+                        readonly
+                        clearable
+                        prepend-inner-icon="fas fa-calendar"
+                        placeholder="เลือกวันที่"
+                        hide-details
+                        style="cursor: pointer"
+                        @click:clear.stop="regKmpor1_1ExpiryDateObj = null"
+                      />
+                    </template>
+                    <v-date-picker
+                      v-model="regKmpor1_1ExpiryDateObj"
+                      color="hcex-user"
+                      show-adjacent-months
+                      :hide-header="!regKmpor1_1ExpiryDateObj"
+                      title="เลือกวันที่"
+                      locale="th"
+                      @update:model-value="regKmpor1_1ExpiryDateMenu = false"
+                    />
+                  </v-menu>
                 </v-col>
                 <v-col cols="12" sm="3">
                   <div class="field-label mb-1">
@@ -3577,15 +3667,39 @@
                   <div class="field-label mb-1">
                     Date of Collection / Production <span class="req">*</span>
                   </div>
-                  <v-text-field
-                    density="compact"
-                    variant="outlined"
-                    rounded="lg"
-                    v-model="regKmpor1_2.collectionDate"
-                    hide-details
-                    placeholder="วว/ดด/ปปปป"
-                    prepend-inner-icon="fas fa-calendar"
-                  />
+                  <v-menu
+                    v-model="regKmpor1_2CollectionDateMenu"
+                    :close-on-content-click="false"
+                    location="bottom start"
+                  >
+                    <template #activator="{ props }">
+                      <v-text-field
+                        v-bind="props"
+                        density="compact"
+                        variant="outlined"
+                        rounded="lg"
+                        :model-value="regKmpor1_2.collectionDate"
+                        readonly
+                        clearable
+                        prepend-inner-icon="fas fa-calendar"
+                        placeholder="เลือกวันที่"
+                        hide-details
+                        style="cursor: pointer"
+                        @click:clear.stop="regKmpor1_2CollectionDateObj = null"
+                      />
+                    </template>
+                    <v-date-picker
+                      v-model="regKmpor1_2CollectionDateObj"
+                      color="hcex-user"
+                      show-adjacent-months
+                      :hide-header="!regKmpor1_2CollectionDateObj"
+                      title="เลือกวันที่"
+                      locale="th"
+                      @update:model-value="
+                        regKmpor1_2CollectionDateMenu = false
+                      "
+                    />
+                  </v-menu>
                 </v-col>
                 <v-col cols="12" sm="3">
                   <div class="field-label mb-1">Manufacturing Plant</div>
@@ -3735,15 +3849,37 @@
                   <div class="field-label mb-1">
                     Date of Shipment <span class="req">*</span>
                   </div>
-                  <v-text-field
-                    density="compact"
-                    variant="outlined"
-                    rounded="lg"
-                    v-model="regKmpor1_3.shipmentDate"
-                    hide-details
-                    placeholder="วว/ดด/ปปปป"
-                    prepend-inner-icon="fas fa-calendar"
-                  />
+                  <v-menu
+                    v-model="regKmpor1_3ShipmentDateMenu"
+                    :close-on-content-click="false"
+                    location="bottom start"
+                  >
+                    <template #activator="{ props }">
+                      <v-text-field
+                        v-bind="props"
+                        density="compact"
+                        variant="outlined"
+                        rounded="lg"
+                        :model-value="regKmpor1_3.shipmentDate"
+                        readonly
+                        clearable
+                        prepend-inner-icon="fas fa-calendar"
+                        placeholder="เลือกวันที่"
+                        hide-details
+                        style="cursor: pointer"
+                        @click:clear.stop="regKmpor1_3ShipmentDateObj = null"
+                      />
+                    </template>
+                    <v-date-picker
+                      v-model="regKmpor1_3ShipmentDateObj"
+                      color="hcex-user"
+                      show-adjacent-months
+                      :hide-header="!regKmpor1_3ShipmentDateObj"
+                      title="เลือกวันที่"
+                      locale="th"
+                      @update:model-value="regKmpor1_3ShipmentDateMenu = false"
+                    />
+                  </v-menu>
                 </v-col>
                 <v-col cols="12" sm="3">
                   <div class="field-label mb-1">Sample Submitted By</div>
@@ -3946,29 +4082,75 @@
                   <div class="field-label mb-1">
                     Date of Production <span class="req">*</span>
                   </div>
-                  <v-text-field
-                    density="compact"
-                    variant="outlined"
-                    rounded="lg"
-                    v-model="regKmpor1_3.productionDate"
-                    hide-details
-                    placeholder="วว/ดด/ปปปป"
-                    prepend-inner-icon="fas fa-calendar"
-                  />
+                  <v-menu
+                    v-model="regKmpor1_3ProductionDateMenu"
+                    :close-on-content-click="false"
+                    location="bottom start"
+                  >
+                    <template #activator="{ props }">
+                      <v-text-field
+                        v-bind="props"
+                        density="compact"
+                        variant="outlined"
+                        rounded="lg"
+                        :model-value="regKmpor1_3.productionDate"
+                        readonly
+                        clearable
+                        prepend-inner-icon="fas fa-calendar"
+                        placeholder="เลือกวันที่"
+                        hide-details
+                        style="cursor: pointer"
+                        @click:clear.stop="regKmpor1_3ProductionDateObj = null"
+                      />
+                    </template>
+                    <v-date-picker
+                      v-model="regKmpor1_3ProductionDateObj"
+                      color="hcex-user"
+                      show-adjacent-months
+                      :hide-header="!regKmpor1_3ProductionDateObj"
+                      title="เลือกวันที่"
+                      locale="th"
+                      @update:model-value="
+                        regKmpor1_3ProductionDateMenu = false
+                      "
+                    />
+                  </v-menu>
                 </v-col>
                 <v-col cols="12" sm="3">
                   <div class="field-label mb-1">
                     Expiry Date <span class="req">*</span>
                   </div>
-                  <v-text-field
-                    density="compact"
-                    variant="outlined"
-                    rounded="lg"
-                    v-model="regKmpor1_3.expiryDate"
-                    hide-details
-                    placeholder="วว/ดด/ปปปป"
-                    prepend-inner-icon="fas fa-calendar"
-                  />
+                  <v-menu
+                    v-model="regKmpor1_3ExpiryDateMenu"
+                    :close-on-content-click="false"
+                    location="bottom start"
+                  >
+                    <template #activator="{ props }">
+                      <v-text-field
+                        v-bind="props"
+                        density="compact"
+                        variant="outlined"
+                        rounded="lg"
+                        :model-value="regKmpor1_3.expiryDate"
+                        readonly
+                        clearable
+                        prepend-inner-icon="fas fa-calendar"
+                        placeholder="เลือกวันที่"
+                        hide-details
+                        style="cursor: pointer"
+                        @click:clear.stop="regKmpor1_3ExpiryDateObj = null"
+                      />
+                    </template>
+                    <v-date-picker
+                      v-model="regKmpor1_3ExpiryDateObj"
+                      color="hcex-user"
+                      show-adjacent-months
+                      :hide-header="!regKmpor1_3ExpiryDateObj"
+                      title="เลือกวันที่"
+                      locale="th"
+                      @update:model-value="regKmpor1_3ExpiryDateMenu = false"
+                    />
+                  </v-menu>
                 </v-col>
                 <v-col cols="12">
                   <div class="field-label mb-1">
@@ -4097,11 +4279,43 @@
 
       <!-- ─── HISTORY TYPE ─── -->
       <template v-if="route.params.type === 'history'">
-        <!-- ประเภทการยื่น -->
+        <!-- ประเภทคำขอ: ขึ้นทะเบียนใหม่ / แก้ไข -->
         <v-card elevation="0" border rounded="xl" class="mb-5">
           <div class="d-flex align-center ga-2 px-4 py-3 border-b">
             <v-icon icon="fas fa-list-check" color="hcex-user" size="15" />
-            <span class="text-subtitle-2 font-weight-bold">ประเภทการยื่น</span>
+            <span class="text-subtitle-2 font-weight-bold">ประเภทคำขอ</span>
+          </div>
+          <v-card-text class="pt-5">
+            <v-radio-group
+              v-model="historyRequestType"
+              color="hcex-user"
+              density="compact"
+              inline
+            >
+              <v-radio
+                value="new"
+                label="ขึ้นทะเบียนประวัติใหม่"
+                class="mr-8"
+              />
+              <v-radio
+                value="amendment"
+                label="แก้ไขทะเบียนประวัติ (เพิ่ม/ลดสินค้า)"
+              />
+            </v-radio-group>
+          </v-card-text>
+        </v-card>
+
+        <!-- ประเภทการยื่น (แสดงเฉพาะกรณีขึ้นทะเบียนใหม่) -->
+        <v-card
+          v-if="historyRequestType === 'new'"
+          elevation="0"
+          border
+          rounded="xl"
+          class="mb-5"
+        >
+          <div class="d-flex align-center ga-2 px-4 py-3 border-b">
+            <v-icon icon="fas fa-industry" color="hcex-user" size="15" />
+            <span class="text-subtitle-2 font-weight-bold">รูปแบบการยื่น</span>
           </div>
           <v-card-text class="pt-5">
             <v-radio-group
@@ -4127,87 +4341,1153 @@
           </v-card-text>
         </v-card>
 
-        <!-- ข้อมูลโรงงานผู้ผลิต -->
-        <v-card elevation="0" border rounded="xl" class="mb-5">
+        <!-- ─── กรณีแก้ไขทะเบียนประวัติ ─── -->
+        <v-card
+          v-if="historyRequestType === 'amendment'"
+          elevation="0"
+          border
+          rounded="xl"
+          class="mb-5"
+        >
           <div class="d-flex align-center ga-2 px-4 py-3 border-b">
-            <v-icon icon="fas fa-industry" color="hcex-user" size="15" />
+            <v-icon icon="fas fa-pen-to-square" color="hcex-user" size="15" />
             <span class="text-subtitle-2 font-weight-bold"
-              >ข้อมูลโรงงานผู้ผลิต</span
+              >ข้อมูลที่ต้องการแก้ไข</span
             >
           </div>
-          <v-card-text class="pt-4">
-            <!-- 1. ชื่อบริษัทผู้ผลิต -->
-            <div class="field-section-label mb-3">1. ชื่อบริษัทผู้ผลิต</div>
+          <v-card-text class="pa-6 text-center text-medium-emphasis">
+            <v-icon
+              icon="fas fa-tools"
+              size="40"
+              color="hcex-user"
+              style="opacity: 0.3"
+              class="mb-3"
+            />
+            <div class="text-body-2">
+              ส่วนนี้จะแสดงฟอร์มแก้ไขทะเบียนประวัติ (เพิ่ม/ลดสินค้า)
+            </div>
+          </v-card-text>
+        </v-card>
+
+        <!-- ─── กรณีขึ้นทะเบียนใหม่ ─── -->
+        <!-- ข้อมูลผู้ยื่นคำขอ (SSO card) -->
+        <v-card
+          v-if="historyRequestType === 'new'"
+          elevation="0"
+          border
+          rounded="xl"
+          class="mb-5"
+        >
+          <div class="d-flex align-center ga-2 px-4 py-3 border-b">
+            <v-icon icon="fas fa-user" color="hcex-user" size="15" />
+            <span class="text-subtitle-2 font-weight-bold"
+              >ข้อมูลผู้ยื่นคำขอ</span
+            >
+            <v-chip
+              size="x-small"
+              color="hcex-user"
+              variant="tonal"
+              class="ml-1"
+            >
+              Auto-fill จาก SSO
+            </v-chip>
+            <v-spacer />
+            <v-btn
+              size="x-small"
+              variant="tonal"
+              color="hcex-user"
+              prepend-icon="fas fa-rotate"
+              @click="refreshHistoryFactory"
+              >ดึงข้อมูลใหม่</v-btn
+            >
+          </div>
+          <v-card-text class="pt-5">
+            <!-- ข้อมูลส่วนตัว -->
+            <div class="field-section-label mb-2">ข้อมูลส่วนตัว</div>
             <v-row dense>
-              <v-col cols="12">
-                <div class="field-label mb-1">
-                  ชื่อบริษัทผู้ผลิต <span class="req">*</span>
+              <v-col cols="12" md="6">
+                <div class="field-label">
+                  <div>ชื่อ-นามสกุล (ภาษาไทย)</div>
+                  <div class="field-label-en">Full Name (Thai)</div>
                 </div>
                 <v-text-field
                   density="compact"
-                  variant="outlined"
-                  rounded="lg"
-                  v-model="historyFactory.name"
+                  v-model="historyFactory.contactName"
                   hide-details
-                  placeholder="กรอกชื่อบริษัทผู้ผลิต"
+                  readonly
+                  class="field-readonly"
                 />
               </v-col>
-              <v-col cols="12" class="mt-2">
-                <div class="field-label mb-1">
-                  ที่อยู่ <span class="req">*</span>
-                </div>
-                <v-textarea
-                  density="compact"
-                  variant="outlined"
-                  rounded="lg"
-                  v-model="historyFactory.address"
-                  hide-details
-                  placeholder="กรอกที่อยู่"
-                  rows="2"
-                  auto-grow
-                />
-              </v-col>
-              <v-col cols="12" sm="4">
-                <div class="field-label mb-1">
-                  โทรศัพท์ <span class="req">*</span>
+              <v-col cols="12" md="6">
+                <div class="field-label">
+                  <div>ตำแหน่ง</div>
+                  <div class="field-label-en">Position</div>
                 </div>
                 <v-text-field
                   density="compact"
-                  variant="outlined"
-                  rounded="lg"
-                  v-model="historyFactory.phone"
+                  v-model="historyFactory.contactPosition"
                   hide-details
-                  placeholder="เช่น 02-xxx-xxxx"
+                  readonly
+                  class="field-readonly"
                 />
               </v-col>
-              <v-col cols="12" sm="4">
-                <div class="field-label mb-1">โทรสาร</div>
+              <v-col cols="12" md="6">
+                <div class="field-label">
+                  <div>เลขบัตรประชาชน</div>
+                  <div class="field-label-en">ID Card No.</div>
+                </div>
                 <v-text-field
                   density="compact"
-                  variant="outlined"
-                  rounded="lg"
-                  v-model="historyFactory.fax"
+                  v-model="historyFactory.contactId"
                   hide-details
-                  placeholder="เช่น 02-xxx-xxxx"
-                />
-              </v-col>
-              <v-col cols="12" sm="4">
-                <div class="field-label mb-1">E-mail Address</div>
-                <v-text-field
-                  density="compact"
-                  variant="outlined"
-                  rounded="lg"
-                  v-model="historyFactory.email"
-                  hide-details
-                  placeholder="example@email.com"
+                  readonly
+                  class="field-readonly"
                 />
               </v-col>
             </v-row>
 
-            <!-- 2. ผู้ประสานงานโรงงานผู้ผลิต -->
-            <div class="field-section-label mt-5 mb-3">
-              2. ผู้ประสานงานโรงงานผู้ผลิต
+            <!-- ข้อมูลติดต่อ -->
+            <div class="field-section-label mt-4 mb-2">ข้อมูลติดต่อ</div>
+            <v-row dense>
+              <v-col cols="12" md="4">
+                <div class="field-label">
+                  <div>โทรศัพท์</div>
+                  <div class="field-label-en">Phone Number</div>
+                </div>
+                <v-text-field
+                  density="compact"
+                  v-model="historyFactory.contactPhone"
+                  hide-details
+                  readonly
+                  class="field-readonly"
+                />
+              </v-col>
+              <v-col cols="12" md="4">
+                <div class="field-label">
+                  <div>โทรสาร</div>
+                  <div class="field-label-en">Fax</div>
+                </div>
+                <v-text-field
+                  density="compact"
+                  v-model="historyFactory.contactFax"
+                  hide-details
+                  readonly
+                  class="field-readonly"
+                />
+              </v-col>
+              <v-col cols="12" md="4">
+                <div class="field-label">
+                  <div>อีเมล</div>
+                  <div class="field-label-en">Email</div>
+                </div>
+                <v-text-field
+                  density="compact"
+                  v-model="historyFactory.contactEmail"
+                  hide-details
+                  readonly
+                  class="field-readonly"
+                />
+              </v-col>
+            </v-row>
+          </v-card-text>
+        </v-card>
+
+        <!-- ข้อมูลสถานประกอบการ (DBD card) -->
+        <v-card
+          v-if="historyRequestType === 'new'"
+          elevation="0"
+          border
+          rounded="xl"
+          class="mb-5"
+        >
+          <div class="d-flex align-center ga-2 px-4 py-3 border-b">
+            <v-icon icon="fas fa-building" color="hcex-user" size="15" />
+            <span class="text-subtitle-2 font-weight-bold"
+              >ข้อมูลสถานประกอบการ</span
+            >
+            <v-chip
+              size="x-small"
+              color="hcex-user"
+              variant="tonal"
+              class="ml-1"
+            >
+              Auto-fill บางส่วนจาก DBD
+            </v-chip>
+            <v-spacer />
+            <v-btn
+              size="x-small"
+              variant="tonal"
+              color="hcex-user"
+              prepend-icon="fas fa-rotate"
+              @click="refreshHistoryCompany"
+              >ดึงข้อมูลใหม่</v-btn
+            >
+          </div>
+          <v-card-text class="pt-5">
+            <!-- ชื่อสถานประกอบการ -->
+            <div class="field-section-label mb-2">ชื่อสถานประกอบการ</div>
+            <v-row dense>
+              <v-col cols="12" md="6">
+                <div class="field-label">
+                  <div>ชื่อสถานประกอบการ (ภาษาไทย)</div>
+                  <div class="field-label-en">Company Name (Thai)</div>
+                </div>
+                <v-text-field
+                  density="compact"
+                  v-model="historyCompany.companyNameTh"
+                  hide-details
+                  readonly
+                  class="field-readonly"
+                />
+              </v-col>
+              <v-col cols="12" md="6">
+                <div class="field-label">
+                  <div>ชื่อสถานประกอบการ (ภาษาอังกฤษ)</div>
+                  <div class="field-label-en">Company Name (English)</div>
+                </div>
+                <v-text-field
+                  density="compact"
+                  v-model="historyCompany.companyNameEn"
+                  hide-details
+                  readonly
+                  class="field-readonly"
+                />
+              </v-col>
+            </v-row>
+
+            <!-- ที่ตั้ง (ภาษาไทย) -->
+            <div class="field-section-label mt-4 mb-2">ที่ตั้ง (ภาษาไทย)</div>
+            <v-row dense>
+              <v-col cols="12" md="4">
+                <div class="field-label">
+                  <div>บ้านเลขที่</div>
+                  <div class="field-label-en">House No.</div>
+                </div>
+                <v-text-field
+                  density="compact"
+                  v-model="historyCompany.houseNo"
+                  hide-details
+                  readonly
+                  class="field-readonly"
+                />
+              </v-col>
+              <v-col cols="12" md="4">
+                <div class="field-label">
+                  <div>ซอย / ตรอก</div>
+                  <div class="field-label-en">Alley / Soi</div>
+                </div>
+                <v-text-field
+                  density="compact"
+                  v-model="historyCompany.alley"
+                  hide-details
+                  readonly
+                  class="field-readonly"
+                />
+              </v-col>
+              <v-col cols="12" md="4">
+                <div class="field-label">
+                  <div>ถนน</div>
+                  <div class="field-label-en">Road</div>
+                </div>
+                <v-text-field
+                  density="compact"
+                  v-model="historyCompany.road"
+                  hide-details
+                  readonly
+                  class="field-readonly"
+                />
+              </v-col>
+              <v-col cols="12" md="4">
+                <div class="field-label">
+                  <div>ตำบล / แขวง</div>
+                  <div class="field-label-en">Sub-district (Tambol)</div>
+                </div>
+                <v-text-field
+                  density="compact"
+                  v-model="historyCompany.tambol"
+                  hide-details
+                  readonly
+                  class="field-readonly"
+                />
+              </v-col>
+              <v-col cols="12" md="4">
+                <div class="field-label">
+                  <div>อำเภอ / เขต</div>
+                  <div class="field-label-en">District</div>
+                </div>
+                <v-text-field
+                  density="compact"
+                  v-model="historyCompany.district"
+                  hide-details
+                  readonly
+                  class="field-readonly"
+                />
+              </v-col>
+              <v-col cols="12" md="4">
+                <div class="field-label">
+                  <div>จังหวัด</div>
+                  <div class="field-label-en">Province</div>
+                </div>
+                <v-text-field
+                  density="compact"
+                  v-model="historyCompany.province"
+                  hide-details
+                  readonly
+                  class="field-readonly"
+                />
+              </v-col>
+              <v-col cols="12" md="4">
+                <div class="field-label">
+                  <div>รหัสไปรษณีย์</div>
+                  <div class="field-label-en">Zipcode</div>
+                </div>
+                <v-text-field
+                  density="compact"
+                  v-model="historyCompany.zipcode"
+                  hide-details
+                  readonly
+                  class="field-readonly"
+                />
+              </v-col>
+            </v-row>
+
+            <!-- ที่ตั้ง (ภาษาอังกฤษ) -->
+            <div class="field-section-label mt-4 mb-2">
+              ที่ตั้ง (ภาษาอังกฤษ)
             </div>
+            <v-row dense>
+              <v-col cols="12" md="4">
+                <div class="field-label">
+                  <div>บ้านเลขที่</div>
+                  <div class="field-label-en">House No.</div>
+                </div>
+                <v-text-field
+                  density="compact"
+                  v-model="historyCompany.houseNoEn"
+                  hide-details
+                  readonly
+                  class="field-readonly"
+                />
+              </v-col>
+              <v-col cols="12" md="4">
+                <div class="field-label">
+                  <div>ซอย / ตรอก</div>
+                  <div class="field-label-en">Alley / Soi</div>
+                </div>
+                <v-text-field
+                  density="compact"
+                  v-model="historyCompany.alleyEn"
+                  hide-details
+                  readonly
+                  class="field-readonly"
+                />
+              </v-col>
+              <v-col cols="12" md="4">
+                <div class="field-label">
+                  <div>ถนน</div>
+                  <div class="field-label-en">Road</div>
+                </div>
+                <v-text-field
+                  density="compact"
+                  v-model="historyCompany.roadEn"
+                  hide-details
+                  readonly
+                  class="field-readonly"
+                />
+              </v-col>
+              <v-col cols="12" md="4">
+                <div class="field-label">
+                  <div>ตำบล / แขวง</div>
+                  <div class="field-label-en">Sub-district</div>
+                </div>
+                <v-text-field
+                  density="compact"
+                  v-model="historyCompany.tambolEn"
+                  hide-details
+                  readonly
+                  class="field-readonly"
+                />
+              </v-col>
+              <v-col cols="12" md="4">
+                <div class="field-label">
+                  <div>อำเภอ / เขต</div>
+                  <div class="field-label-en">District</div>
+                </div>
+                <v-text-field
+                  density="compact"
+                  v-model="historyCompany.districtEn"
+                  hide-details
+                  readonly
+                  class="field-readonly"
+                />
+              </v-col>
+              <v-col cols="12" md="4">
+                <div class="field-label">
+                  <div>จังหวัด</div>
+                  <div class="field-label-en">Province</div>
+                </div>
+                <v-text-field
+                  density="compact"
+                  v-model="historyCompany.provinceEn"
+                  hide-details
+                  readonly
+                  class="field-readonly"
+                />
+              </v-col>
+              <v-col cols="12" md="4">
+                <div class="field-label">
+                  <div>รหัสไปรษณีย์</div>
+                  <div class="field-label-en">Zipcode</div>
+                </div>
+                <v-text-field
+                  density="compact"
+                  v-model="historyCompany.zipcodeEn"
+                  hide-details
+                  readonly
+                  class="field-readonly"
+                />
+              </v-col>
+            </v-row>
+
+            <!-- ข้อมูลการติดต่อ -->
+            <div class="field-section-label mt-4 mb-2">ข้อมูลการติดต่อ</div>
+            <v-row dense>
+              <v-col cols="12" md="4">
+                <div class="field-label">
+                  <div>โทรศัพท์</div>
+                  <div class="field-label-en">Phone Number</div>
+                </div>
+                <v-text-field
+                  density="compact"
+                  v-model="historyCompany.phone"
+                  hide-details
+                  readonly
+                  class="field-readonly"
+                />
+              </v-col>
+              <v-col cols="12" md="4">
+                <div class="field-label">
+                  <div>โทรสาร</div>
+                  <div class="field-label-en">Fax</div>
+                </div>
+                <v-text-field
+                  density="compact"
+                  v-model="historyCompany.fax"
+                  hide-details
+                  placeholder="ระบุโทรสาร"
+                />
+              </v-col>
+              <v-col cols="12" md="4">
+                <div class="field-label">
+                  <div>อีเมล</div>
+                  <div class="field-label-en">Email</div>
+                </div>
+                <v-text-field
+                  density="compact"
+                  v-model="historyCompany.email"
+                  hide-details
+                  readonly
+                  class="field-readonly"
+                />
+              </v-col>
+            </v-row>
+          </v-card-text>
+        </v-card>
+
+        <!-- หนังสือสำคัญ DOA (standalone card) -->
+        <v-card
+          v-if="historyRequestType === 'new'"
+          elevation="0"
+          border
+          rounded="xl"
+          class="mb-5"
+        >
+          <div class="d-flex align-center ga-2 px-4 py-3 border-b">
+            <v-icon
+              icon="fas fa-building-columns"
+              color="hcex-user"
+              size="15"
+            />
+            <span class="text-subtitle-2 font-weight-bold">
+              หนังสือสำคัญแสดงการขึ้นทะเบียนโรงงานผลิตสินค้าเพื่อการส่งออกกับกรมวิชาการเกษตร
+            </span>
+            <v-chip size="x-small" color="grey" variant="tonal"
+              >ไม่บังคับ</v-chip
+            >
+          </div>
+          <v-card-text class="pt-4">
+            <p
+              v-if="historySubmissionType === 'batch'"
+              class="text-caption text-medium-emphasis mb-4"
+            >
+              สามารถเว้นว่างได้ หากยังไม่มีทะเบียนจาก DOA
+            </p>
+
+            <!-- Search bar (export pattern) -->
+            <div class="field-label mb-1">
+              <div>ค้นหาด้วยเลขทะเบียน DOA</div>
+            </div>
+            <div class="d-flex ga-2 mb-4">
+              <v-text-field
+                density="compact"
+                variant="outlined"
+                rounded="lg"
+                v-model="histDoaSearchNo"
+                hide-details
+                placeholder="เช่น DOA-2568-12345"
+                clearable
+                class="flex-grow-1"
+                @keyup.enter="searchHistDoa"
+              />
+              <v-btn
+                color="hcex-user"
+                variant="tonal"
+                prepend-icon="fas fa-magnifying-glass"
+                :loading="histDoaSearchLoading"
+                @click="searchHistDoa"
+                >ค้นหา</v-btn
+              >
+            </div>
+
+            <!-- Result card -->
+            <v-card
+              v-if="histDoaSearchResult && !histDoaSelected"
+              elevation="0"
+              rounded="lg"
+              class="mb-4"
+              :style="
+                histDoaSearchResult.isExpired
+                  ? 'background: rgba(var(--v-theme-error), 0.1); border: 1px solid rgba(var(--v-theme-error), 0.25)'
+                  : 'background: rgba(var(--v-theme-success), 0.08); border: 1px solid rgba(var(--v-theme-success), 0.2)'
+              "
+            >
+              <v-card-text class="pa-4">
+                <v-row align="center" no-gutters>
+                  <v-col>
+                    <div class="text-caption text-medium-emphasis mb-1">
+                      เลขทะเบียน DOA
+                    </div>
+                    <div class="text-body-1 font-weight-bold text-hcex-user">
+                      {{ histDoaSearchResult.regNo }}
+                    </div>
+                    <div class="text-body-2 mt-1">
+                      {{ histDoaSearchResult.factoryName }}
+                    </div>
+                    <div class="d-flex align-center ga-2 mt-2">
+                      <v-chip
+                        size="x-small"
+                        :color="
+                          histDoaSearchResult.isExpired ? 'error' : 'success'
+                        "
+                        variant="tonal"
+                      >
+                        {{
+                          histDoaSearchResult.isExpired
+                            ? "หมดอายุ"
+                            : "ใช้งานได้"
+                        }}
+                      </v-chip>
+                      <span class="text-caption text-medium-emphasis">
+                        หมดอายุ: {{ histDoaSearchResult.expiryDate }}
+                      </span>
+                    </div>
+                  </v-col>
+                  <v-col cols="auto" class="d-flex flex-column ga-2 pl-4">
+                    <v-btn
+                      size="small"
+                      color="hcex-user"
+                      variant="tonal"
+                      prepend-icon="fas fa-eye"
+                      @click="openHistDoaViewDialog(histDoaSearchResult)"
+                    >
+                      ดูใบทะเบียน
+                    </v-btn>
+                    <v-btn
+                      size="small"
+                      color="hcex-user"
+                      variant="flat"
+                      prepend-icon="fas fa-check"
+                      :disabled="histDoaSearchResult.isExpired"
+                      @click="selectHistDoa"
+                    >
+                      เลือกทะเบียนนี้
+                    </v-btn>
+                  </v-col>
+                </v-row>
+              </v-card-text>
+            </v-card>
+
+            <!-- Not found -->
+            <v-alert
+              v-if="histDoaSearchNotFound"
+              type="error"
+              variant="tonal"
+              density="compact"
+              class="mb-4"
+              prepend-icon="fas fa-circle-xmark"
+              >ไม่พบเลขทะเบียน DOA "{{ histDoaSearchNo }}"
+              กรุณาตรวจสอบและค้นหาใหม่</v-alert
+            >
+
+            <!-- Selected — compact inline display -->
+            <div
+              v-if="histDoaSelected"
+              class="mt-4 d-flex align-center ga-2 flex-wrap"
+            >
+              <v-icon icon="fas fa-circle-check" color="success" size="16" />
+              <span class="text-body-2 font-weight-medium text-success"
+                >เลือกทะเบียน DOA:</span
+              >
+              <v-chip color="hcex-user" variant="tonal" size="small">
+                {{ histDoaSelected.regNo }} —
+                {{ histDoaSelected.factoryNameTh }}
+              </v-chip>
+              <!-- <v-btn
+                size="x-small"
+                variant="tonal"
+                color="hcex-user"
+                prepend-icon="fas fa-eye"
+                @click="openHistDoaViewDialog(histDoaSelected)"
+              >
+                ดูใบทะเบียน
+              </v-btn> -->
+              <v-btn
+                icon="fas fa-xmark"
+                size="x-small"
+                variant="text"
+                color="grey"
+                @click="clearHistDoa"
+              />
+            </div>
+          </v-card-text>
+        </v-card>
+
+        <!-- DOA View Dialog -->
+        <v-dialog v-model="histDoaViewDialog" max-width="680" scrollable>
+          <v-card rounded="xl">
+            <div
+              class="d-flex align-center justify-space-between px-5 py-4 border-b"
+            >
+              <div class="d-flex align-center ga-2">
+                <v-icon icon="fas fa-file-lines" color="hcex-user" size="16" />
+                <span class="text-subtitle-1 font-weight-bold"
+                  >ใบทะเบียนสำคัญ DOA</span
+                >
+              </div>
+              <v-btn
+                icon="fas fa-xmark"
+                variant="text"
+                size="small"
+                @click="histDoaViewDialog = false"
+              />
+            </div>
+
+            <v-card-text class="pa-5" v-if="histDoaViewTarget">
+              <!-- Status + Reg No -->
+              <div
+                class="d-flex align-center justify-space-between mb-4 flex-wrap ga-2"
+              >
+                <div>
+                  <div class="text-caption text-medium-emphasis mb-1">
+                    เลขที่ทะเบียน
+                  </div>
+                  <div class="text-h6 font-weight-bold text-hcex-user">
+                    {{ histDoaViewTarget.regNo }}
+                  </div>
+                </div>
+                <div class="text-right">
+                  <v-chip
+                    :color="histDoaViewTarget.isExpired ? 'error' : 'success'"
+                    variant="flat"
+                    size="small"
+                    class="mb-1"
+                  >
+                    {{ histDoaViewTarget.isExpired ? "หมดอายุ" : "ใช้งานได้" }}
+                  </v-chip>
+                  <div class="text-caption text-medium-emphasis">
+                    วันหมดอายุ: {{ histDoaViewTarget.expiryDate }}
+                  </div>
+                </div>
+              </div>
+
+              <v-divider class="mb-4" />
+
+              <!-- ชื่อบริษัท -->
+              <div class="text-subtitle-2 font-weight-bold mb-2">
+                ข้อมูลบริษัทผู้ผลิต
+              </div>
+              <v-row dense class="mb-3">
+                <v-col cols="12" sm="6">
+                  <div class="text-caption text-medium-emphasis">
+                    ชื่อบริษัท (ภาษาไทย)
+                  </div>
+                  <div class="text-body-2 font-weight-medium">
+                    {{ histDoaViewTarget.factoryNameTh }}
+                  </div>
+                </v-col>
+                <v-col cols="12" sm="6">
+                  <div class="text-caption text-medium-emphasis">
+                    ชื่อบริษัท (ภาษาอังกฤษ)
+                  </div>
+                  <div class="text-body-2 font-weight-medium">
+                    {{ histDoaViewTarget.factoryNameEn }}
+                  </div>
+                </v-col>
+              </v-row>
+
+              <!-- ที่อยู่ -->
+              <div class="text-subtitle-2 font-weight-bold mb-2">ที่อยู่</div>
+              <v-row dense class="mb-3">
+                <v-col cols="6" sm="3">
+                  <div class="text-caption text-medium-emphasis">
+                    บ้านเลขที่
+                  </div>
+                  <div class="text-body-2">{{ histDoaViewTarget.houseNo }}</div>
+                </v-col>
+                <v-col cols="6" sm="3">
+                  <div class="text-caption text-medium-emphasis">
+                    ซอย / ตรอก
+                  </div>
+                  <div class="text-body-2">
+                    {{ histDoaViewTarget.alley || "-" }}
+                  </div>
+                </v-col>
+                <v-col cols="6" sm="3">
+                  <div class="text-caption text-medium-emphasis">ถนน</div>
+                  <div class="text-body-2">{{ histDoaViewTarget.road }}</div>
+                </v-col>
+                <v-col cols="6" sm="3">
+                  <div class="text-caption text-medium-emphasis">
+                    ตำบล / แขวง
+                  </div>
+                  <div class="text-body-2">{{ histDoaViewTarget.tambol }}</div>
+                </v-col>
+                <v-col cols="6" sm="3">
+                  <div class="text-caption text-medium-emphasis">
+                    อำเภอ / เขต
+                  </div>
+                  <div class="text-body-2">
+                    {{ histDoaViewTarget.district }}
+                  </div>
+                </v-col>
+                <v-col cols="6" sm="3">
+                  <div class="text-caption text-medium-emphasis">จังหวัด</div>
+                  <div class="text-body-2">
+                    {{ histDoaViewTarget.province }}
+                  </div>
+                </v-col>
+                <v-col cols="6" sm="3">
+                  <div class="text-caption text-medium-emphasis">
+                    รหัสไปรษณีย์
+                  </div>
+                  <div class="text-body-2">{{ histDoaViewTarget.zipcode }}</div>
+                </v-col>
+              </v-row>
+              <v-row dense class="mb-3">
+                <v-col cols="12">
+                  <div class="text-caption text-medium-emphasis">
+                    ที่อยู่ (ภาษาอังกฤษ)
+                  </div>
+                  <div class="text-body-2">
+                    {{
+                      [
+                        histDoaViewTarget.houseNoEn,
+                        histDoaViewTarget.alleyEn,
+                        histDoaViewTarget.roadEn,
+                        histDoaViewTarget.tambolEn,
+                        histDoaViewTarget.districtEn,
+                        histDoaViewTarget.provinceEn,
+                        histDoaViewTarget.zipcodeEn,
+                      ]
+                        .filter(Boolean)
+                        .join(", ")
+                    }}
+                  </div>
+                </v-col>
+              </v-row>
+
+              <!-- ข้อมูลติดต่อ -->
+              <v-row dense class="mb-4">
+                <v-col cols="12" sm="4">
+                  <div class="text-caption text-medium-emphasis">โทรศัพท์</div>
+                  <div class="text-body-2">{{ histDoaViewTarget.phone }}</div>
+                </v-col>
+                <v-col cols="12" sm="4">
+                  <div class="text-caption text-medium-emphasis">โทรสาร</div>
+                  <div class="text-body-2">
+                    {{ histDoaViewTarget.fax || "-" }}
+                  </div>
+                </v-col>
+                <v-col cols="12" sm="4">
+                  <div class="text-caption text-medium-emphasis">อีเมล</div>
+                  <div class="text-body-2">{{ histDoaViewTarget.email }}</div>
+                </v-col>
+              </v-row>
+
+              <v-divider class="mb-4" />
+
+              <!-- มาตรฐาน -->
+              <div class="text-subtitle-2 font-weight-bold mb-2">
+                มาตรฐานการผลิต
+              </div>
+              <v-table density="compact" class="rounded-lg border">
+                <thead>
+                  <tr>
+                    <th>มาตรฐาน</th>
+                    <th>หน่วยงานที่รับรอง</th>
+                    <th>เลขที่ใบรับรอง</th>
+                    <th>วันหมดอายุ</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    v-for="std in histDoaViewTarget.standards"
+                    :key="std.name"
+                  >
+                    <td class="font-weight-medium">{{ std.name }}</td>
+                    <td>{{ std.certBody }}</td>
+                    <td>{{ std.certNo }}</td>
+                    <td>{{ std.expiry }}</td>
+                  </tr>
+                </tbody>
+              </v-table>
+            </v-card-text>
+
+            <v-card-actions class="px-5 pb-4 d-flex flex-column ga-2">
+              <v-btn
+                color="hcex-user"
+                variant="tonal"
+                prepend-icon="fas fa-download"
+                block
+                rounded="lg"
+                @click="downloadHistDoaPdf"
+              >
+                ดาวน์โหลด PDF
+              </v-btn>
+              <v-btn
+                color="hcex-user"
+                variant="flat"
+                prepend-icon="fas fa-check"
+                block
+                rounded="lg"
+                :disabled="histDoaViewTarget?.isExpired"
+                @click="selectHistDoaFromDialog"
+              >
+                เลือกทะเบียนนี้
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+
+        <!-- ข้อมูลบริษัทผู้ผลิต (from DOA) -->
+        <v-card elevation="0" border rounded="xl" class="mb-5">
+          <div
+            class="d-flex align-center justify-space-between px-4 py-3 border-b flex-wrap ga-2"
+          >
+            <div class="d-flex align-center ga-2">
+              <v-icon icon="fas fa-industry" color="hcex-user" size="15" />
+              <span class="text-subtitle-2 font-weight-bold"
+                >ข้อมูลบริษัทผู้ผลิต</span
+              >
+              <v-chip size="x-small" color="hcex-user" variant="tonal"
+                >Auto-fill จาก DOA</v-chip
+              >
+            </div>
+          </div>
+          <v-card-text class="pt-4">
+            <v-alert
+              v-if="!histDoaSelected"
+              type="info"
+              variant="tonal"
+              density="compact"
+              rounded="lg"
+              prepend-icon="fas fa-circle-info"
+              class="mb-0"
+            >
+              ค้นหาและเลือกหนังสือสำคัญ DOA เพื่อดึงข้อมูลบริษัทผู้ผลิตอัตโนมัติ
+            </v-alert>
+            <template v-if="histDoaSelected">
+              <!-- ชื่อบริษัท -->
+              <div class="field-section-label mb-2">ชื่อบริษัทผู้ผลิต</div>
+              <v-row dense>
+                <v-col cols="12" md="6">
+                  <div class="field-label">
+                    <div>ชื่อบริษัทผู้ผลิต (ภาษาไทย)</div>
+                    <div class="field-label-en">Company Name (Thai)</div>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    :model-value="historyFactory.nameTh"
+                    hide-details
+                    readonly
+                    class="field-readonly"
+                  />
+                </v-col>
+                <v-col cols="12" md="6">
+                  <div class="field-label">
+                    <div>ชื่อบริษัทผู้ผลิต (ภาษาอังกฤษ)</div>
+                    <div class="field-label-en">Company Name (English)</div>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    :model-value="historyFactory.nameEn"
+                    hide-details
+                    readonly
+                    class="field-readonly"
+                  />
+                </v-col>
+              </v-row>
+
+              <!-- ที่ตั้ง (ภาษาไทย) -->
+              <div class="field-section-label mt-4 mb-2">ที่ตั้ง (ภาษาไทย)</div>
+              <v-row dense>
+                <v-col cols="12" md="4">
+                  <div class="field-label">
+                    <div>บ้านเลขที่</div>
+                    <div class="field-label-en">House No.</div>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    :model-value="historyFactory.houseNo"
+                    hide-details
+                    readonly
+                    class="field-readonly"
+                  />
+                </v-col>
+                <v-col cols="12" md="4">
+                  <div class="field-label">
+                    <div>ซอย / ตรอก</div>
+                    <div class="field-label-en">Alley / Soi</div>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    :model-value="historyFactory.alley"
+                    hide-details
+                    readonly
+                    class="field-readonly"
+                  />
+                </v-col>
+                <v-col cols="12" md="4">
+                  <div class="field-label">
+                    <div>ถนน</div>
+                    <div class="field-label-en">Road</div>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    :model-value="historyFactory.road"
+                    hide-details
+                    readonly
+                    class="field-readonly"
+                  />
+                </v-col>
+                <v-col cols="12" md="4">
+                  <div class="field-label">
+                    <div>ตำบล / แขวง</div>
+                    <div class="field-label-en">Sub-district (Tambol)</div>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    :model-value="historyFactory.tambol"
+                    hide-details
+                    readonly
+                    class="field-readonly"
+                  />
+                </v-col>
+                <v-col cols="12" md="4">
+                  <div class="field-label">
+                    <div>อำเภอ / เขต</div>
+                    <div class="field-label-en">District</div>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    :model-value="historyFactory.district"
+                    hide-details
+                    readonly
+                    class="field-readonly"
+                  />
+                </v-col>
+                <v-col cols="12" md="4">
+                  <div class="field-label">
+                    <div>จังหวัด</div>
+                    <div class="field-label-en">Province</div>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    :model-value="historyFactory.province"
+                    hide-details
+                    readonly
+                    class="field-readonly"
+                  />
+                </v-col>
+                <v-col cols="12" md="4">
+                  <div class="field-label">
+                    <div>รหัสไปรษณีย์</div>
+                    <div class="field-label-en">Zipcode</div>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    :model-value="historyFactory.zipcode"
+                    hide-details
+                    readonly
+                    class="field-readonly"
+                  />
+                </v-col>
+              </v-row>
+
+              <!-- ที่ตั้ง (ภาษาอังกฤษ) -->
+              <div class="field-section-label mt-4 mb-2">
+                ที่ตั้ง (ภาษาอังกฤษ)
+              </div>
+              <v-row dense>
+                <v-col cols="12" md="4">
+                  <div class="field-label">
+                    <div>บ้านเลขที่</div>
+                    <div class="field-label-en">House No.</div>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    :model-value="historyFactory.houseNoEn"
+                    hide-details
+                    readonly
+                    class="field-readonly"
+                  />
+                </v-col>
+                <v-col cols="12" md="4">
+                  <div class="field-label">
+                    <div>ซอย / ตรอก</div>
+                    <div class="field-label-en">Alley / Soi</div>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    :model-value="historyFactory.alleyEn"
+                    hide-details
+                    readonly
+                    class="field-readonly"
+                  />
+                </v-col>
+                <v-col cols="12" md="4">
+                  <div class="field-label">
+                    <div>ถนน</div>
+                    <div class="field-label-en">Road</div>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    :model-value="historyFactory.roadEn"
+                    hide-details
+                    readonly
+                    class="field-readonly"
+                  />
+                </v-col>
+                <v-col cols="12" md="4">
+                  <div class="field-label">
+                    <div>ตำบล / แขวง</div>
+                    <div class="field-label-en">Sub-district</div>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    :model-value="historyFactory.tambolEn"
+                    hide-details
+                    readonly
+                    class="field-readonly"
+                  />
+                </v-col>
+                <v-col cols="12" md="4">
+                  <div class="field-label">
+                    <div>อำเภอ / เขต</div>
+                    <div class="field-label-en">District</div>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    :model-value="historyFactory.districtEn"
+                    hide-details
+                    readonly
+                    class="field-readonly"
+                  />
+                </v-col>
+                <v-col cols="12" md="4">
+                  <div class="field-label">
+                    <div>จังหวัด</div>
+                    <div class="field-label-en">Province</div>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    :model-value="historyFactory.provinceEn"
+                    hide-details
+                    readonly
+                    class="field-readonly"
+                  />
+                </v-col>
+                <v-col cols="12" md="4">
+                  <div class="field-label">
+                    <div>รหัสไปรษณีย์</div>
+                    <div class="field-label-en">Zipcode</div>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    :model-value="historyFactory.zipcodeEn"
+                    hide-details
+                    readonly
+                    class="field-readonly"
+                  />
+                </v-col>
+              </v-row>
+
+              <!-- ข้อมูลการติดต่อ -->
+              <div class="field-section-label mt-4 mb-2">ข้อมูลการติดต่อ</div>
+              <v-row dense>
+                <v-col cols="12" md="4">
+                  <div class="field-label">
+                    <div>โทรศัพท์</div>
+                    <div class="field-label-en">Phone Number</div>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    :model-value="historyFactory.phone"
+                    hide-details
+                    readonly
+                    class="field-readonly"
+                  />
+                </v-col>
+                <v-col cols="12" md="4">
+                  <div class="field-label">
+                    <div>โทรสาร</div>
+                    <div class="field-label-en">Fax</div>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    :model-value="historyFactory.fax"
+                    hide-details
+                    readonly
+                    class="field-readonly"
+                  />
+                </v-col>
+                <v-col cols="12" md="4">
+                  <div class="field-label">
+                    <div>อีเมล</div>
+                    <div class="field-label-en">Email</div>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    :model-value="historyFactory.email"
+                    hide-details
+                    readonly
+                    class="field-readonly"
+                  />
+                </v-col>
+              </v-row>
+            </template>
+          </v-card-text>
+        </v-card>
+
+        <!-- ข้อมูลตัวแทนผู้ประสานงานผลิต (user fills) -->
+        <v-card elevation="0" border rounded="xl" class="mb-5">
+          <div class="d-flex align-center ga-2 px-4 py-3 border-b">
+            <v-icon icon="fas fa-user-tie" color="hcex-user" size="15" />
+            <span class="text-subtitle-2 font-weight-bold"
+              >ข้อมูลตัวแทนผู้ประสานงานผลิต</span
+            >
+          </div>
+          <v-card-text class="pt-4">
             <v-row dense>
               <v-col cols="12" sm="6">
                 <div class="field-label mb-1">
@@ -4217,7 +5497,7 @@
                   density="compact"
                   variant="outlined"
                   rounded="lg"
-                  v-model="historyFactory.contactName"
+                  v-model="historyProducerContact.name"
                   hide-details
                   placeholder="กรอกชื่อ-นามสกุล"
                 />
@@ -4228,7 +5508,7 @@
                   density="compact"
                   variant="outlined"
                   rounded="lg"
-                  v-model="historyFactory.contactPosition"
+                  v-model="historyProducerContact.position"
                   hide-details
                   placeholder="กรอกตำแหน่ง"
                 />
@@ -4241,7 +5521,7 @@
                   density="compact"
                   variant="outlined"
                   rounded="lg"
-                  v-model="historyFactory.contactPhone"
+                  v-model="historyProducerContact.phone"
                   hide-details
                   placeholder="เช่น 02-xxx-xxxx"
                 />
@@ -4252,48 +5532,20 @@
                   density="compact"
                   variant="outlined"
                   rounded="lg"
-                  v-model="historyFactory.contactFax"
+                  v-model="historyProducerContact.fax"
                   hide-details
                   placeholder="เช่น 02-xxx-xxxx"
                 />
               </v-col>
-            </v-row>
-
-            <!-- 3. หนังสือสำคัญ DOA (ไม่บังคับ) -->
-            <div class="d-flex align-center ga-2 mt-5 mb-1">
-              <div class="field-section-label mb-0">
-                3.
-                หนังสือสำคัญแสดงการขึ้นทะเบียนโรงงานผลิตสินค้าเพื่อการส่งออกกับกรมวิชาการเกษตร
-              </div>
-              <v-chip size="x-small" color="grey" variant="tonal"
-                >ไม่บังคับ</v-chip
-              >
-            </div>
-            <p class="text-caption text-medium-emphasis mb-3">
-              สามารถเว้นว่างได้ หากยังไม่มีทะเบียนจาก DOA
-            </p>
-            <v-row dense>
-              <v-col cols="12" sm="6">
-                <div class="field-label mb-1">ทะเบียนเลขที่</div>
+              <v-col cols="12" sm="4">
+                <div class="field-label mb-1">E-mail</div>
                 <v-text-field
                   density="compact"
                   variant="outlined"
                   rounded="lg"
-                  v-model="historyFactory.doaRegNo"
+                  v-model="historyProducerContact.email"
                   hide-details
-                  placeholder="เช่น DOA-2568-12345"
-                />
-              </v-col>
-              <v-col cols="12" sm="6">
-                <div class="field-label mb-1">วันที่หมดอายุ</div>
-                <v-text-field
-                  density="compact"
-                  variant="outlined"
-                  rounded="lg"
-                  v-model="historyFactory.doaExpiry"
-                  hide-details
-                  placeholder="วว/ดด/ปปปป"
-                  prepend-inner-icon="fas fa-calendar"
+                  placeholder="example@email.com"
                 />
               </v-col>
             </v-row>
@@ -4309,302 +5561,297 @@
             >
           </div>
           <v-card-text class="pt-4">
-            <!-- 4.1 มาตรฐานหลัก -->
-            <div class="d-flex align-center justify-space-between mb-3">
-              <div class="field-section-label mb-0">
-                4.1 มาตรฐานหลัก <span class="req">*</span>
-              </div>
+            <!-- 4.1 มาตรฐาน GMP -->
+            <div class="d-flex align-center ga-2 mb-3">
+              <div class="field-section-label mb-0">4.1 มาตรฐาน GMP</div>
+              <v-chip size="x-small" color="hcex-user" variant="tonal"
+                >ดึงจาก DOA</v-chip
+              >
+            </div>
+            <v-alert
+              v-if="!histDoaSelected"
+              type="info"
+              variant="tonal"
+              density="compact"
+              rounded="lg"
+              prepend-icon="fas fa-circle-info"
+              class="mb-3"
+            >
+              ค้นหาและเลือกหนังสือสำคัญ DOA เพื่อดึงข้อมูล GMP อัตโนมัติ
+            </v-alert>
+            <v-row v-if="histDoaSelected" dense>
+              <v-col cols="12" sm="4">
+                <div class="field-label mb-1">หน่วยงานที่รับรอง</div>
+                <v-text-field
+                  density="compact"
+                  variant="outlined"
+                  rounded="lg"
+                  v-model="historyFactory.gmpCertBody"
+                  hide-details
+                  readonly
+                  class="field-readonly"
+                />
+              </v-col>
+              <v-col cols="12" sm="4">
+                <div class="field-label mb-1">
+                  หมายเลขการรับรอง <span class="req">*</span>
+                </div>
+                <v-text-field
+                  density="compact"
+                  variant="outlined"
+                  rounded="lg"
+                  v-model="historyFactory.gmpCertNo"
+                  hide-details
+                  readonly
+                  class="field-readonly"
+                />
+              </v-col>
+              <v-col cols="12" sm="4">
+                <div class="field-label mb-1">
+                  วันที่หมดอายุ <span class="req">*</span>
+                </div>
+                <v-text-field
+                  density="compact"
+                  variant="outlined"
+                  rounded="lg"
+                  v-model="historyFactory.gmpExpiry"
+                  hide-details
+                  readonly
+                  class="field-readonly"
+                />
+              </v-col>
+            </v-row>
+
+            <!-- 4.2 มาตรฐาน HACCP -->
+            <div class="d-flex align-center ga-2 mt-5 mb-3">
+              <div class="field-section-label mb-0">4.2 มาตรฐาน HACCP</div>
+              <v-chip size="x-small" color="hcex-user" variant="tonal"
+                >ดึงจาก DOA</v-chip
+              >
+            </div>
+            <v-alert
+              v-if="!histDoaSelected"
+              type="info"
+              variant="tonal"
+              density="compact"
+              rounded="lg"
+              prepend-icon="fas fa-circle-info"
+              class="mb-3"
+            >
+              ค้นหาและเลือกหนังสือสำคัญ DOA เพื่อดึงข้อมูล HACCP อัตโนมัติ
+            </v-alert>
+            <v-row v-if="histDoaSelected" dense>
+              <v-col cols="12" sm="4">
+                <div class="field-label mb-1">หน่วยงานที่รับรอง</div>
+                <v-text-field
+                  density="compact"
+                  variant="outlined"
+                  rounded="lg"
+                  v-model="historyFactory.haccpCertBody"
+                  hide-details
+                  readonly
+                  class="field-readonly"
+                />
+              </v-col>
+              <v-col cols="12" sm="4">
+                <div class="field-label mb-1">
+                  หมายเลขการรับรอง <span class="req">*</span>
+                </div>
+                <v-text-field
+                  density="compact"
+                  variant="outlined"
+                  rounded="lg"
+                  v-model="historyFactory.haccpCertNo"
+                  hide-details
+                  readonly
+                  class="field-readonly"
+                />
+              </v-col>
+              <v-col cols="12" sm="4">
+                <div class="field-label mb-1">
+                  วันที่หมดอายุ <span class="req">*</span>
+                </div>
+                <v-text-field
+                  density="compact"
+                  variant="outlined"
+                  rounded="lg"
+                  v-model="historyFactory.haccpExpiry"
+                  hide-details
+                  readonly
+                  class="field-readonly"
+                />
+              </v-col>
+            </v-row>
+
+            <!-- 4.3 มาตรฐานเพิ่มเติม (dialog) -->
+            <div class="d-flex align-center justify-space-between mt-5 mb-3">
+              <div class="field-section-label mb-0">4.3 มาตรฐานเพิ่มเติม</div>
               <v-btn
                 size="small"
                 variant="tonal"
                 color="hcex-user"
                 prepend-icon="fas fa-plus"
-                @click="addHistoryStandard"
+                @click="openExtraStdDialog()"
                 >เพิ่มมาตรฐาน</v-btn
               >
             </div>
-            <div
-              v-for="(std, idx) in historyStandards"
-              :key="'std-' + idx"
-              class="item-row rounded-lg pa-3 mb-2"
-            >
-              <v-row dense align="center">
-                <v-col cols="12" sm="3">
-                  <div class="field-label mb-1">
-                    ชื่อมาตรฐาน <span class="req">*</span>
-                  </div>
-                  <v-text-field
-                    density="compact"
-                    variant="outlined"
-                    rounded="lg"
-                    v-model="std.name"
-                    hide-details
-                    placeholder="เช่น GMP, HACCP"
-                  />
-                </v-col>
-                <v-col cols="12" sm="3">
-                  <div class="field-label mb-1">
-                    หน่วยงานที่รับรอง <span class="req">*</span>
-                  </div>
-                  <v-text-field
-                    density="compact"
-                    variant="outlined"
-                    rounded="lg"
-                    v-model="std.certBody"
-                    hide-details
-                    placeholder="กรอกหน่วยงาน"
-                  />
-                </v-col>
-                <v-col cols="12" sm="3">
-                  <div class="field-label mb-1">
-                    หมายเลขการรับรอง <span class="req">*</span>
-                  </div>
-                  <v-text-field
-                    density="compact"
-                    variant="outlined"
-                    rounded="lg"
-                    v-model="std.certNo"
-                    hide-details
-                    placeholder="กรอกหมายเลข"
-                  />
-                </v-col>
-                <v-col cols="12" sm="2">
-                  <div class="field-label mb-1">
-                    วันที่หมดอายุ <span class="req">*</span>
-                  </div>
-                  <v-text-field
-                    density="compact"
-                    variant="outlined"
-                    rounded="lg"
-                    v-model="std.expiry"
-                    hide-details
-                    placeholder="วว/ดด/ปปปป"
-                  />
-                </v-col>
-                <v-col cols="auto">
+
+            <!-- table (display only) -->
+            <v-table density="compact" class="rounded-lg border">
+              <thead>
+                <tr>
+                  <th style="width: 40px">#</th>
+                  <th>ชื่อมาตรฐาน</th>
+                  <th>หน่วยงานที่รับรอง</th>
+                  <th>หมายเลขการรับรอง</th>
+                  <th>วันที่หมดอายุ</th>
+                  <th style="width: 48px"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-if="historyExtraStandards.length === 0">
+                  <td
+                    colspan="6"
+                    class="text-center text-medium-emphasis text-body-2 py-4"
+                  >
+                    ยังไม่มีมาตรฐานเพิ่มเติม — กดปุ่ม "เพิ่มมาตรฐาน" เพื่อเพิ่ม
+                  </td>
+                </tr>
+                <tr
+                  v-for="(std, idx) in historyExtraStandards"
+                  :key="'exstd-' + idx"
+                >
+                  <td class="text-body-2 text-medium-emphasis">
+                    {{ idx + 1 }}
+                  </td>
+                  <td class="text-body-2">{{ std.name }}</td>
+                  <td class="text-body-2">{{ std.certBody }}</td>
+                  <td class="text-body-2">{{ std.certNo }}</td>
+                  <td class="text-body-2">{{ std.expiry }}</td>
+                  <td>
+                    <v-btn
+                      icon="fas fa-trash"
+                      variant="text"
+                      size="x-small"
+                      color="error"
+                      @click="removeHistoryExtraStandard(idx)"
+                    />
+                  </td>
+                </tr>
+              </tbody>
+            </v-table>
+
+            <!-- Dialog เพิ่มมาตรฐาน -->
+            <v-dialog v-model="extraStdDialog" max-width="480" persistent>
+              <v-card rounded="xl">
+                <div class="d-flex align-center ga-2 px-5 py-4 border-b">
+                  <v-icon icon="fas fa-award" color="hcex-user" size="15" />
+                  <span class="text-subtitle-2 font-weight-bold"
+                    >เพิ่มมาตรฐานเพิ่มเติม</span
+                  >
+                </div>
+                <v-card-text class="pt-4">
+                  <v-row dense>
+                    <v-col cols="12">
+                      <div class="field-label mb-1">
+                        ชื่อมาตรฐาน <span class="req">*</span>
+                      </div>
+                      <v-text-field
+                        density="compact"
+                        variant="outlined"
+                        rounded="lg"
+                        v-model="extraStdForm.name"
+                        placeholder="เช่น ISO 22000, BRC, FSSC 22000"
+                        hide-details="auto"
+                        :error="extraStdErrors.name"
+                      />
+                    </v-col>
+                    <v-col cols="12" class="mt-2">
+                      <div class="field-label mb-1">
+                        หน่วยงานที่รับรอง <span class="req">*</span>
+                      </div>
+                      <v-text-field
+                        density="compact"
+                        variant="outlined"
+                        rounded="lg"
+                        v-model="extraStdForm.certBody"
+                        placeholder="กรอกหน่วยงาน"
+                        hide-details="auto"
+                        :error="extraStdErrors.certBody"
+                      />
+                    </v-col>
+                    <v-col cols="12" sm="7" class="mt-2">
+                      <div class="field-label mb-1">
+                        หมายเลขการรับรอง <span class="req">*</span>
+                      </div>
+                      <v-text-field
+                        density="compact"
+                        variant="outlined"
+                        rounded="lg"
+                        v-model="extraStdForm.certNo"
+                        placeholder="กรอกหมายเลข"
+                        hide-details="auto"
+                        :error="extraStdErrors.certNo"
+                      />
+                    </v-col>
+                    <v-col cols="12" sm="5" class="mt-2">
+                      <div class="field-label mb-1">
+                        วันที่หมดอายุ <span class="req">*</span>
+                      </div>
+                      <v-menu
+                        v-model="extraStdExpiryMenu"
+                        :close-on-content-click="false"
+                        location="bottom start"
+                      >
+                        <template #activator="{ props }">
+                          <v-text-field
+                            v-bind="props"
+                            density="compact"
+                            variant="outlined"
+                            rounded="lg"
+                            :model-value="extraStdForm.expiry"
+                            readonly
+                            clearable
+                            prepend-inner-icon="fas fa-calendar"
+                            placeholder="เลือกวันที่"
+                            hide-details="auto"
+                            :error="extraStdErrors.expiry"
+                            style="cursor: pointer"
+                            @click:clear.stop="extraStdExpiryObj = null"
+                          />
+                        </template>
+                        <v-date-picker
+                          v-model="extraStdExpiryObj"
+                          color="hcex-user"
+                          show-adjacent-months
+                          :hide-header="!extraStdExpiryObj"
+                          title="เลือกวันที่"
+                          locale="th"
+                          @update:model-value="extraStdExpiryMenu = false"
+                        />
+                      </v-menu>
+                    </v-col>
+                  </v-row>
+                </v-card-text>
+                <v-card-actions class="pa-4 pt-0 d-flex ga-2">
                   <v-btn
-                    icon="fas fa-trash"
                     variant="text"
-                    size="small"
-                    color="error"
-                    :disabled="historyStandards.length <= 1"
-                    @click="removeHistoryStandard(idx)"
-                  />
-                </v-col>
-              </v-row>
-            </div>
-
-            <!-- 4.2 มาตรฐานเพิ่มเติม -->
-            <div class="d-flex align-center justify-space-between mt-5 mb-3">
-              <div class="field-section-label mb-0">4.2 มาตรฐานเพิ่มเติม</div>
-              <v-btn
-                size="small"
-                variant="tonal"
-                color="grey"
-                prepend-icon="fas fa-plus"
-                @click="addHistoryExtraStandard"
-                >เพิ่มมาตรฐาน</v-btn
-              >
-            </div>
-            <div
-              v-if="historyExtraStandards.length === 0"
-              class="text-center text-medium-emphasis text-body-2 py-2"
-            >
-              ยังไม่มีมาตรฐานเพิ่มเติม
-            </div>
-            <div
-              v-for="(std, idx) in historyExtraStandards"
-              :key="'exstd-' + idx"
-              class="item-row rounded-lg pa-3 mb-2"
-            >
-              <v-row dense align="center">
-                <v-col cols="12" sm="3">
-                  <div class="field-label mb-1">ชื่อมาตรฐาน</div>
-                  <v-text-field
-                    density="compact"
-                    variant="outlined"
-                    rounded="lg"
-                    v-model="std.name"
-                    hide-details
-                    placeholder="กรอกชื่อมาตรฐาน"
-                  />
-                </v-col>
-                <v-col cols="12" sm="3">
-                  <div class="field-label mb-1">หน่วยงานที่รับรอง</div>
-                  <v-text-field
-                    density="compact"
-                    variant="outlined"
-                    rounded="lg"
-                    v-model="std.certBody"
-                    hide-details
-                    placeholder="กรอกหน่วยงาน"
-                  />
-                </v-col>
-                <v-col cols="12" sm="3">
-                  <div class="field-label mb-1">หมายเลขการรับรอง</div>
-                  <v-text-field
-                    density="compact"
-                    variant="outlined"
-                    rounded="lg"
-                    v-model="std.certNo"
-                    hide-details
-                    placeholder="กรอกหมายเลข"
-                  />
-                </v-col>
-                <v-col cols="12" sm="2">
-                  <div class="field-label mb-1">วันที่หมดอายุ</div>
-                  <v-text-field
-                    density="compact"
-                    variant="outlined"
-                    rounded="lg"
-                    v-model="std.expiry"
-                    hide-details
-                    placeholder="วว/ดด/ปปปป"
-                  />
-                </v-col>
-                <v-col cols="auto">
+                    color="grey"
+                    @click="extraStdDialog = false"
+                    >ยกเลิก</v-btn
+                  >
+                  <v-spacer />
                   <v-btn
-                    icon="fas fa-trash"
-                    variant="text"
-                    size="small"
-                    color="error"
-                    @click="removeHistoryExtraStandard(idx)"
-                  />
-                </v-col>
-              </v-row>
-            </div>
-          </v-card-text>
-        </v-card>
-
-        <!-- 5-6. ข้อมูลบริษัทผู้ส่งออก -->
-        <v-card elevation="0" border rounded="xl" class="mb-5">
-          <div class="d-flex align-center ga-2 px-4 py-3 border-b">
-            <v-icon icon="fas fa-building" color="hcex-user" size="15" />
-            <span class="text-subtitle-2 font-weight-bold"
-              >ข้อมูลบริษัทผู้ส่งออก</span
-            >
-          </div>
-          <v-card-text class="pt-4">
-            <div class="field-section-label mb-3">5. ข้อมูลบริษัทผู้ส่งออก</div>
-            <v-row dense>
-              <v-col cols="12">
-                <div class="field-label mb-1">
-                  ชื่อบริษัทผู้ส่งออก <span class="req">*</span>
-                </div>
-                <v-text-field
-                  density="compact"
-                  variant="outlined"
-                  rounded="lg"
-                  v-model="historyExporter.name"
-                  hide-details
-                  placeholder="กรอกชื่อบริษัทผู้ส่งออก"
-                />
-              </v-col>
-              <v-col cols="12" class="mt-2">
-                <div class="field-label mb-1">
-                  ที่อยู่ <span class="req">*</span>
-                </div>
-                <v-textarea
-                  density="compact"
-                  variant="outlined"
-                  rounded="lg"
-                  v-model="historyExporter.address"
-                  hide-details
-                  placeholder="กรอกที่อยู่"
-                  rows="2"
-                  auto-grow
-                />
-              </v-col>
-              <v-col cols="12" sm="4">
-                <div class="field-label mb-1">
-                  โทรศัพท์ <span class="req">*</span>
-                </div>
-                <v-text-field
-                  density="compact"
-                  variant="outlined"
-                  rounded="lg"
-                  v-model="historyExporter.phone"
-                  hide-details
-                  placeholder="เช่น 02-xxx-xxxx"
-                />
-              </v-col>
-              <v-col cols="12" sm="4">
-                <div class="field-label mb-1">โทรสาร</div>
-                <v-text-field
-                  density="compact"
-                  variant="outlined"
-                  rounded="lg"
-                  v-model="historyExporter.fax"
-                  hide-details
-                  placeholder="เช่น 02-xxx-xxxx"
-                />
-              </v-col>
-              <v-col cols="12" sm="4">
-                <div class="field-label mb-1">E-mail Address</div>
-                <v-text-field
-                  density="compact"
-                  variant="outlined"
-                  rounded="lg"
-                  v-model="historyExporter.email"
-                  hide-details
-                  placeholder="example@email.com"
-                />
-              </v-col>
-            </v-row>
-
-            <div class="field-section-label mt-5 mb-3">
-              6. ผู้ประสานงานบริษัทผู้ส่งออก
-            </div>
-            <v-row dense>
-              <v-col cols="12" sm="6">
-                <div class="field-label mb-1">
-                  ชื่อ-นามสกุล <span class="req">*</span>
-                </div>
-                <v-text-field
-                  density="compact"
-                  variant="outlined"
-                  rounded="lg"
-                  v-model="historyExporter.contactName"
-                  hide-details
-                  placeholder="กรอกชื่อ-นามสกุล"
-                />
-              </v-col>
-              <v-col cols="12" sm="6">
-                <div class="field-label mb-1">ตำแหน่ง</div>
-                <v-text-field
-                  density="compact"
-                  variant="outlined"
-                  rounded="lg"
-                  v-model="historyExporter.contactPosition"
-                  hide-details
-                  placeholder="กรอกตำแหน่ง"
-                />
-              </v-col>
-              <v-col cols="12" sm="4">
-                <div class="field-label mb-1">
-                  โทรศัพท์ <span class="req">*</span>
-                </div>
-                <v-text-field
-                  density="compact"
-                  variant="outlined"
-                  rounded="lg"
-                  v-model="historyExporter.contactPhone"
-                  hide-details
-                  placeholder="เช่น 02-xxx-xxxx"
-                />
-              </v-col>
-              <v-col cols="12" sm="4">
-                <div class="field-label mb-1">โทรสาร</div>
-                <v-text-field
-                  density="compact"
-                  variant="outlined"
-                  rounded="lg"
-                  v-model="historyExporter.contactFax"
-                  hide-details
-                  placeholder="เช่น 02-xxx-xxxx"
-                />
-              </v-col>
-            </v-row>
+                    color="hcex-user"
+                    variant="flat"
+                    rounded="lg"
+                    prepend-icon="fas fa-plus"
+                    @click="confirmExtraStd"
+                    >เพิ่มมาตรฐาน</v-btn
+                  >
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
           </v-card-text>
         </v-card>
 
@@ -4618,103 +5865,711 @@
             <v-chip size="x-small" color="grey" variant="tonal" class="ml-1"
               >1 ผู้ผลิต / 1 ใบคำขอ</v-chip
             >
-          </div>
-          <v-card-text class="pt-4">
-            <div
-              v-for="(product, idx) in historyProducts"
-              :key="'prod-' + idx"
-              class="item-row rounded-lg pa-4 mb-3"
-            >
-              <div class="d-flex align-center justify-space-between mb-3">
-                <span class="text-body-2 font-weight-bold"
-                  >สินค้าที่ {{ idx + 1 }}</span
-                >
-                <v-btn
-                  icon="fas fa-trash"
-                  variant="text"
-                  size="x-small"
-                  color="error"
-                  :disabled="historyProducts.length <= 1"
-                  @click="removeHistoryProduct(idx)"
-                />
-              </div>
-              <v-row dense>
-                <v-col cols="12" sm="6">
-                  <div class="field-label mb-1">
-                    รายการสินค้าเพื่อส่งออกด้านพืช <span class="req">*</span>
-                  </div>
-                  <v-text-field
-                    density="compact"
-                    variant="outlined"
-                    rounded="lg"
-                    v-model="product.productName"
-                    hide-details
-                    placeholder="กรอกชื่อสินค้า"
-                  />
-                </v-col>
-                <v-col cols="12" sm="6">
-                  <div class="field-label mb-1">มาตรฐานสินค้า</div>
-                  <v-text-field
-                    density="compact"
-                    variant="outlined"
-                    rounded="lg"
-                    v-model="product.standard"
-                    hide-details
-                    placeholder="กรอกมาตรฐานสินค้า"
-                  />
-                </v-col>
-                <v-col cols="12">
-                  <div class="field-label mb-1">
-                    ประเทศปลายทาง <span class="req">*</span>
-                    <span class="text-caption text-medium-emphasis ml-1"
-                      >(เลือกได้มากกว่า 1 ประเทศ)</span
-                    >
-                  </div>
-                  <v-autocomplete
-                    density="compact"
-                    variant="outlined"
-                    rounded="lg"
-                    v-model="product.countries"
-                    :items="countryOptions"
-                    multiple
-                    chips
-                    closable-chips
-                    hide-details
-                    placeholder="เลือกประเทศปลายทาง"
-                  />
-                </v-col>
-                <v-col cols="12">
-                  <div class="field-label mb-1">
-                    รายการทดสอบ <span class="req">*</span>
-                    <span class="text-caption text-medium-emphasis ml-1"
-                      >(เลือกได้มากกว่า 1 รายการ)</span
-                    >
-                  </div>
-                  <v-autocomplete
-                    density="compact"
-                    variant="outlined"
-                    rounded="lg"
-                    v-model="product.tests"
-                    :items="testItems"
-                    multiple
-                    chips
-                    closable-chips
-                    hide-details
-                    placeholder="เลือกรายการทดสอบ"
-                  />
-                </v-col>
-              </v-row>
-            </div>
+            <v-spacer />
             <v-btn
-              variant="tonal"
               color="hcex-user"
-              prepend-icon="fas fa-plus"
+              variant="tonal"
               size="small"
-              @click="addHistoryProduct"
+              prepend-icon="fas fa-plus"
+              @click="openAddProductDialog"
               >เพิ่มสินค้า</v-btn
             >
-          </v-card-text>
+          </div>
+
+          <!-- ตารางสินค้า -->
+          <v-data-table
+            :headers="productTableHeaders"
+            :items="historyProducts"
+            hide-default-footer
+            density="compact"
+          >
+            <template #item.productName="{ item }">
+              <span class="text-body-2 font-weight-medium">{{
+                item.productName || "-"
+              }}</span>
+            </template>
+            <template #item.countries="{ item }">
+              <div class="d-flex flex-wrap ga-1 py-1">
+                <v-chip
+                  v-for="c in item.countries"
+                  :key="c"
+                  size="x-small"
+                  color="hcex-user"
+                  variant="tonal"
+                  >{{ c }}</v-chip
+                >
+                <span
+                  v-if="!item.countries.length"
+                  class="text-medium-emphasis text-caption"
+                  >-</span
+                >
+              </div>
+            </template>
+            <template #item.standardType="{ item }">
+              <div class="d-flex flex-wrap ga-1 py-1">
+                <v-chip
+                  v-if="item.standardTypes.includes('doa')"
+                  size="x-small"
+                  color="success"
+                  variant="tonal"
+                >
+                  DOA<template v-if="item.doaOrderNo">
+                    (ลำดับที่ {{ item.doaOrderNo }})</template
+                  >
+                </v-chip>
+                <template v-if="item.standardTypes.includes('other')">
+                  <v-chip
+                    v-if="!item.otherStandards?.length"
+                    size="x-small"
+                    color="info"
+                    variant="tonal"
+                    >อื่นๆ</v-chip
+                  >
+                  <v-chip
+                    v-for="s in item.otherStandards"
+                    :key="s.name"
+                    size="x-small"
+                    color="info"
+                    variant="tonal"
+                    >{{ s.name }}</v-chip
+                  >
+                </template>
+                <span
+                  v-if="!item.standardTypes.length"
+                  class="text-caption text-medium-emphasis"
+                  >-</span
+                >
+              </div>
+            </template>
+            <template #item.tests="{ item }">
+              <div class="d-flex flex-wrap ga-1 py-1">
+                <template
+                  v-for="t in [
+                    ...(item.doaTests ?? []).map((x) => x.name),
+                    ...(item.otherStandards ?? []).flatMap((s) =>
+                      s.tests.map((x) => (typeof x === 'string' ? x : x.name)),
+                    ),
+                  ].slice(0, 3)"
+                  :key="t"
+                >
+                  <v-chip size="x-small" variant="outlined" color="grey">{{
+                    t
+                  }}</v-chip>
+                </template>
+                <v-chip
+                  v-if="
+                    [
+                      ...(item.doaTests ?? []),
+                      ...(item.otherStandards ?? []).flatMap((s) => s.tests),
+                    ].length > 3
+                  "
+                  size="x-small"
+                  color="grey"
+                  variant="tonal"
+                  >+{{
+                    [
+                      ...(item.doaTests ?? []),
+                      ...(item.otherStandards ?? []).flatMap((s) => s.tests),
+                    ].length - 3
+                  }}</v-chip
+                >
+                <span
+                  v-if="
+                    ![
+                      ...(item.doaTests ?? []),
+                      ...(item.otherStandards ?? []).flatMap((s) => s.tests),
+                    ].length
+                  "
+                  class="text-medium-emphasis text-caption"
+                  >-</span
+                >
+              </div>
+            </template>
+            <template #item.actions="{ index }">
+              <div class="d-flex ga-1 justify-end">
+                <v-btn
+                  icon
+                  size="x-small"
+                  variant="text"
+                  color="hcex-user"
+                  @click="openEditProductDialog(index)"
+                >
+                  <v-icon icon="fas fa-pen" size="13" />
+                </v-btn>
+                <v-btn
+                  icon
+                  size="x-small"
+                  variant="text"
+                  color="error"
+                  @click="removeHistoryProduct(index)"
+                >
+                  <v-icon icon="fas fa-trash" size="13" />
+                </v-btn>
+              </div>
+            </template>
+            <template #no-data>
+              <div class="text-center py-6 text-medium-emphasis text-body-2">
+                ยังไม่มีสินค้า — กด "เพิ่มสินค้า" เพื่อเริ่มต้น
+              </div>
+            </template>
+          </v-data-table>
         </v-card>
+
+        <!-- Dialog เพิ่ม/แก้ไขสินค้า -->
+        <v-dialog v-model="productDialog" max-width="560" scrollable>
+          <v-card rounded="xl">
+            <div
+              class="d-flex align-center justify-space-between px-5 py-4 border-b"
+            >
+              <div class="d-flex align-center ga-2">
+                <v-icon
+                  icon="fas fa-boxes-stacked"
+                  color="hcex-user"
+                  size="16"
+                />
+                <span class="text-subtitle-1 font-weight-bold">
+                  {{
+                    productDialogMode === "add" ? "เพิ่มสินค้า" : "แก้ไขสินค้า"
+                  }}
+                </span>
+              </div>
+              <v-btn
+                icon="fas fa-xmark"
+                variant="text"
+                size="small"
+                @click="productDialog = false"
+              />
+            </div>
+            <v-card-text class="pa-5">
+              <!-- ชื่อสินค้า -->
+              <div class="field-label mb-1">
+                รายการสินค้าเพื่อส่งออกด้านพืช <span class="req">*</span>
+              </div>
+              <v-text-field
+                density="compact"
+                variant="outlined"
+                rounded="lg"
+                v-model="productForm.productName"
+                hide-details
+                placeholder="กรอกชื่อสินค้า"
+                class="mb-4"
+              />
+
+              <!-- ประเทศปลายทาง -->
+              <div class="field-label mb-1">
+                ประเทศปลายทาง <span class="req">*</span>
+                <span class="text-caption text-medium-emphasis ml-1"
+                  >(เลือกได้มากกว่า 1)</span
+                >
+              </div>
+              <v-autocomplete
+                density="compact"
+                variant="outlined"
+                rounded="lg"
+                v-model="productForm.countries"
+                :items="countryOptions"
+                multiple
+                chips
+                closable-chips
+                hide-details
+                placeholder="เลือกประเทศปลายทาง"
+                class="mb-4"
+              />
+
+              <!-- มาตรฐานสินค้า -->
+              <div class="field-label mb-2">
+                มาตรฐานสินค้า <span class="req">*</span>
+              </div>
+              <div class="d-flex ga-3 mb-4">
+                <div
+                  v-for="opt in [
+                    {
+                      value: 'doa',
+                      icon: 'fas fa-leaf',
+                      label: 'มาตรฐานกรมวิชาการเกษตร',
+                      // sub: 'กำหนดรายการทดสอบอัตโนมัติ',
+                      color: 'hcex-user',
+                    },
+                    {
+                      value: 'other',
+                      icon: 'fas fa-certificate',
+                      label: 'มาตรฐานอื่นๆ',
+                      // sub: 'ระบุมาตรฐานและรายการทดสอบเอง',
+                      color: 'hcex-user',
+                    },
+                  ]"
+                  :key="opt.value"
+                  class="flex-1-1 rounded-lg pa-3 cursor-pointer"
+                  style="border: 2px solid; transition: all 0.15s"
+                  :style="
+                    productForm.standardTypes.includes(opt.value)
+                      ? {
+                          borderColor: `rgb(var(--v-theme-${opt.color}))`,
+                          background: `rgba(var(--v-theme-${opt.color}), 0.08)`,
+                        }
+                      : {
+                          borderColor:
+                            'rgba(var(--v-border-color), var(--v-border-opacity))',
+                          background: 'transparent',
+                        }
+                  "
+                  @click="
+                    productForm.standardTypes.includes(opt.value)
+                      ? productForm.standardTypes.splice(
+                          productForm.standardTypes.indexOf(opt.value),
+                          1,
+                        )
+                      : productForm.standardTypes.push(opt.value)
+                  "
+                >
+                  <div class="d-flex align-center ga-2 mb-1">
+                    <v-icon
+                      :icon="opt.icon"
+                      size="14"
+                      :color="
+                        productForm.standardTypes.includes(opt.value)
+                          ? opt.color
+                          : 'medium-emphasis'
+                      "
+                    />
+                    <span
+                      class="text-body-2 font-weight-medium"
+                      :style="
+                        productForm.standardTypes.includes(opt.value)
+                          ? `color: rgb(var(--v-theme-${opt.color}))`
+                          : ''
+                      "
+                      >{{ opt.label }}</span
+                    >
+                    <v-icon
+                      v-if="productForm.standardTypes.includes(opt.value)"
+                      icon="fas fa-circle-check"
+                      size="13"
+                      :color="opt.color"
+                      class="ml-auto"
+                    />
+                  </div>
+                  <div class="text-caption text-medium-emphasis">
+                    {{ opt.sub }}
+                  </div>
+                </div>
+              </div>
+
+              <!-- DOA: ลำดับที่ -->
+              <template v-if="productForm.standardTypes.includes('doa')">
+                <div class="field-label mb-1">
+                  ลำดับที่ <span class="req">*</span>
+                </div>
+                <v-select
+                  v-model="productForm.doaOrderNo"
+                  :items="doaOrderNoItems"
+                  density="compact"
+                  variant="outlined"
+                  rounded="lg"
+                  hide-details
+                  placeholder="เลือกลำดับที่"
+                  class="mb-4"
+                />
+              </template>
+
+              <!-- DOA: ตารางรายการทดสอบ -->
+              <template v-if="productForm.standardTypes.includes('doa')">
+                <div class="d-flex align-center justify-space-between mb-2">
+                  <div class="field-label">รายการทดสอบ (DOA)</div>
+                  <v-chip
+                    v-if="productForm.doaOrderNo"
+                    size="x-small"
+                    color="hcex-user"
+                    variant="tonal"
+                  >
+                    ลำดับที่ {{ productForm.doaOrderNo }} — โหลดอัตโนมัติ
+                  </v-chip>
+                  <span v-else class="text-caption text-medium-emphasis"
+                    >เลือกลำดับที่เพื่อโหลดอัตโนมัติ</span
+                  >
+                </div>
+                <div
+                  class="rounded-lg overflow-hidden mb-4"
+                  style="
+                    border: 1px solid
+                      rgba(var(--v-border-color), var(--v-border-opacity));
+                  "
+                >
+                  <table class="test-table w-100">
+                    <thead>
+                      <tr>
+                        <th
+                          class="text-left text-caption font-weight-medium text-medium-emphasis px-3 py-2"
+                        >
+                          รายการทดสอบ
+                        </th>
+                        <th
+                          class="text-left text-caption font-weight-medium text-medium-emphasis px-3 py-2"
+                        >
+                          เกณฑ์การทดสอบ
+                        </th>
+                        <th style="width: 36px"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr v-for="(t, ti) in productForm.doaTests" :key="ti">
+                        <td class="px-2 py-1">
+                          <v-text-field
+                            v-model="t.name"
+                            density="compact"
+                            variant="plain"
+                            hide-details
+                            placeholder="ชื่อรายการทดสอบ"
+                            class="text-body-2"
+                          />
+                        </td>
+                        <td class="px-2 py-1">
+                          <v-text-field
+                            v-model="t.criteria"
+                            density="compact"
+                            variant="plain"
+                            hide-details
+                            placeholder="ระบุเกณฑ์..."
+                            class="text-body-2"
+                          />
+                        </td>
+                        <td class="px-1 text-center">
+                          <v-btn
+                            icon
+                            size="x-small"
+                            variant="text"
+                            color="error"
+                            @click="removeDoaTest(ti)"
+                          >
+                            <v-icon icon="fas fa-xmark" size="11" />
+                          </v-btn>
+                        </td>
+                      </tr>
+                      <!-- add row -->
+                      <tr class="add-row">
+                        <td class="px-2 py-1">
+                          <v-text-field
+                            v-model="doaTestEntry.name"
+                            density="compact"
+                            variant="plain"
+                            hide-details
+                            placeholder="+ รายการทดสอบใหม่"
+                            class="text-body-2"
+                            @keyup.enter="addDoaTest"
+                          />
+                        </td>
+                        <td class="px-2 py-1">
+                          <v-text-field
+                            v-model="doaTestEntry.criteria"
+                            density="compact"
+                            variant="plain"
+                            hide-details
+                            placeholder="เกณฑ์..."
+                            class="text-body-2"
+                            @keyup.enter="addDoaTest"
+                          />
+                        </td>
+                        <td class="px-1 text-center">
+                          <v-btn
+                            icon
+                            size="x-small"
+                            variant="tonal"
+                            color="hcex-user"
+                            :disabled="!doaTestEntry.name.trim()"
+                            @click="addDoaTest"
+                          >
+                            <v-icon icon="fas fa-plus" size="11" />
+                          </v-btn>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </template>
+
+              <!-- Other: per-standard entries -->
+              <template v-if="productForm.standardTypes.includes('other')">
+                <div class="field-label mb-2">มาตรฐานอื่นๆ</div>
+
+                <!-- saved standard cards (editable) -->
+                <div
+                  v-for="(std, si) in productForm.otherStandards"
+                  :key="si"
+                  class="rounded-lg overflow-hidden mb-2"
+                  style="border: 1px solid rgba(var(--v-theme-hcex-user), 0.3)"
+                >
+                  <div
+                    class="d-flex align-center ga-2 px-3 py-2"
+                    style="
+                      background: rgba(var(--v-theme-hcex-user), 0.06);
+                      border-bottom: 1px solid
+                        rgba(var(--v-theme-hcex-user), 0.15);
+                    "
+                  >
+                    <v-icon
+                      icon="fas fa-certificate"
+                      size="12"
+                      color="hcex-user"
+                      class="flex-shrink-0"
+                    />
+                    <v-text-field
+                      v-model="std.name"
+                      density="compact"
+                      variant="plain"
+                      hide-details
+                      placeholder="ชื่อมาตรฐาน"
+                      class="text-body-2 font-weight-medium flex-grow-1"
+                      style="color: rgb(var(--v-theme-hcex-user))"
+                    />
+                    <v-btn
+                      icon
+                      size="x-small"
+                      variant="text"
+                      color="error"
+                      class="flex-shrink-0"
+                      @click="removeOtherStandard(si)"
+                    >
+                      <v-icon icon="fas fa-xmark" size="11" />
+                    </v-btn>
+                  </div>
+                  <table class="test-table w-100">
+                    <thead>
+                      <tr>
+                        <th
+                          class="text-left text-caption font-weight-medium text-medium-emphasis px-3 py-2"
+                        >
+                          รายการทดสอบ
+                        </th>
+                        <th
+                          class="text-left text-caption font-weight-medium text-medium-emphasis px-3 py-2"
+                        >
+                          เกณฑ์การทดสอบ
+                        </th>
+                        <th style="width: 36px"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr v-for="(t, ti) in std.tests" :key="ti">
+                        <td class="px-2 py-1">
+                          <v-text-field
+                            v-model="t.name"
+                            density="compact"
+                            variant="plain"
+                            hide-details
+                            placeholder="ชื่อรายการทดสอบ"
+                            class="text-body-2"
+                          />
+                        </td>
+                        <td class="px-2 py-1">
+                          <v-text-field
+                            v-model="t.criteria"
+                            density="compact"
+                            variant="plain"
+                            hide-details
+                            placeholder="ระบุเกณฑ์..."
+                            class="text-body-2"
+                          />
+                        </td>
+                        <td class="px-1 text-center">
+                          <v-btn
+                            icon
+                            size="x-small"
+                            variant="text"
+                            color="error"
+                            @click="removeOtherStandardTest(si, ti)"
+                          >
+                            <v-icon icon="fas fa-xmark" size="11" />
+                          </v-btn>
+                        </td>
+                      </tr>
+                      <!-- add row per standard -->
+                      <tr class="add-row">
+                        <td class="px-2 py-1">
+                          <v-text-field
+                            v-model="std._newTestName"
+                            density="compact"
+                            variant="plain"
+                            hide-details
+                            placeholder="+ รายการทดสอบใหม่"
+                            class="text-body-2"
+                            @keyup.enter="addTestToSavedStandard(si, std)"
+                          />
+                        </td>
+                        <td class="px-2 py-1">
+                          <v-text-field
+                            v-model="std._newTestCriteria"
+                            density="compact"
+                            variant="plain"
+                            hide-details
+                            placeholder="เกณฑ์..."
+                            class="text-body-2"
+                            @keyup.enter="addTestToSavedStandard(si, std)"
+                          />
+                        </td>
+                        <td class="px-1 text-center">
+                          <v-btn
+                            icon
+                            size="x-small"
+                            variant="tonal"
+                            color="info"
+                            :disabled="!std._newTestName?.trim()"
+                            @click="addTestToSavedStandard(si, std)"
+                          >
+                            <v-icon icon="fas fa-plus" size="11" />
+                          </v-btn>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <!-- draft: new standard -->
+                <div
+                  class="rounded-lg overflow-hidden mb-3"
+                  style="
+                    border: 1px dashed rgba(var(--v-theme-hcex-user), 0.4);
+                    background: rgba(var(--v-theme-hcex-user), 0.025);
+                  "
+                >
+                  <div
+                    class="d-flex align-center ga-2 px-3 py-2"
+                    style="
+                      border-bottom: 1px dashed
+                        rgba(var(--v-theme-hcex-user), 0.3);
+                    "
+                  >
+                    <v-icon
+                      icon="fas fa-certificate"
+                      size="12"
+                      color="hcex-user"
+                    />
+                    <v-text-field
+                      v-model="otherStdDraft.name"
+                      density="compact"
+                      variant="plain"
+                      hide-details
+                      placeholder="ชื่อมาตรฐาน เช่น GlobalG.A.P, BRC, ISO 22000"
+                      class="text-body-2 font-weight-medium flex-grow-1"
+                      style="color: rgb(var(--v-theme-hcex-user))"
+                    />
+                  </div>
+                  <table class="test-table w-100">
+                    <thead>
+                      <tr>
+                        <th
+                          class="text-left text-caption font-weight-medium text-medium-emphasis px-3 py-2"
+                        >
+                          รายการทดสอบ
+                        </th>
+                        <th
+                          class="text-left text-caption font-weight-medium text-medium-emphasis px-3 py-2"
+                        >
+                          เกณฑ์การทดสอบ
+                        </th>
+                        <th style="width: 36px"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr v-for="(t, ti) in otherStdDraft.tests" :key="ti">
+                        <td class="px-3 py-2 text-body-2">{{ t.name }}</td>
+                        <td class="px-3 py-2 text-caption text-medium-emphasis">
+                          {{ t.criteria || "—" }}
+                        </td>
+                        <td class="px-1 text-center">
+                          <v-btn
+                            icon
+                            size="x-small"
+                            variant="text"
+                            color="error"
+                            @click="removeFromOtherStdDraft(ti)"
+                          >
+                            <v-icon icon="fas fa-xmark" size="11" />
+                          </v-btn>
+                        </td>
+                      </tr>
+                      <!-- add row -->
+                      <tr class="add-row">
+                        <td class="px-2 py-1">
+                          <v-text-field
+                            v-model="otherTestDraft.name"
+                            density="compact"
+                            variant="plain"
+                            hide-details
+                            placeholder="+ รายการทดสอบใหม่"
+                            class="text-body-2"
+                            @keyup.enter="addToOtherStdDraft"
+                          />
+                        </td>
+                        <td class="px-2 py-1">
+                          <v-text-field
+                            v-model="otherTestDraft.criteria"
+                            density="compact"
+                            variant="plain"
+                            hide-details
+                            placeholder="เกณฑ์..."
+                            class="text-body-2"
+                            @keyup.enter="addToOtherStdDraft"
+                          />
+                        </td>
+                        <td class="px-1 text-center">
+                          <v-btn
+                            icon
+                            size="x-small"
+                            variant="tonal"
+                            color="info"
+                            :disabled="!otherTestDraft.name.trim()"
+                            @click="addToOtherStdDraft"
+                          >
+                            <v-icon icon="fas fa-plus" size="11" />
+                          </v-btn>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div class="px-3 pb-3 pt-2">
+                    <v-btn
+                      size="small"
+                      color="hcex-user"
+                      variant="flat"
+                      rounded="lg"
+                      :disabled="!otherStdDraft.name.trim()"
+                      prepend-icon="fas fa-floppy-disk"
+                      @click="commitOtherStd"
+                    >
+                      บันทึกมาตรฐานนี้
+                    </v-btn>
+                  </div>
+                </div>
+              </template>
+
+              <v-alert
+                v-if="productForm.standardTypes.length === 0"
+                density="compact"
+                variant="tonal"
+                color="warning"
+                rounded="lg"
+                prepend-icon="fas fa-triangle-exclamation"
+                class="mt-1"
+                >กรุณาเลือกอย่างน้อย 1 มาตรฐาน</v-alert
+              >
+            </v-card-text>
+            <v-card-actions class="pa-4 pt-0 d-flex ga-2">
+              <v-btn variant="text" color="grey" @click="productDialog = false"
+                >ยกเลิก</v-btn
+              >
+              <v-spacer />
+              <v-btn
+                color="hcex-user"
+                variant="flat"
+                rounded="lg"
+                @click="confirmProductDialog"
+                >{{
+                  productDialogMode === "add" ? "เพิ่มสินค้า" : "บันทึก"
+                }}</v-btn
+              >
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
       </template>
 
       <!-- ─── LAB TYPE ─── -->
@@ -4734,15 +6589,37 @@
                   วันที่สุ่มเก็บตัวอย่าง (Date Collected)
                   <span class="req">*</span>
                 </div>
-                <v-text-field
-                  density="compact"
-                  variant="outlined"
-                  rounded="lg"
-                  v-model="labForm.dateCollected"
-                  hide-details
-                  placeholder="วว/ดด/ปปปป"
-                  prepend-inner-icon="fas fa-calendar"
-                />
+                <v-menu
+                  v-model="labDateCollectedMenu"
+                  :close-on-content-click="false"
+                  location="bottom start"
+                >
+                  <template #activator="{ props }">
+                    <v-text-field
+                      v-bind="props"
+                      density="compact"
+                      variant="outlined"
+                      rounded="lg"
+                      :model-value="labForm.dateCollected"
+                      readonly
+                      clearable
+                      prepend-inner-icon="fas fa-calendar"
+                      placeholder="เลือกวันที่"
+                      hide-details
+                      style="cursor: pointer"
+                      @click:clear.stop="labDateCollectedObj = null"
+                    />
+                  </template>
+                  <v-date-picker
+                    v-model="labDateCollectedObj"
+                    color="hcex-user"
+                    show-adjacent-months
+                    :hide-header="!labDateCollectedObj"
+                    title="เลือกวันที่"
+                    locale="th"
+                    @update:model-value="labDateCollectedMenu = false"
+                  />
+                </v-menu>
               </v-col>
               <v-col cols="12" sm="6">
                 <div class="field-label mb-1">
@@ -4761,29 +6638,73 @@
                 <div class="field-label mb-1">
                   วันที่ผลิต (MFG Date) <span class="req">*</span>
                 </div>
-                <v-text-field
-                  density="compact"
-                  variant="outlined"
-                  rounded="lg"
-                  v-model="labForm.mfgDate"
-                  hide-details
-                  placeholder="วว/ดด/ปปปป"
-                  prepend-inner-icon="fas fa-calendar"
-                />
+                <v-menu
+                  v-model="labMfgDateMenu"
+                  :close-on-content-click="false"
+                  location="bottom start"
+                >
+                  <template #activator="{ props }">
+                    <v-text-field
+                      v-bind="props"
+                      density="compact"
+                      variant="outlined"
+                      rounded="lg"
+                      :model-value="labForm.mfgDate"
+                      readonly
+                      clearable
+                      prepend-inner-icon="fas fa-calendar"
+                      placeholder="เลือกวันที่"
+                      hide-details
+                      style="cursor: pointer"
+                      @click:clear.stop="labMfgDateObj = null"
+                    />
+                  </template>
+                  <v-date-picker
+                    v-model="labMfgDateObj"
+                    color="hcex-user"
+                    show-adjacent-months
+                    :hide-header="!labMfgDateObj"
+                    title="เลือกวันที่"
+                    locale="th"
+                    @update:model-value="labMfgDateMenu = false"
+                  />
+                </v-menu>
               </v-col>
               <v-col cols="12" sm="6">
                 <div class="field-label mb-1">
                   วันหมดอายุ (EXP Date) <span class="req">*</span>
                 </div>
-                <v-text-field
-                  density="compact"
-                  variant="outlined"
-                  rounded="lg"
-                  v-model="labForm.expDate"
-                  hide-details
-                  placeholder="วว/ดด/ปปปป"
-                  prepend-inner-icon="fas fa-calendar"
-                />
+                <v-menu
+                  v-model="labExpDateMenu"
+                  :close-on-content-click="false"
+                  location="bottom start"
+                >
+                  <template #activator="{ props }">
+                    <v-text-field
+                      v-bind="props"
+                      density="compact"
+                      variant="outlined"
+                      rounded="lg"
+                      :model-value="labForm.expDate"
+                      readonly
+                      clearable
+                      prepend-inner-icon="fas fa-calendar"
+                      placeholder="เลือกวันที่"
+                      hide-details
+                      style="cursor: pointer"
+                      @click:clear.stop="labExpDateObj = null"
+                    />
+                  </template>
+                  <v-date-picker
+                    v-model="labExpDateObj"
+                    color="hcex-user"
+                    show-adjacent-months
+                    :hide-header="!labExpDateObj"
+                    title="เลือกวันที่"
+                    locale="th"
+                    @update:model-value="labExpDateMenu = false"
+                  />
+                </v-menu>
                 <div class="text-caption text-medium-emphasis mt-1">
                   ต้องมากกว่าวันที่ผลิต
                 </div>
@@ -4936,15 +6857,37 @@
                   9. วันที่นำส่งตัวอย่าง (Date Delivered)
                   <span class="req">*</span>
                 </div>
-                <v-text-field
-                  density="compact"
-                  variant="outlined"
-                  rounded="lg"
-                  v-model="labForm.dateDelivered"
-                  hide-details
-                  placeholder="วว/ดด/ปปปป"
-                  prepend-inner-icon="fas fa-calendar"
-                />
+                <v-menu
+                  v-model="labDateDeliveredMenu"
+                  :close-on-content-click="false"
+                  location="bottom start"
+                >
+                  <template #activator="{ props }">
+                    <v-text-field
+                      v-bind="props"
+                      density="compact"
+                      variant="outlined"
+                      rounded="lg"
+                      :model-value="labForm.dateDelivered"
+                      readonly
+                      clearable
+                      prepend-inner-icon="fas fa-calendar"
+                      placeholder="เลือกวันที่"
+                      hide-details
+                      style="cursor: pointer"
+                      @click:clear.stop="labDateDeliveredObj = null"
+                    />
+                  </template>
+                  <v-date-picker
+                    v-model="labDateDeliveredObj"
+                    color="hcex-user"
+                    show-adjacent-months
+                    :hide-header="!labDateDeliveredObj"
+                    title="เลือกวันที่"
+                    locale="th"
+                    @update:model-value="labDateDeliveredMenu = false"
+                  />
+                </v-menu>
                 <div class="text-caption text-medium-emphasis mt-1">
                   ต้องไม่น้อยกว่าวันที่สุ่มเก็บตัวอย่าง
                 </div>
@@ -5342,9 +7285,9 @@
                   >
                   <span v-else class="req ml-1">*</span>
                 </div>
-                <div class="text-caption text-medium-emphasis">
+                <!-- <div class="text-caption text-medium-emphasis">
                   PDF, JPG, JPEG, PNG ขนาดไม่เกิน 10 MB
-                </div>
+                </div> -->
               </v-col>
               <v-col cols="auto" class="d-flex align-center ga-2 pl-3">
                 <v-chip
@@ -5410,9 +7353,9 @@
                   >
                   <span v-else class="req ml-1">*</span>
                 </div>
-                <div class="text-caption text-medium-emphasis">
+                <!-- <div class="text-caption text-medium-emphasis">
                   PDF, JPG, JPEG, PNG ขนาดไม่เกิน 10 MB
-                </div>
+                </div> -->
               </v-col>
               <v-col cols="auto" class="d-flex align-center ga-2 pl-3">
                 <v-chip
@@ -5448,7 +7391,7 @@
 
       <!-- เอกสารสำหรับ history type -->
       <v-card
-        v-if="route.params.type === 'history'"
+        v-if="route.params.type === 'history' && historyRequestType === 'new'"
         elevation="0"
         border
         rounded="xl"
@@ -5459,21 +7402,15 @@
           <span class="text-subtitle-2 font-weight-bold">เอกสารประกอบ</span>
         </div>
         <v-card-text class="pt-5">
-          <div class="field-section-label mb-2">
-            ใบรับรองมาตรฐาน
-            <v-chip size="x-small" color="grey" variant="tonal" class="ml-1"
-              >ไม่บังคับ</v-chip
-            >
-          </div>
           <div class="item-row rounded-lg pa-3 mb-3">
             <v-row align="center" no-gutters>
               <v-col>
                 <div class="text-body-2 font-weight-medium">
-                  ใบรับรองมาตรฐาน (GMP, HACCP, ISO 22000 ฯลฯ)
+                  ใบรับรองมาตรฐานอื่นๆ
                 </div>
-                <div class="text-caption text-medium-emphasis">
+                <!-- <div class="text-caption text-medium-emphasis">
                   PDF, JPG, JPEG, PNG ขนาดไม่เกิน 10 MB
-                </div>
+                </div> -->
               </v-col>
               <v-col cols="auto" class="d-flex align-center ga-2 pl-3">
                 <v-chip
@@ -5511,18 +7448,15 @@
             </v-row>
           </div>
 
-          <div class="field-section-label mt-4 mb-2">
-            เอกสารหลักฐานอื่น ๆ <span class="req">*</span>
-          </div>
           <div class="item-row rounded-lg pa-3 mb-2">
             <v-row align="center" no-gutters>
               <v-col>
                 <div class="text-body-2 font-weight-medium">
-                  เอกสารหลักฐานอื่น ๆ <span class="req">*</span>
+                  เอกสารหลักฐานอื่น ๆ
                 </div>
-                <div class="text-caption text-medium-emphasis">
+                <!-- <div class="text-caption text-medium-emphasis">
                   PDF, JPG, JPEG, PNG ขนาดไม่เกิน 10 MB ต่อไฟล์
-                </div>
+                </div> -->
               </v-col>
               <v-col cols="auto" class="d-flex align-center ga-2 pl-3">
                 <v-chip
@@ -5809,7 +7743,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed, watch } from "vue";
+import { ref, reactive, computed, watch, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useLocale } from "vuetify";
 import { useSessionStore } from "@/stores/session.store";
@@ -5823,6 +7757,14 @@ function refreshApplicantData() {
 }
 function refreshCompanyData() {
   form.companyNameTh = sessionStore.companyName || "บริษัท ไทยเซอร์ติฟาย จำกัด";
+}
+function refreshHistoryFactory() {
+  historyFactory.contactName = sessionStore.personalName || "นายสมชาย ใจดี";
+  historyFactory.contactEmail = sessionStore.email || "somchai.j@example.co.th";
+}
+function refreshHistoryCompany() {
+  historyCompany.companyNameTh =
+    sessionStore.companyName || "บริษัท ไทยเฟรช เอ็กซ์พอร์ต จำกัด";
 }
 
 function goToApplicationList() {
@@ -6353,6 +8295,55 @@ const regKmpor1_3 = reactive({
   totalAmount: "",
 });
 
+// Certificate request form datepickers
+const regKmpor1ShipmentDateMenu = ref(false);
+const regKmpor1ShipmentDateObj = ref(null);
+watch(regKmpor1ShipmentDateObj, (date) => {
+  regKmpor1.shipmentDate = dateObjToBE(date);
+});
+
+const regKmpor1_1ShipmentDateMenu = ref(false);
+const regKmpor1_1ShipmentDateObj = ref(null);
+watch(regKmpor1_1ShipmentDateObj, (date) => {
+  regKmpor1_1.shipmentDate = dateObjToBE(date);
+});
+
+const regKmpor1_1ProductionDateMenu = ref(false);
+const regKmpor1_1ProductionDateObj = ref(null);
+watch(regKmpor1_1ProductionDateObj, (date) => {
+  regKmpor1_1.productionDate = dateObjToBE(date);
+});
+
+const regKmpor1_1ExpiryDateMenu = ref(false);
+const regKmpor1_1ExpiryDateObj = ref(null);
+watch(regKmpor1_1ExpiryDateObj, (date) => {
+  regKmpor1_1.expiryDate = dateObjToBE(date);
+});
+
+const regKmpor1_2CollectionDateMenu = ref(false);
+const regKmpor1_2CollectionDateObj = ref(null);
+watch(regKmpor1_2CollectionDateObj, (date) => {
+  regKmpor1_2.collectionDate = dateObjToBE(date);
+});
+
+const regKmpor1_3ShipmentDateMenu = ref(false);
+const regKmpor1_3ShipmentDateObj = ref(null);
+watch(regKmpor1_3ShipmentDateObj, (date) => {
+  regKmpor1_3.shipmentDate = dateObjToBE(date);
+});
+
+const regKmpor1_3ProductionDateMenu = ref(false);
+const regKmpor1_3ProductionDateObj = ref(null);
+watch(regKmpor1_3ProductionDateObj, (date) => {
+  regKmpor1_3.productionDate = dateObjToBE(date);
+});
+
+const regKmpor1_3ExpiryDateMenu = ref(false);
+const regKmpor1_3ExpiryDateObj = ref(null);
+watch(regKmpor1_3ExpiryDateObj, (date) => {
+  regKmpor1_3.expiryDate = dateObjToBE(date);
+});
+
 const departureOptions = [
   "ท่าเรือแหลมฉบัง",
   "ท่าเรือกรุงเทพ",
@@ -6439,6 +8430,31 @@ const labForm = reactive({
   specialRemark: "none",
   specialRemarkText: "",
   otherData: "",
+});
+
+// Lab form datepickers
+const labDateCollectedMenu = ref(false);
+const labDateCollectedObj = ref(null);
+watch(labDateCollectedObj, (date) => {
+  labForm.dateCollected = dateObjToBE(date);
+});
+
+const labMfgDateMenu = ref(false);
+const labMfgDateObj = ref(null);
+watch(labMfgDateObj, (date) => {
+  labForm.mfgDate = dateObjToBE(date);
+});
+
+const labExpDateMenu = ref(false);
+const labExpDateObj = ref(null);
+watch(labExpDateObj, (date) => {
+  labForm.expDate = dateObjToBE(date);
+});
+
+const labDateDeliveredMenu = ref(false);
+const labDateDeliveredObj = ref(null);
+watch(labDateDeliveredObj, (date) => {
+  labForm.dateDelivered = dateObjToBE(date);
 });
 
 const manufacturerOptions = [
@@ -6536,87 +8552,558 @@ const labDocs = [
 ];
 
 // ─── History form data ───
-const historySubmissionType = ref("batch");
+const historyRequestType = ref("new"); // "new" | "amendment"
+const historySubmissionType = ref("all");
 
 const historyFactory = reactive({
-  name: "",
-  address: "",
+  nameTh: "",
+  nameEn: "",
+  houseNo: "",
+  alley: "",
+  road: "",
+  tambol: "",
+  district: "",
+  province: "",
+  zipcode: "",
+  houseNoEn: "",
+  alleyEn: "",
+  roadEn: "",
+  tambolEn: "",
+  districtEn: "",
+  provinceEn: "",
+  zipcodeEn: "",
   phone: "",
   fax: "",
   email: "",
-  contactName: "",
-  contactPosition: "",
-  contactPhone: "",
-  contactFax: "",
+  // ผู้ประสานงาน (Auto-fill จาก SSO)
+  contactName: "นายสมชาย ใจดี",
+  contactPosition: "ผู้จัดการโรงงาน",
+  contactId: "1-2345-67890-12-3",
+  contactPhone: "02-123-4567",
+  contactFax: "02-123-4568",
+  contactEmail: "somchai.j@example.co.th",
+  // DOA registration
   doaRegNo: "",
   doaExpiry: "",
+  // มาตรฐาน GMP (จาก DOA)
+  gmpCertBody: "",
+  gmpCertNo: "",
+  gmpExpiry: "",
+  // มาตรฐาน HACCP (จาก DOA)
+  haccpCertBody: "",
+  haccpCertNo: "",
+  haccpExpiry: "",
 });
 
-const historyStandards = ref([
-  { name: "", certBody: "", certNo: "", expiry: "" },
-]);
+// DOA search (history form)
+const histDoaSearchNo = ref("");
+const histDoaSearchLoading = ref(false);
+const histDoaSearchResult = ref(null);
+const histDoaSearchNotFound = ref(false);
+const histDoaSelected = ref(null);
+
+const histDoaMockDB = {
+  "DOA-2568-12345": {
+    regNo: "DOA-2568-12345",
+    expiryDate: "31/12/2570",
+    isExpired: false,
+    factoryNameTh: "บริษัท สยามเฟรชฟู้ด จำกัด",
+    factoryNameEn: "SIAM FRESH FOOD CO., LTD.",
+    houseNo: "88",
+    alley: "ซอยลาดพร้าว 101",
+    road: "ถนนลาดพร้าว",
+    tambol: "คลองจั่น",
+    district: "บางกะปิ",
+    province: "กรุงเทพมหานคร",
+    zipcode: "10240",
+    houseNoEn: "88",
+    alleyEn: "SOI LADPRAO 101",
+    roadEn: "LADPRAO ROAD",
+    tambolEn: "KHLONG CHAN",
+    districtEn: "BANG KAPI",
+    provinceEn: "BANGKOK",
+    zipcodeEn: "10240",
+    phone: "02-000-0001",
+    fax: "02-000-0002",
+    email: "factory@siamfresh.com",
+    standards: [
+      {
+        name: "GMP",
+        certBody: "กรมวิชาการเกษตร",
+        certNo: "GMP-2568-001",
+        expiry: "31/12/2570",
+      },
+      {
+        name: "HACCP",
+        certBody: "กรมวิชาการเกษตร",
+        certNo: "HACCP-2568-001",
+        expiry: "31/12/2570",
+      },
+    ],
+  },
+  "DOA-2568-99999": {
+    regNo: "DOA-2568-99999",
+    expiryDate: "01/01/2567",
+    isExpired: true,
+    factoryNameTh: "บริษัท เกษตรไทย เอ็กซ์พอร์ต จำกัด",
+    factoryNameEn: "KASET THAI EXPORT CO., LTD.",
+    houseNo: "123",
+    alley: "",
+    road: "ถนนพหลโยธิน",
+    tambol: "ลาดยาว",
+    district: "จตุจักร",
+    province: "กรุงเทพมหานคร",
+    zipcode: "10900",
+    houseNoEn: "123",
+    alleyEn: "",
+    roadEn: "PHAHON YOTHIN ROAD",
+    tambolEn: "LAT YAO",
+    districtEn: "CHATUCHAK",
+    provinceEn: "BANGKOK",
+    zipcodeEn: "10900",
+    phone: "02-111-2222",
+    fax: "02-111-2223",
+    email: "export@kasethai.co.th",
+    standards: [
+      {
+        name: "GMP",
+        certBody: "กรมวิชาการเกษตร",
+        certNo: "GMP-2566-099",
+        expiry: "01/01/2567",
+      },
+    ],
+  },
+};
+
+function searchHistDoa() {
+  if (!histDoaSearchNo.value.trim()) return;
+  histDoaSearchLoading.value = true;
+  histDoaSearchResult.value = null;
+  histDoaSearchNotFound.value = false;
+  histDoaSelected.value = null;
+  setTimeout(() => {
+    const found = histDoaMockDB[histDoaSearchNo.value.trim().toUpperCase()];
+    if (found) {
+      histDoaSearchResult.value = found;
+    } else {
+      histDoaSearchNotFound.value = true;
+    }
+    histDoaSearchLoading.value = false;
+  }, 600);
+}
+
+// DOA view dialog
+const histDoaViewDialog = ref(false);
+const histDoaViewTarget = ref(null);
+
+function openHistDoaViewDialog(data) {
+  histDoaViewTarget.value = data;
+  histDoaViewDialog.value = true;
+}
+
+function selectHistDoaFromDialog() {
+  if (!histDoaViewTarget.value) return;
+  histDoaSearchResult.value = histDoaViewTarget.value;
+  histDoaViewDialog.value = false;
+  selectHistDoa();
+}
+
+function downloadHistDoaPdf() {
+  // Mock — จะเชื่อม API จริงในภายหลัง
+  const link = document.createElement("a");
+  link.href = "#";
+  link.download = `DOA_${histDoaViewTarget.value?.regNo ?? "certificate"}.pdf`;
+  link.click();
+}
+
+function clearHistDoa() {
+  histDoaSelected.value = null;
+  histDoaSearchNo.value = "";
+  histDoaSearchNotFound.value = false;
+  const f = historyFactory;
+  f.nameTh = "";
+  f.nameEn = "";
+  f.houseNo = "";
+  f.alley = "";
+  f.road = "";
+  f.tambol = "";
+  f.district = "";
+  f.province = "";
+  f.zipcode = "";
+  f.houseNoEn = "";
+  f.alleyEn = "";
+  f.roadEn = "";
+  f.tambolEn = "";
+  f.districtEn = "";
+  f.provinceEn = "";
+  f.zipcodeEn = "";
+  f.phone = "";
+  f.fax = "";
+  f.email = "";
+  f.doaRegNo = "";
+  f.doaExpiry = "";
+  f.gmpCertBody = "";
+  f.gmpCertNo = "";
+  f.gmpExpiry = "";
+  f.haccpCertBody = "";
+  f.haccpCertNo = "";
+  f.haccpExpiry = "";
+}
+
+function selectHistDoa() {
+  if (!histDoaSearchResult.value) return;
+  histDoaSelected.value = { ...histDoaSearchResult.value };
+  histDoaSearchResult.value = null;
+  const d = histDoaSelected.value;
+  historyFactory.nameTh = d.factoryNameTh;
+  historyFactory.nameEn = d.factoryNameEn;
+  historyFactory.houseNo = d.houseNo;
+  historyFactory.alley = d.alley;
+  historyFactory.road = d.road;
+  historyFactory.tambol = d.tambol;
+  historyFactory.district = d.district;
+  historyFactory.province = d.province;
+  historyFactory.zipcode = d.zipcode;
+  historyFactory.houseNoEn = d.houseNoEn;
+  historyFactory.alleyEn = d.alleyEn;
+  historyFactory.roadEn = d.roadEn;
+  historyFactory.tambolEn = d.tambolEn;
+  historyFactory.districtEn = d.districtEn;
+  historyFactory.provinceEn = d.provinceEn;
+  historyFactory.zipcodeEn = d.zipcodeEn;
+  historyFactory.phone = d.phone;
+  historyFactory.fax = d.fax;
+  historyFactory.email = d.email;
+  historyFactory.doaRegNo = d.regNo;
+  historyFactory.doaExpiry = d.expiryDate;
+  const gmp = d.standards?.find((s) => s.name === "GMP");
+  if (gmp) {
+    historyFactory.gmpCertBody = gmp.certBody;
+    historyFactory.gmpCertNo = gmp.certNo;
+    historyFactory.gmpExpiry = gmp.expiry;
+  }
+  const haccp = d.standards?.find((s) => s.name === "HACCP");
+  if (haccp) {
+    historyFactory.haccpCertBody = haccp.certBody;
+    historyFactory.haccpCertNo = haccp.certNo;
+    historyFactory.haccpExpiry = haccp.expiry;
+  }
+}
 
 const historyExtraStandards = ref([]);
 
-const historyExporter = reactive({
+const historyCompany = reactive({
+  companyNameTh: "บริษัท ไทยเฟรช เอ็กซ์พอร์ต จำกัด",
+  companyNameEn: "THAI FRESH EXPORT CO., LTD.",
+  houseNo: "88",
+  alley: "ซอยลาดพร้าว 101",
+  road: "ถนนลาดพร้าว",
+  tambol: "คลองจั่น",
+  district: "บางกะปิ",
+  province: "กรุงเทพมหานคร",
+  zipcode: "10240",
+  houseNoEn: "88",
+  alleyEn: "SOI LADPRAO 101",
+  roadEn: "LADPRAO ROAD",
+  tambolEn: "KHLONG CHAN",
+  districtEn: "BANG KAPI",
+  provinceEn: "BANGKOK",
+  zipcodeEn: "10240",
+  phone: "02-987-6543",
+  fax: "",
+  email: "info@thaifreshexport.co.th",
+});
+
+const historyProducerContact = reactive({
   name: "",
-  address: "",
+  position: "",
   phone: "",
   fax: "",
   email: "",
-  contactName: "",
-  contactPosition: "",
-  contactPhone: "",
-  contactFax: "",
 });
 
-const historyProducts = ref([
-  { productName: "", countries: [], standard: "", tests: [] },
-]);
-
-const testItems = [
-  "Sulfites",
-  "Total Plate Count",
-  "Total Mold Count",
-  "Escherichia coli",
-  "Staphylococcus aureus",
-  "Salmonella spp.",
-  "Clostridium perfringens",
-  "Bacillus cereus",
+// ชุดรายการทดสอบ + เกณฑ์ ตามลำดับที่มาตรฐานกรมวิชาการเกษตร (mock)
+// แต่ละรายการ: { name, criteria }
+const _doaSets = {
+  micro_basic: [
+    { name: "Sulfites", criteria: "ไม่เกิน 10 mg/kg" },
+    { name: "Total Plate Count", criteria: "ไม่เกิน 1×10⁵ CFU/g" },
+    { name: "Total Mold Count", criteria: "ไม่เกิน 1×10³ CFU/g" },
+    { name: "Escherichia coli", criteria: "ไม่เกิน 10 CFU/g" },
+  ],
+  micro_pathogen: [
+    { name: "Total Plate Count", criteria: "ไม่เกิน 1×10⁵ CFU/g" },
+    { name: "Salmonella spp.", criteria: "ต้องไม่พบใน 25 g" },
+    { name: "Staphylococcus aureus", criteria: "ไม่เกิน 100 CFU/g" },
+    { name: "Listeria monocytogenes", criteria: "ต้องไม่พบใน 25 g" },
+  ],
+  heavy_metals: [
+    { name: "Lead (Pb)", criteria: "ไม่เกิน 0.1 mg/kg" },
+    { name: "Cadmium (Cd)", criteria: "ไม่เกิน 0.05 mg/kg" },
+    { name: "Mercury (Hg)", criteria: "ไม่เกิน 0.02 mg/kg" },
+    { name: "Arsenic (As)", criteria: "ไม่เกิน 0.1 mg/kg" },
+    { name: "Total Plate Count", criteria: "ไม่เกิน 1×10⁵ CFU/g" },
+  ],
+  pesticides: [
+    {
+      name: "Pesticide Residues (organochlorine)",
+      criteria: "ไม่เกิน 0.01 mg/kg",
+    },
+    {
+      name: "Pesticide Residues (organophosphate)",
+      criteria: "ไม่เกิน 0.01 mg/kg",
+    },
+    { name: "Sulfites", criteria: "ไม่เกิน 10 mg/kg" },
+    { name: "Salmonella spp.", criteria: "ต้องไม่พบใน 25 g" },
+  ],
+  full_panel: [
+    { name: "Total Plate Count", criteria: "ไม่เกิน 1×10⁵ CFU/g" },
+    { name: "Total Mold Count", criteria: "ไม่เกิน 1×10³ CFU/g" },
+    { name: "Escherichia coli", criteria: "ไม่เกิน 10 CFU/g" },
+    { name: "Salmonella spp.", criteria: "ต้องไม่พบใน 25 g" },
+    { name: "Staphylococcus aureus", criteria: "ไม่เกิน 100 CFU/g" },
+    { name: "Lead (Pb)", criteria: "ไม่เกิน 0.1 mg/kg" },
+    { name: "Cadmium (Cd)", criteria: "ไม่เกิน 0.05 mg/kg" },
+    { name: "Sulfites", criteria: "ไม่เกิน 10 mg/kg" },
+  ],
+};
+const _setKeys = [
+  "micro_basic",
+  "micro_pathogen",
+  "heavy_metals",
+  "pesticides",
+  "full_panel",
 ];
+const doaTestsByOrderNo = Object.fromEntries(
+  Array.from({ length: 30 }, (_, i) => [
+    i + 1,
+    _doaSets[_setKeys[i % 5]].map((t) => ({ ...t })),
+  ]),
+);
 
-function addHistoryStandard() {
-  historyStandards.value.push({
-    name: "",
-    certBody: "",
-    certNo: "",
-    expiry: "",
-  });
-}
-function removeHistoryStandard(idx) {
-  if (historyStandards.value.length > 1) historyStandards.value.splice(idx, 1);
-}
-function addHistoryExtraStandard() {
-  historyExtraStandards.value.push({
-    name: "",
-    certBody: "",
-    certNo: "",
-    expiry: "",
-  });
-}
+const historyProducts = ref([]);
+
 function removeHistoryExtraStandard(idx) {
   historyExtraStandards.value.splice(idx, 1);
 }
-function addHistoryProduct() {
-  historyProducts.value.push({
-    productName: "",
-    countries: [],
-    standard: "",
-    tests: [],
-  });
+
+const extraStdDialog = ref(false);
+const extraStdForm = reactive({
+  name: "",
+  certBody: "",
+  certNo: "",
+  expiry: "",
+});
+const extraStdErrors = reactive({
+  name: false,
+  certBody: false,
+  certNo: false,
+  expiry: false,
+});
+
+function openExtraStdDialog() {
+  extraStdForm.name = "";
+  extraStdForm.certBody = "";
+  extraStdForm.certNo = "";
+  extraStdForm.expiry = "";
+  extraStdErrors.name = false;
+  extraStdErrors.certBody = false;
+  extraStdErrors.certNo = false;
+  extraStdErrors.expiry = false;
+  extraStdExpiryObj.value = null;
+  extraStdDialog.value = true;
 }
+
+function confirmExtraStd() {
+  extraStdErrors.name = !extraStdForm.name.trim();
+  extraStdErrors.certBody = !extraStdForm.certBody.trim();
+  extraStdErrors.certNo = !extraStdForm.certNo.trim();
+  extraStdErrors.expiry = !extraStdForm.expiry.trim();
+  if (
+    extraStdErrors.name ||
+    extraStdErrors.certBody ||
+    extraStdErrors.certNo ||
+    extraStdErrors.expiry
+  )
+    return;
+  historyExtraStandards.value.push({ ...extraStdForm });
+  extraStdDialog.value = false;
+}
+
+// --- Datepicker helpers ---
+function dateObjToBE(date) {
+  if (!date) return "";
+  const d = String(date.getDate()).padStart(2, "0");
+  const m = String(date.getMonth() + 1).padStart(2, "0");
+  const y = date.getFullYear() + 543;
+  return `${d}/${m}/${y}`;
+}
+
+// Extra standard expiry datepicker
+const extraStdExpiryMenu = ref(false);
+const extraStdExpiryObj = ref(null);
+watch(extraStdExpiryObj, (date) => {
+  extraStdForm.expiry = dateObjToBE(date);
+});
+const productTableHeaders = [
+  { title: "ชื่อสินค้า", key: "productName", sortable: false },
+  { title: "ประเทศปลายทาง", key: "countries", sortable: false },
+  { title: "มาตรฐาน", key: "standardType", sortable: false },
+  { title: "รายการทดสอบ", key: "tests", sortable: false },
+  { title: "", key: "actions", sortable: false, align: "end" },
+];
+
+const productDialog = ref(false);
+const productDialogMode = ref("add"); // "add" | "edit"
+const productDialogIdx = ref(-1);
+const productForm = reactive({
+  productName: "",
+  countries: [],
+  standardTypes: [],
+  doaOrderNo: null,
+  doaTests: [], // [{ name, criteria }] — auto-fill จากลำดับที่ แต่แก้ไขได้
+  otherStandards: [], // [{ name: string, tests: [{ name, criteria }] }]
+});
+
+const doaOrderNoItems = Array.from({ length: 30 }, (_, i) => i + 1);
+
+// เมื่อเปลี่ยนลำดับที่ → auto-populate doaTests
+watch(
+  () => productForm.doaOrderNo,
+  (val) => {
+    productForm.doaTests = val
+      ? doaTestsByOrderNo[val].map((t) => ({ ...t }))
+      : [];
+  },
+);
+
+// inline add — DOA test เพิ่มเติม
+const doaTestEntry = reactive({ name: "", criteria: "" });
+
+function addDoaTest() {
+  if (!doaTestEntry.name.trim()) return;
+  productForm.doaTests.push({
+    name: doaTestEntry.name.trim(),
+    criteria: doaTestEntry.criteria.trim(),
+  });
+  doaTestEntry.name = "";
+  doaTestEntry.criteria = "";
+}
+
+function removeDoaTest(idx) {
+  productForm.doaTests.splice(idx, 1);
+}
+
+// draft form สำหรับสร้างชุดมาตรฐานอื่นๆ ใหม่
+const otherStdDraft = reactive({ name: "", tests: [] }); // tests: [{ name, criteria }]
+const otherTestDraft = reactive({ name: "", criteria: "" });
+
+function addToOtherStdDraft() {
+  if (!otherTestDraft.name.trim()) return;
+  otherStdDraft.tests.push({
+    name: otherTestDraft.name.trim(),
+    criteria: otherTestDraft.criteria.trim(),
+  });
+  otherTestDraft.name = "";
+  otherTestDraft.criteria = "";
+}
+
+function removeFromOtherStdDraft(idx) {
+  otherStdDraft.tests.splice(idx, 1);
+}
+
+function commitOtherStd() {
+  if (!otherStdDraft.name.trim()) return;
+  productForm.otherStandards.push({
+    name: otherStdDraft.name.trim(),
+    tests: [...otherStdDraft.tests],
+  });
+  otherStdDraft.name = "";
+  otherStdDraft.tests = [];
+  otherTestDraft.name = "";
+  otherTestDraft.criteria = "";
+}
+
+function removeOtherStandard(idx) {
+  productForm.otherStandards.splice(idx, 1);
+}
+
+function removeOtherStandardTest(si, ti) {
+  productForm.otherStandards[si].tests.splice(ti, 1);
+}
+
+function addTestToSavedStandard(si, std) {
+  if (!std._newTestName?.trim()) return;
+  std.tests.push({
+    name: std._newTestName.trim(),
+    criteria: std._newTestCriteria?.trim() ?? "",
+  });
+  std._newTestName = "";
+  std._newTestCriteria = "";
+}
+
+function openAddProductDialog() {
+  productForm.productName = "";
+  productForm.countries = [];
+  productForm.standardTypes = [];
+  productForm.doaOrderNo = null;
+  productForm.doaTests = [];
+  productForm.otherStandards = [];
+  doaTestEntry.name = "";
+  doaTestEntry.criteria = "";
+  otherStdDraft.name = "";
+  otherStdDraft.tests = [];
+  otherTestDraft.name = "";
+  otherTestDraft.criteria = "";
+  productDialogMode.value = "add";
+  productDialogIdx.value = -1;
+  productDialog.value = true;
+}
+
+function openEditProductDialog(idx) {
+  const p = historyProducts.value[idx];
+  productForm.productName = p.productName;
+  productForm.countries = [...p.countries];
+  productForm.standardTypes = [...p.standardTypes];
+  productForm.doaOrderNo = p.doaOrderNo ?? null;
+  productForm.doaTests = p.doaTests ? p.doaTests.map((t) => ({ ...t })) : [];
+  productForm.otherStandards = p.otherStandards
+    ? p.otherStandards.map((s) => ({ ...s, tests: [...s.tests] }))
+    : [];
+  doaTestEntry.name = "";
+  doaTestEntry.criteria = "";
+  otherStdDraft.name = "";
+  otherStdDraft.tests = [];
+  otherTestDraft.name = "";
+  otherTestDraft.criteria = "";
+  productDialogMode.value = "edit";
+  productDialogIdx.value = idx;
+  productDialog.value = true;
+}
+
+function confirmProductDialog() {
+  if (productForm.standardTypes.length === 0) return;
+  const hasDoa = productForm.standardTypes.includes("doa");
+  const entry = {
+    productName: productForm.productName,
+    countries: [...productForm.countries],
+    standardTypes: [...productForm.standardTypes],
+    doaOrderNo: hasDoa ? productForm.doaOrderNo : null,
+    doaTests: hasDoa ? productForm.doaTests.map((t) => ({ ...t })) : [],
+    otherStandards: productForm.standardTypes.includes("other")
+      ? productForm.otherStandards.map((s) => ({ ...s, tests: [...s.tests] }))
+      : [],
+  };
+  if (productDialogMode.value === "add") {
+    historyProducts.value.push(entry);
+  } else {
+    historyProducts.value[productDialogIdx.value] = entry;
+  }
+  productDialog.value = false;
+}
+
 function removeHistoryProduct(idx) {
-  if (historyProducts.value.length > 1) historyProducts.value.splice(idx, 1);
+  historyProducts.value.splice(idx, 1);
 }
 
 const amendItems = [
@@ -6713,12 +9200,36 @@ function submitApplication() {
   confirmDialog.value = false;
   successDialog.value = true;
 }
+
+onMounted(() => {
+  if (route.params.type === "history") {
+    refreshHistoryFactory();
+  }
+});
 </script>
 
 <style scoped>
 /* Document / upload row */
 .item-row {
   background: rgba(var(--v-theme-hcex-user), 0.03);
+}
+
+/* Test table */
+.test-table {
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+.test-table th,
+.test-table td {
+  border-top: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
+}
+.test-table thead tr th {
+  border-top: none;
+  background: rgba(var(--v-theme-surface-variant), 0.5);
+}
+.test-table tr.add-row td {
+  border-top: 1px dashed rgba(var(--v-border-color), var(--v-border-opacity));
+  background: rgba(var(--v-theme-surface-variant), 0.25);
 }
 
 .step-done,

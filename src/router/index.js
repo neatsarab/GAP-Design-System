@@ -921,6 +921,18 @@ const routes = [
         meta: { title: "ติดตามสถานะคำขอผู้ส่งออก" },
       },
       {
+        path: "history",
+        name: "HCEXUserHistory",
+        component: () => import("@/views/hcex/user/HistoryPage.vue"),
+        meta: { title: "ทะเบียนประวัติ" },
+      },
+      {
+        path: "lab-results",
+        name: "HCEXUserLabResults",
+        component: () => import("@/views/hcex/user/LabResultPage.vue"),
+        meta: { title: "ผล LAB" },
+      },
+      {
         path: "certificates",
         name: "HCEXUserCertificates",
         component: () => import("@/views/hcex/user/CertificatePage.vue"),

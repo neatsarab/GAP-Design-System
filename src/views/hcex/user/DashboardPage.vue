@@ -16,6 +16,76 @@
       </v-btn>
     </div>
 
+    <!-- ทะเบียนประวัติ summary -->
+    <v-card
+      rounded="xl"
+      elevation="0"
+      class="mb-6"
+      :style="
+        historyStatus === 'approved'
+          ? 'border: 1.5px solid rgba(var(--v-theme-success), 0.35)'
+          : historyStatus === null
+            ? 'border: 1.5px solid rgba(var(--v-theme-warning), 0.35)'
+            : 'border: 1.5px solid rgba(var(--v-theme-info), 0.35)'
+      "
+    >
+      <v-card-text class="pa-4">
+        <div class="d-flex align-center justify-space-between flex-wrap ga-3">
+          <div class="d-flex align-center ga-3">
+            <v-avatar
+              :color="historyStatus === 'approved' ? 'success' : historyStatus === null ? 'warning' : 'info'"
+              variant="tonal"
+              size="44"
+              rounded="lg"
+            >
+              <v-icon icon="fas fa-clock-rotate-left" size="20" />
+            </v-avatar>
+            <div>
+              <div class="text-body-2 font-weight-bold mb-1">ทะเบียนประวัติ</div>
+              <div v-if="historyStatus === 'approved'" class="text-body-2 text-medium-emphasis">
+                HIST-2568-00001 · อนุมัติแล้ว
+              </div>
+              <div v-else-if="historyStatus === null" class="text-body-2 text-medium-emphasis">
+                ยังไม่มีทะเบียนประวัติในระบบ
+              </div>
+              <div v-else class="text-body-2 text-medium-emphasis">
+                อยู่ระหว่างดำเนินการ
+              </div>
+            </div>
+          </div>
+          <div class="d-flex align-center ga-2">
+            <v-chip
+              v-if="historyStatus === 'approved'"
+              color="success"
+              variant="tonal"
+              size="small"
+              prepend-icon="fas fa-circle-check"
+            >
+              อนุมัติแล้ว
+            </v-chip>
+            <v-chip
+              v-else-if="historyStatus === null"
+              color="warning"
+              variant="tonal"
+              size="small"
+              prepend-icon="fas fa-triangle-exclamation"
+            >
+              ยังไม่ได้ขึ้นทะเบียน
+            </v-chip>
+            <v-btn
+              :color="historyStatus === 'approved' ? 'success' : 'warning'"
+              variant="tonal"
+              size="small"
+              append-icon="fas fa-arrow-right"
+              @click="goToHistory"
+            >
+              {{ historyStatus === null ? "ขึ้นทะเบียนประวัติ" : "ดูทะเบียนประวัติ" }}
+            </v-btn>
+          </div>
+        </div>
+      </v-card-text>
+    </v-card>
+
     <v-row class="mb-6">
       <v-col v-for="stat in stats" :key="stat.label" cols="12" sm="6" md="3">
         <AppStatCard v-bind="stat" />
@@ -124,13 +194,25 @@
 </template>
 
 <script setup>
+import { ref } from "vue";
 import { useRouter } from "vue-router";
 import AppStatCard from "@/components/common/AppStatCard.vue";
 
 const router = useRouter();
 
+// mock — จะเชื่อม API จริงในภายหลัง ("approved" | "pending" | null)
+const historyStatus = ref("approved");
+
 function goToNewApplication() {
   router.push({ name: "HCEXUserApplicationType" });
+}
+
+function goToHistory() {
+  if (historyStatus.value === null) {
+    router.push({ name: "HCEXUserNewApplication", params: { type: "history" } });
+  } else {
+    router.push({ name: "HCEXUserHistory" });
+  }
 }
 
 function goToApplicationList() {

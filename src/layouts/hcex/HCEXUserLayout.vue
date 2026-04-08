@@ -335,7 +335,7 @@ const navGroups = [
   },
   {
     label: "การยื่นคำขอ",
-    divider: true,
+    divider: false,
     items: [
       {
         title: "ยื่นคำขอใหม่",
@@ -350,7 +350,23 @@ const navGroups = [
     ],
   },
   {
-    label: "ใบทะเบียน",
+    label: "ทะเบียนและผลตรวจ",
+    divider: true,
+    items: [
+      {
+        title: "ทะเบียนประวัติ",
+        icon: "fas fa-clock-rotate-left",
+        to: "/hcex/user/history",
+      },
+      {
+        title: "ผล LAB",
+        icon: "fas fa-flask",
+        to: "/hcex/user/lab-results",
+      },
+    ],
+  },
+  {
+    label: "ใบรับรอง",
     divider: false,
     items: [
       {
