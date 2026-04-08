@@ -45,25 +45,6 @@
               </v-chip>
             </div>
 
-            <p class="text-body-2 text-medium-emphasis mb-5">
-              {{ appType.description }}
-            </p>
-
-            <v-list
-              density="compact"
-              class="w-100 text-left mb-6 bg-transparent pa-0"
-            >
-              <v-list-item
-                v-for="f in appType.features"
-                :key="f"
-                prepend-icon="fas fa-circle-check"
-                :title="f"
-                :base-color="appType.color"
-                class="px-0"
-                density="compact"
-              />
-            </v-list>
-
             <v-btn
               :color="appType.color"
               block
@@ -114,13 +95,6 @@ const appTypes = [
     badge: null,
     icon: "fas fa-file-circle-plus",
     color: "primary",
-    description:
-      "ยื่นคำขอขึ้นทะเบียนเป็นผู้ส่งออกพืช/สินค้าเกษตร สำหรับผู้ประกอบการรายใหม่ที่ยังไม่เคยขึ้นทะเบียน",
-    features: [
-      "ขึ้นทะเบียนสถานประกอบการ",
-      "รองรับการส่งออกหลายประเทศ",
-      "จัดการข้อมูลผู้ส่งออก",
-    ],
   },
   {
     key: "amendment",
@@ -128,13 +102,6 @@ const appTypes = [
     badge: null,
     icon: "fas fa-file-pen",
     color: "warning",
-    description:
-      "สำหรับผู้ส่งออกที่ได้รับการอนุมัติแล้ว และต้องการแก้ไขข้อมูลในใบทะเบียนที่มีอยู่",
-    features: [
-      "แก้ไขข้อมูลในใบทะเบียน",
-      "แก้ไขข้อมูลที่อยู่สถานประกอบการ",
-      "แก้ไขชนิดพืช",
-    ],
   },
 ];
 </script>

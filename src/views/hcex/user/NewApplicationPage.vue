@@ -7098,7 +7098,7 @@
           </v-card-text>
         </v-card>
 
-        <!-- 14. รายการทดสอบ (auto display) -->
+        <!-- 14. รายการทดสอบ (auto display + user result input) -->
         <v-card elevation="0" border rounded="xl" class="mb-5">
           <div class="d-flex align-center ga-2 px-4 py-3 border-b">
             <v-icon icon="fas fa-list-check" color="hcex-user" size="15" />
@@ -7118,27 +7118,45 @@
               class="mb-4"
               prepend-icon="fas fa-circle-info"
             >
-              รายการทดสอบถูกกำหนดอัตโนมัติตามประเทศปลายทาง มาตรฐานสินค้า
-              และข้อมูลทะเบียนประวัติ — ไม่สามารถแก้ไขได้
+              รายการทดสอบและเกณฑ์ถูกกำหนดอัตโนมัติตามประเทศปลายทางและมาตรฐานสินค้า
+              — กรุณาระบุผลการทดสอบในช่องด้านขวา
             </v-alert>
-            <v-list density="compact" class="bg-transparent pa-0">
-              <v-list-item
-                v-for="item in autoTestItems"
-                :key="item.name"
-                prepend-icon="fas fa-circle-check"
-                base-color="hcex-user"
-                class="px-0"
-              >
-                <template #title>
-                  <span class="text-body-2 font-weight-medium">{{
-                    item.name
-                  }}</span>
-                </template>
-                <template #subtitle>
-                  <span class="text-caption">{{ item.criteria }}</span>
-                </template>
-              </v-list-item>
-            </v-list>
+            <v-table density="compact" class="rounded-lg border">
+              <thead>
+                <tr>
+                  <th class="text-left text-caption font-weight-medium text-medium-emphasis px-3 py-2" style="width: 35%">
+                    รายการทดสอบ
+                  </th>
+                  <th class="text-left text-caption font-weight-medium text-medium-emphasis px-3 py-2" style="width: 30%">
+                    เกณฑ์
+                  </th>
+                  <th class="text-left text-caption font-weight-medium text-medium-emphasis px-3 py-2" style="width: 35%">
+                    ผลการทดสอบ <span class="text-error">*</span>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="item in autoTestItems" :key="item.name">
+                  <td class="px-3 py-2">
+                    <span class="text-body-2 font-weight-medium">{{ item.name }}</span>
+                  </td>
+                  <td class="px-3 py-2">
+                    <span class="text-body-2 text-medium-emphasis">{{ item.criteria }}</span>
+                  </td>
+                  <td class="px-3 py-2">
+                    <v-text-field
+                      v-model="item.result"
+                      density="compact"
+                      variant="outlined"
+                      rounded="lg"
+                      hide-details
+                      placeholder="ระบุผลการทดสอบ"
+                      class="text-body-2"
+                    />
+                  </td>
+                </tr>
+              </tbody>
+            </v-table>
           </v-card-text>
         </v-card>
 
@@ -8534,16 +8552,16 @@ const labCountryOptions = [
   "อื่นๆ (ระบุ)",
 ];
 
-const autoTestItems = [
-  { name: "Sulfites", criteria: "≤ 30 mg/kg" },
-  { name: "Total Plate Count", criteria: "≤ 1.0 × 10⁶ CFU/g" },
-  { name: "Total Mold Count", criteria: "≤ 1.0 × 10² CFU/g" },
-  { name: "Escherichia coli", criteria: "≤ 3.0 MPN/g" },
-  { name: "Staphylococcus aureus", criteria: "ND in 0.1 g" },
-  { name: "Salmonella spp.", criteria: "ND in 25 g" },
-  { name: "Clostridium perfringens", criteria: "≤ 1.0 × 10³ CFU/g" },
-  { name: "Bacillus cereus", criteria: "≤ 1.0 × 10³ CFU/g" },
-];
+const autoTestItems = ref([
+  { name: "Sulfites", criteria: "≤ 30 mg/kg", result: "" },
+  { name: "Total Plate Count", criteria: "≤ 1.0 × 10⁶ CFU/g", result: "" },
+  { name: "Total Mold Count", criteria: "≤ 1.0 × 10² CFU/g", result: "" },
+  { name: "Escherichia coli", criteria: "≤ 3.0 MPN/g", result: "" },
+  { name: "Staphylococcus aureus", criteria: "ND in 0.1 g", result: "" },
+  { name: "Salmonella spp.", criteria: "ND in 25 g", result: "" },
+  { name: "Clostridium perfringens", criteria: "≤ 1.0 × 10³ CFU/g", result: "" },
+  { name: "Bacillus cereus", criteria: "≤ 1.0 × 10³ CFU/g", result: "" },
+]);
 
 const labDocs = [
   { key: "lab_test_report", label: "ผล Test Report", optional: false },
@@ -9032,7 +9050,7 @@ function removeOtherStandardTest(si, ti) {
   productForm.otherStandards[si].tests.splice(ti, 1);
 }
 
-function addTestToSavedStandard(si, std) {
+function addTestToSavedStandard(_si, std) {
   if (!std._newTestName?.trim()) return;
   std.tests.push({
     name: std._newTestName.trim(),

@@ -326,36 +326,36 @@ const navGroups = [
     label: "คำขอ",
     divider: true,
     items: [
-      // {
-      //   title: "คำขอทะเบียนประวัติ",
-      //   icon: "fas fa-clock-rotate-left",
-      //   to: "/hcex/staff/history-applications",
-      //   count: 5,
-      // },
-      // {
-      //   title: "คำขอพิจารณาผล Lab",
-      //   icon: "fas fa-flask",
-      //   to: "/hcex/staff/lab-applications",
-      //   count: 6,
-      // },
+      {
+        title: "คำขอทะเบียนประวัติ",
+        icon: "fas fa-clock-rotate-left",
+        to: "/hcex/staff/history-applications",
+        count: 5,
+      },
+      {
+        title: "คำขอพิจารณาผล Lab",
+        icon: "fas fa-flask",
+        to: "/hcex/staff/lab-applications",
+        count: 6,
+      },
       {
         title: "รายการคำขอ",
         icon: "fas fa-file-lines",
         to: "/hcex/staff/applications",
         count: 11,
       },
-      // {
-      //   title: "รายการรอพิจารณา",
-      //   icon: "fas fa-clipboard-check",
-      //   to: "/hcex/staff/reviews",
-      //   count: 2,
-      // },
-      // {
-      //   title: "รายการรอลงนาม",
-      //   icon: "fas fa-pen-nib",
-      //   to: "/hcex/staff/signing",
-      //   count: 1,
-      // },
+      {
+        title: "รายการรอพิจารณา",
+        icon: "fas fa-clipboard-check",
+        to: "/hcex/staff/reviews",
+        count: 2,
+      },
+      {
+        title: "รายการรอลงนาม",
+        icon: "fas fa-pen-nib",
+        to: "/hcex/staff/signing",
+        count: 1,
+      },
     ],
   },
   {
