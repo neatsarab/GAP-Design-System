@@ -57,7 +57,7 @@ const routes = [
         meta: { title: "Design System" },
     },
 
-    // ── GAP Staff System ─────────────────────────────
+    // ── GAP System ────────────────────────────────────
     {
         path: "/gap/staff",
         component: () => import("@/layouts/gap/GAPStaffLayout.vue"),
@@ -72,8 +72,7 @@ const routes = [
             {
                 path: "applications/new",
                 name: "staffNewApplicationForm",
-                component: () =>
-                    import("@/views/gap/staff/StaffNewApplicationPage.vue"),
+                component: () => import("@/views/gap/staff/StaffNewApplicationPage.vue"),
                 meta: { title: "ยื่นคำขอใหม่" },
             },
             {
@@ -85,8 +84,7 @@ const routes = [
             {
                 path: "applications/:id",
                 name: "staffApplicationDetail",
-                component: () =>
-                    import("@/views/gap/staff/ApplicationDetailPage.vue"),
+                component: () => import("@/views/gap/staff/ApplicationDetailPage.vue"),
                 meta: { title: "รายละเอียดคำขอ GAP" },
             },
             {
@@ -98,20 +96,32 @@ const routes = [
             {
                 path: "inspection-results",
                 name: "staffInspectionResults",
-                component: () => import("@/views/gap/staff/ApplicationListPage.vue"),
+                component: () => import("@/views/gap/staff/InspectionResultsListPage.vue"),
                 meta: { title: "บันทึกผลตรวจแปลง", statusFilter: "inspected" },
+            },
+            {
+                path: "inspection-results/:id",
+                name: "staffInspectionResultDetail",
+                component: () => import("@/views/gap/staff/InspectionResultsDetailPage.vue"),
+                meta: { title: "รายละเอียดผลตรวจแปลง" },
             },
             {
                 path: "propose-cc",
                 name: "staffProposeCC",
-                component: () => import("@/views/gap/staff/ApplicationListPage.vue"),
+                component: () => import("@/views/gap/staff/ProposeListPage.vue"),
                 meta: { title: "เสนอแปลงต่อ CC", statusFilter: "pending_cc" },
             },
             {
                 path: "cc-results",
                 name: "staffCCResults",
-                component: () => import("@/views/gap/staff/ApplicationListPage.vue"),
-                meta: { title: "บันทึกผลจาก CC", statusFilter: "cc_reviewing" },
+                component: () => import("@/views/gap/staff/ResultsCCPage.vue"),
+                meta: { title: "บันทึกครั้งที่เสนอ CC", statusFilter: "cc_reviewing" },
+            },
+            {
+                path: "cc-saveresults",
+                name: "staffSaveCCResults",
+                component: () => import("@/views/gap/staff/ResultsSaveCCPage.vue"),
+                meta: { title: "บันทึกผลจาก CC", statusFilter: "cc_savereviewing" },
             },
             {
                 path: "certificates",
@@ -119,10 +129,26 @@ const routes = [
                 component: () => import("@/views/gap/staff/CertificatePage.vue"),
                 meta: { title: "ข้อมูลใบรับรอง GAP" },
             },
+            {
+                path: "notifications",
+                name: "staffNotifications",
+                component: () => import("@/views/gap/staff/NotificationPage.vue"),
+                meta: { title: "การแจ้งเตือน" },
+            },
+            {
+                path: "previsit-appointment",
+                name: "staffPrevisitAppointment",
+                component: () => import("@/views/gap/staff/PrevisitAppointmentPage.vue"),
+                meta: { title: "นัดหมายการตรวจเยี่ยม Previsit" },
+            },
+            {
+                path: "previsit-results",
+                name: "staffPrevisitResults",
+                component: () => import("@/views/gap/staff/ResultsPrevisitAppointmentPage.vue"),
+                meta: { title: "ผลการตรวจเยี่ยม Previsit", statusFilter: "previsit_completed" },
+            },
         ],
     },
-
-    // ── GAP User System ───────────────────────────────
     {
         path: "/gap/user",
         component: () => import("@/layouts/gap/GAPUserLayout.vue"),
@@ -147,23 +173,45 @@ const routes = [
                 meta: { title: "เลือกประเภทคำขอ GAP" },
             },
             {
+                path: "applications/new/group",
+                name: "ApplicationTypeGroup",
+                component: () => import("@/views/gap/user/ApplicationTypeGroupPage.vue"),
+                meta: { title: "เลือกประเภทใบรับรอง" },
+            },
+            {
                 path: "applications/new/individual",
                 name: "NewApplicationIndividual",
-                component: () =>
-                    import("@/views/gap/user/forms/IndividualFormPage.vue"),
+                component: () => import("@/views/gap/user/forms/IndividualFormPage.vue"),
+                meta: { title: "ยื่นคำขอใหม่ รายเดี่ยว" },
+            },
+            {
+                path: "applications/new/single/:subtype",
+                name: "NewApplicationSingle",
+                component: () => import("@/views/gap/user/forms/GroupFormForSinglePage.vue"),
                 meta: { title: "ยื่นคำขอใหม่ รายเดี่ยว" },
             },
             {
                 path: "applications/new/group/:subtype",
                 name: "NewApplicationGroup",
-                component: () => import("@/views/gap/user/forms/GroupFormPage.vue"),
+                component: () => import("@/views/gap/user/forms/GroupFormForGroupPage.vue"),
                 meta: { title: "ยื่นคำขอใหม่ รายกลุ่ม" },
+            },
+            {
+                path: "applications/new/groupedit/:subtype",
+                name: "NewApplicationEdit",
+                component: () => import("@/views/gap/user/forms/EditGroupFormPage.vue"),
+                meta: { title: "แบบขอแก้ไขเปลี่ยนแปลงข้อมูลใบรับรอง F-5" },
+            },
+            {
+                path: "applications/new/groupcancel/:subtype",
+                name: "NewApplicationCancel",
+                component: () => import("@/views/gap/user/forms/CancelGroupFormPage.vue"),
+                meta: { title: "แบบคำขอยกเลิกการรับรอง" },
             },
             {
                 path: "applications/new/amendment",
                 name: "NewApplicationAmendment",
-                component: () =>
-                    import("@/views/gap/user/forms/AmendmentFormPage.vue"),
+                component: () => import("@/views/gap/user/forms/AmendmentFormPage.vue"),
                 meta: { title: "แก้ไข / ยกเลิกใบรับรอง GAP" },
             },
             {
@@ -177,6 +225,18 @@ const routes = [
                 name: "GAPUserCertificates",
                 component: () => import("@/views/gap/user/CertificatePage.vue"),
                 meta: { title: "ใบรับรอง GAP ของฉัน" },
+            },
+            {
+                path: "applications/edit/:id",
+                name: "GAPUserEditApplication",
+                component: () => import("@/views/gap/user/ApplicationEditPage.vue"),
+                meta: { title: "แก้ไขคำขอ GAP" },
+            },
+            {
+                path: "applications/cancel/:id",
+                name: "GAPUserCancelApplication",
+                component: () => import("@/views/gap/user/ApplicationCancelPage.vue"),
+                meta: { title: "ยกเลิกคำขอ GAP" },
             },
         ],
     },
@@ -203,7 +263,7 @@ const routes = [
                 path: "applications/new",
                 name: "ORGUserApplicationType",
                 component: () => import("@/views/org/user/ApplicationTypePage.vue"),
-                meta: { title: "เลือกประเภทคำขอ" },
+                meta: { title: "เลือกประเภทคำขอ ORG" },
             },
             {
                 path: "applications/new/group",
@@ -214,11 +274,10 @@ const routes = [
             {
                 path: "applications/new/individual",
                 name: "ORGUserNewIndividual",
-                component: () =>
-                    import("@/views/org/user/forms/IndividualFormPage.vue"),
+                component: () => import("@/views/org/user/forms/IndividualFormPage.vue"),
                 meta: { title: "ยื่นคำขอใหม่ รายบุคคล" },
             },
-             {
+            {
                 path: "applications/new/single/:subtype",
                 name: "ORGUserNewApplicationSingle",
                 component: () => import("@/views/org/user/forms/GroupFormForSinglePage.vue"),
@@ -233,21 +292,20 @@ const routes = [
             {
                 path: "applications/new/amendment",
                 name: "ORGUserAmendment",
-                component: () =>
-                    import("@/views/org/user/forms/IndividualFormPage.vue"),
-                meta: { title: "แก้ไข / ยกเลิกใบรับรอง" },
+                component: () => import("@/views/org/user/forms/IndividualFormPage.vue"),
+                meta: { title: "แก้ไข / ยกเลิกใบรับรอง ORG" },
             },
             {
                 path: "applications/:id",
                 name: "ORGUserApplicationDetail",
                 component: () => import("@/views/org/user/ApplicationDetailPage.vue"),
-                meta: { title: "ติดตามสถานะคำขอ" },
+                meta: { title: "ติดตามสถานะคำขอ ORG" },
             },
             {
                 path: "certificates",
                 name: "ORGUserCertificates",
                 component: () => import("@/views/org/user/CertificatePage.vue"),
-                meta: { title: "รายการใบรับรอง" },
+                meta: { title: "ใบรับรอง ORG ของฉัน" },
             },
         ],
     },
@@ -272,13 +330,13 @@ const routes = [
                 path: "applications/:id",
                 name: "ORGStaffApplicationDetail",
                 component: () => import("@/views/org/staff/ApplicationDetailPage.vue"),
-                meta: { title: "รายละเอียดคำขอ" },
+                meta: { title: "รายละเอียดคำขอ ORG" },
             },
             {
                 path: "schedule",
                 name: "ORGStaffSchedule",
                 component: () => import("@/views/org/staff/ApplicationListPage.vue"),
-                meta: { title: "นัดตรวจแปลง", statusFilter: "inspection" },
+                meta: { title: "นัดตรวจแปลง ORG", statusFilter: "inspection" },
             },
             {
                 path: "registry",
@@ -1111,7 +1169,7 @@ const routes = [
         ],
     },
 
-    // ── EL System ─────────────────────────────────────
+    // ── EL User System ────────────────────────────────
     {
         path: "/el/user",
         component: () => import("@/layouts/el/ELUserLayout.vue"),
@@ -1145,7 +1203,7 @@ const routes = [
                 path: "applications/new",
                 name: "ELUserApplicationType",
                 component: () => import("@/views/el/user/ApplicationTypePage.vue"),
-                meta: { title: "เลือกประเภทคำขอ" },
+                meta: { title: "เลือกประเภทคำขอ EL" },
             },
             {
                 path: "applications/new/:type",
@@ -1157,7 +1215,7 @@ const routes = [
                 path: "applications/:id",
                 name: "ELUserApplicationDetail",
                 component: () => import("@/views/el/user/ApplicationDetailPage.vue"),
-                meta: { title: "ติดตามสถานะคำขอ" },
+                meta: { title: "ติดตามสถานะคำขอ EL" },
             },
             {
                 path: "registry",
@@ -1167,6 +1225,8 @@ const routes = [
             },
         ],
     },
+
+    // ── EL Staff System ───────────────────────────────
     {
         path: "/el/staff",
         component: () => import("@/layouts/el/ELStaffLayout.vue"),
@@ -1188,13 +1248,13 @@ const routes = [
                 path: "applications/:id",
                 name: "ELStaffApplicationDetail",
                 component: () => import("@/views/el/staff/ApplicationDetailPage.vue"),
-                meta: { title: "รายละเอียดคำขอ" },
+                meta: { title: "รายละเอียดคำขอ EL" },
             },
             {
                 path: "monitoring",
                 name: "ELStaffMonitoring",
                 component: () => import("@/views/el/staff/ApplicationListPage.vue"),
-                meta: { title: "ตรวจติดตาม" },
+                meta: { title: "ตรวจติดตาม EL" },
             },
             {
                 path: "inspection/new",
@@ -1221,6 +1281,13 @@ const routes = [
                 meta: { title: "ทะเบียนโรงคัดบรรจุ" },
             },
             {
+                path: "reports",
+                name: "ELStaffReports",
+                component: () => import("@/views/el/staff/DashboardPage.vue"),
+                meta: { title: "รายงานผล EL" },
+            },
+            // ส่วนของ Routes
+            {
                 path: "checkdoc",
                 name: "ELStaffCheckDoc",
                 component: () => import("@/views/el/staff/CheckListDocPage.vue"),
@@ -1230,7 +1297,7 @@ const routes = [
                 path: "checkdoc/detail/:id",
                 name: "ELStaffCheckDocDetail",
                 component: () => import("@/views/el/staff/CheckListDocDetailPage.vue"),
-                meta: { title: "รายละเอียดการตรวจเอกสาร" },
+                meta: { title: "รายการตรวจเอกสาร" },
             },
             {
                 path: "area-review",
@@ -1242,7 +1309,7 @@ const routes = [
                 path: "area-review/detail/:id",
                 name: "ELStaffAreaReviewDetail",
                 component: () => import("@/views/el/staff/AreaReviewDetailPage.vue"),
-                meta: { title: "รายละเอียดงานการตรวจ" },
+                meta: { title: "งานการตรวจ GAP" },
             },
             {
                 path: "inspection-cl02",
@@ -1257,10 +1324,22 @@ const routes = [
                 meta: { title: "งานตรวจโรงคัดบรรจุ" },
             },
             {
+                path: "ktm-work/detail/:id",
+                name: "ELStaffKtmWorkDetail",
+                component: () => import("@/views/el/staff/KtmWorkDetailPage.vue"),
+                meta: { title: "ตรวจเอกสารโรงคัดบรรจุ" },
+            },
+            {
                 path: "ktm-results",
                 name: "ELStaffKtmResult",
                 component: () => import("@/views/el/staff/KtmResultPage.vue"),
                 meta: { title: "ผลการตรวจประเมิน" },
+            },
+            {
+                path: "ktm-results/detail/:id",
+                name: "ELStaffKtmResultDetail",
+                component: () => import("@/views/el/staff/KtmResultDetailPage.vue"),
+                meta: { title: "งานการตรวจ GAP" },
             },
             {
                 path: "ktm-review",
@@ -1269,14 +1348,27 @@ const routes = [
                 meta: { title: "พิจารณาผล" },
             },
             {
+                path: "ktm-review/detail/:id",
+                name: "ELStaffKtmReviewDetail",
+                component: () => import("@/views/el/staff/KtmReviewDetailPage.vue"),
+                meta: { title: "งานการตรวจ GAP" },
+            },
+            {
                 path: "board-applications",
                 name: "ELStaffBoardApplication",
                 component: () => import("@/views/el/staff/BoardApplicationPage.vue"),
-                meta: { title: "รายการคำขอ (คณะกรรมการ)" },
+                meta: { title: "รายการคำขอ" },
+            },
+            {
+                path: "board-applications/detail/:id",
+                name: "ELStaffBoardApplicationDetail",
+                component: () => import("@/views/el/staff/BoardApplicationDetailPage.vue"),
+                meta: { title: "รายการคำขอขึ้นทะเบียน" },
             },
         ],
     },
 ];
+
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
