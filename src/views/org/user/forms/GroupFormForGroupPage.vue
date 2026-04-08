@@ -6,10 +6,12 @@
             <div>
                 <div class="d-flex align-center ga-2 mb-1">
                     <v-chip size="x-small" color="org-user" variant="tonal"
-                        prepend-icon="fas fa-users">รายเดี่ยว</v-chip>
+                        prepend-icon="fas fa-users">รายกลุ่ม</v-chip>
                 </div>
-                <h1 class="page-title mb-0">แบบคำขอใบรับรองมาตรฐาน ORG (สำหรับรายเดี่ยว)</h1>
-               
+                <h1 class="page-title mb-0">แบบคำขอใบรับรองมาตรฐาน ORG (รายกลุ่ม)</h1>
+                <p class="text-body-2 text-medium-emphasis mb-0">
+                    สำหรับกลุ่มเกษตรกร / วิสาหกิจชุมชน / สหกรณ์
+                </p>
             </div>
         </div>
 
@@ -23,7 +25,7 @@
                                 <v-icon v-if="currentStep > step.value" icon="fas fa-check" size="14" color="white" />
                                 <span v-else class="text-caption font-weight-bold">{{
                                     step.value + 1
-                                }}</span>
+                                    }}</span>
                             </div>
                             <div class="text-caption text-center" :class="currentStep >= step.value
                                 ? 'text-org-user font-weight-bold'
@@ -55,393 +57,375 @@
                             </v-radio-group>
                         </v-row>
                         <v-card variant="outlined" class="pa-6 rounded-xl bg-white">
-                            <div class="text-subtitle-1 font-weight-bold mb-4 text-black">1. ผู้ยื่นคำขอ
-                                (บุคคล/นิติบุคคล)</div>
+                            <div class="text-subtitle-1 font-weight-bold mb-4">1.
+                                ข้อมูลทั่วไปเกี่ยวกับกลุ่มที่ขอรับการรับรอง
+                            </div>
                             <v-row dense>
-                                <v-col cols="12" md="12">
-                                    <div class="field-label">ผู้ยื่นคำขอ (บุคคล/นิติบุคคล)</div>
-                                    <v-text-field v-model="form.firstNameTh" placeholder="ชื่อ" rounded="lg"
+                                <v-col cols="12" md="6">
+                                    <div class="field-label">ชื่อกลุ่มที่ยื่นคำขอ (TH) *</div>
+                                    <v-text-field v-model="groupForm.nameTh" placeholder="ภาษาไทย" rounded="lg"
                                         variant="outlined" density="compact" hide-details></v-text-field>
                                 </v-col>
                                 <v-col cols="12" md="6">
-                                    <div class="field-label">เลขที่บัตรประชาชน </div>
-                                    <v-text-field v-model="form.idCard" placeholder="x-xxxx-xxxxx-xx-x" rounded="lg"
+                                    <div class="field-label">Name of Group (EN) *</div>
+                                    <v-text-field v-model="groupForm.nameEn"
+                                        placeholder="English (Capital/Small letters as required)" rounded="lg"
                                         variant="outlined" density="compact" hide-details></v-text-field>
                                 </v-col>
-                                <v-col cols="12" md="6">
-                                    <div class="field-label">เลขที่ทะเบียนนิติบุคคล</div>
-                                    <v-text-field v-model="form.juristicId" rounded="lg" variant="outlined"
-                                        density="compact" hide-details></v-text-field>
-                                </v-col>
-                            </v-row>
-                        </v-card>
-
-                        <v-card variant="outlined" class="pa-6  rounded-xl bg-white">
-                            <div class="text-subtitle-1 font-weight-bold mb-4 text-black">2. ที่อยู่/สำนักงาน
-                            </div>
-                            <v-row dense>
-                                <v-col cols="12" md="6">
-                                    <div class="field-label">บ้านเลขที่
-                                    </div>
-                                    <v-text-field v-model="form.addressNo" rounded="lg" variant="outlined"
-                                        density="compact" hide-details></v-text-field>
-                                </v-col>
-                                <v-col cols="12" md="6">
-                                    <div class="field-label">ชื่อหมู่บ้าน</div>
-                                    <v-text-field v-model="form.village" rounded="lg" variant="outlined"
-                                        density="compact" hide-details></v-text-field>
-                                </v-col>
-                                <v-col cols="12" md="4">
-                                    <div class="field-label">ตรอก/ซอย</div>
-                                    <v-text-field v-model="form.road" rounded="lg" variant="outlined" density="compact"
-                                        hide-details></v-text-field>
-                                </v-col>
-                                <v-col cols="12" md="4">
-                                    <div class="field-label">ถนน</div>
-                                    <v-text-field v-model="form.road" rounded="lg" variant="outlined" density="compact"
-                                        hide-details></v-text-field>
-                                </v-col>
-                                <v-col cols="12" md="4">
-                                    <div class="field-label">หมู่ที่</div>
-                                    <v-text-field v-model="form.moo" rounded="lg" variant="outlined" density="compact"
-                                        hide-details></v-text-field>
-                                </v-col>
-                                <v-col cols="12" md="3">
-                                    <div class="field-label">แขวง/ตำบล </div>
-                                    <v-select v-model="form.province" :items="provinces" rounded="lg" variant="outlined"
-                                        density="compact" hide-details></v-select>
-                                </v-col>
-                                <v-col cols="12" md="3">
-                                    <div class="field-label">เขต/อำเภอ </div>
-                                    <v-select v-model="form.province" :items="provinces" rounded="lg" variant="outlined"
-                                        density="compact" hide-details></v-select>
-                                </v-col>
-                                <v-col cols="12" md="3">
-                                    <div class="field-label">จังหวัด </div>
-                                    <v-select v-model="form.province" :items="provinces" rounded="lg" variant="outlined"
-                                        density="compact" hide-details></v-select>
-                                </v-col>
-                                <v-col cols="12" md="3">
-                                    <div class="field-label">รหัสไปรษณีย์ </div>
-                                    <v-text-field v-model="form.zipcode" rounded="lg" variant="outlined"
-                                        density="compact" hide-details></v-text-field>
-                                </v-col>
-                                <v-col cols="12" md="3">
-                                    <div class="field-label">โทรศัพท์ </div>
-                                    <v-text-field v-model="form.zipcode" rounded="lg" variant="outlined"
-                                        density="compact" hide-details></v-text-field>
-                                </v-col>
-                                <v-col cols="12" md="3">
-                                    <div class="field-label">โทรสาร </div>
-                                    <v-text-field v-model="form.zipcode" rounded="lg" variant="outlined"
-                                        density="compact" hide-details></v-text-field>
-                                </v-col>
-                                <v-col cols="12" md="3">
-                                    <div class="field-label">โทรศัพท์มือถือ </div>
-                                    <v-text-field v-model="form.zipcode" rounded="lg" variant="outlined"
-                                        density="compact" hide-details></v-text-field>
-                                </v-col>
-                                <v-col cols="12" md="3">
-                                    <div class="field-label">Email </div>
-                                    <v-text-field v-model="form.zipcode" rounded="lg" variant="outlined"
-                                        density="compact" hide-details></v-text-field>
-                                </v-col>
-                            </v-row>
-                        </v-card>
-
-                        <v-card variant="flat" class="pa-6 rounded-xl bg-white">
-                            <div class="text-subtitle-1 font-weight-bold mb-4">3. ที่ตั้งแหล่งผลิต</div>
-                            <v-row dense>
-                                <v-col cols="12" md="6">
-                                    <div class="field-label">บ้านเลขที่
-                                    </div>
-                                    <v-text-field v-model="form.addressNo" rounded="lg" variant="outlined"
-                                        density="compact" hide-details></v-text-field>
-                                </v-col>
-                                <v-col cols="12" md="6">
-                                    <div class="field-label">ชื่อหมู่บ้าน</div>
-                                    <v-text-field v-model="form.village" rounded="lg" variant="outlined"
-                                        density="compact" hide-details></v-text-field>
-                                </v-col>
-                                <v-col cols="12" md="4">
-                                    <div class="field-label">ตรอก/ซอย</div>
-                                    <v-text-field v-model="form.road" rounded="lg" variant="outlined" density="compact"
-                                        hide-details></v-text-field>
-                                </v-col>
-                                <v-col cols="12" md="4">
-                                    <div class="field-label">ถนน</div>
-                                    <v-text-field v-model="form.road" rounded="lg" variant="outlined" density="compact"
-                                        hide-details></v-text-field>
-                                </v-col>
-                                <v-col cols="12" md="4">
-                                    <div class="field-label">หมู่ที่</div>
-                                    <v-text-field v-model="form.moo" rounded="lg" variant="outlined" density="compact"
-                                        hide-details></v-text-field>
-                                </v-col>
-                                <v-col cols="12" md="3">
-                                    <div class="field-label">แขวง/ตำบล </div>
-                                    <v-select v-model="form.province" :items="provinces" rounded="lg" variant="outlined"
-                                        density="compact" hide-details></v-select>
-                                </v-col>
-                                <v-col cols="12" md="3">
-                                    <div class="field-label">เขต/อำเภอ </div>
-                                    <v-select v-model="form.province" :items="provinces" rounded="lg" variant="outlined"
-                                        density="compact" hide-details></v-select>
-                                </v-col>
-                                <v-col cols="12" md="3">
-                                    <div class="field-label">จังหวัด </div>
-                                    <v-select v-model="form.province" :items="provinces" rounded="lg" variant="outlined"
-                                        density="compact" hide-details></v-select>
-                                </v-col>
-                                <v-col cols="12" md="3">
-                                    <div class="field-label">รหัสไปรษณีย์ </div>
-                                    <v-text-field v-model="form.zipcode" rounded="lg" variant="outlined"
-                                        density="compact" hide-details></v-text-field>
-                                </v-col>
-                                <v-col cols="12" md="3">
-                                    <div class="field-label">โทรศัพท์ </div>
-                                    <v-text-field v-model="form.zipcode" rounded="lg" variant="outlined"
-                                        density="compact" hide-details></v-text-field>
-                                </v-col>
-                                <v-col cols="12" md="3">
-                                    <div class="field-label">โทรสาร </div>
-                                    <v-text-field v-model="form.zipcode" rounded="lg" variant="outlined"
-                                        density="compact" hide-details></v-text-field>
-                                </v-col>
-                                <v-col cols="12" md="3">
-                                    <div class="field-label">โทรศัพท์มือถือ </div>
-                                    <v-text-field v-model="form.zipcode" rounded="lg" variant="outlined"
-                                        density="compact" hide-details></v-text-field>
-                                </v-col>
-                                <v-col cols="12" md="3">
-                                    <div class="field-label">Email </div>
-                                    <v-text-field v-model="form.zipcode" rounded="lg" variant="outlined"
-                                        density="compact" hide-details></v-text-field>
-                                </v-col>
-                            </v-row>
-                        </v-card>
-
-                        <v-card variant="flat" class="pa-6 rounded-xl bg-white">
-                            <div class="text-subtitle-1 font-weight-bold mb-4">4. บุคคลที่สามารถติดต่อได้สะดวก</div>
-                            <v-row dense>
-                                <v-col cols="12" md="12">
-                                    <div class="field-label">ชื่อ-สกุล </div>
-                                    <v-text-field v-model="form.contactName" rounded="lg" variant="outlined"
-                                        density="compact" hide-details></v-text-field>
-                                </v-col>
-                                <v-col cols="12" md="6">
-                                    <div class="field-label">โทรศัพท์ </div>
-                                    <v-text-field v-model="form.zipcode" rounded="lg" variant="outlined"
-                                        density="compact" hide-details></v-text-field>
-                                </v-col>
-                                <v-col cols="12" md="6">
-                                    <div class="field-label">โทรสาร </div>
-                                    <v-text-field v-model="form.zipcode" rounded="lg" variant="outlined"
-                                        density="compact" hide-details></v-text-field>
-                                </v-col>
-                                <v-col cols="12" md="6">
-                                    <div class="field-label">โทรศัพท์มือถือ </div>
-                                    <v-text-field v-model="form.zipcode" rounded="lg" variant="outlined"
-                                        density="compact" hide-details></v-text-field>
-                                </v-col>
-                                <v-col cols="12" md="6">
-                                    <div class="field-label">Email </div>
-                                    <v-text-field v-model="form.zipcode" rounded="lg" variant="outlined"
-                                        density="compact" hide-details></v-text-field>
-                                </v-col>
-                            </v-row>
-                        </v-card>
-                        <v-card variant="flat" class="pa-6 rounded-xl bg-white">
-                            <div class="text-subtitle-1 font-weight-bold mb-4">5.
-                                ข้าพเจ้ามีความประสงค์ขอใช้เครื่องหมายรับรองผลิตภัณฑ์ กรมวิชาการเกษตร</div>
-                            <v-row dense>
-                                <v-col cols="12" md="12" class="d-flex align-center ga-10">
-                                    <v-checkbox v-model="selected" label="ขอใช้" value="ขอใช้"></v-checkbox>
-                                    <v-checkbox v-model="selected" label="ไม่ขอใช้" value="ไม่ขอใช้"></v-checkbox>
-                                </v-col>
-                            </v-row>
-                        </v-card>
-                        <v-card variant="flat" class="pa-6 rounded-xl bg-white mt-n5">
-                            <div class="text-subtitle-1 font-weight-bold mb-4">6. ข้าพเจ้ามีความประสงค์ขอให้ออกใบรับรอง
-                            </div>
-                            <v-row dense>
-                                <v-col cols="12" md="12" class="d-flex align-center ga-10">
-                                    <v-checkbox v-model="selected" label="ภาษาไทย" value="ภาษาไทย"></v-checkbox>
-                                    <v-checkbox v-model="selected" label="ภาษาอังกฤษ" value="ภาษาอังกฤษ"></v-checkbox>
-                                </v-col>
-                                <v-col cols="12" md="12" class="mt-n5">
-                                    <div class="field-label">ชื่อภาษาอังกฤษ</div>
-                                    <v-text-field v-model="form.zipcode" rounded="lg" variant="outlined"
-                                        density="compact" hide-details></v-text-field>
-                                </v-col>
-                                <v-col cols="12" md="12">
-                                    <div class="field-label">ที่อยู่/สำนักงานภาษาอังกฤษ </div>
-                                    <v-text-field v-model="form.zipcode" rounded="lg" variant="outlined"
-                                        density="compact" hide-details></v-text-field>
-                                </v-col>
-                                <v-col cols="12" md="12">
-                                    <div class="field-label">ที่ตั้งแหล่งผลิตภาษาอังกฤษ</div>
-                                    <v-text-field v-model="form.zipcode" rounded="lg" variant="outlined"
-                                        density="compact" hide-details></v-text-field>
-                                </v-col>
-                            </v-row>
-                        </v-card>
-                        <v-card variant="flat" class="pa-6 rounded-xl bg-white mt-n5">
-                            <div class="text-subtitle-1 font-weight-bold mb-4">7. แผนการผลิตพืชอินทรีย์
-                            </div>
-                            <v-row dense>
-                                <v-table density="compact" class="border rounded-lg mb-2 crop-table custom-table">
-                                    <thead class="bg-grey-lighten-3">
-                                        <tr>
-                                            <th class="text-center font-weight-bold border" style="min-width: 220px">
-                                                ชนิดพืช
-                                            </th>
-                                            <th class="text-center font-weight-bold border" style="width: 100px">
-                                                ขนาดพื้นที่
-                                                (ไร่)</th>
-                                            <th class="text-center font-weight-bold border" style="width: 120px">
-                                                จำนวนต้น
-                                                (เฉพาะไม้ผล)</th>
-                                            <th class="text-center font-weight-bold border" style="width: 120px">
-                                                จำนวนรอบการผลิต/ปี</th>
-                                            <th class="text-center font-weight-bold border">ช่วงเวลาผลิต(ระบุเดือน)</th>
-                                            <th class="text-center font-weight-bold border">วันที่คาดว่าจะเก็บเกี่ยว
-                                            </th>
-                                            <th class="text-center font-weight-bold border">ปริมาณผลผลิตที่คาดว่าจะได้
-                                                (กก.)
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr v-for="(item, index) in activeStandardData.crops" :key="index">
-                                            <td class="border pa-1">
-                                                <v-autocomplete v-model="item.name"
-                                                    :items="['มะม่วงน้ำดอกไม้', 'มะม่วงอกร่อง', 'ทุเรียนหมอนทอง', 'มังคุด']"
-                                                    variant="outlined" density="compact" hide-details rounded="lg"
-                                                    placeholder="ค้นหาพืช..."></v-autocomplete>
-                                            </td>
-                                            <td class="border pa-1"><v-text-field v-model="item.area" variant="outlined"
-                                                    density="compact" hide-details rounded="lg"></v-text-field></td>
-                                            <td class="border pa-1"><v-text-field v-model="item.age" variant="outlined"
-                                                    density="compact" hide-details rounded="lg"></v-text-field></td>
-                                            <td class="border pa-1"><v-text-field v-model="item.quantity"
-                                                    variant="outlined" density="compact" hide-details
-                                                    rounded="lg"></v-text-field></td>
-                                            <td class="border pa-1"><v-text-field v-model="item.period"
-                                                    variant="outlined" density="compact" hide-details
-                                                    rounded="lg"></v-text-field></td>
-                                            <td class="border pa-1"><v-text-field v-model="item.harvest"
-                                                    variant="outlined" density="compact" hide-details
-                                                    rounded="lg"></v-text-field></td>
-                                            <td class="border pa-1"><v-text-field v-model="item.yield"
-                                                    variant="outlined" density="compact" hide-details
-                                                    rounded="lg"></v-text-field></td>
-
-                                        </tr>
-                                        <tr v-if="activeStandardData.crops.length === 0">
-                                            <td colspan="9" class="pa-10 text-center text-grey italic">
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </v-table>
-                            </v-row>
-                        </v-card>
-
-                        <v-card variant="outlined" class="pa-6">
-                            <v-row align="center" no-gutters class="text-subtitle-1 mb-4">
-                                <v-col cols="auto" class="mr-2">
-                                    <strong>8. จำนวนชนิดพืชที่ขอการรับรองทั้งหมด</strong>
-                                </v-col>
-
-                                <v-col cols="3" class="mx-2">
-                                    <v-text-field :model-value="totalCrops" readonly density="compact"
-                                        variant="underlined" hide-details text-align="center" placeholder="0"
-                                        class="centered-input"></v-text-field>
-                                </v-col>
-
-                                <v-col cols="auto" class="mr-6">ชนิด</v-col>
-
-                                <v-col cols="auto" class="mr-2">
-                                    <strong>พื้นที่ขอการรับรองทั้งหมด</strong>
-                                </v-col>
-
-                                <v-col cols="2" class="mx-2">
-                                    <v-text-field v-model="totalArea" type="number" density="compact"
-                                        variant="underlined" hide-details placeholder="ระบุจำนวน"
-                                        class="centered-input"></v-text-field>
-                                </v-col>
-
-                                <v-col cols="auto">ไร่</v-col>
-                            </v-row>
-
-                            <v-row no-gutters>
                                 <v-col cols="12">
-                                    <div class="d-flex align-start">
-                                        <span class="text-subtitle-1 mr-2"
-                                            style="white-space: nowrap;">(ระบุชนิดพืช)</span>
-                                        <div class="flex-grow-1">
-                                            <div class="crop-display-area">
-                                                <v-text-field :model-value="totalCrops" density="compact"
-                                                    variant="underlined" hide-details text-align="center"
-                                                     class="centered-input"></v-text-field>
-                                            </div>
-                                            <div class="dotted-line"></div>
-                                            <div class="dotted-line"></div>
-                                        </div>
+                                    <div class="field-label">สำนักงานใหญ่/สำนักงาน ตั้งอยู่บ้านเลขที่ *</div>
+                                    <v-text-field v-model="groupForm.addressNo" rounded="lg" variant="outlined"
+                                        density="compact" hide-details></v-text-field>
+                                </v-col>
+                                <v-col cols="12" md="6">
+                                    <div class="field-label">ชื่อหมู่บ้าน</div>
+                                    <v-text-field v-model="form.village" rounded="lg" variant="outlined"
+                                        density="compact" hide-details></v-text-field>
+                                </v-col>
+                                <v-col cols="12" md="6">
+                                    <div class="field-label">Village</div>
+                                    <v-text-field v-model="form.village" rounded="lg" variant="outlined"
+                                        density="compact" hide-details></v-text-field>
+                                </v-col>
+                                <v-col cols="12" md="3">
+                                    <div class="field-label">หมู่ที่</div>
+                                    <v-text-field v-model="form.moo" rounded="lg" variant="outlined" density="compact"
+                                        hide-details></v-text-field>
+                                </v-col>
+                                <v-col cols="12" md="3">
+                                    <div class="field-label">ถนน</div>
+                                    <v-text-field v-model="form.road" rounded="lg" variant="outlined" density="compact"
+                                        hide-details></v-text-field>
+                                </v-col>
+                                <v-col cols="12" md="3">
+                                    <div class="field-label">Road</div>
+                                    <v-text-field v-model="form.road" rounded="lg" variant="outlined" density="compact"
+                                        hide-details></v-text-field>
+                                </v-col>
+                                <v-col cols="12" md="3">
+                                    <div class="field-label">ตรอก/ซอย</div>
+                                    <v-text-field v-model="form.road" rounded="lg" variant="outlined" density="compact"
+                                        hide-details></v-text-field>
+                                </v-col>
+                                <v-col cols="12" md="3">
+                                    <div class="field-label">Lane/Alley</div>
+                                    <v-text-field v-model="form.road" rounded="lg" variant="outlined" density="compact"
+                                        hide-details></v-text-field>
+                                </v-col>
+                                <v-col cols="12" md="3">
+                                    <div class="field-label">แขวง/ตำบล <span class="text-red">*</span></div>
+                                    <v-select v-model="form.province" :items="provinces" rounded="lg" variant="outlined"
+                                        density="compact" hide-details></v-select>
+                                </v-col>
+                                <v-col cols="12" md="3">
+                                    <div class="field-label">เขต/อำเภอ <span class="text-red">*</span></div>
+                                    <v-select v-model="form.province" :items="provinces" rounded="lg" variant="outlined"
+                                        density="compact" hide-details></v-select>
+                                </v-col>
+                                <v-col cols="12" md="3">
+                                    <div class="field-label">จังหวัด <span class="text-red">*</span></div>
+                                    <v-select v-model="form.province" :items="provinces" rounded="lg" variant="outlined"
+                                        density="compact" hide-details></v-select>
+                                </v-col>
+                                <v-col cols="12" md="3">
+                                    <div class="field-label">รหัสไปรษณีย์ <span class="text-red">*</span></div>
+                                    <v-text-field v-model="form.zipcode" rounded="lg" variant="outlined"
+                                        density="compact" hide-details></v-text-field>
+                                </v-col>
+                                <v-col cols="12" md="3">
+                                    <div class="field-label">โทรศัพท์(Tel) <span class="text-red">*</span></div>
+                                    <v-text-field v-model="form.zipcode" rounded="lg" variant="outlined"
+                                        density="compact" hide-details></v-text-field>
+                                </v-col>
+                                <v-col cols="12" md="6">
+                                    <div class="field-label">โทรศัพท์มือถือ(Mobile) <span class="text-red">*</span>
                                     </div>
+                                    <v-text-field v-model="form.zipcode" rounded="lg" variant="outlined"
+                                        density="compact" hide-details></v-text-field>
+                                </v-col>
+                                <v-col cols="12" md="6">
+                                    <div class="field-label">Email <span class="text-red">*</span></div>
+                                    <v-text-field v-model="form.zipcode" rounded="lg" variant="outlined"
+                                        density="compact" hide-details></v-text-field>
+                                </v-col>
+                            </v-row>
+
+                            <v-divider class="my-6"></v-divider>
+                            <v-row dense>
+                                <v-col cols="12" md="6">
+                                    <div class="field-label">ชื่อ-นามสกุล ประธานกลุ่มหรือผู้มีอำนาจลงนามของกลุ่ม</div>
+                                    <v-text-field v-model="groupForm.leaderName" rounded="lg" variant="outlined"
+                                        density="compact" hide-details></v-text-field>
+                                </v-col>
+                                <v-col cols="12" md="6">
+                                    <div class="field-label">เลขที่บัตรประชาชนของผู้มีอำนาจลงสนามของกลุ่ม</div>
+                                    <v-text-field v-model="groupForm.leaderId" rounded="lg" variant="outlined"
+                                        density="compact" hide-details></v-text-field>
+                                </v-col>
+                                <v-col cols="12" md="6">
+                                    <div class="field-label">เลขทะเบียนนิติบุคคล</div>
+                                    <v-text-field v-model="groupForm.leaderId" rounded="lg" variant="outlined"
+                                        density="compact" hide-details></v-text-field>
+                                </v-col>
+                                <v-col cols="12" md="6">
+                                    <div class="field-label">บ้านเลขที่</div>
+                                    <v-text-field v-model="form.village" rounded="lg" variant="outlined"
+                                        density="compact" hide-details></v-text-field>
+                                </v-col>
+                                <v-col cols="12" md="6">
+                                    <div class="field-label">ชื่อหมู่บ้าน</div>
+                                    <v-text-field v-model="form.village" rounded="lg" variant="outlined"
+                                        density="compact" hide-details></v-text-field>
+                                </v-col>
+                                <v-col cols="12" md="3">
+                                    <div class="field-label">หมู่ที่</div>
+                                    <v-text-field v-model="form.moo" rounded="lg" variant="outlined" density="compact"
+                                        hide-details></v-text-field>
+                                </v-col>
+                                <v-col cols="12" md="3">
+                                    <div class="field-label">ถนน</div>
+                                    <v-text-field v-model="form.road" rounded="lg" variant="outlined" density="compact"
+                                        hide-details></v-text-field>
+                                </v-col>
+                                <v-col cols="12" md="3">
+                                    <div class="field-label">ตรอก/ซอย</div>
+                                    <v-text-field v-model="form.road" rounded="lg" variant="outlined" density="compact"
+                                        hide-details></v-text-field>
+                                </v-col>
+                                <v-col cols="12" md="3">
+                                    <div class="field-label">แขวง/ตำบล <span class="text-red">*</span></div>
+                                    <v-select v-model="form.province" :items="provinces" rounded="lg" variant="outlined"
+                                        density="compact" hide-details></v-select>
+                                </v-col>
+                                <v-col cols="12" md="3">
+                                    <div class="field-label">เขต/อำเภอ <span class="text-red">*</span></div>
+                                    <v-select v-model="form.province" :items="provinces" rounded="lg" variant="outlined"
+                                        density="compact" hide-details></v-select>
+                                </v-col>
+                                <v-col cols="12" md="3">
+                                    <div class="field-label">จังหวัด <span class="text-red">*</span></div>
+                                    <v-select v-model="form.province" :items="provinces" rounded="lg" variant="outlined"
+                                        density="compact" hide-details></v-select>
+                                </v-col>
+                                <v-col cols="12" md="3">
+                                    <div class="field-label">รหัสไปรษณีย์ <span class="text-red">*</span></div>
+                                    <v-text-field v-model="form.zipcode" rounded="lg" variant="outlined"
+                                        density="compact" hide-details></v-text-field>
+                                </v-col>
+                                <v-col cols="12" md="3">
+                                    <div class="field-label">โทรศัพท์ <span class="text-red">*</span></div>
+                                    <v-text-field v-model="form.zipcode" rounded="lg" variant="outlined"
+                                        density="compact" hide-details></v-text-field>
+                                </v-col>
+                                <v-col cols="12" md="6">
+                                    <div class="field-label">โทรศัพท์มือถือ <span class="text-red">*</span>
+                                    </div>
+                                    <v-text-field v-model="form.zipcode" rounded="lg" variant="outlined"
+                                        density="compact" hide-details></v-text-field>
+                                </v-col>
+                                <v-col cols="12" md="6">
+                                    <div class="field-label">โทรสาร <span class="text-red">*</span>
+                                    </div>
+                                    <v-text-field v-model="form.zipcode" rounded="lg" variant="outlined"
+                                        density="compact" hide-details></v-text-field>
+                                </v-col>
+                                <v-col cols="12" md="6">
+                                    <div class="field-label">Email <span class="text-red">*</span></div>
+                                    <v-text-field v-model="form.zipcode" rounded="lg" variant="outlined"
+                                        density="compact" hide-details></v-text-field>
                                 </v-col>
                             </v-row>
                         </v-card>
 
-                        <v-card variant="flat" class="pa-6 rounded-xl bg-white mt-n5">
-                            <div class="text-subtitle-1 font-weight-bold mb-4">9. ระบุถนนสายหลัก สายรอง จุดสังเกต หรือสถานที่ที่ใช้เป็นจุดสังเกต
-                                เพื่อสะดวกในการเดินทางเข้าสู่แหล่งผลิต
-                            </div>
 
-                            <div class="rounded-lg bg-grey-lighten-5 overflow-hidden"
-                                style="height: 400px; border: 1px solid #ddd">
-                                <div id="leaflet-map" style="height: 100%; width: 100%; z-index: 1;"></div>
+                        <v-card variant="flat" class="pa-6 rounded-xl bg-white">
+                            <div class="text-subtitle-1 font-weight-bold mb-2">2. บุคคลที่สามารถติดต่อได้ (อย่างน้อย 1
+                                คน)</div>
+                            <div class="text-caption text-grey-darken-1 mb-4">ควรเป็นบุคคลที่เข้าใจระบบของกลุ่ม/องค์กร
                             </div>
-
-                            <!-- <v-row class="mt-4" dense>
-                                <v-col cols="12" md="4">
-                                    <v-text-field label="พิกัด Latitude (X)" v-model="form.lat" variant="outlined"
-                                        density="compact" hide-details rounded="lg" readonly></v-text-field>
+                            <v-row v-for="n in 2" :key="n" class="mb-4">
+                                <v-col cols="12">
+                                    <div class="text-body-2 font-weight-bold text-blue">คนที่ {{ n }}</div>
                                 </v-col>
-                                <v-col cols="12" md="4">
-                                    <v-text-field label="พิกัด Longitude (Y)" v-model="form.lng" variant="outlined"
-                                        density="compact" hide-details rounded="lg" readonly></v-text-field>
+                                <v-col cols="12" md="6">
+                                    <v-text-field label="ชื่อ-นามสกุล" v-model="groupForm.contacts[n - 1].name"
+                                        variant="outlined" density="compact" hide-details rounded="lg"></v-text-field>
                                 </v-col>
-                                <v-col cols="12" md="4">
-                                    <v-text-field label="ความสูง (Z)" v-model="form.alt" variant="outlined"
-                                        density="compact" hide-details rounded="lg"></v-text-field>
+                                <v-col cols="12" md="6">
+                                    <v-text-field label="ตำแหน่ง" v-model="groupForm.contacts[n - 1].position"
+                                        variant="outlined" density="compact" hide-details rounded="lg"></v-text-field>
                                 </v-col>
-                            </v-row> -->
+                                <v-col cols="12" md="6" class="mt-2">
+                                    <v-text-field label="โทรศัพท์" v-model="groupForm.contacts[n - 1].mobile"
+                                        variant="outlined" density="compact" hide-details rounded="lg"></v-text-field>
+                                </v-col>
+                                <v-col cols="12" md="6" class="mt-2">
+                                    <v-text-field label="โทรศัพท์สาร" v-model="groupForm.contacts[n - 1].mobile"
+                                        variant="outlined" density="compact" hide-details rounded="lg"></v-text-field>
+                                </v-col>
+                                <v-col cols="12" md="6" class="mt-2">
+                                    <v-text-field label="โทรศัพท์มือถือ" v-model="groupForm.contacts[n - 1].mobile"
+                                        variant="outlined" density="compact" hide-details rounded="lg"></v-text-field>
+                                </v-col>
+                                <v-col cols="12" md="6" class="mt-2">
+                                    <v-text-field label="E-mail" v-model="groupForm.contacts[n - 1].email"
+                                        variant="outlined" density="compact" hide-details rounded="lg"></v-text-field>
+                                </v-col>
+                            </v-row>
                         </v-card>
-                        <v-card variant="flat" class="pa-6 rounded-xl bg-white mt-n5">
-                            <div class="text-subtitle-1 font-weight-bold mb-4">10. ระบุแปลงย่อย ขนาดแปลง ชนิดพืชที่ปลูก
-                                แหล่งน้ำ สิ่งปลูกสร้าง แนวกันชน และการใช้ประโยชน์ที่ดินของพื้นที่ข้างเคียงที่อยู่โดยรอบ </div>
 
-                            <div class="rounded-lg bg-grey-lighten-5 overflow-hidden"
-                                style="height: 400px; border: 1px solid #ddd">
-                                <div id="size-leaflet-map" style="height: 100%; width: 100%; z-index: 1;"></div>
+                        <v-card variant="outlined" class="rounded-xl pa-6 bg-surface">
+                            <div class="text-subtitle-1 font-weight-bold mb-4 ">
+                                3. ระบบการควบคุมภายในที่มี
                             </div>
 
-                            <!-- <v-row class="mt-4" dense>
-                                <v-col cols="12" md="4">
-                                    <v-text-field label="พิกัด Latitude (X)" v-model="form.lat" variant="outlined"
-                                        density="compact" hide-details rounded="lg" readonly></v-text-field>
-                                </v-col>
-                                <v-col cols="12" md="4">
-                                    <v-text-field label="พิกัด Longitude (Y)" v-model="form.lng" variant="outlined"
-                                        density="compact" hide-details rounded="lg" readonly></v-text-field>
-                                </v-col>
-                                <v-col cols="12" md="4">
-                                    <v-text-field label="ความสูง (Z)" v-model="form.alt" variant="outlined"
-                                        density="compact" hide-details rounded="lg"></v-text-field>
-                                </v-col>
-                            </v-row> -->
+                            <v-table density="compact" class="internal-control-table">
+                                <thead>
+                                    <tr>
+                                        <th class="text-left" style="border-bottom: none;">รายการ</th>
+                                        <th class="text-center" style="width: 100px; border-bottom: none;">มี</th>
+                                        <th class="text-center" style="width: 100px; border-bottom: none;">ไม่มี</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="(item, index) in internalControls" :key="index">
+                                        <td class="py-2">
+                                            <div class="d-flex align-start">
+                                                <span class="mr-2">{{ index + 1 }}</span>
+                                                <span>{{ item.label }}</span>
+                                            </div>
+                                            <v-text-field v-if="index === 6" v-model="form.otherDetail"
+                                                placeholder="โปรดระบุรายละเอียด..." density="compact"
+                                                variant="underlined" hide-details class="mt-1 ml-6"
+                                                color="org-user"></v-text-field>
+                                        </td>
+                                        <td class="text-center">
+                                            <v-checkbox v-model="item.value" :value="true" color="org-user" hide-details
+                                                center-affix></v-checkbox>
+                                        </td>
+                                        <td class="text-center">
+                                            <v-checkbox v-model="item.value" :value="false" color="error" hide-details
+                                                center-affix></v-checkbox>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </v-table>
                         </v-card>
+
+                        <v-card variant="flat" class="pa-6 rounded-xl bg-white">
+                            <div class="text-subtitle-1 font-weight-bold mb-4">4. รายละเอียดการผลิตของกลุ่ม</div>
+
+                            <v-row>
+                                <v-col cols="12">
+                                    <div class="field-label mb-1">4.1 จำนวนเกษตรกรราย</div>
+                                    <v-text-field v-model="form.farmerCount" rounded="lg" variant="outlined"
+                                        density="compact" placeholder="ระบุจำนวน" hide-details></v-text-field>
+                                </v-col>
+
+                                <v-col cols="12">
+                                    <div class="field-label mb-1">4.2 จำนวนพื้นที่ที่ขอรับรองทั้งหมด (ไร่)</div>
+                                    <v-text-field v-model="form.totalArea" rounded="lg" variant="outlined"
+                                        density="compact" placeholder="ระบุจำนวนไร่" hide-details></v-text-field>
+                                    <div class="text-caption text-grey-darken-1 mt-1">
+                                        (ระบุชื่อ พื้นที่ และชนิดพืชของผู้ผลิตแต่ละราย ตามภาคผนวก)
+                                    </div>
+                                </v-col>
+
+                                <v-col cols="12">
+                                    <div class="field-label mb-1">4.3 ขอบข่ายการผลิตที่ต้องการขอรับรอง</div>
+                                    <v-textarea v-model="form.certificationScope" rounded="lg" variant="outlined"
+                                        density="compact"
+                                        placeholder="ระบุชนิดพืช (กรณีผลิตแบบคู่ขนาน ให้ระบุให้ชัดเจน)" rows="3"
+                                        hide-details></v-textarea>
+                                </v-col>
+
+                                <v-col cols="12">
+                                    <div class="field-label mb-1">
+                                        4.4 สรุปรายละเอียดของพื้นที่การผลิตและวิธีการผลิตโดยทั่วไป
+                                    </div>
+                                    <div class="text-caption text-grey-darken-1 mb-2">
+                                        (เช่น วิธีการปลูกพืช, การปรับปรุงบำรุงดิน, การป้องกันกำจัดศัตรูพืช, แหล่งน้ำ,
+                                        ระบบนิเวศ
+                                        เป็นต้น)
+                                    </div>
+                                    <v-file-input v-model="form.productionDetailFile" label="แนบไฟล์รายละเอียดการผลิต"
+                                        prepend-icon="mdi-paperclip" variant="outlined" rounded="lg" density="compact"
+                                        show-size hide-details></v-file-input>
+                                </v-col>
+                            </v-row>
+                        </v-card>
+
+                        <v-card variant="flat" class="pa-6 rounded-xl bg-white">
+                            <div class="text-subtitle-1 font-weight-bold mb-4">5. เอกสารประกอบแบบคำขอใบรับรองแหล่งผลิตพืชอินทรีย์ สำหรับกลุ่ม</div>
+
+                            <v-table density="compact" class="border rounded-lg mt-5">
+                                <thead class="bg-grey-lighten-3">
+                                    <tr>
+                                        <th class="border text-center" style="min-width: 50px;">ลำดับ</th>
+                                        <th class="border text-center" style="min-width: 150px;">ชื่อ-สกุล</th>
+                                        <th class="border text-center" style="min-width: 150px;">เลขบัตรประจำตัวประชาชน
+                                        </th>
+                                        <th class="border text-center" style="min-width: 200px;">ที่อยู่</th>
+                                        <th class="border text-center" style="min-width: 150px;">ที่ตั้งแปลง</th>
+                                        <th class="border text-center" style="min-width: 120px;">ชนิดพืช/พันธุ์</th>
+                                        <th class="border text-center" style="min-width: 180px;">
+                                            ช่วงระยะเวลาการผลิต<br>(เฉพาะพืชผัก สมุนไพร พืชไร่ โดยระบุเดือน)</th>
+                                        <th class="border text-center" style="min-width: 120px;">
+                                            คาดว่าจะเก็บเกี่ยวผลผลิต<br>(ระบุเดือน)</th>
+                                        <th class="border text-center" style="min-width: 120px;">
+                                            ผลผลิตรวมที่คาดว่าจะได้รับต่อปี
+                                        </th>
+                                        <th class="border text-center"
+                                            style="min-width: 150px; background-color: #f5f5f5;">
+                                            เลขประจำแปลง<br>(สำหรับเจ้าหน้าที่)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="(item, index) in 5" :key="index">
+                                        <td class="border text-center">{{ index + 1 }}</td>
+                                        <td class="border pa-1">
+                                            <v-text-field variant="outlined" density="compact" hide-details
+                                                rounded="lg"></v-text-field>
+                                        </td>
+                                        <td class="border pa-1">
+                                            <v-text-field variant="outlined" density="compact" hide-details
+                                                rounded="lg"></v-text-field>
+                                        </td>
+                                        <td class="border pa-1">
+                                            <v-text-field variant="outlined" density="compact" hide-details
+                                                rounded="lg"></v-text-field>
+                                        </td>
+                                        <td class="border pa-1">
+                                            <v-text-field variant="outlined" density="compact" hide-details
+                                                rounded="lg"></v-text-field>
+                                        </td>
+                                        <td class="border pa-1">
+                                            <v-text-field variant="outlined" density="compact" hide-details
+                                                rounded="lg"></v-text-field>
+                                        </td>
+                                        <td class="border pa-1">
+                                            <v-text-field variant="outlined" density="compact" hide-details
+                                                rounded="lg"></v-text-field>
+                                        </td>
+                                        <td class="border pa-1">
+                                            <v-text-field variant="outlined" density="compact" hide-details
+                                                rounded="lg"></v-text-field>
+                                        </td>
+                                        <td class="border pa-1">
+                                            <v-text-field variant="outlined" density="compact" hide-details
+                                                rounded="lg"></v-text-field>
+                                        </td>
+                                        <td class="border pa-1 bg-grey-lighten-4">
+                                            <v-text-field readonly placeholder="เฉพาะเจ้าหน้าที่" variant="outlined"
+                                                density="compact" hide-details rounded="lg"></v-text-field>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </v-table>
+                        </v-card>
+
+
+
                     </v-card-text>
                 </v-card>
 
@@ -457,39 +441,17 @@
                     </div>
                     <v-card-text class="pa-4">
                         <v-card rounded="lg" elevation="0" class="pa-6 mb-6 bg-white">
-                            <h3 class="text-body-1 font-weight-bold mb-4">6. เอกสารประกอบคำขอ</h3>
-                            <h4 class="text-body-1 mb-4">ทั้งนี้ข้าพเจ้าได้แนบ/แสดงเอกสารประกอบคำขอประกอบด้วย</h4>
-                            <v-card variant="flat" class="pa-1 rounded-lg">
-                                <v-checkbox
-                                    label="ใบอนุญาต/หนังสือสำคัญ กรณีการผลิตพืชสมุนไพรที่ต้องได้รับอนุญาตผลิต(ปลูก) ตามกฎหมายที่เกี่ยวข้อง เช่น กัญชาและกัญชง และอื่นๆ"
-                                    density="compact" hide-details></v-checkbox>
-                                <div class="d-flex align-center ">
-                                    <v-checkbox label="บันทึกเอกสารเพิ่มเติม (ถ้ามี)" density="compact" hide-details
-                                        class="flex-shrink-0"></v-checkbox>
-                                    <v-text-field variant="underlined" density="compact" hide-details
-                                        class="ml-2 mt-n2"></v-text-field>
-                                </div>
-                                <v-checkbox label="โฉนดที่ดิน" density="compact" hide-details></v-checkbox>
-                                <v-checkbox label="หนังสืออนุญาตใช้ประโยชน์ที่ดิน" density="compact"
-                                    hide-details></v-checkbox>
-                            </v-card>
-                            <v-row dense class="mt-2">
-                                <v-col cols="12" md="6">
-                                    <div class="field-label mb-1">กรรมสิทธิ์ :</div>
-                                    <v-select :items="['เจ้าของกรรมสิทธิ์', 'เช่า ระบุเจ้าของ', 'ได้สิทธิ์ทำกิน']"
-                                        variant="outlined" rounded="lg" density="compact" hide-details />
-                                </v-col>
-                                <v-col cols="12" md="6">
-                                    <div class="field-label mb-1">เอกสารการถือครองที่ดิน :</div>
-                                    <v-select :items="['โฉนดที่ดิน', 'น.ส.3', 'ส.ป.ก.4-01']" variant="outlined"
-                                        rounded="lg" density="compact" hide-details />
-                                </v-col>
-                                <v-col cols="12" class="mt-2">
-                                    <div class="field-label mb-1">เลขที่เอกสารการถือครองที่ดิน :</div>
-                                    <v-text-field placeholder="กรอกเลขที่โฉนด/เลขที่เอกสาร" variant="outlined"
-                                        rounded="lg" density="compact" hide-details />
-                                </v-col>
-                            </v-row>
+                            <div class="text-subtitle-1 font-weight-bold mb-4">6.
+                                พร้อมคำขอนี้ได้แนบหลักฐานและเอกสารต่างๆ ดังนี้
+                            </div>
+                            <v-checkbox v-for="(doc, i) in docChecklist" :key="i" v-model="groupForm.docs"
+                                :label="doc.label" :value="doc.id" density="compact" hide-details></v-checkbox>
+                            <div class="d-flex align-center mt-2 px-3 ml-n3">
+                                <v-checkbox label="บันทึกเอกสารเพิ่มเติม (ถ้ามี):" density="compact" hide-details
+                                    class="flex-shrink-0"></v-checkbox>
+                                <v-text-field variant="underlined" density="compact" hide-details
+                                    class="ml-2 mt-n2"></v-text-field>
+                            </div>
                         </v-card>
                     </v-card-text>
                 </v-card>
@@ -743,17 +705,14 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted } from "vue";
+import { ref, reactive } from "vue";
 import { useRouter } from "vue-router";
-import L from "leaflet";
-import "leaflet/dist/leaflet.css";
-
 
 const router = useRouter();
 const currentStep = ref(0);
 
 function goToApplicationList() {
-    router.push({ name: "ApplicationList" });
+    router.push({ name: "ORGUserApplicationList" });
 }
 
 function prevStep() {
@@ -875,6 +834,62 @@ const addCrop = () => {
         farmId: ''
     })
 }
+const groupForm = reactive({
+    nameTh: '',
+    nameEn: '',
+    addressNo: '',
+    subDistrict: '',
+    district: '',
+    province: null,
+    zipcode: '',
+    mobile: '',
+    email: '',
+    leaderName: '',
+    leaderId: '',
+    memberCount: 0,
+    totalPlots: 0,
+    totalArea: 0,
+    members: [
+        { name: '', idCard: '', address: '', crop: '', area: '' }
+    ],
+    ics: {},
+    icsOther: '',
+    contacts: [
+        { name: '', position: '', mobile: '', email: '' },
+        { name: '', position: '', mobile: '', email: '' }
+    ],
+    docs: [],
+    otherDetail: '',
+    producerCount: null,
+    plotCount: null,
+    totalAreaSize: null
+})
+
+
+const internalControls = ref([
+    { label: 'สัญญา/ใบสมัคร/คำรับรอง และหลักเกณฑ์และเงื่อนไขของกลุ่ม', value: null },
+    { label: 'การตรวจติดตามคุณภาพภายใน และการปฏิบัติการแก้ไข', value: null },
+    { label: 'การจัดการข้อร้องเรียน', value: null },
+    { label: 'การควบคุมเอกสาร และบันทึก', value: null },
+    { label: 'การฝึกอบรม', value: null },
+    { label: 'ระบบการตามสอบผลิตผล (Traceability of Produce)', value: null },
+    { label: 'อื่นๆ โปรดระบุ', value: null },
+]);
+const docChecklist = [
+    {
+        id: 'id_card',
+        label: 'แสดงบัตรประชาชน หรือทะเบียนบ้านของ ประธานกลุ่ม หรือผู้มีอำนาจลงนามของกลุ่ม'
+    },
+    {
+        id: 'juristic_reg',
+        label: 'แนบหลักฐานการจดทะเบียนนิติบุคคล (กรณีเป็นนิติบุคคล)'
+    },
+    {
+        id: 'power_of_attorney',
+        label: 'แนบหนังสือมอบอำนาจ พร้อมสำเนาบัตรประชาชนของผู้มอบอำนาจ'
+    },
+];
+
 const dialogVisible = ref(false)
 const snackbar = ref(false)
 const activeIndex = ref(null)
@@ -882,8 +897,8 @@ const activeStandard = ref(null)
 
 // ข้อมูลสถานะหน้าหลัก
 const standards = ref([
-    { title: 'มาตรฐาน 1', isCompleted: true },
-    { title: 'มาตรฐาน n', isCompleted: false }
+    { title: 'มาตรฐานการปฏิบัติทางการเกษตรที่ดีสำหรับพืชอาหาร (มกษ. 9001)', isCompleted: true },
+    { title: 'มาตรฐานการปฏิบัติทางการเกษตรที่ดีสำหรับพืชสมุนไพร (มกษ. 3502)', isCompleted: false }
 ])
 
 // ข้อมูลชั่วคราวสำหรับตัวอย่างการบันทึก (ในระบบจริงควรดึงจาก DB ตาม ID มาตรฐาน)
@@ -927,73 +942,7 @@ const saveCropData = () => {
     dialogVisible.value = false
     snackbar.value = true
 }
-const mapform = reactive({
-    lat: 13.782674,
-    lng: 100.54628,
-    alt: ''
-});
 
-// เก็บ instance แยกกันถ้าต้องใช้ 2 แผนที่พร้อมกัน
-let maps = {}; 
-let markers = {};
-
-const redIcon = new L.Icon({
-    iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png",
-    shadowUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png",
-    iconSize: [25, 41],
-    iconAnchor: [12, 41],
-    popupAnchor: [1, -34],
-    shadowSize: [41, 41],
-});
-
-// ปรับ setMarker ให้รับ mapInstance และ markerKey
-const setMarker = (lat, lng, mapId) => {
-    if (markers[mapId]) {
-        markers[mapId].setLatLng([lat, lng]);
-    } else {
-        markers[mapId] = L.marker([lat, lng], { icon: redIcon }).addTo(maps[mapId]);
-    }
-    
-    // อัปเดตค่าเข้า reactive form (ใช้ toFixed เพื่อความสวยงาม)
-    mapform.lat = Number(lat.toFixed(6));
-    mapform.lng = Number(lng.toFixed(6));
-};
-
-const initLeafletMap = (containerId) => {
-    // 1. ตรวจสอบว่าเคยมี map เดิมอยู่ไหม ถ้ามีให้ลบออกก่อน (กัน Error)
-    if (maps[containerId]) {
-        maps[containerId].remove();
-    }
-
-    const initialPos = [mapform.lat, mapform.lng];
-
-    // 2. สร้าง Map Instance
-    maps[containerId] = L.map(containerId).setView(initialPos, 15);
-
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        maxZoom: 19,
-        attribution: "&copy; OpenStreetMap",
-    }).addTo(maps[containerId]);
-
-    // 3. ปักหมุดเริ่มต้น
-    setMarker(initialPos[0], initialPos[1], containerId);
-
-    // 4. Event Click
-    maps[containerId].on("click", (e) => {
-        const { lat, lng } = e.latlng;
-        setMarker(lat, lng, containerId);
-    });
-
-    // 5. invalidateSize
-    setTimeout(() => {
-        maps[containerId].invalidateSize();
-    }, 400);
-};
-
-onMounted(() => {
-    initLeafletMap("leaflet-map");
-    initLeafletMap("size-leaflet-map"); 
-});
 </script>
 
 <style scoped>

@@ -61,7 +61,7 @@ const appTypes = [
         disabled: false,
     },
     {
-        route: "/gap/user/applications/new/group/newgroup",
+        route: "/org/user/applications/new/group/newgroup",
         title: "แบบคำขอใบรับรองแหล่งผลิต ORG พืช (สำหรับกลุ่ม)",
         description: "",
         icon: "fas fa-layer-group",
@@ -71,7 +71,7 @@ const appTypes = [
     },
     {
         // ปรับให้ตรงกับ path: "applications/new/edit/:subtype"
-        route: "/gap/user/applications/new/groupedit/edit", 
+        route: "/org/user/applications/new/groupedit/edit", 
         title: "แบบขอแก้ไขเปลี่ยนแปลงข้อมูลใบรับรอง",
         icon: "fas fa-edit",
         iconColor: "orange-darken-2",
@@ -80,7 +80,7 @@ const appTypes = [
     },
     {
         // ปรับให้ตรงกับ path: "applications/new/cancel/:subtype"
-        route: "/gap/user/applications/new/groupcancel/cancel",
+        route: "/org/user/applications/new/groupcancel/cancel",
         title: "แบบคำขอยกเลิกการรับรอง",
         icon: "fas fa-file-circle-xmark",
         iconColor: "red-darken-2",

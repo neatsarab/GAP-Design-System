@@ -1,0 +1,951 @@
+<template>
+    <div>
+        <div class="d-flex align-center justify-space-between flex-wrap ga-3 mb-6">
+            <div>
+                <h1 class="page-title mb-1">ผลการตรวจแปลง</h1>
+                <p class="text-body-2 text-medium-emphasis mb-0">
+                    จัดการคำขอรับรองมาตรฐาน GAP แบบกลุ่ม
+                </p>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <v-card rounded="xl" elevation="0" class="mb-4 filter-card">
+            <v-card-text class="pa-4">
+                <v-row dense align="center">
+                    <v-col cols="12" sm="6" md="6">
+                        <div class="field-label">
+                            <div>ค้นหา</div>
+                            <div class="field-label-en">Search</div>
+                        </div>
+                        <v-text-field v-model="search" placeholder="เลขคำขอ / ชื่อสถานประกอบการ / ชื่อผู้ยื่นคำขอ"
+                            prepend-inner-icon="fas fa-search" variant="outlined" density="compact" rounded="lg"
+                            hide-details clearable />
+                    </v-col>
+                    <v-col cols="12" sm="6" md="6">
+                        <div class="field-label">
+                            <div>ประเภททะเบียน</div>
+                            <div class="field-label-en">Certificate Type</div>
+                        </div>
+                        <v-autocomplete v-model="filters.typecert" :items="typecertOptions" item-title="label"
+                            item-value="value" placeholder="ทั้งหมด" variant="outlined" density="compact" rounded="lg"
+                            hide-details clearable />
+                    </v-col>
+                    <v-col cols="12" sm="6" md="3">
+                        <div class="field-label">
+                            <div>ประเภทคำขอ</div>
+                            <div class="field-label-en">Request Type</div>
+                        </div>
+                        <v-autocomplete v-model="filters.type" :items="typeOptions" item-title="label"
+                            item-value="value" placeholder="ทั้งหมด" variant="outlined" density="compact" rounded="lg"
+                            hide-details clearable />
+                    </v-col>
+                    <v-col cols="12" sm="6" md="3">
+                        <div class="field-label">
+                            <div>สถานะคำขอ</div>
+                            <div class="field-label-en">Status</div>
+                        </div>
+                        <v-autocomplete v-model="filters.status" :items="statusOptions" item-title="label"
+                            item-value="value" placeholder="ทั้งหมด" variant="outlined" density="compact" rounded="lg"
+                            hide-details clearable />
+                    </v-col>
+                    <v-col cols="12" sm="6" md="3">
+                        <div class="field-label">
+                            <div>วันที่ยื่น (จาก)</div>
+                            <div class="field-label-en">Submit Date (From)</div>
+                        </div>
+                        <v-menu v-model="dateFromMenu" :close-on-content-click="false" location="bottom start">
+                            <template #activator="{ props }">
+                                <v-text-field v-bind="props" density="compact" :model-value="dateFromBE" readonly
+                                    clearable prepend-inner-icon="fas fa-calendar"
+                                    placeholder="เลือกวันที่ / เดือน / ปี" hide-details style="cursor: pointer"
+                                    @click:clear.stop="dateFromObj = null" />
+                            </template>
+                            <v-date-picker v-model="dateFromObj" color="gap-staff" show-adjacent-months
+                                :hide-header="!dateFromObj" title="วันที่ยื่น (จาก)" locale="th"
+                                @update:model-value="dateFromMenu = false" />
+                        </v-menu>
+                    </v-col>
+                    <v-col cols="12" sm="6" md="3">
+                        <div class="field-label">
+                            <div>วันที่ยื่น (ถึง)</div>
+                            <div class="field-label-en">Submit Date (To)</div>
+                        </div>
+                        <v-menu v-model="dateToMenu" :close-on-content-click="false" location="bottom start">
+                            <template #activator="{ props }">
+                                <v-text-field v-bind="props" density="compact" :model-value="dateToBE2" readonly
+                                    clearable prepend-inner-icon="fas fa-calendar"
+                                    placeholder="เลือกวันที่ / เดือน / ปี" hide-details style="cursor: pointer"
+                                    @click:clear.stop="dateToObj = null" />
+                            </template>
+                            <v-date-picker v-model="dateToObj" color="gap-staff" show-adjacent-months
+                                :hide-header="!dateToObj" title="วันที่ยื่น (ถึง)" locale="th"
+                                @update:model-value="dateToMenu = false" />
+                        </v-menu>
+                    </v-col>
+                </v-row>
+                <v-row dense>
+                    <v-col cols="auto" class="ml-auto">
+                        <v-btn variant="tonal" color="grey" size="small" prepend-icon="fas fa-rotate-left"
+                            @click="clearFilters">
+                            ล้างตัวกรอง
+                        </v-btn>
+                    </v-col>
+                </v-row>
+            </v-card-text>
+        </v-card>
+
+        <v-row class="pa-4 mb-1 mt-n5 d-flex align-center justify-end ga-2">
+            <v-btn variant="tonal" color="gap-staff" prepend-icon="fas fa-paper-plane"
+                @click="dialogProposeToCC = true">
+                บันทึกผลตรวจ
+            </v-btn>
+        </v-row>
+        <template>
+            <div class="text-center pa-4">
+                <v-dialog v-model="dialogProposeToCC" max-width="900" persistent>
+                    <v-card class="mx-auto rounded-xl" width="900">
+                        <template v-slot:title>
+                            <div class="d-flex align-center pa-2">
+                                <v-icon icon="fas fa-file-check" class="mr-3" color="gap-staff" size="22" />
+                                <h5 class="font-weight-black text-h6">บันทึกผลตรวจ</h5>
+                            </div>
+                        </template>
+
+                        <v-divider />
+
+                        <v-card-text class="pa-6">
+                            <v-row>
+                                <v-col cols="12" sm="3">
+                                    <div class="field-label mb-1 mt-4">ผลการตรวจแปลง</div>
+
+                                </v-col>
+                                <v-col cols="12" sm="9">
+                                    <v-select v-model="ccForm.inspectionResult" :items="['ผ่าน', 'ไม่ผ่าน']"
+                                        placeholder="กรุณาระบุผลการตรวจแปลง" variant="outlined" rounded="lg"
+                                        hide-details density="compact">
+                                    </v-select>
+                                </v-col>
+                                <v-col cols="12" sm="3">
+                                    <div class="field-label mb-1 mt-4">ผู้ที่ทำการรับรอง</div>
+
+                                </v-col>
+                                <v-col cols="12" sm="9">
+                                    <v-select v-model="ccForm.personInCharge" :items="['สมชาย ใจดี', 'สมหญิง แสนดี']"
+                                        placeholder="กรุณาระบุผู้ที่ทำการรับรอง" variant="outlined" rounded="lg"
+                                        hide-details density="compact">
+                                    </v-select>
+                                </v-col>
+                                <v-col cols="12" sm="3">
+                                    <div class="field-label mb-1 mt-4">ปีงบประมาณ</div>
+
+                                </v-col>
+                                <v-col cols="12" sm="9">
+                                    <v-select v-model="ccForm.budgetYear" :items="['2567', '2568', '2569']"
+                                        placeholder="กรุณาระบุปีงบประมาณ" variant="outlined" rounded="lg" hide-details
+                                        density="compact">
+                                    </v-select>
+                                </v-col>
+                                <v-col cols="12" sm="3">
+                                    <div class="field-label mb-1 mt-4">วันที่เข้าตรวจ</div>
+
+                                </v-col>
+                                <v-col cols="12" sm="9">
+                                    <v-text-field v-model="ccForm.inspectionDate" placeholder="วันที่เข้าตรวจ"
+                                        variant="outlined" rounded="lg" hide-details type="date" density="compact" />
+                                </v-col>
+                                <v-col cols="12" sm="3">
+                                    <div class="field-label mb-1 mt-4">รหัสแปลง</div>
+
+                                </v-col>
+                                <v-col cols="12" sm="9">
+                                    <v-text-field v-model="ccForm.plotId" placeholder="กรุณาระบุรหัสแปลง"
+                                        variant="outlined" rounded="lg" hide-details density="compact">
+                                    </v-text-field>
+                                </v-col>
+                                <v-col cols="12" sm="3">
+                                    <div class="field-label mb-1 mt-4">พื้นที่ปลูก</div>
+
+                                </v-col>
+                                <v-col cols="12" sm="9">
+                                    <v-text-field v-model="ccForm.areaSize" placeholder="กรุณาระบุพื้นที่ปลูก"
+                                        variant="outlined" rounded="lg" hide-details density="compact">
+                                    </v-text-field>
+                                </v-col>
+                                <v-col cols="12" sm="3">
+                                    <div class="field-label mb-1 mt-4">ปริมาณการผลิต(กิโลกรัม)</div>
+
+                                </v-col>
+                                <v-col cols="12" sm="9">
+                                    <v-text-field v-model="ccForm.productionYield" placeholder="กรุณาระบุปริมาณการผลิต"
+                                        variant="outlined" rounded="lg" hide-details density="compact">
+                                    </v-text-field>
+                                </v-col>
+                                <v-col cols="12" sm="3">
+                                    <div class="field-label mb-1 mt-4">พิกัดแปลงพืช</div>
+
+                                </v-col>
+                                <v-col cols="12" sm="4">
+                                    <v-text-field v-model="ccForm.latitude" placeholder="latitude" variant="outlined"
+                                        rounded="lg" hide-details density="compact">
+                                    </v-text-field>
+                                </v-col>
+                                <v-col cols="12" sm="3">
+                                    <v-text-field v-model="ccForm.longitude" placeholder="longitude" variant="outlined"
+                                        rounded="lg" hide-details density="compact">
+                                    </v-text-field>
+                                </v-col>
+                                <v-col cols="12" sm="2" class="">
+                                    <v-btn>
+                                        <v-icon icon="fas fa-map-marker-alt" size="14" />
+                                        พิกัดแปลงพืช
+                                    </v-btn>
+                                </v-col>
+                                <v-col cols="12" sm="3">
+                                    <div class="field-label mb-1 mt-4">พื้นที่ปลูก</div>
+
+                                </v-col>
+                                <v-col cols="12" sm="9">
+                                    <v-text-field v-model="ccForm.plantingArea" placeholder="กรุณาระบุพื้นที่ปลูก"
+                                        variant="outlined" rounded="lg" hide-details density="compact">
+                                    </v-text-field>
+                                </v-col>
+                                <v-col cols="12" sm="3">
+                                    <div class="field-label mb-1 mt-4">จำนวน(ต้น)</div>
+
+                                </v-col>
+                                <v-col cols="12" sm="9">
+                                    <v-text-field v-model="ccForm.treeAmount" placeholder="กรุณาระบุจำนวนต้น"
+                                        variant="outlined" rounded="lg" hide-details density="compact">
+                                    </v-text-field>
+                                </v-col>
+                                <v-col cols="12" sm="3">
+                                    <div class="field-label mb-1 mt-4">อายุแปลง(ปี)</div>
+
+                                </v-col>
+                                <v-col cols="12" sm="9">
+                                    <v-text-field v-model="ccForm.plotAge" placeholder="กรุณาระบุอายุแปลง"
+                                        variant="outlined" rounded="lg" hide-details density="compact">
+                                    </v-text-field>
+                                </v-col>
+                                <v-col cols="12" sm="3">
+                                    <div class="field-label mb-1 mt-4">ช่วงที่ให้ผลผลิต</div>
+
+                                </v-col>
+                                <v-col cols="12" sm="5">
+                                    <v-select v-model="ccForm.harvestPeriodStart"
+                                        :items="['มกราคม', 'กุมภาพันธ์', 'มีนาคม']" placeholder="กรุณาระบุช่วงเวลา"
+                                        variant="outlined" rounded="lg" hide-details density="compact">
+                                    </v-select>
+                                </v-col>
+                                <v-col cols="12" sm="4">
+                                    <v-select v-model="ccForm.harvestPeriodEnd"
+                                        :items="['เมษายน', 'พฤษภาคม', 'มิถุนายน']" placeholder="กรุณาระบุช่วงเวลา"
+                                        variant="outlined" rounded="lg" hide-details density="compact">
+                                    </v-select>
+                                </v-col>
+                                <v-col cols="12" sm="3">
+                                    <div class="field-label mb-1 mt-4">ปริมาณการผลิต(กิโลกรัม)</div>
+
+                                </v-col>
+                                <v-col cols="12" sm="9">
+                                    <v-text-field v-model="ccForm.totalProduction" placeholder="กรุณาระบุปริมาณการผลิต"
+                                        variant="outlined" rounded="lg" hide-details density="compact">
+                                    </v-text-field>
+                                </v-col>
+                                <v-col cols="12" sm="3">
+                                    <div class="field-label mb-1 mt-4">ครั้งที่ทำการตรวจ</div>
+
+                                </v-col>
+                                <v-col cols="12" sm="9">
+                                    <v-text-field v-model="ccForm.proposeCount" placeholder="กรุณาระบุครั้งที่ทำการตรวจ"
+                                        variant="outlined" rounded="lg" hide-details density="compact">
+                                    </v-text-field>
+                                </v-col>
+                                <v-col cols="12" sm="3">
+                                    <div class="field-label mb-1 mt-4">วันที่เข้าตรวจ</div>
+
+                                </v-col>
+                                <v-col cols="12" sm="9">
+                                    <v-text-field v-model="ccForm.inspectionDateAgain" placeholder="วันที่เข้าตรวจ"
+                                        variant="outlined" rounded="lg" hide-details type="date" density="compact" />
+                                </v-col>
+                                <v-col cols="12" sm="3">
+                                    <div class="field-label mb-1 mt-4">ผลการตรวจแปลง</div>
+
+                                </v-col>
+                                <v-col cols="12" sm="9">
+                                    <v-select v-model="ccForm.inspectionResultAgain" :items="['ผ่าน', 'ไม่ผ่าน']"
+                                        placeholder="กรุณาระบุผลการตรวจแปลง" variant="outlined" rounded="lg"
+                                        hide-details density="compact">
+                                    </v-select>
+                                </v-col>
+                            </v-row>
+                            <v-row>
+                                <v-container>
+                                    <v-card variant="outlined" class="pa-6">
+                                        <v-row align="center" class="mb-10">
+                                            <v-col cols="12" md="3">
+                                                <div class="text-subtitle-1 font-weight-bold">ผู้ทำการตรวจรับรอง
+                                                    (หัวหน้าทีม)</div>
+                                            </v-col>
+
+                                            <v-col cols="12" md="9">
+                                                <v-row no-gutters align="center">
+                                                    <v-col>
+                                                        <v-text-field v-model="searchLead" placeholder="ค้นหา..."
+                                                            variant="outlined" density="compact" hide-details
+                                                            class="mb-1"></v-text-field>
+                                                        <v-list border height="250" class="overflow-y-auto rounded">
+                                                            <v-list-item v-for="item in filteredLeads" :key="item.id"
+                                                                @click="moveLead(item, 'select')">
+                                                                {{ item.name }}
+                                                            </v-list-item>
+                                                        </v-list>
+                                                    </v-col>
+
+                                                    <v-col cols="auto" class="px-4 d-flex flex-column gap-2">
+                                                        <v-btn icon="fas fa-angle-double-right" variant="text"
+                                                            color="gap-staff" @click="moveAllLeads('select')"
+                                                            title="ย้ายไปขวาทั้งหมด"></v-btn>
+
+                                                        <v-btn icon="fas fa-angles-left" variant="text"
+                                                            color="gap-staff" @click="moveAllLeads('remove')"
+                                                            title="ย้ายไปซ้ายทั้งหมด"></v-btn>
+                                                    </v-col>
+
+                                                    <v-col>
+                                                        <v-text-field readonly variant="outlined" density="compact"
+                                                            hide-details class="mb-1"
+                                                            placeholder="ค้นหา..."></v-text-field>
+                                                        <v-list border height="250"
+                                                            class="overflow-y-auto rounded bg-grey-lighten-4">
+                                                            <v-list-item v-for="item in leadSelectedList" :key="item.id"
+                                                                @click="moveLead(item, 'remove')">
+                                                                {{ item.name }}
+                                                            </v-list-item>
+                                                        </v-list>
+                                                    </v-col>
+                                                </v-row>
+                                            </v-col>
+                                        </v-row>
+
+                                        <v-divider class="mb-10"></v-divider>
+
+                                        <v-row align="center">
+                                            <v-col cols="12" md="3">
+                                                <div class="text-subtitle-1 font-weight-bold">ผู้ทำการตรวจรับรอง</div>
+                                                <div class="text-subtitle-1 font-weight-bold">
+                                                    (ลูกทีม)</div>
+                                            </v-col>
+
+                                            <v-col cols="12" md="9">
+                                                <v-row no-gutters align="center">
+                                                    <v-col>
+                                                        <v-text-field v-model="searchMember" placeholder="ค้นหา..."
+                                                            variant="outlined" density="compact" hide-details
+                                                            class="mb-1"></v-text-field>
+                                                        <v-list border height="250" class="overflow-y-auto rounded">
+                                                            <v-list-item v-for="item in filteredMembers" :key="item.id"
+                                                                @click="moveMember(item, 'select')">
+                                                                {{ item.name }}
+                                                            </v-list-item>
+                                                        </v-list>
+                                                    </v-col>
+
+                                                    <v-col cols="auto" class="px-4 d-flex flex-column gap-2">
+                                                        <v-btn icon="fas fa-angle-double-right" variant="text"
+                                                            color="gap-staff" @click="moveAllMembers('select')"></v-btn>
+
+                                                        <v-btn icon="fas fa-angle-double-left" variant="text"
+                                                            color="gap-staff" @click="moveAllMembers('remove')"></v-btn>
+                                                    </v-col>
+
+                                                    <v-col>
+                                                        <v-text-field readonly variant="outlined" density="compact"
+                                                            hide-details class="mb-1"
+                                                            placeholder="ค้นหา..."></v-text-field>
+                                                        <v-list border height="250"
+                                                            class="overflow-y-auto rounded bg-grey-lighten-4">
+                                                            <v-list-item v-for="item in memberSelectedList"
+                                                                :key="item.id" @click="moveMember(item, 'remove')">
+                                                                {{ item.name }}
+                                                            </v-list-item>
+                                                        </v-list>
+                                                    </v-col>
+                                                </v-row>
+                                            </v-col>
+                                        </v-row>
+                                    </v-card>
+                                </v-container>
+
+                            </v-row>
+                            <v-row>
+                                <v-card rounded="xl" elevation="0" class="section-card mb-5" width="900">
+                                    <v-card-text class="pa-5">
+                                        <v-checkbox v-model="ccForm.isSampling"
+                                            label="สุ่มตัวอย่างการตรวจสอบแปลง"></v-checkbox>
+                                        <v-row>
+                                            <v-col cols="12" sm="3">
+                                                <div class="field-label mb-1 mt-4">วันที่ส่งวิเคราะห์</div>
+                                            </v-col>
+                                            <v-col cols="12" sm="9">
+                                                <v-text-field v-model="ccForm.analysisSendDate"
+                                                    placeholder="กรุณาระบุวันที่ส่งวิเคราะห์" variant="outlined"
+                                                    rounded="lg" hide-details density="compact">
+                                                </v-text-field>
+                                            </v-col>
+                                            <v-col cols="12" sm="3">
+                                                <div class="field-label mb-1 mt-4">วันที่รายงานผลวิเคราะห์</div>
+
+                                            </v-col>
+                                            <v-col cols="12" sm="9">
+                                                <v-text-field v-model="ccForm.analysisReportDate"
+                                                    placeholder="กรุณาระบุวันที่รายงานผลวิเคราะห์" variant="outlined"
+                                                    rounded="lg" hide-details density="compact">
+                                                </v-text-field>
+                                            </v-col>
+                                            <v-col cols="12" sm="3">
+                                                <div class="field-label mb-1 mt-4">ห้องปฏิบัติการ</div>
+
+                                            </v-col>
+                                            <v-col cols="12" sm="9">
+                                                <v-text-field v-model="ccForm.laboratoryName"
+                                                    placeholder="กรุณาระบุห้องปฏิบัติการ" variant="outlined"
+                                                    rounded="lg" hide-details density="compact">
+                                                </v-text-field>
+                                            </v-col>
+                                            <v-col cols="12" sm="3">
+                                                <div class="field-label mb-1 mt-4">การสุ่มตรวจที่พบ</div>
+
+                                            </v-col>
+                                            <v-col cols="12" sm="9">
+                                                <v-checkbox v-model="ccForm.foundMaterial"
+                                                    label="วัสดุปลูก"></v-checkbox>
+                                                <v-checkbox v-model="ccForm.foundWater" class="mt-n6"
+                                                    label="น้ำ"></v-checkbox>
+                                                <v-checkbox v-model="ccForm.foundPlant" class="mt-n6"
+                                                    label="พืช"></v-checkbox>
+                                            </v-col>
+                                        </v-row>
+                                    </v-card-text>
+                                </v-card>
+                            </v-row>
+                        </v-card-text>
+                        <v-divider />
+                        <v-card-actions class="pa-4 bg-grey-lighten-4">
+                            <v-spacer></v-spacer>
+                            <v-btn @click="dialogProposeToCC = false" color="grey-darken-1" variant="flat"
+                                class="px-6 font-weight-bold">
+                                ยกเลิก
+                            </v-btn>
+                            <v-btn @click="dialogProposeToCC = false" color="gap-staff" variant="flat"
+                                class="px-10 rounded-lg font-weight-bold" elevation="2">
+                                <v-icon icon="fas fa-save" start size="14" />
+                                ยืนยัน
+                            </v-btn>
+                        </v-card-actions>
+                    </v-card>
+                </v-dialog>
+            </div>
+        </template>
+
+
+        <!-- Table -->
+        <v-card rounded="xl" elevation="0" class="data-card">
+            <v-data-table :headers="headers" :items="filteredItems" :custom-key-sort="customKeySort" rounded="xl" hover
+                show-select>
+                <template #header.requestNo="{ column, isSorted, getSortIcon }">
+                    <span class="d-inline-flex align-center ga-1">
+                        <span>
+                            <div class="text-body-2 font-weight-medium" style="line-height: 1.3">
+                                เลขคำขอ
+                            </div>
+                            <div class="text-caption text-medium-emphasis" style="line-height: 1.2">
+                                Request No.
+                            </div>
+                        </span>
+                        <v-icon v-if="isSorted(column)" :icon="getSortIcon(column)" size="14" />
+                    </span>
+                </template>
+                <template #header.companyName="{ column, isSorted, getSortIcon }">
+                    <span class="d-inline-flex align-center ga-1">
+                        <span>
+                            <div class="text-body-2 font-weight-medium" style="line-height: 1.3">
+                                ชื่อสถานประกอบการ
+                            </div>
+                            <div class="text-caption text-medium-emphasis" style="line-height: 1.2">
+                                Company Name
+                            </div>
+                        </span>
+                        <v-icon v-if="isSorted(column)" :icon="getSortIcon(column)" size="14" />
+                    </span>
+                </template>
+                <template #header.applicantName="{ column, isSorted, getSortIcon }">
+                    <span class="d-inline-flex align-center ga-1">
+                        <span>
+                            <div class="text-body-2 font-weight-medium" style="line-height: 1.3">
+                                ชื่อผู้ยื่นคำขอ
+                            </div>
+                            <div class="text-caption text-medium-emphasis" style="line-height: 1.2">
+                                Applicant Name
+                            </div>
+                        </span>
+                        <v-icon v-if="isSorted(column)" :icon="getSortIcon(column)" size="14" />
+                    </span>
+                </template>
+                <template #header.typecert="{ column, isSorted, getSortIcon }">
+                    <span class="d-inline-flex align-center ga-1">
+                        <span>
+                            <div class="text-body-2 font-weight-medium" style="line-height: 1.3">
+                                ประเภททะเบียน
+                            </div>
+                            <div class="text-caption text-medium-emphasis" style="line-height: 1.2">
+                                Certificate Type
+                            </div>
+                        </span>
+                        <v-icon v-if="isSorted(column)" :icon="getSortIcon(column)" size="14" />
+                    </span>
+                </template>
+                <template #header.type="{ column, isSorted, getSortIcon }">
+                    <span class="d-inline-flex align-center ga-1">
+                        <span>
+                            <div class="text-body-2 font-weight-medium" style="line-height: 1.3">
+                                ประเภทคำขอ
+                            </div>
+                            <div class="text-caption text-medium-emphasis" style="line-height: 1.2">
+                                Request Type
+                            </div>
+                        </span>
+                        <v-icon v-if="isSorted(column)" :icon="getSortIcon(column)" size="14" />
+                    </span>
+                </template>
+                <template #header.submittedDate="{ column, isSorted, getSortIcon }">
+                    <span class="d-inline-flex align-center ga-1">
+                        <span>
+                            <div class="text-body-2 font-weight-medium" style="line-height: 1.3">
+                                วันที่ยื่น
+                            </div>
+                            <div class="text-caption text-medium-emphasis" style="line-height: 1.2">
+                                Submit Date
+                            </div>
+                        </span>
+                        <v-icon v-if="isSorted(column)" :icon="getSortIcon(column)" size="14" />
+                    </span>
+                </template>
+                <template #header.status="{ column, isSorted, getSortIcon }">
+                    <span class="d-inline-flex align-center ga-1">
+                        <span>
+                            <div class="text-body-2 font-weight-medium" style="line-height: 1.3">
+                                สถานะคำขอ
+                            </div>
+                            <div class="text-caption text-medium-emphasis" style="line-height: 1.2">
+                                Status
+                            </div>
+                        </span>
+                        <v-icon v-if="isSorted(column)" :icon="getSortIcon(column)" size="14" />
+                    </span>
+                </template>
+
+                <template #item.status="{ item }">
+                    <v-chip :color="statusColor(item.status)" size="small" variant="tonal">{{ statusLabel(item.status)
+                    }}</v-chip>
+                </template>
+                <template #item.actions="{ item }">
+                    <div class="d-flex align-center ga-1">
+                        <v-tooltip text="ดูคำขอ" location="top">
+                            <template #activator="{ props }">
+                                <v-btn v-bind="props" icon size="x-small" variant="text" color="gap-staff"
+                                    @click.stop="goToApplicationDetail(item.requestNo)">
+                                    <v-icon icon="fas fa-eye" size="14" />
+                                </v-btn>
+                            </template>
+                        </v-tooltip>
+                        <v-btn v-if="
+                            ['pending', 'reviewing', 'signing', 'approved'].includes(
+                                item.status,
+                            )
+                        " size="small" variant="tonal" color="warning" rounded="lg"
+                            prepend-icon="fas fa-clipboard-check" @click.stop="goToApplicationDetail(item.requestNo)">
+                            ตรวจสอบคำขอ
+                        </v-btn>
+                    </div>
+                </template>
+            </v-data-table>
+        </v-card>
+    </div>
+</template>
+
+<script setup>
+import { ref, reactive, computed, watch } from "vue";
+import { useRouter } from "vue-router";
+import { useLocale } from "vuetify";
+
+const { current: vuetifyLocale } = useLocale();
+vuetifyLocale.value = "th";
+
+const dateFromMenu = ref(false);
+const dateFromObj = ref(null);
+const dateToMenu = ref(false);
+const dateToObj = ref(null);
+const dialogProposeToCC = ref(false);
+
+const ccActionType = ref('propose'); // ค่าเริ่มต้น
+const ccForm = reactive({
+  result: null,               // ผลการตรวจแปลง
+  personInCharge: null,       // ผู้ที่ทำการรับรอง
+  fiscalYear: null,           // ปีงบประมาณ
+  inspectionDate: '',         // วันที่เข้าตรวจ
+  plotCode: '',               // รหัสแปลง
+  plantingArea: '',           // พื้นที่ปลูก
+  productionQuantity: '',     // ปริมาณการผลิต (รวม)
+  latitude: '',               // พิกัด Lat
+  longitude: '',              // พิกัด Long
+  treeCount: '',              // จำนวน(ต้น)
+  plotAge: '',                // อายุแปลง(ปี)
+  harvestMonthStart: null,    // ช่วงผลผลิต (เริ่ม)
+  harvestMonthEnd: null,      // ช่วงผลผลิต (จบ)
+  productionPerPeriod: '',    // ปริมาณการผลิต (ช่วงเวลา)
+  inspectionCount: '',        // ครั้งที่ทำการตรวจ
+  
+  // ส่วนสุ่มตัวอย่าง
+  isSampling: false,
+  analysisDate: '',
+  reportDate: '',
+  laboratory: '',
+  samplingFound: []           // สำหรับเก็บ [ 'วัสดุปลูก', 'น้ำ', 'พืช' ]
+});
+
+const submitCCAction = () => {
+    // Logic การส่งข้อมูลตาม ccActionType
+    console.log('Action:', ccActionType.value, ccForm);
+    dialogProposeToCC.value = false;
+};
+
+function dateToBE(date) {
+    if (!date) return "";
+    const d = String(date.getDate()).padStart(2, "0");
+    const m = String(date.getMonth() + 1).padStart(2, "0");
+    return `${d}/${m}/${date.getFullYear() + 543}`;
+}
+
+const dateFromBE = computed(() => dateToBE(dateFromObj.value));
+const dateToBE2 = computed(() => dateToBE(dateToObj.value));
+
+watch(dateFromObj, (v) => {
+    filters.dateFrom = v ? v.toISOString().slice(0, 10) : "";
+});
+watch(dateToObj, (v) => {
+    filters.dateTo = v ? v.toISOString().slice(0, 10) : "";
+});
+
+// แปลง DD/MM/YYYY (พ.ศ.) → timestamp เพื่อ sort
+function beDateToTs(str) {
+    if (!str) return 0;
+    const [d, m, y] = str.split("/").map(Number);
+    return new Date(y - 543, m - 1, d).getTime();
+}
+
+const customKeySort = {
+    submittedDate: (a, b) => beDateToTs(a) - beDateToTs(b),
+};
+
+const router = useRouter();
+const search = ref("");
+
+function goToApplicationDetail(id) {
+    router.push({ name: "staffInspectionResultDetail", params: { id } });
+}
+
+const filters = reactive({
+    dateFrom: "",
+    dateTo: "",
+    typecert: null,
+    type: null,
+    status: null,
+    dateProposeToCC: null,
+});
+
+const typeOptions = [
+    { label: "ขึ้นทะเบียน", value: "ขึ้นทะเบียน" },
+    { label: "ต่ออายุ", value: "ต่ออายุ" },
+    { label: "แก้ไข", value: "แก้ไข" },
+];
+
+const statusOptions = [
+    { label: "รอตรวจสอบ", value: "pending" },
+    { label: "รอแก้ไขคำขอ", value: "need_edit" },
+    { label: "รอพิจารณา", value: "reviewing" },
+    { label: "รอลงนาม", value: "signing" },
+    { label: "ได้รับอนุญาต", value: "approved" },
+];
+
+const headers = [
+    { title: "เลขคำขอ", key: "requestNo", sortable: true, fixed: "true" },
+    { title: "ชื่อสถานประกอบการ", key: "companyName", sortable: true },
+    { title: "ชื่อผู้ยื่นคำขอ", key: "applicantName", sortable: true },
+    { title: "ประเภททะเบียน", key: "typecert", sortable: true },
+    { title: "ประเภทคำขอ", key: "type", sortable: true },
+    { title: "วันที่ยื่น", key: "submittedDate", sortable: true },
+    { title: "สถานะคำขอ", key: "status", sortable: true },
+    { title: "", key: "actions", sortable: false, align: "end", fixed: "true" },
+];
+
+const allItems = [
+    {
+        requestNo: "EXP-0001",
+        companyName: "บ.ไทย เอ็กซ์พอร์ต จก.",
+        applicantName: "สมชาย ใจดี",
+        typecert: "คำขอหนังสือสำคัญแสดงการขึ้นทะเบียนเป็นผู้ส่งออกผักและผลไม้",
+        type: "ขึ้นทะเบียน",
+        submittedDate: "01/01/2569",
+        status: "pending",
+    },
+    {
+        requestNo: "EXP-0003",
+        companyName: "บ.สยาม เอ็กซ์พอร์ต จก.",
+        applicantName: "มาลี รักดี",
+        typecert:
+            "คำขอหนังสือสำคัญแสดงการจดทะเบียนเป็นผู้ส่งออกกล้วยสดไปประเทศญี่ปุ่น",
+        type: "ขึ้นทะเบียน",
+        submittedDate: "10/03/2569",
+        status: "reviewing",
+    },
+    {
+        requestNo: "EXP-0004",
+        companyName: "บ.เอเชียแอกโกร จก.",
+        applicantName: "ประสิทธิ์ พานิช",
+        typecert: "คำร้องขึ้นทะเบียนเป็นผู้ส่งออกพืชควบคุม",
+        type: "ต่ออายุ",
+        submittedDate: "12/03/2569",
+        status: "signing",
+    },
+    {
+        requestNo: "EXP-0005",
+        companyName: "บ.กรีนฟาร์ม จก.",
+        applicantName: "วิไล สุขสม",
+        typecert:
+            "คำขอหนังสือสำคัญแสดงการจดทะเบียนเป็นผู้ส่งออกกล้วยสดไปประเทศญี่ปุ่น",
+        type: "ขึ้นทะเบียน",
+        submittedDate: "15/03/2569",
+        status: "need_edit",
+    },
+    {
+        requestNo: "EXP-0006",
+        companyName: "บ.ไทยแลนด์ ฟรุ๊ต จก.",
+        applicantName: "ชัยวัฒน์ เกษตรกร",
+        typecert: "คำร้องขึ้นทะเบียนเป็นผู้ส่งออกพืชควบคุม",
+        type: "ขึ้นทะเบียน",
+        submittedDate: "20/03/2569",
+        status: "pending",
+    },
+];
+
+const typecertOptions = [
+    {
+        label: "คำขอหนังสือสำคัญแสดงการขึ้นทะเบียนเป็นผู้ส่งออกผักและผลไม้",
+        value: "คำขอหนังสือสำคัญแสดงการขึ้นทะเบียนเป็นผู้ส่งออกผักและผลไม้",
+    },
+    {
+        label:
+            "คำขอหนังสือสำคัญแสดงการจดทะเบียนเป็นผู้ส่งออกกล้วยสดไปประเทศญี่ปุ่น",
+        value:
+            "คำขอหนังสือสำคัญแสดงการจดทะเบียนเป็นผู้ส่งออกกล้วยสดไปประเทศญี่ปุ่น",
+    },
+    {
+        label:
+            "คำขอหนังสือสำคัญแสดงการจดทะเบียนเป็นผู้ส่งผลทุเรียนสดออกไปนอกราชอาณาจักร",
+        value:
+            "คำขอหนังสือสำคัญแสดงการจดทะเบียนเป็นผู้ส่งผลทุเรียนสดออกไปนอกราชอาณาจักร",
+    },
+    {
+        label: "คำขอจดทะเบียนเป็นผู้ส่งออกสินค้าเกษตรไปนอกราชอาณาจักร",
+        value: "คำขอจดทะเบียนเป็นผู้ส่งออกสินค้าเกษตรไปนอกราชอาณาจักร",
+    },
+    {
+        label:
+            "คำขอหนังสือสำคัญการจดทะเบียนเป็นผู้ส่งออกลูกเดือย, เมล็ดแมงลัก และพริกแห้ง ไปนอกราชอาณาจักร",
+        value:
+            "คำขอหนังสือสำคัญการจดทะเบียนเป็นผู้ส่งออกลูกเดือย, เมล็ดแมงลัก และพริกแห้ง ไปนอกราชอาณาจักร",
+    },
+    {
+        label: "คำร้องขึ้นทะเบียนเป็นผู้ส่งออกพืชควบคุม",
+        value: "คำร้องขึ้นทะเบียนเป็นผู้ส่งออกพืชควบคุม",
+    },
+];
+
+const filteredItems = computed(() => {
+    let items = allItems;
+    if (search.value) {
+        const q = search.value.toLowerCase();
+        items = items.filter(
+            (i) =>
+                i.requestNo.toLowerCase().includes(q) ||
+                i.companyName.toLowerCase().includes(q) ||
+                i.applicantName.toLowerCase().includes(q),
+        );
+    }
+    if (filters.typecert)
+        items = items.filter((i) => i.typecert === filters.typecert);
+    if (filters.type) items = items.filter((i) => i.type === filters.type);
+    if (filters.status) items = items.filter((i) => i.status === filters.status);
+    if (filters.dateFrom) {
+        const from = new Date(filters.dateFrom).getTime();
+        items = items.filter((i) => beDateToTs(i.submittedDate) >= from);
+    }
+    if (filters.dateTo) {
+        const to = new Date(filters.dateTo).getTime();
+        items = items.filter((i) => beDateToTs(i.submittedDate) <= to);
+    }
+    return items;
+});
+
+function clearFilters() {
+    search.value = "";
+    filters.dateFrom = "";
+    filters.dateTo = "";
+    filters.typecert = null;
+    filters.type = null;
+    filters.status = null;
+    dateFromObj.value = null;
+    dateToObj.value = null;
+}
+
+function statusColor(s) {
+    return (
+        {
+            pending: "warning",
+            need_edit: "info",
+            reviewing: "warning",
+            signing: "warning",
+            approved: "success",
+        }[s] ?? "grey"
+    );
+}
+
+function statusLabel(s) {
+    return (
+        {
+            pending: "รอตรวจสอบ",
+            need_edit: "รอแก้ไขคำขอ",
+            reviewing: "รอพิจารณา",
+            signing: "รอลงนาม",
+            approved: "ได้รับอนุญาต",
+        }[s] ?? s
+    );
+}
+
+const inspectionChecklist = reactive([
+    {
+
+        question: "การบริหารและจัดการองค์กร",
+        answer: "",
+    },
+    {
+
+        question: "เอกสารสัญญา/ใบสมัคร/คำรับรอง",
+        answer: "",
+    },
+    {
+
+        question: "หลักเกณฑ์และเงื่อนไขของกลุ่ม",
+        answer: "",
+    },
+    {
+
+        question: "การฝึกอบรม",
+        answer: "",
+    },
+    {
+
+        question: "การจัดการข้อร้องเรียน",
+        answer: "",
+    },
+    {
+
+        question: "กระบวนการตรวจติดตามภายใน",
+        answer: "",
+    },
+    {
+
+        question: "การควบคุมเอกสาร และบันทึก",
+        answer: "",
+    },
+]);
+const rawData = [
+    { id: 1, name: 'กัลยา ธรรมเรือน' },
+    { id: 2, name: 'ชญานันท์ โค้วอินทร์' },
+    { id: 3, name: 'ชญานันท์ โค้วอินทร์ (2)' },
+    { id: 4, name: 'ชูรีพร ปันดอย' },
+    { id: 5, name: 'ณิชาภรณ์ โกศล' },
+    { id: 6, name: 'ทิพย์วิมล แก้วพรัตน์' },
+]
+
+// --- Logic หัวหน้าทีม ---
+const searchLead = ref('')
+const leadAvailableList = ref([...rawData])
+const leadSelectedList = ref([])
+
+const filteredLeads = computed(() =>
+    leadAvailableList.value.filter(item => item.name.includes(searchLead.value))
+)
+
+const moveLead = (item, type) => {
+    if (type === 'select') {
+        leadSelectedList.value.push(item)
+        leadAvailableList.value = leadAvailableList.value.filter(i => i.id !== item.id)
+    } else {
+        leadAvailableList.value.push(item)
+        leadSelectedList.value = leadSelectedList.value.filter(i => i.id !== item.id)
+    }
+}
+
+const moveAllLeads = (type) => {
+    if (type === 'select') {
+        leadSelectedList.value.push(...leadAvailableList.value)
+        leadAvailableList.value = []
+    } else {
+        leadAvailableList.value.push(...leadSelectedList.value)
+        leadSelectedList.value = []
+    }
+}
+
+// --- Logic ลูกทีม ---
+const searchMember = ref('')
+const memberAvailableList = ref([...rawData])
+const memberSelectedList = ref([])
+
+const filteredMembers = computed(() =>
+    memberAvailableList.value.filter(item => item.name.includes(searchMember.value))
+)
+
+const moveMember = (item, type) => {
+    if (type === 'select') {
+        memberSelectedList.value.push(item)
+        memberAvailableList.value = memberAvailableList.value.filter(i => i.id !== item.id)
+    } else {
+        memberAvailableList.value.push(item)
+        memberSelectedList.value = memberSelectedList.value.filter(i => i.id !== item.id)
+    }
+}
+
+const moveAllMembers = (type) => {
+    if (type === 'select') {
+        memberSelectedList.value.push(...memberAvailableList.value)
+        memberAvailableList.value = []
+    } else {
+        memberAvailableList.value.push(...memberSelectedList.value)
+        memberSelectedList.value = []
+    }
+}
+</script>
+
+<style scope>
+:deep(.v-data-tabletd:last-child),
+:deep(.v-data-tableth:last-child) {
+    position: sticky;
+    right: 0;
+    z-index: 1;
+    background: rgb(var(--v-theme-surface));
+}
+</style>

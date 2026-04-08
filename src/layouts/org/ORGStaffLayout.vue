@@ -280,14 +280,44 @@ const navGroups = [
         divider: true,
         items: [
             {
+                title: "ยื่นขอใบรับรอง",
+                icon: "fas fa-file-pen",
+                to: "/org/staff/group/applications/new",
+            },
+            {
+                title: "รายการคำขอ",
+                icon: "fas fa-file-lines",
+                to: "/org/staff/group/applications",
+            },
+            {
+                title: "ผลการตรวจแปลง",
+                icon: "fas fa-calendar-check",
+                to: "/org/staff/group/inspection-results",
+            },
+            {
+                title: "เสนอแปลงต่อ CC",
+                icon: "fas fa-clipboard-check",
+                to: "/org/staff/group/propose-cc",
+            },
+            {
+                title: "บันทึกครั้งที่เสนอ CC",
+                icon: "fas fa-gavel",
+                to: "/org/staff/group/cc-results",
+            },
+            {
+                title: "บันทึกผลจาก CC",
+                icon: "fas fa-gavel",
+                to: "/org/staff/group/cc-saveresults",
+            },
+            {
                 title: "นัดตรวจเยี่ยม Previsit",
                 icon: "fas fa-file-pen",
-                to: "/org/staff/previsit-appointment",
+                to: "/org/staff/group/previsit-appointment",
             },
             {
                 title: "ผลการตรวจเยี่ยม Previsit",
                 icon: "fas fa-file-lines",
-                to: "/org/staff/previsit-results",
+                to: "/org/staff/group/previsit-results",
             },
         ],
     },
