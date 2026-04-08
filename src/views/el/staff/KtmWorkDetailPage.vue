@@ -164,7 +164,7 @@
                                                     </div>
                                                 </v-col>
                                                 <v-col cols="1" class="text-center"><v-btn icon="fas fa-file-pdf"
-                                                        variant="text" color="primary" /></v-col>
+                                                        variant="text" color="el-staff" /></v-col>
                                                 <v-col cols="1.5"><v-select :items="['ผ่าน', 'ไม่ผ่าน']"
                                                         v-model="tempData.checkResults.gmp" variant="outlined"
                                                         density="compact" hide-details rounded="lg" /></v-col>
@@ -191,7 +191,7 @@
                                                     </div>
                                                 </v-col>
                                                 <v-col cols="1" class="text-center"><v-btn icon="fas fa-file-pdf"
-                                                        variant="text" color="primary" /></v-col>
+                                                        variant="text" color="el-staff" /></v-col>
                                                 <v-col cols="1.5"><v-select :items="['ผ่าน', 'ไม่ผ่าน']"
                                                         v-model="tempData.checkResults.gmp" variant="outlined"
                                                         density="compact" hide-details rounded="lg" /></v-col>
@@ -207,7 +207,7 @@
                                 <tr v-for="(item, idx) in mainDocList" :key="idx">
                                     <td class="pa-4 text-body-2">{{ item.label }}</td>
                                     <td class="text-center"><v-btn icon="fas fa-file-pdf" variant="text"
-                                            color="primary" /></td>
+                                            color="el-staff" /></td>
                                     <td class="pa-2">
                                         <v-select :items="['ผ่าน', 'ไม่ผ่าน']" v-model="tempData.checkResults[item.key]"
                                             variant="outlined" density="compact" hide-details rounded="lg" />

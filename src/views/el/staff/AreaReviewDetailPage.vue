@@ -171,94 +171,94 @@
                                             <v-text-field v-model="tempData.location" variant="outlined" rounded="lg"
                                                 density="comfortable" readonly hide-details />
                                         </v-col>
-                                        <v-col cols="12" md="4">
+                                        <v-col cols="12" md="6">
                                             <div class="field-label mb-1">จังหวัด</div><v-text-field
                                                 v-model="tempData.province" variant="outlined" rounded="lg"
                                                 density="comfortable" readonly hide-details />
                                         </v-col>
-                                        <v-col cols="12" md="4">
-                                            <div class="field-label mb-1">อำเภอ/เขต</div><v-text-field
-                                                v-model="tempData.district" variant="outlined" rounded="lg"
+                                        <v-col cols="12" md="6">
+                                            <div class="field-label mb-1">รหัสไปรษณีย์ </div>
+                                            <v-text-field v-model="tempData.zipcode" variant="outlined" rounded="lg"
                                                 density="comfortable" readonly hide-details />
                                         </v-col>
                                         <v-col cols="12" md="4">
-                                            <div class="field-label mb-1">ตำบล/แขวง</div><v-text-field
-                                                v-model="tempData.subdistrict" variant="outlined" rounded="lg"
+                                            <div class="field-label mb-1">พิกัด X </div>
+                                            <v-text-field v-model="tempData.coordX" variant="outlined" rounded="lg"
                                                 density="comfortable" readonly hide-details />
                                         </v-col>
                                         <v-col cols="12" md="4">
-                                            <div class="field-label mb-1">พิกัด X</div><v-text-field
-                                                v-model="tempData.coordX" variant="outlined" rounded="lg"
+                                            <div class="field-label mb-1">พิกัด Y </div>
+                                            <v-text-field v-model="tempData.coordZ" variant="outlined" rounded="lg"
                                                 density="comfortable" readonly hide-details />
                                         </v-col>
                                         <v-col cols="12" md="4">
-                                            <div class="field-label mb-1">พิกัด Y</div><v-text-field
-                                                v-model="tempData.coordY" variant="outlined" rounded="lg"
+                                            <div class="field-label mb-1">พิกัด Z </div>
+                                            <v-text-field v-model="tempData.coordY" variant="outlined" rounded="lg"
                                                 density="comfortable" readonly hide-details />
                                         </v-col>
-                                        <v-col cols="12" md="4">
-                                            <div class="field-label mb-1">พิกัด Z</div><v-text-field
-                                                v-model="tempData.coordZ" variant="outlined" rounded="lg"
-                                                density="comfortable" readonly hide-details />
+                                        <v-divider class="my-6 mx-8" />
+                                        <v-col cols="12" md="6">
+                                            <div class="field-label mb-1">ผู้สร้างข้อมูล</div>
+                                            <v-select v-model="tempData.creator" :items="[tempData.creator]"
+                                                variant="outlined" rounded="lg" density="comfortable" readonly
+                                                hide-details />
+                                        </v-col>
+
+                                        <v-col cols="12" md="6">
+                                            <div class="field-label mb-1">วันที่สร้างข้อมูล</div>
+                                            <v-select v-model="tempData.createDate" :items="[tempData.createDate]"
+                                                variant="outlined" rounded="lg" density="comfortable" readonly
+                                                hide-details />
+                                        </v-col>
+
+                                        <v-col cols="12" md="6">
+                                            <div class="field-label mb-1">ผู้แก้ไขข้อมูล</div>
+                                            <v-select v-model="tempData.editor" :items="[tempData.editor]"
+                                                variant="outlined" rounded="lg" density="comfortable" readonly
+                                                hide-details />
+                                        </v-col>
+
+                                        <v-col cols="12" md="6">
+                                            <div class="field-label mb-1">วันที่แก้ไขข้อมูล</div>
+                                            <v-select v-model="tempData.editDate" :items="[tempData.editDate]"
+                                                variant="outlined" rounded="lg" density="comfortable" readonly
+                                                hide-details />
+                                        </v-col>
+
+                                        <v-col cols="12" md="6">
+                                            <div class="field-label mb-1">สวพ. เขต</div>
+                                            <v-select v-model="tempData.swpArea" :items="[tempData.swpArea]"
+                                                variant="outlined" rounded="lg" density="comfortable" readonly
+                                                hide-details />
+                                        </v-col>
+
+                                        <v-col cols="12" md="6">
+                                            <div class="field-label mb-1">ศวพ. จังหวัด</div>
+                                            <v-select v-model="tempData.swpProvince" :items="[tempData.swpProvince]"
+                                                variant="outlined" rounded="lg" density="comfortable" readonly
+                                                hide-details />
+                                        </v-col>
+
+                                        <v-col cols="12" md="6">
+                                            <div class="field-label mb-1">ผู้ตรวจล่าสุด</div>
+                                            <v-select v-model="tempData.lastChecker" :items="[tempData.lastChecker]"
+                                                variant="outlined" rounded="lg" density="comfortable" readonly
+                                                hide-details />
                                         </v-col>
                                     </v-row>
-                                </v-col>
-
-                                <!-- ตรวจสอบเอกสารประกอบแปลง -->
-                                <v-col cols="12" class="mt-6">
-                                    <div class="field-label mb-2 font-weight-bold">ตรวจสอบเอกสารประกอบแปลงเกษตร</div>
-                                    <v-table density="comfortable" class="border rounded-lg check-document-table">
-                                        <thead>
-                                            <tr>
-                                                <th class="text-left font-weight-bold" style="width: 40%;">รายการเอกสาร
-                                                </th>
-                                                <th class="text-center font-weight-bold" style="width: 10%;">ไฟล์</th>
-                                                <th class="text-left font-weight-bold" style="width: 20%;">ผลการตรวจ
-                                                </th>
-                                                <th class="text-left font-weight-bold" style="width: 30%;">หมายเหตุ</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr v-for="(doc, index) in farmDocCheckList" :key="index"
-                                                :class="{ 'bg-grey-lighten-4': doc.isHeader }">
-                                                <td class="pa-4" :class="{ 'pl-10': doc.isSub }">
-                                                    <div class="text-body-2">
-                                                        <span v-if="doc.required" class="text-error mr-1">*</span>
-                                                        {{ doc.label }}
-                                                    </div>
-                                                </td>
-                                                <td class="text-center pa-2">
-                                                    <v-btn v-if="!doc.isHeader" icon="fas fa-file-pdf" variant="text"
-                                                        color="el-staff" size="small" />
-                                                </td>
-                                                <td class="pa-2">
-                                                    <v-select v-if="!doc.isHeader"
-                                                        v-model="tempData.checkResults[doc.key]"
-                                                        :items="['ผ่าน', 'ไม่ผ่าน']" variant="outlined" rounded="lg"
-                                                        density="compact" hide-details />
-                                                </td>
-                                                <td class="pa-2">
-                                                    <v-textarea v-if="!doc.isHeader"
-                                                        v-model="tempData.checkRemarks[doc.key]" variant="outlined"
-                                                        rounded="lg" density="compact" hide-details rows="1"
-                                                        auto-grow />
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </v-table>
-                                    <div class="d-flex justify-center mt-6">
-                                        <v-col cols="12" md="2" class="text-md-right pt-2 font-weight-bold mt-5">เปลี่ยน
-                                            ศวพ.</v-col>
-                                        <v-col cols="12" md="6" class="mt-2">
-                                            <v-select v-model="tempData.changeswp" :items="[]"
-                                                variant="outlined" rounded="lg" density="compact" hide-details />
-                                        </v-col>
-                                        <v-col cols="12" md="2" class="text-md-right pt-2 font-weight-bold mt-3 ml-n8">
-                                            <v-btn color="el-staff" prepend-icon="fas fa-gear" rounded="lg">
+                                    <div class="d-flex justify-start">
+                                        <v-col cols="12" md="12" class="d-flex field-label mb-1">
+                                            <div class="mt-5">เปลี่ยน ศวพ.</div>
+                                            <v-col cols="12" md="9"><v-select v-model="tempData.changeswp" :items="[]"
+                                                    variant="outlined" rounded="lg" density="compact"
+                                                    hide-details /></v-col>
+                                            <v-btn class="mt-3" color="el-staff" prepend-icon="fas fa-gear"
+                                                rounded="lg">
                                                 เปลี่ยน</v-btn>
                                         </v-col>
                                     </div>
                                 </v-col>
+
 
                                 <!-- ตารางประวัติ CL-02 -->
                                 <v-col cols="12" class="mt-6">
@@ -434,14 +434,19 @@ const establishmentInfo = reactive({
 
 // ข้อมูลสำหรับฟอร์ม (Refactored & Fixed Duplicates)
 const tempData = reactive({
+    id: null,
     appType: 'ตรวจขึ้นทะเบียนใหม่',
     status: 'รอตรวจ',
-    checkCount: '1',
-    alertCode: '-',
-    farmerName: 'นาง จันทร์จิรา เครือพลับ',
-    cropName: 'ถั่วฝักยาว',
+    checkCount: '0',
+    alertCode: '',
+    name: 'นาง จันทร์จิรา เครือพลับ',
+    crop: 'ถั่วฝักยาว',
     certType: 'GAP',
     certNo: 'กษ 03-9001-73-352-000041',
+    farmerName: 'นางสาว พลอย จินดามณี',
+    certType: 'GAP',
+    cropName: 'ผักชีไทย',
+    certNo: 'กษ-1235-2556-1484',
     farmCode: 'F-12345-001',
     areaSize: '15.5',
     yieldPerArea: '1200',
@@ -451,20 +456,41 @@ const tempData = reactive({
     province: 'กรุงเทพมหานคร',
     district: 'ลาดพร้าว',
     subdistrict: 'ลาดพร้าว',
+    zipcode: '10230',
     coordX: '13.8045',
     coordY: '100.6030',
     coordZ: '0.0',
     plantingPlans: [
-        { selected: false, name: 'มกราคม - มีนาคม', period: '90 วัน' },
         { selected: false, name: 'มิถุนายน - สิงหาคม', period: '90 วัน' }
     ],
     checkResults: {},
     checkRemarks: {},
-    zoneResult: 'ผ่าน',
-    zoneRemark: '',
-    zoneRecorder: 'เจ้าหน้าที่ตรวจประเมิน',
-    zoneDate: new Date().toISOString().substr(0, 10),
-    changeswp: null
+    isAssignToProvince: false,
+    swpArea: 'เขต 1',
+    swpProvince: 'ศวพ.เชียงใหม่',
+    overallResult: 'ผ่าน',
+    overallRemark: '',
+    rejectionLog: [
+        {
+            count: 1,
+            seq: 1,
+            date: '2026-03-25',
+            remark: 'เอกสารแนบข้อ 4 (บัญชีรายชื่อสารเคมี) ไฟล์ไม่ชัดเจน กรุณาแนบไฟล์ใหม่'
+        },
+        {
+            count: 1,
+            seq: 2,
+            date: '2026-03-28',
+            remark: 'พิกัดแปลง X, Y ไม่ตรงกับในใบรับรอง GAP'
+        }
+    ],
+    creator: 'บริษัท เอ็น ที ฟู้ด อินเตอร์เทรด',
+    createDate: '20/05/2025',
+    editor: 'นายเงิน อิทธิโรจน์',
+    editDate: '06/03/2026',
+    swpArea: 'สำนักวิจัยและพัฒนาการเกษตรเขตที่ 5', // แก้จาก 'เขต 1'
+    swpProvince: 'ศูนย์วิจัยและพัฒนาการเกษตรราชบุรี', // ในภาพคือราชบุรี (ส่วนในโค้ดเดิมคุณเป็นนครปฐม)
+    lastChecker: 'นางสาวฤทัยรัตน์ กัณหาจันทร์',
 });
 
 // รายการตรวจสอบเอกสาร
