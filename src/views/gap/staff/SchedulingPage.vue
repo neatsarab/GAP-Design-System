@@ -2,9 +2,9 @@
     <div>
         <div class="d-flex align-center justify-space-between flex-wrap ga-3 mb-6">
             <div>
-                <h1 class="page-title mb-1">บันทึกครั้งที่เสนอ</h1>
+                <h1 class="page-title mb-1">นัดหมายการตรวจแปลง</h1>
                 <p class="text-body-2 text-medium-emphasis mb-0">
-                    จัดการคำขอรับรองมาตรฐาน ORG แบบเดี่ยว
+                    จัดการคำขอรับรองมาตรฐาน GAP แบบเดี่ยว
                 </p>
             </div>
         </div>
@@ -61,7 +61,7 @@
                                     placeholder="เลือกวันที่ / เดือน / ปี" hide-details style="cursor: pointer"
                                     @click:clear.stop="dateFromObj = null" />
                             </template>
-                            <v-date-picker v-model="dateFromObj" color="org-staff" show-adjacent-months
+                            <v-date-picker v-model="dateFromObj" color="gap-staff" show-adjacent-months
                                 :hide-header="!dateFromObj" title="วันที่ยื่น (จาก)" locale="th"
                                 @update:model-value="dateFromMenu = false" />
                         </v-menu>
@@ -78,7 +78,7 @@
                                     placeholder="เลือกวันที่ / เดือน / ปี" hide-details style="cursor: pointer"
                                     @click:clear.stop="dateToObj = null" />
                             </template>
-                            <v-date-picker v-model="dateToObj" color="org-staff" show-adjacent-months
+                            <v-date-picker v-model="dateToObj" color="gap-staff" show-adjacent-months
                                 :hide-header="!dateToObj" title="วันที่ยื่น (ถึง)" locale="th"
                                 @update:model-value="dateToMenu = false" />
                         </v-menu>
@@ -96,70 +96,35 @@
         </v-card>
 
         <v-row class="pa-4 mb-1 mt-n5 d-flex align-center justify-end ga-2">
-            <v-btn variant="tonal" color="org-staff" prepend-icon="fas fa-download">ส่งออก</v-btn>
-            <v-btn variant="tonal" color="org-staff" prepend-icon="fas fa-paper-plane"
+            <v-btn variant="tonal" color="gap-staff" prepend-icon="fas fa-paper-plane"
                 @click="dialogProposeToCC = true">
-                บันทึกครั้งที่เสนอ CC
+                นัดหมายการตรวจ
             </v-btn>
         </v-row>
         <template>
             <div class="text-center pa-4">
-                <v-dialog v-model="dialogProposeToCC" max-width="700" persistent>
-                    <v-card class="mx-auto rounded-xl" width="700">
-                        <template v-slot:title>
+                <v-dialog v-model="dialogProposeToCC" max-width="600" persistent>
+                    <v-card class="mx-auto" width="600">
+                         <template v-slot:title>
                             <div class="d-flex align-center pa-2">
-                                <v-icon icon="fas fa-file-check" class="mr-3" color="org-staff" size="22" />
-                                <h5 class="font-weight-black text-h6">ตรวจสอบเอกสารและบันทึกครั้งที่เสนอ CC</h5>
+                                <v-icon icon="fas fa-file-check" class="mr-3" color="gap-staff" size="22" />
+                                <h5 class="font-weight-black text-h6">นัดหมายการตรวจแปลง</h5>
                             </div>
                         </template>
 
                         <v-divider />
-
-                        <v-card-text class="pa-6">
-                            <v-radio-group v-model="ccActionType">
-                                <v-radio value="reject" class="w-100 mb-4" color="org-staff">
-                                    <template v-slot:label>
-                                        <div class="w-100 pt-1 d-flex">
-                                            <div class="mt-1">บุคคลที่สั่งไม่ให้เสนอ CC</div>
-
-                                            <v-select v-model="ccForm.personInCharge"
-                                                :items="['เจ้าหน้าที่ กตม.', 'ผู้อำนวยการเขต', 'ผู้เชี่ยวชาญ']"
-                                                placeholder="กรุณาระบุผู้ทำการรับรอง" variant="outlined" rounded="lg"
-                                                density="compact" hide-details :disabled="ccActionType !== 'reject'"
-                                                style="min-width: 300px;" class="ml-15">
-                                            </v-select>
-                                        </div>
-                                    </template>
-                                </v-radio>
-                                <v-radio value="propose" class="w-100 mb-4" color="org-staff">
-                                    <template v-slot:label>
-                                        <div class="w-100 pt-1 d-flex">
-                                            <div class="mt-1">ครั้งที่เสนอ CC</div>
-                                            <v-text-field v-model="ccForm.proposeCount" variant="outlined" rounded="lg"
-                                                density="compact" hide-details style="min-width: 300px;" class="ml-16"
-                                                placeholder="ระบุครั้งที่เสนอ" :disabled="ccActionType !== 'propose'" />
-                                        </div>
-                                    </template>
-                                </v-radio>
-                                <v-radio value="reinspect" class="w-100 mb-4" color="org-staff">
-                                    <template v-slot:label>
-                                        <div class="w-100 pt-1 d-flex">
-                                            <div>บันทึกผลตรวจแปลงใหม่</div>
-                                        </div>
-                                    </template>
-                                </v-radio>
-                            </v-radio-group>
+                        <v-card-text class="pt-4">
+                            <div class="field-label mb-1">วันที่นัดหมา</div>
+                            <v-text-field v-model="filters.dateProposeToCC" type="date" variant="outlined" rounded="lg"
+                                density="comfortable" readonly hide-details />
                         </v-card-text>
-
-                        <v-divider />
-
                         <v-card-actions class="pa-4 bg-grey-lighten-4">
                             <v-spacer></v-spacer>
                             <v-btn @click="dialogProposeToCC = false" color="grey-darken-1" variant="flat"
                                 class="px-6 font-weight-bold">
                                 ยกเลิก
                             </v-btn>
-                            <v-btn @click="dialogProposeToCC = false" color="org-staff" variant="flat"
+                            <v-btn @click="dialogProposeToCC = false" color="gap-staff" variant="flat"
                                 class="px-10 rounded-lg font-weight-bold" elevation="2">
                                 <v-icon icon="fas fa-save" start size="14" />
                                 ยืนยัน
@@ -269,13 +234,13 @@
 
                 <template #item.status="{ item }">
                     <v-chip :color="statusColor(item.status)" size="small" variant="tonal">{{ statusLabel(item.status)
-                        }}</v-chip>
+                    }}</v-chip>
                 </template>
                 <template #item.actions="{ item }">
                     <div class="d-flex align-center ga-1">
                         <v-tooltip text="ดูคำขอ" location="top">
                             <template #activator="{ props }">
-                                <v-btn v-bind="props" icon size="x-small" variant="text" color="org-staff"
+                                <v-btn v-bind="props" icon size="x-small" variant="text" color="gap-staff"
                                     @click.stop="goToApplicationDetail(item.requestNo)">
                                     <v-icon icon="fas fa-eye" size="14" />
                                 </v-btn>
@@ -309,18 +274,6 @@ const dateFromObj = ref(null);
 const dateToMenu = ref(false);
 const dateToObj = ref(null);
 const dialogProposeToCC = ref(false);
-
-const ccActionType = ref('propose'); // ค่าเริ่มต้น
-const ccForm = reactive({
-    personInCharge: null,
-    proposeCount: '',
-});
-
-const submitCCAction = () => {
-    // Logic การส่งข้อมูลตาม ccActionType
-    console.log('Action:', ccActionType.value, ccForm);
-    dialogProposeToCC.value = false;
-};
 
 function dateToBE(date) {
     if (!date) return "";

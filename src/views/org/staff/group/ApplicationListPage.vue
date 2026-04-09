@@ -2,9 +2,9 @@
   <div>
     <div class="d-flex align-center justify-space-between flex-wrap ga-3 mb-6">
       <div>
-        <h1 class="page-title mb-1">ผลการตรวจแปลง</h1>
+        <h1 class="page-title mb-1">รายการคำขอ ORG</h1>
         <p class="text-body-2 text-medium-emphasis mb-0">
-          จัดการคำขอรับรองมาตรฐานเกษตรอินทรีย์ ORG แบบเดี่ยว
+          จัดการคำขอรับรองมาตรฐาน ORG แบบกลุ่ม
         </p>
       </div>
     </div>
@@ -378,7 +378,7 @@
               prepend-icon="fas fa-clipboard-check"
               @click.stop="goToApplicationDetail(item.requestNo)"
             >
-              บันทึกผลการตรวจแปลง
+              ตรวจสอบคำขอ
             </v-btn>
           </div>
         </template>
@@ -432,7 +432,7 @@ const router = useRouter();
 const search = ref("");
 
 function goToApplicationDetail(id) {
-  router.push({ name: "ORGStaffInspectionResultDetail", params: { id } });
+  router.push({ name: "ORGStaffApplicationDetail", params: { id } });
 }
 
 const filters = reactive({

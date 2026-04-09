@@ -2,9 +2,9 @@
     <div>
         <div class="d-flex align-center justify-space-between flex-wrap ga-3 mb-6">
             <div>
-                <h1 class="page-title mb-1">บันทึกครั้งที่เสนอ</h1>
+                <h1 class="page-title mb-1">บันทึกผล CC</h1>
                 <p class="text-body-2 text-medium-emphasis mb-0">
-                    จัดการคำขอรับรองมาตรฐาน ORG แบบเดี่ยว
+                    จัดการคำขอรับรองมาตรฐาน GAP แบบกลุ่ม
                 </p>
             </div>
         </div>
@@ -61,7 +61,7 @@
                                     placeholder="เลือกวันที่ / เดือน / ปี" hide-details style="cursor: pointer"
                                     @click:clear.stop="dateFromObj = null" />
                             </template>
-                            <v-date-picker v-model="dateFromObj" color="org-staff" show-adjacent-months
+                            <v-date-picker v-model="dateFromObj" color="gap-staff" show-adjacent-months
                                 :hide-header="!dateFromObj" title="วันที่ยื่น (จาก)" locale="th"
                                 @update:model-value="dateFromMenu = false" />
                         </v-menu>
@@ -78,7 +78,7 @@
                                     placeholder="เลือกวันที่ / เดือน / ปี" hide-details style="cursor: pointer"
                                     @click:clear.stop="dateToObj = null" />
                             </template>
-                            <v-date-picker v-model="dateToObj" color="org-staff" show-adjacent-months
+                            <v-date-picker v-model="dateToObj" color="gap-staff" show-adjacent-months
                                 :hide-header="!dateToObj" title="วันที่ยื่น (ถึง)" locale="th"
                                 @update:model-value="dateToMenu = false" />
                         </v-menu>
@@ -96,10 +96,10 @@
         </v-card>
 
         <v-row class="pa-4 mb-1 mt-n5 d-flex align-center justify-end ga-2">
-            <v-btn variant="tonal" color="org-staff" prepend-icon="fas fa-download">ส่งออก</v-btn>
-            <v-btn variant="tonal" color="org-staff" prepend-icon="fas fa-paper-plane"
+            <v-btn variant="tonal" color="gap-staff" prepend-icon="fas fa-download">ส่งออก</v-btn>
+            <v-btn variant="tonal" color="gap-staff" prepend-icon="fas fa-paper-plane"
                 @click="dialogProposeToCC = true">
-                บันทึกครั้งที่เสนอ CC
+                บันทึกผลต่อ CC
             </v-btn>
         </v-row>
         <template>
@@ -108,47 +108,42 @@
                     <v-card class="mx-auto rounded-xl" width="700">
                         <template v-slot:title>
                             <div class="d-flex align-center pa-2">
-                                <v-icon icon="fas fa-file-check" class="mr-3" color="org-staff" size="22" />
-                                <h5 class="font-weight-black text-h6">ตรวจสอบเอกสารและบันทึกครั้งที่เสนอ CC</h5>
+                                <v-icon icon="fas fa-file-check" class="mr-3" color="gap-staff" size="22" />
+                                <h5 class="font-weight-black text-h6">บันทึกผลจาก CC</h5>
                             </div>
                         </template>
 
                         <v-divider />
 
                         <v-card-text class="pa-6">
-                            <v-radio-group v-model="ccActionType">
-                                <v-radio value="reject" class="w-100 mb-4" color="org-staff">
-                                    <template v-slot:label>
-                                        <div class="w-100 pt-1 d-flex">
-                                            <div class="mt-1">บุคคลที่สั่งไม่ให้เสนอ CC</div>
+                            <v-row>
+                                <v-col cols="12" sm="3">
+                                    <div class="field-label mb-1 mt-4">วันที่ผ่านการรับรอง</div>
 
-                                            <v-select v-model="ccForm.personInCharge"
-                                                :items="['เจ้าหน้าที่ กตม.', 'ผู้อำนวยการเขต', 'ผู้เชี่ยวชาญ']"
-                                                placeholder="กรุณาระบุผู้ทำการรับรอง" variant="outlined" rounded="lg"
-                                                density="compact" hide-details :disabled="ccActionType !== 'reject'"
-                                                style="min-width: 300px;" class="ml-15">
-                                            </v-select>
-                                        </div>
-                                    </template>
-                                </v-radio>
-                                <v-radio value="propose" class="w-100 mb-4" color="org-staff">
-                                    <template v-slot:label>
-                                        <div class="w-100 pt-1 d-flex">
-                                            <div class="mt-1">ครั้งที่เสนอ CC</div>
-                                            <v-text-field v-model="ccForm.proposeCount" variant="outlined" rounded="lg"
-                                                density="compact" hide-details style="min-width: 300px;" class="ml-16"
-                                                placeholder="ระบุครั้งที่เสนอ" :disabled="ccActionType !== 'propose'" />
-                                        </div>
-                                    </template>
-                                </v-radio>
-                                <v-radio value="reinspect" class="w-100 mb-4" color="org-staff">
-                                    <template v-slot:label>
-                                        <div class="w-100 pt-1 d-flex">
-                                            <div>บันทึกผลตรวจแปลงใหม่</div>
-                                        </div>
-                                    </template>
-                                </v-radio>
-                            </v-radio-group>
+                                </v-col>
+                                <v-col cols="12" sm="9">
+                                    <v-text-field v-model="ccForm.personInCharge" placeholder="วันที่ผ่านการรับรอง"
+                                        variant="outlined" rounded="lg" hide-details />
+                                </v-col>
+                                <v-col cols="12" sm="3">
+                                    <div class="field-label mb-1 mt-4">ผลการตรวจรับรอง</div>
+
+                                </v-col>
+                                <v-col cols="12" sm="9">
+                                    <v-select v-model="ccForm.personInCharge"
+                                        :items="['ผ่าน', 'ไม่ผ่าน', 'รอผล Lab']"
+                                        placeholder="กรุณาระบุผลการตรวจรับรอง"   variant="outlined" rounded="lg" hide-details>
+                                    </v-select>
+                                </v-col>
+                                <v-col cols="12" sm="3">
+                                    <div class="field-label mb-1 mt-4">หมายเหตุ</div>
+
+                                </v-col>
+                                <v-col cols="12" sm="9">
+                                    <v-text-field v-model="ccForm.personInCharge" placeholder="หมายเหตุ"
+                                        variant="outlined" rounded="lg" hide-details />
+                                </v-col>
+                            </v-row>
                         </v-card-text>
 
                         <v-divider />
@@ -159,7 +154,7 @@
                                 class="px-6 font-weight-bold">
                                 ยกเลิก
                             </v-btn>
-                            <v-btn @click="dialogProposeToCC = false" color="org-staff" variant="flat"
+                            <v-btn @click="dialogProposeToCC = false" color="gap-staff" variant="flat"
                                 class="px-10 rounded-lg font-weight-bold" elevation="2">
                                 <v-icon icon="fas fa-save" start size="14" />
                                 ยืนยัน
@@ -269,13 +264,13 @@
 
                 <template #item.status="{ item }">
                     <v-chip :color="statusColor(item.status)" size="small" variant="tonal">{{ statusLabel(item.status)
-                        }}</v-chip>
+                    }}</v-chip>
                 </template>
                 <template #item.actions="{ item }">
                     <div class="d-flex align-center ga-1">
                         <v-tooltip text="ดูคำขอ" location="top">
                             <template #activator="{ props }">
-                                <v-btn v-bind="props" icon size="x-small" variant="text" color="org-staff"
+                                <v-btn v-bind="props" icon size="x-small" variant="text" color="gap-staff"
                                     @click.stop="goToApplicationDetail(item.requestNo)">
                                     <v-icon icon="fas fa-eye" size="14" />
                                 </v-btn>
