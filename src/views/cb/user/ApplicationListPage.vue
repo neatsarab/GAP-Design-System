@@ -12,7 +12,7 @@
         prepend-icon="fas fa-plus"
         @click="goToNewApplication"
       >
-        ยื่นคำขอใหม่
+        ยื่นคำขอ
       </v-btn>
     </div>
 
@@ -377,7 +377,8 @@
             variant="tonal"
             color="cb-user"
             class="ml-1"
-          >{{ noteItem.requestNo }}</v-chip>
+            >{{ noteItem.requestNo }}</v-chip
+          >
           <v-spacer />
           <v-btn icon size="x-small" variant="text" @click="noteDialog = false">
             <v-icon icon="fas fa-xmark" size="14" />
@@ -385,11 +386,19 @@
         </v-card-title>
         <v-divider />
         <v-card-text class="pa-5">
-          <p class="text-body-2 mb-0" style="white-space: pre-line">{{ noteItem?.note }}</p>
+          <p class="text-body-2 mb-0" style="white-space: pre-line">
+            {{ noteItem?.note }}
+          </p>
         </v-card-text>
         <v-card-actions class="px-5 pb-5 pt-0">
           <v-spacer />
-          <v-btn variant="tonal" color="grey" rounded="lg" @click="noteDialog = false">ปิด</v-btn>
+          <v-btn
+            variant="tonal"
+            color="grey"
+            rounded="lg"
+            @click="noteDialog = false"
+            >ปิด</v-btn
+          >
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -478,7 +487,12 @@ const statusOptions = [
 const headers = [
   { title: "เลขคำขอ", key: "requestNo", sortable: true, minWidth: "130" },
   { title: "ประเภทคำขอ", key: "type", sortable: true, minWidth: "140" },
-  { title: "วันที่ยื่น", key: "submittedDate", sortable: true, minWidth: "120" },
+  {
+    title: "วันที่ยื่น",
+    key: "submittedDate",
+    sortable: true,
+    minWidth: "120",
+  },
   { title: "สถานะคำขอ", key: "status", sortable: true, minWidth: "140" },
   { title: "", key: "actions", sortable: false, align: "end", width: "80" },
 ];

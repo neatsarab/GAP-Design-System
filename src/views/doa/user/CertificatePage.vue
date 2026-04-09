@@ -3,9 +3,9 @@
     <!-- Header -->
     <div class="d-flex align-center justify-space-between mb-5 flex-wrap ga-3">
       <div>
-        <h1 class="page-title mb-1">ใบรับรอง</h1>
+        <h1 class="page-title mb-1">รายการใบรับรอง</h1>
         <p class="text-body-2 text-medium-emphasis mb-0">
-          รายการใบรับรองการจดทะเบียนโรงงานผลิตสินค้าพืช DOA
+          การขึ้นทะเบียนโรงงานผลิตสินค้าพืช
         </p>
       </div>
       <v-btn variant="tonal" color="doa-user" prepend-icon="fas fa-download"

@@ -72,7 +72,9 @@
       <!-- ── Left: tabs ── -->
       <v-col cols="12" md="8">
         <v-tabs v-model="activeTab" color="hcex-staff" class="mb-4">
-          <v-tab value="info" prepend-icon="fas fa-file-lines">ข้อมูลคำขอ</v-tab>
+          <v-tab value="info" prepend-icon="fas fa-file-lines"
+            >ข้อมูลคำขอ</v-tab
+          >
           <v-tab value="review" prepend-icon="fas fa-clipboard-check">
             บันทึกผลการตรวจ
           </v-tab>
@@ -81,10 +83,11 @@
         <v-window v-model="activeTab">
           <!-- ── Tab 1: ข้อมูลคำขอ ── -->
           <v-window-item value="info">
-
             <!-- ข้อมูลทั่วไปคำขอ -->
             <v-card rounded="xl" elevation="0" class="section-card mb-4">
-              <div class="section-header px-4 py-3 border-b d-flex align-center ga-2">
+              <div
+                class="section-header px-4 py-3 border-b d-flex align-center ga-2"
+              >
                 <v-icon icon="fas fa-list-check" color="hcex-staff" size="15" />
                 <span class="text-subtitle-2 font-weight-bold">ข้อมูลคำขอ</span>
               </div>
@@ -99,14 +102,28 @@
                   <v-col cols="6" md="4">
                     <div class="info-label">ประเภทการยื่น</div>
                     <div class="info-value">
-                      <v-chip size="x-small" :color="application.submissionType === 'whole' ? 'primary' : 'info'" variant="tonal">
-                        {{ application.submissionType === 'whole' ? 'ทั้งระบบการผลิต' : 'แต่ละรุ่นการผลิต' }}
+                      <v-chip
+                        size="x-small"
+                        :color="
+                          application.submissionType === 'whole'
+                            ? 'primary'
+                            : 'info'
+                        "
+                        variant="tonal"
+                      >
+                        {{
+                          application.submissionType === "whole"
+                            ? "ทั้งระบบการผลิต"
+                            : "แต่ละรุ่นการผลิต"
+                        }}
                       </v-chip>
                     </div>
                   </v-col>
                   <v-col cols="6" md="4">
                     <div class="info-label">วันที่ยื่นคำขอ</div>
-                    <div class="info-value">{{ application.submittedDate }}</div>
+                    <div class="info-value">
+                      {{ application.submittedDate }}
+                    </div>
                   </v-col>
                 </v-row>
               </v-card-text>
@@ -114,53 +131,77 @@
 
             <!-- ข้อมูลโรงงานผู้ผลิต -->
             <v-card rounded="xl" elevation="0" class="section-card mb-4">
-              <div class="section-header px-4 py-3 border-b d-flex align-center ga-2">
+              <div
+                class="section-header px-4 py-3 border-b d-flex align-center ga-2"
+              >
                 <v-icon icon="fas fa-industry" color="hcex-staff" size="15" />
-                <span class="text-subtitle-2 font-weight-bold">ข้อมูลโรงงานผู้ผลิต</span>
+                <span class="text-subtitle-2 font-weight-bold"
+                  >ข้อมูลโรงงานผู้ผลิต</span
+                >
               </div>
               <v-card-text class="pa-4">
                 <v-row dense>
                   <v-col cols="12" md="6">
                     <div class="info-label">ชื่อบริษัทผู้ผลิต</div>
-                    <div class="info-value">{{ application.manufacturer.companyName }}</div>
+                    <div class="info-value">
+                      {{ application.manufacturer.companyName }}
+                    </div>
                   </v-col>
                   <v-col cols="12" md="6">
                     <div class="info-label">ที่อยู่</div>
-                    <div class="info-value">{{ application.manufacturer.address }}</div>
+                    <div class="info-value">
+                      {{ application.manufacturer.address }}
+                    </div>
                   </v-col>
                   <v-col cols="12" md="4">
                     <div class="info-label">โทรศัพท์</div>
-                    <div class="info-value">{{ application.manufacturer.phone }}</div>
+                    <div class="info-value">
+                      {{ application.manufacturer.phone }}
+                    </div>
                   </v-col>
                   <v-col cols="12" md="4">
                     <div class="info-label">โทรสาร</div>
-                    <div class="info-value">{{ application.manufacturer.fax || '-' }}</div>
+                    <div class="info-value">
+                      {{ application.manufacturer.fax || "-" }}
+                    </div>
                   </v-col>
                   <v-col cols="12" md="4">
                     <div class="info-label">E-mail</div>
-                    <div class="info-value">{{ application.manufacturer.email }}</div>
+                    <div class="info-value">
+                      {{ application.manufacturer.email }}
+                    </div>
                   </v-col>
                 </v-row>
 
                 <v-divider class="my-4" />
 
-                <div class="text-subtitle-2 font-weight-medium mb-3">ผู้ประสานงานโรงงานผู้ผลิต</div>
+                <div class="text-subtitle-2 font-weight-medium mb-3">
+                  ผู้ประสานงานโรงงานผู้ผลิต
+                </div>
                 <v-row dense>
                   <v-col cols="12" md="6">
                     <div class="info-label">ชื่อ-นามสกุล</div>
-                    <div class="info-value">{{ application.manufacturer.coordinator.name }}</div>
+                    <div class="info-value">
+                      {{ application.manufacturer.coordinator.name }}
+                    </div>
                   </v-col>
                   <v-col cols="12" md="6">
                     <div class="info-label">ตำแหน่ง</div>
-                    <div class="info-value">{{ application.manufacturer.coordinator.position }}</div>
+                    <div class="info-value">
+                      {{ application.manufacturer.coordinator.position }}
+                    </div>
                   </v-col>
                   <v-col cols="12" md="4">
                     <div class="info-label">โทรศัพท์</div>
-                    <div class="info-value">{{ application.manufacturer.coordinator.phone }}</div>
+                    <div class="info-value">
+                      {{ application.manufacturer.coordinator.phone }}
+                    </div>
                   </v-col>
                   <v-col cols="12" md="4">
                     <div class="info-label">โทรสาร</div>
-                    <div class="info-value">{{ application.manufacturer.coordinator.fax || '-' }}</div>
+                    <div class="info-value">
+                      {{ application.manufacturer.coordinator.fax || "-" }}
+                    </div>
                   </v-col>
                 </v-row>
 
@@ -179,7 +220,9 @@
                     </v-col>
                     <v-col cols="12" md="6">
                       <div class="info-label">วันที่หมดอายุ</div>
-                      <div class="info-value">{{ application.manufacturer.doaExpiryDate }}</div>
+                      <div class="info-value">
+                        {{ application.manufacturer.doaExpiryDate }}
+                      </div>
                     </v-col>
                   </v-row>
                 </template>
@@ -188,9 +231,13 @@
 
             <!-- มาตรฐานการผลิต -->
             <v-card rounded="xl" elevation="0" class="section-card mb-4">
-              <div class="section-header px-4 py-3 border-b d-flex align-center ga-2">
+              <div
+                class="section-header px-4 py-3 border-b d-flex align-center ga-2"
+              >
                 <v-icon icon="fas fa-award" color="hcex-staff" size="15" />
-                <span class="text-subtitle-2 font-weight-bold">มาตรฐานการผลิตของโรงงาน</span>
+                <span class="text-subtitle-2 font-weight-bold"
+                  >มาตรฐานการผลิตของโรงงาน</span
+                >
               </div>
               <v-table density="compact" class="pa-2">
                 <thead>
@@ -203,9 +250,13 @@
                 </thead>
                 <tbody>
                   <tr v-for="std in application.standards" :key="std.certNo">
-                    <td class="text-body-2 font-weight-medium">{{ std.name }}</td>
+                    <td class="text-body-2 font-weight-medium">
+                      {{ std.name }}
+                    </td>
                     <td class="text-body-2">{{ std.certBody }}</td>
-                    <td class="text-body-2 text-hcex-staff font-weight-bold">{{ std.certNo }}</td>
+                    <td class="text-body-2 text-hcex-staff font-weight-bold">
+                      {{ std.certNo }}
+                    </td>
                     <td class="text-body-2">{{ std.expiryDate }}</td>
                   </tr>
                 </tbody>
@@ -214,53 +265,77 @@
 
             <!-- ข้อมูลบริษัทผู้ส่งออก -->
             <v-card rounded="xl" elevation="0" class="section-card mb-4">
-              <div class="section-header px-4 py-3 border-b d-flex align-center ga-2">
+              <div
+                class="section-header px-4 py-3 border-b d-flex align-center ga-2"
+              >
                 <v-icon icon="fas fa-building" color="hcex-staff" size="15" />
-                <span class="text-subtitle-2 font-weight-bold">ข้อมูลบริษัทผู้ส่งออก</span>
+                <span class="text-subtitle-2 font-weight-bold"
+                  >ข้อมูลบริษัทผู้ส่งออก</span
+                >
               </div>
               <v-card-text class="pa-4">
                 <v-row dense>
                   <v-col cols="12" md="6">
                     <div class="info-label">ชื่อบริษัทผู้ส่งออก</div>
-                    <div class="info-value">{{ application.exporter.companyName }}</div>
+                    <div class="info-value">
+                      {{ application.exporter.companyName }}
+                    </div>
                   </v-col>
                   <v-col cols="12" md="6">
                     <div class="info-label">ที่อยู่</div>
-                    <div class="info-value">{{ application.exporter.address }}</div>
+                    <div class="info-value">
+                      {{ application.exporter.address }}
+                    </div>
                   </v-col>
                   <v-col cols="12" md="4">
                     <div class="info-label">โทรศัพท์</div>
-                    <div class="info-value">{{ application.exporter.phone }}</div>
+                    <div class="info-value">
+                      {{ application.exporter.phone }}
+                    </div>
                   </v-col>
                   <v-col cols="12" md="4">
                     <div class="info-label">โทรสาร</div>
-                    <div class="info-value">{{ application.exporter.fax || '-' }}</div>
+                    <div class="info-value">
+                      {{ application.exporter.fax || "-" }}
+                    </div>
                   </v-col>
                   <v-col cols="12" md="4">
                     <div class="info-label">E-mail</div>
-                    <div class="info-value">{{ application.exporter.email }}</div>
+                    <div class="info-value">
+                      {{ application.exporter.email }}
+                    </div>
                   </v-col>
                 </v-row>
 
                 <v-divider class="my-4" />
 
-                <div class="text-subtitle-2 font-weight-medium mb-3">ผู้ประสานงานบริษัทผู้ส่งออก</div>
+                <div class="text-subtitle-2 font-weight-medium mb-3">
+                  ผู้ประสานงานบริษัทผู้ส่งออก
+                </div>
                 <v-row dense>
                   <v-col cols="12" md="6">
                     <div class="info-label">ชื่อ-นามสกุล</div>
-                    <div class="info-value">{{ application.exporter.coordinator.name }}</div>
+                    <div class="info-value">
+                      {{ application.exporter.coordinator.name }}
+                    </div>
                   </v-col>
                   <v-col cols="12" md="6">
                     <div class="info-label">ตำแหน่ง</div>
-                    <div class="info-value">{{ application.exporter.coordinator.position }}</div>
+                    <div class="info-value">
+                      {{ application.exporter.coordinator.position }}
+                    </div>
                   </v-col>
                   <v-col cols="12" md="4">
                     <div class="info-label">โทรศัพท์</div>
-                    <div class="info-value">{{ application.exporter.coordinator.phone }}</div>
+                    <div class="info-value">
+                      {{ application.exporter.coordinator.phone }}
+                    </div>
                   </v-col>
                   <v-col cols="12" md="4">
                     <div class="info-label">โทรสาร</div>
-                    <div class="info-value">{{ application.exporter.coordinator.fax || '-' }}</div>
+                    <div class="info-value">
+                      {{ application.exporter.coordinator.fax || "-" }}
+                    </div>
                   </v-col>
                 </v-row>
               </v-card-text>
@@ -268,9 +343,17 @@
 
             <!-- รายละเอียดสินค้า -->
             <v-card rounded="xl" elevation="0" class="section-card mb-4">
-              <div class="section-header px-4 py-3 border-b d-flex align-center ga-2">
-                <v-icon icon="fas fa-boxes-stacked" color="hcex-staff" size="15" />
-                <span class="text-subtitle-2 font-weight-bold">รายละเอียดสินค้า</span>
+              <div
+                class="section-header px-4 py-3 border-b d-flex align-center ga-2"
+              >
+                <v-icon
+                  icon="fas fa-boxes-stacked"
+                  color="hcex-staff"
+                  size="15"
+                />
+                <span class="text-subtitle-2 font-weight-bold"
+                  >รายละเอียดสินค้า</span
+                >
               </div>
               <v-card-text class="pa-4 pb-2">
                 <div
@@ -279,8 +362,12 @@
                   class="item-row rounded-lg px-4 py-4 mb-3"
                 >
                   <div class="d-flex align-center ga-2 mb-3">
-                    <v-chip size="x-small" color="hcex-staff" variant="tonal">สินค้า {{ idx + 1 }}</v-chip>
-                    <span class="text-body-2 font-weight-medium">{{ product.name }}</span>
+                    <v-chip size="x-small" color="hcex-staff" variant="tonal"
+                      >สินค้า {{ idx + 1 }}</v-chip
+                    >
+                    <span class="text-body-2 font-weight-medium">{{
+                      product.name
+                    }}</span>
                   </div>
                   <v-row dense>
                     <v-col cols="12" md="4">
@@ -296,7 +383,8 @@
                           size="x-small"
                           color="hcex-staff"
                           variant="tonal"
-                        >{{ c }}</v-chip>
+                          >{{ c }}</v-chip
+                        >
                       </div>
                     </v-col>
                     <v-col cols="12" class="mt-2">
@@ -308,7 +396,8 @@
                           size="x-small"
                           variant="outlined"
                           color="grey"
-                        >{{ t }}</v-chip>
+                          >{{ t }}</v-chip
+                        >
                       </div>
                     </v-col>
                   </v-row>
@@ -318,7 +407,9 @@
 
             <!-- เอกสารแนบ -->
             <v-card rounded="xl" elevation="0" class="section-card mb-4">
-              <div class="section-header px-4 py-3 border-b d-flex align-center ga-2">
+              <div
+                class="section-header px-4 py-3 border-b d-flex align-center ga-2"
+              >
                 <v-icon icon="fas fa-paperclip" color="hcex-staff" size="15" />
                 <span class="text-subtitle-2 font-weight-bold">เอกสารแนบ</span>
               </div>
@@ -355,11 +446,19 @@
                   <div>ผลการตรวจ</div>
                   <div class="field-label-en">Review Result</div>
                 </div>
-                <v-radio-group v-model="reviewForm.result" color="hcex-staff" inline>
+                <v-radio-group
+                  v-model="reviewForm.result"
+                  color="hcex-staff"
+                  inline
+                >
                   <v-radio value="pass" class="mr-6">
                     <template #label>
                       <div class="d-flex align-center ga-2">
-                        <v-icon icon="fas fa-circle-check" color="success" size="18" />
+                        <v-icon
+                          icon="fas fa-circle-check"
+                          color="success"
+                          size="18"
+                        />
                         <span class="font-weight-medium">อนุมัติ</span>
                       </div>
                     </template>
@@ -367,7 +466,11 @@
                   <v-radio value="improve" class="mr-6">
                     <template #label>
                       <div class="d-flex align-center ga-2">
-                        <v-icon icon="fas fa-circle-exclamation" color="warning" size="18" />
+                        <v-icon
+                          icon="fas fa-circle-exclamation"
+                          color="warning"
+                          size="18"
+                        />
                         <span class="font-weight-medium">ส่งกลับแก้ไข</span>
                       </div>
                     </template>
@@ -375,7 +478,11 @@
                   <v-radio value="fail">
                     <template #label>
                       <div class="d-flex align-center ga-2">
-                        <v-icon icon="fas fa-circle-xmark" color="error" size="18" />
+                        <v-icon
+                          icon="fas fa-circle-xmark"
+                          color="error"
+                          size="18"
+                        />
                         <span class="font-weight-medium">ไม่อนุมัติ</span>
                       </div>
                     </template>
@@ -404,7 +511,11 @@
                     <div>แก้ไขภายในวันที่</div>
                     <div class="field-label-en">Deadline</div>
                   </div>
-                  <v-menu v-model="deadlineMenu" :close-on-content-click="false" min-width="0">
+                  <v-menu
+                    v-model="deadlineMenu"
+                    :close-on-content-click="false"
+                    min-width="0"
+                  >
                     <template #activator="{ props }">
                       <v-text-field
                         v-bind="props"
@@ -426,7 +537,10 @@
                       @update:model-value="deadlineMenu = false"
                     />
                   </v-menu>
-                  <div v-if="reviewForm.deadline" class="text-caption text-medium-emphasis mb-4">
+                  <div
+                    v-if="reviewForm.deadline"
+                    class="text-caption text-medium-emphasis mb-4"
+                  >
                     จำนวน {{ deadlineDays }} วัน นับจากวันนี้
                   </div>
                 </template>
@@ -480,11 +594,22 @@
       <v-col cols="12" md="4">
         <div class="sticky-col">
           <v-card rounded="xl" elevation="0" class="section-card">
-            <div class="section-header px-4 py-3 border-b d-flex align-center ga-2">
-              <v-icon icon="fas fa-clock-rotate-left" color="hcex-staff" size="15" />
-              <span class="text-subtitle-2 font-weight-bold">ความคืบหน้าคำขอ</span>
+            <div
+              class="section-header px-4 py-3 border-b d-flex align-center ga-2"
+            >
+              <v-icon
+                icon="fas fa-clock-rotate-left"
+                color="hcex-staff"
+                size="15"
+              />
+              <span class="text-subtitle-2 font-weight-bold"
+                >ความคืบหน้าคำขอ</span
+              >
             </div>
-            <v-card-text class="pa-4" style="max-height: 420px; overflow-y: auto">
+            <v-card-text
+              class="pa-4"
+              style="max-height: 420px; overflow-y: auto"
+            >
               <div class="activity-timeline">
                 <div
                   v-for="(event, i) in application.activityLog"
@@ -492,23 +617,46 @@
                   class="activity-item"
                 >
                   <div class="activity-dot-wrap">
-                    <div class="activity-dot" :class="`activity-dot--${event.type}`">
-                      <v-icon :icon="eventIcon(event.type)" size="11" color="white" />
+                    <div
+                      class="activity-dot"
+                      :class="`activity-dot--${event.type}`"
+                    >
+                      <v-icon
+                        :icon="eventIcon(event.type)"
+                        size="11"
+                        color="white"
+                      />
                     </div>
-                    <div v-if="i < application.activityLog.length - 1" class="activity-line" />
+                    <div
+                      v-if="i < application.activityLog.length - 1"
+                      class="activity-line"
+                    />
                   </div>
                   <div class="activity-content pb-4">
                     <div class="d-flex align-center flex-wrap ga-1 mb-1">
-                      <span class="text-body-2 font-weight-medium">{{ event.action }}</span>
-                      <v-chip size="x-small" :color="eventColor(event.type)" variant="tonal">
+                      <span class="text-body-2 font-weight-medium">{{
+                        event.action
+                      }}</span>
+                      <v-chip
+                        size="x-small"
+                        :color="eventColor(event.type)"
+                        variant="tonal"
+                      >
                         {{ eventLabel(event.type) }}
                       </v-chip>
                     </div>
                     <div class="text-caption text-medium-emphasis">
-                      <v-icon icon="fas fa-user" size="9" class="mr-1" />{{ event.actor }}
+                      <v-icon icon="fas fa-user" size="9" class="mr-1" />{{
+                        event.actor
+                      }}
                     </div>
-                    <div v-if="event.timestamp" class="text-caption text-medium-emphasis mt-1">
-                      <v-icon icon="fas fa-calendar" size="9" class="mr-1" />{{ event.timestamp }}
+                    <div
+                      v-if="event.timestamp"
+                      class="text-caption text-medium-emphasis mt-1"
+                    >
+                      <v-icon icon="fas fa-calendar" size="9" class="mr-1" />{{
+                        event.timestamp
+                      }}
                     </div>
                   </div>
                 </div>
@@ -523,7 +671,10 @@
     <v-dialog v-model="sendBackDialog" max-width="400">
       <v-card rounded="xl">
         <v-card-text class="pa-7 text-center">
-          <div class="confirm-ring mx-auto mb-4">
+          <div
+            class="confirm-ring mx-auto mb-4"
+            style="background: rgba(var(--v-theme-warning), 0.1)"
+          >
             <v-icon icon="fas fa-rotate-left" color="warning" size="28" />
           </div>
           <h3 class="text-h6 font-weight-bold mb-2">ส่งกลับแก้ไข</h3>
@@ -534,14 +685,19 @@
         <v-card-actions class="px-6 pb-5">
           <v-row no-gutters class="ga-2 w-100">
             <v-col>
-              <v-btn variant="tonal" color="grey" rounded="lg" block @click="sendBackDialog = false">
-                ยกเลิก
-              </v-btn>
+              <v-btn
+                variant="tonal"
+                color="grey"
+                rounded="lg"
+                block
+                @click="sendBackDialog = false"
+                >ยกเลิก</v-btn
+              >
             </v-col>
             <v-col>
-              <v-btn color="warning" rounded="lg" block @click="sendBackDialog = false">
-                ยืนยัน
-              </v-btn>
+              <v-btn color="warning" rounded="lg" block @click="submitSendBack"
+                >ยืนยัน</v-btn
+              >
             </v-col>
           </v-row>
         </v-card-actions>
@@ -552,7 +708,10 @@
     <v-dialog v-model="rejectDialog" max-width="400">
       <v-card rounded="xl">
         <v-card-text class="pa-7 text-center">
-          <div class="confirm-ring mx-auto mb-4">
+          <div
+            class="confirm-ring mx-auto mb-4"
+            style="background: rgba(var(--v-theme-error), 0.1)"
+          >
             <v-icon icon="fas fa-circle-xmark" color="error" size="28" />
           </div>
           <h3 class="text-h6 font-weight-bold mb-2">ไม่อนุมัติคำขอ</h3>
@@ -563,14 +722,19 @@
         <v-card-actions class="px-6 pb-5">
           <v-row no-gutters class="ga-2 w-100">
             <v-col>
-              <v-btn variant="tonal" color="grey" rounded="lg" block @click="rejectDialog = false">
-                ยกเลิก
-              </v-btn>
+              <v-btn
+                variant="tonal"
+                color="grey"
+                rounded="lg"
+                block
+                @click="rejectDialog = false"
+                >ยกเลิก</v-btn
+              >
             </v-col>
             <v-col>
-              <v-btn color="error" rounded="lg" block @click="rejectDialog = false">
-                ยืนยัน
-              </v-btn>
+              <v-btn color="error" rounded="lg" block @click="submitReject"
+                >ยืนยัน</v-btn
+              >
             </v-col>
           </v-row>
         </v-card-actions>
@@ -582,7 +746,7 @@
       <v-card rounded="xl">
         <v-card-text class="pa-7 text-center">
           <div class="confirm-ring mx-auto mb-4">
-            <v-icon icon="fas fa-circle-check" color="success" size="28" />
+            <v-icon icon="fas fa-circle-check" color="hcex-staff" size="28" />
           </div>
           <h3 class="text-h6 font-weight-bold mb-2">อนุมัติคำขอ</h3>
           <p class="text-body-2 text-medium-emphasis">
@@ -592,16 +756,50 @@
         <v-card-actions class="px-6 pb-5">
           <v-row no-gutters class="ga-2 w-100">
             <v-col>
-              <v-btn variant="tonal" color="grey" rounded="lg" block @click="approveDialog = false">
-                ยกเลิก
-              </v-btn>
+              <v-btn
+                variant="tonal"
+                color="grey"
+                rounded="lg"
+                block
+                @click="approveDialog = false"
+                >ยกเลิก</v-btn
+              >
             </v-col>
             <v-col>
-              <v-btn color="hcex-staff" rounded="lg" block @click="approveDialog = false">
-                ยืนยัน
-              </v-btn>
+              <v-btn
+                color="hcex-staff"
+                rounded="lg"
+                block
+                @click="submitApprove"
+                >ยืนยัน</v-btn
+              >
             </v-col>
           </v-row>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <!-- Success Dialog -->
+    <v-dialog v-model="successDialog" max-width="400" persistent>
+      <v-card rounded="xl">
+        <v-card-text class="pa-8 text-center">
+          <div class="success-ring mx-auto mb-4">
+            <v-icon icon="fas fa-check" color="success" size="32" />
+          </div>
+          <h3 class="text-h6 font-weight-bold mb-2">ดำเนินการสำเร็จ</h3>
+          <p class="text-body-2 text-medium-emphasis mb-0">
+            {{ successMessage }}
+          </p>
+        </v-card-text>
+        <v-card-actions class="px-6 pb-5">
+          <v-btn
+            color="hcex-staff"
+            rounded="lg"
+            block
+            @click="router.push({ name: 'HCEXstaffHistoryApplicationList' })"
+          >
+            กลับรายการคำขอ
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -620,6 +818,8 @@ const deadlineMenu = ref(false);
 const sendBackDialog = ref(false);
 const rejectDialog = ref(false);
 const approveDialog = ref(false);
+const successDialog = ref(false);
+const successMessage = ref("");
 
 const reviewForm = ref({
   result: null,
@@ -643,13 +843,12 @@ const deadlineDays = computed(() => {
 const timelineSteps = [
   { value: 0, title: "ยื่นคำขอ" },
   { value: 1, title: "ตรวจสอบ" },
-  { value: 2, title: "อนุมัติ" },
 ];
 
 function stepClass(val) {
-  if (application.value.currentStep > val) return "step-circle--done";
-  if (application.value.currentStep === val) return "step-circle--active";
-  return "step-circle--pending";
+  if (application.value.currentStep > val) return "step-done";
+  if (application.value.currentStep === val) return "step-active";
+  return "step-pending";
 }
 
 const application = ref({
@@ -822,6 +1021,24 @@ function eventLabel(type) {
     }[type] ?? type
   );
 }
+
+function submitSendBack() {
+  sendBackDialog.value = false;
+  successMessage.value = "ส่งคำขอกลับให้ผู้ประกอบการแก้ไขเรียบร้อยแล้ว";
+  successDialog.value = true;
+}
+
+function submitReject() {
+  rejectDialog.value = false;
+  successMessage.value = "ส่งผลการตรวจ 'ไม่อนุมัติ' เรียบร้อยแล้ว";
+  successDialog.value = true;
+}
+
+function submitApprove() {
+  approveDialog.value = false;
+  successMessage.value = "อนุมัติคำขอทะเบียนประวัติเรียบร้อยแล้ว";
+  successDialog.value = true;
+}
 </script>
 
 <style scoped>
@@ -829,27 +1046,16 @@ function eventLabel(type) {
   position: sticky;
   top: 80px;
 }
-.step-circle {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
+div {
+  --step-color: rgb(var(--v-theme-hcex-staff));
+  --step-color-tint: rgba(var(--v-theme-hcex-staff), 0.2);
 }
-.step-circle--done {
-  background: rgb(var(--v-theme-hcex-staff));
-  color: white;
+.step-done,
+.step-active {
+  background: rgb(var(--v-theme-hcex-staff)) !important;
 }
-.step-circle--active {
-  background: rgba(var(--v-theme-hcex-staff), 0.15);
-  color: rgb(var(--v-theme-hcex-staff));
-  border: 2px solid rgb(var(--v-theme-hcex-staff));
-}
-.step-circle--pending {
-  background: rgba(var(--v-border-color), 0.12);
-  color: rgb(var(--v-medium-emphasis-opacity));
+.step-active {
+  box-shadow: 0 0 0 4px rgba(var(--v-theme-hcex-staff), 0.2) !important;
 }
 .step-line {
   height: 2px;
@@ -858,7 +1064,7 @@ function eventLabel(type) {
   margin-bottom: 20px;
 }
 .step-line--done {
-  background: rgb(var(--v-theme-hcex-staff));
+  background: rgb(var(--v-theme-hcex-staff)) !important;
 }
 .section-card {
   border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
@@ -905,11 +1111,21 @@ function eventLabel(type) {
   justify-content: center;
   flex-shrink: 0;
 }
-.activity-dot--submit { background: rgb(var(--v-theme-info)); }
-.activity-dot--checking { background: rgb(var(--v-theme-info)); }
-.activity-dot--approve { background: rgb(var(--v-theme-success)); }
-.activity-dot--improve { background: rgb(var(--v-theme-warning)); }
-.activity-dot--reject { background: rgb(var(--v-theme-error)); }
+.activity-dot--submit {
+  background: rgb(var(--v-theme-info));
+}
+.activity-dot--checking {
+  background: rgb(var(--v-theme-info));
+}
+.activity-dot--approve {
+  background: rgb(var(--v-theme-success));
+}
+.activity-dot--improve {
+  background: rgb(var(--v-theme-warning));
+}
+.activity-dot--reject {
+  background: rgb(var(--v-theme-error));
+}
 .activity-line {
   width: 2px;
   flex-grow: 1;
@@ -924,6 +1140,15 @@ function eventLabel(type) {
   height: 64px;
   border-radius: 50%;
   background: rgba(var(--v-theme-hcex-staff), 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.success-ring {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(var(--v-theme-success), 0.1);
   display: flex;
   align-items: center;
   justify-content: center;

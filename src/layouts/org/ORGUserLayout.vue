@@ -213,7 +213,7 @@
                   </div>
                 </div>
               </div>
-              <v-divider/>
+              <v-divider />
             </v-card-text>
             <v-list density="compact" nav class="pt-0 pb-2">
               <v-list-item
@@ -393,7 +393,7 @@ const navGroups = computed(() => {
       divider: true,
       items: [
         {
-          title: "ยื่นคำขอใหม่",
+          title: "ยื่นคำขอ",
           icon: "fas fa-file-pen",
           to: "/org/user/applications/new",
         },

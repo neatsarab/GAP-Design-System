@@ -12,7 +12,7 @@
         prepend-icon="fas fa-plus"
         @click="goToNewApplication"
       >
-        ยื่นคำขอใหม่
+        ยื่นคำขอ
       </v-btn>
     </div>
 
@@ -67,16 +67,16 @@
                 >
                 <template #append>
                   <div class="d-flex flex-column align-end ga-1">
-                  <v-chip
-                    :color="statusColor(app.status)"
-                    size="x-small"
-                    variant="tonal"
-                    >{{ statusLabel(app.status) }}</v-chip
-                  >
-                  <span class="text-caption text-medium-emphasis">{{
+                    <v-chip
+                      :color="statusColor(app.status)"
+                      size="x-small"
+                      variant="tonal"
+                      >{{ statusLabel(app.status) }}</v-chip
+                    >
+                    <span class="text-caption text-medium-emphasis">{{
                       app.updatedDate
                     }}</span>
-                    </div>
+                  </div>
                 </template>
               </v-list-item>
               <v-divider v-if="i < recentApplications.length - 1" />
@@ -198,7 +198,7 @@ const recentApplications = [
 
 const quickActions = [
   {
-    title: "ยื่นคำขอใหม่",
+    title: "ยื่นคำขอ",
     icon: "fas fa-file-pen",
     color: "primary",
     to: { name: "ExportUserApplicationType" },

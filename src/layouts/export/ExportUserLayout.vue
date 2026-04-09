@@ -335,7 +335,7 @@ const navGroups = [
     divider: true,
     items: [
       {
-        title: "ยื่นคำขอใหม่",
+        title: "ยื่นคำขอ",
         icon: "fas fa-file-pen",
         to: "/export/user/applications/new",
       },

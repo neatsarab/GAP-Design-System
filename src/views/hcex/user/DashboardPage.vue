@@ -12,7 +12,7 @@
         prepend-icon="fas fa-plus"
         @click="goToNewApplication"
       >
-        ยื่นคำขอใหม่
+        ยื่นคำขอ
       </v-btn>
     </div>
 
@@ -33,7 +33,13 @@
         <div class="d-flex align-center justify-space-between flex-wrap ga-3">
           <div class="d-flex align-center ga-3">
             <v-avatar
-              :color="historyStatus === 'approved' ? 'success' : historyStatus === null ? 'warning' : 'info'"
+              :color="
+                historyStatus === 'approved'
+                  ? 'success'
+                  : historyStatus === null
+                    ? 'warning'
+                    : 'info'
+              "
               variant="tonal"
               size="44"
               rounded="lg"
@@ -41,11 +47,19 @@
               <v-icon icon="fas fa-clock-rotate-left" size="20" />
             </v-avatar>
             <div>
-              <div class="text-body-2 font-weight-bold mb-1">ทะเบียนประวัติ</div>
-              <div v-if="historyStatus === 'approved'" class="text-body-2 text-medium-emphasis">
+              <div class="text-body-2 font-weight-bold mb-1">
+                ทะเบียนประวัติ
+              </div>
+              <div
+                v-if="historyStatus === 'approved'"
+                class="text-body-2 text-medium-emphasis"
+              >
                 HIST-2568-00001 · อนุมัติแล้ว
               </div>
-              <div v-else-if="historyStatus === null" class="text-body-2 text-medium-emphasis">
+              <div
+                v-else-if="historyStatus === null"
+                class="text-body-2 text-medium-emphasis"
+              >
                 ยังไม่มีทะเบียนประวัติในระบบ
               </div>
               <div v-else class="text-body-2 text-medium-emphasis">
@@ -79,7 +93,11 @@
               append-icon="fas fa-arrow-right"
               @click="goToHistory"
             >
-              {{ historyStatus === null ? "ขึ้นทะเบียนประวัติ" : "ดูทะเบียนประวัติ" }}
+              {{
+                historyStatus === null
+                  ? "ขึ้นทะเบียนประวัติ"
+                  : "ดูทะเบียนประวัติ"
+              }}
             </v-btn>
           </div>
         </div>
@@ -209,7 +227,10 @@ function goToNewApplication() {
 
 function goToHistory() {
   if (historyStatus.value === null) {
-    router.push({ name: "HCEXUserNewApplication", params: { type: "history" } });
+    router.push({
+      name: "HCEXUserNewApplication",
+      params: { type: "history" },
+    });
   } else {
     router.push({ name: "HCEXUserHistory" });
   }
@@ -280,7 +301,7 @@ const recentApplications = [
 
 const quickActions = [
   {
-    title: "ยื่นคำขอใหม่",
+    title: "ยื่นคำขอ",
     icon: "fas fa-file-pen",
     color: "primary",
     to: { name: "HCEXUserApplicationType" },

@@ -1,15 +1,9 @@
 <template>
   <div>
     <!-- Header -->
-    <div class="d-flex align-center ga-3 mb-6">
-      <v-btn
-        icon="fas fa-arrow-left"
-        variant="text"
-        size="small"
-        @click="goToApplicationList"
-      />
+    <div class="d-flex align-center justify-space-between mb-6 flex-wrap ga-3">
       <div>
-        <h1 class="page-title mb-0">ยื่นคำขอใหม่</h1>
+        <h1 class="page-title mb-1">การยื่นคำขอ</h1>
         <p class="text-body-2 text-medium-emphasis mb-0">
           เลือกประเภทคำขอใบรับรองมาตรฐานการปฏิบัติทางการเกษตรที่ดีสำหรับพืช
           (GAP)
@@ -18,80 +12,42 @@
     </div>
 
     <!-- Type Cards -->
-    <v-row justify="center">
-      <v-col v-for="type in appTypes" :key="type.route" cols="12" md="4">
+    <v-row>
+      <v-col v-for="type in appTypes" :key="type.route" cols="12">
         <v-card
-          class="type-card h-100"
+          class="type-card"
           hover
-          :ripple="false"
+          elevation="0"
+          rounded="xl"
           :disabled="type.disabled"
           @click="!type.disabled && goToAppType(type.route)"
         >
-          <v-card-text class="pa-7 d-flex flex-column align-center text-center">
-            <!-- Icon -->
-            <div
-              class="type-icon-box mb-5"
-              :style="
-                type.disabled
-                  ? 'background:rgba(var(--v-border-color),0.08)'
-                  : `background:rgba(var(--v-theme-${type.color}),0.1)`
-              "
-            >
+          <div class="d-flex align-center pa-6">
+            <!-- Icon Box -->
+            <div class="icon-box mr-6">
               <v-icon
                 :icon="type.icon"
                 :color="type.disabled ? 'medium-emphasis' : type.color"
-                size="40"
+                size="28"
               />
             </div>
 
-            <!-- Title & Badge -->
-            <div class="d-flex align-center ga-2 mb-2">
-              <h2 class="text-h6 font-weight-bold">{{ type.title }}</h2>
-              <v-chip
-                v-if="type.badge"
-                size="x-small"
-                :color="type.disabled ? 'grey' : type.color"
-                variant="tonal"
-                >{{ type.badge }}</v-chip
-              >
+            <!-- Content -->
+            <div class="flex-grow-1">
+              <h2 class="text-h6 font-weight-bold mb-1">{{ type.title }}</h2>
+              <p class="text-body-2 text-medium-emphasis mb-0">{{ type.description }}</p>
             </div>
 
-            <p class="text-body-2 text-medium-emphasis mb-5">
-              {{ type.description }}
-            </p>
-
-            <!-- Features list -->
-            <v-list
-              density="compact"
-              class="w-100 text-left mb-5 bg-transparent pa-0"
-            >
-              <v-list-item
-                v-for="f in type.features"
-                :key="f"
-                prepend-icon="fas fa-circle-check"
-                :title="f"
-                :base-color="type.disabled ? 'grey' : type.color"
-                class="px-0"
-                density="compact"
-              />
-            </v-list>
-
-            <v-btn
-              :color="type.disabled ? 'grey' : type.color"
-              :disabled="type.disabled"
-              block
-              rounded="lg"
-              append-icon="fas fa-arrow-right"
-            >
-              {{
-                type.disabled
-                  ? sessionStore.isGroupMode
-                    ? "ใช้ได้เฉพาะโหมดเดี่ยว"
-                    : "ต้องเข้าโหมดกลุ่มก่อน"
-                  : "เลือกประเภทนี้"
-              }}
-            </v-btn>
-          </v-card-text>
+            <!-- Action -->
+            <div class="d-flex align-center">
+              <div class="node-line-container">
+                <div class="vertical-line"></div>
+                <v-btn icon variant="flat" color="gap-user" size="small" class="node-dot" :disabled="type.disabled">
+                  <v-icon icon="fas fa-arrow-right" size="14" color="white" />
+                </v-btn>
+              </div>
+            </div>
+          </div>
         </v-card>
       </v-col>
     </v-row>
@@ -187,16 +143,9 @@ const appTypes = computed(() => [
     transform 0.2s ease,
     box-shadow 0.2s ease;
 }
+
 .type-card:hover:not(.v-card--disabled) {
   transform: translateY(-4px);
   box-shadow: 0 12px 32px rgba(var(--v-theme-gap-user), 0.1) !important;
-}
-.type-icon-box {
-  width: 88px;
-  height: 88px;
-  border-radius: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 </style>

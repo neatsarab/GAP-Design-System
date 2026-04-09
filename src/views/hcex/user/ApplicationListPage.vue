@@ -12,7 +12,7 @@
         prepend-icon="fas fa-plus"
         @click="goToNewApplication"
       >
-        ยื่นคำขอใหม่
+        ยื่นคำขอ
       </v-btn>
     </div>
 
