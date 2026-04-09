@@ -2,9 +2,9 @@
   <div>
     <div class="d-flex align-center justify-space-between flex-wrap ga-3 mb-6">
       <div>
-        <h1 class="page-title mb-1">แดชบอร์ด DOA (เจ้าหน้าที่)</h1>
+        <h1 class="page-title mb-1">แดชบอร์ด</h1>
         <p class="text-body-2 text-medium-emphasis mb-0">
-          ภาพรวมคำขอขึ้นทะเบียนโรงงานผลิตสินค้าพืชทั้งหมด
+          ภาพรวมระบบการขึ้นทะเบียนโรงงานผลิตสินค้าพืช
         </p>
       </div>
     </div>

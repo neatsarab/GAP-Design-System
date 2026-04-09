@@ -12,7 +12,7 @@
         prepend-icon="fas fa-plus"
         @click="goToNewApplication"
       >
-        ยื่นคำขอใหม่
+        ยื่นคำขอ
       </v-btn>
     </div>
 
@@ -191,7 +191,7 @@ const recentApplications = [
 
 const quickActions = [
   {
-    title: "ยื่นคำขอใหม่",
+    title: "ยื่นคำขอ",
     icon: "fas fa-file-pen",
     color: "primary",
     to: "/hc/user/applications/new",

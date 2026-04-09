@@ -1261,7 +1261,7 @@ const route = useRoute();
 
 const typeTitles = {
   register: "ยื่นคำขอขึ้นทะเบียน / ต่ออายุทะเบียน",
-  amendment: "คำขอเปลี่ยนแปลงทะเบียนโรงงานผลิตสินค้าพืช DOA",
+  amendment: "คำขอเปลี่ยนแปลงทะเบียนโรงงานผลิตสินค้าพืช (DOA)",
   scope: "คำขอเพิ่ม / ลดขอบข่ายมาตรฐาน",
 };
 const pageTitle = computed(() => typeTitles[route.params.type] ?? "คำขอ DOA");

@@ -339,6 +339,12 @@ const navGroups = [
         count: 6,
       },
       {
+        title: "รายการรอตรวจ LAB",
+        icon: "fas fa-microscope",
+        to: "/hcex/staff/lab-waiting",
+        count: 3,
+      },
+      {
         title: "รายการคำขอ",
         icon: "fas fa-file-lines",
         to: "/hcex/staff/applications",

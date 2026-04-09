@@ -353,11 +353,11 @@ const navGroups = [
     ],
   },
   {
-    label: "สร้างคำขอใหม่",
+    label: "การยื่นคำขอ",
     divider: true,
     items: [
       {
-        title: "สร้างคำขอใหม่",
+        title: "ยื่นคำขอ",
         icon: "fas fa-file-pen",
         to: "/doa/user/applications/new",
       },

@@ -338,7 +338,7 @@ const navGroups = [
     divider: false,
     items: [
       {
-        title: "ยื่นคำขอใหม่",
+        title: "ยื่นคำขอ",
         icon: "fas fa-file-pen",
         to: "/hcex/user/applications/new",
       },

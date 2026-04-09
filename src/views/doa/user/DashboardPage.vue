@@ -4,7 +4,7 @@
       <div>
         <h1 class="page-title mb-1">แดชบอร์ด</h1>
         <p class="text-body-2 text-medium-emphasis mb-0">
-          ภาพรวมระบบการขึ้นทะเบียนโรงงานผลิตสินค้าพืช DOA
+          การขึ้นทะเบียนโรงงานผลิตสินค้าพืช
         </p>
       </div>
       <v-btn
@@ -12,7 +12,7 @@
         prepend-icon="fas fa-plus"
         @click="goToNewApplication"
       >
-        ยื่นคำขอใหม่
+        ยื่นคำขอ
       </v-btn>
     </div>
 
@@ -195,7 +195,7 @@ const recentApplications = [
 
 const quickActions = [
   {
-    title: "ยื่นคำขอใหม่",
+    title: "ยื่นคำขอ",
     icon: "fas fa-file-pen",
     color: "primary",
     to: "/doa/user/applications/new",

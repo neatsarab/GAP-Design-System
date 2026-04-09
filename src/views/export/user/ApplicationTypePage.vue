@@ -1,77 +1,44 @@
 <template>
   <div>
     <!-- Header -->
-    <div class="d-flex align-center ga-3 mb-6">
-      <v-btn
-        icon="fas fa-arrow-left"
-        variant="text"
-        size="small"
-        @click="goToApplicationList"
-      />
+    <div class="d-flex align-center justify-space-between mb-6 flex-wrap ga-3">
       <div>
-        <h1 class="page-title mb-0">ยื่นคำขอใหม่</h1>
+        <h1 class="page-title mb-1">การยื่นคำขอ</h1>
         <p class="text-body-2 text-medium-emphasis mb-0">
-          เลือกประเภทคำขอที่ต้องการยื่น
+          เลือกประเภทคำขอที่ต้องการดำเนินการ
         </p>
       </div>
     </div>
 
     <!-- Type Cards -->
-    <v-row justify="start">
-      <v-col v-for="appType in appTypes" :key="appType.key" cols="12" md="4">
-        <v-card
-          class="type-card h-100"
-          hover
-          :ripple="false"
-          @click="goToNewApplication(appType.key)"
-        >
-          <v-card-text class="pa-8 d-flex flex-column align-center text-center">
-            <div
-              class="type-icon-box mb-5"
-              :style="`background:rgba(var(--v-theme-${appType.color}),0.1)`"
-            >
-              <v-icon :icon="appType.icon" :color="appType.color" size="40" />
+    <v-row>
+      <v-col v-for="appType in appTypes" :key="appType.key" cols="12">
+        <v-card class="type-card" hover elevation="0" rounded="xl" @click="goToNewApplication(appType.key)">
+          <div class="d-flex align-center pa-6">
+            <!-- Icon Box -->
+            <div class="icon-box mr-6">
+              <v-icon :icon="appType.icon" :color="appType.color" size="28" />
             </div>
 
-            <div class="d-flex align-center ga-2 mb-2">
-              <h2 class="text-h6 font-weight-bold">{{ appType.title }}</h2>
-              <v-chip
-                v-if="appType.badge"
-                size="x-small"
-                :color="appType.color"
-                variant="tonal"
-              >
-                {{ appType.badge }}
-              </v-chip>
+            <!-- Content -->
+            <div class="flex-grow-1">
+              <h2 class="text-h6 font-weight-bold mb-1">{{ appType.title }}</h2>
+              <p v-if="appType.description" class="text-body-2 text-medium-emphasis mb-0">{{ appType.description }}</p>
             </div>
 
-            <v-btn
-              :color="appType.color"
-              block
-              rounded="lg"
-              append-icon="fas fa-arrow-right"
-            >
-              เลือกประเภทนี้
-            </v-btn>
-          </v-card-text>
+            <!-- Action -->
+            <div class="d-flex align-center">
+              <div class="node-line-container">
+                <div class="vertical-line"></div>
+                <v-btn icon variant="flat" color="export-user" size="small" class="node-dot">
+                  <v-icon icon="fas fa-arrow-right" size="14" color="white" />
+                </v-btn>
+              </div>
+            </div>
+          </div>
         </v-card>
       </v-col>
     </v-row>
-
-    <!-- Info -->
-    <!-- <v-alert
-      type="info"
-      variant="tonal"
-      class="mt-6"
-      prepend-icon="fas fa-circle-info"
-      rounded="xl"
-    >
-      <strong>หมายเหตุ:</strong>
-      เอกสารที่ใช้ประกอบการยื่นคำขอต้องรับรองสำเนาถูกต้อง
-      ผู้ยื่นคำขอต้องเป็นผู้มีอำนาจลงนาม หากยื่นด้วยตนเองต้องแสดง<strong
-        >บัตรประชาชนตัวจริง</strong
-      >
-    </v-alert> -->
   </div>
 </template>
 
@@ -116,16 +83,9 @@ const appTypes = [
     transform 0.2s ease,
     box-shadow 0.2s ease;
 }
-.type-card:hover {
+
+.type-card:hover:not(.v-card--disabled) {
   transform: translateY(-4px);
   box-shadow: 0 12px 32px rgba(var(--v-theme-export-user), 0.12) !important;
-}
-.type-icon-box {
-  width: 88px;
-  height: 88px;
-  border-radius: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 </style>
