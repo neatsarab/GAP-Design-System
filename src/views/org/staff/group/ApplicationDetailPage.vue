@@ -1,5 +1,5 @@
 <template>
-    <div style="--v-theme-primary: var(--v-theme-gap-staff)">
+    <div style="--v-theme-primary: var(--v-theme-org-staff)">
         <!-- Back + Header -->
         <div class="d-flex align-center ga-3 mb-5 flex-wrap">
             <v-btn variant="text" prepend-icon="fas fa-arrow-left" size="small" @click="goToApplicationList">
@@ -33,7 +33,7 @@
                                     }}</span>
                             </div>
                             <div class="text-caption text-center" :class="currentStep >= step.value
-                                ? 'text-gap-staff font-weight-bold'
+                                ? 'text-org-staff font-weight-bold'
                                 : 'text-medium-emphasis'
                                 ">
                                 {{ step.title }}
@@ -51,7 +51,7 @@
             <v-window-item :value="0">
                 <v-card elevation="0" border rounded="xl" class="mb-4">
                     <div class="section-header border-b">
-                        <v-icon size="15" color="gap-staff">fas fa-users</v-icon>
+                        <v-icon size="15" color="org-staff">fas fa-users</v-icon>
                         <span class="text-subtitle-2">ข้อมูลรายละเอียด</span>
                     </div>
                     <v-card-text class="pa-5">
@@ -580,7 +580,7 @@
             <v-window-item :value="1">
                 <v-card elevation="0" rounded="xl">
                     <div class="section-header">
-                        <v-icon size="15" color="gap-staff">fas fa-users</v-icon>
+                        <v-icon size="15" color="org-staff">fas fa-users</v-icon>
                         <span class="text-subtitle-2">ข้อมูลรายละเอียด</span>
                         <v-spacer />
                     </div>
@@ -628,7 +628,7 @@
             <v-window-item :value="2">
                 <v-card elevation="0" border rounded="xl" class="mb-4">
                     <div class="section-header border-b">
-                        <v-icon size="15" color="gap-staff">fas fa-location-dot</v-icon>
+                        <v-icon size="15" color="org-staff">fas fa-location-dot</v-icon>
                         <span class="text-subtitle-2">ที่อยู่สำนักงานกลุ่ม / แหล่งผลิตหลัก</span>
                     </div>
                     <v-card-text class="pt-5">
@@ -684,7 +684,7 @@
 
                 <v-card elevation="0" border rounded="xl">
                     <div class="section-header border-b">
-                        <v-icon size="15" color="gap-staff">fas fa-seedling</v-icon>
+                        <v-icon size="15" color="org-staff">fas fa-seedling</v-icon>
                         <span class="text-subtitle-2">ข้อมูลการผลิตรวมกลุ่ม</span>
                     </div>
                     <v-card-text class="pt-5">
@@ -720,14 +720,14 @@
                             </v-col>
                             <v-col cols="12" sm="6">
                                 <div class="field-label">
-                                    ข้อกำหนด GAP
+                                    ข้อกำหนด ORG
                                     <div></div>
-                                    <div class="field-label-en">GAP Requirements</div>
+                                    <div class="field-label-en">ORG Requirements</div>
                                 </div>
                                 <div class="rounded-lg pa-3 bg-surface-variant">
-                                    <v-checkbox v-model="form.water" label="มีแหล่งน้ำในพื้นที่" color="gap-staff"
+                                    <v-checkbox v-model="form.water" label="มีแหล่งน้ำในพื้นที่" color="org-staff"
                                         density="compact" hide-details class="mb-1" />
-                                    <v-checkbox v-model="form.record" label="มีการบันทึกการผลิต" color="gap-staff"
+                                    <v-checkbox v-model="form.record" label="มีการบันทึกการผลิต" color="org-staff"
                                         density="compact" hide-details class="mb-1" />
                                     <v-checkbox v-model="form.chemical" label="บันทึกการใช้สารเคมี" color="warning"
                                         density="compact" hide-details />
@@ -742,7 +742,7 @@
             <v-window-item :value="3">
                 <v-card elevation="0" border rounded="xl">
                     <div class="section-header border-b">
-                        <v-icon size="15" color="gap-staff">fas fa-paperclip</v-icon>
+                        <v-icon size="15" color="org-staff">fas fa-paperclip</v-icon>
                         <span class="text-subtitle-2">เอกสารและหลักฐาน</span>
                         <v-spacer />
                         <v-chip size="x-small" variant="tonal" color="warning">ไม่เกินไฟล์ละ 10 MB</v-chip>
@@ -837,11 +837,11 @@
                     @click="prevStep">ย้อนกลับ</v-btn>
             </div>
             <div class="d-flex ga-2">
-                <v-btn variant="tonal" color="gap-staff" prepend-icon="fas fa-floppy-disk"
+                <v-btn variant="tonal" color="org-staff" prepend-icon="fas fa-floppy-disk"
                     @click="saveDraft">บันทึกแบบร่าง</v-btn>
-                <v-btn v-if="currentStep < steps.length - 1" color="gap-staff" append-icon="fas fa-arrow-right"
+                <v-btn v-if="currentStep < steps.length - 1" color="org-staff" append-icon="fas fa-arrow-right"
                     @click="nextStep">ถัดไป</v-btn>
-                <v-btn v-else color="gap-staff" prepend-icon="fas fa-paper-plane"
+                <v-btn v-else color="org-staff" prepend-icon="fas fa-paper-plane"
                     @click="openSuccessDialog">ยื่นคำขอ</v-btn>
             </div>
         </div>
@@ -853,12 +853,12 @@
                     <v-icon icon="fas fa-circle-check" color="success" size="64" class="mb-4" />
                     <h2 class="text-h6 font-weight-bold mb-2">ยื่นคำขอสำเร็จ!</h2>
                     <p class="text-body-2 text-medium-emphasis mb-5">
-                        เลขที่คำขอ: <strong class="text-gap-staff">GAP-2569-012</strong><br />
+                        เลขที่คำขอ: <strong class="text-org-staff">ORG-2569-012</strong><br />
                         ประเภท: <strong>รายกลุ่ม</strong> · สมาชิก
                         {{ members.length }} คน<br />
                         เจ้าหน้าที่จะติดต่อกลับภายใน 3–5 วันทำการ
                     </p>
-                    <v-btn color="gap-staff" block @click="goToApplicationList">ดูรายการคำขอ</v-btn>
+                    <v-btn color="org-staff" block @click="goToApplicationList">ดูรายการคำขอ</v-btn>
                 </v-card-text>
             </v-card>
         </v-dialog>
@@ -1125,7 +1125,7 @@ const appId = route.params.id;
 const mockApps = {
     "APP-001": {
         id: "APP-001",
-        requestNo: "GAP-2569-00041",
+        requestNo: "ORG-2569-00041",
         submittedAt: "15 ม.ค. 2569",
         certType: "มกษ. 9001",
         province: "เชียงใหม่",
@@ -1165,7 +1165,7 @@ const mockApps = {
     },
     "APP-002": {
         id: "APP-002",
-        requestNo: "GAP-2569-00039",
+        requestNo: "ORG-2569-00039",
         submittedAt: "13 ม.ค. 2569",
         certType: "มกษ. 9001",
         province: "เพชรบูรณ์",
@@ -1196,7 +1196,7 @@ const mockApps = {
     },
     "APP-003": {
         id: "APP-003",
-        requestNo: "GAP-2569-00036",
+        requestNo: "ORG-2569-00036",
         submittedAt: "10 ม.ค. 2569",
         certType: "มกษ. 9001",
         province: "นครปฐม",
@@ -1235,7 +1235,7 @@ const mockApps = {
     },
     "APP-004": {
         id: "APP-004",
-        requestNo: "GAP-2569-00034",
+        requestNo: "ORG-2569-00034",
         submittedAt: "8 ม.ค. 2569",
         certType: "มกษ. 3502",
         province: "เชียงราย",
@@ -1348,7 +1348,7 @@ const statusMap = {
         label: "ตรวจแปลงแล้ว",
     },
     pending_cc: {
-        color: "gap-staff",
+        color: "org-staff",
         icon: "fas fa-paper-plane",
         label: "รอเสนอ CC",
     },
@@ -1466,7 +1466,7 @@ function getCCDecisionLabel(val) {
 
 // Step 6 form
 const certForm = ref({
-    certNo: `GAP-CERT-2569-${Math.floor(Math.random() * 9000 + 1000)}`,
+    certNo: `ORG-CERT-2569-${Math.floor(Math.random() * 9000 + 1000)}`,
     issuedDate: "",
     expiryDate: "",
     signedBy: "",
@@ -1583,7 +1583,7 @@ function issueCert() {
         signedBy: certForm.value.signedBy,
     };
     app.value.status = "cert_issued";
-    showSnack("ออกใบรับรอง GAP เรียบร้อยแล้ว 🎉", "success");
+    showSnack("ออกใบรับรอง ORG เรียบร้อยแล้ว 🎉", "success");
 }
 
 const application = {
@@ -1641,13 +1641,13 @@ const application = {
 
     gaps: [
         {
-            gapNo: "GAP-00123",
+            gapNo: "ORG-00123",
             siteName: "สวนมะม่วงไทยเอ็กซ์พอร์ต",
             certBody: "กรมวิชาการเกษตร (DOA)",
             expiryDate: "01/03/2570",
         },
         {
-            gapNo: "GAP-00456",
+            gapNo: "ORG-00456",
             siteName: "สวนมะละกอไทยเอ็กซ์พอร์ต",
             certBody: "สำนักงานเกษตรจังหวัด",
             expiryDate: "15/06/2570",
@@ -1658,7 +1658,7 @@ const application = {
         { label: "หนังสือรับรองบริษัท" },
         { label: "สำเนาบัตรประชาชนกรรมการ" },
         { label: "หนังสือสำคัญขึ้นทะเบียนโรงงาน (DOA)" },
-        { label: "หนังสือรับรอง GAP" },
+        { label: "หนังสือรับรอง ORG" },
     ],
 
     activityLog: [
@@ -1695,8 +1695,8 @@ onMounted(() => {
 
 <style scoped>
 div {
-    --step-color: rgb(var(--v-theme-gap-staff));
-    --step-color-tint: rgba(var(--v-theme-gap-staff), 0.2);
+    --step-color: rgb(var(--v-theme-org-staff));
+    --step-color-tint: rgba(var(--v-theme-org-staff), 0.2);
 }
 
 .member-row {
@@ -1706,20 +1706,20 @@ div {
 
 .step-done,
 .step-active {
-    background: rgb(var(--v-theme-gap-staff)) !important;
+    background: rgb(var(--v-theme-org-staff)) !important;
     color: white !important;
 }
 
 .step-active {
-    box-shadow: 0 0 0 4px rgba(var(--v-theme-gap-staff), 0.2) !important;
+    box-shadow: 0 0 0 4px rgba(var(--v-theme-org-staff), 0.2) !important;
 }
 
 .step-line--done {
-    background: rgb(var(--v-theme-gap-staff)) !important;
+    background: rgb(var(--v-theme-org-staff)) !important;
 }
 
 .field-section-label {
-    color: rgb(var(--v-theme-gap-staff)) !important;
+    color: rgb(var(--v-theme-org-staff)) !important;
 }
 
 :deep(.radio-farm .v-selection-control-group) {

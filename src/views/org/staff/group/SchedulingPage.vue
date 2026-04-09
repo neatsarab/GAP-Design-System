@@ -61,7 +61,7 @@
                                     placeholder="เลือกวันที่ / เดือน / ปี" hide-details style="cursor: pointer"
                                     @click:clear.stop="dateFromObj = null" />
                             </template>
-                            <v-date-picker v-model="dateFromObj" color="gap-staff" show-adjacent-months
+                            <v-date-picker v-model="dateFromObj" color="org-staff" show-adjacent-months
                                 :hide-header="!dateFromObj" title="วันที่ยื่น (จาก)" locale="th"
                                 @update:model-value="dateFromMenu = false" />
                         </v-menu>
@@ -78,7 +78,7 @@
                                     placeholder="เลือกวันที่ / เดือน / ปี" hide-details style="cursor: pointer"
                                     @click:clear.stop="dateToObj = null" />
                             </template>
-                            <v-date-picker v-model="dateToObj" color="gap-staff" show-adjacent-months
+                            <v-date-picker v-model="dateToObj" color="org-staff" show-adjacent-months
                                 :hide-header="!dateToObj" title="วันที่ยื่น (ถึง)" locale="th"
                                 @update:model-value="dateToMenu = false" />
                         </v-menu>
@@ -96,7 +96,7 @@
         </v-card>
 
         <v-row class="pa-4 mb-1 mt-n5 d-flex align-center justify-end ga-2">
-            <v-btn variant="tonal" color="gap-staff" prepend-icon="fas fa-paper-plane"
+            <v-btn variant="tonal" color="org-staff" prepend-icon="fas fa-paper-plane"
                 @click="dialogProposeToCC = true">
                 นัดหมายการตรวจ
             </v-btn>
@@ -107,7 +107,7 @@
                     <v-card class="mx-auto" width="600">
                          <template v-slot:title>
                             <div class="d-flex align-center pa-2">
-                                <v-icon icon="fas fa-file-check" class="mr-3" color="gap-staff" size="22" />
+                                <v-icon icon="fas fa-file-check" class="mr-3" color="org-staff" size="22" />
                                 <h5 class="font-weight-black text-h6">นัดหมายการตรวจแปลง</h5>
                             </div>
                         </template>
@@ -124,7 +124,7 @@
                                 class="px-6 font-weight-bold">
                                 ยกเลิก
                             </v-btn>
-                            <v-btn @click="dialogProposeToCC = false" color="gap-staff" variant="flat"
+                            <v-btn @click="dialogProposeToCC = false" color="org-staff" variant="flat"
                                 class="px-10 rounded-lg font-weight-bold" elevation="2">
                                 <v-icon icon="fas fa-save" start size="14" />
                                 ยืนยัน
@@ -240,7 +240,7 @@
                     <div class="d-flex align-center ga-1">
                         <v-tooltip text="ดูคำขอ" location="top">
                             <template #activator="{ props }">
-                                <v-btn v-bind="props" icon size="x-small" variant="text" color="gap-staff"
+                                <v-btn v-bind="props" icon size="x-small" variant="text" color="org-staff"
                                     @click.stop="goToApplicationDetail(item.requestNo)">
                                     <v-icon icon="fas fa-eye" size="14" />
                                 </v-btn>

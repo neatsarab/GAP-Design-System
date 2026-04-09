@@ -30,7 +30,7 @@
                                 <v-icon v-if="currentStep > step.value" icon="fas fa-check" size="14" color="white" />
                                 <span v-else class="text-caption font-weight-bold">{{
                                     step.value + 1
-                                    }}</span>
+                                }}</span>
                             </div>
                             <div class="text-caption text-center" :class="currentStep >= step.value
                                 ? 'text-org-staff font-weight-bold'
@@ -49,178 +49,648 @@
         <v-window v-model="currentStep">
             <!-- Step 1: ข้อมูลกลุ่ม -->
             <v-window-item :value="0">
-                
-
             </v-window-item>
 
             <!-- Step 2: รายชื่อสมาชิก -->
             <v-window-item :value="1">
-                <v-card elevation="0" border rounded="xl" class="mb-4">
-                    <div class="section-header border-b">
-                        <v-icon size="15" color="org-staff">fas fa-location-dot</v-icon>
-                        <span class="text-subtitle-2">ข้อมูลแปลง</span>
-                    </div>
-                    <v-card-text class="pt-5">
-                        <div class="field-section-label mb-2">ที่ตั้งฟาร์ม</div>
-                        <v-row dense>
-                            <v-col cols="12" md="4">
-                                <div class="field-label">ชื่อหมู่บ้าน</div>
-                                <v-text-field v-model="form.village" rounded="lg" variant="outlined" density="compact"
-                                    hide-details></v-text-field>
-                            </v-col>
-                            <v-col cols="12" md="4">
-                                <div class="field-label">Village</div>
-                                <v-text-field v-model="form.village" rounded="lg" variant="outlined" density="compact"
-                                    hide-details></v-text-field>
-                            </v-col>
-                            <v-col cols="12" md="4">
-                                <div class="field-label">หมู่ที่</div>
-                                <v-text-field v-model="form.moo" rounded="lg" variant="outlined" density="compact"
-                                    hide-details></v-text-field>
-                            </v-col>
-                            <v-col cols="12" md="3">
-                                <div class="field-label">ถนน</div>
-                                <v-text-field v-model="form.road" rounded="lg" variant="outlined" density="compact"
-                                    hide-details></v-text-field>
-                            </v-col>
-                            <v-col cols="12" md="3">
-                                <div class="field-label">Road</div>
-                                <v-text-field v-model="form.road" rounded="lg" variant="outlined" density="compact"
-                                    hide-details></v-text-field>
-                            </v-col>
-                            <v-col cols="12" md="3">
-                                <div class="field-label">ตรอก/ซอย</div>
-                                <v-text-field v-model="form.road" rounded="lg" variant="outlined" density="compact"
-                                    hide-details></v-text-field>
-                            </v-col>
-                            <v-col cols="12" md="3">
-                                <div class="field-label">Lane/Alley</div>
-                                <v-text-field v-model="form.road" rounded="lg" variant="outlined" density="compact"
-                                    hide-details></v-text-field>
-                            </v-col>
-                            <v-col cols="12" md="3">
-                                <div class="field-label">แขวง/ตำบล <span class="text-red">*</span></div>
-                                <v-select v-model="form.province" :items="provinces" rounded="lg" variant="outlined"
-                                    density="compact" hide-details></v-select>
-                            </v-col>
-                            <v-col cols="12" md="3">
-                                <div class="field-label">เขต/อำเภอ <span class="text-red">*</span></div>
-                                <v-select v-model="form.province" :items="provinces" rounded="lg" variant="outlined"
-                                    density="compact" hide-details></v-select>
-                            </v-col>
-                            <v-col cols="12" md="3">
-                                <div class="field-label">จังหวัด <span class="text-red">*</span></div>
-                                <v-select v-model="form.province" :items="provinces" rounded="lg" variant="outlined"
-                                    density="compact" hide-details></v-select>
-                            </v-col>
-                            <v-col cols="12" md="3">
-                                <div class="field-label">พื้นที่ขอรับรอง (ไร่)</div>
-                                <v-text-field v-model="form.totalArea" type="number" rounded="lg" variant="outlined"
-                                    density="compact" hide-details></v-text-field>
-                            </v-col>
+                <v-window v-model="currentInStep">
+                    <v-window-item :value="0">
+                        <v-card elevation="0" border rounded="xl" class="mb-4">
+                            <div class="section-header border-b">
+                                <v-icon size="15" color="org-staff">fas fa-location-dot</v-icon>
+                                <span class="text-subtitle-2">ข้อมูลแปลง</span>
+                            </div>
+                            <v-card-text class="pt-5">
+                                <div class="field-section-label mb-2">ที่ตั้งฟาร์ม</div>
+                                <v-row dense>
+                                    <v-col cols="12" md="4">
+                                        <div class="field-label">ชื่อหมู่บ้าน</div>
+                                        <v-text-field v-model="form.village" rounded="lg" variant="outlined"
+                                            density="compact" hide-details></v-text-field>
+                                    </v-col>
+                                    <v-col cols="12" md="4">
+                                        <div class="field-label">Village</div>
+                                        <v-text-field v-model="form.village" rounded="lg" variant="outlined"
+                                            density="compact" hide-details></v-text-field>
+                                    </v-col>
+                                    <v-col cols="12" md="4">
+                                        <div class="field-label">หมู่ที่</div>
+                                        <v-text-field v-model="form.moo" rounded="lg" variant="outlined"
+                                            density="compact" hide-details></v-text-field>
+                                    </v-col>
+                                    <v-col cols="12" md="3">
+                                        <div class="field-label">ถนน</div>
+                                        <v-text-field v-model="form.road" rounded="lg" variant="outlined"
+                                            density="compact" hide-details></v-text-field>
+                                    </v-col>
+                                    <v-col cols="12" md="3">
+                                        <div class="field-label">Road</div>
+                                        <v-text-field v-model="form.road" rounded="lg" variant="outlined"
+                                            density="compact" hide-details></v-text-field>
+                                    </v-col>
+                                    <v-col cols="12" md="3">
+                                        <div class="field-label">ตรอก/ซอย</div>
+                                        <v-text-field v-model="form.road" rounded="lg" variant="outlined"
+                                            density="compact" hide-details></v-text-field>
+                                    </v-col>
+                                    <v-col cols="12" md="3">
+                                        <div class="field-label">Lane/Alley</div>
+                                        <v-text-field v-model="form.road" rounded="lg" variant="outlined"
+                                            density="compact" hide-details></v-text-field>
+                                    </v-col>
+                                    <v-col cols="12" md="3">
+                                        <div class="field-label">แขวง/ตำบล <span class="text-red">*</span></div>
+                                        <v-select v-model="form.province" :items="provinces" rounded="lg"
+                                            variant="outlined" density="compact" hide-details></v-select>
+                                    </v-col>
+                                    <v-col cols="12" md="3">
+                                        <div class="field-label">เขต/อำเภอ <span class="text-red">*</span></div>
+                                        <v-select v-model="form.province" :items="provinces" rounded="lg"
+                                            variant="outlined" density="compact" hide-details></v-select>
+                                    </v-col>
+                                    <v-col cols="12" md="3">
+                                        <div class="field-label">จังหวัด <span class="text-red">*</span></div>
+                                        <v-select v-model="form.province" :items="provinces" rounded="lg"
+                                            variant="outlined" density="compact" hide-details></v-select>
+                                    </v-col>
+                                    <v-col cols="12" md="3">
+                                        <div class="field-label">พื้นที่ขอรับรอง (ไร่)</div>
+                                        <v-text-field v-model="form.totalArea" type="number" rounded="lg"
+                                            variant="outlined" density="compact" hide-details></v-text-field>
+                                    </v-col>
 
-                            <div class="field-section-label mb-2 mt-5">ชนิดและพันธุ์พืชที่ขอรับการรับรอง</div>
-                            <v-col cols="12" md="12">
-                                <v-card-title class="pa-0 border-bottom d-flex align-center bg-white">
-                                    <v-btn color="success" variant="flat" rounded="lg"
-                                        class="border-right rounded-0 elevation-0 px-2 py-2 mb-5" height="auto"
-                                        @click="page = 'cl02-form'">
-                                        <v-icon icon="fas fa-plus-circle" color="white" class="mr-2" />
-                                        <div class="text-white">บันทึกผลตรวจ</div>
-                                    </v-btn>
-                                </v-card-title>
-                                <v-table density="compact" class="border rounded-lg mb-2 crop-table custom-table">
-                                    <thead class="bg-grey-lighten-3">
-                                        <tr>
-                                            <th class="text-center font-weight-bold border" style="min-width: 80px">
-                                                ครั้งที่ตรวจ
-                                            </th>
-                                            <th class="text-center font-weight-bold border" style="width: 120px">
-                                                กำหนดตรวจ</th>
-                                            <th class="text-center font-weight-bold border" style="width: 120px">
-                                                วันที่ตรวจ</th>
-                                            <th class="text-center font-weight-bold border" style="width: 120px">ผู้ตรวจ
-                                            </th>
-                                            <th class="text-center font-weight-bold border">ผลการตรวจ</th>
-                                            <th class="text-center font-weight-bold border">หมายเหตุ</th>
-                                            <th class="text-center font-weight-bold border">แก้ไขข้อมูล</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr v-for="(item, index) in activeStandardData.crops" :key="index">
-                                            <td class="border pa-1">
-                                                <v-autocomplete v-model="item.name"
-                                                    :items="['มะม่วงน้ำดอกไม้', 'มะม่วงอกร่อง', 'ทุเรียนหมอนทอง', 'มังคุด']"
-                                                    variant="outlined" density="compact" hide-details rounded="lg"
-                                                    placeholder="ค้นหาพืช..."></v-autocomplete>
-                                            </td>
-                                            <td class="border pa-1"><v-text-field v-model="item.area" variant="outlined"
-                                                    density="compact" hide-details rounded="lg"></v-text-field></td>
-                                            <td class="border pa-1"><v-text-field v-model="item.age" variant="outlined"
-                                                    density="compact" hide-details rounded="lg"></v-text-field></td>
-                                            <td class="border pa-1"><v-text-field v-model="item.quantity"
-                                                    variant="outlined" density="compact" hide-details
-                                                    rounded="lg"></v-text-field></td>
-                                            <td class="border pa-1"><v-text-field v-model="item.period"
-                                                    variant="outlined" density="compact" hide-details
-                                                    rounded="lg"></v-text-field></td>
-                                            <td class="border pa-1"><v-text-field v-model="item.harvest"
-                                                    variant="outlined" density="compact" hide-details
-                                                    rounded="lg"></v-text-field></td>
-                                            <td class="border pa-1"><v-text-field v-model="item.yield"
-                                                    variant="outlined" density="compact" hide-details
-                                                    rounded="lg"></v-text-field></td>
-                                            <td class="border pa-1">
-                                                <v-text-field v-model="item.farmId" placeholder="" readonly
-                                                    bg-color="grey-lighten-4" variant="outlined" density="compact"
-                                                    hide-details rounded="lg"></v-text-field>
-                                            </td>
-                                        </tr>
-                                        <tr v-if="activeStandardData.crops.length === 0">
-                                            <td colspan="9" class="pa-10 text-center text-grey italic">
-                                                ไม่มีข้อมูล</td>
-                                        </tr>
-                                    </tbody>
-                                </v-table>
-                            </v-col>
+                                    <div class="field-section-label mb-2 mt-5">ชนิดและพันธุ์พืชที่ขอรับการรับรอง</div>
+                                    <v-col cols="12" md="12">
+                                        <v-card-title class="pa-0 border-bottom d-flex align-center bg-white">
+                                            <v-btn color="success" variant="flat" rounded="lg"
+                                                class="border-right rounded-0 elevation-0 px-2 py-2 mb-5" height="auto"
+                                                @click="page = 'cl02-form'">
+                                                <v-icon icon="fas fa-plus-circle" color="white" class="mr-2" />
+                                                <div class="text-white" @click="goToCropDetail">บันทึกผลตรวจ</div>
+                                            </v-btn>
+                                        </v-card-title>
+                                        <v-table density="compact"
+                                            class="border rounded-lg mb-2 crop-table custom-table">
+                                            <thead class="bg-grey-lighten-3">
+                                                <tr>
+                                                    <th class="text-center font-weight-bold border"
+                                                        style="min-width: 80px">
+                                                        ครั้งที่ตรวจ
+                                                    </th>
+                                                    <th class="text-center font-weight-bold border"
+                                                        style="width: 120px">
+                                                        กำหนดตรวจ</th>
+                                                    <th class="text-center font-weight-bold border"
+                                                        style="width: 120px">
+                                                        วันที่ตรวจ</th>
+                                                    <th class="text-center font-weight-bold border"
+                                                        style="width: 120px">ผู้ตรวจ
+                                                    </th>
+                                                    <th class="text-center font-weight-bold border">ผลการตรวจ</th>
+                                                    <th class="text-center font-weight-bold border">หมายเหตุ</th>
+                                                    <th class="text-center font-weight-bold border">แก้ไขข้อมูล</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr v-for="(item, index) in activeStandardData.crops" :key="index">
+                                                    <td class="border pa-1">
+                                                        <v-autocomplete v-model="item.name"
+                                                            :items="['มะม่วงน้ำดอกไม้', 'มะม่วงอกร่อง', 'ทุเรียนหมอนทอง', 'มังคุด']"
+                                                            variant="outlined" density="compact" hide-details
+                                                            rounded="lg" placeholder="ค้นหาพืช..."></v-autocomplete>
+                                                    </td>
+                                                    <td class="border pa-1"><v-text-field v-model="item.area"
+                                                            variant="outlined" density="compact" hide-details
+                                                            rounded="lg"></v-text-field></td>
+                                                    <td class="border pa-1"><v-text-field v-model="item.age"
+                                                            variant="outlined" density="compact" hide-details
+                                                            rounded="lg"></v-text-field></td>
+                                                    <td class="border pa-1"><v-text-field v-model="item.quantity"
+                                                            variant="outlined" density="compact" hide-details
+                                                            rounded="lg"></v-text-field></td>
+                                                    <td class="border pa-1"><v-text-field v-model="item.period"
+                                                            variant="outlined" density="compact" hide-details
+                                                            rounded="lg"></v-text-field></td>
+                                                    <td class="border pa-1"><v-text-field v-model="item.harvest"
+                                                            variant="outlined" density="compact" hide-details
+                                                            rounded="lg"></v-text-field></td>
+                                                    <td class="border pa-1"><v-text-field v-model="item.yield"
+                                                            variant="outlined" density="compact" hide-details
+                                                            rounded="lg"></v-text-field></td>
+                                                    <td class="border pa-1">
+                                                        <v-text-field v-model="item.farmId" placeholder="" readonly
+                                                            bg-color="grey-lighten-4" variant="outlined"
+                                                            density="compact" hide-details rounded="lg"></v-text-field>
+                                                    </td>
+                                                </tr>
+                                                <tr v-if="activeStandardData.crops.length === 0">
+                                                    <td colspan="9" class="pa-10 text-center text-grey italic">
+                                                        ไม่มีข้อมูล</td>
+                                                </tr>
+                                            </tbody>
+                                        </v-table>
+                                    </v-col>
 
-                             <v-card-text class="pa-5">
-                                <!-- ผลการตรวจสอบ -->
-                                <div class="field-label mb-1">
-                                     <span class="text-subtitle-2 font-weight-bold">ผลการตรวจสอบ</span>
-                                </div>
-                                <v-radio-group v-model="step1Review.result" color="doa-staff" inline>
-                                    <v-radio value="pass" class="mr-6">
-                                        <template #label>
-                                            <div class="d-flex align-center ga-2">
-                                                <v-icon icon="fas fa-circle-check" color="success" size="18" />
-                                                <span class="font-weight-medium">ผ่าน</span>
-                                            </div>
-                                        </template>
-                                    </v-radio>
-                                    <v-radio value="fail">
-                                        <template #label>
-                                            <div class="d-flex align-center ga-2">
-                                                <v-icon icon="fas fa-circle-xmark" color="error" size="18" />
-                                                <span class="font-weight-medium">ไม่ผ่าน</span>
-                                            </div>
-                                        </template>
-                                    </v-radio>
-                                </v-radio-group>
+                                    <v-card-text class="pa-5">
+                                        <!-- ผลการตรวจสอบ -->
+                                        <div class="field-label mb-1">
+                                            <span class="text-subtitle-2 font-weight-bold">ผลการตรวจสอบ</span>
+                                        </div>
+                                        <v-radio-group v-model="step1Review.result" color="doa-staff" inline>
+                                            <v-radio value="pass" class="mr-6">
+                                                <template #label>
+                                                    <div class="d-flex align-center ga-2">
+                                                        <v-icon icon="fas fa-circle-check" color="success" size="18" />
+                                                        <span class="font-weight-medium">ผ่าน</span>
+                                                    </div>
+                                                </template>
+                                            </v-radio>
+                                            <v-radio value="fail">
+                                                <template #label>
+                                                    <div class="d-flex align-center ga-2">
+                                                        <v-icon icon="fas fa-circle-xmark" color="error" size="18" />
+                                                        <span class="font-weight-medium">ไม่ผ่าน</span>
+                                                    </div>
+                                                </template>
+                                            </v-radio>
+                                        </v-radio-group>
 
-                                <!-- หมายเหตุ -->
-                                <div class="field-label mb-1">
-                                     <span class="text-subtitle-2 font-weight-bold">หมายเหตุ</span>
-                                </div>
-                                <v-textarea v-model="step1Review.remark" variant="outlined" density="compact"
-                                    rounded="lg" hide-details rows="4" placeholder="ระบุเหตุผลหรือข้อสังเกต..."
-                                    class="mb-5" />
-
-                               
+                                        <!-- หมายเหตุ -->
+                                        <div class="field-label mb-1">
+                                            <span class="text-subtitle-2 font-weight-bold">หมายเหตุ</span>
+                                        </div>
+                                        <v-textarea v-model="step1Review.remark" variant="outlined" density="compact"
+                                            rounded="lg" hide-details rows="4" placeholder="ระบุเหตุผลหรือข้อสังเกต..."
+                                            class="mb-5" />
+                                    </v-card-text>
+                                </v-row>
                             </v-card-text>
-                        </v-row>
-                    </v-card-text>
-                </v-card>
+                        </v-card>
+                    </v-window-item>
+                    <v-window-item :value="1">
+                        <v-card elevation="0" border rounded="xl" class="mb-4">
+                            <div class="section-header border-b pa-4  d-flex align-center">
+                                <v-btn icon="fas fa-arrow-left" variant="text" size="small" @click="goBackToStepList"
+                                    class="mr-2"></v-btn>
+                                <span class="text-subtitle-2 font-weight-bold">บันทึกรายละเอียดผลการตรวจ</span>
+                            </div>
+                            <v-card-text class="pa-8">
+                                <v-row>
+                                    <v-col cols="12" sm="3">
+                                        <div class="field-label mb-1 mt-4">ช่วงวันที่ขอนัดการตรวจประเมิน</div>
+
+                                    </v-col>
+                                    <v-col cols="12" sm="5">
+                                        <v-text-field v-model="ccForm.inspectionDate" placeholder="วันที่เข้าตรวจ"
+                                            variant="outlined" rounded="lg" hide-details type="date"
+                                            density="compact" />
+                                    </v-col>
+                                    <v-col cols="12" sm="4">
+                                        <v-text-field v-model="ccForm.inspectionDate" placeholder="วันที่เข้าตรวจ"
+                                            variant="outlined" rounded="lg" hide-details type="date"
+                                            density="compact" />
+                                    </v-col>
+                                    <v-col cols="12" sm="3">
+                                        <div class="field-label mb-1 mt-4">รหัสแปลง</div>
+
+                                    </v-col>
+                                    <v-col cols="12" sm="9">
+                                        <v-text-field v-model="ccForm.plotId" placeholder="กรุณาระบุรหัสแปลง"
+                                            variant="outlined" rounded="lg" hide-details density="compact">
+                                        </v-text-field>
+                                    </v-col>
+                                    <v-col cols="12" sm="3">
+                                        <div class="field-label mb-1 mt-4">พื้นที่ปลูก</div>
+
+                                    </v-col>
+                                    <v-col cols="12" sm="9">
+                                        <v-text-field v-model="ccForm.areaSize" placeholder="กรุณาระบุพื้นที่ปลูก"
+                                            variant="outlined" rounded="lg" hide-details density="compact">
+                                        </v-text-field>
+                                    </v-col>
+                                    <v-col cols="12" sm="3">
+                                        <div class="field-label mb-1 mt-4">ปริมาณการผลิต(กิโลกรัม)</div>
+
+                                    </v-col>
+                                    <v-col cols="12" sm="9">
+                                        <v-text-field v-model="ccForm.productionYield"
+                                            placeholder="กรุณาระบุปริมาณการผลิต" variant="outlined" rounded="lg"
+                                            hide-details density="compact">
+                                        </v-text-field>
+                                    </v-col>
+                                    <v-col cols="12" sm="3">
+                                        <div class="field-label mb-1 mt-4">ปีงบประมาณ</div>
+
+                                    </v-col>
+                                    <v-col cols="12" sm="9">
+                                        <v-select v-model="ccForm.budgetYear" :items="['2567', '2568', '2569']"
+                                            placeholder="กรุณาระบุปีงบประมาณ" variant="outlined" rounded="lg"
+                                            hide-details density="compact">
+                                        </v-select>
+                                    </v-col>
+                                    <v-col cols="12" sm="3">
+                                        <div class="field-label mb-1 mt-4">พิกัดแปลงพืช</div>
+
+                                    </v-col>
+                                    <v-col cols="12" sm="4">
+                                        <v-text-field v-model="ccForm.latitude" placeholder="latitude"
+                                            variant="outlined" rounded="lg" hide-details density="compact">
+                                        </v-text-field>
+                                    </v-col>
+                                    <v-col cols="12" sm="3">
+                                        <v-text-field v-model="ccForm.longitude" placeholder="longitude"
+                                            variant="outlined" rounded="lg" hide-details density="compact">
+                                        </v-text-field>
+                                    </v-col>
+                                    <v-col cols="12" sm="2" class="">
+                                        <v-btn>
+                                            <v-icon icon="fas fa-map-marker-alt" size="14" />
+                                            พิกัดแปลงพืช
+                                        </v-btn>
+                                    </v-col>
+                                    <v-col cols="12" sm="3">
+                                        <div class="field-label mb-1 mt-4">พื้นที่ปลูก</div>
+
+                                    </v-col>
+                                    <v-col cols="12" sm="9">
+                                        <v-text-field v-model="ccForm.plantingArea" placeholder="กรุณาระบุพื้นที่ปลูก"
+                                            variant="outlined" rounded="lg" hide-details density="compact">
+                                        </v-text-field>
+                                    </v-col>
+                                    <v-col cols="12" sm="3">
+                                        <div class="field-label mb-1 mt-4">จำนวน(ต้น)</div>
+
+                                    </v-col>
+                                    <v-col cols="12" sm="9">
+                                        <v-text-field v-model="ccForm.treeAmount" placeholder="กรุณาระบุจำนวนต้น"
+                                            variant="outlined" rounded="lg" hide-details density="compact">
+                                        </v-text-field>
+                                    </v-col>
+                                    <v-col cols="12" sm="3">
+                                        <div class="field-label mb-1 mt-4">อายุแปลง(ปี)</div>
+
+                                    </v-col>
+                                    <v-col cols="12" sm="9">
+                                        <v-text-field v-model="ccForm.plotAge" placeholder="กรุณาระบุอายุแปลง"
+                                            variant="outlined" rounded="lg" hide-details density="compact">
+                                        </v-text-field>
+                                    </v-col>
+                                    <v-col cols="12" sm="3">
+                                        <div class="field-label mb-1 mt-4">ช่วงที่ให้ผลผลิต</div>
+
+                                    </v-col>
+                                    <v-col cols="12" sm="5">
+                                        <v-select v-model="ccForm.harvestPeriodStart"
+                                            :items="['มกราคม', 'กุมภาพันธ์', 'มีนาคม']" placeholder="กรุณาระบุช่วงเวลา"
+                                            variant="outlined" rounded="lg" hide-details density="compact">
+                                        </v-select>
+                                    </v-col>
+                                    <v-col cols="12" sm="4">
+                                        <v-select v-model="ccForm.harvestPeriodEnd"
+                                            :items="['เมษายน', 'พฤษภาคม', 'มิถุนายน']" placeholder="กรุณาระบุช่วงเวลา"
+                                            variant="outlined" rounded="lg" hide-details density="compact">
+                                        </v-select>
+                                    </v-col>
+                                    <v-col cols="12" sm="3">
+                                        <div class="field-label mb-1 mt-4">ปริมาณการผลิต(กิโลกรัม)</div>
+
+                                    </v-col>
+                                    <v-col cols="12" sm="9">
+                                        <v-text-field v-model="ccForm.totalProduction"
+                                            placeholder="กรุณาระบุปริมาณการผลิต" variant="outlined" rounded="lg"
+                                            hide-details density="compact">
+                                        </v-text-field>
+                                    </v-col>
+                                    <v-col cols="12" sm="3">
+                                        <div class="field-label mb-1 mt-4">ครั้งที่ทำการตรวจ</div>
+
+                                    </v-col>
+                                    <v-col cols="12" sm="9">
+                                        <v-text-field v-model="ccForm.proposeCount"
+                                            placeholder="กรุณาระบุครั้งที่ทำการตรวจ" variant="outlined" rounded="lg"
+                                            hide-details density="compact">
+                                        </v-text-field>
+                                    </v-col>
+                                    <v-col cols="12" sm="3">
+                                        <div class="field-label mb-1 mt-4">วันที่เข้าตรวจ</div>
+
+                                    </v-col>
+                                    <v-col cols="12" sm="9">
+                                        <v-text-field v-model="ccForm.inspectionDateAgain" placeholder="วันที่เข้าตรวจ"
+                                            variant="outlined" rounded="lg" hide-details type="date"
+                                            density="compact" />
+                                    </v-col>
+                                    <v-col cols="12" sm="3">
+                                        <div class="field-label mb-1 mt-4">ผลการตรวจแปลง</div>
+
+                                    </v-col>
+                                    <v-col cols="12" sm="9">
+                                        <v-select v-model="ccForm.inspectionResultAgain" :items="['ผ่าน', 'ไม่ผ่าน']"
+                                            placeholder="กรุณาระบุผลการตรวจแปลง" variant="outlined" rounded="lg"
+                                            hide-details density="compact">
+                                        </v-select>
+                                    </v-col>
+                                </v-row>
+                                <v-row>
+                                    <v-container>
+                                        <v-card variant="outlined" class="pa-6">
+                                            <v-row align="center" class="mb-10">
+                                                <v-col cols="12" md="3">
+                                                    <div class="text-subtitle-1 font-weight-bold">ผู้ทำการตรวจรับรอง
+                                                        (หัวหน้าทีม)</div>
+                                                </v-col>
+
+                                                <v-col cols="12" md="9">
+                                                    <v-row no-gutters align="center">
+                                                        <v-col>
+                                                            <v-text-field v-model="searchLead" placeholder="ค้นหา..."
+                                                                variant="outlined" density="compact" hide-details
+                                                                class="mb-1"></v-text-field>
+                                                            <v-list border height="250" class="overflow-y-auto rounded">
+                                                                <v-list-item v-for="item in filteredLeads"
+                                                                    :key="item.id" @click="moveLead(item, 'select')">
+                                                                    {{ item.name }}
+                                                                </v-list-item>
+                                                            </v-list>
+                                                        </v-col>
+
+                                                        <v-col cols="auto" class="px-4 d-flex flex-column gap-2">
+                                                            <v-btn icon="fas fa-angle-double-right" variant="text"
+                                                                color="gap-staff" @click="moveAllLeads('select')"
+                                                                title="ย้ายไปขวาทั้งหมด"></v-btn>
+
+                                                            <v-btn icon="fas fa-angles-left" variant="text"
+                                                                color="gap-staff" @click="moveAllLeads('remove')"
+                                                                title="ย้ายไปซ้ายทั้งหมด"></v-btn>
+                                                        </v-col>
+
+                                                        <v-col>
+                                                            <v-text-field readonly variant="outlined" density="compact"
+                                                                hide-details class="mb-1"
+                                                                placeholder="ค้นหา..."></v-text-field>
+                                                            <v-list border height="250"
+                                                                class="overflow-y-auto rounded bg-grey-lighten-4">
+                                                                <v-list-item v-for="item in leadSelectedList"
+                                                                    :key="item.id" @click="moveLead(item, 'remove')">
+                                                                    {{ item.name }}
+                                                                </v-list-item>
+                                                            </v-list>
+                                                        </v-col>
+                                                    </v-row>
+                                                </v-col>
+                                            </v-row>
+
+                                            <v-divider class="mb-10"></v-divider>
+
+                                            <v-row align="center">
+                                                <v-col cols="12" md="3">
+                                                    <div class="text-subtitle-1 font-weight-bold">ผู้ทำการตรวจรับรอง
+                                                    </div>
+                                                    <div class="text-subtitle-1 font-weight-bold">
+                                                        (ลูกทีม)</div>
+                                                </v-col>
+
+                                                <v-col cols="12" md="9">
+                                                    <v-row no-gutters align="center">
+                                                        <v-col>
+                                                            <v-text-field v-model="searchMember" placeholder="ค้นหา..."
+                                                                variant="outlined" density="compact" hide-details
+                                                                class="mb-1"></v-text-field>
+                                                            <v-list border height="250" class="overflow-y-auto rounded">
+                                                                <v-list-item v-for="item in filteredMembers"
+                                                                    :key="item.id" @click="moveMember(item, 'select')">
+                                                                    {{ item.name }}
+                                                                </v-list-item>
+                                                            </v-list>
+                                                        </v-col>
+
+                                                        <v-col cols="auto" class="px-4 d-flex flex-column gap-2">
+                                                            <v-btn icon="fas fa-angle-double-right" variant="text"
+                                                                color="gap-staff"
+                                                                @click="moveAllMembers('select')"></v-btn>
+
+                                                            <v-btn icon="fas fa-angle-double-left" variant="text"
+                                                                color="gap-staff"
+                                                                @click="moveAllMembers('remove')"></v-btn>
+                                                        </v-col>
+
+                                                        <v-col>
+                                                            <v-text-field readonly variant="outlined" density="compact"
+                                                                hide-details class="mb-1"
+                                                                placeholder="ค้นหา..."></v-text-field>
+                                                            <v-list border height="250"
+                                                                class="overflow-y-auto rounded bg-grey-lighten-4">
+                                                                <v-list-item v-for="item in memberSelectedList"
+                                                                    :key="item.id" @click="moveMember(item, 'remove')">
+                                                                    {{ item.name }}
+                                                                </v-list-item>
+                                                            </v-list>
+                                                        </v-col>
+                                                    </v-row>
+                                                </v-col>
+                                            </v-row>
+                                        </v-card>
+                                    </v-container>
+                                    <v-col cols="12" sm="3">
+                                        <div class="field-label mb-1 mt-4">หมายเหตุ</div>
+
+                                    </v-col>
+                                    <v-col cols="12" sm="9">
+                                        <v-text-field v-model="ccForm.remark" placeholder="กรุณาระบุหมายเหตุ"
+                                            variant="outlined" rounded="lg" hide-details density="compact">
+                                        </v-text-field>
+                                    </v-col>
+                                </v-row>
+                                <v-row>
+                                    <v-card rounded="xl" elevation="0" class="section-card mb-5" width="900">
+                                        <v-card-text class="pa-5">
+                                            <v-checkbox v-model="ccForm.isSampling"
+                                                label="สุ่มตัวอย่างการตรวจสอบแปลง"></v-checkbox>
+                                            <v-row>
+                                                <v-col cols="12" sm="3">
+                                                    <div class="field-label mb-1 mt-4">วันที่ส่งวิเคราะห์</div>
+                                                </v-col>
+                                                <v-col cols="12" sm="9">
+                                                    <v-text-field v-model="ccForm.analysisSendDate"
+                                                        placeholder="กรุณาระบุวันที่ส่งวิเคราะห์" variant="outlined"
+                                                        rounded="lg" hide-details density="compact">
+                                                    </v-text-field>
+                                                </v-col>
+                                                <v-col cols="12" sm="3">
+                                                    <div class="field-label mb-1 mt-4">วันที่รายงานผลวิเคราะห์</div>
+
+                                                </v-col>
+                                                <v-col cols="12" sm="9">
+                                                    <v-text-field v-model="ccForm.analysisReportDate"
+                                                        placeholder="กรุณาระบุวันที่รายงานผลวิเคราะห์"
+                                                        variant="outlined" rounded="lg" hide-details density="compact">
+                                                    </v-text-field>
+                                                </v-col>
+                                                <v-col cols="12" sm="3">
+                                                    <div class="field-label mb-1 mt-4">ห้องปฏิบัติการ</div>
+
+                                                </v-col>
+                                                <v-col cols="12" sm="9">
+                                                    <v-text-field v-model="ccForm.laboratoryName"
+                                                        placeholder="กรุณาระบุห้องปฏิบัติการ" variant="outlined"
+                                                        rounded="lg" hide-details density="compact">
+                                                    </v-text-field>
+                                                </v-col>
+                                                <v-col cols="12" sm="3">
+                                                    <div class="field-label mb-1 mt-4">การสุ่มตรวจที่พบ</div>
+
+                                                </v-col>
+                                                <v-col cols="12" sm="9">
+                                                    <v-checkbox v-model="ccForm.foundMaterial"
+                                                        label="วัสดุปลูก"></v-checkbox>
+                                                    <v-checkbox v-model="ccForm.foundWater" class="mt-n6"
+                                                        label="น้ำ"></v-checkbox>
+                                                    <v-checkbox v-model="ccForm.foundPlant" class="mt-n6"
+                                                        label="พืช"></v-checkbox>
+                                                </v-col>
+                                            </v-row>
+                                        </v-card-text>
+                                    </v-card>
+                                </v-row>
+                                <v-divider class="my-6"></v-divider>
+
+                                <div v-for="(lab, index) in ['วัสดุปลูก', 'น้ำ', 'พืช']" :key="index" class="mb-8">
+                                    <v-row align="center" dense>
+                                        <v-col cols="12" sm="3" class="text-sm-left pr-4">
+                                            <div class="field-label font-weight-bold">ผลตรวจ{{ lab }}</div>
+                                        </v-col>
+                                        <v-col cols="12" sm="9">
+                                            <v-select :items="['ระบุผล Lab', 'ไม่สุ่ม', 'สุ่ม']"
+                                                placeholder="กรุณาระบุผล Lab" variant="outlined" rounded="lg"
+                                                hide-details density="compact"></v-select>
+                                        </v-col>
+                                    </v-row>
+
+                                    <v-row dense class="mt-2">
+                                        <v-col cols="12" sm="3" class="text-sm-left pr-4">
+                                            <div class="field-label">สารตกค้าง/เชื้อปนเปื้อน</div>
+                                        </v-col>
+                                        <v-col cols="12" sm="9"> <v-btn color="success" size="small" rounded="lg"
+                                                class="mb-2" prepend-icon="fas fa-plus">
+                                                เพิ่มสารตกค้าง/เชื้อปนเปื้อน
+                                            </v-btn>
+                                            <v-table density="compact" class="border rounded-lg w-100">
+                                                <thead class="bg-grey-lighten-4">
+                                                    <tr>
+                                                        <th class="text-center" style="width: 80px">เลขที่</th>
+                                                        <th class="text-center">สุ่มตรวจ</th>
+                                                        <th class="text-center">สารตกค้าง/เชื้อปนเปื้อน</th>
+                                                        <th class="text-center">ค่า</th>
+                                                        <th class="text-center" style="width: 120px">จัดการ</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td colspan="5" class="text-center text-grey pa-4">ไม่มีข้อมูล
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </v-table>
+                                        </v-col>
+                                    </v-row>
+                                </div>
+
+                                <v-divider class="my-6"></v-divider>
+
+                                <v-row dense v-for="type in ['ข้อกำหนดหลัก', 'ข้อกำหนดรอง', 'ข้อแนะนำ']" :key="type"
+                                    class="mb-4" align="center">
+                                    <v-col cols="12" sm="3" class="text-sm-left pr-4">
+                                        <div class="field-label font-weight-bold">{{ type }}</div>
+                                    </v-col>
+                                    <v-col cols="12" sm="9">
+                                        <v-row dense>
+                                            <v-col cols="12" sm="3">
+                                                <div class="text-caption">ใช่ (ข้อ)</div>
+                                                <v-text-field variant="outlined" rounded="lg" density="compact"
+                                                    hide-details></v-text-field>
+                                            </v-col>
+                                            <v-col cols="12" sm="3">
+                                                <div class="text-caption">ไม่ใช่ (ข้อ)</div>
+                                                <v-text-field variant="outlined" rounded="lg" density="compact"
+                                                    hide-details></v-text-field>
+                                            </v-col>
+                                            <v-col cols="12" sm="3">
+                                                <div class="text-caption">NA (ข้อ)</div>
+                                                <v-text-field variant="outlined" rounded="lg" density="compact"
+                                                    hide-details></v-text-field>
+                                            </v-col>
+                                            <v-col cols="12" sm="3" v-if="type !== 'ข้อกำหนดหลัก'">
+                                                <div class="text-caption">คิดเป็น (%)</div>
+                                                <v-text-field variant="outlined" rounded="lg" density="compact"
+                                                    hide-details suffix="%"></v-text-field>
+                                            </v-col>
+                                        </v-row>
+                                    </v-col>
+                                </v-row>
+                                <v-card rounded="xl" elevation="0" class="section-card mb-4">
+                                    <div class="section-header px-4 py-3 border-b d-flex align-center ga-2">
+                                        <span class="text-subtitle-2 font-weight-bold">เอกสารแนบ</span>
+                                    </div>
+                                    <v-card-text class="pa-4">
+                                        <div v-for="doc in application.attachments" :key="doc.label"
+                                            class="item-row rounded-lg px-3 py-2 mb-2 d-flex align-center justify-space-between">
+                                            <div class="text-body-2">{{ doc.label }}</div>
+                                            <v-btn size="x-small" variant="tonal" color="org-staff" rounded="lg"
+                                                prepend-icon="fas fa-download">
+                                                ดาวน์โหลด
+                                            </v-btn>
+                                        </div>
+                                    </v-card-text>
+                                </v-card>
+
+                                <v-card rounded="xl" elevation="0" class="section-card">
+                                    <v-card-text class="pa-5">
+                                        <!-- ผลการตรวจสอบ -->
+                                        <div class="field-label mb-1">
+                                            <span class="text-subtitle-2 font-weight-bold">ผลการตรวจสอบ</span>
+                                        </div>
+                                        <v-radio-group v-model="step1Review.result" color="doa-staff" inline>
+                                            <v-radio value="pass" class="mr-6">
+                                                <template #label>
+                                                    <div class="d-flex align-center ga-2">
+                                                        <v-icon icon="fas fa-circle-check" color="success" size="18" />
+                                                        <span class="font-weight-medium">ผ่าน</span>
+                                                    </div>
+                                                </template>
+                                            </v-radio>
+                                            <v-radio value="improve" class="mr-6">
+                                                <template #label>
+                                                    <div class="d-flex align-center ga-2">
+                                                        <v-icon icon="fas fa-circle-exclamation" color="warning"
+                                                            size="18" />
+                                                        <span class="font-weight-medium">ปรับปรุง</span>
+                                                    </div>
+                                                </template>
+                                            </v-radio>
+                                            <v-radio value="fail">
+                                                <template #label>
+                                                    <div class="d-flex align-center ga-2">
+                                                        <v-icon icon="fas fa-circle-xmark" color="error" size="18" />
+                                                        <span class="font-weight-medium">ไม่ผ่าน</span>
+                                                    </div>
+                                                </template>
+                                            </v-radio>
+                                        </v-radio-group>
+
+                                        <!-- หมายเหตุ -->
+                                        <div class="field-label mb-1">
+                                            <span class="text-subtitle-2 font-weight-bold">หมายเหตุ</span>
+                                        </div>
+                                        <v-textarea v-model="step1Review.remark" variant="outlined" density="compact"
+                                            rounded="lg" hide-details rows="4" placeholder="ระบุเหตุผลหรือข้อสังเกต..."
+                                            class="mb-5" />
+                                    </v-card-text>
+                                </v-card>
+                            </v-card-text>
+                        </v-card>
+                    </v-window-item>
+                </v-window>
+
             </v-window-item>
 
             <!-- Step 3: ที่อยู่ + แปลง (รวม) -->
@@ -354,10 +824,10 @@
                                 </v-table>
                             </v-col>
 
-                             <v-card-text class="pa-5">
+                            <v-card-text class="pa-5">
                                 <!-- ผลการตรวจสอบ -->
                                 <div class="field-label mb-1">
-                                     <span class="text-subtitle-2 font-weight-bold">ผลการตรวจสอบ</span>
+                                    <span class="text-subtitle-2 font-weight-bold">ผลการตรวจสอบ</span>
                                 </div>
                                 <v-radio-group v-model="step1Review.result" color="doa-staff" inline>
                                     <v-radio value="pass" class="mr-6">
@@ -380,13 +850,13 @@
 
                                 <!-- หมายเหตุ -->
                                 <div class="field-label mb-1">
-                                     <span class="text-subtitle-2 font-weight-bold">หมายเหตุ</span>
+                                    <span class="text-subtitle-2 font-weight-bold">หมายเหตุ</span>
                                 </div>
                                 <v-textarea v-model="step1Review.remark" variant="outlined" density="compact"
                                     rounded="lg" hide-details rows="4" placeholder="ระบุเหตุผลหรือข้อสังเกต..."
                                     class="mb-5" />
 
-                               
+
                             </v-card-text>
                         </v-row>
                     </v-card-text>
@@ -897,6 +1367,7 @@ function stepClass(v) {
     if (currentStep.value === v) return "step-active";
     return "step-pending";
 }
+const currentInStep = ref(0);
 
 // Workflow steps
 const workflowSteps = [
@@ -1282,6 +1753,8 @@ const application = {
     ],
 };
 
+
+
 const step1Review = reactive({ result: "pass", remark: "", deadline: null });
 const deadlineMenu = ref(false);
 const deadlineBE = computed(() => {
@@ -1291,6 +1764,106 @@ const deadlineBE = computed(() => {
     const mm = String(d.getMonth() + 1).padStart(2, "0");
     return `${dd}/${mm}/${d.getFullYear() + 543}`;
 });
+// ฟังก์ชันเมื่อกดปุ่ม "บันทึกผลตรวจ"
+const goToCropDetail = () => {
+    currentInStep.value = 1;
+    showSnack("เข้าสู่หน้าบันทึกผลตรวจละเอียด", "info", "fas fa-edit");
+};
+const goBackToStepList = () => {
+    currentInStep.value = 0;
+};
+
+const rawData = [
+    { id: 1, name: 'กัลยา ธรรมเรือน' },
+    { id: 2, name: 'ชญานันท์ โค้วอินทร์' },
+    { id: 3, name: 'ชญานันท์ โค้วอินทร์ (2)' },
+    { id: 4, name: 'ชูรีพร ปันดอย' },
+    { id: 5, name: 'ณิชาภรณ์ โกศล' },
+    { id: 6, name: 'ทิพย์วิมล แก้วพรัตน์' },
+]
+
+// --- Logic หัวหน้าทีม ---
+const searchLead = ref('')
+const leadAvailableList = ref([...rawData])
+const leadSelectedList = ref([])
+
+const filteredLeads = computed(() =>
+    leadAvailableList.value.filter(item => item.name.includes(searchLead.value))
+)
+
+const moveLead = (item, type) => {
+    if (type === 'select') {
+        leadSelectedList.value.push(item)
+        leadAvailableList.value = leadAvailableList.value.filter(i => i.id !== item.id)
+    } else {
+        leadAvailableList.value.push(item)
+        leadSelectedList.value = leadSelectedList.value.filter(i => i.id !== item.id)
+    }
+}
+
+const moveAllLeads = (type) => {
+    if (type === 'select') {
+        leadSelectedList.value.push(...leadAvailableList.value)
+        leadAvailableList.value = []
+    } else {
+        leadAvailableList.value.push(...leadSelectedList.value)
+        leadSelectedList.value = []
+    }
+}
+
+// --- Logic ลูกทีม ---
+const searchMember = ref('')
+const memberAvailableList = ref([...rawData])
+const memberSelectedList = ref([])
+
+const filteredMembers = computed(() =>
+    memberAvailableList.value.filter(item => item.name.includes(searchMember.value))
+)
+
+const moveMember = (item, type) => {
+    if (type === 'select') {
+        memberSelectedList.value.push(item)
+        memberAvailableList.value = memberAvailableList.value.filter(i => i.id !== item.id)
+    } else {
+        memberAvailableList.value.push(item)
+        memberSelectedList.value = memberSelectedList.value.filter(i => i.id !== item.id)
+    }
+}
+
+const moveAllMembers = (type) => {
+    if (type === 'select') {
+        memberSelectedList.value.push(...memberAvailableList.value)
+        memberAvailableList.value = []
+    } else {
+        memberAvailableList.value.push(...memberSelectedList.value)
+        memberSelectedList.value = []
+    }
+}
+const ccForm = reactive({
+    result: null,               // ผลการตรวจแปลง
+    personInCharge: null,       // ผู้ที่ทำการรับรอง
+    fiscalYear: null,           // ปีงบประมาณ
+    inspectionDate: '',         // วันที่เข้าตรวจ
+    plotCode: '',               // รหัสแปลง
+    plantingArea: '',           // พื้นที่ปลูก
+    productionQuantity: '',     // ปริมาณการผลิต (รวม)
+    latitude: '',               // พิกัด Lat
+    longitude: '',              // พิกัด Long
+    treeCount: '',              // จำนวน(ต้น)
+    plotAge: '',                // อายุแปลง(ปี)
+    harvestMonthStart: null,    // ช่วงผลผลิต (เริ่ม)
+    harvestMonthEnd: null,      // ช่วงผลผลิต (จบ)
+    productionPerPeriod: '',    // ปริมาณการผลิต (ช่วงเวลา)
+    inspectionCount: '',        // ครั้งที่ทำการตรวจ
+
+    // ส่วนสุ่มตัวอย่าง
+    isSampling: false,
+    analysisDate: '',
+    reportDate: '',
+    laboratory: '',
+    samplingFound: []           // สำหรับเก็บ [ 'วัสดุปลูก', 'น้ำ', 'พืช' ]
+});
+
 onMounted(() => {
 });
 </script>

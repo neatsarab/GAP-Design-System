@@ -1,5 +1,5 @@
 <template>
-    <div style="--v-theme-primary: var(--v-theme-gap-staff)">
+    <div style="--v-theme-primary: var(--v-theme-org-staff)">
         <!-- Back + Header -->
         <div class="d-flex align-center ga-3 mb-5 flex-wrap">
             <v-btn variant="text" prepend-icon="fas fa-arrow-left" size="small" @click="goToApplicationList">
@@ -33,7 +33,7 @@
                                     }}</span>
                             </div>
                             <div class="text-caption text-center" :class="currentStep >= step.value
-                                ? 'text-gap-staff font-weight-bold'
+                                ? 'text-org-staff font-weight-bold'
                                 : 'text-medium-emphasis'
                                 ">
                                 {{ step.title }}
@@ -57,7 +57,7 @@
             <v-window-item :value="1">
                 <v-card elevation="0" rounded="xl">
                     <div class="section-header">
-                        <v-icon size="15" color="gap-staff">fas fa-users</v-icon>
+                        <v-icon size="15" color="org-staff">fas fa-users</v-icon>
                         <span class="text-subtitle-2">ข้อมูลรายละเอียด</span>
                         <v-spacer />
                     </div>
@@ -105,7 +105,7 @@
             <v-window-item :value="2">
                 <v-card elevation="0" border rounded="xl" class="mb-4">
                     <div class="section-header border-b">
-                        <v-icon size="15" color="gap-staff">fas fa-location-dot</v-icon>
+                        <v-icon size="15" color="org-staff">fas fa-location-dot</v-icon>
                         <span class="text-subtitle-2">ข้อมูลแปลง</span>
                     </div>
                     <v-card-text class="pt-5">
@@ -275,7 +275,7 @@
             <v-window-item :value="3">
                 <v-card elevation="0" border rounded="xl">
                     <div class="section-header border-b">
-                        <v-icon size="15" color="gap-staff">fas fa-paperclip</v-icon>
+                        <v-icon size="15" color="org-staff">fas fa-paperclip</v-icon>
                         <span class="text-subtitle-2">เอกสารและหลักฐาน</span>
                         <v-spacer />
                         <v-chip size="x-small" variant="tonal" color="warning">ไม่เกินไฟล์ละ 10 MB</v-chip>
@@ -370,11 +370,11 @@
                     @click="prevStep">ย้อนกลับ</v-btn>
             </div>
             <div class="d-flex ga-2">
-                <v-btn variant="tonal" color="gap-staff" prepend-icon="fas fa-floppy-disk"
+                <v-btn variant="tonal" color="org-staff" prepend-icon="fas fa-floppy-disk"
                     @click="saveDraft">บันทึกแบบร่าง</v-btn>
-                <v-btn v-if="currentStep < steps.length - 1" color="gap-staff" append-icon="fas fa-arrow-right"
+                <v-btn v-if="currentStep < steps.length - 1" color="org-staff" append-icon="fas fa-arrow-right"
                     @click="nextStep">ถัดไป</v-btn>
-                <v-btn v-else color="gap-staff" prepend-icon="fas fa-paper-plane"
+                <v-btn v-else color="org-staff" prepend-icon="fas fa-paper-plane"
                     @click="openSuccessDialog">ยื่นคำขอ</v-btn>
             </div>
         </div>
@@ -386,12 +386,12 @@
                     <v-icon icon="fas fa-circle-check" color="success" size="64" class="mb-4" />
                     <h2 class="text-h6 font-weight-bold mb-2">ยื่นคำขอสำเร็จ!</h2>
                     <p class="text-body-2 text-medium-emphasis mb-5">
-                        เลขที่คำขอ: <strong class="text-gap-staff">GAP-2569-012</strong><br />
+                        เลขที่คำขอ: <strong class="text-org-staff">GAP-2569-012</strong><br />
                         ประเภท: <strong>รายกลุ่ม</strong> · สมาชิก
                         {{ members.length }} คน<br />
                         เจ้าหน้าที่จะติดต่อกลับภายใน 3–5 วันทำการ
                     </p>
-                    <v-btn color="gap-staff" block @click="goToApplicationList">ดูรายการคำขอ</v-btn>
+                    <v-btn color="org-staff" block @click="goToApplicationList">ดูรายการคำขอ</v-btn>
                 </v-card-text>
             </v-card>
         </v-dialog>
@@ -829,7 +829,7 @@ const statusMap = {
         label: "ตรวจแปลงแล้ว",
     },
     pending_cc: {
-        color: "gap-staff",
+        color: "org-staff",
         icon: "fas fa-paper-plane",
         label: "รอเสนอ CC",
     },
@@ -1175,8 +1175,8 @@ onMounted(() => {
 
 <style scoped>
 div {
-    --step-color: rgb(var(--v-theme-gap-staff));
-    --step-color-tint: rgba(var(--v-theme-gap-staff), 0.2);
+    --step-color: rgb(var(--v-theme-org-staff));
+    --step-color-tint: rgba(var(--v-theme-org-staff), 0.2);
 }
 
 .member-row {
@@ -1186,20 +1186,20 @@ div {
 
 .step-done,
 .step-active {
-    background: rgb(var(--v-theme-gap-staff)) !important;
+    background: rgb(var(--v-theme-org-staff)) !important;
     color: white !important;
 }
 
 .step-active {
-    box-shadow: 0 0 0 4px rgba(var(--v-theme-gap-staff), 0.2) !important;
+    box-shadow: 0 0 0 4px rgba(var(--v-theme-org-staff), 0.2) !important;
 }
 
 .step-line--done {
-    background: rgb(var(--v-theme-gap-staff)) !important;
+    background: rgb(var(--v-theme-org-staff)) !important;
 }
 
 .field-section-label {
-    color: rgb(var(--v-theme-gap-staff)) !important;
+    color: rgb(var(--v-theme-org-staff)) !important;
 }
 
 :deep(.radio-farm .v-selection-control-group) {

@@ -2,9 +2,9 @@
     <div>
         <div class="d-flex align-center justify-space-between flex-wrap ga-3 mb-6">
             <div>
-                <h1 class="page-title mb-1">เสนอแปลงต่อ CC</h1>
+                <h1 class="page-title mb-1">นัดหมายการตรวจแปลง</h1>
                 <p class="text-body-2 text-medium-emphasis mb-0">
-                    จัดการคำขอรับรองมาตรฐาน ORG แบบกลุ่ม
+                    จัดการคำขอรับรองมาตรฐาน GAP แบบเดี่ยว
                 </p>
             </div>
         </div>
@@ -96,10 +96,9 @@
         </v-card>
 
         <v-row class="pa-4 mb-1 mt-n5 d-flex align-center justify-end ga-2">
-            <v-btn variant="tonal" color="org-staff" prepend-icon="fas fa-download">ส่งออก</v-btn>
             <v-btn variant="tonal" color="org-staff" prepend-icon="fas fa-paper-plane"
                 @click="dialogProposeToCC = true">
-                เสนอแปลงต่อ CC
+                นัดหมายการตรวจ
             </v-btn>
         </v-row>
         <template>
@@ -109,13 +108,13 @@
                          <template v-slot:title>
                             <div class="d-flex align-center pa-2">
                                 <v-icon icon="fas fa-file-check" class="mr-3" color="org-staff" size="22" />
-                                <h5 class="font-weight-black text-h6">เสนอแปลงต่อ CC</h5>
+                                <h5 class="font-weight-black text-h6">นัดหมายการตรวจแปลง</h5>
                             </div>
                         </template>
 
                         <v-divider />
                         <v-card-text class="pt-4">
-                            <div class="field-label mb-1">วันที่เสนอแปลงต่อ CC</div>
+                            <div class="field-label mb-1">วันที่นัดหมา</div>
                             <v-text-field v-model="filters.dateProposeToCC" type="date" variant="outlined" rounded="lg"
                                 density="comfortable" readonly hide-details />
                         </v-card-text>

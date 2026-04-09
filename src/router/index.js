@@ -420,7 +420,7 @@ const routes = [
             {
                 path: "schedule",
                 name: "ORGStaffSchedule",
-                component: () => import("@/views/org/staff/ApplicationListPage.vue"),
+                component: () => import("@/views/org/staff/SchedulingPage.vue"),
                 meta: { title: "นัดตรวจแปลง ORG", statusFilter: "inspection" },
             },
             {

@@ -378,7 +378,7 @@
               prepend-icon="fas fa-clipboard-check"
               @click.stop="goToApplicationDetail(item.requestNo)"
             >
-              ตรวจสอบคำขอ
+              บันทึกผลการตรวจแปลง
             </v-btn>
           </div>
         </template>

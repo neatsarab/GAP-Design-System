@@ -35,7 +35,7 @@
                         </div>
                         <div class="text-caption text-medium-emphasis">
                             {{ staffSessionStore.department }}{{ staffSessionStore.role ? ' / ' + staffSessionStore.role
-                            : '' }}
+                                : '' }}
                         </div>
                     </div>
                 </div>
@@ -254,6 +254,11 @@ const navGroups = [
                 to: "/org/staff/applications",
             },
             {
+                title: "นัดหมายการตรวจ",
+                icon: "fas fa-calendar-check",
+                to: "/org/staff/schedule",
+            },
+            {
                 title: "ผลการตรวจแปลง",
                 icon: "fas fa-calendar-check",
                 to: "/org/staff/inspection-results",
@@ -288,6 +293,11 @@ const navGroups = [
                 title: "รายการคำขอ",
                 icon: "fas fa-file-lines",
                 to: "/org/staff/group/applications",
+            },
+            {
+                title: "นัดหมายการตรวจ",
+                icon: "fas fa-calendar-check",
+                to: "/org/staff/group/schedule",
             },
             {
                 title: "ผลการตรวจแปลง",

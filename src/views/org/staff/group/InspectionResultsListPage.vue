@@ -4,7 +4,7 @@
             <div>
                 <h1 class="page-title mb-1">ผลการตรวจแปลง</h1>
                 <p class="text-body-2 text-medium-emphasis mb-0">
-                    จัดการคำขอรับรองมาตรฐาน GAP แบบกลุ่ม
+                    จัดการคำขอรับรองมาตรฐาน ORG แบบกลุ่ม
                 </p>
             </div>
         </div>
@@ -61,7 +61,7 @@
                                     placeholder="เลือกวันที่ / เดือน / ปี" hide-details style="cursor: pointer"
                                     @click:clear.stop="dateFromObj = null" />
                             </template>
-                            <v-date-picker v-model="dateFromObj" color="gap-staff" show-adjacent-months
+                            <v-date-picker v-model="dateFromObj" color="org-staff" show-adjacent-months
                                 :hide-header="!dateFromObj" title="วันที่ยื่น (จาก)" locale="th"
                                 @update:model-value="dateFromMenu = false" />
                         </v-menu>
@@ -78,7 +78,7 @@
                                     placeholder="เลือกวันที่ / เดือน / ปี" hide-details style="cursor: pointer"
                                     @click:clear.stop="dateToObj = null" />
                             </template>
-                            <v-date-picker v-model="dateToObj" color="gap-staff" show-adjacent-months
+                            <v-date-picker v-model="dateToObj" color="org-staff" show-adjacent-months
                                 :hide-header="!dateToObj" title="วันที่ยื่น (ถึง)" locale="th"
                                 @update:model-value="dateToMenu = false" />
                         </v-menu>
@@ -96,7 +96,7 @@
         </v-card>
 
         <v-row class="pa-4 mb-1 mt-n5 d-flex align-center justify-end ga-2">
-            <v-btn variant="tonal" color="gap-staff" prepend-icon="fas fa-paper-plane"
+            <v-btn variant="tonal" color="org-staff" prepend-icon="fas fa-paper-plane"
                 @click="dialogProposeToCC = true">
                 บันทึกผลตรวจ
             </v-btn>
@@ -107,7 +107,7 @@
                     <v-card class="mx-auto rounded-xl" width="900">
                         <template v-slot:title>
                             <div class="d-flex align-center pa-2">
-                                <v-icon icon="fas fa-file-check" class="mr-3" color="gap-staff" size="22" />
+                                <v-icon icon="fas fa-file-check" class="mr-3" color="org-staff" size="22" />
                                 <h5 class="font-weight-black text-h6">บันทึกผลตรวจ</h5>
                             </div>
                         </template>
@@ -306,11 +306,11 @@
 
                                                     <v-col cols="auto" class="px-4 d-flex flex-column gap-2">
                                                         <v-btn icon="fas fa-angle-double-right" variant="text"
-                                                            color="gap-staff" @click="moveAllLeads('select')"
+                                                            color="org-staff" @click="moveAllLeads('select')"
                                                             title="ย้ายไปขวาทั้งหมด"></v-btn>
 
                                                         <v-btn icon="fas fa-angles-left" variant="text"
-                                                            color="gap-staff" @click="moveAllLeads('remove')"
+                                                            color="org-staff" @click="moveAllLeads('remove')"
                                                             title="ย้ายไปซ้ายทั้งหมด"></v-btn>
                                                     </v-col>
 
@@ -355,10 +355,10 @@
 
                                                     <v-col cols="auto" class="px-4 d-flex flex-column gap-2">
                                                         <v-btn icon="fas fa-angle-double-right" variant="text"
-                                                            color="gap-staff" @click="moveAllMembers('select')"></v-btn>
+                                                            color="org-staff" @click="moveAllMembers('select')"></v-btn>
 
                                                         <v-btn icon="fas fa-angle-double-left" variant="text"
-                                                            color="gap-staff" @click="moveAllMembers('remove')"></v-btn>
+                                                            color="org-staff" @click="moveAllMembers('remove')"></v-btn>
                                                     </v-col>
 
                                                     <v-col>
@@ -439,7 +439,7 @@
                                 class="px-6 font-weight-bold">
                                 ยกเลิก
                             </v-btn>
-                            <v-btn @click="dialogProposeToCC = false" color="gap-staff" variant="flat"
+                            <v-btn @click="dialogProposeToCC = false" color="org-staff" variant="flat"
                                 class="px-10 rounded-lg font-weight-bold" elevation="2">
                                 <v-icon icon="fas fa-save" start size="14" />
                                 ยืนยัน
@@ -555,7 +555,7 @@
                     <div class="d-flex align-center ga-1">
                         <v-tooltip text="ดูคำขอ" location="top">
                             <template #activator="{ props }">
-                                <v-btn v-bind="props" icon size="x-small" variant="text" color="gap-staff"
+                                <v-btn v-bind="props" icon size="x-small" variant="text" color="org-staff"
                                     @click.stop="goToApplicationDetail(item.requestNo)">
                                     <v-icon icon="fas fa-eye" size="14" />
                                 </v-btn>
@@ -654,7 +654,7 @@ const router = useRouter();
 const search = ref("");
 
 function goToApplicationDetail(id) {
-    router.push({ name: "staffInspectionResultDetail", params: { id } });
+    router.push({ name: "ORGStaffGroupInspectionResultDetail", params: { id } });
 }
 
 const filters = reactive({

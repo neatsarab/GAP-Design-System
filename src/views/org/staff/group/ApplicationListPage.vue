@@ -2,9 +2,9 @@
   <div>
     <div class="d-flex align-center justify-space-between flex-wrap ga-3 mb-6">
       <div>
-        <h1 class="page-title mb-1">รายการคำขอ GAP</h1>
+        <h1 class="page-title mb-1">รายการคำขอ ORG</h1>
         <p class="text-body-2 text-medium-emphasis mb-0">
-          จัดการคำขอรับรองมาตรฐาน GAP แบบกลุ่ม
+          จัดการคำขอรับรองมาตรฐาน ORG แบบกลุ่ม
         </p>
       </div>
     </div>
@@ -109,7 +109,7 @@
               </template>
               <v-date-picker
                 v-model="dateFromObj"
-                color="gap-staff"
+                color="org-staff"
                 show-adjacent-months
                 :hide-header="!dateFromObj"
                 title="วันที่ยื่น (จาก)"
@@ -144,7 +144,7 @@
               </template>
               <v-date-picker
                 v-model="dateToObj"
-                color="gap-staff"
+                color="org-staff"
                 show-adjacent-months
                 :hide-header="!dateToObj"
                 title="วันที่ยื่น (ถึง)"
@@ -358,7 +358,7 @@
                   icon
                   size="x-small"
                   variant="text"
-                  color="gap-staff"
+                  color="org-staff"
                   @click.stop="goToApplicationDetail(item.requestNo)"
                 >
                   <v-icon icon="fas fa-eye" size="14" />
@@ -432,7 +432,7 @@ const router = useRouter();
 const search = ref("");
 
 function goToApplicationDetail(id) {
-  router.push({ name: "staffApplicationDetail", params: { id } });
+  router.push({ name: "ORGStaffApplicationDetail", params: { id } });
 }
 
 const filters = reactive({

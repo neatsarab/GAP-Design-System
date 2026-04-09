@@ -12,7 +12,7 @@
       <v-divider vertical style="height: 24px" />
       <div>
         <h1 class="text-h6 font-weight-bold">
-          ยื่นคำขอรับรอง GAP (เจ้าหน้าที่)
+          ยื่นคำขอรับรอง ORG (เจ้าหน้าที่)
         </h1>
         <p class="text-body-2 text-medium-emphasis mb-0">
           บันทึกคำขอรับรองแทนเกษตรกรโดยเจ้าหน้าที่
@@ -21,7 +21,7 @@
     </div>
 
     <!-- Tabs -->
-    <v-tabs v-model="activeTab" color="gap-staff" class="mb-5">
+    <v-tabs v-model="activeTab" color="org-staff" class="mb-5">
       <v-tab value="individual" prepend-icon="fas fa-user">คำขอแบบเดี่ยว</v-tab>
       <v-tab value="group" prepend-icon="fas fa-users">คำขอแบบกลุ่ม</v-tab>
       <v-tab value="correction" prepend-icon="fas fa-pen-to-square"
@@ -40,7 +40,7 @@
                 <v-card-title class="pa-5 pb-3 text-body-1 font-weight-bold">
                   <v-icon
                     icon="fas fa-user"
-                    color="gap-staff"
+                    color="org-staff"
                     size="16"
                     class="mr-2"
                   />ข้อมูลเกษตรกร
@@ -173,7 +173,7 @@
                 <v-card-title class="pa-5 pb-3 text-body-1 font-weight-bold">
                   <v-icon
                     icon="fas fa-map-location-dot"
-                    color="gap-staff"
+                    color="org-staff"
                     size="16"
                     class="mr-2"
                   />ข้อมูลแปลงเกษตร
@@ -291,7 +291,7 @@
                 <v-card-title class="pa-5 pb-3 text-body-1 font-weight-bold">
                   <v-icon
                     icon="fas fa-certificate"
-                    color="gap-staff"
+                    color="org-staff"
                     size="16"
                     class="mr-2"
                   />ข้อมูลคำขอรับรอง
@@ -371,7 +371,7 @@
               >ล้างข้อมูล</v-btn
             >
             <v-btn
-              color="gap-staff"
+              color="org-staff"
               prepend-icon="fas fa-floppy-disk"
               type="submit"
               >บันทึกคำขอ</v-btn
@@ -390,7 +390,7 @@
                 <v-card-title class="pa-5 pb-3 text-body-1 font-weight-bold">
                   <v-icon
                     icon="fas fa-users"
-                    color="gap-staff"
+                    color="org-staff"
                     size="16"
                     class="mr-2"
                   />ข้อมูลกลุ่มเกษตรกร
@@ -494,7 +494,7 @@
                 <v-card-title class="pa-5 pb-3 text-body-1 font-weight-bold">
                   <v-icon
                     icon="fas fa-certificate"
-                    color="gap-staff"
+                    color="org-staff"
                     size="16"
                     class="mr-2"
                   />ข้อมูลคำขอรับรอง
@@ -619,7 +619,7 @@
               >ล้างข้อมูล</v-btn
             >
             <v-btn
-              color="gap-staff"
+              color="org-staff"
               prepend-icon="fas fa-floppy-disk"
               type="submit"
               >บันทึกคำขอ</v-btn
@@ -637,7 +637,7 @@
                 <v-card-title class="pa-5 pb-3 text-body-1 font-weight-bold">
                   <v-icon
                     icon="fas fa-pen-to-square"
-                    color="gap-staff"
+                    color="org-staff"
                     size="16"
                     class="mr-2"
                   />ข้อมูลการแก้ไขใบรับรอง
@@ -762,7 +762,7 @@
               >ล้างข้อมูล</v-btn
             >
             <v-btn
-              color="gap-staff"
+              color="org-staff"
               prepend-icon="fas fa-floppy-disk"
               type="submit"
               >บันทึกคำขอแก้ไข</v-btn
