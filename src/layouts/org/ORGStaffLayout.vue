@@ -342,6 +342,38 @@ const navGroups = [
             },
         ],
     },
+    // {
+    //     label: "รายงาน",
+    //     divider: true,
+    //     items: [
+    //         {
+    //             title: "ใบรับรองแแปลงเดี่ยว",
+    //             icon: "fas fa-file-lines",
+    //             to: "/org/staff/reports/single-certificate",
+    //         },
+    //         {
+    //             title: "ข้อมูลรายละเอียดแปลง",
+    //             icon: "fas fa-file-lines",
+    //             to: "/org/staff/reports/plot-details", 
+    //         },
+    //         {
+    //             title: "ข้อมูลรายละเอียดแปลงย่อย",
+    //             icon: "fas fa-file-lines",
+    //             to: "/org/staff/reports/sub-plot-details", 
+    //         },
+    //         {
+    //             title: "ข้อมูลใบรับรอง",
+    //             icon: "fas fa-file-lines",
+    //             to: "/org/staff/reports/certificate-info",
+    //         },
+    //         {
+    //             title: "Report ประวัติการตรวจ",
+    //             icon: "fas fa-file-lines",
+    //             to: "/org/staff/reports/inspection-history",
+    //         },
+
+    //     ],
+    // },
 ];
 </script>
 

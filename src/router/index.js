@@ -202,6 +202,13 @@ const routes = [
                 component: () => import("@/views/gap/staff/group/ResultsPrevisitAppointmentPage.vue"),
                 meta: { title: "ผลการตรวจเยี่ยม Previsit", statusFilter: "previsit_completed" },
             },
+            // รายงาน
+            {
+                path: "reports/crop-scope-results",
+                name: "staffCropScopeResults",
+                component: () => import("@/views/gap/staff/report/CropScopeResultPage.vue"),
+                meta: { title: "ผลการดำเนินงานแยกตามขอบข่ายพืช" },
+            }
         ],
     },
     {
@@ -532,6 +539,13 @@ const routes = [
                 component: () => import("@/views/org/staff/group/ResultsPrevisitAppointmentPage.vue"),
                 meta: { title: "ผลการตรวจเยี่ยม Previsit", statusFilter: "previsit_completed" },
             },
+            //รายงาน
+            {
+                path: "reports/single-certificate",
+                name: "ORGStaffSingleCertificate",
+                component: () => import("@/views/org/staff/report/SingleCertificatePage.vue"),
+                meta: { title: "ใบรับรองแปลงเดี่ยว" },
+            }
         ],
     },
 

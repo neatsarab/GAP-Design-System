@@ -376,6 +376,82 @@ const navGroups = [
             },
         ],
     },
+    // {
+    //     label: "รายงาน",
+    //     divider: true,
+    //     items: [
+    //         {
+    //             title: "รายละเอียดแปลง",
+    //             icon: "fas fa-file-lines",
+    //             to: "/gap/staff/reports/plot-details",
+    //         },
+    //         {
+    //             title: "รายละเอียดแปลงย่อย",
+    //             icon: "fas fa-file-lines",
+    //             to: "/gap/staff/reports/sub-plot-details",
+    //         },
+    //         {
+    //             title: "ผลการดำเนินงานการตรวจรับรอง (MOU)",
+    //             icon: "fas fa-file-lines",
+    //             to: "/gap/staff/reports/mou-results",
+    //         },
+    //         {
+    //             title: "ผลดำเนินงานสะสม(ตาราง1)",
+    //             icon: "fas fa-file-lines",
+    //             to: "/gap/staff/reports/accumulated-table1",
+    //         },
+    //         {
+    //             title: "ผลดำเนินงานปีงบ(ตาราง2)",
+    //             icon: "fas fa-file-lines",
+    //             to: "/gap/staff/reports/fiscal-year-table2",
+    //         },
+    //         {
+    //             title: "ผลตรวจติดตาม/ต่ออายุปีงบ(ตาราง3)",
+    //             icon: "fas fa-file-lines",
+    //             to: "/gap/staff/reports/follow-up-table3",
+    //         },
+    //         {
+    //             title: "ผลตรวจสะสมรายพืช(ตาราง4)",
+    //             icon: "fas fa-file-lines",
+    //             to: "/gap/staff/reports/accumulated-crops-table4",
+    //         },
+    //         {
+    //             title: "ผลตรวจรายพืชปีงบ(ตาราง5)",
+    //             icon: "fas fa-file-lines",
+    //             to: "/gap/staff/reports/fiscal-year-crops-table5",
+    //         },
+    //         {
+    //             title: "ผลตรวจสะสมรายพืชอื่น ๆ",
+    //             icon: "fas fa-file-lines",
+    //             to: "/gap/staff/reports/other-accumulated-crops",
+    //         },
+    //         {
+    //             title: "ผลตรวจรายพืชอื่น ๆ ปีงบ",
+    //             icon: "fas fa-file-lines",
+    //             to: "/gap/staff/reports/other-fiscal-year-crops",
+    //         },
+    //         {
+    //             title: "ผลการดำเนินงานแยกตามขอบข่ายพืช",
+    //             icon: "fas fa-file-lines",
+    //             to: "/gap/staff/reports/crop-scope-results",
+    //         },
+    //         {
+    //             title: "ภาพรวมผลการดำเนินงานแยกตามขอบข่าย",
+    //             icon: "fas fa-file-lines",
+    //             to: "/gap/staff/reports/scope-overview",
+    //         },
+    //         {
+    //             title: "ข้อมูลใบรับรอง",
+    //             icon: "fas fa-file-lines",
+    //             to: "/gap/staff/reports/certificate-info",
+    //         },
+    //         {
+    //             title: "Report ประวัติการตรวจ",
+    //             icon: "fas fa-file-lines",
+    //             to: "/gap/staff/reports/inspection-history",
+    //         },
+    //     ],
+    // },
 ];
 
 const routeTitleMap = {
