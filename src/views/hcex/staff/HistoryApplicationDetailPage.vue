@@ -246,6 +246,7 @@
                     <th>หน่วยงานที่รับรอง</th>
                     <th>หมายเลขการรับรอง</th>
                     <th>วันที่หมดอายุ</th>
+                    <th></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -258,6 +259,22 @@
                       {{ std.certNo }}
                     </td>
                     <td class="text-body-2">{{ std.expiryDate }}</td>
+                    <td class="text-right">
+                      <v-tooltip text="ดูรายละเอียด" location="top">
+                        <template #activator="{ props }">
+                          <v-btn
+                            v-bind="props"
+                            icon
+                            size="x-small"
+                            variant="text"
+                            color="hcex-staff"
+                            @click="openStdDetail(std)"
+                          >
+                            <v-icon icon="fas fa-eye" size="13" />
+                          </v-btn>
+                        </template>
+                      </v-tooltip>
+                    </td>
                   </tr>
                 </tbody>
               </v-table>
@@ -779,6 +796,89 @@
       </v-card>
     </v-dialog>
 
+    <!-- Standard Detail Dialog -->
+    <v-dialog v-model="stdDialog" max-width="480">
+      <v-card v-if="selectedStd" rounded="xl">
+        <v-card-title class="pa-5 pb-3 d-flex align-center ga-2">
+          <v-icon icon="fas fa-award" color="hcex-staff" size="18" />
+          <span class="text-body-1 font-weight-bold">รายละเอียดมาตรฐานการผลิต</span>
+          <v-spacer />
+          <v-btn
+            icon="fas fa-xmark"
+            variant="text"
+            size="small"
+            @click="stdDialog = false"
+          />
+        </v-card-title>
+        <v-divider />
+        <v-card-text class="pa-5">
+          <div class="std-detail-row">
+            <span class="std-detail-label">ชื่อมาตรฐาน</span>
+            <span class="text-body-2 font-weight-bold">{{ selectedStd.name }}</span>
+          </div>
+          <div class="std-detail-row">
+            <span class="std-detail-label">หน่วยงานที่รับรอง</span>
+            <span class="text-body-2">{{ selectedStd.certBody }}</span>
+          </div>
+          <div class="std-detail-row">
+            <span class="std-detail-label">หมายเลขการรับรอง</span>
+            <span class="text-body-2 font-weight-bold text-hcex-staff">{{ selectedStd.certNo }}</span>
+          </div>
+          <div class="std-detail-row">
+            <span class="std-detail-label">วันที่หมดอายุ</span>
+            <span
+              class="text-body-2"
+              :class="isExpiringSoon(selectedStd.expiryDate) ? 'text-warning font-weight-medium' : ''"
+            >
+              {{ selectedStd.expiryDate }}
+              <v-chip
+                v-if="isExpiringSoon(selectedStd.expiryDate)"
+                size="x-small"
+                color="warning"
+                variant="tonal"
+                class="ml-1"
+              >
+                ใกล้หมดอายุ
+              </v-chip>
+            </span>
+          </div>
+          <div v-if="selectedStd.scope" class="std-detail-row">
+            <span class="std-detail-label">ขอบข่ายการรับรอง</span>
+            <span class="text-body-2">{{ selectedStd.scope }}</span>
+          </div>
+          <div v-if="selectedStd.attachmentLabel" class="std-detail-row">
+            <span class="std-detail-label">เอกสารใบรับรอง</span>
+            <div class="d-flex align-center ga-2">
+              <v-icon icon="fas fa-file-pdf" color="error" size="14" />
+              <span class="text-body-2">{{ selectedStd.attachmentLabel }}</span>
+            </div>
+          </div>
+        </v-card-text>
+        <v-divider />
+        <v-card-actions class="pa-4 d-flex ga-2 justify-end">
+          <v-btn
+            v-if="selectedStd.attachmentLabel"
+            variant="tonal"
+            color="hcex-staff"
+            rounded="lg"
+            prepend-icon="fas fa-download"
+            size="small"
+          >
+            ดาวน์โหลดใบรับรอง
+          </v-btn>
+          <v-btn
+            variant="tonal"
+            color="grey"
+            rounded="lg"
+            size="small"
+            @click="stdDialog = false"
+          >
+            ปิด
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
     <!-- Success Dialog -->
     <v-dialog v-model="successDialog" max-width="400" persistent>
       <v-card rounded="xl">
@@ -820,6 +920,24 @@ const rejectDialog = ref(false);
 const approveDialog = ref(false);
 const successDialog = ref(false);
 const successMessage = ref("");
+
+// Standard detail dialog
+const stdDialog = ref(false);
+const selectedStd = ref(null);
+
+function openStdDetail(std) {
+  selectedStd.value = std;
+  stdDialog.value = true;
+}
+
+function isExpiringSoon(dateStr) {
+  if (!dateStr) return false;
+  const [d, m, y] = dateStr.split("/").map(Number);
+  const expiry = new Date(y - 543, m - 1, d);
+  const now = new Date();
+  const diff = (expiry - now) / (1000 * 60 * 60 * 24);
+  return diff >= 0 && diff <= 90;
+}
 
 const reviewForm = ref({
   result: null,
@@ -891,18 +1009,24 @@ const application = ref({
       certBody: "กรมวิชาการเกษตร",
       certNo: "GMP-2566-0045",
       expiryDate: "30/06/2569",
+      scope: "การผลิตผักและผลไม้อบแห้ง",
+      attachmentLabel: "ใบรับรอง GMP-2566-0045.pdf",
     },
     {
       name: "HACCP",
       certBody: "Bureau Veritas",
       certNo: "BV-HACCP-2023-TH-001",
       expiryDate: "15/09/2569",
+      scope: "กระบวนการแปรรูปมะม่วงและลำไย",
+      attachmentLabel: "ใบรับรอง HACCP BV-2023.pdf",
     },
     {
       name: "ISO 22000",
       certBody: "SGS Thailand",
       certNo: "SGS-TH22000-2567",
       expiryDate: "20/11/2569",
+      scope: "ระบบการจัดการความปลอดภัยของอาหาร",
+      attachmentLabel: "ใบรับรอง ISO22000 SGS-2567.pdf",
     },
   ],
   products: [
@@ -1152,5 +1276,25 @@ div {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.std-detail-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
+}
+.std-detail-row:last-child {
+  border-bottom: none;
+}
+.std-detail-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(var(--v-theme-on-surface), 0.55);
+  min-width: 140px;
+  flex-shrink: 0;
+  padding-top: 2px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
 }
 </style>

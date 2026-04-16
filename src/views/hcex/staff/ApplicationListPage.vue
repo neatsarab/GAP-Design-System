@@ -499,6 +499,15 @@ const allItems = [
     status: "signing",
   },
   {
+    requestNo: "HC-0007",
+    companyName: "บ.แปซิฟิก ฟู้ดส์ จก.",
+    applicantName: "กนกวรรณ พรหมมา",
+    typecert: "ใบรับรองสุขอนามัยพืช สินค้าแปรรูปด้านพืช (กมพ.1)",
+    type: "ขึ้นทะเบียน",
+    submittedDate: "25/02/2569",
+    status: "pending_payment",
+  },
+  {
     requestNo: "HC-0005",
     companyName: "บ.กรีนฟาร์ม จก.",
     applicantName: "วิไล สุขสม",
@@ -584,6 +593,7 @@ function statusColor(s) {
       need_edit: "info",
       reviewing: "info",
       signing: "info",
+      pending_payment: "purple",
       approved: "success",
     }[s] ?? "grey"
   );
@@ -596,6 +606,7 @@ function statusLabel(s) {
       need_edit: "รอแก้ไขคำขอ",
       reviewing: "รอพิจารณา",
       signing: "รอลงนาม",
+      pending_payment: "รอชำระเงิน",
       approved: "ได้รับอนุญาต",
     }[s] ?? s
   );

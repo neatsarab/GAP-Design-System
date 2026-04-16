@@ -83,30 +83,41 @@
         <v-window v-model="activeTab">
           <!-- ── Tab 1: ข้อมูลคำขอ ── -->
           <v-window-item value="info">
-
             <!-- ข้อมูลทั่วไป -->
             <v-card rounded="xl" elevation="0" class="section-card mb-4">
-              <div class="section-header px-4 py-3 border-b d-flex align-center ga-2">
+              <div
+                class="section-header px-4 py-3 border-b d-flex align-center ga-2"
+              >
                 <v-icon icon="fas fa-list-check" color="hcex-staff" size="15" />
-                <span class="text-subtitle-2 font-weight-bold">ข้อมูลทั่วไป</span>
+                <span class="text-subtitle-2 font-weight-bold"
+                  >ข้อมูลทั่วไป</span
+                >
               </div>
               <v-card-text class="pa-4">
                 <v-row dense>
                   <v-col cols="6" md="3">
                     <div class="info-label">เลขคำขอ</div>
-                    <div class="info-value text-hcex-staff font-weight-bold">{{ application.requestNo }}</div>
+                    <div class="info-value text-hcex-staff font-weight-bold">
+                      {{ application.requestNo }}
+                    </div>
                   </v-col>
                   <v-col cols="6" md="3">
                     <div class="info-label">วันที่ยื่นคำขอ</div>
-                    <div class="info-value">{{ application.submittedDate }}</div>
+                    <div class="info-value">
+                      {{ application.submittedDate }}
+                    </div>
                   </v-col>
                   <v-col cols="12" md="4">
                     <div class="info-label">ผู้ยื่นคำขอ</div>
-                    <div class="info-value">{{ application.applicantName }}</div>
+                    <div class="info-value">
+                      {{ application.applicantName }}
+                    </div>
                   </v-col>
                   <v-col cols="6" md="2">
                     <div class="info-label">จำนวนใบรับรองที่ต้องการ</div>
-                    <div class="info-value font-weight-bold">{{ application.certQty }} ฉบับ</div>
+                    <div class="info-value font-weight-bold">
+                      {{ application.certQty }} ฉบับ
+                    </div>
                   </v-col>
                   <v-col cols="12">
                     <div class="info-label">ประเภทใบรับรอง</div>
@@ -122,9 +133,13 @@
 
             <!-- ข้อมูลผู้ส่งออก / ผู้นำเข้า -->
             <v-card rounded="xl" elevation="0" class="section-card mb-4">
-              <div class="section-header px-4 py-3 border-b d-flex align-center ga-2">
+              <div
+                class="section-header px-4 py-3 border-b d-flex align-center ga-2"
+              >
                 <v-icon icon="fas fa-user-tie" color="hcex-staff" size="15" />
-                <span class="text-subtitle-2 font-weight-bold">ข้อมูลผู้ส่งออก / ผู้นำเข้า</span>
+                <span class="text-subtitle-2 font-weight-bold"
+                  >ข้อมูลผู้ส่งออก / ผู้นำเข้า</span
+                >
               </div>
               <v-card-text class="pa-4">
                 <v-row dense>
@@ -132,15 +147,31 @@
                     <div class="info-label mb-1">Exporter Name and Address</div>
                     <div
                       class="info-value-block rounded-lg pa-3"
-                      style="background: rgba(var(--v-theme-surface-variant), 0.5); font-family: monospace; white-space: pre-wrap; text-transform: uppercase"
-                    >{{ application.exporterNameAddress }}</div>
+                      style="
+                        background: rgba(var(--v-theme-surface-variant), 0.5);
+                        font-family: monospace;
+                        white-space: pre-wrap;
+                        text-transform: uppercase;
+                      "
+                    >
+                      {{ application.exporterNameAddress }}
+                    </div>
                   </v-col>
                   <v-col cols="12" md="6">
-                    <div class="info-label mb-1">Consignee Name and Address Including Country</div>
+                    <div class="info-label mb-1">
+                      Consignee Name and Address Including Country
+                    </div>
                     <div
                       class="info-value-block rounded-lg pa-3"
-                      style="background: rgba(var(--v-theme-surface-variant), 0.5); font-family: monospace; white-space: pre-wrap; text-transform: uppercase"
-                    >{{ application.consigneeNameAddress }}</div>
+                      style="
+                        background: rgba(var(--v-theme-surface-variant), 0.5);
+                        font-family: monospace;
+                        white-space: pre-wrap;
+                        text-transform: uppercase;
+                      "
+                    >
+                      {{ application.consigneeNameAddress }}
+                    </div>
                   </v-col>
                 </v-row>
               </v-card-text>
@@ -148,15 +179,21 @@
 
             <!-- ข้อมูลการขนส่ง -->
             <v-card rounded="xl" elevation="0" class="section-card mb-4">
-              <div class="section-header px-4 py-3 border-b d-flex align-center ga-2">
+              <div
+                class="section-header px-4 py-3 border-b d-flex align-center ga-2"
+              >
                 <v-icon icon="fas fa-ship" color="hcex-staff" size="15" />
-                <span class="text-subtitle-2 font-weight-bold">ข้อมูลการขนส่ง</span>
+                <span class="text-subtitle-2 font-weight-bold"
+                  >ข้อมูลการขนส่ง</span
+                >
               </div>
               <v-card-text class="pa-4">
                 <v-row dense>
                   <v-col cols="12" md="3">
                     <div class="info-label">Date of Shipment</div>
-                    <div class="info-value">{{ application.shipment.date }}</div>
+                    <div class="info-value">
+                      {{ application.shipment.date }}
+                    </div>
                   </v-col>
                   <v-col cols="12" md="3">
                     <div class="info-label">Mode of Transport</div>
@@ -167,20 +204,27 @@
                         size="x-small"
                         color="hcex-staff"
                         variant="tonal"
-                      >{{ m }}</v-chip>
+                        >{{ m }}</v-chip
+                      >
                     </div>
                   </v-col>
                   <v-col cols="12" md="3">
                     <div class="info-label">Country of Destination</div>
-                    <div class="info-value">{{ application.shipment.countryDestination }}</div>
+                    <div class="info-value">
+                      {{ application.shipment.countryDestination }}
+                    </div>
                   </v-col>
                   <v-col cols="12" md="3">
                     <div class="info-label">Place of Departure</div>
-                    <div class="info-value">{{ application.shipment.placeOfDeparture }}</div>
+                    <div class="info-value">
+                      {{ application.shipment.placeOfDeparture }}
+                    </div>
                   </v-col>
                   <v-col cols="12" md="6">
                     <div class="info-label">Vessel / Vehicle</div>
-                    <div class="info-value">{{ application.shipment.vessel }}</div>
+                    <div class="info-value">
+                      {{ application.shipment.vessel }}
+                    </div>
                   </v-col>
                 </v-row>
               </v-card-text>
@@ -188,46 +232,76 @@
 
             <!-- ข้อมูลสินค้า -->
             <v-card rounded="xl" elevation="0" class="section-card mb-4">
-              <div class="section-header px-4 py-3 border-b d-flex align-center ga-2">
-                <v-icon icon="fas fa-boxes-stacked" color="hcex-staff" size="15" />
-                <span class="text-subtitle-2 font-weight-bold">ข้อมูลสินค้า</span>
+              <div
+                class="section-header px-4 py-3 border-b d-flex align-center ga-2"
+              >
+                <v-icon
+                  icon="fas fa-boxes-stacked"
+                  color="hcex-staff"
+                  size="15"
+                />
+                <span class="text-subtitle-2 font-weight-bold"
+                  >ข้อมูลสินค้า</span
+                >
               </div>
               <v-card-text class="pa-4">
                 <v-row dense>
                   <v-col cols="12" md="6">
                     <div class="info-label">Manufacturer</div>
-                    <div class="info-value">{{ application.goods.manufacturer }}</div>
+                    <div class="info-value">
+                      {{ application.goods.manufacturer }}
+                    </div>
                   </v-col>
                   <v-col cols="12" md="3">
                     <div class="info-label">Analysis Report No.</div>
-                    <div class="info-value text-hcex-staff font-weight-bold">{{ application.goods.analysisReportNo }}</div>
+                    <div class="info-value text-hcex-staff font-weight-bold">
+                      {{ application.goods.analysisReportNo }}
+                    </div>
                   </v-col>
                   <v-col cols="12" md="3">
                     <div class="info-label">Date</div>
-                    <div class="info-value">{{ application.goods.analysisDate }}</div>
+                    <div class="info-value">
+                      {{ application.goods.analysisDate }}
+                    </div>
                   </v-col>
                   <v-col cols="12" md="6">
                     <div class="info-label">Shipping Mark</div>
-                    <div class="info-value">{{ application.goods.shippingMark }}</div>
+                    <div class="info-value">
+                      {{ application.goods.shippingMark }}
+                    </div>
                   </v-col>
                   <v-col cols="12">
                     <div class="info-label mb-1">Description of Goods</div>
                     <div
                       class="info-value-block rounded-lg pa-3"
-                      style="background: rgba(var(--v-theme-surface-variant), 0.5); font-family: monospace; white-space: pre-wrap; text-transform: uppercase"
-                    >{{ application.goods.descriptionOfGoods }}</div>
+                      style="
+                        background: rgba(var(--v-theme-surface-variant), 0.5);
+                        font-family: monospace;
+                        white-space: pre-wrap;
+                        text-transform: uppercase;
+                      "
+                    >
+                      {{ application.goods.descriptionOfGoods }}
+                    </div>
                   </v-col>
                   <v-col cols="12" md="4">
                     <div class="info-label">Quantity (CTNS.)</div>
-                    <div class="info-value">{{ application.goods.quantity }}</div>
+                    <div class="info-value">
+                      {{ application.goods.quantity }}
+                    </div>
                   </v-col>
                   <v-col cols="12" md="4">
                     <div class="info-label">Weight N.W. / G.W.</div>
-                    <div class="info-value">{{ application.goods.weightNW }} / {{ application.goods.weightGW }} KGS.</div>
+                    <div class="info-value">
+                      {{ application.goods.weightNW }} /
+                      {{ application.goods.weightGW }} KGS.
+                    </div>
                   </v-col>
                   <v-col cols="12" md="4">
                     <div class="info-label">Total Amount (USD)</div>
-                    <div class="info-value font-weight-bold">{{ application.goods.totalAmount }}</div>
+                    <div class="info-value font-weight-bold">
+                      {{ application.goods.totalAmount }}
+                    </div>
                   </v-col>
                 </v-row>
               </v-card-text>
@@ -240,20 +314,116 @@
               elevation="0"
               class="section-card mb-4"
             >
-              <div class="section-header px-4 py-3 border-b d-flex align-center ga-2">
-                <v-icon icon="fas fa-comment-dots" color="hcex-staff" size="15" />
-                <span class="text-subtitle-2 font-weight-bold">Special Remark</span>
+              <div
+                class="section-header px-4 py-3 border-b d-flex align-center ga-2"
+              >
+                <v-icon
+                  icon="fas fa-comment-dots"
+                  color="hcex-staff"
+                  size="15"
+                />
+                <span class="text-subtitle-2 font-weight-bold"
+                  >Special Remark</span
+                >
               </div>
               <v-card-text class="pa-4">
-                <div class="info-value" style="font-family: monospace; text-transform: uppercase">
+                <div
+                  class="info-value"
+                  style="font-family: monospace; text-transform: uppercase"
+                >
                   {{ application.specialRemark }}
+                </div>
+              </v-card-text>
+            </v-card>
+
+            <!-- ข้อมูลผล LAB -->
+            <v-card rounded="xl" elevation="0" class="section-card mb-4">
+              <div
+                class="section-header px-4 py-3 border-b d-flex align-center ga-2"
+              >
+                <v-icon icon="fas fa-flask-vial" color="hcex-staff" size="15" />
+                <span class="text-subtitle-2 font-weight-bold"
+                  >ข้อมูลผล LAB</span
+                >
+                <v-chip
+                  color="hcex-staff"
+                  variant="tonal"
+                  size="x-small"
+                  class="ml-1"
+                >
+                  {{ application.goods.analysisReportNo }}
+                </v-chip>
+                <v-spacer />
+                <v-btn
+                  size="x-small"
+                  variant="tonal"
+                  color="hcex-staff"
+                  rounded="lg"
+                  prepend-icon="fas fa-file-lines"
+                  class="mr-1"
+                  @click="previewLabSummaryPdf"
+                >
+                  ดูใบสรุปผล
+                </v-btn>
+              </div>
+              <v-card-text class="pa-4">
+                <div class="text-caption text-medium-emphasis mb-3">
+                  วันที่รายงาน: {{ application.goods.analysisDate }}
+                </div>
+                <div class="d-flex flex-column ga-2">
+                  <div
+                    v-for="lab in labTypes"
+                    :key="lab.key"
+                    class="lab-result-row rounded-lg px-4 py-3 d-flex align-center ga-3"
+                  >
+                    <v-icon :icon="lab.icon" :color="lab.color" size="16" />
+                    <div class="flex-grow-1">
+                      <div class="text-body-2 font-weight-medium">
+                        {{ lab.label }}
+                      </div>
+                      <div class="text-caption text-medium-emphasis">
+                        {{ labResultsData[lab.key]?.reportNo }}
+                      </div>
+                    </div>
+                    <v-chip
+                      v-if="labResultsData[lab.key]"
+                      size="x-small"
+                      :color="
+                        labResultsData[lab.key].status === 'pass'
+                          ? 'success'
+                          : 'error'
+                      "
+                      variant="tonal"
+                    >
+                      {{
+                        labResultsData[lab.key].status === "pass"
+                          ? "ผ่าน"
+                          : "ไม่ผ่าน"
+                      }}
+                    </v-chip>
+                    <v-chip v-else size="x-small" color="grey" variant="tonal"
+                      >ยังไม่มีผล</v-chip
+                    >
+                    <v-btn
+                      v-if="labResultsData[lab.key]"
+                      icon
+                      size="x-small"
+                      variant="tonal"
+                      :color="lab.color"
+                      @click="openLabDetail(lab.key)"
+                    >
+                      <v-icon icon="fas fa-eye" size="13" />
+                    </v-btn>
+                  </div>
                 </div>
               </v-card-text>
             </v-card>
 
             <!-- เอกสารแนบ -->
             <v-card rounded="xl" elevation="0" class="section-card mb-4">
-              <div class="section-header px-4 py-3 border-b d-flex align-center ga-2">
+              <div
+                class="section-header px-4 py-3 border-b d-flex align-center ga-2"
+              >
                 <v-icon icon="fas fa-paperclip" color="hcex-staff" size="15" />
                 <span class="text-subtitle-2 font-weight-bold">เอกสารแนบ</span>
               </div>
@@ -267,7 +437,9 @@
                     <v-icon icon="fas fa-file-pdf" color="error" size="16" />
                     <div>
                       <div class="text-body-2">{{ doc.label }}</div>
-                      <div class="text-caption text-medium-emphasis">{{ doc.docType }}</div>
+                      <div class="text-caption text-medium-emphasis">
+                        {{ doc.docType }}
+                      </div>
                     </div>
                   </div>
                   <v-btn
@@ -705,6 +877,63 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+
+    <!-- LAB Detail Dialog -->
+    <v-dialog v-model="labDetailDialog" max-width="480">
+      <v-card rounded="xl" v-if="selectedLabType">
+        <v-btn
+          icon="fas fa-xmark"
+          variant="text"
+          size="small"
+          color="grey"
+          class="position-absolute top-0 right-0 ma-2"
+          @click="labDetailDialog = false"
+        />
+        <v-card-text class="pa-6">
+          <div class="d-flex align-center ga-2 mb-4">
+            <v-icon
+              :icon="labTypes.find((l) => l.key === selectedLabType)?.icon"
+              :color="labTypes.find((l) => l.key === selectedLabType)?.color"
+              size="20"
+            />
+            <span class="text-h6 font-weight-bold">
+              ผลการตรวจ{{
+                labTypes.find((l) => l.key === selectedLabType)?.label
+              }}
+            </span>
+          </div>
+          <div
+            v-for="(val, key) in labResultsData[selectedLabType]?.items"
+            :key="key"
+            class="lab-dialog-row rounded-lg px-4 py-3 mb-2 d-flex align-center justify-space-between"
+          >
+            <div>
+              <div class="lab-dialog-label">{{ key }}</div>
+              <div class="text-body-2">
+                {{ val.value }}
+                <span class="text-medium-emphasis">{{ val.unit }}</span>
+              </div>
+            </div>
+            <v-chip
+              size="x-small"
+              :color="val.pass ? 'success' : 'error'"
+              variant="tonal"
+              >{{ val.pass ? "ผ่าน" : "ไม่ผ่าน" }}</v-chip
+            >
+          </div>
+        </v-card-text>
+        <v-card-actions class="px-6 pb-5 pt-0">
+          <v-btn
+            color="hcex-staff"
+            variant="tonal"
+            rounded="lg"
+            block
+            @click="labDetailDialog = false"
+            >ปิด</v-btn
+          >
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -801,7 +1030,7 @@ function previewCertPdf(item) {
       </div>
       <div>
         <div class="label">Mode of Transport</div>
-        <div class="value">${application.shipment.modes.join(', ')}</div>
+        <div class="value">${application.shipment.modes.join(", ")}</div>
       </div>
       <div style="grid-column:1/-1">
         <div class="label">Description of Goods</div>
@@ -829,8 +1058,10 @@ const application = {
   status: "signing",
   currentStep: 2,
 
-  exporterNameAddress: "Thai Export Co., Ltd.\n88/1 Sukhumvit Rd., Bang Pakong,\nChachoengsao 24130, Thailand",
-  consigneeNameAddress: "Japan Importer Co., Ltd.\n1-2-3 Shinjuku, Shinjuku-ku,\nTokyo 160-0022, Japan",
+  exporterNameAddress:
+    "Thai Export Co., Ltd.\n88/1 Sukhumvit Rd., Bang Pakong,\nChachoengsao 24130, Thailand",
+  consigneeNameAddress:
+    "Japan Importer Co., Ltd.\n1-2-3 Shinjuku, Shinjuku-ku,\nTokyo 160-0022, Japan",
 
   shipment: {
     date: "15/02/2569",
@@ -841,11 +1072,13 @@ const application = {
   },
 
   goods: {
-    manufacturer: "Thai Export Co., Ltd. 88/1 Sukhumvit Rd., Bang Pakong, Chachoengsao",
+    manufacturer:
+      "Thai Export Co., Ltd. 88/1 Sukhumvit Rd., Bang Pakong, Chachoengsao",
     analysisReportNo: "LAB-2569-00123",
     analysisDate: "20/12/2568",
     shippingMark: "TE/JP/2569/001",
-    descriptionOfGoods: "Frozen Durian (Durio zibethinus Murr.)\nHS Code: 0811.90.90\nProduct of Thailand",
+    descriptionOfGoods:
+      "Frozen Durian (Durio zibethinus Murr.)\nHS Code: 0811.90.90\nProduct of Thailand",
     quantity: "500 CTNS.",
     weightNW: "10,000",
     weightGW: "11,500",
@@ -911,6 +1144,7 @@ const timelineSteps = [
   { value: 0, title: "ตรวจคำขอ" },
   { value: 1, title: "พิจารณา" },
   { value: 2, title: "ลงนาม" },
+  { value: 3, title: "ชำระเงิน" },
 ];
 
 function stepClass(v) {
@@ -1019,6 +1253,61 @@ function submitReject() {
   rejectDialog.value = false;
   successMessage.value = "บันทึกผลการไม่อนุมัติเรียบร้อยแล้ว";
   successDialog.value = true;
+}
+
+const labDetailDialog = ref(false);
+const selectedLabType = ref(null);
+
+const labTypes = [
+  {
+    key: "micro",
+    label: "จุลชีววิทยา",
+    icon: "fas fa-bacteria",
+    color: "info",
+  },
+  { key: "chem", label: "เคมี", icon: "fas fa-flask", color: "warning" },
+  {
+    key: "contam",
+    label: "สารปนเปื้อน",
+    icon: "fas fa-triangle-exclamation",
+    color: "error",
+  },
+];
+
+const labResultsData = {
+  micro: {
+    reportNo: "MIC-2569-00088",
+    status: "pass",
+    items: {
+      "Total Plate Count": { value: "< 10", unit: "CFU/g", pass: true },
+      Coliform: { value: "ND", unit: "MPN/g", pass: true },
+      "E. coli": { value: "ND", unit: "MPN/g", pass: true },
+      Salmonella: { value: "ND", unit: "/25g", pass: true },
+    },
+  },
+  chem: {
+    reportNo: "CHM-2569-00201",
+    status: "pass",
+    items: {
+      Chlorpyrifos: { value: "ND", unit: "mg/kg", pass: true },
+      Cypermethrin: { value: "0.01", unit: "mg/kg", pass: true },
+      Dimethoate: { value: "ND", unit: "mg/kg", pass: true },
+    },
+  },
+  contam: {
+    reportNo: "CNT-2569-00045",
+    status: "pass",
+    items: {
+      "Lead (Pb)": { value: "0.02", unit: "mg/kg", pass: true },
+      "Cadmium (Cd)": { value: "ND", unit: "mg/kg", pass: true },
+      "Arsenic (As)": { value: "0.01", unit: "mg/kg", pass: true },
+    },
+  },
+};
+
+function openLabDetail(key) {
+  selectedLabType.value = key;
+  labDetailDialog.value = true;
 }
 </script>
 
@@ -1145,5 +1434,18 @@ function submitReject() {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.lab-result-row {
+  background: rgba(var(--v-theme-on-surface), 0.03);
+  border: 1px solid rgba(var(--v-theme-on-surface), 0.08);
+}
+.lab-dialog-row {
+  background: rgba(var(--v-theme-on-surface), 0.03);
+  border: 1px solid rgba(var(--v-theme-on-surface), 0.08);
+}
+.lab-dialog-label {
+  font-size: 0.72rem;
+  color: rgba(var(--v-theme-on-surface), 0.55);
+  margin-bottom: 2px;
 }
 </style>

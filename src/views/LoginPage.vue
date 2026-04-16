@@ -477,7 +477,7 @@ const features = [
   { icon: "fas fa-leaf", text: "ระบบการรับรองมาตรฐานเกษตรอินทรีย์" },
   {
     icon: "fas fa-industry",
-    text: "ระบบการขึ้นทะเบียนโรงงานผลิตสินค้าพืช กรมวิชาการเกษตร",
+    text: "ระบบการขึ้นทะเบียนโรงงานผลิตสินค้าพืช (DOA)",
   },
   {
     icon: "fas fa-certificate",
@@ -486,7 +486,7 @@ const features = [
   { icon: "fas fa-ship", text: "ระบบการจดทะเบียนผู้ส่งออกสินค้าพืช" },
   {
     icon: "fas fa-virus",
-    text: "ระบบการออกหนังสือรับรองสุขอนามัยพืชสำหรับพืชควบคุมเฉพาะ",
+    text: "ระบบ Health Certificate ตามประกาศพืชควบคุมเฉพาะ",
   },
   {
     icon: "fas fa-file-medical",

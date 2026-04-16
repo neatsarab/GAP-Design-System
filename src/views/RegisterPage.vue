@@ -17,7 +17,11 @@
             <div class="feature-icon">
               <v-icon :icon="f.icon" size="15" color="white" />
             </div>
-            <span class="text-body-2" style="color: rgba(255, 255, 255, 0.85)">{{ f.text }}</span>
+            <span
+              class="text-body-2"
+              style="color: rgba(255, 255, 255, 0.85)"
+              >{{ f.text }}</span
+            >
           </div>
         </div>
       </div>
@@ -33,8 +37,12 @@
               <v-icon icon="fas fa-leaf" size="18" color="white" />
             </div>
             <div>
-              <div class="text-body-2 font-weight-bold text-primary lh-tight">กรมวิชาการเกษตร</div>
-              <div class="text-caption text-medium-emphasis">ระบบการให้บริการทางอิเล็กทรอนิกส์</div>
+              <div class="text-body-2 font-weight-bold text-primary lh-tight">
+                กรมวิชาการเกษตร
+              </div>
+              <div class="text-caption text-medium-emphasis">
+                ระบบการให้บริการทางอิเล็กทรอนิกส์
+              </div>
             </div>
           </div>
           <div class="d-none d-md-block" />
@@ -68,16 +76,22 @@
                   'step-circle--pending': currentStep < idx,
                 }"
               >
-                <v-icon v-if="currentStep > idx" icon="fas fa-check" size="14" />
+                <v-icon
+                  v-if="currentStep > idx"
+                  icon="fas fa-check"
+                  size="14"
+                />
                 <span v-else>{{ idx + 1 }}</span>
               </div>
               <div class="mt-2 text-center" style="min-width: 80px">
                 <div
                   class="text-caption font-weight-bold"
                   :class="
-                    currentStep === idx ? 'text-primary'
-                    : currentStep > idx ? 'text-primary'
-                    : 'text-disabled'
+                    currentStep === idx
+                      ? 'text-primary'
+                      : currentStep > idx
+                        ? 'text-primary'
+                        : 'text-disabled'
                   "
                 >
                   {{ step.label }}
@@ -99,9 +113,15 @@
             <div class="thaid-icon-wrap mb-4">
               <v-icon icon="fas fa-id-card" size="40" color="primary" />
             </div>
-            <div class="text-body-1 font-weight-bold mb-1">ยืนยันตัวตนผ่าน ThaiD</div>
-            <div class="text-body-2 text-medium-emphasis mb-6" style="max-width: 320px; margin: 0 auto">
-              ใช้แอปพลิเคชัน ThaiD เพื่อยืนยันตัวตนอย่างปลอดภัย ระบบจะดึงข้อมูลของท่านโดยอัตโนมัติ
+            <div class="text-body-1 font-weight-bold mb-1">
+              ยืนยันตัวตนผ่าน ThaiD
+            </div>
+            <div
+              class="text-body-2 text-medium-emphasis mb-6"
+              style="max-width: 320px; margin: 0 auto"
+            >
+              ใช้แอปพลิเคชัน ThaiD เพื่อยืนยันตัวตนอย่างปลอดภัย
+              ระบบจะดึงข้อมูลของท่านโดยอัตโนมัติ
             </div>
             <v-btn
               color="primary"
@@ -129,7 +149,11 @@
             >
               <div class="d-flex align-center ga-2 mb-2">
                 <div class="mode-icon-box mode-icon-box--thai">
-                  <v-icon icon="fas fa-id-card-clip" size="18" color="primary" />
+                  <v-icon
+                    icon="fas fa-id-card-clip"
+                    size="18"
+                    color="primary"
+                  />
                 </div>
                 <v-icon
                   v-if="registrationMode === 'thai'"
@@ -140,12 +164,17 @@
                 />
               </div>
               <div class="text-body-2 font-weight-bold mb-1">คนสัญชาติไทย</div>
-              <div class="text-caption text-medium-emphasis">ใช้เลขบัตรประชาชน 13 หลัก</div>
+              <div class="text-caption text-medium-emphasis">
+                ใช้เลขบัตรประชาชน 13 หลัก
+              </div>
             </div>
 
             <div
               class="mode-card flex-1-1 rounded-xl pa-4 cursor-pointer"
-              :class="{ 'mode-card--active mode-card--foreign': registrationMode === 'foreigner' }"
+              :class="{
+                'mode-card--active mode-card--foreign':
+                  registrationMode === 'foreigner',
+              }"
               @click="selectMode('foreigner')"
             >
               <div class="d-flex align-center ga-2 mb-2">
@@ -161,10 +190,11 @@
                 />
               </div>
               <div class="text-body-2 font-weight-bold mb-1">ชาวต่างชาติ</div>
-              <div class="text-caption text-medium-emphasis">Foreigner — ใช้เลข Passport</div>
+              <div class="text-caption text-medium-emphasis">
+                Foreigner — ใช้เลข Passport
+              </div>
             </div>
           </div>
-
         </div>
 
         <!-- ═══ Step 1: กรอกข้อมูล ═══ -->
@@ -190,14 +220,19 @@
             prepend-icon="fas fa-passport"
             class="mb-5"
           >
-            <strong>Foreign National Registration</strong> — กรุณากรอกข้อมูลเป็นภาษาอังกฤษ
+            <strong>Foreign National Registration</strong> —
+            กรุณากรอกข้อมูลเป็นภาษาอังกฤษ
           </v-alert>
 
           <v-form ref="formRef">
             <!-- ── ข้อมูลส่วนตัว ── -->
             <div class="form-section-title mb-3">
               <v-icon icon="fas fa-user" size="13" class="mr-1" />
-              {{ registrationMode === 'foreigner' ? 'Personal Information' : 'ข้อมูลส่วนตัว' }}
+              {{
+                registrationMode === "foreigner"
+                  ? "Personal Information"
+                  : "ข้อมูลส่วนตัว"
+              }}
             </div>
 
             <!-- Thai (ThaiD or manual) -->
@@ -209,18 +244,26 @@
                   <v-autocomplete
                     v-model="form.prefix"
                     :items="['นาย', 'นาง', 'นางสาว']"
-                    variant="outlined" density="compact" rounded="lg" hide-details="auto"
+                    variant="outlined"
+                    density="compact"
+                    rounded="lg"
+                    hide-details="auto"
                     :rules="[rules.required]"
                     :readonly="registrationMode === 'thaid'"
                     :class="{ 'autofill-field': registrationMode === 'thaid' }"
                   />
                 </v-col>
                 <v-col cols="12" sm="8">
-                  <div class="fl mb-1">เลขบัตรประชาชน <span class="req">*</span></div>
+                  <div class="fl mb-1">
+                    เลขบัตรประชาชน <span class="req">*</span>
+                  </div>
                   <div class="fl-sub mb-1">National ID No.</div>
                   <v-text-field
                     v-model="form.idCard"
-                    variant="outlined" density="compact" rounded="lg" hide-details="auto"
+                    variant="outlined"
+                    density="compact"
+                    rounded="lg"
+                    hide-details="auto"
                     :rules="[rules.required, rules.thaiId]"
                     :readonly="registrationMode === 'thaid'"
                     :class="{ 'autofill-field': registrationMode === 'thaid' }"
@@ -228,22 +271,32 @@
                   />
                 </v-col>
                 <v-col cols="6">
-                  <div class="fl mt-3 mb-1">ชื่อ <span class="req">*</span></div>
+                  <div class="fl mt-3 mb-1">
+                    ชื่อ <span class="req">*</span>
+                  </div>
                   <div class="fl-sub mb-1">First Name</div>
                   <v-text-field
                     v-model="form.firstName"
-                    variant="outlined" density="compact" rounded="lg" hide-details="auto"
+                    variant="outlined"
+                    density="compact"
+                    rounded="lg"
+                    hide-details="auto"
                     :rules="[rules.required]"
                     :readonly="registrationMode === 'thaid'"
                     :class="{ 'autofill-field': registrationMode === 'thaid' }"
                   />
                 </v-col>
                 <v-col cols="6">
-                  <div class="fl mt-3 mb-1">นามสกุล <span class="req">*</span></div>
+                  <div class="fl mt-3 mb-1">
+                    นามสกุล <span class="req">*</span>
+                  </div>
                   <div class="fl-sub mb-1">Last Name</div>
                   <v-text-field
                     v-model="form.lastName"
-                    variant="outlined" density="compact" rounded="lg" hide-details="auto"
+                    variant="outlined"
+                    density="compact"
+                    rounded="lg"
+                    hide-details="auto"
                     :rules="[rules.required]"
                     :readonly="registrationMode === 'thaid'"
                     :class="{ 'autofill-field': registrationMode === 'thaid' }"
@@ -261,53 +314,78 @@
                   <v-autocomplete
                     v-model="form.prefix"
                     :items="['Mr.', 'Mrs.', 'Miss', 'Ms.', 'Dr.']"
-                    variant="outlined" density="compact" rounded="lg" hide-details="auto"
+                    variant="outlined"
+                    density="compact"
+                    rounded="lg"
+                    hide-details="auto"
                     :rules="[rules.required]"
                   />
                 </v-col>
                 <v-col cols="12" sm="8">
-                  <div class="fl mb-1">Nationality <span class="req">*</span></div>
+                  <div class="fl mb-1">
+                    Nationality <span class="req">*</span>
+                  </div>
                   <div class="fl-sub mb-1">สัญชาติ</div>
                   <v-autocomplete
                     v-model="form.nationality"
                     :items="nationalities"
-                    variant="outlined" density="compact" rounded="lg" hide-details="auto"
+                    variant="outlined"
+                    density="compact"
+                    rounded="lg"
+                    hide-details="auto"
                     :rules="[rules.required]"
                   />
                 </v-col>
                 <v-col cols="6">
-                  <div class="fl mt-3 mb-1">First Name <span class="req">*</span></div>
+                  <div class="fl mt-3 mb-1">
+                    First Name <span class="req">*</span>
+                  </div>
                   <div class="fl-sub mb-1">ชื่อ</div>
                   <v-text-field
                     v-model="form.firstName"
-                    variant="outlined" density="compact" rounded="lg" hide-details="auto"
+                    variant="outlined"
+                    density="compact"
+                    rounded="lg"
+                    hide-details="auto"
                     :rules="[rules.required]"
                     placeholder="e.g. John"
                   />
                 </v-col>
                 <v-col cols="6">
-                  <div class="fl mt-3 mb-1">Last Name <span class="req">*</span></div>
+                  <div class="fl mt-3 mb-1">
+                    Last Name <span class="req">*</span>
+                  </div>
                   <div class="fl-sub mb-1">นามสกุล</div>
                   <v-text-field
                     v-model="form.lastName"
-                    variant="outlined" density="compact" rounded="lg" hide-details="auto"
+                    variant="outlined"
+                    density="compact"
+                    rounded="lg"
+                    hide-details="auto"
                     :rules="[rules.required]"
                     placeholder="e.g. Smith"
                   />
                 </v-col>
                 <v-col cols="12" sm="7">
-                  <div class="fl mt-3 mb-1">Passport No. <span class="req">*</span></div>
+                  <div class="fl mt-3 mb-1">
+                    Passport No. <span class="req">*</span>
+                  </div>
                   <div class="fl-sub mb-1">เลขหนังสือเดินทาง</div>
                   <v-text-field
                     v-model="form.passportNo"
-                    variant="outlined" density="compact" rounded="lg" hide-details="auto"
+                    variant="outlined"
+                    density="compact"
+                    rounded="lg"
+                    hide-details="auto"
                     :rules="[rules.required]"
                     placeholder="e.g. AA1234567"
                     prepend-inner-icon="fas fa-passport"
                   />
                 </v-col>
                 <v-col cols="12" sm="5">
-                  <div class="fl mt-3 mb-1">Passport Expiry <span class="req">*</span></div>
+                  <div class="fl mt-3 mb-1">
+                    Passport Expiry <span class="req">*</span>
+                  </div>
                   <div class="fl-sub mb-1">วันหมดอายุ</div>
                   <v-menu
                     v-model="passportExpiryMenu"
@@ -319,7 +397,10 @@
                       <v-text-field
                         v-bind="props"
                         :model-value="form.passportExpiry"
-                        variant="outlined" density="compact" rounded="lg" hide-details="auto"
+                        variant="outlined"
+                        density="compact"
+                        rounded="lg"
+                        hide-details="auto"
                         :rules="[rules.required]"
                         placeholder="DD/MM/YYYY"
                         prepend-inner-icon="fas fa-calendar"
@@ -341,7 +422,11 @@
             <!-- ── ข้อมูลติดต่อ ── -->
             <div class="form-section-title mb-3">
               <v-icon icon="fas fa-address-book" size="13" class="mr-1" />
-              {{ registrationMode === 'foreigner' ? 'Contact Information' : 'ข้อมูลติดต่อ' }}
+              {{
+                registrationMode === "foreigner"
+                  ? "Contact Information"
+                  : "ข้อมูลติดต่อ"
+              }}
             </div>
             <v-row dense>
               <v-col cols="12" sm="6">
@@ -349,49 +434,86 @@
                 <div class="fl-sub mb-1">Email</div>
                 <v-text-field
                   v-model="form.email"
-                  variant="outlined" density="compact" rounded="lg" hide-details="auto"
+                  variant="outlined"
+                  density="compact"
+                  rounded="lg"
+                  hide-details="auto"
                   :rules="[rules.required, rules.email]"
                   prepend-inner-icon="fas fa-envelope"
                   placeholder="example@email.com"
                 />
               </v-col>
               <v-col cols="12" sm="6">
-                <div class="fl mb-1">เบอร์โทรศัพท์ <span class="req">*</span></div>
+                <div class="fl mb-1">
+                  เบอร์โทรศัพท์ <span class="req">*</span>
+                </div>
                 <div class="fl-sub mb-1">Phone Number</div>
                 <v-text-field
                   v-model="form.phone"
-                  variant="outlined" density="compact" rounded="lg" hide-details="auto"
+                  variant="outlined"
+                  density="compact"
+                  rounded="lg"
+                  hide-details="auto"
                   :rules="[rules.required]"
                   prepend-inner-icon="fas fa-phone"
-                  :placeholder="registrationMode === 'foreigner' ? '+66-XX-XXX-XXXX' : '0XX-XXX-XXXX'"
+                  :placeholder="
+                    registrationMode === 'foreigner'
+                      ? '+66-XX-XXX-XXXX'
+                      : '0XX-XXX-XXXX'
+                  "
                 />
               </v-col>
               <v-col cols="12">
-                <div class="fl mt-3 mb-1">ที่อยู่ <span class="req">*</span></div>
-                <div class="fl-sub mb-1">{{ registrationMode === 'foreigner' ? 'Address in Thailand' : 'Address' }}</div>
+                <div class="fl mt-3 mb-1">
+                  ที่อยู่ <span class="req">*</span>
+                </div>
+                <div class="fl-sub mb-1">
+                  {{
+                    registrationMode === "foreigner"
+                      ? "Address in Thailand"
+                      : "Address"
+                  }}
+                </div>
                 <v-text-field
                   v-model="form.address"
-                  variant="outlined" density="compact" rounded="lg" hide-details="auto"
+                  variant="outlined"
+                  density="compact"
+                  rounded="lg"
+                  hide-details="auto"
                   :rules="[rules.required]"
-                  :placeholder="registrationMode === 'foreigner' ? 'Address in Thailand' : 'บ้านเลขที่ ถนน แขวง/ตำบล เขต/อำเภอ'"
+                  :placeholder="
+                    registrationMode === 'foreigner'
+                      ? 'Address in Thailand'
+                      : 'บ้านเลขที่ ถนน แขวง/ตำบล เขต/อำเภอ'
+                  "
                 />
               </v-col>
               <v-col cols="12" sm="6">
-                <div class="fl mt-3 mb-1">จังหวัด <span class="req">*</span></div>
+                <div class="fl mt-3 mb-1">
+                  จังหวัด <span class="req">*</span>
+                </div>
                 <div class="fl-sub mb-1">Province</div>
                 <v-autocomplete
                   v-model="form.province"
                   :items="provinces"
-                  variant="outlined" density="compact" rounded="lg" hide-details="auto"
+                  variant="outlined"
+                  density="compact"
+                  rounded="lg"
+                  hide-details="auto"
                   :rules="[rules.required]"
                 />
               </v-col>
               <v-col cols="12" sm="6">
-                <div class="fl mt-3 mb-1">รหัสไปรษณีย์ <span class="req">*</span></div>
+                <div class="fl mt-3 mb-1">
+                  รหัสไปรษณีย์ <span class="req">*</span>
+                </div>
                 <div class="fl-sub mb-1">Postal Code</div>
                 <v-text-field
                   v-model="form.zipCode"
-                  variant="outlined" density="compact" rounded="lg" hide-details="auto"
+                  variant="outlined"
+                  density="compact"
+                  rounded="lg"
+                  hide-details="auto"
                   :rules="[rules.required]"
                   maxlength="5"
                 />
@@ -399,51 +521,91 @@
             </v-row>
 
             <template v-if="registrationMode !== 'thaid'">
-            <v-divider class="my-5" />
+              <v-divider class="my-5" />
 
-            <!-- ── เอกสารประกอบ ── -->
-            <div class="form-section-title mb-3">
-              <v-icon icon="fas fa-paperclip" size="13" class="mr-1" />
-              {{ registrationMode === 'foreigner' ? 'Supporting Documents' : 'เอกสารประกอบ' }}
-            </div>
-            <v-row dense>
-              <v-col v-if="registrationMode !== 'thaid'" cols="12">
-                <div class="fl mb-1">
-                  {{ registrationMode === 'foreigner' ? 'Passport Copy' : 'สำเนาบัตรประชาชน' }}
-                  <span class="req">*</span>
-                </div>
-                <div class="fl-sub mb-1">{{ registrationMode === 'foreigner' ? 'สำเนาหนังสือเดินทาง' : 'ID Card Copy' }}</div>
-                <v-file-input
-                  v-model="form.idDoc"
-                  variant="outlined" density="compact" rounded="lg" hide-details="auto"
-                  :rules="[rules.requiredFile]"
-                  prepend-icon=""
-                  prepend-inner-icon="fas fa-paperclip"
-                  accept=".pdf,.jpg,.jpeg,.png"
-                  :placeholder="registrationMode === 'foreigner' ? 'Select file .pdf .jpg .png' : 'เลือกไฟล์ .pdf .jpg .png'"
-                />
-              </v-col>
-              <v-col v-if="registrationMode === 'foreigner'" cols="12">
-                <div class="fl mt-3 mb-1">Visa / Work Permit Copy</div>
-                <div class="fl-sub mb-1">สำเนา Visa หรือใบอนุญาตทำงาน (ถ้ามี)</div>
-                <v-file-input
-                  v-model="form.visaDoc"
-                  variant="outlined" density="compact" rounded="lg" hide-details
-                  prepend-icon=""
-                  prepend-inner-icon="fas fa-paperclip"
-                  accept=".pdf,.jpg,.jpeg,.png"
-                  placeholder="Select file (optional)"
-                />
-              </v-col>
-            </v-row>
+              <!-- ── เอกสารประกอบ ── -->
+              <div class="form-section-title mb-3">
+                <v-icon icon="fas fa-paperclip" size="13" class="mr-1" />
+                {{
+                  registrationMode === "foreigner"
+                    ? "Supporting Documents"
+                    : "เอกสารประกอบ"
+                }}
+              </div>
+              <v-row dense>
+                <v-col v-if="registrationMode !== 'thaid'" cols="12">
+                  <div class="fl mb-1">
+                    {{
+                      registrationMode === "foreigner"
+                        ? "Passport Copy"
+                        : "สำเนาบัตรประชาชน"
+                    }}
+                    <span class="req">*</span>
+                  </div>
+                  <div class="fl-sub mb-1">
+                    {{
+                      registrationMode === "foreigner"
+                        ? "สำเนาหนังสือเดินทาง"
+                        : "ID Card Copy"
+                    }}
+                  </div>
+                  <v-file-input
+                    v-model="form.idDoc"
+                    variant="outlined"
+                    density="compact"
+                    rounded="lg"
+                    hide-details="auto"
+                    :rules="[rules.requiredFile]"
+                    prepend-icon=""
+                    prepend-inner-icon="fas fa-paperclip"
+                    accept=".pdf,.jpg,.jpeg,.png"
+                    :placeholder="
+                      registrationMode === 'foreigner'
+                        ? 'Select file .pdf .jpg .png'
+                        : 'เลือกไฟล์ .pdf .jpg .png'
+                    "
+                  />
+                </v-col>
+                <v-col v-if="registrationMode === 'foreigner'" cols="12">
+                  <div class="fl mt-3 mb-1">Visa / Work Permit Copy</div>
+                  <div class="fl-sub mb-1">
+                    สำเนา Visa หรือใบอนุญาตทำงาน (ถ้ามี)
+                  </div>
+                  <v-file-input
+                    v-model="form.visaDoc"
+                    variant="outlined"
+                    density="compact"
+                    rounded="lg"
+                    hide-details
+                    prepend-icon=""
+                    prepend-inner-icon="fas fa-paperclip"
+                    accept=".pdf,.jpg,.jpeg,.png"
+                    placeholder="Select file (optional)"
+                  />
+                </v-col>
+              </v-row>
             </template>
           </v-form>
 
           <div class="step-actions mt-6">
-            <v-btn variant="tonal" color="grey" size="large" rounded="lg" prepend-icon="fas fa-chevron-left" @click="prevStep">
+            <v-btn
+              variant="tonal"
+              color="grey"
+              size="large"
+              rounded="lg"
+              prepend-icon="fas fa-chevron-left"
+              @click="prevStep"
+            >
               ย้อนกลับ
             </v-btn>
-            <v-btn color="primary" size="large" rounded="lg" style="flex: 1" append-icon="fas fa-chevron-right" @click="nextFromInfo">
+            <v-btn
+              color="primary"
+              size="large"
+              rounded="lg"
+              style="flex: 1"
+              append-icon="fas fa-chevron-right"
+              @click="nextFromInfo"
+            >
               ถัดไป
             </v-btn>
           </div>
@@ -455,22 +617,50 @@
             <v-card-text class="pa-5">
               <div class="d-flex align-center ga-2 mb-4">
                 <div class="summary-icon-box">
-                  <v-icon icon="fas fa-clipboard-list" size="16" color="primary" />
+                  <v-icon
+                    icon="fas fa-clipboard-list"
+                    size="16"
+                    color="primary"
+                  />
                 </div>
-                <span class="text-body-2 font-weight-bold">สรุปข้อมูลการลงทะเบียน</span>
-                <v-chip size="x-small" :color="registrationMode === 'foreigner' ? 'teal' : 'primary'" variant="tonal" class="ml-auto">
-                  {{ registrationMode === 'foreigner' ? 'Foreigner' : registrationMode === 'thaid' ? 'ThaiD' : 'คนไทย (Manual)' }}
+                <span class="text-body-2 font-weight-bold"
+                  >สรุปข้อมูลการลงทะเบียน</span
+                >
+                <v-chip
+                  size="x-small"
+                  :color="registrationMode === 'foreigner' ? 'teal' : 'primary'"
+                  variant="tonal"
+                  class="ml-auto"
+                >
+                  {{
+                    registrationMode === "foreigner"
+                      ? "Foreigner"
+                      : registrationMode === "thaid"
+                        ? "ThaiD"
+                        : "คนไทย (Manual)"
+                  }}
                 </v-chip>
               </div>
 
               <div class="confirm-row">
                 <span class="confirm-label">ชื่อ-นามสกุล</span>
-                <span class="confirm-value">{{ form.prefix }} {{ form.firstName }} {{ form.lastName }}</span>
+                <span class="confirm-value"
+                  >{{ form.prefix }} {{ form.firstName }}
+                  {{ form.lastName }}</span
+                >
               </div>
               <div class="confirm-row">
-                <span class="confirm-label">{{ registrationMode === 'foreigner' ? 'Passport No.' : 'เลขบัตรประชาชน' }}</span>
+                <span class="confirm-label">{{
+                  registrationMode === "foreigner"
+                    ? "Passport No."
+                    : "เลขบัตรประชาชน"
+                }}</span>
                 <span class="confirm-value">
-                  {{ registrationMode === 'foreigner' ? form.passportNo : maskIdCard(form.idCard) }}
+                  {{
+                    registrationMode === "foreigner"
+                      ? form.passportNo
+                      : maskIdCard(form.idCard)
+                  }}
                 </span>
               </div>
               <div v-if="registrationMode === 'foreigner'" class="confirm-row">
@@ -497,28 +687,60 @@
             </v-card-text>
           </v-card>
 
-          <v-alert color="info" variant="tonal" rounded="lg" density="compact" prepend-icon="fas fa-circle-info" class="mb-5">
+          <v-alert
+            color="info"
+            variant="tonal"
+            rounded="lg"
+            density="compact"
+            prepend-icon="fas fa-circle-info"
+            class="mb-5"
+          >
             <span class="text-body-2">
-              หลังส่งคำขอ เจ้าหน้าที่จะตรวจสอบข้อมูลและอนุมัติสิทธิ์ภายใน <strong>3-5 วันทำการ</strong>
+              หลังส่งคำขอ เจ้าหน้าที่จะตรวจสอบข้อมูลและอนุมัติสิทธิ์ภายใน
+              <strong>3-5 วันทำการ</strong>
             </span>
           </v-alert>
 
-          <v-checkbox v-model="form.acceptTerms" hide-details="auto" :rules="[(v) => !!v || 'กรุณายอมรับเงื่อนไข']" class="mb-5">
+          <v-checkbox
+            v-model="form.acceptTerms"
+            hide-details="auto"
+            :rules="[(v) => !!v || 'กรุณายอมรับเงื่อนไข']"
+            class="mb-5"
+          >
             <template #label>
               <span class="text-body-2">
                 ฉันยอมรับ
-                <a href="#" class="text-primary text-decoration-none">นโยบายความเป็นส่วนตัว</a>
+                <a href="#" class="text-primary text-decoration-none"
+                  >นโยบายความเป็นส่วนตัว</a
+                >
                 และ
-                <a href="#" class="text-primary text-decoration-none">เงื่อนไขการใช้งาน</a>
+                <a href="#" class="text-primary text-decoration-none"
+                  >เงื่อนไขการใช้งาน</a
+                >
               </span>
             </template>
           </v-checkbox>
 
           <div class="step-actions">
-            <v-btn variant="tonal" color="grey" size="large" rounded="lg" prepend-icon="fas fa-chevron-left" @click="prevStep">
+            <v-btn
+              variant="tonal"
+              color="grey"
+              size="large"
+              rounded="lg"
+              prepend-icon="fas fa-chevron-left"
+              @click="prevStep"
+            >
               ย้อนกลับ
             </v-btn>
-            <v-btn color="primary" size="large" rounded="lg" style="flex: 1" prepend-icon="fas fa-paper-plane" :loading="loading" @click="doSubmit">
+            <v-btn
+              color="primary"
+              size="large"
+              rounded="lg"
+              style="flex: 1"
+              prepend-icon="fas fa-paper-plane"
+              :loading="loading"
+              @click="doSubmit"
+            >
               ส่งคำขอลงทะเบียน
             </v-btn>
           </div>
@@ -527,15 +749,30 @@
         <!-- Login link -->
         <div class="login-row mt-6">
           <span class="text-body-2 text-medium-emphasis">มีบัญชีแล้ว?</span>
-          <v-btn variant="text" size="small" color="primary" class="ml-1 pa-0" @click="goToLogin">เข้าสู่ระบบ</v-btn>
+          <v-btn
+            variant="text"
+            size="small"
+            color="primary"
+            class="ml-1 pa-0"
+            @click="goToLogin"
+            >เข้าสู่ระบบ</v-btn
+          >
         </div>
 
         <!-- Footer -->
         <div class="d-flex align-center justify-space-between mt-4">
-          <v-btn variant="text" size="small" color="medium-emphasis" prepend-icon="fas fa-arrow-left" @click="goToPortal">
+          <v-btn
+            variant="text"
+            size="small"
+            color="medium-emphasis"
+            prepend-icon="fas fa-arrow-left"
+            @click="goToPortal"
+          >
             กลับหน้าหลัก
           </v-btn>
-          <span class="text-caption text-medium-emphasis">© 2569 กรมวิชาการเกษตร</span>
+          <span class="text-caption text-medium-emphasis"
+            >© 2569 กรมวิชาการเกษตร</span
+          >
         </div>
       </div>
     </div>
@@ -551,15 +788,35 @@
           <p class="text-body-2 text-medium-emphasis mb-4">
             ระบบได้รับคำขอของคุณแล้ว เจ้าหน้าที่จะตรวจสอบข้อมูลและอนุมัติสิทธิ์
           </p>
-          <v-alert color="info" variant="tonal" rounded="lg" density="compact" prepend-icon="fas fa-envelope" class="text-left mb-3">
-            <span class="text-body-2">ระบบส่งอีเมลยืนยันไปที่ <strong>{{ form.email }}</strong></span>
+          <v-alert
+            color="info"
+            variant="tonal"
+            rounded="lg"
+            density="compact"
+            prepend-icon="fas fa-envelope"
+            class="text-left mb-3"
+          >
+            <span class="text-body-2"
+              >ระบบส่งอีเมลยืนยันไปที่ <strong>{{ form.email }}</strong></span
+            >
           </v-alert>
-          <v-alert color="warning" variant="tonal" rounded="lg" density="compact" prepend-icon="fas fa-clock" class="text-left">
-            <span class="text-body-2">รอผลการอนุมัติภายใน <strong>3-5 วันทำการ</strong></span>
+          <v-alert
+            color="warning"
+            variant="tonal"
+            rounded="lg"
+            density="compact"
+            prepend-icon="fas fa-clock"
+            class="text-left"
+          >
+            <span class="text-body-2"
+              >รอผลการอนุมัติภายใน <strong>3-5 วันทำการ</strong></span
+            >
           </v-alert>
         </v-card-text>
         <v-card-actions class="px-6 pb-6">
-          <v-btn color="primary" block rounded="lg" @click="goToLogin">กลับหน้าเข้าสู่ระบบ</v-btn>
+          <v-btn color="primary" block rounded="lg" @click="goToLogin"
+            >กลับหน้าเข้าสู่ระบบ</v-btn
+          >
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -623,33 +880,67 @@ const form = ref({
 });
 
 const features = [
-  { icon: "fas fa-seedling", text: "ระบบการรับรองมาตรฐานการปฏิบัติทางการเกษตรที่ดีสำหรับพืช" },
+  {
+    icon: "fas fa-seedling",
+    text: "ระบบการรับรองมาตรฐานการปฏิบัติทางการเกษตรที่ดีสำหรับพืช",
+  },
   { icon: "fas fa-leaf", text: "ระบบการรับรองมาตรฐานเกษตรอินทรีย์" },
-  { icon: "fas fa-industry", text: "ระบบการขึ้นทะเบียนโรงงานผลิตสินค้าพืช กรมวิชาการเกษตร" },
-  { icon: "fas fa-certificate", text: "ระบบการขึ้นทะเบียนหน่วยรับรองโรงงานผลิตสินค้าพืช" },
+  {
+    icon: "fas fa-industry",
+    text: "ระบบการขึ้นทะเบียนโรงงานผลิตสินค้าพืช (DOA)",
+  },
+  {
+    icon: "fas fa-certificate",
+    text: "ระบบการขึ้นทะเบียนหน่วยรับรองโรงงานผลิตสินค้าพืช",
+  },
   { icon: "fas fa-ship", text: "ระบบการจดทะเบียนผู้ส่งออกสินค้าพืช" },
-  { icon: "fas fa-virus", text: "ระบบการออกหนังสือรับรองสุขอนามัยพืชสำหรับพืชควบคุมเฉพาะ" },
-  { icon: "fas fa-file-medical", text: "ระบบการขึ้นทะเบียนหน่วยรับรองโรงงานผลิตสินค้าพืช" },
+  {
+    icon: "fas fa-virus",
+    text: "ระบบ Health Certificate ตามประกาศพืชควบคุมเฉพาะ",
+  },
+  {
+    icon: "fas fa-file-medical",
+    text: "ระบบการขึ้นทะเบียนหน่วยรับรองโรงงานผลิตสินค้าพืช",
+  },
   { icon: "fas fa-warehouse", text: "ระบบบัญชีรายชื่อโรงคัดบรรจุสินค้าพืช" },
 ];
 
 const provinces = [
-  "กรุงเทพมหานคร", "เชียงใหม่", "เชียงราย", "ขอนแก่น",
-  "นครราชสีมา", "สงขลา", "ภูเก็ต", "อุบลราชธานี", "นครปฐม", "ระยอง",
+  "กรุงเทพมหานคร",
+  "เชียงใหม่",
+  "เชียงราย",
+  "ขอนแก่น",
+  "นครราชสีมา",
+  "สงขลา",
+  "ภูเก็ต",
+  "อุบลราชธานี",
+  "นครปฐม",
+  "ระยอง",
 ];
 
 const nationalities = [
-  "Chinese / จีน", "Japanese / ญี่ปุ่น", "Korean / เกาหลี",
-  "American / อเมริกัน", "British / อังกฤษ", "French / ฝรั่งเศส",
-  "German / เยอรมัน", "Australian / ออสเตรเลีย", "Indian / อินเดีย",
-  "Vietnamese / เวียดนาม", "Myanmar / พม่า", "Cambodian / กัมพูชา",
-  "Malaysian / มาเลเซีย", "Singaporean / สิงคโปร์", "Other / อื่นๆ",
+  "Chinese / จีน",
+  "Japanese / ญี่ปุ่น",
+  "Korean / เกาหลี",
+  "American / อเมริกัน",
+  "British / อังกฤษ",
+  "French / ฝรั่งเศส",
+  "German / เยอรมัน",
+  "Australian / ออสเตรเลีย",
+  "Indian / อินเดีย",
+  "Vietnamese / เวียดนาม",
+  "Myanmar / พม่า",
+  "Cambodian / กัมพูชา",
+  "Malaysian / มาเลเซีย",
+  "Singaporean / สิงคโปร์",
+  "Other / อื่นๆ",
 ];
 
 const rules = {
   required: (v) => !!v || "กรุณากรอกข้อมูล",
   email: (v) => /.+@.+\..+/.test(v) || "รูปแบบอีเมลไม่ถูกต้อง",
-  thaiId: (v) => !v || v.replace(/-/g, "").length === 13 || "เลขบัตรประชาชนต้องมี 13 หลัก",
+  thaiId: (v) =>
+    !v || v.replace(/-/g, "").length === 13 || "เลขบัตรประชาชนต้องมี 13 หลัก",
   requiredFile: (v) => {
     if (!v) return "กรุณาแนบเอกสาร";
     if (Array.isArray(v)) return v.length > 0 || "กรุณาแนบเอกสาร";
@@ -676,7 +967,10 @@ function doThaiDVerify() {
 }
 
 async function nextFromInfo() {
-  if (!formRef.value) { currentStep.value = 2; return; }
+  if (!formRef.value) {
+    currentStep.value = 2;
+    return;
+  }
   const { valid } = await formRef.value.validate();
   if (!valid) return;
   currentStep.value = 2;
@@ -731,7 +1025,9 @@ function maskIdCard(v) {
 /* Mode cards */
 .mode-card {
   border: 2px solid rgba(var(--v-border-color), var(--v-border-opacity));
-  transition: border-color 0.15s, background 0.15s;
+  transition:
+    border-color 0.15s,
+    background 0.15s;
 }
 .mode-card:hover {
   border-color: rgba(var(--v-theme-primary), 0.4);
@@ -753,8 +1049,12 @@ function maskIdCard(v) {
   align-items: center;
   justify-content: center;
 }
-.mode-icon-box--thai { background: rgba(var(--v-theme-primary), 0.12); }
-.mode-icon-box--foreign { background: rgba(var(--v-theme-teal), 0.12); }
+.mode-icon-box--thai {
+  background: rgba(var(--v-theme-primary), 0.12);
+}
+.mode-icon-box--foreign {
+  background: rgba(var(--v-theme-teal), 0.12);
+}
 
 /* Bilingual labels */
 .fl {
@@ -817,9 +1117,19 @@ function maskIdCard(v) {
   padding: 7px 0;
   border-bottom: 1px solid rgba(var(--v-border-color), 0.5);
 }
-.confirm-row:last-child { border-bottom: none; }
-.confirm-label { font-size: 12px; color: rgba(var(--v-theme-on-surface), 0.5); font-weight: 600; }
-.confirm-value { font-size: 13px; font-weight: 500; text-align: right; }
+.confirm-row:last-child {
+  border-bottom: none;
+}
+.confirm-label {
+  font-size: 12px;
+  color: rgba(var(--v-theme-on-surface), 0.5);
+  font-weight: 600;
+}
+.confirm-value {
+  font-size: 13px;
+  font-weight: 500;
+  text-align: right;
+}
 
 /* Stepper */
 .step-circle {
@@ -831,7 +1141,9 @@ function maskIdCard(v) {
   justify-content: center;
   font-size: 13px;
   font-weight: 700;
-  transition: background 0.2s, color 0.2s;
+  transition:
+    background 0.2s,
+    color 0.2s;
 }
 .step-circle--active {
   background: rgb(var(--v-theme-primary));

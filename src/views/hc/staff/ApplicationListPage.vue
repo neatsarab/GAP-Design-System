@@ -639,6 +639,21 @@ const allItems = [
     submittedDate: "2024-12-20",
     status: "completed",
   },
+  {
+    id: "HC-014",
+    requestNo: "HC-00044",
+    exporterNo: "EXP-2568-00789",
+    establishmentName: "บริษัท กรีนเฟรช จำกัด",
+    applicantName: "นายวิชัย ผลดี",
+    product: "ลำไย",
+    destination: "จีน",
+    certType: "All",
+    type: "new",
+    submittedAt: "18 ม.ค. 68",
+    submittedDate: "2025-01-18",
+    status: "pending_payment",
+    labTest: "no",
+  },
 ];
 
 const filteredItems = computed(() => {
@@ -692,6 +707,7 @@ function statusColor(s) {
       submitted: "warning",
       testing: "info",
       pending_approval: "info",
+      pending_payment: "purple",
       approved: "success",
       correction_required: "error",
       completed: "success",
@@ -706,6 +722,7 @@ function statusLabel(s) {
       submitted: "รอตรวจ",
       testing: "รอตรวจ Lab",
       pending_approval: "รอพิจารณา",
+      pending_payment: "รอชำระเงิน",
       approved: "อนุมัติแล้ว",
       correction_required: "รอแก้ไข",
       completed: "รับใบรับรองแล้ว",

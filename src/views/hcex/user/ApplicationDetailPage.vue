@@ -18,6 +18,21 @@
         </p>
       </div>
       <v-spacer />
+      <v-btn
+        v-if="application.status === 'pending_payment'"
+        color="purple"
+        variant="flat"
+        rounded="lg"
+        prepend-icon="fas fa-money-bill-wave"
+        @click="
+          router.push({
+            name: 'HCEXUserPayment',
+            params: { id: route.params.id ?? application.requestNo },
+          })
+        "
+      >
+        ชำระเงิน
+      </v-btn>
       <v-chip :color="statusColor(application.status)" variant="tonal">
         <v-icon :icon="statusIcon(application.status)" size="13" class="mr-1" />
         {{ statusLabel(application.status) }}
@@ -643,7 +658,8 @@ const timelineSteps = [
   { value: 1, title: "ตรวจสอบ" },
   { value: 2, title: "พิจารณา" },
   { value: 3, title: "ลงนาม" },
-  { value: 4, title: "ออกใบรับรอง" },
+  { value: 4, title: "ชำระเงิน" },
+  { value: 5, title: "ออกใบรับรอง" },
 ];
 
 function stepClass(v) {

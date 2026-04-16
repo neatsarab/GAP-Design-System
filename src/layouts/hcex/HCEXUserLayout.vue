@@ -32,7 +32,7 @@
         <v-list-item-title
           class="text-body-2 font-weight-bold"
           style="word-break: break-word; white-space: normal"
-          >ระบบการออกหนังสือรับรองสุขอนามัยพืชสำหรับสินค้าแปรรูปด้านพืช</v-list-item-title
+          >ระบบ Health Certificate สินค้าแปรรูปด้านพืช</v-list-item-title
         >
         <v-list-item-subtitle
           class="text-caption"
@@ -319,7 +319,7 @@ function doLogout() {
 
 const breadcrumbs = computed(() => [
   {
-    title: "ระบบการออกหนังสือรับรองสุขอนามัยพืชสำหรับสินค้าแปรรูปด้านพืช",
+    title: "ระบบ Health Certificate สินค้าแปรรูปด้านพืช",
     to: "/hcex/user",
   },
   { title: route.meta.title },

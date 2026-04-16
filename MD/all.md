@@ -74,15 +74,15 @@ Web API จะเป็นตัวกลางในการอ่านแล
   Good Agricultural Practices Certification System for Plants (GAP)
 - ระบบการรับรองมาตรฐานเกษตรอินทรีย์ (Organic Agriculture)
   Organic Agriculture Certification System
-- ระบบการขึ้นทะเบียนโรงงานผลิตสินค้าพืช กรมวิชาการเกษตร
+- ระบบการขึ้นทะเบียนโรงงานผลิตสินค้าพืช (DOA)
   Plant Product Processing Factory Registration System, Department of Agriculture
 - ระบบการขึ้นทะเบียนหน่วยรับรองโรงงานผลิตสินค้าพืช
   Certification Body Registration System for Plant Product Processing Factories
 - ระบบการจดทะเบียนผู้ส่งออกสินค้าพืช
   Plant Product Exporter Registration System
-- ระบบการออกหนังสือรับรองสุขอนามัยพืชสำหรับพืชควบคุมเฉพาะ
+- ระบบ Health Certificate ตามประกาศพืชควบคุมเฉพาะ
   Health Certificate Issuance System for Controlled Plants
-- ระบบการออกหนังสือรับรองสุขอนามัยพืชสำหรับสินค้าแปรรูปด้านพืช
+- ระบบ Health Certificate สินค้าแปรรูปด้านพืช
   Health Certificate Issuance System for Processed Plant Products
 - ระบบบัญชีรายชื่อโรงคัดบรรจุสินค้าพืช (ระบบควบคุมพิเศษ)
   Establishment List System for Plant Packing Houses

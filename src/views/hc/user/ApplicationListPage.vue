@@ -262,6 +262,22 @@
                 </v-btn>
               </template>
             </v-tooltip>
+            <v-btn
+              v-if="item.status === 'pending_payment'"
+              size="small"
+              variant="tonal"
+              color="purple"
+              rounded="lg"
+              prepend-icon="fas fa-money-bill-wave"
+              @click.stop="
+                router.push({
+                  name: 'HCUserPayment',
+                  params: { id: item.requestNo },
+                })
+              "
+            >
+              ชำระเงิน
+            </v-btn>
           </div>
         </template>
       </v-data-table>
@@ -346,6 +362,7 @@ const statusOptions = [
   { label: "ตรวจ Lab", value: "testing" },
   { label: "รอพิจารณา", value: "pending_approval" },
   { label: "อนุมัติแล้ว", value: "approved" },
+  { label: "รอชำระเงิน", value: "pending_payment" },
   { label: "ต้องแก้ไข", value: "correction_required" },
   { label: "รับใบรับรองแล้ว", value: "completed" },
   { label: "ไม่อนุมัติ", value: "rejected" },
@@ -448,6 +465,18 @@ const allApplications = [
     submittedDate: "2024-12-20",
     status: "completed",
   },
+  {
+    id: "HC-014",
+    requestNo: "HC-00044",
+    exporterNo: "EXP-2568-00789",
+    product: "ลำไย",
+    destination: "จีน",
+    certType: "All",
+    type: "new",
+    submittedAt: "18 ม.ค. 68",
+    submittedDate: "2025-01-18",
+    status: "pending_payment",
+  },
 ];
 
 const filteredItems = computed(() => {
@@ -480,7 +509,7 @@ const filteredItems = computed(() => {
 
   if (activeTab.value === "in_progress")
     items = items.filter((i) =>
-      ["submitted", "under_review", "testing", "pending_approval"].includes(
+      ["submitted", "under_review", "testing", "pending_approval", "pending_payment"].includes(
         i.status,
       ),
     );
@@ -515,6 +544,7 @@ function getStatusColor(s) {
     testing: "secondary",
     pending_approval: "success",
     approved: "success",
+    pending_payment: "purple",
     correction_required: "error",
     completed: "success",
     rejected: "error",
@@ -529,6 +559,7 @@ function getStatusLabel(s) {
     testing: "ตรวจ Lab",
     pending_approval: "รอพิจารณา",
     approved: "อนุมัติแล้ว",
+    pending_payment: "รอชำระเงิน",
     completed: "รับใบรับรองแล้ว",
     correction_required: "ต้องแก้ไข",
     rejected: "ไม่อนุมัติ",

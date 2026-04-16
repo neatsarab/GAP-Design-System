@@ -23,7 +23,7 @@
         <v-list-item-title
           class="text-body-2 font-weight-bold"
           style="word-break: break-word; white-space: normal"
-          >ระบบการออกหนังสือรับรองสุขอนามัยพืชสำหรับสินค้าแปรรูปด้านพืช</v-list-item-title
+          >ระบบ Health Certificate สินค้าแปรรูปด้านพืช</v-list-item-title
         >
         <v-list-item-subtitle
           class="text-caption"
@@ -304,7 +304,7 @@ function doLogout() {
 
 const breadcrumbs = computed(() => [
   {
-    title: "ระบบการออกหนังสือรับรองสุขอนามัยพืชสำหรับสินค้าแปรรูปด้านพืช",
+    title: "ระบบ Health Certificate สินค้าแปรรูปด้านพืช",
     to: "/hcex/staff",
   },
   { title: route.meta.title },
@@ -326,48 +326,53 @@ const navGroups = [
     label: "คำขอ",
     divider: true,
     items: [
-      {
-        title: "คำขอทะเบียนประวัติ",
-        icon: "fas fa-clock-rotate-left",
-        to: "/hcex/staff/history-applications",
-        count: 5,
-      },
-      {
-        title: "คำขอพิจารณาผล Lab",
-        icon: "fas fa-flask",
-        to: "/hcex/staff/lab-applications",
-        count: 6,
-      },
-      {
-        title: "รายการรอตรวจ LAB",
-        icon: "fas fa-microscope",
-        to: "/hcex/staff/lab-waiting",
-        count: 3,
-      },
+      // {
+      //   title: "คำขอทะเบียนประวัติ",
+      //   icon: "fas fa-clock-rotate-left",
+      //   to: "/hcex/staff/history-applications",
+      //   count: 5,
+      // },
+      // {
+      //   title: "คำขอพิจารณาผล Lab",
+      //   icon: "fas fa-flask",
+      //   to: "/hcex/staff/lab-applications",
+      //   count: 6,
+      // },
+      // {
+      //   title: "รายการรอตรวจ LAB",
+      //   icon: "fas fa-microscope",
+      //   to: "/hcex/staff/lab-waiting",
+      //   count: 3,
+      // },
       {
         title: "รายการคำขอ",
         icon: "fas fa-file-lines",
         to: "/hcex/staff/applications",
         count: 11,
       },
-      {
-        title: "รายการรอพิจารณา",
-        icon: "fas fa-clipboard-check",
-        to: "/hcex/staff/reviews",
-        count: 2,
-      },
-      {
-        title: "รายการรอลงนาม",
-        icon: "fas fa-pen-nib",
-        to: "/hcex/staff/signing",
-        count: 1,
-      },
+      // {
+      //   title: "รายการรอพิจารณา",
+      //   icon: "fas fa-clipboard-check",
+      //   to: "/hcex/staff/reviews",
+      //   count: 2,
+      // },
+      // {
+      //   title: "รายการรอลงนาม",
+      //   icon: "fas fa-pen-nib",
+      //   to: "/hcex/staff/signing",
+      //   count: 1,
+      // },
     ],
   },
   {
     label: "ใบทะเบียน",
     divider: true,
     items: [
+      {
+        title: "รายการทะเบียนประวัติ",
+        icon: "fas fa-clock-rotate-left",
+        to: "/hcex/staff/history-registry",
+      },
       {
         title: "รายการใบทะเบียน",
         icon: "fas fa-certificate",

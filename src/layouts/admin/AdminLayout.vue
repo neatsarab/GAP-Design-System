@@ -318,6 +318,16 @@ const navGroups = computed(() => {
       divider: false,
       items: [
         {
+          title: "User Management",
+          icon: "fas fa-users-gear",
+          to: "/admin/staff-management",
+        },
+        {
+          title: "Masterdata",
+          icon: "fas fa-table-list",
+          to: "/admin/masterdata",
+        },
+        {
           title: "Data Backup",
           icon: "fas fa-database",
           to: "/admin/data-backup",
@@ -334,12 +344,23 @@ const navGroups = computed(() => {
   const ssoGroups = [
     {
       label: "จัดการคำขอ",
-      divider: false,
+      divider: true,
       items: [
         {
           title: "คำขอสมัครใช้งาน",
           icon: "fas fa-file-circle-check",
           to: "/admin/access-requests",
+        },
+      ],
+    },
+    {
+      label: "จัดการข้อมูล",
+      divider: false,
+      items: [
+        {
+          title: "Masterdata",
+          icon: "fas fa-table-list",
+          to: "/admin/masterdata",
         },
       ],
     },

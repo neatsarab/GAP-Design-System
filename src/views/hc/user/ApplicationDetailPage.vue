@@ -18,6 +18,21 @@
         </p>
       </div>
       <v-spacer />
+      <v-btn
+        v-if="app.status === 'pending_payment'"
+        color="purple"
+        variant="flat"
+        rounded="lg"
+        prepend-icon="fas fa-money-bill-wave"
+        @click="
+          router.push({
+            name: 'HCUserPayment',
+            params: { id: app.requestNo },
+          })
+        "
+      >
+        ชำระเงิน
+      </v-btn>
       <v-chip :color="statusColor(app.status)" variant="tonal">
         <v-icon :icon="statusIcon(app.status)" size="13" class="mr-1" />
         {{ statusLabel(app.status) }}
@@ -1336,9 +1351,10 @@ const statusStepMap = {
   correction_required: 1,
   testing: 1,
   pending_approval: 1,
-  approved: 1,
-  completed: 2,
-  rejected: 2,
+  approved: 2,
+  pending_payment: 2,
+  completed: 3,
+  rejected: 3,
 };
 
 const currentStep = computed(() => statusStepMap[app.value.status] ?? 0);
@@ -1346,7 +1362,8 @@ const currentStep = computed(() => statusStepMap[app.value.status] ?? 0);
 const timelineSteps = [
   { value: 0, title: "ยื่นคำขอ" },
   { value: 1, title: "รอพิจารณา" },
-  { value: 2, title: "ผลการพิจารณา" },
+  { value: 2, title: "ชำระเงิน" },
+  { value: 3, title: "ผลการพิจารณา" },
 ];
 
 function stepClass(v) {
@@ -1362,6 +1379,7 @@ function statusColor(s) {
     testing: "secondary",
     pending_approval: "primary",
     approved: "success",
+    pending_payment: "purple",
     completed: "success",
     correction_required: "error",
     rejected: "error",
@@ -1389,7 +1407,8 @@ function statusLabel(s) {
     under_review: "อยู่ระหว่างตรวจสอบ",
     testing: "ตรวจ Lab",
     pending_approval: "รอพิจารณา",
-    approved: "อนุมัติ — รอชำระเงิน",
+    approved: "อนุมัติแล้ว",
+    pending_payment: "รอชำระเงิน",
     completed: "รับใบรับรองแล้ว",
     correction_required: "ต้องแก้ไข",
     rejected: "ไม่อนุมัติ",

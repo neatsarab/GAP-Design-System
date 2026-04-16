@@ -354,8 +354,24 @@
                 </v-btn>
               </template>
             </v-tooltip>
+            <v-btn
+              v-if="item.status === 'pending_payment'"
+              size="small"
+              variant="tonal"
+              color="purple"
+              rounded="lg"
+              prepend-icon="fas fa-money-bill-wave"
+              @click.stop="
+                router.push({
+                  name: 'HCEXUserPayment',
+                  params: { id: item.requestNo },
+                })
+              "
+            >
+              ชำระเงิน
+            </v-btn>
             <v-tooltip
-              v-if="item.status !== 'approved'"
+              v-if="!['approved', 'pending_payment'].includes(item.status)"
               text="ยกเลิก"
               location="top"
             >
@@ -447,6 +463,7 @@ const statusOptions = [
   { label: "รอแก้ไขคำขอ", value: "need_edit" },
   { label: "รอพิจารณา", value: "reviewing" },
   { label: "รอลงนาม", value: "signing" },
+  { label: "รอชำระเงิน", value: "pending_payment" },
   { label: "ได้รับอนุญาต", value: "approved" },
 ];
 
@@ -491,6 +508,14 @@ const allItems = [
     applicant: "บ.ไทย เอ็กซ์พอร์ต จก.",
     submittedDate: "12/03/2569",
     status: "signing",
+  },
+  {
+    requestNo: "HC-0007",
+    typecert: "ใบรับรองสุขอนามัยพืช สินค้าแปรรูปด้านพืช (กมพ.1)",
+    type: "ขึ้นทะเบียน",
+    applicant: "บ.ไทย เอ็กซ์พอร์ต จก.",
+    submittedDate: "25/02/2569",
+    status: "pending_payment",
   },
   {
     requestNo: "HC-0005",
@@ -593,6 +618,7 @@ function statusColor(s) {
       need_edit: "warning",
       reviewing: "info",
       signing: "info",
+      pending_payment: "purple",
       approved: "success",
     }[s] ?? "grey"
   );
@@ -606,6 +632,7 @@ function statusLabel(s) {
       need_edit: "รอแก้ไขคำขอ",
       reviewing: "รอพิจารณา",
       signing: "รอลงนาม",
+      pending_payment: "รอชำระเงิน",
       approved: "ได้รับอนุญาต",
     }[s] ?? s
   );

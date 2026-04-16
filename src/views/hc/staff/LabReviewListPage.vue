@@ -4,7 +4,7 @@
       <div>
         <h1 class="page-title mb-1">รายการรอพิจารณาผล Lab</h1>
         <p class="text-body-2 text-medium-emphasis mb-0">
-          ระบบการออกหนังสือรับรองสุขอนามัยพืชสำหรับพืชควบคุมเฉพาะ
+          ระบบ Health Certificate ตามประกาศพืชควบคุมเฉพาะ
         </p>
       </div>
     </div>

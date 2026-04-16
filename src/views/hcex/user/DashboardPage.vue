@@ -4,7 +4,7 @@
       <div>
         <h1 class="page-title mb-1">แดชบอร์ด</h1>
         <p class="text-body-2 text-medium-emphasis mb-0">
-          ภาพรวมระบบการออกหนังสือรับรองสุขอนามัยพืชสำหรับสินค้าแปรรูปด้านพืช
+          ภาพรวมระบบ Health Certificate สินค้าแปรรูปด้านพืช
         </p>
       </div>
       <v-btn

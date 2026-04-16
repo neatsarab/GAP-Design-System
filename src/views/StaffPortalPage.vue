@@ -80,7 +80,7 @@
             <template #activator="{ props }">
               <div class="user-pill d-flex align-center ga-2" v-bind="props">
                 <div class="user-avatar-sm">
-                  <v-icon icon="fas fa-user" size="14" />       
+                  <v-icon icon="fas fa-user" size="14" />
                 </div>
                 <div class="d-none d-sm-block">
                   <div
@@ -520,7 +520,7 @@ const systems = [
   },
   {
     id: 3,
-    name: "ระบบการขึ้นทะเบียนโรงงานผลิตสินค้าพืช กรมวิชาการเกษตร",
+    name: "ระบบการขึ้นทะเบียนโรงงานผลิตสินค้าพืช (DOA)",
     desc: "ยื่นคำขอ ตรวจสอบ และอนุมัติการขึ้นทะเบียนโรงงานผลิตหรือแปรรูปสินค้าพืชกับกรมวิชาการเกษตร",
     icon: "fas fa-industry",
     color: "doa-staff",
@@ -550,7 +550,7 @@ const systems = [
   },
   {
     id: 6,
-    name: "ระบบการออกหนังสือรับรองสุขอนามัยพืชสำหรับพืชควบคุมเฉพาะ",
+    name: "ระบบ Health Certificate ตามประกาศพืชควบคุมเฉพาะ",
     desc: "ยื่นคำขอ ตรวจสอบ และออกใบรับรองสุขอนามัยพืชสำหรับพืชควบคุมเฉพาะ",
     icon: "fas fa-virus",
     color: "hc-staff",
@@ -560,7 +560,7 @@ const systems = [
   },
   {
     id: 7,
-    name: "ระบบการออกหนังสือรับรองสุขอนามัยพืชสำหรับสินค้าแปรรูปด้านพืช",
+    name: "ระบบ Health Certificate สินค้าแปรรูปด้านพืช",
     desc: "ยื่นคำขอและออกใบรับรองสุขอนามัยพืชสำหรับสินค้าแปรรูปด้านพืชเพื่อการส่งออก",
     icon: "fas fa-file-medical",
     color: "hcex-staff",

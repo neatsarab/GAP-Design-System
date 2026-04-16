@@ -530,7 +530,7 @@ requiredRoles: ['FARMER', 'GROUP_ADMIN', 'staff', 'ADMIN'],
 },
 {
 id: 'health-cert-controlled',
-title: 'ระบบการออกหนังสือรับรองสุขอนามัยพืชสำหรับพืชควบคุมเฉพาะ',
+title: 'ระบบ Health Certificate ตามประกาศพืชควบคุมเฉพาะ',
 titleEn: 'Health Certificate — Controlled Plants',
 description: 'ออก Health Certificate ตามประกาศพืชควบคุมเฉพาะ',
 icon: 'mdi-file-certificate',

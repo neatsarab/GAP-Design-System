@@ -1156,6 +1156,7 @@ const timelineSteps = [
   { value: 2, title: "พิจารณา Lab" },
   { value: 3, title: "พิจารณา" },
   { value: 4, title: "ลงนาม" },
+  { value: 5, title: "ชำระเงิน" },
 ];
 
 function stepClass(v) {

@@ -294,98 +294,7 @@
 
           <!-- Tab 2: บันทึกผล LAB -->
           <v-window-item value="record">
-            <!-- ส่วนที่บันทึกแล้วโดยเจ้าหน้าที่อื่น (read-only) -->
-            <template v-for="t in application.labType" :key="t">
-              <template v-if="recordedResults[t]">
-                <v-card
-                  rounded="xl"
-                  elevation="0"
-                  class="section-card mb-4 recorded-card"
-                >
-                  <div
-                    class="section-header px-4 py-3 border-b d-flex align-center ga-2"
-                  >
-                    <v-icon
-                      :icon="labTypeIcon(t)"
-                      :color="labTypeColor(t)"
-                      size="15"
-                    />
-                    <span class="text-subtitle-2 font-weight-bold">
-                      ผลการตรวจ{{ labTypeLabel(t) }}
-                    </span>
-                    <v-chip
-                      :color="labTypeColor(t)"
-                      variant="tonal"
-                      size="x-small"
-                      class="ml-1"
-                    >
-                      {{ labTypeLabel(t) }}
-                    </v-chip>
-                    <v-spacer />
-                    <v-chip color="success" variant="tonal" size="x-small">
-                      <v-icon
-                        icon="fas fa-circle-check"
-                        size="10"
-                        class="mr-1"
-                      />
-                      บันทึกแล้ว
-                    </v-chip>
-                  </div>
-                  <v-card-text class="pa-5">
-                    <div class="d-flex align-center ga-2 mb-3">
-                      <v-icon
-                        icon="fas fa-user"
-                        size="12"
-                        color="medium-emphasis"
-                      />
-                      <span class="text-caption text-medium-emphasis">
-                        บันทึกโดย:
-                        <strong>{{ recordedResults[t].recordedBy }}</strong>
-                      </span>
-                      <v-icon
-                        icon="fas fa-calendar"
-                        size="12"
-                        color="medium-emphasis"
-                        class="ml-2"
-                      />
-                      <span class="text-caption text-medium-emphasis">{{
-                        recordedResults[t].recordedAt
-                      }}</span>
-                    </div>
-                    <div class="recorded-text rounded-lg pa-3">
-                      {{ recordedResults[t].result }}
-                    </div>
-                    <div v-if="recordedResults[t].fileName" class="mt-3">
-                      <div
-                        class="item-row rounded-lg px-3 py-2 d-flex align-center justify-space-between"
-                      >
-                        <div class="d-flex align-center ga-2">
-                          <v-icon
-                            icon="fas fa-file-pdf"
-                            color="error"
-                            size="16"
-                          />
-                          <span class="text-body-2">{{
-                            recordedResults[t].fileName
-                          }}</span>
-                        </div>
-                        <v-btn
-                          size="x-small"
-                          variant="tonal"
-                          color="hcex-staff"
-                          rounded="lg"
-                          prepend-icon="fas fa-download"
-                        >
-                          ดาวน์โหลด
-                        </v-btn>
-                      </div>
-                    </div>
-                  </v-card-text>
-                </v-card>
-              </template>
-            </template>
-
-            <!-- ส่วนที่เจ้าหน้าที่จุลต้องบันทึก (editable) -->
+            <!-- ส่วนที่เจ้าหน้าที่ต้องบันทึก (editable) — อยู่บนสุด -->
             <v-card rounded="xl" elevation="0" class="section-card mb-4">
               <div
                 class="section-header px-4 py-3 border-b d-flex align-center ga-2"
@@ -432,8 +341,120 @@
               </v-card-text>
             </v-card>
 
+            <!-- ส่วนที่บันทึกแล้วโดยเจ้าหน้าที่อื่น (read-only, collapsible) -->
+            <template v-for="t in application.labType" :key="t">
+              <template v-if="recordedResults[t]">
+                <v-card
+                  rounded="xl"
+                  elevation="0"
+                  class="section-card mb-4 recorded-card"
+                >
+                  <div
+                    class="section-header px-4 py-3 d-flex align-center ga-2"
+                    :class="{ 'border-b': !collapsedResults[t] }"
+                    style="cursor: pointer"
+                    @click="collapsedResults[t] = !collapsedResults[t]"
+                  >
+                    <v-icon
+                      :icon="labTypeIcon(t)"
+                      :color="labTypeColor(t)"
+                      size="15"
+                    />
+                    <span class="text-subtitle-2 font-weight-bold">
+                      ผลการตรวจ{{ labTypeLabel(t) }}
+                    </span>
+                    <v-chip
+                      :color="labTypeColor(t)"
+                      variant="tonal"
+                      size="x-small"
+                      class="ml-1"
+                    >
+                      {{ labTypeLabel(t) }}
+                    </v-chip>
+                    <v-spacer />
+                    <v-chip
+                      color="success"
+                      variant="tonal"
+                      size="x-small"
+                      class="mr-2"
+                    >
+                      <v-icon
+                        icon="fas fa-circle-check"
+                        size="10"
+                        class="mr-1"
+                      />
+                      บันทึกแล้ว
+                    </v-chip>
+                    <v-btn
+                      :icon="
+                        collapsedResults[t]
+                          ? 'fas fa-chevron-down'
+                          : 'fas fa-chevron-up'
+                      "
+                      variant="text"
+                      size="x-small"
+                      color="medium-emphasis"
+                      @click.stop="collapsedResults[t] = !collapsedResults[t]"
+                    />
+                  </div>
+                  <v-expand-transition>
+                    <v-card-text v-show="!collapsedResults[t]" class="pa-5">
+                      <div class="d-flex align-center ga-2 mb-3">
+                        <v-icon
+                          icon="fas fa-user"
+                          size="12"
+                          color="medium-emphasis"
+                        />
+                        <span class="text-caption text-medium-emphasis">
+                          บันทึกโดย:
+                          <strong>{{ recordedResults[t].recordedBy }}</strong>
+                        </span>
+                        <v-icon
+                          icon="fas fa-calendar"
+                          size="12"
+                          color="medium-emphasis"
+                          class="ml-2"
+                        />
+                        <span class="text-caption text-medium-emphasis">{{
+                          recordedResults[t].recordedAt
+                        }}</span>
+                      </div>
+                      <div class="recorded-text rounded-lg pa-3">
+                        {{ recordedResults[t].result }}
+                      </div>
+                      <div v-if="recordedResults[t].fileName" class="mt-3">
+                        <div
+                          class="item-row rounded-lg px-3 py-2 d-flex align-center justify-space-between"
+                        >
+                          <div class="d-flex align-center ga-2">
+                            <v-icon
+                              icon="fas fa-file-pdf"
+                              color="error"
+                              size="16"
+                            />
+                            <span class="text-body-2">{{
+                              recordedResults[t].fileName
+                            }}</span>
+                          </div>
+                          <v-btn
+                            size="x-small"
+                            variant="tonal"
+                            color="hcex-staff"
+                            rounded="lg"
+                            prepend-icon="fas fa-download"
+                          >
+                            ดาวน์โหลด
+                          </v-btn>
+                        </div>
+                      </div>
+                    </v-card-text>
+                  </v-expand-transition>
+                </v-card>
+              </template>
+            </template>
+
             <!-- Submit button -->
-            <div class="d-flex justify-end mt-2">
+            <div class="d-flex justify-end mt-2 mb-6">
               <v-btn
                 color="hcex-staff"
                 rounded="lg"
@@ -625,6 +646,11 @@ const recordedResults = {
     fileName: "LabReport_Chem_LABW0001.pdf",
   },
 };
+
+// collapsed state: true = หุบ (default), false = ขยาย
+const collapsedResults = reactive(
+  Object.fromEntries(Object.keys(recordedResults).map((k) => [k, true])),
+);
 
 const application = {
   requestNo: "LABW-0001",
