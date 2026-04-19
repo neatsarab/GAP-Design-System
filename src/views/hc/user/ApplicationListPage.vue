@@ -4,7 +4,7 @@
       <div>
         <h1 class="page-title mb-1">รายการคำขอ</h1>
         <p class="text-body-2 text-medium-emphasis mb-0">
-          การออกหนังสือรับรองสุขอนามัยพืชสำหรับพืชควบคุมเฉพาะ
+          การออกใบรับรองสุขอนามัยสำหรับพืชควบคุมเฉพาะ
         </p>
       </div>
       <v-btn
@@ -509,9 +509,13 @@ const filteredItems = computed(() => {
 
   if (activeTab.value === "in_progress")
     items = items.filter((i) =>
-      ["submitted", "under_review", "testing", "pending_approval", "pending_payment"].includes(
-        i.status,
-      ),
+      [
+        "submitted",
+        "under_review",
+        "testing",
+        "pending_approval",
+        "pending_payment",
+      ].includes(i.status),
     );
   else if (activeTab.value !== "all")
     items = items.filter((i) => i.status === activeTab.value);

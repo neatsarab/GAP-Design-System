@@ -24,9 +24,7 @@
             >
               <v-icon icon="fas fa-file-shield" color="hc-staff" size="32" />
             </div>
-            <h3 class="text-h6 font-weight-bold mb-2">
-              ขอใบรับรองสุขอนามัยพืช
-            </h3>
+            <h3 class="text-h6 font-weight-bold mb-2">ขอใบรับรองสุขอนามัย</h3>
             <p class="text-body-2 text-medium-emphasis mb-4">
               สำหรับพืชที่อยู่ภายใต้ประกาศพืชควบคุมเฉพาะ เพื่อการส่งออก
             </p>
@@ -62,7 +60,7 @@
               <v-icon icon="fas fa-file-pen" color="secondary" size="32" />
             </div>
             <h3 class="text-h6 font-weight-bold mb-2">
-              ขอแก้ไขใบรับรองสุขอนามัยพืช
+              ขอแก้ไขใบรับรองสุขอนามัย
             </h3>
             <p class="text-body-2 text-medium-emphasis mb-4">
               แก้ไขข้อมูลในใบรับรองที่ออกแล้ว เช่น ชื่อผู้รับสินค้า

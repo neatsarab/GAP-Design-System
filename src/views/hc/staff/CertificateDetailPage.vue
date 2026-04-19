@@ -18,6 +18,15 @@
         </p>
       </div>
       <v-spacer />
+      <v-btn
+        variant="tonal"
+        color="info"
+        rounded="lg"
+        size="small"
+        prepend-icon="fas fa-file-pdf"
+      >
+        พิมพ์ PDF
+      </v-btn>
       <v-chip :color="certStatusColor(cert.status)" variant="tonal">
         <v-icon :icon="certStatusIcon(cert.status)" size="13" class="mr-1" />
         {{ certStatusLabel(cert.status) }}
@@ -184,9 +193,7 @@
               <tr v-for="(exp, i) in appData.exporters" :key="i">
                 <td class="text-body-2 text-medium-emphasis">{{ i + 1 }}</td>
                 <td>
-                  <div
-                    class="text-body-2 font-weight-bold text-export-staff"
-                  >
+                  <div class="text-body-2 font-weight-bold text-export-staff">
                     {{ exp.regNo }}
                   </div>
                   <div class="text-caption text-medium-emphasis">
@@ -246,9 +253,7 @@
         <v-card rounded="xl" elevation="0" class="section-card mb-4">
           <div class="section-header px-4 py-3 d-flex align-center ga-2">
             <v-icon icon="fas fa-flask" color="hc-staff" size="15" />
-            <span class="text-subtitle-2 font-weight-bold"
-              >การส่งตรวจ Lab</span
-            >
+            <span class="text-subtitle-2 font-weight-bold">การส่งตรวจ Lab</span>
           </div>
           <v-card-text class="pa-4">
             <v-row dense>
@@ -260,9 +265,7 @@
                     :color="appData.labTest === 'yes' ? 'hc-staff' : 'grey'"
                     variant="tonal"
                   >
-                    {{
-                      appData.labTest === "yes" ? "ส่ง Lab" : "ไม่ส่ง Lab"
-                    }}
+                    {{ appData.labTest === "yes" ? "ส่ง Lab" : "ไม่ส่ง Lab" }}
                   </v-chip>
                 </div>
               </v-col>
@@ -351,12 +354,12 @@
           </v-card-text>
         </v-card>
 
-        <!-- รายละเอียดการส่งออกสินค้า -->
+        <!-- รายละเอียดการส่งออกสินค้า (พก.11.1) -->
         <v-card rounded="xl" elevation="0" class="section-card mb-4">
           <div class="section-header px-4 py-3 d-flex align-center ga-2">
             <v-icon icon="fas fa-file-export" color="hc-staff" size="15" />
             <span class="text-subtitle-2 font-weight-bold"
-              >รายละเอียดการส่งออกสินค้า</span
+              >รายละเอียดการส่งออกสินค้า (พก.11.1)</span
             >
           </div>
           <v-table density="compact" class="pa-2">
@@ -382,16 +385,35 @@
                   {{ d.weight.toLocaleString() }}
                 </td>
                 <td>
-                  <v-btn
-                    size="x-small"
-                    variant="tonal"
-                    color="hc-staff"
-                    rounded="lg"
-                    prepend-icon="fas fa-circle-info"
-                    @click="openExportDetail(d)"
-                  >
-                    รายละเอียด
-                  </v-btn>
+                  <div class="d-flex ga-1 justify-end">
+                    <v-tooltip text="ดูข้อมูล" location="top">
+                      <template #activator="{ props }">
+                        <v-btn
+                          v-bind="props"
+                          icon
+                          size="x-small"
+                          variant="text"
+                          color="hc-staff"
+                          @click="openExportDetail(d)"
+                        >
+                          <v-icon icon="fas fa-eye" size="14" />
+                        </v-btn>
+                      </template>
+                    </v-tooltip>
+                    <v-tooltip text="ดาวน์โหลด" location="top">
+                      <template #activator="{ props }">
+                        <v-btn
+                          v-bind="props"
+                          icon
+                          size="x-small"
+                          variant="text"
+                          color="hc-staff"
+                        >
+                          <v-icon icon="fas fa-download" size="14" />
+                        </v-btn>
+                      </template>
+                    </v-tooltip>
+                  </div>
                 </td>
               </tr>
             </tbody>
@@ -559,7 +581,7 @@
             </div>
             <div>
               <div class="text-subtitle-2 font-weight-bold">
-                รายละเอียดการส่งออกสินค้า
+                รายละเอียดการส่งออกสินค้า (พก.11.1)
               </div>
               <div class="text-caption text-medium-emphasis">
                 Export Details

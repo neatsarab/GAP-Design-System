@@ -18,6 +18,15 @@
         </p>
       </div>
       <v-spacer />
+      <v-btn
+        variant="tonal"
+        color="info"
+        rounded="lg"
+        size="small"
+        prepend-icon="fas fa-file-pdf"
+      >
+        พิมพ์ PDF
+      </v-btn>
       <v-chip :color="statusColor(app.status)" variant="tonal">
         <v-icon :icon="statusIcon(app.status)" size="13" class="mr-1" />
         {{ statusLabel(app.status) }}
@@ -424,12 +433,12 @@
               </v-card-text>
             </v-card>
 
-            <!-- รายละเอียดการส่งออกสินค้า -->
+            <!-- รายละเอียดการส่งออกสินค้า (พก.11.1) -->
             <v-card rounded="xl" elevation="0" class="section-card mb-4">
               <div class="section-header px-4 py-3 d-flex align-center ga-2">
                 <v-icon icon="fas fa-file-export" color="hc-staff" size="15" />
                 <span class="text-subtitle-2 font-weight-bold"
-                  >รายละเอียดการส่งออกสินค้า</span
+                  >รายละเอียดการส่งออกสินค้า (พก.11.1)</span
                 >
               </div>
               <v-table density="compact" class="pa-2">
@@ -455,15 +464,35 @@
                     <td class="text-body-2">{{ d.exporterName }}</td>
                     <td class="text-body-2">{{ d.weight.toLocaleString() }}</td>
                     <td>
-                      <v-btn
-                        size="x-small"
-                        variant="tonal"
-                        color="hc-staff"
-                        rounded="lg"
-                        prepend-icon="fas fa-circle-info"
-                        @click="openExportDetail(d)"
-                        >รายละเอียด</v-btn
-                      >
+                      <div class="d-flex ga-1 justify-end">
+                        <v-tooltip text="ดูข้อมูล" location="top">
+                          <template #activator="{ props }">
+                            <v-btn
+                              v-bind="props"
+                              icon
+                              size="x-small"
+                              variant="text"
+                              color="hc-staff"
+                              @click="openExportDetail(d)"
+                            >
+                              <v-icon icon="fas fa-eye" size="14" />
+                            </v-btn>
+                          </template>
+                        </v-tooltip>
+                        <v-tooltip text="ดาวน์โหลด" location="top">
+                          <template #activator="{ props }">
+                            <v-btn
+                              v-bind="props"
+                              icon
+                              size="x-small"
+                              variant="text"
+                              color="hc-staff"
+                            >
+                              <v-icon icon="fas fa-download" size="14" />
+                            </v-btn>
+                          </template>
+                        </v-tooltip>
+                      </div>
                     </td>
                   </tr>
                 </tbody>
@@ -520,9 +549,9 @@
           <v-window-item value="review">
             <v-card rounded="xl" elevation="0" class="section-card">
               <v-card-text class="pa-5">
-                <!-- ตารางรายละเอียดการส่งออกสินค้า -->
+                <!-- ตารางรายละเอียดการส่งออกสินค้า (พก.11.1) -->
                 <div class="field-label mb-2 mt-1">
-                  <div>ตารางรายละเอียดการส่งออกสินค้า</div>
+                  <div>ตารางรายละเอียดการส่งออกสินค้า (พก.11.1)</div>
                   <div class="field-label-en">Export Details</div>
                 </div>
                 <div class="text-caption text-medium-emphasis mb-2">
@@ -839,7 +868,7 @@
             </div>
             <div>
               <div class="text-subtitle-2 font-weight-bold">
-                รายละเอียดการส่งออกสินค้า
+                รายละเอียดการส่งออกสินค้า (พก.11.1)
               </div>
               <div class="text-caption text-medium-emphasis">
                 Export Details
@@ -1330,7 +1359,7 @@ function previewCertPdf(i = 0) {
   <div class="border-box">
     <div class="center">
       <div class="label">กรมวิชาการเกษตร • Department of Agriculture</div>
-      <div style="font-size:16pt;font-weight:700;margin:8px 0">หนังสือรับรองสุขอนามัยพืชสำหรับพืชควบคุมเฉพาะ</div>
+      <div style="font-size:16pt;font-weight:700;margin:8px 0">ใบรับรองสุขอนามัย สำหรับพืชควบคุมเฉพาะ</div>
       <div class="label">Health Certificate for Controlled Plants</div>
       <div class="watermark">ร่าง / DRAFT</div>
       <div class="cert-no">${no}</div>

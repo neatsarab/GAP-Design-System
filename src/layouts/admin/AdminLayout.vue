@@ -366,6 +366,33 @@ const navGroups = computed(() => {
     },
   ];
 
-  return adminStore.role === "adminsso" ? ssoGroups : sysadminGroups;
+  const elGroups = [
+    {
+      label: "จัดการคำขอ",
+      divider: true,
+      items: [
+        {
+          title: "คำขอสมัครใช้งาน",
+          icon: "fas fa-file-circle-check",
+          to: "/admin/access-requests",
+        },
+      ],
+    },
+    {
+      label: "จัดการข้อมูล",
+      divider: false,
+      items: [
+        {
+          title: "Masterdata",
+          icon: "fas fa-table-list",
+          to: "/admin/el-masterdata",
+        },
+      ],
+    },
+  ];
+
+  if (adminStore.role === "adminsso") return ssoGroups;
+  if (adminStore.role === "adminel") return elGroups;
+  return sysadminGroups;
 });
 </script>

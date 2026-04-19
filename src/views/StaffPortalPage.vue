@@ -306,9 +306,9 @@
                 >
                   {{ system.name }}
                 </h3>
-                <p class="text-body-2 text-medium-emphasis mb-4 flex-grow-1">
+                <!-- <p class="text-body-2 text-medium-emphasis mb-4 flex-grow-1">
                   {{ system.desc }}
-                </p>
+                </p> -->
 
                 <!-- Tags -->
                 <div class="d-flex flex-wrap ga-1 mb-4">
@@ -393,9 +393,9 @@
                 >
                   {{ system.name }}
                 </h3>
-                <p class="text-caption text-disabled mb-4 flex-grow-1">
+                <!-- <p class="text-caption text-disabled mb-4 flex-grow-1">
                   {{ system.desc }}
-                </p>
+                </p> -->
 
                 <div class="coming-soon-bar">
                   <v-icon icon="fas fa-clock" size="12" class="mr-1" />
@@ -500,83 +500,83 @@ const currentDate = new Date().toLocaleDateString("th-TH", {
 const systems = [
   {
     id: 1,
-    name: "ระบบการรับรองมาตรฐานการปฏิบัติทางการเกษตรที่ดีสำหรับพืช (GAP)",
-    desc: "ยื่นคำขอ ตรวจประเมิน และออกใบรับรองมาตรฐาน GAP ให้แก่เกษตรกรหรือผู้ประกอบการ",
+    name: "ระบบการรับรองมาตรฐาน GAP (Good Agricultural Practices) พืช",
+    desc: "ตรวจประเมิน พิจารณา และออกใบรับรองมาตรฐาน GAP ให้แก่เกษตรกรหรือผู้ประกอบการ",
     icon: "fas fa-seedling",
     color: "gap-staff",
     active: true,
     route: { name: "staffDashboard" },
-    tags: ["จัดการคำขอ", "ตรวจแปลง", "ออกใบรับรอง"],
+    tags: ["ตรวจประเมิน", "พิจารณาคำขอ", "ออกใบรับรอง"],
   },
   {
     id: 2,
-    name: "ระบบการรับรองมาตรฐานเกษตรอินทรีย์ (Organic Agriculture)",
-    desc: "ยื่นคำขอ ตรวจประเมิน และออกใบรับรองมาตรฐานเกษตรอินทรีย์ให้แก่แหล่งผลิต",
+    name: "ระบบการรับรองมาตรฐาน ORG (Organic Agriculture) พืช",
+    desc: "ตรวจประเมิน พิจารณา และออกใบรับรองมาตรฐานเกษตรอินทรีย์ให้แก่แหล่งผลิต",
     icon: "fas fa-leaf",
     color: "org-staff",
     active: true,
     route: { name: "ORGStaffDashboard" },
-    tags: ["ตรวจเอกสาร", "นัดตรวจแปลง", "รายงานผล"],
+    tags: ["ตรวจประเมิน", "พิจารณาคำขอ", "ออกใบรับรอง"],
   },
   {
     id: 3,
     name: "ระบบการขึ้นทะเบียนโรงงานผลิตสินค้าพืช (DOA)",
-    desc: "ยื่นคำขอ ตรวจสอบ และอนุมัติการขึ้นทะเบียนโรงงานผลิตหรือแปรรูปสินค้าพืชกับกรมวิชาการเกษตร",
+    desc: "ตรวจสอบ พิจารณา และอนุมัติการขึ้นทะเบียนโรงงานผลิตหรือแปรรูปสินค้าพืชกับกรมวิชาการเกษตร",
     icon: "fas fa-industry",
     color: "doa-staff",
     active: true,
     route: { name: "DOAStaffDashboard" },
-    tags: ["ตรวจเอกสาร", "นัดตรวจโรงงาน", "รายงานผล"],
+    tags: ["ตรวจสอบ", "พิจารณาคำขอ", "ออกใบทะเบียน"],
   },
   {
     id: 4,
-    name: "ระบบการขึ้นทะเบียนหน่วยรับรองโรงงานผลิตสินค้าพืช",
-    desc: "ยื่นคำขอและบริหารจัดการการขึ้นทะเบียนหน่วยรับรองที่ทำหน้าที่ตรวจประเมินโรงงานผลิตสินค้าพืช",
+    name: "ระบบการขึ้นทะเบียนหน่วยรับรองโรงงานผลิตสินค้าพืช (Certification Body : CB)",
+    desc: "ตรวจสอบและบริหารจัดการการขึ้นทะเบียนหน่วยรับรองที่ทำหน้าที่ตรวจประเมินโรงงานผลิตสินค้าพืช",
     icon: "fas fa-certificate",
     color: "cb-staff",
     active: true,
     route: { name: "CBStaffDashboard" },
-    tags: ["ตรวจเอกสาร", "ตรวจประเมิน CB", "รายงานผล"],
+    tags: ["ตรวจสอบ", "พิจารณาคำขอ", "ออกใบทะเบียน"],
   },
   {
     id: 5,
-    name: "ระบบการจดทะเบียนผู้ส่งออกสินค้าพืช",
-    desc: "ยื่นคำขอและขึ้นทะเบียนเป็นผู้ส่งออกสินค้าพืชกับกรมวิชาการเกษตร",
+    name: "ระบบจดทะเบียนผู้ส่งออก",
+    desc: "ตรวจสอบและพิจารณาคำขอขึ้นทะเบียนเป็นผู้ส่งออกสินค้าพืชกับกรมวิชาการเกษตร",
     icon: "fas fa-ship",
     color: "export-staff",
     active: true,
     route: { name: "ExportStaffDashboard" },
-    tags: ["ตรวจเอกสาร", "ตรวจสอบทะเบียน", "รายงานผล"],
+    tags: ["ตรวจสอบ", "พิจารณาคำขอ", "ออกใบทะเบียน"],
   },
   {
     id: 6,
     name: "ระบบ Health Certificate ตามประกาศพืชควบคุมเฉพาะ",
-    desc: "ยื่นคำขอ ตรวจสอบ และออกใบรับรองสุขอนามัยพืชสำหรับพืชควบคุมเฉพาะ",
+    desc: "ตรวจสอบและออกใบรับรองสุขอนามัย สำหรับพืชควบคุมเฉพาะ",
     icon: "fas fa-virus",
     color: "hc-staff",
     active: true,
     route: { name: "HCstaffDashboard" },
-    tags: ["ตรวจสอบคำขอ", "ตรวจ Lab", "ลงนาม"],
+    tags: ["ตรวจสอบ", "พิจารณาคำขอ", "ออกใบรับรอง"],
   },
   {
     id: 7,
-    name: "ระบบ Health Certificate สินค้าแปรรูปด้านพืช",
-    desc: "ยื่นคำขอและออกใบรับรองสุขอนามัยพืชสำหรับสินค้าแปรรูปด้านพืชเพื่อการส่งออก",
+    name: "ระบบ Health Certificate สินค้าเกษตรแปรรูปด้านพืช",
+    desc: "ตรวจสอบและออกใบรับรองสุขอนามัย สำหรับสินค้าแปรรูปด้านพืชเพื่อการส่งออก",
     icon: "fas fa-file-medical",
     color: "hcex-staff",
     active: true,
     route: { name: "HCEXstaffDashboard" },
-    tags: ["ตรวจสอบคำขอ", "พิจารณา Lab", "ลงนาม"],
+    tags: ["ตรวจสอบ", "พิจารณาคำขอ", "ออกใบรับรอง"],
   },
   {
     id: 8,
-    name: "ระบบบัญชีรายชื่อโรงคัดบรรจุสินค้าพืช (ระบบควบคุมพิเศษ)",
+    name: "ระบบบัญชีรายชื่อโรงคัดบรรจุตามมาตรการควบคุมพิเศษ (Establishment List: EL)",
     desc: "บริหารจัดการบัญชีรายชื่อโรงคัดบรรจุที่ได้รับการอนุญาตสำหรับการส่งออกสินค้า",
     icon: "fas fa-warehouse",
     color: "el-staff",
     active: true,
     route: { name: "ELStaffDashboard" },
-    tags: ["ตรวจเอกสาร", "นัดตรวจแปลง", "บันทึกผล"],
+    tags: ["ตรวจสอบ", "พิจารณาคำขอ", "บัญชีรายชื่อ"],
   },
 ];
 

@@ -27,10 +27,11 @@
     <v-row>
       <!-- ── Left: certificate content ── -->
       <v-col cols="12" md="8">
-
         <!-- สถานะใบรับรอง -->
         <v-card rounded="xl" elevation="0" class="section-card mb-4">
-          <div class="section-header px-4 py-3 border-b d-flex align-center ga-2">
+          <div
+            class="section-header px-4 py-3 border-b d-flex align-center ga-2"
+          >
             <v-icon icon="fas fa-certificate" color="hcex-staff" size="15" />
             <span class="text-subtitle-2 font-weight-bold">สถานะใบรับรอง</span>
           </div>
@@ -38,7 +39,9 @@
             <v-row dense>
               <v-col cols="12" md="4">
                 <div class="info-label">เลขที่ใบรับรอง / Certificate No.</div>
-                <div class="info-value text-hcex-staff font-weight-bold">{{ cert.certNo }}</div>
+                <div class="info-value text-hcex-staff font-weight-bold">
+                  {{ cert.certNo }}
+                </div>
               </v-col>
               <v-col cols="12" md="4">
                 <div class="info-label">เลขคำขออ้างอิง / Request No.</div>
@@ -83,9 +86,13 @@
 
         <!-- ข้อมูลผู้ส่งออก / ผู้นำเข้า -->
         <v-card rounded="xl" elevation="0" class="section-card mb-4">
-          <div class="section-header px-4 py-3 border-b d-flex align-center ga-2">
+          <div
+            class="section-header px-4 py-3 border-b d-flex align-center ga-2"
+          >
             <v-icon icon="fas fa-user-tie" color="hcex-staff" size="15" />
-            <span class="text-subtitle-2 font-weight-bold">ข้อมูลผู้ส่งออก / ผู้นำเข้า</span>
+            <span class="text-subtitle-2 font-weight-bold"
+              >ข้อมูลผู้ส่งออก / ผู้นำเข้า</span
+            >
           </div>
           <v-card-text class="pa-4">
             <v-row dense>
@@ -93,15 +100,31 @@
                 <div class="info-label mb-1">Exporter Name and Address</div>
                 <div
                   class="info-value-block rounded-lg pa-3"
-                  style="background: rgba(var(--v-theme-surface-variant), 0.5); font-family: monospace; white-space: pre-wrap; text-transform: uppercase"
-                >{{ cert.exporterNameAddress }}</div>
+                  style="
+                    background: rgba(var(--v-theme-surface-variant), 0.5);
+                    font-family: monospace;
+                    white-space: pre-wrap;
+                    text-transform: uppercase;
+                  "
+                >
+                  {{ cert.exporterNameAddress }}
+                </div>
               </v-col>
               <v-col cols="12" md="6">
-                <div class="info-label mb-1">Consignee Name and Address Including Country</div>
+                <div class="info-label mb-1">
+                  Consignee Name and Address Including Country
+                </div>
                 <div
                   class="info-value-block rounded-lg pa-3"
-                  style="background: rgba(var(--v-theme-surface-variant), 0.5); font-family: monospace; white-space: pre-wrap; text-transform: uppercase"
-                >{{ cert.consigneeNameAddress }}</div>
+                  style="
+                    background: rgba(var(--v-theme-surface-variant), 0.5);
+                    font-family: monospace;
+                    white-space: pre-wrap;
+                    text-transform: uppercase;
+                  "
+                >
+                  {{ cert.consigneeNameAddress }}
+                </div>
               </v-col>
             </v-row>
           </v-card-text>
@@ -109,7 +132,9 @@
 
         <!-- ข้อมูลการขนส่ง -->
         <v-card rounded="xl" elevation="0" class="section-card mb-4">
-          <div class="section-header px-4 py-3 border-b d-flex align-center ga-2">
+          <div
+            class="section-header px-4 py-3 border-b d-flex align-center ga-2"
+          >
             <v-icon icon="fas fa-ship" color="hcex-staff" size="15" />
             <span class="text-subtitle-2 font-weight-bold">ข้อมูลการขนส่ง</span>
           </div>
@@ -128,16 +153,21 @@
                     size="x-small"
                     color="hcex-staff"
                     variant="tonal"
-                  >{{ m }}</v-chip>
+                    >{{ m }}</v-chip
+                  >
                 </div>
               </v-col>
               <v-col cols="12" md="3">
                 <div class="info-label">Country of Destination</div>
-                <div class="info-value">{{ cert.shipment.countryDestination }}</div>
+                <div class="info-value">
+                  {{ cert.shipment.countryDestination }}
+                </div>
               </v-col>
               <v-col cols="12" md="3">
                 <div class="info-label">Place of Departure</div>
-                <div class="info-value">{{ cert.shipment.placeOfDeparture }}</div>
+                <div class="info-value">
+                  {{ cert.shipment.placeOfDeparture }}
+                </div>
               </v-col>
               <v-col cols="12" md="6">
                 <div class="info-label">Vessel / Vehicle</div>
@@ -149,7 +179,9 @@
 
         <!-- ข้อมูลสินค้า -->
         <v-card rounded="xl" elevation="0" class="section-card mb-4">
-          <div class="section-header px-4 py-3 border-b d-flex align-center ga-2">
+          <div
+            class="section-header px-4 py-3 border-b d-flex align-center ga-2"
+          >
             <v-icon icon="fas fa-boxes-stacked" color="hcex-staff" size="15" />
             <span class="text-subtitle-2 font-weight-bold">ข้อมูลสินค้า</span>
           </div>
@@ -161,7 +193,9 @@
               </v-col>
               <v-col cols="12" md="3">
                 <div class="info-label">Analysis Report No.</div>
-                <div class="info-value text-hcex-staff font-weight-bold">{{ cert.goods.analysisReportNo }}</div>
+                <div class="info-value text-hcex-staff font-weight-bold">
+                  {{ cert.goods.analysisReportNo }}
+                </div>
               </v-col>
               <v-col cols="12" md="3">
                 <div class="info-label">Date</div>
@@ -175,8 +209,15 @@
                 <div class="info-label mb-1">Description of Goods</div>
                 <div
                   class="info-value-block rounded-lg pa-3"
-                  style="background: rgba(var(--v-theme-surface-variant), 0.5); font-family: monospace; white-space: pre-wrap; text-transform: uppercase"
-                >{{ cert.goods.descriptionOfGoods }}</div>
+                  style="
+                    background: rgba(var(--v-theme-surface-variant), 0.5);
+                    font-family: monospace;
+                    white-space: pre-wrap;
+                    text-transform: uppercase;
+                  "
+                >
+                  {{ cert.goods.descriptionOfGoods }}
+                </div>
               </v-col>
               <v-col cols="12" md="4">
                 <div class="info-label">Quantity (CTNS.)</div>
@@ -184,11 +225,15 @@
               </v-col>
               <v-col cols="12" md="4">
                 <div class="info-label">Weight N.W. / G.W.</div>
-                <div class="info-value">{{ cert.goods.weightNW }} / {{ cert.goods.weightGW }} KGS.</div>
+                <div class="info-value">
+                  {{ cert.goods.weightNW }} / {{ cert.goods.weightGW }} KGS.
+                </div>
               </v-col>
               <v-col cols="12" md="4">
                 <div class="info-label">Total Amount (USD)</div>
-                <div class="info-value font-weight-bold">{{ cert.goods.totalAmount }}</div>
+                <div class="info-value font-weight-bold">
+                  {{ cert.goods.totalAmount }}
+                </div>
               </v-col>
             </v-row>
           </v-card-text>
@@ -201,12 +246,17 @@
           elevation="0"
           class="section-card mb-4"
         >
-          <div class="section-header px-4 py-3 border-b d-flex align-center ga-2">
+          <div
+            class="section-header px-4 py-3 border-b d-flex align-center ga-2"
+          >
             <v-icon icon="fas fa-comment-dots" color="hcex-staff" size="15" />
             <span class="text-subtitle-2 font-weight-bold">Special Remark</span>
           </div>
           <v-card-text class="pa-4">
-            <div class="info-value" style="font-family: monospace; text-transform: uppercase">
+            <div
+              class="info-value"
+              style="font-family: monospace; text-transform: uppercase"
+            >
               {{ cert.specialRemark }}
             </div>
           </v-card-text>
@@ -214,7 +264,9 @@
 
         <!-- ลายเซ็นผู้ลงนาม -->
         <v-card rounded="xl" elevation="0" class="section-card mb-4">
-          <div class="section-header px-4 py-3 border-b d-flex align-center ga-2">
+          <div
+            class="section-header px-4 py-3 border-b d-flex align-center ga-2"
+          >
             <v-icon icon="fas fa-pen-nib" color="hcex-staff" size="15" />
             <span class="text-subtitle-2 font-weight-bold">การลงนาม</span>
           </div>
@@ -222,7 +274,9 @@
             <v-row dense>
               <v-col cols="12" md="6">
                 <div class="info-label">ผู้ลงนาม / Authorised Officer</div>
-                <div class="info-value font-weight-medium">{{ cert.signerName }}</div>
+                <div class="info-value font-weight-medium">
+                  {{ cert.signerName }}
+                </div>
               </v-col>
               <v-col cols="12" md="3">
                 <div class="info-label">ตำแหน่ง / Position</div>
@@ -238,7 +292,9 @@
 
         <!-- เอกสารแนบ -->
         <v-card rounded="xl" elevation="0" class="section-card mb-4">
-          <div class="section-header px-4 py-3 border-b d-flex align-center ga-2">
+          <div
+            class="section-header px-4 py-3 border-b d-flex align-center ga-2"
+          >
             <v-icon icon="fas fa-paperclip" color="hcex-staff" size="15" />
             <span class="text-subtitle-2 font-weight-bold">เอกสารแนบ</span>
           </div>
@@ -252,7 +308,9 @@
                 <v-icon icon="fas fa-file-pdf" color="error" size="16" />
                 <div>
                   <div class="text-body-2">{{ doc.label }}</div>
-                  <div class="text-caption text-medium-emphasis">{{ doc.docType }}</div>
+                  <div class="text-caption text-medium-emphasis">
+                    {{ doc.docType }}
+                  </div>
                 </div>
               </div>
               <v-btn
@@ -300,11 +358,22 @@
 
           <!-- ประวัติใบรับรอง -->
           <v-card rounded="xl" elevation="0" class="section-card">
-            <div class="section-header px-4 py-3 border-b d-flex align-center ga-2">
-              <v-icon icon="fas fa-clock-rotate-left" color="hcex-staff" size="15" />
-              <span class="text-subtitle-2 font-weight-bold">ประวัติใบรับรอง</span>
+            <div
+              class="section-header px-4 py-3 border-b d-flex align-center ga-2"
+            >
+              <v-icon
+                icon="fas fa-clock-rotate-left"
+                color="hcex-staff"
+                size="15"
+              />
+              <span class="text-subtitle-2 font-weight-bold"
+                >ประวัติใบรับรอง</span
+              >
             </div>
-            <v-card-text class="pa-4" style="max-height: 420px; overflow-y: auto">
+            <v-card-text
+              class="pa-4"
+              style="max-height: 420px; overflow-y: auto"
+            >
               <div class="activity-timeline">
                 <div
                   v-for="(event, i) in cert.activityLog"
@@ -312,26 +381,49 @@
                   class="activity-item"
                 >
                   <div class="activity-dot-wrap">
-                    <div class="activity-dot" :class="`activity-dot--${event.type}`">
-                      <v-icon :icon="eventIcon(event.type)" size="11" color="white" />
+                    <div
+                      class="activity-dot"
+                      :class="`activity-dot--${event.type}`"
+                    >
+                      <v-icon
+                        :icon="eventIcon(event.type)"
+                        size="11"
+                        color="white"
+                      />
                     </div>
-                    <div v-if="i < cert.activityLog.length - 1" class="activity-line" />
+                    <div
+                      v-if="i < cert.activityLog.length - 1"
+                      class="activity-line"
+                    />
                   </div>
                   <div class="activity-content pb-4">
                     <div class="d-flex align-center flex-wrap ga-1 mb-1">
-                      <span class="text-body-2 font-weight-medium">{{ event.action }}</span>
-                      <v-chip size="x-small" :color="eventColor(event.type)" variant="tonal">
+                      <span class="text-body-2 font-weight-medium">{{
+                        event.action
+                      }}</span>
+                      <v-chip
+                        size="x-small"
+                        :color="eventColor(event.type)"
+                        variant="tonal"
+                      >
                         {{ eventLabel(event.type) }}
                       </v-chip>
                     </div>
-                    <div v-if="event.remark" class="text-caption text-medium-emphasis mb-1">
+                    <div
+                      v-if="event.remark"
+                      class="text-caption text-medium-emphasis mb-1"
+                    >
                       {{ event.remark }}
                     </div>
                     <div class="text-caption text-medium-emphasis">
-                      <v-icon icon="fas fa-user" size="9" class="mr-1" />{{ event.actor }}
+                      <v-icon icon="fas fa-user" size="9" class="mr-1" />{{
+                        event.actor
+                      }}
                     </div>
                     <div class="text-caption text-medium-emphasis mt-1">
-                      <v-icon icon="fas fa-calendar" size="9" class="mr-1" />{{ event.timestamp }}
+                      <v-icon icon="fas fa-calendar" size="9" class="mr-1" />{{
+                        event.timestamp
+                      }}
                     </div>
                   </div>
                 </div>
@@ -353,14 +445,16 @@ const router = useRouter();
 const cert = {
   certNo: "HC-2569-001",
   requestNo: "HC-0001",
-  typecert: "กมพ.1 ใบรับรองสุขอนามัยพืชสำหรับสินค้าแปรรูปด้านพืช",
+  typecert: "กมพ.1 ใบรับรองสุขอนามัย สำหรับสินค้าแปรรูปด้านพืช",
   status: "active",
   issueDate: "20/02/2569",
   submittedDate: "01/01/2569",
   applicantName: "นายสมชาย ใจดี",
 
-  exporterNameAddress: "Thai Export Co., Ltd.\n88/1 Sukhumvit Rd., Bang Pakong,\nChachoengsao 24130, Thailand",
-  consigneeNameAddress: "Japan Importer Co., Ltd.\n1-2-3 Shinjuku, Shinjuku-ku,\nTokyo 160-0022, Japan",
+  exporterNameAddress:
+    "Thai Export Co., Ltd.\n88/1 Sukhumvit Rd., Bang Pakong,\nChachoengsao 24130, Thailand",
+  consigneeNameAddress:
+    "Japan Importer Co., Ltd.\n1-2-3 Shinjuku, Shinjuku-ku,\nTokyo 160-0022, Japan",
 
   shipment: {
     date: "15/02/2569",
@@ -371,11 +465,13 @@ const cert = {
   },
 
   goods: {
-    manufacturer: "Thai Export Co., Ltd. 88/1 Sukhumvit Rd., Bang Pakong, Chachoengsao",
+    manufacturer:
+      "Thai Export Co., Ltd. 88/1 Sukhumvit Rd., Bang Pakong, Chachoengsao",
     analysisReportNo: "LAB-2569-00123",
     analysisDate: "20/12/2568",
     shippingMark: "TE/JP/2569/001",
-    descriptionOfGoods: "Frozen Durian (Durio zibethinus Murr.)\nHS Code: 0811.90.90\nProduct of Thailand",
+    descriptionOfGoods:
+      "Frozen Durian (Durio zibethinus Murr.)\nHS Code: 0811.90.90\nProduct of Thailand",
     quantity: "500 CTNS.",
     weightNW: "10,000",
     weightGW: "11,500",
@@ -459,7 +555,7 @@ function downloadCertPdf() {
   <div class="border-box">
     <div class="center">
       <div class="label">กรมวิชาการเกษตร • Department of Agriculture, Thailand</div>
-      <div class="header-title">ใบรับรองสุขอนามัยพืชสำหรับสินค้าแปรรูปด้านพืช</div>
+      <div class="header-title">ใบรับรองสุขอนามัย สำหรับสินค้าแปรรูปด้านพืช</div>
       <div class="label">Phytosanitary Certificate for Processed Plant Products (กมพ.1)</div>
       <div class="cert-no">${cert.certNo}</div>
     </div>
@@ -482,7 +578,7 @@ function downloadCertPdf() {
       </div>
       <div>
         <div class="label">4. Mode of Transport</div>
-        <div class="value">${cert.shipment.modes.join(', ')}</div>
+        <div class="value">${cert.shipment.modes.join(", ")}</div>
       </div>
       <div>
         <div class="label">5. Country of Destination</div>
@@ -628,24 +724,50 @@ function eventLabel(type) {
 }
 
 /* Activity timeline */
-.activity-timeline { padding-left: 4px; }
-.activity-item { display: flex; gap: 16px; }
-.activity-dot-wrap { display: flex; flex-direction: column; align-items: center; }
+.activity-timeline {
+  padding-left: 4px;
+}
+.activity-item {
+  display: flex;
+  gap: 16px;
+}
+.activity-dot-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 .activity-dot {
-  width: 28px; height: 28px; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   flex-shrink: 0;
 }
-.activity-dot--submit   { background: rgb(var(--v-theme-hcex-staff)); }
-.activity-dot--forward  { background: rgb(var(--v-theme-success)); }
-.activity-dot--issue    { background: rgb(var(--v-theme-hcex-staff)); }
-.activity-dot--sendback { background: rgb(var(--v-theme-warning)); }
+.activity-dot--submit {
+  background: rgb(var(--v-theme-hcex-staff));
+}
+.activity-dot--forward {
+  background: rgb(var(--v-theme-success));
+}
+.activity-dot--issue {
+  background: rgb(var(--v-theme-hcex-staff));
+}
+.activity-dot--sendback {
+  background: rgb(var(--v-theme-warning));
+}
 .activity-line {
-  width: 2px; flex-grow: 1; min-height: 12px;
+  width: 2px;
+  flex-grow: 1;
+  min-height: 12px;
   background: rgba(var(--v-theme-on-surface), 0.1);
   margin: 4px 0;
 }
-.activity-content { flex: 1; min-width: 0; }
+.activity-content {
+  flex: 1;
+  min-width: 0;
+}
 
 /* Stepper */
 .section-card {

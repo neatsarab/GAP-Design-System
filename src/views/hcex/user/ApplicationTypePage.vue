@@ -13,7 +13,13 @@
     <!-- Type Cards -->
     <v-row>
       <v-col v-for="appType in appTypes" :key="appType.key" cols="12">
-        <v-card class="type-card" hover elevation="0" rounded="xl" @click="goToNewApplication(appType)">
+        <v-card
+          class="type-card"
+          hover
+          elevation="0"
+          rounded="xl"
+          @click="goToNewApplication(appType)"
+        >
           <div class="d-flex align-center pa-6">
             <!-- Icon Box -->
             <div class="icon-box mr-6">
@@ -23,14 +29,22 @@
             <!-- Content -->
             <div class="flex-grow-1">
               <h2 class="text-h6 font-weight-bold mb-1">{{ appType.title }}</h2>
-              <p class="text-body-2 text-medium-emphasis mb-0">{{ appType.description }}</p>
+              <p class="text-body-2 text-medium-emphasis mb-0">
+                {{ appType.description }}
+              </p>
             </div>
 
             <!-- Action -->
             <div class="d-flex align-center">
               <div class="node-line-container">
                 <div class="vertical-line"></div>
-                <v-btn icon variant="flat" color="hcex-user" size="small" class="node-dot">
+                <v-btn
+                  icon
+                  variant="flat"
+                  color="hcex-user"
+                  size="small"
+                  class="node-dot"
+                >
                   <v-icon icon="fas fa-arrow-right" size="14" color="white" />
                 </v-btn>
               </div>
@@ -66,12 +80,7 @@
           >
             {{ blockInfo.actionLabel }}
           </v-btn>
-          <v-btn
-            block
-            rounded="lg"
-            variant="text"
-            @click="blockDialog = false"
-          >
+          <v-btn block rounded="lg" variant="text" @click="blockDialog = false">
             ปิด
           </v-btn>
         </v-card-actions>
@@ -131,7 +140,7 @@ const appTypes = [
     icon: "fas fa-flask",
     color: "success",
     description:
-      "ยื่นคำขอให้เจ้าหน้าที่พิจารณาผลการตรวจวิเคราะห์ทางห้องปฏิบัติการ เพื่อประกอบการออกใบรับรองสุขอนามัยพืช",
+      "ยื่นคำขอให้เจ้าหน้าที่พิจารณาผลการตรวจวิเคราะห์ทางห้องปฏิบัติการ เพื่อประกอบการออกใบรับรองสุขอนามัย ",
     features: [
       "แนบผลการตรวจ Lab",
       "ระบุชนิดและปริมาณสินค้า",
@@ -146,7 +155,7 @@ const appTypes = [
     icon: "fas fa-file-circle-plus",
     color: "primary",
     description:
-      "ยื่นคำขอออกใบรับรองสุขอนามัยพืชสำหรับสินค้าแปรรูปด้านพืช ต้องมีทะเบียนประวัติที่อนุมัติแล้วก่อน",
+      "ยื่นคำขอออกใบรับรองสุขอนามัย สำหรับสินค้าแปรรูปด้านพืช ต้องมีทะเบียนประวัติที่อนุมัติแล้วก่อน",
     features: [
       "รองรับใบรับรอง 4 ประเภท",
       "เชื่อมข้อมูลจากทะเบียนประวัติ",
@@ -161,7 +170,7 @@ const appTypes = [
     icon: "fas fa-file-pen",
     color: "warning",
     description:
-      "สำหรับผู้ประกอบการที่ได้รับใบรับรองแล้ว และต้องการแก้ไขข้อมูลในใบรับรองสุขอนามัยพืชที่มีอยู่",
+      "สำหรับผู้ประกอบการที่ได้รับใบรับรองแล้ว และต้องการแก้ไขข้อมูลในใบรับรองสุขอนามัย ที่มีอยู่",
     features: [
       "แก้ไขข้อมูลในใบรับรอง",
       "แก้ไขข้อมูลสินค้าและปริมาณ",

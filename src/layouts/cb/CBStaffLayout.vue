@@ -23,7 +23,8 @@
         <v-list-item-title
           class="text-body-2 font-weight-bold"
           style="word-break: break-word; white-space: normal"
-          >ระบบการขึ้นทะเบียนหน่วยรับรองโรงงานผลิตสินค้าพืช</v-list-item-title
+          >ระบบการขึ้นทะเบียนหน่วยรับรองโรงงานผลิตสินค้าพืช (Certification Body
+          : CB)</v-list-item-title
         >
         <v-list-item-subtitle
           class="text-caption"
@@ -306,7 +307,8 @@ function isNavActive(to) {
 
 const breadcrumbs = computed(() => [
   {
-    title: "ระบบการขึ้นทะเบียนหน่วยรับรองโรงงานผลิตสินค้าพืช",
+    title:
+      "ระบบการขึ้นทะเบียนหน่วยรับรองโรงงานผลิตสินค้าพืช (Certification Body : CB)",
     to: "/cb/staff",
   },
   { title: route.meta.title },

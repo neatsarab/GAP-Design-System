@@ -9,9 +9,9 @@
         @click="router.back()"
       />
       <div>
-        <h1 class="page-title mb-0">คำขอยกเลิกทะเบียน</h1>
+        <h1 class="page-title mb-0">คำขอต่ออายุทะเบียน</h1>
         <p class="text-body-2 text-medium-emphasis mb-0 mt-1">
-          ยกเลิกได้มากกว่า 1 ทะเบียนในคราวเดียวกัน
+          ต่ออายุได้มากกว่า 1 ทะเบียนในคราวเดียวกัน
         </p>
       </div>
     </div>
@@ -73,7 +73,7 @@
                 size="15"
               />
               <span class="text-subtitle-2 font-weight-bold"
-                >ค้นหาทะเบียนที่ต้องการยกเลิก</span
+                >ค้นหาทะเบียนที่ต้องการต่ออายุ</span
               >
             </div>
             <v-card-text class="pa-4">
@@ -99,9 +99,8 @@
                   rounded="lg"
                   :loading="searching"
                   @click="doSearch"
+                  >ค้นหา</v-btn
                 >
-                  ค้นหา
-                </v-btn>
               </div>
 
               <!-- Search Results -->
@@ -174,59 +173,20 @@
                         prepend-icon="fas fa-plus"
                         :disabled="cert.status === 'expired'"
                         @click="addToSelection(cert)"
+                        >เลือก</v-btn
                       >
-                        เลือก
-                      </v-btn>
                       <v-chip
                         v-else
                         color="success"
                         size="small"
                         variant="tonal"
                         prepend-icon="fas fa-circle-check"
+                        >เลือกแล้ว</v-chip
                       >
-                        เลือกแล้ว
-                      </v-chip>
                     </div>
                   </div>
                 </template>
               </div>
-            </v-card-text>
-          </v-card>
-
-          <!-- ระบุเหตุผล -->
-          <v-card
-            v-if="selected.length > 0"
-            rounded="xl"
-            elevation="0"
-            class="section-card mb-4"
-          >
-            <div
-              class="section-header px-4 py-3 border-b d-flex align-center ga-2"
-            >
-              <v-icon
-                icon="fas fa-pen-to-square"
-                color="export-user"
-                size="15"
-              />
-              <span class="text-subtitle-2 font-weight-bold"
-                >ระบุเหตุผลการยกเลิก</span
-              >
-            </div>
-            <v-card-text class="pa-4">
-              <div class="field-label">
-                <div>เหตุผลการยกเลิก <span class="req">*</span></div>
-                <div class="field-label-en">Reason for Cancellation</div>
-              </div>
-              <v-textarea
-                v-model="reason"
-                variant="outlined"
-                rounded="lg"
-                rows="4"
-                placeholder="ระบุเหตุผลการขอยกเลิกทะเบียน เช่น เลิกประกอบกิจการ / เปลี่ยนแปลงขอบข่ายสินค้า"
-                hide-details="auto"
-                counter="500"
-                maxlength="500"
-              />
             </v-card-text>
           </v-card>
         </v-col>
@@ -261,7 +221,7 @@
               >
                 <div v-if="selected.length === 0" class="text-center py-8">
                   <v-icon
-                    icon="fas fa-file-circle-xmark"
+                    icon="fas fa-rotate"
                     color="grey"
                     size="32"
                     class="mb-3"
@@ -319,7 +279,7 @@
                   variant="flat"
                   rounded="lg"
                   append-icon="fas fa-arrow-right"
-                  :disabled="selected.length === 0 || !reason.trim()"
+                  :disabled="selected.length === 0"
                   @click="currentStep = 1"
                 >
                   ถัดไป: แนบเอกสาร
@@ -364,7 +324,6 @@
               <span class="text-subtitle-2 font-weight-bold">เอกสารแนบ</span>
             </div>
             <v-card-text class="pt-5">
-              <!-- ไม่มีไฟล์: แถวว่าง -->
               <div
                 v-if="attachedFiles.length === 0"
                 class="item-row rounded-lg pa-3 mb-2 d-flex align-center ga-2"
@@ -377,8 +336,6 @@
                   >ไม่บังคับ</v-chip
                 >
               </div>
-
-              <!-- แถวไฟล์ที่แนบแล้ว -->
               <div
                 v-for="(file, i) in attachedFiles"
                 :key="i"
@@ -412,8 +369,6 @@
                   </v-col>
                 </v-row>
               </div>
-
-              <!-- ปุ่มเพิ่มเอกสาร -->
               <div class="mt-3 d-flex align-center ga-3">
                 <v-btn
                   variant="tonal"
@@ -429,10 +384,18 @@
                   >รองรับ PDF, JPG, PNG ไม่เกิน 10 MB</span
                 >
               </div>
+              <input
+                ref="fileInputRef"
+                type="file"
+                multiple
+                accept=".pdf,.jpg,.jpeg,.png"
+                style="display: none"
+                @change="onFileChange"
+              />
             </v-card-text>
           </v-card>
 
-          <!-- Navigation buttons -->
+          <!-- Navigation -->
           <div class="d-flex">
             <v-btn
               variant="tonal"
@@ -440,9 +403,8 @@
               rounded="lg"
               prepend-icon="fas fa-arrow-left"
               @click="currentStep = 0"
+              >ย้อนกลับ</v-btn
             >
-              ย้อนกลับ
-            </v-btn>
           </div>
         </v-col>
 
@@ -462,7 +424,7 @@
               </div>
               <v-card-text class="pa-4">
                 <div class="text-caption text-medium-emphasis mb-1">
-                  ทะเบียนที่ขอยกเลิก
+                  ทะเบียนที่ขอต่ออายุ
                 </div>
                 <div
                   v-for="cert in selected"
@@ -478,19 +440,10 @@
                   >
                     {{ cert.typecert }}
                   </div>
-                </div>
-                <v-divider class="my-3" />
-                <div class="text-caption text-medium-emphasis mb-1">
-                  เหตุผลการยกเลิก
-                </div>
-                <div
-                  class="text-body-2 rounded-lg pa-3"
-                  style="
-                    background: rgba(var(--v-theme-on-surface), 0.04);
-                    line-height: 1.6;
-                  "
-                >
-                  {{ reason }}
+                  <div class="text-caption text-medium-emphasis mt-1">
+                    <v-icon icon="fas fa-calendar" size="9" class="mr-1" />
+                    หมดอายุ: {{ cert.expireDate }}
+                  </div>
                 </div>
                 <v-divider class="my-3" />
                 <div class="d-flex align-center justify-space-between">
@@ -511,10 +464,10 @@
                   block
                   variant="flat"
                   rounded="lg"
-                  prepend-icon="fas fa-file-circle-xmark"
+                  prepend-icon="fas fa-rotate"
                   @click="openConfirm"
                 >
-                  ยื่นคำขอยกเลิก
+                  ยื่นคำขอต่ออายุ
                 </v-btn>
                 <v-btn
                   variant="tonal"
@@ -547,14 +500,14 @@
     <v-dialog v-model="confirmDialog" max-width="460" persistent>
       <v-card rounded="xl">
         <v-card-text class="pa-6">
-          <div class="cancel-ring mx-auto mb-4">
-            <v-icon icon="fas fa-file-circle-xmark" color="error" size="28" />
+          <div class="renew-ring mx-auto mb-4">
+            <v-icon icon="fas fa-rotate" color="export-user" size="28" />
           </div>
           <h3 class="text-h6 font-weight-bold text-center mb-1">
-            ยืนยันคำขอยกเลิกทะเบียน
+            ยืนยันคำขอต่ออายุทะเบียน
           </h3>
           <p class="text-body-2 text-medium-emphasis text-center mb-4">
-            คุณต้องการยื่นคำขอยกเลิกทะเบียน
+            คุณต้องการยื่นคำขอต่ออายุทะเบียน
             <strong>{{ selected.length }} รายการ</strong> ใช่หรือไม่?
           </p>
           <v-divider class="mb-4" />
@@ -592,13 +545,41 @@
             >ย้อนกลับ</v-btn
           >
           <v-btn
-            color="error"
+            color="export-user"
             rounded="lg"
             block
             :loading="submitting"
             @click="doSubmit"
-            >ยืนยันยกเลิก</v-btn
+            >ยืนยันต่ออายุ</v-btn
           >
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <!-- Success Dialog -->
+    <v-dialog v-model="successDialog" max-width="400" persistent>
+      <v-card rounded="xl">
+        <v-card-text class="pa-8 text-center">
+          <div class="success-ring mx-auto mb-4">
+            <v-icon icon="fas fa-circle-check" color="success" size="32" />
+          </div>
+          <h3 class="text-h6 font-weight-bold mb-2">ยื่นคำขอสำเร็จ</h3>
+          <p class="text-body-2 text-medium-emphasis mb-1">
+            ส่งคำขอต่ออายุทะเบียน {{ submittedCount }} รายการเรียบร้อยแล้ว
+          </p>
+          <p class="text-caption text-medium-emphasis">
+            เจ้าหน้าที่จะดำเนินการตรวจสอบและแจ้งผลให้ทราบ
+          </p>
+        </v-card-text>
+        <v-card-actions class="px-5 pb-5">
+          <v-btn
+            color="export-user"
+            block
+            rounded="lg"
+            @click="router.push({ name: 'ExportUserApplicationList' })"
+          >
+            ไปยังรายการคำขอ
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -656,7 +637,7 @@
             </v-list>
           </template>
         </v-card-text>
-        <v-card-actions class="px-5 pb-4 d-flex flex-column ga-2">
+        <v-card-actions class="px-5 pb-4">
           <v-btn
             color="export-user"
             variant="tonal"
@@ -679,7 +660,7 @@
           </div>
           <h3 class="text-h6 font-weight-bold mb-2">บันทึกแบบร่างสำเร็จ</h3>
           <p class="text-body-2 text-medium-emphasis">
-            บันทึกคำขอยกเลิกไว้ในแบบร่างแล้ว
+            บันทึกคำขอต่ออายุไว้ในแบบร่างแล้ว
             สามารถกลับมาแก้ไขและยื่นได้ในภายหลัง
           </p>
         </v-card-text>
@@ -696,34 +677,6 @@
             color="export-user"
             rounded="lg"
             block
-            @click="router.push({ name: 'ExportUserApplicationList' })"
-          >
-            ไปยังรายการคำขอ
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-
-    <!-- Success Dialog -->
-    <v-dialog v-model="successDialog" max-width="400" persistent>
-      <v-card rounded="xl">
-        <v-card-text class="pa-8 text-center">
-          <div class="success-ring mx-auto mb-4">
-            <v-icon icon="fas fa-circle-check" color="success" size="32" />
-          </div>
-          <h3 class="text-h6 font-weight-bold mb-2">ยื่นคำขอสำเร็จ</h3>
-          <p class="text-body-2 text-medium-emphasis mb-1">
-            ส่งคำขอยกเลิกทะเบียน {{ submittedCount }} รายการเรียบร้อยแล้ว
-          </p>
-          <p class="text-caption text-medium-emphasis">
-            เจ้าหน้าที่จะดำเนินการตรวจสอบและแจ้งผลให้ทราบ
-          </p>
-        </v-card-text>
-        <v-card-actions class="px-5 pb-5">
-          <v-btn
-            color="export-user"
-            block
-            rounded="lg"
             @click="router.push({ name: 'ExportUserApplicationList' })"
           >
             ไปยังรายการคำขอ
@@ -752,48 +705,97 @@ function stepClass(v) {
   return "step-pending";
 }
 
-// ── Mock certificate data ──────────────────────────
+// ── Mock certificate data ───────────────────────────
 const allCerts = [
   {
-    certNo: "EXP-2569-00123",
+    certNo: "EXP-2569-10001",
     typecert: "คำขอหนังสือสำคัญแสดงการขึ้นทะเบียนเป็นผู้ส่งออกผักและผลไม้",
-    issuedDate: "14/03/2569",
-    expireDate: "14/03/2571",
+    issuedDate: "14/03/2567",
+    expireDate: "14/03/2569",
     status: "active",
   },
   {
-    certNo: "EXP-2569-00456",
+    certNo: "EXP-2569-10002",
+    typecert: "คำขอขึ้นทะเบียนเป็นผู้ส่งออกกล้วยสดไปประเทศญี่ปุ่น",
+    issuedDate: "01/06/2567",
+    expireDate: "01/06/2569",
+    status: "active",
+  },
+  {
+    certNo: "EXP-2569-10003",
     typecert: "คำร้องขึ้นทะเบียนเป็นผู้ส่งออกพืชควบคุม",
-    issuedDate: "01/03/2567",
-    expireDate: "01/03/2569",
+    issuedDate: "01/01/2567",
+    expireDate: "15/04/2569",
     status: "expiring",
   },
   {
-    certNo: "EXP-2569-00789",
+    certNo: "EXP-2569-10004",
     typecert:
       "คำขอหนังสือสำคัญแสดงการจดทะเบียนเป็นผู้ส่งผลทุเรียนสดออกไปนอกราชอาณาจักร",
-    issuedDate: "19/02/2564",
-    expireDate: "19/02/2566",
+    issuedDate: "19/02/2565",
+    expireDate: "19/02/2567",
     status: "expired",
   },
   {
-    certNo: "EXP-2568-01123",
+    certNo: "EXP-2569-10005",
     typecert:
-      "คำขอหนังสือสำคัญแสดงการจดทะเบียนเป็นผู้ส่งออกกล้วยสดไปประเทศญี่ปุ่น",
-    issuedDate: "09/08/2568",
-    expireDate: "09/08/2570",
-    status: "active",
-  },
-  {
-    certNo: "EXP-2568-01456",
-    typecert: "คำขอจดทะเบียนเป็นผู้ส่งออกสินค้าเกษตรไปนอกราชอาณาจักร",
-    issuedDate: "04/05/2568",
-    expireDate: "04/05/2570",
+      "คำขอขึ้นทะเบียนเป็นผู้ส่งออกลูกเดือย เมล็ดแมงลัก และพริกแห้ง ไปนอกราชอาณาจักร",
+    issuedDate: "10/08/2567",
+    expireDate: "10/08/2569",
     status: "active",
   },
 ];
 
-// ── View cert dialog ────────────────────────────────
+function certStatusColor(status) {
+  if (status === "active") return "success";
+  if (status === "expiring") return "warning";
+  return "error";
+}
+
+function certStatusLabel(status) {
+  if (status === "active") return "ปกติ";
+  if (status === "expiring") return "ใกล้หมดอายุ";
+  return "หมดอายุ";
+}
+
+// ── Search ──────────────────────────────────────────
+const searchInput = ref("");
+const searching = ref(false);
+const searchDone = ref(false);
+const searchResults = ref([]);
+
+function doSearch() {
+  if (!searchInput.value?.trim()) return;
+  searching.value = true;
+  searchDone.value = false;
+  setTimeout(() => {
+    const q = searchInput.value.trim().toUpperCase();
+    searchResults.value = allCerts.filter(
+      (c) =>
+        c.certNo.toUpperCase().includes(q) ||
+        c.typecert.includes(searchInput.value.trim()),
+    );
+    searchDone.value = true;
+    searching.value = false;
+  }, 600);
+}
+
+// ── Selection ───────────────────────────────────────
+const selected = ref([]);
+
+function isSelected(certNo) {
+  return selected.value.some((c) => c.certNo === certNo);
+}
+
+function addToSelection(cert) {
+  if (!isSelected(cert.certNo)) selected.value.push(cert);
+}
+
+function removeFromSelection(certNo) {
+  selected.value = selected.value.filter((c) => c.certNo !== certNo);
+}
+
+// ── View cert ───────────────────────────────────────
 const viewCertDialog = ref(false);
 const viewingCert = ref(null);
 
@@ -802,207 +804,193 @@ function viewCert(cert) {
   viewCertDialog.value = true;
 }
 
-// ── Step 1: Search ─────────────────────────────────
-const searchInput = ref("");
-const searching = ref(false);
-const searchDone = ref(false);
-const searchResults = ref([]);
-
-function doSearch() {
-  const q = searchInput.value?.trim().toLowerCase();
-  if (!q) return;
-  searching.value = true;
-  setTimeout(() => {
-    searchResults.value = allCerts.filter((c) =>
-      c.certNo.toLowerCase().includes(q),
-    );
-    searchDone.value = true;
-    searching.value = false;
-  }, 400);
-}
-
-// ── Selection ──────────────────────────────────────
-const selected = ref([]);
-
-function isSelected(certNo) {
-  return selected.value.some((c) => c.certNo === certNo);
-}
-function addToSelection(cert) {
-  if (!isSelected(cert.certNo)) selected.value.push(cert);
-}
-function removeFromSelection(certNo) {
-  selected.value = selected.value.filter((c) => c.certNo !== certNo);
-}
-
-// ── Reason ─────────────────────────────────────────
-const reason = ref("");
-
-// ── Step 2: File Attachment ────────────────────────
+// ── File attachment ─────────────────────────────────
 const attachedFiles = ref([]);
+const fileInputRef = ref(null);
 
 function triggerFileInput() {
-  const input = document.createElement("input");
-  input.type = "file";
-  input.accept = ".pdf,.jpg,.jpeg,.png";
-  input.multiple = true;
-  input.onchange = (e) => {
-    Array.from(e.target.files).forEach((f) => {
-      if (!attachedFiles.value.some((a) => a.name === f.name))
-        attachedFiles.value.push(f);
-    });
-  };
-  input.click();
+  fileInputRef.value?.click();
 }
+
+function onFileChange(e) {
+  const files = Array.from(e.target.files ?? []);
+  attachedFiles.value.push(...files);
+  e.target.value = "";
+}
+
 function removeFile(i) {
   attachedFiles.value.splice(i, 1);
 }
-function formatSize(bytes) {
-  if (bytes < 1024) return bytes + " B";
-  if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + " KB";
-  return (bytes / (1024 * 1024)).toFixed(1) + " MB";
-}
+
 function fileIcon(name) {
   if (name.endsWith(".pdf")) return "fas fa-file-pdf";
   if (name.match(/\.(jpg|jpeg|png)$/i)) return "fas fa-file-image";
   return "fas fa-file";
 }
+
 function fileColor(name) {
   if (name.endsWith(".pdf")) return "error";
   if (name.match(/\.(jpg|jpeg|png)$/i)) return "info";
   return "grey";
 }
 
-// ── Submit ─────────────────────────────────────────
+function formatSize(bytes) {
+  if (bytes < 1024) return `${bytes} B`;
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+}
+
+// ── Submit ──────────────────────────────────────────
 const confirmDialog = ref(false);
 const successDialog = ref(false);
 const submitting = ref(false);
 const submittedCount = ref(0);
-
 const draftDialog = ref(false);
+
+function openConfirm() {
+  confirmDialog.value = true;
+}
+
+async function doSubmit() {
+  submitting.value = true;
+  await new Promise((r) => setTimeout(r, 1000));
+  submittedCount.value = selected.value.length;
+  submitting.value = false;
+  confirmDialog.value = false;
+  successDialog.value = true;
+}
 
 function saveDraft() {
   draftDialog.value = true;
 }
-function cancelRequest() {
-  router.push({ name: "ExportUserApplicationType" });
-}
-function openConfirm() {
-  confirmDialog.value = true;
-}
-function doSubmit() {
-  submitting.value = true;
-  setTimeout(() => {
-    submittedCount.value = selected.value.length;
-    submitting.value = false;
-    confirmDialog.value = false;
-    successDialog.value = true;
-  }, 800);
-}
 
-// ── Helpers ────────────────────────────────────────
-function certStatusColor(s) {
-  return (
-    { active: "success", expiring: "warning", expired: "error" }[s] ?? "grey"
-  );
-}
-function certStatusLabel(s) {
-  return (
-    { active: "มีผล", expiring: "ใกล้หมดอายุ", expired: "หมดอายุ" }[s] ?? s
-  );
+function cancelRequest() {
+  router.back();
 }
 </script>
 
 <style scoped>
-.sticky-col {
-  position: sticky;
-  top: 80px;
-}
-.field-label {
-  font-size: 0.8125rem;
-  font-weight: 500;
-  margin-bottom: 4px;
-}
-.field-label-en {
-  font-size: 0.7rem;
-  color: rgb(var(--v-theme-on-surface-variant));
-  opacity: 0.6;
-  font-weight: 400;
-}
-.req {
-  color: rgb(var(--v-theme-error));
+.section-card {
+  border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
 }
 
-/* Stepper */
-.step-line {
-  height: 2px;
-  background: rgba(var(--v-theme-on-surface), 0.15);
-  margin: 0 4px;
-  margin-bottom: 20px;
+.section-header {
+  background: rgba(var(--v-theme-export-user), 0.04);
 }
-.step-pending {
-  background: rgba(var(--v-theme-on-surface), 0.12);
-  color: rgba(var(--v-theme-on-surface), 0.5);
+
+.step-circle {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(var(--v-border-color), 0.3);
+  color: rgb(var(--v-theme-on-surface));
+  transition: all 0.25s ease;
 }
+
 .step-done,
 .step-active {
   background: rgb(var(--v-theme-export-user)) !important;
   color: white !important;
 }
+
 .step-active {
   box-shadow: 0 0 0 4px rgba(var(--v-theme-export-user), 0.2) !important;
 }
+
+.step-line {
+  height: 2px;
+  background: rgba(var(--v-border-color), 0.4);
+  margin: 0 8px;
+  margin-bottom: 20px;
+  transition: background 0.25s ease;
+}
+
 .step-line--done {
   background: rgb(var(--v-theme-export-user)) !important;
 }
 
-/* Result rows */
-.result-row {
-  background: rgba(var(--v-theme-on-surface), 0.03);
-  border: 1px solid rgba(var(--v-theme-on-surface), 0.08);
-  transition: border-color 0.15s;
+.step-pending {
+  background: rgba(var(--v-border-color), 0.3);
 }
+
+.sticky-col {
+  position: sticky;
+  top: 80px;
+}
+
+.result-row {
+  border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
+  background: rgb(var(--v-theme-surface));
+  transition:
+    border-color 0.15s,
+    background 0.15s;
+}
+
 .result-row--selected {
   border-color: rgba(var(--v-theme-export-user), 0.4);
   background: rgba(var(--v-theme-export-user), 0.04);
 }
-.selected-item,
-.summary-item {
-  background: rgba(var(--v-theme-export-user), 0.05);
+
+.selected-item {
+  background: rgba(var(--v-theme-export-user), 0.06);
   border: 1px solid rgba(var(--v-theme-export-user), 0.15);
 }
+
+.summary-item {
+  background: rgba(var(--v-theme-export-user), 0.06);
+  border: 1px solid rgba(var(--v-theme-export-user), 0.15);
+}
+
 .confirm-item {
-  background: rgba(var(--v-theme-on-surface), 0.03);
-  border: 1px solid rgba(var(--v-theme-on-surface), 0.08);
+  background: rgba(var(--v-theme-export-user), 0.06);
+  border: 1px solid rgba(var(--v-theme-export-user), 0.12);
 }
 
 .item-row {
   background: rgba(var(--v-theme-export-user), 0.03);
-  border: 1px solid rgba(var(--v-theme-on-surface), 0.07);
 }
 
-/* Dialogs */
-.cancel-ring,
-.success-ring {
-  width: 64px;
-  height: 64px;
+.renew-ring,
+.success-ring,
+.draft-ring {
+  width: 72px;
+  height: 72px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.cancel-ring {
-  background: rgba(var(--v-theme-error), 0.1);
+
+.renew-ring {
+  background: rgba(var(--v-theme-export-user), 0.1);
+  border: 2px solid rgba(var(--v-theme-export-user), 0.25);
 }
+
 .success-ring {
   background: rgba(var(--v-theme-success), 0.1);
+  border: 2px solid rgba(var(--v-theme-success), 0.25);
 }
+
 .draft-ring {
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(var(--v-theme-on-surface), 0.08);
+  background: rgba(var(--v-theme-on-surface), 0.06);
+  border: 2px solid rgba(var(--v-theme-on-surface), 0.12);
+}
+
+.border-table {
+  border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity)) !important;
+}
+
+.field-label {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.field-label-en {
+  font-size: 0.75rem;
+  color: rgba(var(--v-theme-on-surface), 0.5);
 }
 </style>

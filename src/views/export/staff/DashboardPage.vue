@@ -4,7 +4,7 @@
       <div>
         <h1 class="page-title mb-1">แดชบอร์ด</h1>
         <p class="text-body-2 text-medium-emphasis mb-0">
-          ภาพรวมระบบการจดทะเบียนผู้ส่งออกสินค้าพืช
+          ภาพรวมระบบจดทะเบียนผู้ส่งออก
         </p>
       </div>
     </div>

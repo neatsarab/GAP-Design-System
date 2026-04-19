@@ -13,7 +13,13 @@
     <!-- Type Cards -->
     <v-row>
       <v-col v-for="type in appTypes" :key="type.key" cols="12">
-        <v-card class="type-card" hover elevation="0" rounded="xl" @click="goToNewApplication(type.key)">
+        <v-card
+          class="type-card"
+          hover
+          elevation="0"
+          rounded="xl"
+          @click="goToNewApplication(type.key)"
+        >
           <div class="d-flex align-center pa-6">
             <!-- Icon Box -->
             <div class="icon-box mr-6">
@@ -23,14 +29,22 @@
             <!-- Content -->
             <div class="flex-grow-1">
               <h2 class="text-h6 font-weight-bold mb-1">{{ type.title }}</h2>
-              <p class="text-body-2 text-medium-emphasis mb-0">{{ type.description }}</p>
+              <p class="text-body-2 text-medium-emphasis mb-0">
+                {{ type.description }}
+              </p>
             </div>
 
             <!-- Action -->
             <div class="d-flex align-center">
               <div class="node-line-container">
                 <div class="vertical-line"></div>
-                <v-btn icon variant="flat" color="hc-user" size="small" class="node-dot">
+                <v-btn
+                  icon
+                  variant="flat"
+                  color="hc-user"
+                  size="small"
+                  class="node-dot"
+                >
                   <v-icon icon="fas fa-arrow-right" size="14" color="white" />
                 </v-btn>
               </div>
@@ -67,7 +81,7 @@ const appTypes = [
     icon: "fas fa-file-circle-plus",
     color: "primary",
     description:
-      "ยื่นคำขอออกใบรับรองสุขอนามัยพืชเพื่อประกอบการส่งออกสินค้าพืชควบคุมเฉพาะ",
+      "ยื่นคำขอออกใบรับรองสุขอนามัยเพื่อประกอบการส่งออกสินค้าพืชควบคุมเฉพาะ",
     features: [
       "พืชควบคุมเฉพาะเพื่อการส่งออก",
       "ระบุโรงคัดบรรจุและผู้รับสินค้า",
@@ -81,7 +95,7 @@ const appTypes = [
     icon: "fas fa-file-pen",
     color: "secondary",
     description:
-      "สำหรับผู้ส่งออกที่ต้องการแก้ไขข้อมูลในใบรับรองสุขอนามัยพืชที่ออกแล้ว",
+      "สำหรับผู้ส่งออกที่ต้องการแก้ไขข้อมูลในใบรับรองสุขอนามัยที่ออกแล้ว",
     features: [
       "ต้องมีใบรับรองเดิมที่ออกแล้ว",
       "แก้ไขข้อมูลที่ผิดพลาด",

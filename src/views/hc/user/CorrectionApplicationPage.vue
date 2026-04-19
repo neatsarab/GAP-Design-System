@@ -69,7 +69,7 @@
         </div>
         <v-card-text class="pt-5">
           <div class="field-label mb-2">
-            เลขที่ใบรับรองสุขอนามัยพืช <span class="req">*</span>
+            เลขที่ใบรับรองสุขอนามัย <span class="req">*</span>
             <div class="field-label-en">Haelth Certificate No.</div>
           </div>
           <v-row dense align="center">
@@ -425,7 +425,7 @@
         <v-card rounded="xl">
           <v-card-title class="d-flex align-center ga-2 pa-5 pb-3">
             <v-icon icon="fas fa-certificate" color="hc-user" size="18" />
-            ใบรับรองสุขอนามัยพืช
+            ใบรับรองสุขอนามัย
             <v-spacer />
             <v-btn
               icon="fas fa-xmark"
@@ -1114,7 +1114,7 @@ function removeFile(key) {
 const docDefs = [
   // {
   //   key: "original_cert",
-  //   label: "สำเนาใบรับรองสุขอนามัยพืชเดิม",
+  //   label: "สำเนาใบรับรองสุขอนามัย เดิม",
   //   optional: false,
   // },
   // {

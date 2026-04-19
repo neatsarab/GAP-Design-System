@@ -688,6 +688,7 @@ const adminStore = useAdminStore();
 const officerSystemMap = {
   adminsso01: "GAP",
   adminsso02: "ORG",
+  adminel: "EL",
 };
 
 const restrictedSystem = computed(

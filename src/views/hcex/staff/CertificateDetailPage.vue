@@ -78,9 +78,13 @@
 
         <!-- ข้อมูลผู้ส่งออก / ผู้นำเข้า -->
         <v-card rounded="xl" elevation="0" class="section-card mb-4">
-          <div class="section-header px-4 py-3 border-b d-flex align-center ga-2">
+          <div
+            class="section-header px-4 py-3 border-b d-flex align-center ga-2"
+          >
             <v-icon icon="fas fa-user-tie" color="hcex-staff" size="15" />
-            <span class="text-subtitle-2 font-weight-bold">ข้อมูลผู้ส่งออก / ผู้นำเข้า</span>
+            <span class="text-subtitle-2 font-weight-bold"
+              >ข้อมูลผู้ส่งออก / ผู้นำเข้า</span
+            >
           </div>
           <v-card-text class="pa-4">
             <v-row dense>
@@ -88,15 +92,31 @@
                 <div class="info-label mb-1">Exporter Name and Address</div>
                 <div
                   class="info-value-block rounded-lg pa-3"
-                  style="background: rgba(var(--v-theme-surface-variant), 0.5); font-family: monospace; white-space: pre-wrap; text-transform: uppercase"
-                >{{ cert.exporterNameAddress }}</div>
+                  style="
+                    background: rgba(var(--v-theme-surface-variant), 0.5);
+                    font-family: monospace;
+                    white-space: pre-wrap;
+                    text-transform: uppercase;
+                  "
+                >
+                  {{ cert.exporterNameAddress }}
+                </div>
               </v-col>
               <v-col cols="12" md="6">
-                <div class="info-label mb-1">Consignee Name and Address Including Country</div>
+                <div class="info-label mb-1">
+                  Consignee Name and Address Including Country
+                </div>
                 <div
                   class="info-value-block rounded-lg pa-3"
-                  style="background: rgba(var(--v-theme-surface-variant), 0.5); font-family: monospace; white-space: pre-wrap; text-transform: uppercase"
-                >{{ cert.consigneeNameAddress }}</div>
+                  style="
+                    background: rgba(var(--v-theme-surface-variant), 0.5);
+                    font-family: monospace;
+                    white-space: pre-wrap;
+                    text-transform: uppercase;
+                  "
+                >
+                  {{ cert.consigneeNameAddress }}
+                </div>
               </v-col>
             </v-row>
           </v-card-text>
@@ -104,7 +124,9 @@
 
         <!-- ข้อมูลการขนส่ง -->
         <v-card rounded="xl" elevation="0" class="section-card mb-4">
-          <div class="section-header px-4 py-3 border-b d-flex align-center ga-2">
+          <div
+            class="section-header px-4 py-3 border-b d-flex align-center ga-2"
+          >
             <v-icon icon="fas fa-ship" color="hcex-staff" size="15" />
             <span class="text-subtitle-2 font-weight-bold">ข้อมูลการขนส่ง</span>
           </div>
@@ -123,16 +145,21 @@
                     size="x-small"
                     color="hcex-staff"
                     variant="tonal"
-                  >{{ m }}</v-chip>
+                    >{{ m }}</v-chip
+                  >
                 </div>
               </v-col>
               <v-col cols="12" md="3">
                 <div class="info-label">Country of Destination</div>
-                <div class="info-value">{{ cert.shipment.countryDestination }}</div>
+                <div class="info-value">
+                  {{ cert.shipment.countryDestination }}
+                </div>
               </v-col>
               <v-col cols="12" md="3">
                 <div class="info-label">Place of Departure</div>
-                <div class="info-value">{{ cert.shipment.placeOfDeparture }}</div>
+                <div class="info-value">
+                  {{ cert.shipment.placeOfDeparture }}
+                </div>
               </v-col>
               <v-col cols="12" md="6">
                 <div class="info-label">Vessel / Vehicle</div>
@@ -144,7 +171,9 @@
 
         <!-- ข้อมูลสินค้า -->
         <v-card rounded="xl" elevation="0" class="section-card mb-4">
-          <div class="section-header px-4 py-3 border-b d-flex align-center ga-2">
+          <div
+            class="section-header px-4 py-3 border-b d-flex align-center ga-2"
+          >
             <v-icon icon="fas fa-boxes-stacked" color="hcex-staff" size="15" />
             <span class="text-subtitle-2 font-weight-bold">ข้อมูลสินค้า</span>
           </div>
@@ -156,7 +185,9 @@
               </v-col>
               <v-col cols="12" md="3">
                 <div class="info-label">Analysis Report No.</div>
-                <div class="info-value text-hcex-staff font-weight-bold">{{ cert.goods.analysisReportNo }}</div>
+                <div class="info-value text-hcex-staff font-weight-bold">
+                  {{ cert.goods.analysisReportNo }}
+                </div>
               </v-col>
               <v-col cols="12" md="3">
                 <div class="info-label">Date</div>
@@ -170,8 +201,15 @@
                 <div class="info-label mb-1">Description of Goods</div>
                 <div
                   class="info-value-block rounded-lg pa-3"
-                  style="background: rgba(var(--v-theme-surface-variant), 0.5); font-family: monospace; white-space: pre-wrap; text-transform: uppercase"
-                >{{ cert.goods.descriptionOfGoods }}</div>
+                  style="
+                    background: rgba(var(--v-theme-surface-variant), 0.5);
+                    font-family: monospace;
+                    white-space: pre-wrap;
+                    text-transform: uppercase;
+                  "
+                >
+                  {{ cert.goods.descriptionOfGoods }}
+                </div>
               </v-col>
               <v-col cols="12" md="4">
                 <div class="info-label">Quantity (CTNS.)</div>
@@ -179,11 +217,15 @@
               </v-col>
               <v-col cols="12" md="4">
                 <div class="info-label">Weight N.W. / G.W.</div>
-                <div class="info-value">{{ cert.goods.weightNW }} / {{ cert.goods.weightGW }} KGS.</div>
+                <div class="info-value">
+                  {{ cert.goods.weightNW }} / {{ cert.goods.weightGW }} KGS.
+                </div>
               </v-col>
               <v-col cols="12" md="4">
                 <div class="info-label">Total Amount (USD)</div>
-                <div class="info-value font-weight-bold">{{ cert.goods.totalAmount }}</div>
+                <div class="info-value font-weight-bold">
+                  {{ cert.goods.totalAmount }}
+                </div>
               </v-col>
             </v-row>
           </v-card-text>
@@ -196,12 +238,17 @@
           elevation="0"
           class="section-card mb-4"
         >
-          <div class="section-header px-4 py-3 border-b d-flex align-center ga-2">
+          <div
+            class="section-header px-4 py-3 border-b d-flex align-center ga-2"
+          >
             <v-icon icon="fas fa-comment-dots" color="hcex-staff" size="15" />
             <span class="text-subtitle-2 font-weight-bold">Special Remark</span>
           </div>
           <v-card-text class="pa-4">
-            <div class="info-value" style="font-family: monospace; text-transform: uppercase">
+            <div
+              class="info-value"
+              style="font-family: monospace; text-transform: uppercase"
+            >
               {{ cert.specialRemark }}
             </div>
           </v-card-text>
@@ -209,7 +256,9 @@
 
         <!-- เอกสารแนบ -->
         <v-card rounded="xl" elevation="0" class="section-card mb-4">
-          <div class="section-header px-4 py-3 border-b d-flex align-center ga-2">
+          <div
+            class="section-header px-4 py-3 border-b d-flex align-center ga-2"
+          >
             <v-icon icon="fas fa-paperclip" color="hcex-staff" size="15" />
             <span class="text-subtitle-2 font-weight-bold">เอกสารแนบ</span>
           </div>
@@ -223,7 +272,9 @@
                 <v-icon icon="fas fa-file-pdf" color="error" size="16" />
                 <div>
                   <div class="text-body-2">{{ doc.label }}</div>
-                  <div class="text-caption text-medium-emphasis">{{ doc.docType }}</div>
+                  <div class="text-caption text-medium-emphasis">
+                    {{ doc.docType }}
+                  </div>
                 </div>
               </div>
               <v-btn
@@ -346,12 +397,14 @@ const router = useRouter();
 const cert = {
   certNo: "HC-2569-001",
   requestNo: "HC-0001",
-  typecert: "กมพ.1 ใบรับรองสุขอนามัยพืชสำหรับสินค้าแปรรูปด้านพืช",
+  typecert: "กมพ.1 ใบรับรองสุขอนามัย สำหรับสินค้าแปรรูปด้านพืช",
   issueDate: "20/02/2569",
   status: "active",
 
-  exporterNameAddress: "Thai Export Co., Ltd.\n88/1 Sukhumvit Rd., Bang Pakong,\nChachoengsao 24130, Thailand",
-  consigneeNameAddress: "Japan Importer Co., Ltd.\n1-2-3 Shinjuku, Shinjuku-ku,\nTokyo 160-0022, Japan",
+  exporterNameAddress:
+    "Thai Export Co., Ltd.\n88/1 Sukhumvit Rd., Bang Pakong,\nChachoengsao 24130, Thailand",
+  consigneeNameAddress:
+    "Japan Importer Co., Ltd.\n1-2-3 Shinjuku, Shinjuku-ku,\nTokyo 160-0022, Japan",
 
   shipment: {
     date: "15/02/2569",
@@ -362,11 +415,13 @@ const cert = {
   },
 
   goods: {
-    manufacturer: "Thai Export Co., Ltd. 88/1 Sukhumvit Rd., Bang Pakong, Chachoengsao",
+    manufacturer:
+      "Thai Export Co., Ltd. 88/1 Sukhumvit Rd., Bang Pakong, Chachoengsao",
     analysisReportNo: "LAB-2569-00123",
     analysisDate: "20/12/2568",
     shippingMark: "TE/JP/2569/001",
-    descriptionOfGoods: "Frozen Durian (Durio zibethinus Murr.)\nHS Code: 0811.90.90\nProduct of Thailand",
+    descriptionOfGoods:
+      "Frozen Durian (Durio zibethinus Murr.)\nHS Code: 0811.90.90\nProduct of Thailand",
     quantity: "500 CTNS.",
     weightNW: "10,000",
     weightGW: "11,500",

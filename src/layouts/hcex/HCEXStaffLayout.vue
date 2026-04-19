@@ -23,7 +23,7 @@
         <v-list-item-title
           class="text-body-2 font-weight-bold"
           style="word-break: break-word; white-space: normal"
-          >ระบบ Health Certificate สินค้าแปรรูปด้านพืช</v-list-item-title
+          >ระบบ Health Certificate สินค้าเกษตรแปรรูปด้านพืช</v-list-item-title
         >
         <v-list-item-subtitle
           class="text-caption"
@@ -304,7 +304,7 @@ function doLogout() {
 
 const breadcrumbs = computed(() => [
   {
-    title: "ระบบ Health Certificate สินค้าแปรรูปด้านพืช",
+    title: "ระบบ Health Certificate สินค้าเกษตรแปรรูปด้านพืช",
     to: "/hcex/staff",
   },
   { title: route.meta.title },
@@ -326,18 +326,18 @@ const navGroups = [
     label: "คำขอ",
     divider: true,
     items: [
-      // {
-      //   title: "คำขอทะเบียนประวัติ",
-      //   icon: "fas fa-clock-rotate-left",
-      //   to: "/hcex/staff/history-applications",
-      //   count: 5,
-      // },
-      // {
-      //   title: "คำขอพิจารณาผล Lab",
-      //   icon: "fas fa-flask",
-      //   to: "/hcex/staff/lab-applications",
-      //   count: 6,
-      // },
+      {
+        title: "คำขอทะเบียนประวัติ",
+        icon: "fas fa-clock-rotate-left",
+        to: "/hcex/staff/history-applications",
+        count: 5,
+      },
+      {
+        title: "คำขอพิจารณาผล Lab",
+        icon: "fas fa-flask",
+        to: "/hcex/staff/lab-applications",
+        count: 6,
+      },
       // {
       //   title: "รายการรอตรวจ LAB",
       //   icon: "fas fa-microscope",
@@ -377,6 +377,17 @@ const navGroups = [
         title: "รายการใบทะเบียน",
         icon: "fas fa-certificate",
         to: "/hcex/staff/registry",
+      },
+    ],
+  },
+  {
+    label: "รายงาน",
+    divider: false,
+    items: [
+      {
+        title: "รายงาน",
+        icon: "fas fa-chart-bar",
+        to: "/hcex/staff/reports",
       },
     ],
   },

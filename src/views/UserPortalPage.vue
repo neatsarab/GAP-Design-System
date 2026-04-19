@@ -343,9 +343,9 @@
                 >
                   {{ system.name }}
                 </h3>
-                <p class="text-body-2 text-medium-emphasis mb-4 flex-grow-1">
+                <!-- <p class="text-body-2 text-medium-emphasis mb-4 flex-grow-1">
                   {{ system.desc }}
-                </p>
+                </p> -->
 
                 <!-- Tags -->
                 <div class="d-flex flex-wrap ga-1 mb-4">
@@ -430,9 +430,9 @@
                 >
                   {{ system.name }}
                 </h3>
-                <p class="text-caption text-disabled mb-4 flex-grow-1">
+                <!-- <p class="text-caption text-disabled mb-4 flex-grow-1">
                   {{ system.desc }}
-                </p>
+                </p> -->
 
                 <div
                   v-if="system.noAccess"
@@ -600,7 +600,7 @@ const currentDate = new Date().toLocaleDateString("th-TH", {
 const systems = [
   {
     id: 1,
-    name: "ระบบการรับรองมาตรฐานการปฏิบัติทางการเกษตรที่ดีสำหรับพืช (GAP)",
+    name: "ระบบการรับรองมาตรฐาน GAP (Good Agricultural Practices) พืช",
     desc: "ยื่นคำขอ ตรวจประเมิน และออกใบรับรองมาตรฐาน GAP ให้แก่เกษตรกรหรือผู้ประกอบการ",
     icon: "fas fa-seedling",
     color: "gap-user",
@@ -610,13 +610,13 @@ const systems = [
   },
   {
     id: 2,
-    name: "ระบบการรับรองมาตรฐานเกษตรอินทรีย์ (Organic Agriculture)",
+    name: "ระบบการรับรองมาตรฐาน ORG (Organic Agriculture) พืช",
     desc: "ยื่นคำขอ ตรวจประเมิน และออกใบรับรองมาตรฐานเกษตรอินทรีย์ให้แก่แหล่งผลิต",
     icon: "fas fa-leaf",
     color: "org-user",
     active: true,
     route: { name: "ORGUserDashboard" },
-    tags: ["ยื่นคำขอ", "ติดตามสถานะ", "ใบรับรอง ORG"],
+    tags: ["ยื่นคำขอ", "ติดตามสถานะ", "ใบรับรอง"],
   },
   {
     id: 3,
@@ -626,57 +626,57 @@ const systems = [
     color: "doa-user",
     active: true,
     route: { name: "DOAUserDashboard" },
-    tags: ["ยื่นคำขอ", "ติดตามสถานะ", "ทะเบียนโรงงาน"],
+    tags: ["ยื่นคำขอ", "ติดตามสถานะ", "ใบทะเบียน"],
   },
   {
     id: 4,
-    name: "ระบบการขึ้นทะเบียนหน่วยรับรองโรงงานผลิตสินค้าพืช",
+    name: "ระบบการขึ้นทะเบียนหน่วยรับรองโรงงานผลิตสินค้าพืช (Certification Body : CB)",
     desc: "ยื่นคำขอและบริหารจัดการการขึ้นทะเบียนหน่วยรับรองที่ทำหน้าที่ตรวจประเมินโรงงานผลิตสินค้าพืช",
     icon: "fas fa-certificate",
     color: "cb-user",
     active: true,
     route: { name: "CBUserDashboard" },
-    tags: ["ยื่นคำขอขึ้นทะเบียน", "ติดตามสถานะ", "ใบรับรอง CB"],
+    tags: ["ยื่นคำขอ", "ติดตามสถานะ", "ใบทะเบียน"],
   },
   {
     id: 5,
-    name: "ระบบการจดทะเบียนผู้ส่งออกสินค้าพืช",
+    name: "ระบบจดทะเบียนผู้ส่งออก",
     desc: "ยื่นคำขอและขึ้นทะเบียนเป็นผู้ส่งออกสินค้าพืชกับกรมวิชาการเกษตร",
     icon: "fas fa-ship",
     color: "export-user",
     active: true,
     route: { name: "ExportUserDashboard" },
-    tags: ["จดทะเบียน", "ติดตามสถานะ", "ใบอนุญาตส่งออก"],
+    tags: ["ยื่นคำขอ", "ติดตามสถานะ", "ทะเบียนผู้ส่งออก"],
   },
   {
     id: 6,
     name: "ระบบ Health Certificate ตามประกาศพืชควบคุมเฉพาะ",
-    desc: "ยื่นคำขอ ตรวจสอบ และออกใบรับรองสุขอนามัยพืชสำหรับพืชควบคุมเฉพาะ",
+    desc: "ยื่นคำขอ ตรวจสอบ และออกใบรับรองสุขอนามัย สำหรับพืชควบคุมเฉพาะ",
     icon: "fas fa-virus",
     color: "hc-user",
     active: true,
     route: { name: "HCUserDashboard" },
-    tags: ["ขอใบรับรอง", "ติดตามสถานะ", "ดาวน์โหลด"],
+    tags: ["ยื่นคำขอ", "ติดตามสถานะ", "ใบรับรอง"],
   },
   {
     id: 7,
-    name: "ระบบ Health Certificate สินค้าแปรรูปด้านพืช",
-    desc: "ยื่นคำขอและออกใบรับรองสุขอนามัยพืชสำหรับสินค้าแปรรูปด้านพืชเพื่อการส่งออก",
+    name: "ระบบ Health Certificate สินค้าเกษตรแปรรูปด้านพืช",
+    desc: "ยื่นคำขอและออกใบรับรองสุขอนามัย สำหรับสินค้าแปรรูปด้านพืชเพื่อการส่งออก",
     icon: "fas fa-file-medical",
     color: "hcex-user",
     active: true,
     route: { name: "HCEXUserDashboard" },
-    tags: ["ยื่นคำขอ", "เลือกผล Lab", "ดาวน์โหลดใบรับรอง"],
+    tags: ["ยื่นคำขอ", "ติดตามสถานะ", "ใบรับรอง"],
   },
   {
     id: 8,
-    name: "ระบบบัญชีรายชื่อโรงคัดบรรจุสินค้าพืช (ระบบควบคุมพิเศษ)",
+    name: "ระบบบัญชีรายชื่อโรงคัดบรรจุตามมาตรการควบคุมพิเศษ (Establishment List: EL)",
     desc: "บริหารจัดการบัญชีรายชื่อโรงคัดบรรจุที่ได้รับการอนุญาตสำหรับการส่งออกสินค้า",
     icon: "fas fa-warehouse",
     color: "el-user",
     active: true,
     route: { name: "ELUserDashboard" },
-    tags: ["ยื่นคำขอ", "ติดตามสถานะ", "ใบทะเบียน EL"],
+    tags: ["ยื่นคำขอ", "ติดตามสถานะ", "บัญชีรายชื่อ"],
   },
 ];
 

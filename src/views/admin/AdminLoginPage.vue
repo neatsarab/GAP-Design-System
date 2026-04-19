@@ -183,7 +183,7 @@ async function doLogin() {
       adminStore.setRole("adminsso");
       adminStore.setUsername("adminsso");
       router.push({ name: "AdminAccessRequests" });
-    } else if (username.value === "adminsso01") {
+    } else if (username.value === "admingap") {
       adminStore.setRole("adminsso");
       adminStore.setUsername("adminsso01");
       router.push({ name: "AdminAccessRequests" });
@@ -191,6 +191,14 @@ async function doLogin() {
       adminStore.setRole("adminsso");
       adminStore.setUsername("adminsso02");
       router.push({ name: "AdminAccessRequests" });
+    } else if (username.value === "adminel") {
+      adminStore.setRole("adminel");
+      adminStore.setUsername("adminel");
+      router.push({ name: "AdminAccessRequests" });
+    } else if (username.value === "adminelmaster") {
+      adminStore.setRole("adminelmaster");
+      adminStore.setUsername("adminelmaster");
+      router.push({ name: "ELAdminMasterdata" });
     } else {
       error.value = "Username หรือ Password ไม่ถูกต้อง";
     }

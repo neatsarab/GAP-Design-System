@@ -383,7 +383,7 @@ const route = useRoute();
 const router = useRouter();
 
 const cert = {
-  certNo: "EXP-2569-005",
+  certNo: "EXP-2569-12345",
   requestNo: "EXP-0005",
   typecert: "คำขอหนังสือสำคัญแสดงการขึ้นทะเบียนโรงงานผลิตสินค้าพืช",
   issueDate: "15/03/2569",
@@ -480,7 +480,7 @@ const cert = {
       action: "ออกใบทะเบียน",
       actor: "ระบบ",
       timestamp: "15/03/2569 15:00",
-      remark: "เลขทะเบียน EXP-2569-005",
+      remark: "เลขทะเบียน EXP-2569-12345",
     },
   ],
 };

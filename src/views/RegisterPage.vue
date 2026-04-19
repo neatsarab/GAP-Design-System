@@ -420,13 +420,15 @@
             <v-divider class="my-5" />
 
             <!-- ── ข้อมูลติดต่อ ── -->
-            <div class="form-section-title mb-3">
-              <v-icon icon="fas fa-address-book" size="13" class="mr-1" />
-              {{
-                registrationMode === "foreigner"
-                  ? "Contact Information"
-                  : "ข้อมูลติดต่อ"
-              }}
+            <div class="d-flex align-center gap-2 mb-3">
+              <div class="form-section-title">
+                <v-icon icon="fas fa-address-book" size="13" class="mr-1" />
+                {{
+                  registrationMode === "foreigner"
+                    ? "Contact Information"
+                    : "ข้อมูลติดต่อ"
+                }}
+              </div>
             </div>
             <v-row dense>
               <v-col cols="12" sm="6">
@@ -463,61 +465,279 @@
                   "
                 />
               </v-col>
-              <v-col cols="12">
-                <div class="fl mt-3 mb-1">
-                  ที่อยู่ <span class="req">*</span>
-                </div>
-                <div class="fl-sub mb-1">
-                  {{
-                    registrationMode === "foreigner"
-                      ? "Address in Thailand"
-                      : "Address"
-                  }}
-                </div>
-                <v-text-field
-                  v-model="form.address"
-                  variant="outlined"
-                  density="compact"
-                  rounded="lg"
-                  hide-details="auto"
-                  :rules="[rules.required]"
-                  :placeholder="
-                    registrationMode === 'foreigner'
-                      ? 'Address in Thailand'
-                      : 'บ้านเลขที่ ถนน แขวง/ตำบล เขต/อำเภอ'
+              <!-- ── ที่อยู่: ThaiD readonly ── -->
+              <template v-if="registrationMode === 'thaid'">
+                <v-col cols="12" sm="6">
+                  <div class="fl mt-3 mb-1">
+                    บ้านเลขที่ / อาคาร <span class="req">*</span>
+                  </div>
+                  <div class="fl-sub mb-1">House No. / Building</div>
+                  <v-text-field
+                    v-model="form.houseNo"
+                    variant="outlined"
+                    density="compact"
+                    rounded="lg"
+                    hide-details
+                    readonly
+                    class="autofill-field"
+                  />
+                </v-col>
+                <v-col cols="12" sm="6">
+                  <div class="fl mt-3 mb-1">ถนน</div>
+                  <div class="fl-sub mb-1">Road</div>
+                  <v-text-field
+                    v-model="form.road"
+                    variant="outlined"
+                    density="compact"
+                    rounded="lg"
+                    hide-details
+                    readonly
+                    class="autofill-field"
+                  />
+                </v-col>
+                <v-col cols="12" sm="6">
+                  <div class="fl mt-3 mb-1">
+                    แขวง / ตำบล <span class="req">*</span>
+                  </div>
+                  <div class="fl-sub mb-1">Sub-district</div>
+                  <v-text-field
+                    v-model="form.subdistrict"
+                    variant="outlined"
+                    density="compact"
+                    rounded="lg"
+                    hide-details
+                    readonly
+                    class="autofill-field"
+                  />
+                </v-col>
+                <v-col cols="12" sm="6">
+                  <div class="fl mt-3 mb-1">
+                    เขต / อำเภอ <span class="req">*</span>
+                  </div>
+                  <div class="fl-sub mb-1">District</div>
+                  <v-text-field
+                    v-model="form.district"
+                    variant="outlined"
+                    density="compact"
+                    rounded="lg"
+                    hide-details
+                    readonly
+                    class="autofill-field"
+                  />
+                </v-col>
+                <v-col cols="12" sm="6">
+                  <div class="fl mt-3 mb-1">
+                    จังหวัด <span class="req">*</span>
+                  </div>
+                  <div class="fl-sub mb-1">Province</div>
+                  <v-text-field
+                    v-model="form.province"
+                    variant="outlined"
+                    density="compact"
+                    rounded="lg"
+                    hide-details
+                    readonly
+                    class="autofill-field"
+                  />
+                </v-col>
+                <v-col cols="12" sm="6">
+                  <div class="fl mt-3 mb-1">
+                    รหัสไปรษณีย์ <span class="req">*</span>
+                  </div>
+                  <div class="fl-sub mb-1">Postal Code</div>
+                  <v-text-field
+                    v-model="form.zipCode"
+                    variant="outlined"
+                    density="compact"
+                    rounded="lg"
+                    hide-details
+                    readonly
+                    class="autofill-field"
+                  />
+                </v-col>
+              </template>
+
+              <!-- ── ที่อยู่: ระบุเอง ── -->
+              <template v-else>
+                <!-- Toggle สำหรับ foreigner เท่านั้น -->
+                <v-col v-if="registrationMode === 'foreigner'" cols="12">
+                  <div class="fl mt-3 mb-2">
+                    Address Type <span class="req">*</span>
+                  </div>
+                  <div class="addr-type-group">
+                    <v-btn
+                      :color="foreignerAddressType === 'thai' ? 'primary' : undefined"
+                      :variant="foreignerAddressType === 'thai' ? 'tonal' : 'outlined'"
+                      size="small"
+                      rounded="lg"
+                      @click="foreignerAddressType = 'thai'"
+                    >
+                      <v-icon start icon="fas fa-map-marker-alt" size="13" />
+                      ที่อยู่ในประเทศไทย
+                    </v-btn>
+                    <v-btn
+                      :color="foreignerAddressType === 'foreign' ? 'primary' : undefined"
+                      :variant="foreignerAddressType === 'foreign' ? 'tonal' : 'outlined'"
+                      size="small"
+                      rounded="lg"
+                      @click="foreignerAddressType = 'foreign'"
+                    >
+                      <v-icon start icon="fas fa-globe" size="13" />
+                      ที่อยู่ต่างประเทศ
+                    </v-btn>
+                  </div>
+                </v-col>
+
+                <!-- ── ที่อยู่ต่างประเทศ ── -->
+                <template
+                  v-if="
+                    registrationMode === 'foreigner' &&
+                    foreignerAddressType === 'foreign'
                   "
-                />
-              </v-col>
-              <v-col cols="12" sm="6">
-                <div class="fl mt-3 mb-1">
-                  จังหวัด <span class="req">*</span>
-                </div>
-                <div class="fl-sub mb-1">Province</div>
-                <v-autocomplete
-                  v-model="form.province"
-                  :items="provinces"
-                  variant="outlined"
-                  density="compact"
-                  rounded="lg"
-                  hide-details="auto"
-                  :rules="[rules.required]"
-                />
-              </v-col>
-              <v-col cols="12" sm="6">
-                <div class="fl mt-3 mb-1">
-                  รหัสไปรษณีย์ <span class="req">*</span>
-                </div>
-                <div class="fl-sub mb-1">Postal Code</div>
-                <v-text-field
-                  v-model="form.zipCode"
-                  variant="outlined"
-                  density="compact"
-                  rounded="lg"
-                  hide-details="auto"
-                  :rules="[rules.required]"
-                  maxlength="5"
-                />
-              </v-col>
+                >
+                  <v-col cols="12" sm="6">
+                    <div class="fl mt-3 mb-1">
+                      Country <span class="req">*</span>
+                    </div>
+                    <div class="fl-sub mb-1">ประเทศ</div>
+                    <v-autocomplete
+                      v-model="form.country"
+                      :items="countries"
+                      variant="outlined"
+                      density="compact"
+                      rounded="lg"
+                      hide-details="auto"
+                      :rules="[rules.required]"
+                      placeholder="Select country"
+                    />
+                  </v-col>
+                  <v-col cols="12" sm="6">
+                    <div class="fl mt-3 mb-1">Postal / ZIP Code</div>
+                    <div class="fl-sub mb-1">รหัสไปรษณีย์</div>
+                    <v-text-field
+                      v-model="form.zipCode"
+                      variant="outlined"
+                      density="compact"
+                      rounded="lg"
+                      hide-details
+                      placeholder="Postal code"
+                    />
+                  </v-col>
+                  <v-col cols="12">
+                    <div class="fl mt-3 mb-1">
+                      Address <span class="req">*</span>
+                    </div>
+                    <div class="fl-sub mb-1">ที่อยู่</div>
+                    <v-textarea
+                      v-model="form.foreignAddress"
+                      variant="outlined"
+                      density="compact"
+                      rounded="lg"
+                      hide-details="auto"
+                      :rules="[rules.required]"
+                      rows="3"
+                      placeholder="House No., Street, City, State / Province..."
+                    />
+                  </v-col>
+                </template>
+
+                <!-- ── ที่อยู่ไทย (สัมพันธ์) ── -->
+                <template v-else>
+                  <v-col cols="12" sm="6">
+                    <div class="fl mt-3 mb-1">
+                      บ้านเลขที่ / อาคาร <span class="req">*</span>
+                    </div>
+                    <div class="fl-sub mb-1">House No. / Building</div>
+                    <v-text-field
+                      v-model="form.houseNo"
+                      variant="outlined"
+                      density="compact"
+                      rounded="lg"
+                      hide-details="auto"
+                      :rules="[rules.required]"
+                      placeholder="เช่น 88/1 อาคาร..."
+                    />
+                  </v-col>
+                  <v-col cols="12" sm="6">
+                    <div class="fl mt-3 mb-1">ถนน</div>
+                    <div class="fl-sub mb-1">Road</div>
+                    <v-text-field
+                      v-model="form.road"
+                      variant="outlined"
+                      density="compact"
+                      rounded="lg"
+                      hide-details
+                      placeholder="เช่น ถนนพหลโยธิน"
+                    />
+                  </v-col>
+                  <v-col cols="12" sm="6">
+                    <div class="fl mt-3 mb-1">
+                      จังหวัด <span class="req">*</span>
+                    </div>
+                    <div class="fl-sub mb-1">Province</div>
+                    <v-autocomplete
+                      v-model="form.province"
+                      :items="provinces"
+                      variant="outlined"
+                      density="compact"
+                      rounded="lg"
+                      hide-details="auto"
+                      :rules="[rules.required]"
+                      placeholder="เลือกจังหวัด"
+                    />
+                  </v-col>
+                  <v-col cols="12" sm="6">
+                    <div class="fl mt-3 mb-1">
+                      เขต / อำเภอ <span class="req">*</span>
+                    </div>
+                    <div class="fl-sub mb-1">District</div>
+                    <v-autocomplete
+                      v-model="form.district"
+                      :items="regDistricts"
+                      :disabled="!form.province"
+                      variant="outlined"
+                      density="compact"
+                      rounded="lg"
+                      hide-details="auto"
+                      :rules="[rules.required]"
+                      placeholder="เลือกเขต / อำเภอ"
+                    />
+                  </v-col>
+                  <v-col cols="12" sm="6">
+                    <div class="fl mt-3 mb-1">
+                      แขวง / ตำบล <span class="req">*</span>
+                    </div>
+                    <div class="fl-sub mb-1">Sub-district</div>
+                    <v-autocomplete
+                      v-model="form.subdistrict"
+                      :items="regSubdistricts"
+                      :disabled="!form.district"
+                      variant="outlined"
+                      density="compact"
+                      rounded="lg"
+                      hide-details="auto"
+                      :rules="[rules.required]"
+                      placeholder="เลือกแขวง / ตำบล"
+                    />
+                  </v-col>
+                  <v-col cols="12" sm="6">
+                    <div class="fl mt-3 mb-1">
+                      รหัสไปรษณีย์ <span class="req">*</span>
+                    </div>
+                    <div class="fl-sub mb-1">Postal Code</div>
+                    <v-text-field
+                      v-model="form.zipCode"
+                      variant="outlined"
+                      density="compact"
+                      rounded="lg"
+                      hide-details="auto"
+                      :rules="[rules.required]"
+                      maxlength="5"
+                      placeholder="XXXXX"
+                    />
+                  </v-col> </template
+                ><!-- end ที่อยู่ไทย --> </template
+              ><!-- end v-else -->
             </v-row>
 
             <template v-if="registrationMode !== 'thaid'">
@@ -681,8 +901,35 @@
                 <span class="confirm-value">{{ form.phone }}</span>
               </div>
               <div class="confirm-row">
-                <span class="confirm-label">จังหวัด</span>
-                <span class="confirm-value">{{ form.province }}</span>
+                <span class="confirm-label">ที่อยู่</span>
+                <span class="confirm-value">
+                  <template
+                    v-if="
+                      registrationMode === 'foreigner' &&
+                      foreignerAddressType === 'foreign'
+                    "
+                  >
+                    {{
+                      [form.foreignAddress, form.zipCode, form.country]
+                        .filter(Boolean)
+                        .join(", ")
+                    }}
+                  </template>
+                  <template v-else>
+                    {{
+                      [
+                        form.houseNo,
+                        form.road,
+                        form.subdistrict,
+                        form.district,
+                        form.province,
+                        form.zipCode,
+                      ]
+                        .filter(Boolean)
+                        .join(" ")
+                    }}
+                  </template>
+                </span>
               </div>
             </v-card-text>
           </v-card>
@@ -824,7 +1071,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, computed, watch } from "vue";
 import { useRouter } from "vue-router";
 import { useThemeStore } from "@/stores/theme.store";
 
@@ -839,6 +1086,13 @@ const formRef = ref();
 
 // 'thaid' | 'thai' | 'foreigner'
 const registrationMode = ref(null);
+
+// foreigner address type: 'thai' | 'foreign'
+const foreignerAddressType = ref("thai");
+
+watch(registrationMode, () => {
+  foreignerAddressType.value = "thai";
+});
 
 const passportExpiryMenu = ref(false);
 const passportExpiryDate = ref(null);
@@ -872,9 +1126,15 @@ const form = ref({
   // Common
   email: "",
   phone: "",
-  address: "",
+  houseNo: "",
+  road: "",
+  subdistrict: "",
+  district: "",
   province: "",
   zipCode: "",
+  // Foreigner foreign address
+  country: "",
+  foreignAddress: "",
   idDoc: null,
   acceptTerms: false,
 });
@@ -882,41 +1142,198 @@ const form = ref({
 const features = [
   {
     icon: "fas fa-seedling",
-    text: "ระบบการรับรองมาตรฐานการปฏิบัติทางการเกษตรที่ดีสำหรับพืช",
+    text: "ระบบการรับรองมาตรฐาน GAP (Good Agricultural Practices) พืช",
   },
-  { icon: "fas fa-leaf", text: "ระบบการรับรองมาตรฐานเกษตรอินทรีย์" },
+  {
+    icon: "fas fa-leaf",
+    text: "ระบบการรับรองมาตรฐาน ORG (Organic Agriculture) พืช",
+  },
   {
     icon: "fas fa-industry",
     text: "ระบบการขึ้นทะเบียนโรงงานผลิตสินค้าพืช (DOA)",
   },
   {
     icon: "fas fa-certificate",
-    text: "ระบบการขึ้นทะเบียนหน่วยรับรองโรงงานผลิตสินค้าพืช",
+    text: "ระบบการขึ้นทะเบียนหน่วยรับรองโรงงานผลิตสินค้าพืช (Certification Body : CB)",
   },
-  { icon: "fas fa-ship", text: "ระบบการจดทะเบียนผู้ส่งออกสินค้าพืช" },
+  { icon: "fas fa-ship", text: "ระบบจดทะเบียนผู้ส่งออก" },
   {
     icon: "fas fa-virus",
     text: "ระบบ Health Certificate ตามประกาศพืชควบคุมเฉพาะ",
   },
   {
     icon: "fas fa-file-medical",
-    text: "ระบบการขึ้นทะเบียนหน่วยรับรองโรงงานผลิตสินค้าพืช",
+    text: "ระบบ Health Certificate สินค้าเกษตรแปรรูปด้านพืช",
   },
-  { icon: "fas fa-warehouse", text: "ระบบบัญชีรายชื่อโรงคัดบรรจุสินค้าพืช" },
+  {
+    icon: "fas fa-warehouse",
+    text: "ระบบบัญชีรายชื่อโรงคัดบรรจุตามมาตรการควบคุมพิเศษ (Establishment List: EL)",
+  },
 ];
 
-const provinces = [
-  "กรุงเทพมหานคร",
-  "เชียงใหม่",
-  "เชียงราย",
-  "ขอนแก่น",
-  "นครราชสีมา",
-  "สงขลา",
-  "ภูเก็ต",
-  "อุบลราชธานี",
-  "นครปฐม",
-  "ระยอง",
-];
+const addressData = {
+  กรุงเทพมหานคร: {
+    ห้วยขวาง: {
+      zipCode: "10310",
+      subdistricts: ["ห้วยขวาง", "บางกะปิ", "สามเสนนอก"],
+    },
+    บางรัก: {
+      zipCode: "10500",
+      subdistricts: ["บางรัก", "มหาพฤฒาราม", "สีลม", "สุริยวงศ์"],
+    },
+    ลาดพร้าว: { zipCode: "10230", subdistricts: ["ลาดพร้าว", "จรเข้บัว"] },
+    จตุจักร: {
+      zipCode: "10900",
+      subdistricts: ["จตุจักร", "จอมพล", "เสนานิคม", "ลาดยาว", "จันทรเกษม"],
+    },
+    บึงกุ่ม: {
+      zipCode: "10230",
+      subdistricts: ["คลองกุ่ม", "นวมินทร์", "นวลจันทร์"],
+    },
+    บางกะปิ: { zipCode: "10240", subdistricts: ["คลองจั่น", "หัวหมาก"] },
+  },
+  เชียงใหม่: {
+    เมืองเชียงใหม่: {
+      zipCode: "50000",
+      subdistricts: ["ศรีภูมิ", "พระสิงห์", "หายยา", "ช้างมอย", "ช้างคลาน"],
+    },
+    สันทราย: {
+      zipCode: "50210",
+      subdistricts: ["สันทรายหลวง", "สันทรายน้อย", "สันพระเนตร"],
+    },
+    หางดง: {
+      zipCode: "50230",
+      subdistricts: ["หางดง", "หนองควาย", "บ้านแหวน"],
+    },
+  },
+  เชียงราย: {
+    เมืองเชียงราย: {
+      zipCode: "57000",
+      subdistricts: ["เวียง", "รอบเวียง", "บ้านดู่", "นางแล"],
+    },
+    แม่จัน: {
+      zipCode: "57110",
+      subdistricts: ["แม่จัน", "จันจว้า", "แม่คำ", "ป่าซาง"],
+    },
+  },
+  ขอนแก่น: {
+    เมืองขอนแก่น: {
+      zipCode: "40000",
+      subdistricts: ["พระลับ", "สาวะถี", "บ้านทุ่ม", "เมืองเก่า"],
+    },
+    บ้านฝาง: {
+      zipCode: "40270",
+      subdistricts: ["บ้านฝาง", "ป่าหวายนั่ง", "โนนฆ้อง"],
+    },
+  },
+  นครราชสีมา: {
+    เมืองนครราชสีมา: {
+      zipCode: "30000",
+      subdistricts: ["ในเมือง", "โพธิ์กลาง", "หัวทะเล", "จอหอ"],
+    },
+    โชคชัย: { zipCode: "30190", subdistricts: ["โชคชัย", "กระโทก", "พลับพลา"] },
+  },
+  สงขลา: {
+    เมืองสงขลา: {
+      zipCode: "90000",
+      subdistricts: ["บ่อยาง", "เขารูปช้าง", "เกาะแต้ว", "พะวง"],
+    },
+    หาดใหญ่: {
+      zipCode: "90110",
+      subdistricts: ["หาดใหญ่", "คลองแห", "คูเต่า", "คลองอู่ตะเภา"],
+    },
+  },
+  ภูเก็ต: {
+    เมืองภูเก็ต: {
+      zipCode: "83000",
+      subdistricts: ["ตลาดใหญ่", "ตลาดเหนือ", "เกาะแก้ว", "รัษฎา"],
+    },
+    กะทู้: { zipCode: "83120", subdistricts: ["กะทู้", "กมลา", "ป่าตอง"] },
+    ถลาง: {
+      zipCode: "83110",
+      subdistricts: ["เทพกษัตรี", "ศรีสุนทร", "เชิงทะเล"],
+    },
+  },
+  อุบลราชธานี: {
+    เมืองอุบลราชธานี: {
+      zipCode: "34000",
+      subdistricts: ["ในเมือง", "ขามใหญ่", "แจระแม", "หัวเรือ"],
+    },
+    วารินชำราบ: {
+      zipCode: "34190",
+      subdistricts: ["วารินชำราบ", "ธาตุน้อย", "บุ่งหวาย"],
+    },
+  },
+  นครปฐม: {
+    เมืองนครปฐม: {
+      zipCode: "73000",
+      subdistricts: ["พระปฐมเจดีย์", "บางแขม", "พระประโทน", "สามควายเนียม"],
+    },
+    สามพราน: {
+      zipCode: "73110",
+      subdistricts: ["สามพราน", "ท่าข้าม", "หอมเกร็ด", "บางกระทึก"],
+    },
+  },
+  ระยอง: {
+    เมืองระยอง: {
+      zipCode: "21000",
+      subdistricts: ["ท่าประดู่", "เชิงเนิน", "ตะพง", "ปากน้ำ"],
+    },
+    มาบตาพุด: {
+      zipCode: "21150",
+      subdistricts: ["มาบตาพุด", "เนินพระ", "ทับมา"],
+    },
+  },
+  ชลบุรี: {
+    เมืองชลบุรี: {
+      zipCode: "20000",
+      subdistricts: ["บางปลาสร้อย", "มะขามหย่ง", "บ้านโขด"],
+    },
+    พัทยา: {
+      zipCode: "20150",
+      subdistricts: ["หนองปรือ", "หนองปลาไหล", "นาเกลือ"],
+    },
+    ศรีราชา: {
+      zipCode: "20110",
+      subdistricts: ["ศรีราชา", "สุรศักดิ์", "บึง", "หนองขาม"],
+    },
+  },
+};
+
+const provinces = Object.keys(addressData);
+
+const regDistricts = computed(() =>
+  form.value.province
+    ? Object.keys(addressData[form.value.province] ?? {})
+    : [],
+);
+
+const regSubdistricts = computed(() =>
+  form.value.province && form.value.district
+    ? (addressData[form.value.province]?.[form.value.district]?.subdistricts ??
+      [])
+    : [],
+);
+
+watch(
+  () => form.value.province,
+  () => {
+    form.value.district = "";
+    form.value.subdistrict = "";
+    form.value.zipCode = "";
+  },
+);
+
+watch(
+  () => form.value.district,
+  (newDistrict) => {
+    form.value.subdistrict = "";
+    if (form.value.province && newDistrict) {
+      form.value.zipCode =
+        addressData[form.value.province]?.[newDistrict]?.zipCode ?? "";
+    }
+  },
+);
 
 const nationalities = [
   "Chinese / จีน",
@@ -933,6 +1350,36 @@ const nationalities = [
   "Cambodian / กัมพูชา",
   "Malaysian / มาเลเซีย",
   "Singaporean / สิงคโปร์",
+  "Other / อื่นๆ",
+];
+
+const countries = [
+  "Thailand / ไทย",
+  "China / จีน",
+  "Japan / ญี่ปุ่น",
+  "South Korea / เกาหลีใต้",
+  "United States / สหรัฐอเมริกา",
+  "United Kingdom / สหราชอาณาจักร",
+  "France / ฝรั่งเศส",
+  "Germany / เยอรมนี",
+  "Australia / ออสเตรเลีย",
+  "India / อินเดีย",
+  "Vietnam / เวียดนาม",
+  "Myanmar / เมียนมา",
+  "Cambodia / กัมพูชา",
+  "Malaysia / มาเลเซีย",
+  "Singapore / สิงคโปร์",
+  "Indonesia / อินโดนีเซีย",
+  "Philippines / ฟิลิปปินส์",
+  "Laos / ลาว",
+  "Taiwan / ไต้หวัน",
+  "Hong Kong / ฮ่องกง",
+  "Canada / แคนาดา",
+  "Netherlands / เนเธอร์แลนด์",
+  "Switzerland / สวิตเซอร์แลนด์",
+  "Sweden / สวีเดน",
+  "Denmark / เดนมาร์ก",
+  "New Zealand / นิวซีแลนด์",
   "Other / อื่นๆ",
 ];
 
@@ -962,6 +1409,12 @@ function doThaiDVerify() {
     form.value.firstName = "สมชาย";
     form.value.lastName = "ใจดี";
     form.value.idCard = "1100200123456";
+    form.value.houseNo = "88/1";
+    form.value.road = "ถนนลาดพร้าว";
+    form.value.subdistrict = "คลองจั่น";
+    form.value.district = "บางกะปิ";
+    form.value.province = "กรุงเทพมหานคร";
+    form.value.zipCode = "10240";
     currentStep.value = 1;
   }, 1200);
 }
@@ -1057,6 +1510,10 @@ function maskIdCard(v) {
 }
 
 /* Bilingual labels */
+.addr-type-group {
+  display: flex;
+  gap: 8px;
+}
 .fl {
   font-size: 13px;
   font-weight: 600;

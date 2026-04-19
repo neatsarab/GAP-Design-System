@@ -18,6 +18,15 @@
         </p>
       </div>
       <v-spacer />
+      <v-btn
+        variant="tonal"
+        color="info"
+        rounded="lg"
+        size="small"
+        prepend-icon="fas fa-file-pdf"
+      >
+        พิมพ์ PDF
+      </v-btn>
       <v-chip :color="statusColor(application.status)" variant="tonal">
         <v-icon :icon="statusIcon(application.status)" size="13" class="mr-1" />
         {{ statusLabel(application.status) }}
@@ -801,7 +810,9 @@
       <v-card v-if="selectedStd" rounded="xl">
         <v-card-title class="pa-5 pb-3 d-flex align-center ga-2">
           <v-icon icon="fas fa-award" color="hcex-staff" size="18" />
-          <span class="text-body-1 font-weight-bold">รายละเอียดมาตรฐานการผลิต</span>
+          <span class="text-body-1 font-weight-bold"
+            >รายละเอียดมาตรฐานการผลิต</span
+          >
           <v-spacer />
           <v-btn
             icon="fas fa-xmark"
@@ -814,7 +825,9 @@
         <v-card-text class="pa-5">
           <div class="std-detail-row">
             <span class="std-detail-label">ชื่อมาตรฐาน</span>
-            <span class="text-body-2 font-weight-bold">{{ selectedStd.name }}</span>
+            <span class="text-body-2 font-weight-bold">{{
+              selectedStd.name
+            }}</span>
           </div>
           <div class="std-detail-row">
             <span class="std-detail-label">หน่วยงานที่รับรอง</span>
@@ -822,13 +835,19 @@
           </div>
           <div class="std-detail-row">
             <span class="std-detail-label">หมายเลขการรับรอง</span>
-            <span class="text-body-2 font-weight-bold text-hcex-staff">{{ selectedStd.certNo }}</span>
+            <span class="text-body-2 font-weight-bold text-hcex-staff">{{
+              selectedStd.certNo
+            }}</span>
           </div>
           <div class="std-detail-row">
             <span class="std-detail-label">วันที่หมดอายุ</span>
             <span
               class="text-body-2"
-              :class="isExpiringSoon(selectedStd.expiryDate) ? 'text-warning font-weight-medium' : ''"
+              :class="
+                isExpiringSoon(selectedStd.expiryDate)
+                  ? 'text-warning font-weight-medium'
+                  : ''
+              "
             >
               {{ selectedStd.expiryDate }}
               <v-chip
@@ -1078,7 +1097,7 @@ function statusColor(s) {
   return (
     {
       pending: "info",
-      reviewing: "info",
+      reviewing: "warning",
       need_edit: "warning",
       approved: "success",
       rejected: "error",

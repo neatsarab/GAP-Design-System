@@ -371,12 +371,23 @@ const navGroups = [
   },
   {
     label: "ใบรับรอง",
-    divider: false,
+    divider: true,
     items: [
       {
         title: "รายการใบรับรอง",
         icon: "fas fa-certificate",
         to: "/hc/staff/registry",
+      },
+    ],
+  },
+  {
+    label: "รายงาน",
+    divider: false,
+    items: [
+      {
+        title: "รายงาน",
+        icon: "fas fa-chart-bar",
+        to: "/hc/staff/reports",
       },
     ],
   },

@@ -312,6 +312,204 @@
               />
             </v-col>
           </v-row>
+
+          <!-- สาขา -->
+          <div class="field-section-label mt-4 mb-2">สาขา</div>
+          <v-row dense class="mb-1">
+            <v-col cols="12" md="6">
+              <div class="field-label mb-1">
+                <div>สาขา <span class="req">*</span></div>
+                <div class="field-label-en">Branch</div>
+              </div>
+              <v-autocomplete
+                v-model="form.selectedBranch"
+                :items="branchOptions"
+                item-title="label"
+                item-value="value"
+                placeholder="เลือกสาขา"
+                variant="outlined"
+                density="compact"
+                rounded="lg"
+                hide-details
+                color="hc-user"
+              />
+            </v-col>
+          </v-row>
+
+          <!-- ข้อมูลสาขาที่เลือก -->
+          <v-expand-transition>
+            <div v-if="selectedBranchData">
+              <v-alert
+                color="hc-user"
+                variant="tonal"
+                density="compact"
+                rounded="lg"
+                class="mb-3 mt-2"
+                prepend-icon="fas fa-circle-info"
+              >
+                <span class="text-body-2">ข้อมูลดึงจาก SSO — แก้ไขไม่ได้</span>
+              </v-alert>
+              <v-row dense>
+                <v-col cols="12" md="6">
+                  <div class="field-label">
+                    <div>ชื่อสาขา (ภาษาไทย)</div>
+                    <div class="field-label-en">Branch Name (Thai)</div>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    :model-value="selectedBranchData.nameTh"
+                    hide-details
+                    readonly
+                    class="field-readonly"
+                  />
+                </v-col>
+                <v-col cols="12" md="6">
+                  <div class="field-label">
+                    <div>ชื่อสาขา (ภาษาอังกฤษ)</div>
+                    <div class="field-label-en">Branch Name (English)</div>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    :model-value="selectedBranchData.nameEn"
+                    hide-details
+                    readonly
+                    class="field-readonly"
+                  />
+                </v-col>
+                <v-col cols="6" md="3">
+                  <div class="field-label">
+                    <div>บ้านเลขที่</div>
+                    <div class="field-label-en">House No.</div>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    :model-value="selectedBranchData.houseNo"
+                    hide-details
+                    readonly
+                    class="field-readonly"
+                  />
+                </v-col>
+                <v-col cols="6" md="3">
+                  <div class="field-label">
+                    <div>ซอย / ตรอก</div>
+                    <div class="field-label-en">Alley / Soi</div>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    :model-value="selectedBranchData.alley"
+                    hide-details
+                    readonly
+                    class="field-readonly"
+                  />
+                </v-col>
+                <v-col cols="6" md="3">
+                  <div class="field-label">
+                    <div>ถนน</div>
+                    <div class="field-label-en">Road</div>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    :model-value="selectedBranchData.road"
+                    hide-details
+                    readonly
+                    class="field-readonly"
+                  />
+                </v-col>
+                <v-col cols="6" md="3">
+                  <div class="field-label">
+                    <div>ตำบล / แขวง</div>
+                    <div class="field-label-en">Sub-district</div>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    :model-value="selectedBranchData.tambol"
+                    hide-details
+                    readonly
+                    class="field-readonly"
+                  />
+                </v-col>
+                <v-col cols="6" md="3">
+                  <div class="field-label">
+                    <div>อำเภอ / เขต</div>
+                    <div class="field-label-en">District</div>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    :model-value="selectedBranchData.district"
+                    hide-details
+                    readonly
+                    class="field-readonly"
+                  />
+                </v-col>
+                <v-col cols="6" md="3">
+                  <div class="field-label">
+                    <div>จังหวัด</div>
+                    <div class="field-label-en">Province</div>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    :model-value="selectedBranchData.province"
+                    hide-details
+                    readonly
+                    class="field-readonly"
+                  />
+                </v-col>
+                <v-col cols="6" md="3">
+                  <div class="field-label">
+                    <div>รหัสไปรษณีย์</div>
+                    <div class="field-label-en">Zipcode</div>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    :model-value="selectedBranchData.zipcode"
+                    hide-details
+                    readonly
+                    class="field-readonly"
+                  />
+                </v-col>
+                <v-col cols="12" md="4">
+                  <div class="field-label">
+                    <div>โทรศัพท์</div>
+                    <div class="field-label-en">Phone</div>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    :model-value="selectedBranchData.phone"
+                    hide-details
+                    readonly
+                    class="field-readonly"
+                  />
+                </v-col>
+                <v-col cols="12" md="4">
+                  <div class="field-label">
+                    <div>โทรสาร</div>
+                    <div class="field-label-en">Fax</div>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    :model-value="selectedBranchData.fax"
+                    hide-details
+                    readonly
+                    class="field-readonly"
+                  />
+                </v-col>
+                <v-col cols="12" md="4">
+                  <div class="field-label">
+                    <div>Email</div>
+                    <div class="field-label-en">Email</div>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    :model-value="selectedBranchData.email"
+                    hide-details
+                    readonly
+                    class="field-readonly"
+                  />
+                </v-col>
+              </v-row>
+            </div>
+          </v-expand-transition>
+
           <!-- ที่ตั้ง (ภาษาไทย) -->
           <div class="field-section-label mt-4 mb-2">ที่ตั้ง (ภาษาไทย)</div>
           <v-row dense>
@@ -555,6 +753,22 @@
         </div>
         <v-card-text class="pt-5">
           <v-row dense>
+            <v-col cols="12" sm="4">
+              <div class="field-label">
+                <div>ชนิดพืช <span class="req">*</span></div>
+                <div class="field-label-en">Plant Type</div>
+              </div>
+              <v-select
+                :items="planttypeOptions"
+                item-title="label"
+                item-value="value"
+                variant="outlined"
+                density="compact"
+                rounded="lg"
+                placeholder="เลือกชนิดพืช"
+                hide-details
+              />
+            </v-col>
             <v-col cols="12" sm="8">
               <div class="field-label">
                 <div>สถานที่รับใบรับรอง <span class="req">*</span></div>
@@ -958,12 +1172,12 @@
         </v-card-text>
       </v-card>
 
-      <!-- รายละเอียดการส่งออกสินค้า -->
+      <!-- รายละเอียดการส่งออกสินค้า (พก.11.1) -->
       <v-card elevation="0" border rounded="xl" class="mb-5">
         <div class="d-flex align-center ga-2 px-4 py-3 border-b">
           <v-icon icon="fas fa-file-export" color="hc-user" size="15" />
           <span class="text-subtitle-2 font-weight-bold"
-            >รายละเอียดการส่งออกสินค้า</span
+            >รายละเอียดการส่งออกสินค้า (พก.11.1)</span
           >
           <v-spacer />
           <v-btn
@@ -2379,6 +2593,8 @@ const form = reactive({
   applicantDistrict: "จตุจักร",
   applicantProvince: "กรุงเทพมหานคร",
   applicantZipcode: "10900",
+  // สาขา
+  selectedBranch: null,
   // สถานประกอบการ (Auto-fill จาก DBD)
   companyNameTh:
     sessionStore.companyName || "บริษัท ไทยฟรุ้ต เอ็กซ์พอร์ต จำกัด",
@@ -2439,6 +2655,65 @@ const form = reactive({
   totalValue: "",
 });
 
+// ── สาขา (mock จาก SSO) ──────────────────────────────
+const branchList = [
+  {
+    value: "HQ",
+    label: "สำนักงานใหญ่",
+    nameTh: "บริษัท ไทยฟรุ้ต เอ็กซ์พอร์ต จำกัด (สำนักงานใหญ่)",
+    nameEn: "THAI FRUIT EXPORT CO., LTD. (HEAD OFFICE)",
+    houseNo: "88",
+    alley: "ซอยลาดพร้าว 101",
+    road: "ถนนลาดพร้าว",
+    tambol: "คลองจั่น",
+    district: "บางกะปิ",
+    province: "กรุงเทพมหานคร",
+    zipcode: "10240",
+    phone: "02-987-6543",
+    fax: "02-987-6544",
+    email: "info@thaifresh.co.th",
+  },
+  {
+    value: "BRN01",
+    label: "สาขา 1 — เชียงใหม่",
+    nameTh: "บริษัท ไทยฟรุ้ต เอ็กซ์พอร์ต จำกัด สาขา 1",
+    nameEn: "THAI FRUIT EXPORT CO., LTD. BRANCH 1",
+    houseNo: "22",
+    alley: "",
+    road: "ถนนนิมมานเหมินท์",
+    tambol: "สุเทพ",
+    district: "เมืองเชียงใหม่",
+    province: "เชียงใหม่",
+    zipcode: "50200",
+    phone: "053-123-456",
+    fax: "053-123-457",
+    email: "chiangmai@thaifresh.co.th",
+  },
+  {
+    value: "BRN02",
+    label: "สาขา 2 — ขอนแก่น",
+    nameTh: "บริษัท ไทยฟรุ้ต เอ็กซ์พอร์ต จำกัด สาขา 2",
+    nameEn: "THAI FRUIT EXPORT CO., LTD. BRANCH 2",
+    houseNo: "55/3",
+    alley: "",
+    road: "ถนนมิตรภาพ",
+    tambol: "ในเมือง",
+    district: "เมืองขอนแก่น",
+    province: "ขอนแก่น",
+    zipcode: "40000",
+    phone: "043-222-333",
+    fax: "043-222-334",
+    email: "khonkaen@thaifresh.co.th",
+  },
+];
+const branchOptions = branchList.map((b) => ({
+  label: b.label,
+  value: b.value,
+}));
+const selectedBranchData = computed(
+  () => branchList.find((b) => b.value === form.selectedBranch) ?? null,
+);
+
 // ─── Total weight from all export detail shipments ───
 const totalWeightAll = computed(() =>
   form.exportDetails.reduce(
@@ -2492,6 +2767,11 @@ const durationOptions = [
   { label: "7 วัน", value: 7 },
   { label: "14 วัน", value: 14 },
   { label: "30 วัน", value: 30 },
+];
+const planttypeOptions = [
+  { label: "มะม่วง" },
+  { label: "มะพร้าว" },
+  { label: "เงาะ" },
 ];
 const laboratories = [
   "ศูนย์วิจัยและพัฒนาการเกษตรเชียงใหม่",

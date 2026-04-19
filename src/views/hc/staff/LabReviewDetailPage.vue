@@ -18,6 +18,15 @@
         </p>
       </div>
       <v-spacer />
+      <v-btn
+        variant="tonal"
+        color="info"
+        rounded="lg"
+        size="small"
+        prepend-icon="fas fa-download"
+      >
+        พิมพ์ PDF
+      </v-btn>
       <v-chip :color="statusColor(app.status)" variant="tonal">
         <v-icon :icon="statusIcon(app.status)" size="13" class="mr-1" />
         {{ statusLabel(app.status) }}
@@ -432,12 +441,12 @@
               </v-card-text>
             </v-card>
 
-            <!-- รายละเอียดการส่งออกสินค้า -->
+            <!-- รายละเอียดการส่งออกสินค้า (พก.11.1) -->
             <v-card rounded="xl" elevation="0" class="section-card mb-4">
               <div class="section-header px-4 py-3 d-flex align-center ga-2">
                 <v-icon icon="fas fa-file-export" color="hc-staff" size="15" />
                 <span class="text-subtitle-2 font-weight-bold"
-                  >รายละเอียดการส่งออกสินค้า</span
+                  >รายละเอียดการส่งออกสินค้า (พก.11.1)</span
                 >
               </div>
               <v-table density="compact" class="pa-2">
@@ -463,15 +472,35 @@
                     <td class="text-body-2">{{ d.exporterName }}</td>
                     <td class="text-body-2">{{ d.weight.toLocaleString() }}</td>
                     <td>
-                      <v-btn
-                        size="x-small"
-                        variant="tonal"
-                        color="hc-staff"
-                        rounded="lg"
-                        prepend-icon="fas fa-circle-info"
-                        @click="openExportDetail(d)"
-                        >รายละเอียด</v-btn
-                      >
+                      <div class="d-flex ga-1 justify-end">
+                        <v-tooltip text="ดูข้อมูล" location="top">
+                          <template #activator="{ props }">
+                            <v-btn
+                              v-bind="props"
+                              icon
+                              size="x-small"
+                              variant="text"
+                              color="hc-staff"
+                              @click="openExportDetail(d)"
+                            >
+                              <v-icon icon="fas fa-eye" size="14" />
+                            </v-btn>
+                          </template>
+                        </v-tooltip>
+                        <v-tooltip text="ดาวน์โหลด" location="top">
+                          <template #activator="{ props }">
+                            <v-btn
+                              v-bind="props"
+                              icon
+                              size="x-small"
+                              variant="text"
+                              color="hc-staff"
+                            >
+                              <v-icon icon="fas fa-file-pdf" size="14" />
+                            </v-btn>
+                          </template>
+                        </v-tooltip>
+                      </div>
                     </td>
                   </tr>
                 </tbody>
@@ -526,18 +555,57 @@
 
           <!-- Tab: ผลการตรวจ Lab -->
           <v-window-item value="lab">
-            <!-- Overall result -->
+            <!-- Tab action bar -->
+            <div class="d-flex justify-end mb-3">
+              <template v-if="!labEditMode">
+                <v-btn
+                  size="small"
+                  variant="tonal"
+                  color="hc-staff"
+                  rounded="lg"
+                  prepend-icon="fas fa-pen"
+                  @click="enterLabEdit"
+                >
+                  แก้ไขผล Lab
+                </v-btn>
+              </template>
+              <template v-else>
+                <v-btn
+                  size="small"
+                  variant="text"
+                  color="grey"
+                  rounded="lg"
+                  class="mr-2"
+                  @click="cancelLabEdit"
+                >
+                  ยกเลิก
+                </v-btn>
+                <v-btn
+                  size="small"
+                  variant="flat"
+                  color="hc-staff"
+                  rounded="lg"
+                  prepend-icon="fas fa-floppy-disk"
+                  @click="confirmSaveLab"
+                >
+                  บันทึกผล
+                </v-btn>
+              </template>
+            </div>
+
+            <!-- Overall result (view mode) -->
             <v-card
+              v-if="!labEditMode"
               rounded="xl"
               elevation="0"
               class="mb-4"
               :style="{
                 background:
-                  app.labOverall === 'pass'
+                  displayLabOverall === 'pass'
                     ? 'rgba(var(--v-theme-success), 0.06)'
                     : 'rgba(var(--v-theme-error), 0.06)',
                 border:
-                  app.labOverall === 'pass'
+                  displayLabOverall === 'pass'
                     ? '1px solid rgba(var(--v-theme-success), 0.2)'
                     : '1px solid rgba(var(--v-theme-error), 0.2)',
               }"
@@ -548,25 +616,25 @@
                   style="width: 44px; height: 44px"
                   :style="{
                     background:
-                      app.labOverall === 'pass'
+                      displayLabOverall === 'pass'
                         ? 'rgba(var(--v-theme-success), 0.15)'
                         : 'rgba(var(--v-theme-error), 0.15)',
                   }"
                 >
                   <v-icon
                     :icon="
-                      app.labOverall === 'pass'
+                      displayLabOverall === 'pass'
                         ? 'fas fa-circle-check'
                         : 'fas fa-circle-xmark'
                     "
-                    :color="app.labOverall === 'pass' ? 'success' : 'error'"
+                    :color="displayLabOverall === 'pass' ? 'success' : 'error'"
                     size="22"
                   />
                 </div>
                 <div>
                   <div class="text-body-2 font-weight-bold">
                     ผลการตรวจ Lab โดยรวม
-                    <span v-if="app.labOverall === 'fail'" class="text-error"
+                    <span v-if="displayLabOverall === 'fail'" class="text-error"
                       >: ไม่ผ่าน</span
                     >
                   </div>
@@ -574,6 +642,43 @@
                     วันที่บันทึกผล: {{ app.labResultDate }}
                   </div>
                 </div>
+              </v-card-text>
+            </v-card>
+
+            <!-- Overall result (edit mode) -->
+            <v-card
+              v-else
+              rounded="xl"
+              elevation="0"
+              class="mb-4 section-card"
+            >
+              <v-card-text class="pa-4">
+                <div class="text-body-2 font-weight-bold mb-3">
+                  ผลการตรวจ Lab โดยรวม
+                </div>
+                <v-radio-group
+                  v-model="editLabOverall"
+                  color="hc-staff"
+                  inline
+                  hide-details
+                >
+                  <v-radio value="pass" class="mr-6">
+                    <template #label>
+                      <div class="d-flex align-center ga-2">
+                        <v-icon icon="fas fa-circle-check" color="success" size="16" />
+                        <span class="font-weight-medium">ผ่าน (Pass)</span>
+                      </div>
+                    </template>
+                  </v-radio>
+                  <v-radio value="fail">
+                    <template #label>
+                      <div class="d-flex align-center ga-2">
+                        <v-icon icon="fas fa-circle-xmark" color="error" size="16" />
+                        <span class="font-weight-medium">ไม่ผ่าน (Fail)</span>
+                      </div>
+                    </template>
+                  </v-radio>
+                </v-radio-group>
               </v-card-text>
             </v-card>
 
@@ -597,7 +702,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <template v-for="section in labSections" :key="section.key">
+                  <template v-for="section in activeSections" :key="section.key">
                     <!-- แถวหลัก -->
                     <tr
                       class="section-row"
@@ -627,8 +732,22 @@
                       <td class="text-body-2 font-weight-medium">
                         {{ section.label }}
                       </td>
-                      <td class="text-center py-2">
+                      <td class="text-center py-2" @click.stop>
+                        <v-select
+                          v-if="labEditMode"
+                          v-model="section.result"
+                          :items="resultOptions"
+                          item-title="title"
+                          item-value="value"
+                          density="compact"
+                          variant="outlined"
+                          rounded="lg"
+                          hide-details
+                          style="min-width: 140px"
+                          :color="section.result === 'detected' ? 'error' : 'success'"
+                        />
                         <v-chip
+                          v-else
                           :color="
                             section.result === 'detected' ? 'error' : 'success'
                           "
@@ -642,8 +761,17 @@
                           }}
                         </v-chip>
                       </td>
-                      <td class="text-caption text-medium-emphasis">
-                        {{ section.detail || "—" }}
+                      <td class="text-caption text-medium-emphasis" @click.stop>
+                        <v-text-field
+                          v-if="labEditMode"
+                          v-model="section.detail"
+                          density="compact"
+                          variant="outlined"
+                          rounded="lg"
+                          hide-details
+                          placeholder="รายละเอียด..."
+                        />
+                        <span v-else>{{ section.detail || "—" }}</span>
                       </td>
                     </tr>
                     <!-- แถวย่อย -->
@@ -663,8 +791,22 @@
                           />
                           {{ item.name }}
                         </td>
-                        <td class="text-center py-1">
+                        <td class="text-center py-1" @click.stop>
+                          <v-select
+                            v-if="labEditMode"
+                            v-model="item.result"
+                            :items="resultOptions"
+                            item-title="title"
+                            item-value="value"
+                            density="compact"
+                            variant="outlined"
+                            rounded="lg"
+                            hide-details
+                            style="min-width: 140px"
+                            :color="item.result === 'detected' ? 'error' : 'success'"
+                          />
                           <v-chip
+                            v-else
                             :color="
                               item.result === 'detected' ? 'error' : 'success'
                             "
@@ -678,8 +820,18 @@
                             }}
                           </v-chip>
                         </td>
-                        <td class="text-caption text-medium-emphasis">
-                          {{ item.value }} {{ item.unit }}
+                        <td class="text-caption text-medium-emphasis" @click.stop>
+                          <v-text-field
+                            v-if="labEditMode"
+                            v-model="item.value"
+                            density="compact"
+                            variant="outlined"
+                            rounded="lg"
+                            hide-details
+                            :placeholder="item.unit"
+                            :suffix="item.unit"
+                          />
+                          <span v-else>{{ item.value }} {{ item.unit }}</span>
                         </td>
                       </tr>
                     </template>
@@ -738,7 +890,11 @@
                   color="hc-staff"
                   inline
                 >
-                  <v-radio v-if="app.labOverall === 'pass'" value="approve" class="mr-6">
+                  <v-radio
+                    v-if="app.labOverall === 'pass'"
+                    value="approve"
+                    class="mr-6"
+                  >
                     <template #label>
                       <div class="d-flex align-center ga-2">
                         <v-icon
@@ -953,6 +1109,43 @@
       </v-col>
     </v-row>
 
+    <!-- Confirm Dialog: บันทึกผล Lab -->
+    <v-dialog v-model="labSaveDialog" max-width="400">
+      <v-card rounded="xl">
+        <v-card-text class="pa-7 text-center">
+          <div
+            class="confirm-ring mx-auto mb-4"
+            style="background: rgba(var(--v-theme-hc-staff), 0.1)"
+          >
+            <v-icon icon="fas fa-flask" size="28" color="hc-staff" />
+          </div>
+          <h3 class="text-h6 font-weight-bold mb-2">บันทึกผล Lab</h3>
+          <p class="text-body-2 text-medium-emphasis">
+            ยืนยันการบันทึกผลการตรวจ Lab ที่แก้ไขใช่หรือไม่?
+          </p>
+        </v-card-text>
+        <v-card-actions class="px-5 pb-5">
+          <v-row no-gutters class="ga-2 w-100">
+            <v-col>
+              <v-btn
+                variant="tonal"
+                color="grey"
+                block
+                rounded="lg"
+                @click="labSaveDialog = false"
+                >ยกเลิก</v-btn
+              >
+            </v-col>
+            <v-col>
+              <v-btn color="hc-staff" block rounded="lg" @click="submitSaveLab"
+                >ยืนยัน</v-btn
+              >
+            </v-col>
+          </v-row>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
     <!-- Confirm Dialog: ส่งต่อพิจารณา -->
     <v-dialog v-model="approveDialog" max-width="400">
       <v-card rounded="xl">
@@ -1081,7 +1274,7 @@
             </div>
             <div>
               <div class="text-subtitle-2 font-weight-bold">
-                รายละเอียดการส่งออกสินค้า
+                รายละเอียดการส่งออกสินค้า (พก.11.1)
               </div>
               <div class="text-caption text-medium-emphasis">
                 Export Details
@@ -1229,7 +1422,16 @@
           </p>
         </v-card-text>
         <v-card-actions class="px-6 pb-5">
-          <v-btn color="hc-staff" rounded="lg" block @click="goToList">
+          <v-btn
+            v-if="successIsLabSave"
+            color="hc-staff"
+            rounded="lg"
+            block
+            @click="successDialog = false"
+          >
+            ปิด
+          </v-btn>
+          <v-btn v-else color="hc-staff" rounded="lg" block @click="goToList">
             กลับรายการรอพิจารณาผล Lab
           </v-btn>
         </v-card-actions>
@@ -1268,27 +1470,76 @@ function toggleSection(key) {
 
 const currentStep = ref(2);
 const activeTab = ref("info");
+
+// Lab edit mode
+const labEditMode = ref(false);
+const editLabOverall = ref("");
+const editableSections = ref([]);
+const labSaveDialog = ref(false);
+const displayLabOverall = ref(null); // set after labSections defined
+
+const resultOptions = [
+  { title: "Not Detected", value: "not_detected" },
+  { title: "Detected", value: "detected" },
+];
+
+const activeSections = computed(() =>
+  labEditMode.value ? editableSections.value : labSections,
+);
+
+function enterLabEdit() {
+  editLabOverall.value = displayLabOverall.value;
+  editableSections.value = labSections.map((s) => ({
+    ...s,
+    items: s.items.map((i) => ({ ...i })),
+  }));
+  labEditMode.value = true;
+}
+function cancelLabEdit() {
+  labEditMode.value = false;
+}
+function confirmSaveLab() {
+  labSaveDialog.value = true;
+}
+function submitSaveLab() {
+  labSaveDialog.value = false;
+  displayLabOverall.value = editLabOverall.value;
+  // editableSections already mutated in-place via v-model; sync back to labSections
+  editableSections.value.forEach((s, i) => {
+    Object.assign(labSections[i], s);
+    s.items.forEach((item, j) => Object.assign(labSections[i].items[j], item));
+  });
+  labEditMode.value = false;
+  successMessage.value = "บันทึกผล Lab เรียบร้อยแล้ว";
+  successIsLabSave.value = true;
+  successDialog.value = true;
+}
+
 const approveDialog = ref(false);
 const sendBackDialog = ref(false);
 const rejectDialog = ref(false);
 const successDialog = ref(false);
 const successMessage = ref("");
+const successIsLabSave = ref(false);
 
 function submitApprove() {
   approveDialog.value = false;
   successMessage.value = "ส่งคำขอเพื่อลงนามเรียบร้อยแล้ว";
+  successIsLabSave.value = false;
   successDialog.value = true;
 }
 
 function submitSendBack() {
   sendBackDialog.value = false;
   successMessage.value = "ส่งคำขอกลับให้ผู้ยื่นแก้ไขเรียบร้อยแล้ว";
+  successIsLabSave.value = false;
   successDialog.value = true;
 }
 
 function submitReject() {
   rejectDialog.value = false;
   successMessage.value = "บันทึกผลการไม่อนุมัติเรียบร้อยแล้ว";
+  successIsLabSave.value = false;
   successDialog.value = true;
 }
 
@@ -1349,7 +1600,7 @@ function previewCertPdf() {
   <div class="border-box">
     <div class="center">
       <div class="label">กรมวิชาการเกษตร • Department of Agriculture</div>
-      <div style="font-size:16pt;font-weight:700;margin:8px 0">หนังสือรับรองสุขอนามัยพืชสำหรับพืชควบคุมเฉพาะ</div>
+      <div style="font-size:16pt;font-weight:700;margin:8px 0">ใบรับรองสุขอนามัย สำหรับพืชควบคุมเฉพาะ</div>
       <div class="label">Health Certificate for Controlled Plants</div>
       <div class="watermark">ร่าง / DRAFT</div>
       <div class="cert-no">${no}</div>
@@ -1399,7 +1650,7 @@ function stepClass(v) {
   return "step-pending";
 }
 
-const labSections = [
+const labSections = reactive([
   {
     key: "pesticides",
     label: "สารตกค้าง",
@@ -1539,7 +1790,7 @@ const labSections = [
       },
     ],
   },
-];
+]);
 
 const mockApps = {
   "HC-2569-001": {
@@ -1725,6 +1976,7 @@ mockApps["HC-2569-003"] = {
 
 const appId = route.params.id;
 const app = mockApps[appId] ?? mockApps["HC-2569-001"];
+displayLabOverall.value = app.labOverall;
 
 function eventIcon(type) {
   return (

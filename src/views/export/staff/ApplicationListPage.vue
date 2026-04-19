@@ -154,7 +154,27 @@
             </v-menu>
           </v-col>
         </v-row>
-        <v-row dense>
+        <v-row dense align="center">
+          <v-col cols="auto">
+            <div class="field-label mb-1">
+              <div>ช่องทาง</div>
+              <div class="field-label-en">Channel</div>
+            </div>
+            <v-chip-group v-model="filters.channel" selected-class="text-export-staff">
+              <v-chip
+                v-for="opt in channelOptions"
+                :key="opt.value"
+                :value="opt.value"
+                :color="filters.channel === opt.value ? channelColor(opt.value) : undefined"
+                :variant="filters.channel === opt.value ? 'tonal' : 'outlined'"
+                size="small"
+                label
+              >
+                <v-icon start :icon="channelIcon(opt.value)" size="11" />
+                {{ opt.label }}
+              </v-chip>
+            </v-chip-group>
+          </v-col>
           <v-col cols="auto" class="ml-auto">
             <v-btn
               variant="tonal"
@@ -317,6 +337,29 @@
             />
           </span>
         </template>
+        <template #header.channel="{ column, isSorted, getSortIcon }">
+          <span class="d-inline-flex align-center ga-1">
+            <span>
+              <div
+                class="text-body-2 font-weight-medium"
+                style="line-height: 1.3"
+              >
+                ช่องทาง
+              </div>
+              <div
+                class="text-caption text-medium-emphasis"
+                style="line-height: 1.2"
+              >
+                Channel
+              </div>
+            </span>
+            <v-icon
+              v-if="isSorted(column)"
+              :icon="getSortIcon(column)"
+              size="14"
+            />
+          </span>
+        </template>
         <template #header.status="{ column, isSorted, getSortIcon }">
           <span class="d-inline-flex align-center ga-1">
             <span>
@@ -341,6 +384,17 @@
           </span>
         </template>
 
+        <template #item.channel="{ item }">
+          <v-chip
+            :color="channelColor(item.channel)"
+            size="small"
+            variant="tonal"
+            label
+          >
+            <v-icon start :icon="channelIcon(item.channel)" size="11" />
+            {{ item.channel }}
+          </v-chip>
+        </template>
         <template #item.status="{ item }">
           <v-chip
             :color="statusColor(item.status)"
@@ -443,6 +497,7 @@ const filters = reactive({
   typecert: null,
   type: null,
   status: null,
+  channel: null,
 });
 
 const typeOptions = [
@@ -458,6 +513,11 @@ const statusOptions = [
   { label: "รอลงนาม", value: "signing" },
 ];
 
+const channelOptions = [
+  { label: "SSO", value: "SSO" },
+  { label: "Bizportal", value: "Bizportal" },
+];
+
 const headers = [
   { title: "เลขคำขอ", key: "requestNo", sortable: true, fixed: "true" },
   { title: "ชื่อสถานประกอบการ", key: "companyName", sortable: true },
@@ -465,6 +525,7 @@ const headers = [
   { title: "ประเภททะเบียน", key: "typecert", sortable: true },
   { title: "ประเภทคำขอ", key: "type", sortable: true },
   { title: "วันที่ยื่น", key: "submittedDate", sortable: true },
+  { title: "ช่องทาง", key: "channel", sortable: true },
   { title: "สถานะคำขอ", key: "status", sortable: true },
   { title: "", key: "actions", sortable: false, align: "end", fixed: "true" },
 ];
@@ -477,6 +538,7 @@ const allItems = [
     typecert: "คำขอหนังสือสำคัญแสดงการขึ้นทะเบียนเป็นผู้ส่งออกผักและผลไม้",
     type: "ขึ้นทะเบียน",
     submittedDate: "01/01/2569",
+    channel: "SSO",
     status: "pending",
   },
   {
@@ -487,6 +549,7 @@ const allItems = [
       "คำขอหนังสือสำคัญแสดงการจดทะเบียนเป็นผู้ส่งออกกล้วยสดไปประเทศญี่ปุ่น",
     type: "ขึ้นทะเบียน",
     submittedDate: "10/03/2569",
+    channel: "Bizportal",
     status: "reviewing",
   },
   {
@@ -496,6 +559,7 @@ const allItems = [
     typecert: "คำร้องขึ้นทะเบียนเป็นผู้ส่งออกพืชควบคุม",
     type: "ต่ออายุ",
     submittedDate: "12/03/2569",
+    channel: "SSO",
     status: "signing",
   },
   {
@@ -506,6 +570,7 @@ const allItems = [
       "คำขอหนังสือสำคัญแสดงการจดทะเบียนเป็นผู้ส่งออกกล้วยสดไปประเทศญี่ปุ่น",
     type: "ขึ้นทะเบียน",
     submittedDate: "15/03/2569",
+    channel: "Bizportal",
     status: "need_edit",
   },
   {
@@ -515,6 +580,7 @@ const allItems = [
     typecert: "คำร้องขึ้นทะเบียนเป็นผู้ส่งออกพืชควบคุม",
     type: "ขึ้นทะเบียน",
     submittedDate: "20/03/2569",
+    channel: "SSO",
     status: "pending",
   },
 ];
@@ -567,6 +633,8 @@ const filteredItems = computed(() => {
     items = items.filter((i) => i.typecert === filters.typecert);
   if (filters.type) items = items.filter((i) => i.type === filters.type);
   if (filters.status) items = items.filter((i) => i.status === filters.status);
+  if (filters.channel)
+    items = items.filter((i) => i.channel === filters.channel);
   if (filters.dateFrom) {
     const from = new Date(filters.dateFrom).getTime();
     items = items.filter((i) => beDateToTs(i.submittedDate) >= from);
@@ -585,6 +653,7 @@ function clearFilters() {
   filters.typecert = null;
   filters.type = null;
   filters.status = null;
+  filters.channel = null;
   dateFromObj.value = null;
   dateToObj.value = null;
 }
@@ -612,5 +681,15 @@ function statusLabel(s) {
     }[s] ?? s
   );
 }
-</script>
 
+function channelColor(c) {
+  return { SSO: "info", Bizportal: "purple" }[c] ?? "grey";
+}
+
+function channelIcon(c) {
+  return (
+    { SSO: "fas fa-id-badge", Bizportal: "fas fa-building" }[c] ??
+    "fas fa-circle"
+  );
+}
+</script>

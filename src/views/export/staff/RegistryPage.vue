@@ -557,8 +557,8 @@ const typecertOptions = [
 
 const allItems = [
   {
-    id: "EXP-2569-005",
-    certNo: "EXP-2569-005",
+    id: "EXP-2569-12345",
+    certNo: "EXP-2569-12345",
     requestNo: "EXP-0005",
     companyName: "บ.ไทย เอ็กซ์พอร์ต จก.",
     applicantName: "สมชาย ใจดี",
@@ -569,8 +569,8 @@ const allItems = [
     status: "active",
   },
   {
-    id: "EXP-2569-010",
-    certNo: "EXP-2569-010",
+    id: "EXP-2569-67890",
+    certNo: "EXP-2569-67890",
     requestNo: "EXP-0010",
     companyName: "บ.สยาม เอ็กซ์พอร์ต จก.",
     applicantName: "มาลี รักดี",
@@ -581,8 +581,8 @@ const allItems = [
     status: "expiring",
   },
   {
-    id: "EXP-2569-003",
-    certNo: "EXP-2569-003",
+    id: "EXP-2569-00123",
+    certNo: "EXP-2569-00123",
     requestNo: "EXP-0003",
     companyName: "บ.เอเชียแอกโกร จก.",
     applicantName: "ประสิทธิ์ พานิช",
@@ -693,4 +693,3 @@ function statusLabel(s) {
   );
 }
 </script>
-

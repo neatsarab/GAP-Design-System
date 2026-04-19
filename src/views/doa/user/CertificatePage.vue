@@ -523,7 +523,7 @@ const typeOptions = [
 
 const allItems = [
   {
-    id: "EXP-2569-005",
+    id: "EXP-2569-12345",
     requestNo: "EXP-DOA-2569-001",
     type: "amendment",
     applicant: "บ.ไทย เอ็กซ์พอร์ต จก.",
@@ -532,7 +532,7 @@ const allItems = [
     status: "active",
   },
   {
-    id: "EXP-2569-010",
+    id: "EXP-2569-67890",
     requestNo: "EXP-DOA-2569-002",
     type: "smpv5",
     applicant: "บ.ไทย เอ็กซ์พอร์ต จก.",
@@ -541,7 +541,7 @@ const allItems = [
     status: "expiring",
   },
   {
-    id: "EXP-2569-003",
+    id: "EXP-2569-00123",
     requestNo: "EXP-DOA-2569-003",
     type: "kk1",
     applicant: "บ.ไทย เอ็กซ์พอร์ต จก.",

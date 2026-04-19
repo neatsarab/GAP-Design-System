@@ -153,13 +153,15 @@
                 <div class="info-label">
                   ประเทศปลายทาง / Country of Destination
                 </div>
-                <div class="info-value">{{ cert.shipment.countryDestination }}</div>
+                <div class="info-value">
+                  {{ cert.shipment.countryDestination }}
+                </div>
               </v-col>
               <v-col cols="12" md="4">
-                <div class="info-label">
-                  สถานที่ส่งออก / Place of Departure
+                <div class="info-label">สถานที่ส่งออก / Place of Departure</div>
+                <div class="info-value">
+                  {{ cert.shipment.placeOfDeparture }}
                 </div>
-                <div class="info-value">{{ cert.shipment.placeOfDeparture }}</div>
               </v-col>
             </v-row>
           </v-card-text>
@@ -270,13 +272,11 @@
               class="item-row rounded-lg px-3 py-2 mb-2 d-flex align-center justify-space-between"
             >
               <div class="d-flex align-center ga-2">
-                <v-icon
-                  icon="fas fa-file-alt"
-                  size="13"
-                  color="hcex-user"
-                />
+                <v-icon icon="fas fa-file-alt" size="13" color="hcex-user" />
                 <div>
-                  <div class="text-caption text-medium-emphasis">{{ doc.docType }}</div>
+                  <div class="text-caption text-medium-emphasis">
+                    {{ doc.docType }}
+                  </div>
                   <div class="text-body-2">{{ doc.label }}</div>
                 </div>
               </div>
@@ -543,7 +543,7 @@ function openActivityDetail(event) {
 const cert = {
   certNo: "HC-2569-001",
   requestNo: "HC-REQ-2569-001",
-  typecert: "กมพ.1 ใบรับรองสุขอนามัยพืชสำหรับการส่งออก",
+  typecert: "กมพ.1 ใบรับรองสุขอนามัย สำหรับการส่งออก",
   issueDate: "15/03/2569",
   status: "issued",
 
@@ -572,8 +572,7 @@ const cert = {
     totalAmount: "500,000.00 THB",
   },
 
-  specialRemark:
-    "สินค้าผ่านการตรวจสอบตามมาตรฐานการส่งออกของกรมวิชาการเกษตร",
+  specialRemark: "สินค้าผ่านการตรวจสอบตามมาตรฐานการส่งออกของกรมวิชาการเกษตร",
 
   attachments: [
     {
@@ -666,7 +665,7 @@ function downloadCertPdf() {
   .sig-line { border-top: 1px solid #333; width: 220px; display: inline-block; margin-top: 40px; }
 </style></head><body>
 <div class="title">กรมวิชาการเกษตร</div>
-<div class="subtitle">ใบรับรองสุขอนามัยพืชสำหรับการส่งออก (กมพ.1)</div>
+<div class="subtitle">ใบรับรองสุขอนามัย สำหรับการส่งออก (กมพ.1)</div>
 <div class="cert-no">เลขที่ใบรับรอง: ${c.certNo}</div>
 <table>
   <tr><td class="label">เลขคำขออ้างอิง / Request No.</td><td>${c.requestNo}</td>

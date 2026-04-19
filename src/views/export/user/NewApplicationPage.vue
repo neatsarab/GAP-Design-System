@@ -59,28 +59,84 @@
 
     <!-- ─── STEP 1: ประเภทคำขอ ─── -->
     <template v-if="currentStep === 0">
-      <!-- ประเภทคำขอ -->
+      <!-- ประเภททะเบียน (newrequest only) -->
       <v-card
-        v-if="route.params.type !== 'amendment'"
+        v-if="route.params.type === 'newrequest'"
         elevation="0"
         border
         rounded="xl"
         class="mb-5"
       >
         <div class="d-flex align-center ga-2 px-4 py-3 border-b">
-          <v-icon icon="fas fa-list-check" color="export-user" size="15" />
-          <span class="text-subtitle-2 font-weight-bold">ประเภทคำขอ</span>
+          <v-icon icon="fas fa-ship" color="export-user" size="15" />
+          <span class="text-subtitle-2 font-weight-bold">ประเภททะเบียน</span>
+          <!-- <span class="text-caption text-medium-emphasis ml-1">Registration Type</span> -->
         </div>
-        <v-card-text class="pt-5">
-          <v-radio-group
+        <v-card-text class="pt-4">
+          <div class="field-label mb-1">
+            <div>ประเภททะเบียน <span class="req">*</span></div>
+            <div class="field-label-en">Registration Type</div>
+          </div>
+          <v-autocomplete
+            v-model="form.registrationType"
+            :items="registrationTypes"
+            item-title="label"
+            item-value="value"
+            placeholder="เลือกประเภททะเบียน"
+            variant="outlined"
             density="compact"
-            v-model="form.requestType"
+            rounded="lg"
+            hide-details="auto"
             color="export-user"
-            inline
+            clearable
+          />
+        </v-card-text>
+      </v-card>
+
+      <!-- ชนิดพืช (เฉพาะบางประเภททะเบียน, newrequest only) -->
+      <v-card
+        v-if="route.params.type === 'newrequest' && plantTypesForSelected.length > 0"
+        elevation="0"
+        border
+        rounded="xl"
+        class="mb-5"
+      >
+        <div class="d-flex align-center ga-2 px-4 py-3 border-b">
+          <v-icon icon="fas fa-seedling" color="export-user" size="15" />
+          <span class="text-subtitle-2 font-weight-bold">ชนิดพืช</span>
+          <!-- <span class="text-caption text-medium-emphasis ml-1">Plant Type</span> -->
+          <v-chip size="x-small" color="warning" variant="tonal" class="ml-2"
+            >ต้องเลือกอย่างน้อย 1 รายการ</v-chip
           >
-            <v-radio value="register" label="คำขอขึ้นทะเบียน" class="mr-8" />
-            <v-radio value="renewal" label="คำขอต่ออายุ" />
-          </v-radio-group>
+        </div>
+        <v-card-text class="pt-4">
+          <div class="field-label mb-1">
+            <div>ชนิดพืช <span class="req">*</span></div>
+            <div class="field-label-en">Plant Type</div>
+          </div>
+          <v-autocomplete
+            v-model="form.selectedPlants"
+            :items="plantTypesForSelected"
+            placeholder="เลือกชนิดพืช (เลือกได้มากกว่า 1)"
+            variant="outlined"
+            density="compact"
+            rounded="lg"
+            hide-details="auto"
+            color="export-user"
+            multiple
+            chips
+            closable-chips
+          />
+          <v-alert
+            v-if="plantValidationError"
+            type="error"
+            variant="tonal"
+            density="compact"
+            class="mt-3"
+            prepend-icon="fas fa-circle-xmark"
+          >
+            กรุณาเลือกชนิดพืชอย่างน้อย 1 รายการ
+          </v-alert>
         </v-card-text>
       </v-card>
 
@@ -1296,7 +1352,20 @@
           <!-- ชื่อสถานประกอบการ -->
           <div class="field-section-label mb-2">ชื่อสถานประกอบการ</div>
           <v-row dense>
-            <v-col cols="12" md="6">
+            <v-col cols="12" md="4">
+              <div class="field-label">
+                <div>เลขทะเบียนนิติบุคคล</div>
+                <div class="field-label-en">Company Registration No.</div>
+              </div>
+              <v-text-field
+                density="compact"
+                v-model="form.companyRegNo"
+                hide-details
+                readonly
+                class="field-readonly"
+              />
+            </v-col>
+            <v-col cols="12" md="4">
               <div class="field-label">
                 <div>ชื่อสถานประกอบการ (ภาษาไทย)</div>
                 <div class="field-label-en">Company Name (Thai)</div>
@@ -1309,7 +1378,7 @@
                 class="field-readonly"
               />
             </v-col>
-            <v-col cols="12" md="6">
+            <v-col cols="12" md="4">
               <div class="field-label">
                 <div>ชื่อสถานประกอบการ (ภาษาอังกฤษ)</div>
                 <div class="field-label-en">Company Name (English)</div>
@@ -1323,6 +1392,203 @@
               />
             </v-col>
           </v-row>
+
+          <!-- สาขา -->
+          <div class="field-section-label mt-4 mb-2">สาขา</div>
+          <v-row dense class="mb-1">
+            <v-col cols="12" md="6">
+              <div class="field-label mb-1">
+                <div>สาขา <span class="req">*</span></div>
+                <div class="field-label-en">Branch</div>
+              </div>
+              <v-autocomplete
+                v-model="form.selectedBranch"
+                :items="branchOptions"
+                item-title="label"
+                item-value="value"
+                placeholder="เลือกสาขา"
+                variant="outlined"
+                density="compact"
+                rounded="lg"
+                hide-details
+                color="export-user"
+              />
+            </v-col>
+          </v-row>
+
+          <!-- ข้อมูลสาขาที่เลือก -->
+          <v-expand-transition>
+            <div v-if="selectedBranchData">
+              <v-alert
+                color="export-user"
+                variant="tonal"
+                density="compact"
+                rounded="lg"
+                class="mb-3 mt-2"
+                prepend-icon="fas fa-circle-info"
+              >
+                <span class="text-body-2">ข้อมูลดึงจาก SSO — แก้ไขไม่ได้</span>
+              </v-alert>
+              <v-row dense>
+                <v-col cols="12" md="6">
+                  <div class="field-label">
+                    <div>ชื่อสาขา (ภาษาไทย)</div>
+                    <div class="field-label-en">Branch Name (Thai)</div>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    :model-value="selectedBranchData.nameTh"
+                    hide-details
+                    readonly
+                    class="field-readonly"
+                  />
+                </v-col>
+                <v-col cols="12" md="6">
+                  <div class="field-label">
+                    <div>ชื่อสาขา (ภาษาอังกฤษ)</div>
+                    <div class="field-label-en">Branch Name (English)</div>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    :model-value="selectedBranchData.nameEn"
+                    hide-details
+                    readonly
+                    class="field-readonly"
+                  />
+                </v-col>
+                <v-col cols="6" md="3">
+                  <div class="field-label">
+                    <div>บ้านเลขที่</div>
+                    <div class="field-label-en">House No.</div>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    :model-value="selectedBranchData.houseNo"
+                    hide-details
+                    readonly
+                    class="field-readonly"
+                  />
+                </v-col>
+                <v-col cols="6" md="3">
+                  <div class="field-label">
+                    <div>ซอย / ตรอก</div>
+                    <div class="field-label-en">Alley / Soi</div>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    :model-value="selectedBranchData.alley"
+                    hide-details
+                    readonly
+                    class="field-readonly"
+                  />
+                </v-col>
+                <v-col cols="6" md="3">
+                  <div class="field-label">
+                    <div>ถนน</div>
+                    <div class="field-label-en">Road</div>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    :model-value="selectedBranchData.road"
+                    hide-details
+                    readonly
+                    class="field-readonly"
+                  />
+                </v-col>
+                <v-col cols="6" md="3">
+                  <div class="field-label">
+                    <div>ตำบล / แขวง</div>
+                    <div class="field-label-en">Sub-district</div>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    :model-value="selectedBranchData.tambol"
+                    hide-details
+                    readonly
+                    class="field-readonly"
+                  />
+                </v-col>
+                <v-col cols="6" md="3">
+                  <div class="field-label">
+                    <div>อำเภอ / เขต</div>
+                    <div class="field-label-en">District</div>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    :model-value="selectedBranchData.district"
+                    hide-details
+                    readonly
+                    class="field-readonly"
+                  />
+                </v-col>
+                <v-col cols="6" md="3">
+                  <div class="field-label">
+                    <div>จังหวัด</div>
+                    <div class="field-label-en">Province</div>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    :model-value="selectedBranchData.province"
+                    hide-details
+                    readonly
+                    class="field-readonly"
+                  />
+                </v-col>
+                <v-col cols="6" md="3">
+                  <div class="field-label">
+                    <div>รหัสไปรษณีย์</div>
+                    <div class="field-label-en">Zipcode</div>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    :model-value="selectedBranchData.zipcode"
+                    hide-details
+                    readonly
+                    class="field-readonly"
+                  />
+                </v-col>
+                <v-col cols="12" md="4">
+                  <div class="field-label">
+                    <div>โทรศัพท์</div>
+                    <div class="field-label-en">Phone</div>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    :model-value="selectedBranchData.phone"
+                    hide-details
+                    readonly
+                    class="field-readonly"
+                  />
+                </v-col>
+                <v-col cols="12" md="4">
+                  <div class="field-label">
+                    <div>โทรสาร</div>
+                    <div class="field-label-en">Fax</div>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    :model-value="selectedBranchData.fax"
+                    hide-details
+                    readonly
+                    class="field-readonly"
+                  />
+                </v-col>
+                <v-col cols="12" md="4">
+                  <div class="field-label">
+                    <div>Email</div>
+                    <div class="field-label-en">Email</div>
+                  </div>
+                  <v-text-field
+                    density="compact"
+                    :model-value="selectedBranchData.email"
+                    hide-details
+                    readonly
+                    class="field-readonly"
+                  />
+                </v-col>
+              </v-row>
+            </div>
+          </v-expand-transition>
 
           <!-- ที่ตั้ง (ภาษาไทย) -->
           <div class="field-section-label mt-4 mb-2">ที่ตั้ง (ภาษาไทย)</div>
@@ -1832,6 +2098,9 @@
                   <div class="text-body-1 font-weight-bold text-gap-user">
                     {{ gapSearchResult.gapNo }}
                   </div>
+                  <div class="text-caption text-medium-emphasis mt-1">
+                    รหัสแปลง: {{ gapSearchResult.plotCode }}
+                  </div>
                   <div class="text-body-2 mt-1">
                     {{ gapSearchResult.siteName }}
                   </div>
@@ -1902,6 +2171,7 @@
               <thead>
                 <tr>
                   <th>เลขใบรับรอง GAP</th>
+                  <th>รหัสแปลง</th>
                   <th>ชื่อแหล่งผลิต</th>
                   <th>หน่วยงานรับรอง</th>
                   <th>วันหมดอายุ</th>
@@ -1913,6 +2183,7 @@
                   <td class="text-body-2 font-weight-bold text-gap-user">
                     {{ gap.gapNo }}
                   </td>
+                  <td class="text-body-2">{{ gap.plotCode }}</td>
                   <td class="text-body-2">{{ gap.siteName }}</td>
                   <td class="text-body-2">{{ gap.certBody }}</td>
                   <td class="text-body-2">{{ gap.expiryDate }}</td>
@@ -2212,12 +2483,24 @@ function prevStep() {
   currentStep.value--;
 }
 function nextStep() {
+  if (currentStep.value === 0) {
+    if (route.params.type === "newrequest") {
+      // validate plant selection if required
+      if (
+        plantTypesForSelected.value.length > 0 &&
+        form.selectedPlants.length === 0
+      ) {
+        plantValidationError.value = true;
+        return;
+      }
+      plantValidationError.value = false;
+    }
+  }
   currentStep.value++;
 }
 
 const typeTitles = {
-  newrequest: "คำขอขึ้น / ต่ออายุทะเบียน",
-  renew: "คำขอต่ออายุทะเบียน",
+  newrequest: "คำขอขึ้นทะเบียน",
   amendment: "คำขอแก้ไขใบทะเบียน",
 };
 const pageTitle = computed(
@@ -2241,8 +2524,52 @@ const steps = [
 const today = new Date();
 const todayStr = `${today.getDate().toString().padStart(2, "0")}/${(today.getMonth() + 1).toString().padStart(2, "0")}/${today.getFullYear() + 543}`;
 
+// ── ประเภททะเบียน ──────────────────────────────────────
+const registrationTypes = [
+  {
+    value: "veg_fruit",
+    label: "คำขอขึ้นทะเบียนเป็นผู้ส่งออกผักและผลไม้",
+    labelEn: "Exporter Registration for Vegetables and Fruits",
+  },
+  {
+    value: "banana_japan",
+    label: "คำขอขึ้นทะเบียนเป็นผู้ส่งออกกล้วยสดไปประเทศญี่ปุ่น",
+    labelEn: "Exporter Registration for Fresh Bananas to Japan",
+  },
+  {
+    value: "durian",
+    label: "คำขอขึ้นทะเบียนเป็นผู้ส่งออกผลทุเรียนสดออกไปนอกราชอาณาจักร",
+    labelEn: "Exporter Registration for Fresh Durian",
+  },
+  {
+    value: "agri_export",
+    label: "คำขอขึ้นทะเบียนเป็นผู้ส่งออกสินค้าเกษตรไปนอกราชอาณาจักร",
+    labelEn: "Exporter Registration for Agricultural Products",
+  },
+  {
+    value: "seeds",
+    label:
+      "คำขอขึ้นทะเบียนเป็นผู้ส่งออกลูกเดือย, เมล็ดแมงลัก และพริกแห้ง ไปนอกราชอาณาจักร",
+    labelEn:
+      "Exporter Registration for Job's Tears, Basil Seeds and Dried Chili",
+  },
+  {
+    value: "controlled_plant",
+    label: "คำขอขึ้นทะเบียนเป็นผู้ส่งออกพืชควบคุม",
+    labelEn: "Exporter Registration for Controlled Plants",
+  },
+];
+
+const plantTypeMap = {
+  agri_export: ["ลำใยสด", "ดอกกล้วยไม้สด"],
+  seeds: ["ลูกเดือย", "เมล็ดแมงลัก", "พริกแห้ง"],
+};
+
+const plantValidationError = ref(false);
+
 const form = reactive({
-  requestType: "register",
+  registrationType: null,
+  selectedPlants: [],
   // ผู้ยื่น (Auto-fill จาก SSO)
   applicantNameTh: "นายสมชาย ใจดี",
   applicantNameEn: "MR. SOMCHAI JAIDEE",
@@ -2266,7 +2593,10 @@ const form = reactive({
   // ประเทศ
   countries: [],
   countriesOther: [],
+  // สาขา
+  selectedBranch: null,
   // สถานประกอบการ (Auto-fill จาก DBD)
+  companyRegNo: "0105566012345",
   companyNameTh: "บริษัท ไทยเฟรช เอ็กซ์พอร์ต จำกัด",
   companyNameEn: "THAI FRESH EXPORT CO., LTD.",
   houseNo: "88",
@@ -2292,6 +2622,79 @@ const form = reactive({
   factories: [],
   gaps: [],
 });
+
+const plantTypesForSelected = computed(
+  () => plantTypeMap[form.registrationType] ?? [],
+);
+
+// ── สาขา (mock จาก SSO) ──────────────────────────────
+const branchList = [
+  {
+    value: "HQ",
+    label: "สำนักงานใหญ่",
+    nameTh: "บริษัท ไทยเฟรช เอ็กซ์พอร์ต จำกัด (สำนักงานใหญ่)",
+    nameEn: "THAI FRESH EXPORT CO., LTD. (HEAD OFFICE)",
+    houseNo: "88",
+    alley: "ซอยลาดพร้าว 101",
+    road: "ถนนลาดพร้าว",
+    tambol: "คลองจั่น",
+    district: "บางกะปิ",
+    province: "กรุงเทพมหานคร",
+    zipcode: "10240",
+    phone: "02-987-6543",
+    fax: "02-987-6544",
+    email: "info@thaifreshexport.co.th",
+  },
+  {
+    value: "BRN01",
+    label: "สาขา 1 — เชียงใหม่",
+    nameTh: "บริษัท ไทยเฟรช เอ็กซ์พอร์ต จำกัด สาขา 1",
+    nameEn: "THAI FRESH EXPORT CO., LTD. BRANCH 1",
+    houseNo: "22",
+    alley: "",
+    road: "ถนนนิมมานเหมินท์",
+    tambol: "สุเทพ",
+    district: "เมืองเชียงใหม่",
+    province: "เชียงใหม่",
+    zipcode: "50200",
+    phone: "053-123-456",
+    fax: "053-123-457",
+    email: "chiangmai@thaifreshexport.co.th",
+  },
+  {
+    value: "BRN02",
+    label: "สาขา 2 — ขอนแก่น",
+    nameTh: "บริษัท ไทยเฟรช เอ็กซ์พอร์ต จำกัด สาขา 2",
+    nameEn: "THAI FRESH EXPORT CO., LTD. BRANCH 2",
+    houseNo: "55/3",
+    alley: "ซอยมิตรภาพ 8",
+    road: "ถนนมิตรภาพ",
+    tambol: "ในเมือง",
+    district: "เมืองขอนแก่น",
+    province: "ขอนแก่น",
+    zipcode: "40000",
+    phone: "043-234-567",
+    fax: "",
+    email: "khonkaen@thaifreshexport.co.th",
+  },
+];
+
+const branchOptions = branchList.map((b) => ({
+  value: b.value,
+  label: b.label,
+}));
+
+const selectedBranchData = computed(
+  () => branchList.find((b) => b.value === form.selectedBranch) ?? null,
+);
+
+watch(
+  () => form.registrationType,
+  () => {
+    form.selectedPlants = [];
+    plantValidationError.value = false;
+  },
+);
 
 const countryOptions = [
   "สหภาพยุโรป",
@@ -2404,6 +2807,7 @@ const gapSearchLoading = ref(false);
 const gapMockDB = {
   "GAP-2568-12345": {
     gapNo: "GAP-2568-12345",
+    plotCode: "PLT-CNX-001",
     siteName: "สวนผลไม้สมชาย",
     certBody: "กรมวิชาการเกษตร (DOA)",
     certCode: "0123456789",
@@ -2412,6 +2816,7 @@ const gapMockDB = {
   },
   "GAP-67890": {
     gapNo: "GAP-67890",
+    plotCode: "PLT-BKK-042",
     siteName: "ไร่ผักอินทรีย์สุขใจ",
     certBody: "สำนักงานเกษตรจังหวัด",
     certCode: "0123456789",
@@ -2420,6 +2825,7 @@ const gapMockDB = {
   },
   "GAP-55555": {
     gapNo: "GAP-55555",
+    plotCode: "PLT-KKN-007",
     siteName: "สวนส้มโอทองดี",
     certBody: "กรมวิชาการเกษตร (DOA)",
     certCode: "0123456789",
@@ -2666,6 +3072,7 @@ const docNatural = [
       "หนังสือรับรองของโรงงานผลิตสินค้าพืชที่เราระบุว่าเป็นผู้คัดบรรจุสินค้าผักและผลไม้ให้กับผู้ส่งออก กรณีที่ผู้ส่งออกแจ้งใช้โรงงานผลิตสินค้าพืชของผู้อื่น",
     optional: false,
   },
+  { key: "other", label: "เอกสารอื่นๆ" },
 ];
 
 const docJuristic = [
@@ -2676,6 +3083,7 @@ const docJuristic = [
     optional: false,
   },
   { key: "trading_cer", label: "หนังสือรับรองการซื้อ-ขายกับเกษตรกร" },
+  { key: "other", label: "เอกสารอื่นๆ", optional: true },
 ];
 
 function openConfirmDialog() {

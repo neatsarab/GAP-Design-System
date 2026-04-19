@@ -1,4 +1,4 @@
-# ระบบการจดทะเบียนผู้ส่งออกสินค้าพืช (Exporter Registration System)
+# ระบบจดทะเบียนผู้ส่งออก (Exporter Registration System)
 
 ---
 

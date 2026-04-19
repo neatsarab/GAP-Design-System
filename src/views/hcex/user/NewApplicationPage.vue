@@ -99,12 +99,12 @@
         <div class="d-flex align-center ga-2 px-4 py-3 border-b">
           <v-icon icon="fas fa-certificate" color="hcex-user" size="15" />
           <span class="text-subtitle-2 font-weight-bold"
-            >ระบุใบรับรองสุขอนามัยพืชที่ต้องการแก้ไข</span
+            >ระบุใบรับรองสุขอนามัย ที่ต้องการแก้ไข</span
           >
         </div>
         <v-card-text class="pt-5">
           <div class="field-label mb-2">
-            เลขที่ใบรับรองสุขอนามัยพืช <span class="req">*</span>
+            เลขที่ใบรับรองสุขอนามัย <span class="req">*</span>
             <div class="field-label-en">Health Certificate No.</div>
           </div>
           <v-row dense align="center">
@@ -161,7 +161,7 @@
               <v-row align="center" no-gutters>
                 <v-col>
                   <div class="text-caption text-medium-emphasis mb-1">
-                    เลขที่ใบรับรองสุขอนามัยพืช
+                    เลขที่ใบรับรองสุขอนามัย
                   </div>
                   <div class="text-body-1 font-weight-bold text-hcex-user">
                     {{ certSearchResult.certNo }}
@@ -811,7 +811,7 @@
         <v-card rounded="xl">
           <v-card-title class="d-flex align-center ga-2 pa-5 pb-3">
             <v-icon icon="fas fa-certificate" color="hcex-user" size="18" />
-            ใบรับรองสุขอนามัยพืช
+            ใบรับรองสุขอนามัย
             <v-spacer />
             <v-btn
               icon="fas fa-xmark"
@@ -825,7 +825,7 @@
           <v-card-text class="pa-5">
             <template v-if="certSearchResult">
               <v-list density="compact" lines="two">
-                <v-list-item subtitle="เลขที่ใบรับรองสุขอนามัยพืช">
+                <v-list-item subtitle="เลขที่ใบรับรองสุขอนามัย ">
                   <v-list-item-title class="text-hcex-user font-weight-bold">
                     {{ certSearchResult.certNo }}
                   </v-list-item-title>
@@ -2094,7 +2094,7 @@
                 <template #label
                   ><div>
                     <div class="font-weight-bold">
-                      ใบรับรองสุขอนามัยพืช สินค้าแปรรูปด้านพืช (กมพ.1)
+                      ใบรับรองสุขอนามัย สินค้าแปรรูปด้านพืช (กมพ.1)
                     </div>
                   </div></template
                 >
@@ -7124,13 +7124,22 @@
             <v-table density="compact" class="rounded-lg border">
               <thead>
                 <tr>
-                  <th class="text-left text-caption font-weight-medium text-medium-emphasis px-3 py-2" style="width: 35%">
+                  <th
+                    class="text-left text-caption font-weight-medium text-medium-emphasis px-3 py-2"
+                    style="width: 35%"
+                  >
                     รายการทดสอบ
                   </th>
-                  <th class="text-left text-caption font-weight-medium text-medium-emphasis px-3 py-2" style="width: 30%">
+                  <th
+                    class="text-left text-caption font-weight-medium text-medium-emphasis px-3 py-2"
+                    style="width: 30%"
+                  >
                     เกณฑ์
                   </th>
-                  <th class="text-left text-caption font-weight-medium text-medium-emphasis px-3 py-2" style="width: 35%">
+                  <th
+                    class="text-left text-caption font-weight-medium text-medium-emphasis px-3 py-2"
+                    style="width: 35%"
+                  >
                     ผลการทดสอบ <span class="text-error">*</span>
                   </th>
                 </tr>
@@ -7138,10 +7147,14 @@
               <tbody>
                 <tr v-for="item in autoTestItems" :key="item.name">
                   <td class="px-3 py-2">
-                    <span class="text-body-2 font-weight-medium">{{ item.name }}</span>
+                    <span class="text-body-2 font-weight-medium">{{
+                      item.name
+                    }}</span>
                   </td>
                   <td class="px-3 py-2">
-                    <span class="text-body-2 text-medium-emphasis">{{ item.criteria }}</span>
+                    <span class="text-body-2 text-medium-emphasis">{{
+                      item.criteria
+                    }}</span>
                   </td>
                   <td class="px-3 py-2">
                     <v-text-field
@@ -7798,7 +7811,7 @@ function nextStep() {
 const typeTitles = {
   newrequest: "คำขอขึ้นทะเบียน",
   renew: "คำขอต่ออายุทะเบียน",
-  amendment: "คำขอแก้ไขใบรับรองสุขอนามัยพืช",
+  amendment: "คำขอแก้ไขใบรับรองสุขอนามัย ",
   history: "คำขอขึ้นทะเบียนประวัติ",
   lab: "คำขอพิจารณาผล Lab",
 };
@@ -8060,7 +8073,7 @@ const certMockDB = {
     issuedDate: "01/01/2568",
     expiryDate: "31/12/2569",
     isExpired: false,
-    // ข้อมูลบนใบรับรองสุขอนามัยพืช (ณ วันที่ออก)
+    // ข้อมูลบนใบรับรองสุขอนามัย  (ณ วันที่ออก)
     applicantNameTh: "นายสมชาย ใจดี",
     applicantNameEn: "MR. SOMCHAI JAIDEE",
     companyNameTh: "บริษัท สยามเฟรชฟู้ด จำกัด",
@@ -8559,7 +8572,11 @@ const autoTestItems = ref([
   { name: "Escherichia coli", criteria: "≤ 3.0 MPN/g", result: "" },
   { name: "Staphylococcus aureus", criteria: "ND in 0.1 g", result: "" },
   { name: "Salmonella spp.", criteria: "ND in 25 g", result: "" },
-  { name: "Clostridium perfringens", criteria: "≤ 1.0 × 10³ CFU/g", result: "" },
+  {
+    name: "Clostridium perfringens",
+    criteria: "≤ 1.0 × 10³ CFU/g",
+    result: "",
+  },
   { name: "Bacillus cereus", criteria: "≤ 1.0 × 10³ CFU/g", result: "" },
 ]);
 

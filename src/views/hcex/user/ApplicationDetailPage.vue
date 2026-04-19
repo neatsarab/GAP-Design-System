@@ -191,9 +191,7 @@
                 <div class="info-value">{{ application.shipment.date }}</div>
               </v-col>
               <v-col cols="12" md="4">
-                <div class="info-label">
-                  วิธีการขนส่ง / Mode of Transport
-                </div>
+                <div class="info-label">วิธีการขนส่ง / Mode of Transport</div>
                 <div class="info-value d-flex flex-wrap ga-1">
                   <v-chip
                     v-for="m in application.shipment.modes"
@@ -214,9 +212,7 @@
                 </div>
               </v-col>
               <v-col cols="12" md="4">
-                <div class="info-label">
-                  สถานที่ส่งออก / Place of Departure
-                </div>
+                <div class="info-label">สถานที่ส่งออก / Place of Departure</div>
                 <div class="info-value">
                   {{ application.shipment.placeOfDeparture }}
                 </div>
@@ -239,24 +235,24 @@
                 <div class="info-label">
                   ผู้ผลิต / Name and Address of Manufacturer
                 </div>
-                <div class="info-value">{{ application.goods.manufacturer }}</div>
+                <div class="info-value">
+                  {{ application.goods.manufacturer }}
+                </div>
               </v-col>
               <v-col cols="12" md="3">
-                <div class="info-label">
-                  เลขที่รายงาน / Analysis Report No.
-                </div>
+                <div class="info-label">เลขที่รายงาน / Analysis Report No.</div>
                 <div class="info-value">
                   {{ application.goods.analysisReportNo }}
                 </div>
               </v-col>
               <v-col cols="12" md="3">
                 <div class="info-label">วันที่วิเคราะห์ / Analysis Date</div>
-                <div class="info-value">{{ application.goods.analysisDate }}</div>
+                <div class="info-value">
+                  {{ application.goods.analysisDate }}
+                </div>
               </v-col>
               <v-col cols="12" md="4">
-                <div class="info-label">
-                  เครื่องหมายสินค้า / Shipping Mark
-                </div>
+                <div class="info-label">เครื่องหมายสินค้า / Shipping Mark</div>
                 <div
                   class="info-value"
                   style="
@@ -297,7 +293,9 @@
               </v-col>
               <v-col cols="12" md="3">
                 <div class="info-label">มูลค่ารวม / Total Amount</div>
-                <div class="info-value">{{ application.goods.totalAmount }}</div>
+                <div class="info-value">
+                  {{ application.goods.totalAmount }}
+                </div>
               </v-col>
             </v-row>
           </v-card-text>
@@ -429,9 +427,7 @@
                       }}
                     </div>
                     <v-btn
-                      v-if="
-                        event.type !== 'submit' && event.type !== 'pending'
-                      "
+                      v-if="event.type !== 'submit' && event.type !== 'pending'"
                       size="x-small"
                       variant="text"
                       color="hcex-user"
@@ -590,7 +586,7 @@ const application = {
   requestType: "ใหม่",
   submittedDate: "10/03/2569",
   certQty: 1,
-  typecert: "กมพ.1 ใบรับรองสุขอนามัยพืชสำหรับการส่งออก",
+  typecert: "กมพ.1 ใบรับรองสุขอนามัย สำหรับการส่งออก",
   status: "pending",
   currentStep: 1,
 

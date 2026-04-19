@@ -5,7 +5,7 @@
       <div>
         <h1 class="text-h6 font-weight-bold mb-1">จัดการ Masterdata</h1>
         <p class="text-body-2 text-medium-emphasis mb-0">
-          ข้อมูลอ้างอิงที่ใช้ในระบบทั้งหมด
+          สำหรับระบบการรับรองมาตรฐาน GAP (Good Agricultural Practices) พืช
         </p>
       </div>
     </div>
@@ -352,7 +352,7 @@ const certTypeItems = ref([
   {
     id: 2,
     code: "HC-01",
-    nameTh: "กมพ.1 ใบรับรองสุขอนามัยพืช",
+    nameTh: "กมพ.1 ใบรับรองสุขอนามัย ",
     system: "HC",
     validYears: 1,
     status: "active",

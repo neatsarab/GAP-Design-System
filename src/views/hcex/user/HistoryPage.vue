@@ -41,7 +41,7 @@
         </h2>
         <p class="text-body-2 text-medium-emphasis mb-6">
           กรุณายื่นคำขอขึ้นทะเบียนประวัติก่อน
-          เพื่อใช้ประกอบการยื่นคำขอใบรับรองสุขอนามัยพืช
+          เพื่อใช้ประกอบการยื่นคำขอใบรับรองสุขอนามัย
         </p>
         <v-btn
           color="hcex-user"
@@ -418,11 +418,19 @@
             v-for="(product, i) in history.products"
             :key="i"
             class="mb-4 rounded-lg pa-4"
-            style="background: rgba(var(--v-theme-surface-variant), 0.4); border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity))"
+            style="
+              background: rgba(var(--v-theme-surface-variant), 0.4);
+              border: 1px solid
+                rgba(var(--v-border-color), var(--v-border-opacity));
+            "
           >
             <div class="d-flex align-center ga-2 mb-3">
-              <v-chip size="x-small" color="hcex-user" variant="flat">สินค้าที่ {{ i + 1 }}</v-chip>
-              <span class="text-body-2 font-weight-bold">{{ product.productName }}</span>
+              <v-chip size="x-small" color="hcex-user" variant="flat"
+                >สินค้าที่ {{ i + 1 }}</v-chip
+              >
+              <span class="text-body-2 font-weight-bold">{{
+                product.productName
+              }}</span>
             </div>
             <v-row dense>
               <v-col cols="12" sm="6">
@@ -437,7 +445,11 @@
                   >
                     {{ c }}
                   </v-chip>
-                  <span v-if="!product.countries?.length" class="text-body-2 text-medium-emphasis">-</span>
+                  <span
+                    v-if="!product.countries?.length"
+                    class="text-body-2 text-medium-emphasis"
+                    >-</span
+                  >
                 </div>
               </v-col>
               <v-col cols="12" sm="6">
@@ -448,9 +460,18 @@
                   variant="tonal"
                   class="mt-1"
                 >
-                  {{ product.standardType === 'doa' ? 'มาตรฐานที่กรมวิชาการเกษตรกำหนด' : 'มาตรฐานอื่นๆ' }}
+                  {{
+                    product.standardType === "doa"
+                      ? "มาตรฐานที่กรมวิชาการเกษตรกำหนด"
+                      : "มาตรฐานอื่นๆ"
+                  }}
                 </v-chip>
-                <template v-if="product.standardType === 'other' && product.standards?.length">
+                <template
+                  v-if="
+                    product.standardType === 'other' &&
+                    product.standards?.length
+                  "
+                >
                   <div class="d-flex flex-wrap ga-1 mt-1">
                     <v-chip
                       v-for="s in product.standards"
@@ -477,7 +498,11 @@
                   >
                     {{ t }}
                   </v-chip>
-                  <span v-if="!product.tests?.length" class="text-body-2 text-medium-emphasis">-</span>
+                  <span
+                    v-if="!product.tests?.length"
+                    class="text-body-2 text-medium-emphasis"
+                    >-</span
+                  >
                 </div>
               </v-col>
             </v-row>
@@ -587,9 +612,14 @@ const history = ref({
       standardType: "doa",
       standards: [],
       tests: [
-        "Sulfites", "Total Plate Count", "Total Mold Count",
-        "Escherichia coli", "Staphylococcus aureus", "Salmonella spp.",
-        "Clostridium perfringens", "Bacillus cereus",
+        "Sulfites",
+        "Total Plate Count",
+        "Total Mold Count",
+        "Escherichia coli",
+        "Staphylococcus aureus",
+        "Salmonella spp.",
+        "Clostridium perfringens",
+        "Bacillus cereus",
       ],
     },
     {

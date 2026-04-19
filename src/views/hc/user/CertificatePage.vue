@@ -5,7 +5,7 @@
       <div>
         <h1 class="page-title mb-1">รายการใบรับรอง</h1>
         <p class="text-body-2 text-medium-emphasis mb-0">
-          การออกหนังสือรับรองสุขอนามัยพืชสำหรับพืชควบคุมเฉพาะ
+          การออกใบรับรองสุขอนามัยสำหรับพืชควบคุมเฉพาะ
         </p>
       </div>
       <v-btn variant="tonal" color="hc-user" prepend-icon="fas fa-download"
@@ -388,7 +388,12 @@
                   size="x-small"
                   variant="text"
                   color="hc-user"
-                  @click.stop="router.push({ name: 'HCUserCertificateDetail', params: { id: item.certNo } })"
+                  @click.stop="
+                    router.push({
+                      name: 'HCUserCertificateDetail',
+                      params: { id: item.certNo },
+                    })
+                  "
                 >
                   <v-icon icon="fas fa-eye" size="14" />
                 </v-btn>

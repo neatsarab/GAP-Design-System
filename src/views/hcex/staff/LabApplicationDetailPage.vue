@@ -18,6 +18,15 @@
         </p>
       </div>
       <v-spacer />
+      <v-btn
+        variant="tonal"
+        color="info"
+        rounded="lg"
+        size="small"
+        prepend-icon="fas fa-file-pdf"
+      >
+        พิมพ์ PDF
+      </v-btn>
       <v-chip :color="statusColor(application.status)" variant="tonal">
         <v-icon :icon="statusIcon(application.status)" size="13" class="mr-1" />
         {{ statusLabel(application.status) }}
@@ -556,7 +565,71 @@
                   placeholder="ระบุเหตุผลหรือข้อสังเกต..."
                   class="mb-5"
                 />
-
+                <!-- อายุใบรายงานผลทดสอบ -->
+                <template v-if="reviewForm.result === 'pass'">
+                  <div class="field-label mb-1 mt-2">
+                    <div>อายุใบรายงานผลทดสอบ</div>
+                    <div class="field-label-en">Test Report Validity</div>
+                  </div>
+                  <v-text-field
+                    v-model="reviewForm.reportValidityDays"
+                    type="number"
+                    min="1"
+                    variant="outlined"
+                    density="compact"
+                    rounded="lg"
+                    hide-details
+                    placeholder="ระบุจำนวนวัน"
+                    suffix="วัน"
+                    class="mb-3"
+                    style="max-width: 240px"
+                  />
+                  <div
+                    v-if="reportValidityTo"
+                    class="d-flex align-start ga-6 mb-5 px-3 py-2 rounded-lg"
+                    style="
+                      background: rgba(var(--v-theme-hcex-staff), 0.06);
+                      border: 1px solid rgba(var(--v-theme-hcex-staff), 0.15);
+                    "
+                  >
+                    <div>
+                      <div class="text-caption text-medium-emphasis mb-1">
+                        วันที่จาก
+                      </div>
+                      <div
+                        class="text-body-2 font-weight-medium d-flex align-center ga-1"
+                      >
+                        <v-icon
+                          icon="fas fa-calendar-day"
+                          size="12"
+                          color="hcex-staff"
+                        />
+                        {{ reportValidityFrom }}
+                      </div>
+                    </div>
+                    <v-icon
+                      icon="fas fa-arrow-right"
+                      size="13"
+                      class="mt-4"
+                      color="medium-emphasis"
+                    />
+                    <div>
+                      <div class="text-caption text-medium-emphasis mb-1">
+                        วันที่ถึง
+                      </div>
+                      <div
+                        class="text-body-2 font-weight-medium d-flex align-center ga-1"
+                      >
+                        <v-icon
+                          icon="fas fa-calendar-check"
+                          size="12"
+                          color="hcex-staff"
+                        />
+                        {{ reportValidityTo }}
+                      </div>
+                    </div>
+                  </div>
+                </template>
                 <!-- แก้ไขภายในวันที่ -->
                 <template v-if="reviewForm.result === 'improve'">
                   <div class="field-label mb-1">
@@ -952,6 +1025,20 @@ const reviewForm = ref({
   remark: "",
   deadline: null,
   labTypes: [],
+  reportValidityDays: null,
+});
+
+function formatBEDate(date) {
+  return `${String(date.getDate()).padStart(2, "0")}/${String(date.getMonth() + 1).padStart(2, "0")}/${date.getFullYear() + 543}`;
+}
+
+const reportValidityFrom = computed(() => formatBEDate(new Date()));
+const reportValidityTo = computed(() => {
+  const days = parseInt(reviewForm.value.reportValidityDays);
+  if (!days || days <= 0) return "";
+  const d = new Date();
+  d.setDate(d.getDate() + days);
+  return formatBEDate(d);
 });
 
 const deadlineBE = computed(() => {
@@ -1074,7 +1161,7 @@ function statusColor(s) {
   return (
     {
       pending: "info",
-      reviewing: "info",
+      reviewing: "warning",
       need_edit: "warning",
       approved: "success",
       rejected: "error",

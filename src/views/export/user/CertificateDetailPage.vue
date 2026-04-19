@@ -528,7 +528,7 @@ function openActivityDetail(event) {
 }
 
 const cert = {
-  certNo: "EXP-2569-005",
+  certNo: "EXP-2569-12345",
   requestNo: "EXP-0005",
   typecert: "คำขอหนังสือสำคัญแสดงการขึ้นทะเบียนเป็นผู้ส่งออกผักและผลไม้",
   issueDate: "15/03/2569",
@@ -612,7 +612,7 @@ const cert = {
       action: "ออกใบทะเบียน",
       actor: "ระบบ",
       timestamp: "08/01/2569 11:23",
-      remark: "เลขทะเบียน EXP-2569-005",
+      remark: "เลขทะเบียน EXP-2569-12345",
     },
     {
       type: "forward",

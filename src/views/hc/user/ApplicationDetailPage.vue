@@ -430,14 +430,14 @@
           </v-card-text>
         </v-card>
 
-        <!-- รายละเอียดการส่งออกสินค้า -->
+        <!-- รายละเอียดการส่งออกสินค้า (พก.11.1) -->
         <v-card rounded="xl" elevation="0" class="section-card mb-4">
           <div
             class="section-header px-4 py-3 border-b d-flex align-center ga-2"
           >
             <v-icon icon="fas fa-file-export" color="hc-user" size="15" />
             <span class="text-subtitle-2 font-weight-bold"
-              >รายละเอียดการส่งออกสินค้า</span
+              >รายละเอียดการส่งออกสินค้า (พก.11.1)</span
             >
           </div>
           <v-table density="compact" class="pa-2">
@@ -581,8 +581,8 @@
             >
               <v-icon icon="fas fa-file-shield" color="success" size="15" />
               <span class="text-subtitle-2 font-weight-bold"
-                >ใบรับรองสุขอนามัยพืช</span
-              >
+                >ใบรับรองสุขอนามัย
+              </span>
             </div>
             <v-card-text class="pa-4">
               <v-row dense class="mb-3">
@@ -765,7 +765,7 @@
             </div>
             <div>
               <div class="text-subtitle-2 font-weight-bold">
-                รายละเอียดการส่งออกสินค้า
+                รายละเอียดการส่งออกสินค้า (พก.11.1)
               </div>
               <div class="text-caption text-medium-emphasis">
                 Export Details

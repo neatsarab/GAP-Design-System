@@ -69,6 +69,8 @@ function goToNewApplication(type) {
     router.push({ name: "ExportUserCancellation" });
   } else if (type === "amendment") {
     router.push({ name: "ExportUserAmendment" });
+  } else if (type === "renewal") {
+    router.push({ name: "ExportUserRenewal" });
   } else {
     router.push({ name: "ExportUserNewApplication", params: { type } });
   }
@@ -77,12 +79,21 @@ function goToNewApplication(type) {
 const appTypes = [
   {
     key: "newrequest",
-    title: "คำขอขึ้น / ต่ออายุทะเบียน",
+    title: "คำขอขึ้นทะเบียน",
     badge: null,
     icon: "fas fa-file-circle-plus",
     color: "primary",
     description:
-      "สำหรับผู้ประกอบการที่ต้องการขึ้นทะเบียนเป็นผู้ส่งออกสินค้าพืช หรือต่ออายุทะเบียนที่ใกล้หมดอายุ",
+      "สำหรับผู้ประกอบการที่ต้องการขึ้นทะเบียนเป็นผู้ส่งออกสินค้าพืช",
+  },
+  {
+    key: "renewal",
+    title: "คำขอต่ออายุทะเบียน",
+    badge: null,
+    icon: "fas fa-rotate",
+    color: "success",
+    description:
+      "สำหรับผู้ที่ต้องการต่ออายุใบทะเบียนผู้ส่งออก สามารถยื่นต่ออายุได้มากกว่า 1 ทะเบียนในคราวเดียวกัน",
   },
   {
     key: "amendment",

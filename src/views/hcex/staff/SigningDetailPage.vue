@@ -1009,7 +1009,7 @@ function previewCertPdf(item) {
   <div class="border-box">
     <div class="center">
       <div class="label">กรมวิชาการเกษตร • Department of Agriculture</div>
-      <div style="font-size:16pt;font-weight:700;margin:8px 0">ใบรับรองสุขอนามัยพืชสำหรับสินค้าแปรรูปด้านพืช (กมพ.1)</div>
+      <div style="font-size:16pt;font-weight:700;margin:8px 0">ใบรับรองสุขอนามัย สำหรับสินค้าแปรรูปด้านพืช (กมพ.1)</div>
       <div class="label">Phytosanitary Certificate for Processed Plant Products</div>
       <div class="watermark">ร่าง / DRAFT</div>
       <div class="cert-no">${item.certNo}</div>
@@ -1054,7 +1054,7 @@ const application = {
   submittedDate: "01/01/2569",
   applicantName: "นายสมชาย ใจดี",
   certQty: 3,
-  typecert: "กมพ.1 ใบรับรองสุขอนามัยพืชสำหรับสินค้าแปรรูปด้านพืช",
+  typecert: "กมพ.1 ใบรับรองสุขอนามัย สำหรับสินค้าแปรรูปด้านพืช",
   status: "signing",
   currentStep: 2,
 

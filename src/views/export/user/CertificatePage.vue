@@ -501,8 +501,8 @@ const typecertOptions = [
 
 const allItems = [
   {
-    id: "EXP-2569-005",
-    certNo: "EXP-2569-005",
+    id: "EXP-2569-12345",
+    certNo: "EXP-2569-12345",
     requestNo: "EXP-0005",
     typecert: "คำขอหนังสือสำคัญแสดงการขึ้นทะเบียนเป็นผู้ส่งออกผักและผลไม้",
     type: "แก้ไข",
@@ -512,8 +512,8 @@ const allItems = [
     status: "active",
   },
   {
-    id: "EXP-2569-010",
-    certNo: "EXP-2569-010",
+    id: "EXP-2569-67890",
+    certNo: "EXP-2569-67890",
     requestNo: "EXP-0010",
     typecert: "คำร้องขึ้นทะเบียนเป็นผู้ส่งออกพืชควบคุม",
     type: "ขึ้นทะเบียน",
@@ -523,8 +523,8 @@ const allItems = [
     status: "expiring",
   },
   {
-    id: "EXP-2569-003",
-    certNo: "EXP-2569-003",
+    id: "EXP-2569-00123",
+    certNo: "EXP-2569-00123",
     requestNo: "EXP-0003",
     typecert:
       "คำขอหนังสือสำคัญแสดงการจดทะเบียนเป็นผู้ส่งผลทุเรียนสดออกไปนอกราชอาณาจักร",

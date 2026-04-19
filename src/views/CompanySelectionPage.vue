@@ -44,32 +44,54 @@
                   <v-icon icon="fas fa-user" size="14" />
                 </div>
                 <div class="d-none d-sm-block">
-                  <div class="text-caption font-weight-semibold text-white lh-tight">
+                  <div
+                    class="text-caption font-weight-semibold text-white lh-tight"
+                  >
                     นิธิพร เทิบจันทึก
                   </div>
                   <div
                     class="text-caption"
-                    style="color: rgba(255,255,255,0.55); line-height: 1.2; font-size: 10px"
+                    style="
+                      color: rgba(255, 255, 255, 0.55);
+                      line-height: 1.2;
+                      font-size: 10px;
+                    "
                   >
                     ผู้ประกอบการ
                   </div>
                 </div>
-                <v-icon icon="fas fa-chevron-down" size="10" style="color: rgba(255,255,255,0.6)" class="d-none d-sm-block" />
+                <v-icon
+                  icon="fas fa-chevron-down"
+                  size="10"
+                  style="color: rgba(255, 255, 255, 0.6)"
+                  class="d-none d-sm-block"
+                />
               </div>
             </template>
 
             <v-card rounded="xl" elevation="4" min-width="220">
               <!-- User info header -->
-              <div class="pa-4 d-flex align-center ga-3" style="background: rgba(var(--v-theme-primary), 0.06)">
+              <div
+                class="pa-4 d-flex align-center ga-3"
+                style="background: rgba(var(--v-theme-primary), 0.06)"
+              >
                 <div
                   class="d-flex align-center justify-center rounded-circle flex-shrink-0"
-                  style="width: 40px; height: 40px; background: rgba(var(--v-theme-primary), 0.12)"
+                  style="
+                    width: 40px;
+                    height: 40px;
+                    background: rgba(var(--v-theme-primary), 0.12);
+                  "
                 >
-                  <v-icon icon="fas fa-user" size="20" />   
+                  <v-icon icon="fas fa-user" size="20" />
                 </div>
                 <div>
-                  <div class="text-body-2 font-weight-bold">นิธิพร เทิบจันทึก</div>
-                  <div class="text-caption text-medium-emphasis">ผู้ประกอบการ</div>
+                  <div class="text-body-2 font-weight-bold">
+                    นิธิพร เทิบจันทึก
+                  </div>
+                  <div class="text-caption text-medium-emphasis">
+                    ผู้ประกอบการ
+                  </div>
                 </div>
               </div>
 
@@ -176,16 +198,27 @@
             </div>
 
             <!-- Action -->
-            <v-btn
-              color="success"
-              rounded="lg"
-              size="small"
-              append-icon="fas fa-arrow-right"
-              class="flex-shrink-0"
-              @click="selectPersonal()"
-            >
-              เข้าใช้งาน
-            </v-btn>
+            <div class="d-flex flex-column ga-2 flex-shrink-0">
+              <v-btn
+                color="success"
+                rounded="lg"
+                size="small"
+                append-icon="fas fa-arrow-right"
+                @click="selectPersonal()"
+              >
+                เข้าใช้งาน
+              </v-btn>
+              <v-btn
+                variant="tonal"
+                color="success"
+                rounded="lg"
+                size="small"
+                prepend-icon="fas fa-gear"
+                @click="router.push('/personal-account')"
+              >
+                จัดการ
+              </v-btn>
+            </div>
           </div>
         </v-card>
 
@@ -315,7 +348,7 @@
                 color="info"
                 rounded="lg"
                 size="small"
-                prepend-icon="fas fa-user-group"
+                prepend-icon="fas fa-gear"
                 style="min-width: 110px"
                 @click="
                   router.push({
@@ -324,7 +357,7 @@
                   })
                 "
               >
-                จัดการมอบอำนาจ
+                จัดการ
               </v-btn>
             </div>
           </div>
@@ -477,7 +510,6 @@
             />
           </div>
         </v-card>
-
       </div>
     </div>
   </div>
@@ -584,34 +616,65 @@
                 class="autofill-field"
               />
             </v-col>
+            <v-col cols="12">
+              <v-divider class="my-1" />
+              <div class="d-flex align-center ga-2 mt-3 mb-2">
+                <v-icon icon="fas fa-lock" size="13" color="medium-emphasis" />
+                <span class="field-label mb-0"
+                  >ข้อมูลติดต่อ (ดึงจากโปรไฟล์)</span
+                >
+                <v-chip
+                  size="x-small"
+                  color="warning"
+                  variant="tonal"
+                  prepend-icon="fas fa-lock"
+                >
+                  ไม่สามารถแก้ไขได้
+                </v-chip>
+              </div>
+              <div class="text-caption text-medium-emphasis mb-3">
+                หากต้องการแก้ไข ไปที่
+                <a
+                  class="text-success"
+                  style="cursor: pointer; text-decoration: underline"
+                  @click="
+                    personalDialog = false;
+                    router.push('/personal-account');
+                  "
+                  >จัดการบัญชีส่วนตัว</a
+                >
+              </div>
+            </v-col>
             <v-col cols="12" sm="6">
-              <div class="field-label mt-3">
-                อีเมล <span class="req">*</span>
+              <div class="field-label">
+                อีเมล
                 <span class="field-label-en">Email</span>
               </div>
               <v-text-field
-                v-model="personalForm.email"
+                :model-value="personalForm.email"
                 variant="outlined"
                 density="compact"
                 rounded="lg"
-                hide-details="auto"
-                placeholder="example@email.com"
+                hide-details
+                readonly
                 prepend-inner-icon="fas fa-envelope"
+                class="autofill-field"
               />
             </v-col>
             <v-col cols="12" sm="6">
-              <div class="field-label mt-3">
-                เบอร์โทรศัพท์ <span class="req">*</span>
-                <span class="field-label-en">Phone Number</span>
+              <div class="field-label">
+                เบอร์โทรศัพท์
+                <span class="field-label-en">Phone</span>
               </div>
               <v-text-field
-                v-model="personalForm.phone"
+                :model-value="personalForm.phone"
                 variant="outlined"
                 density="compact"
                 rounded="lg"
-                hide-details="auto"
-                placeholder="0XX-XXX-XXXX"
+                hide-details
+                readonly
                 prepend-inner-icon="fas fa-phone"
+                class="autofill-field"
               />
             </v-col>
           </v-row>
@@ -952,6 +1015,165 @@
                   />
                 </v-col>
               </v-row>
+
+              <v-divider class="my-4" />
+
+              <!-- ข้อมูลสาขา -->
+              <div class="field-label mb-2">
+                ข้อมูลสาขา
+                <span class="field-label-en">Branch Information</span>
+              </div>
+              <v-radio-group
+                v-model="juristicForm.branchType"
+                inline
+                density="compact"
+                hide-details
+                color="info"
+                class="mb-3"
+              >
+                <v-radio value="head" class="mr-4">
+                  <template #label>
+                    <span class="text-body-2">สำนักงานใหญ่ (Head Office)</span>
+                  </template>
+                </v-radio>
+                <v-radio value="branch">
+                  <template #label>
+                    <span class="text-body-2">สาขา (Branch)</span>
+                  </template>
+                </v-radio>
+              </v-radio-group>
+
+              <v-expand-transition>
+                <v-row v-if="juristicForm.branchType === 'branch'" dense>
+                  <v-col cols="12" sm="4">
+                    <div class="field-label">
+                      เลขสาขา <span class="req">*</span>
+                      <span class="field-label-en">Branch No.</span>
+                    </div>
+                    <v-text-field
+                      v-model="juristicForm.branchNo"
+                      variant="outlined"
+                      density="compact"
+                      rounded="lg"
+                      hide-details
+                      placeholder="00001"
+                      maxlength="5"
+                    />
+                  </v-col>
+                  <v-col cols="12" sm="8">
+                    <div class="field-label">
+                      ชื่อสาขา <span class="req">*</span>
+                      <span class="field-label-en">Branch Name</span>
+                    </div>
+                    <v-text-field
+                      v-model="juristicForm.branchName"
+                      variant="outlined"
+                      density="compact"
+                      rounded="lg"
+                      hide-details
+                      placeholder="เช่น สาขาเชียงใหม่"
+                    />
+                  </v-col>
+
+                  <!-- ที่อยู่สาขา -->
+                  <v-col cols="12">
+                    <div class="field-label mt-3">
+                      ที่อยู่สาขา
+                      <span class="field-label-en">Branch Address</span>
+                    </div>
+                  </v-col>
+                  <v-col cols="12" sm="6">
+                    <div class="field-label">
+                      บ้านเลขที่ / อาคาร <span class="req">*</span>
+                      <span class="field-label-en">House No. / Building</span>
+                    </div>
+                    <v-text-field
+                      v-model="juristicForm.branchHouseNo"
+                      variant="outlined"
+                      density="compact"
+                      rounded="lg"
+                      hide-details
+                      placeholder="เช่น 99/1 อาคารสยามทาวเวอร์"
+                    />
+                  </v-col>
+                  <v-col cols="12" sm="6">
+                    <div class="field-label">
+                      ถนน
+                      <span class="field-label-en">Road</span>
+                    </div>
+                    <v-text-field
+                      v-model="juristicForm.branchRoad"
+                      variant="outlined"
+                      density="compact"
+                      rounded="lg"
+                      hide-details
+                      placeholder="เช่น ถนนพระราม 9"
+                    />
+                  </v-col>
+                  <v-col cols="12" sm="6">
+                    <div class="field-label mt-2">
+                      จังหวัด <span class="req">*</span>
+                      <span class="field-label-en">Province</span>
+                    </div>
+                    <v-autocomplete
+                      v-model="juristicForm.branchProvince"
+                      :items="provinces"
+                      variant="outlined"
+                      density="compact"
+                      rounded="lg"
+                      hide-details
+                      placeholder="เลือกจังหวัด"
+                    />
+                  </v-col>
+                  <v-col cols="12" sm="6">
+                    <div class="field-label mt-2">
+                      เขต / อำเภอ <span class="req">*</span>
+                      <span class="field-label-en">District</span>
+                    </div>
+                    <v-autocomplete
+                      v-model="juristicForm.branchDistrict"
+                      :items="branchDistricts"
+                      :disabled="!juristicForm.branchProvince"
+                      variant="outlined"
+                      density="compact"
+                      rounded="lg"
+                      hide-details
+                      placeholder="เลือกเขต / อำเภอ"
+                    />
+                  </v-col>
+                  <v-col cols="12" sm="6">
+                    <div class="field-label mt-2">
+                      แขวง / ตำบล <span class="req">*</span>
+                      <span class="field-label-en">Sub-district</span>
+                    </div>
+                    <v-autocomplete
+                      v-model="juristicForm.branchSubdistrict"
+                      :items="branchSubdistricts"
+                      :disabled="!juristicForm.branchDistrict"
+                      variant="outlined"
+                      density="compact"
+                      rounded="lg"
+                      hide-details
+                      placeholder="เลือกแขวง / ตำบล"
+                    />
+                  </v-col>
+                  <v-col cols="12" sm="6">
+                    <div class="field-label mt-2">
+                      รหัสไปรษณีย์ <span class="req">*</span>
+                      <span class="field-label-en">Postal Code</span>
+                    </div>
+                    <v-text-field
+                      v-model="juristicForm.branchZipCode"
+                      variant="outlined"
+                      density="compact"
+                      rounded="lg"
+                      hide-details
+                      placeholder="10XXX"
+                      maxlength="5"
+                    />
+                  </v-col>
+                </v-row>
+              </v-expand-transition>
 
               <v-divider class="my-4" />
 
@@ -1567,7 +1789,15 @@ const pagedGroups = computed(() => {
 });
 
 function selectPersonal() {
-  sessionStore.setContext("personal", personalName, "", [], "", personalName, personalEmail);
+  sessionStore.setContext(
+    "personal",
+    personalName,
+    "",
+    [],
+    "",
+    personalName,
+    personalEmail,
+  );
   router.push({
     name: "UserPortal",
     query: { entityType: "personal", personalName },
@@ -1691,24 +1921,228 @@ const groups = [
 ];
 
 const groupAvailableSystems = [
-  { label: "ระบบรับรองมาตรฐาน GAP พืช", value: "GAP", icon: "fas fa-seedling" },
-  { label: "ระบบเกษตรอินทรีย์ (ORG)", value: "ORG", icon: "fas fa-leaf" },
+  {
+    label: "ระบบการรับรองมาตรฐาน GAP (Good Agricultural Practices) พืช",
+    value: "GAP",
+    icon: "fas fa-seedling",
+  },
+  {
+    label: "ระบบการรับรองมาตรฐาน ORG (Organic Agriculture) พืช",
+    value: "ORG",
+    icon: "fas fa-leaf",
+  },
 ];
 
+const addressData = {
+  กรุงเทพมหานคร: {
+    ห้วยขวาง: {
+      zipCode: "10310",
+      subdistricts: ["ห้วยขวาง", "บางกะปิ", "สามเสนนอก"],
+    },
+    บางรัก: {
+      zipCode: "10500",
+      subdistricts: ["บางรัก", "มหาพฤฒาราม", "สีลม", "สุริยวงศ์"],
+    },
+    ลาดพร้าว: { zipCode: "10230", subdistricts: ["ลาดพร้าว", "จรเข้บัว"] },
+    จตุจักร: {
+      zipCode: "10900",
+      subdistricts: ["จตุจักร", "จอมพล", "เสนานิคม", "ลาดยาว", "จันทรเกษม"],
+    },
+    บึงกุ่ม: {
+      zipCode: "10230",
+      subdistricts: ["คลองกุ่ม", "นวมินทร์", "นวลจันทร์"],
+    },
+  },
+  เชียงใหม่: {
+    เมืองเชียงใหม่: {
+      zipCode: "50000",
+      subdistricts: ["ศรีภูมิ", "พระสิงห์", "หายยา", "ช้างมอย", "ช้างคลาน"],
+    },
+    สันทราย: {
+      zipCode: "50210",
+      subdistricts: ["สันทรายหลวง", "สันทรายน้อย", "สันพระเนตร"],
+    },
+    หางดง: {
+      zipCode: "50230",
+      subdistricts: ["หางดง", "หนองควาย", "บ้านแหวน"],
+    },
+  },
+  เชียงราย: {
+    เมืองเชียงราย: {
+      zipCode: "57000",
+      subdistricts: ["เวียง", "รอบเวียง", "บ้านดู่", "นางแล"],
+    },
+    แม่จัน: {
+      zipCode: "57110",
+      subdistricts: ["แม่จัน", "จันจว้า", "แม่คำ", "ป่าซาง"],
+    },
+  },
+  ขอนแก่น: {
+    เมืองขอนแก่น: {
+      zipCode: "40000",
+      subdistricts: ["พระลับ", "สาวะถี", "บ้านทุ่ม", "เมืองเก่า"],
+    },
+    บ้านฝาง: {
+      zipCode: "40270",
+      subdistricts: ["บ้านฝาง", "ป่าหวายนั่ง", "โนนฆ้อง"],
+    },
+  },
+  นครราชสีมา: {
+    เมืองนครราชสีมา: {
+      zipCode: "30000",
+      subdistricts: ["ในเมือง", "โพธิ์กลาง", "หัวทะเล", "จอหอ"],
+    },
+    โชคชัย: { zipCode: "30190", subdistricts: ["โชคชัย", "กระโทก", "พลับพลา"] },
+  },
+  สงขลา: {
+    เมืองสงขลา: {
+      zipCode: "90000",
+      subdistricts: ["บ่อยาง", "เขารูปช้าง", "เกาะแต้ว", "พะวง"],
+    },
+    หาดใหญ่: {
+      zipCode: "90110",
+      subdistricts: ["หาดใหญ่", "คลองแห", "คูเต่า", "คลองอู่ตะเภา"],
+    },
+  },
+  ภูเก็ต: {
+    เมืองภูเก็ต: {
+      zipCode: "83000",
+      subdistricts: ["ตลาดใหญ่", "ตลาดเหนือ", "เกาะแก้ว", "รัษฎา"],
+    },
+    กะทู้: { zipCode: "83120", subdistricts: ["กะทู้", "กมลา", "ป่าตอง"] },
+    ถลาง: {
+      zipCode: "83110",
+      subdistricts: ["เทพกษัตรี", "ศรีสุนทร", "เชิงทะเล"],
+    },
+  },
+  อุบลราชธานี: {
+    เมืองอุบลราชธานี: {
+      zipCode: "34000",
+      subdistricts: ["ในเมือง", "ขามใหญ่", "แจระแม", "หัวเรือ"],
+    },
+    วารินชำราบ: {
+      zipCode: "34190",
+      subdistricts: ["วารินชำราบ", "ธาตุน้อย", "บุ่งหวาย"],
+    },
+  },
+  นครปฐม: {
+    เมืองนครปฐม: {
+      zipCode: "73000",
+      subdistricts: ["พระปฐมเจดีย์", "บางแขม", "พระประโทน", "สามควายเนียม"],
+    },
+    สามพราน: {
+      zipCode: "73110",
+      subdistricts: ["สามพราน", "ท่าข้าม", "หอมเกร็ด", "บางกระทึก"],
+    },
+  },
+  ระยอง: {
+    เมืองระยอง: {
+      zipCode: "21000",
+      subdistricts: ["ท่าประดู่", "เชิงเนิน", "ตะพง", "ปากน้ำ"],
+    },
+    มาบตาพุด: {
+      zipCode: "21150",
+      subdistricts: ["มาบตาพุด", "เนินพระ", "ทับมา"],
+    },
+  },
+  ชลบุรี: {
+    เมืองชลบุรี: {
+      zipCode: "20000",
+      subdistricts: ["บางปลาสร้อย", "มะขามหย่ง", "บ้านโขด"],
+    },
+    พัทยา: {
+      zipCode: "20150",
+      subdistricts: ["หนองปรือ", "หนองปลาไหล", "นาเกลือ"],
+    },
+    ศรีราชา: {
+      zipCode: "20110",
+      subdistricts: ["ศรีราชา", "สุรศักดิ์", "บึง", "หนองขาม"],
+    },
+  },
+  สมุทรปราการ: {
+    เมืองสมุทรปราการ: {
+      zipCode: "10270",
+      subdistricts: ["ปากน้ำ", "สำโรงเหนือ", "บางเมือง", "ท้ายบ้าน"],
+    },
+    บางพลี: {
+      zipCode: "10540",
+      subdistricts: ["บางพลีใหญ่", "บางแก้ว", "บางปลา", "บางโฉลง"],
+    },
+  },
+  นนทบุรี: {
+    เมืองนนทบุรี: {
+      zipCode: "11000",
+      subdistricts: ["สวนใหญ่", "ตลาดขวัญ", "บางเขน", "บางกระสอ"],
+    },
+    ปากเกร็ด: {
+      zipCode: "11120",
+      subdistricts: ["ปากเกร็ด", "บางตลาด", "บ้านใหม่", "บางพูด"],
+    },
+  },
+  ปทุมธานี: {
+    เมืองปทุมธานี: {
+      zipCode: "12000",
+      subdistricts: ["บางปรอก", "บ้านกลาง", "บ้านฉาง", "บ้านกระแชง"],
+    },
+    ธัญบุรี: {
+      zipCode: "12110",
+      subdistricts: ["ประชาธิปัตย์", "บึงยี่โถ", "รังสิต", "ลาดสวาย"],
+    },
+  },
+  อยุธยา: {
+    พระนครศรีอยุธยา: {
+      zipCode: "13000",
+      subdistricts: ["ประตูชัย", "กะมัง", "หอรัตนไชย", "หัวรอ"],
+    },
+    บางปะอิน: {
+      zipCode: "13160",
+      subdistricts: ["บางปะอิน", "บ้านเลน", "บางประแดง", "คุ้งลาน"],
+    },
+  },
+};
+
+const provinces = Object.keys(addressData);
+
 const availableSystems = [
-  { label: "ระบบรับรองมาตรฐาน GAP พืช", value: "GAP", icon: "fas fa-seedling" },
-  { label: "ระบบโรงงานผลิตพืช (DOA)", value: "DOA", icon: "fas fa-industry" },
-  { label: "ระบบหน่วยรับรอง (CB)", value: "CB", icon: "fas fa-certificate" },
-  { label: "ระบบเกษตรอินทรีย์ (ORG)", value: "ORG", icon: "fas fa-leaf" },
-  { label: "ระบบจดทะเบียนผู้ส่งออก", value: "ส่งออก", icon: "fas fa-ship" },
-  { label: "ระบบสุขอนามัยพืช (HC)", value: "HC", icon: "fas fa-shield-halved" },
   {
-    label: "ระบบใบรับรองสินค้าแปรรูป (HC)",
+    label: "ระบบการรับรองมาตรฐาน GAP (Good Agricultural Practices) พืช",
+    value: "GAP",
+    icon: "fas fa-seedling",
+  },
+  {
+    label: "ระบบการขึ้นทะเบียนโรงงานผลิตสินค้าพืช (DOA)",
+    value: "DOA",
+    icon: "fas fa-industry",
+  },
+  {
+    label:
+      "ระบบการขึ้นทะเบียนหน่วยรับรองโรงงานผลิตสินค้าพืช (Certification Body : CB)",
+    value: "CB",
+    icon: "fas fa-certificate",
+  },
+  {
+    label: "ระบบการรับรองมาตรฐาน ORG (Organic Agriculture) พืช",
+    value: "ORG",
+    icon: "fas fa-leaf",
+  },
+  {
+    label: "ระบบจดทะเบียนผู้ส่งออก",
+    value: "ส่งออก",
+    icon: "fas fa-ship",
+  },
+  {
+    label: "ระบบ Health Certificate ตามประกาศพืชควบคุมเฉพาะ",
+    value: "HC",
+    icon: "fas fa-shield-halved",
+  },
+  {
+    label: "ระบบ Health Certificate สินค้าเกษตรแปรรูปด้านพืช)",
     value: "HCEX",
     icon: "fas fa-box-open",
   },
   {
-    label: "ระบบ Establishment List (EL)",
+    label:
+      "ระบบบัญชีรายชื่อโรงคัดบรรจุตามมาตรการควบคุมพิเศษ (Establishment List: EL)",
     value: "EL",
     icon: "fas fa-list-check",
   },
@@ -1779,9 +2213,15 @@ const personalDocsComplete = computed(() =>
     .every((d) => !!personalDocs[d.id]),
 );
 
+// Mock profile contact data (in real app this would come from a store/API)
+const profileContact = {
+  email: "somchai.jaidee@example.co.th",
+  phone: "081-234-5678",
+};
+
 function enterPersonal() {
-  personalForm.email = "";
-  personalForm.phone = "";
+  personalForm.email = profileContact.email;
+  personalForm.phone = profileContact.phone;
   personalForm.systems = [];
   personalSystemError.value = false;
   personalDocError.value = false;
@@ -1827,6 +2267,15 @@ const juristicForm = reactive({
   type: "",
   status: "",
   authorized: "",
+  branchType: "head",
+  branchNo: "",
+  branchName: "",
+  branchHouseNo: "",
+  branchRoad: "",
+  branchSubdistrict: "",
+  branchDistrict: "",
+  branchProvince: "",
+  branchZipCode: "",
   email: "",
   phone: "",
   systems: [],
@@ -1836,6 +2285,37 @@ const juristicDocs = reactive({
   passport: null,
   poa: null,
 });
+
+const branchDistricts = computed(() =>
+  juristicForm.branchProvince
+    ? Object.keys(addressData[juristicForm.branchProvince] ?? {})
+    : [],
+);
+
+const branchSubdistricts = computed(() =>
+  juristicForm.branchProvince && juristicForm.branchDistrict
+    ? (addressData[juristicForm.branchProvince]?.[juristicForm.branchDistrict]
+        ?.subdistricts ?? [])
+    : [],
+);
+
+watch(
+  () => juristicForm.branchProvince,
+  () => {
+    juristicForm.branchDistrict = "";
+    juristicForm.branchSubdistrict = "";
+    juristicForm.branchZipCode = "";
+  },
+);
+
+watch(
+  () => juristicForm.branchDistrict,
+  (newDistrict) => {
+    juristicForm.branchSubdistrict = "";
+    juristicForm.branchZipCode =
+      addressData[juristicForm.branchProvince]?.[newDistrict]?.zipCode ?? "";
+  },
+);
 
 const juristicDocsComplete = computed(() =>
   juristicDocDefs
@@ -1854,6 +2334,15 @@ function enterPortal() {
   juristicForm.type = "";
   juristicForm.status = "";
   juristicForm.authorized = "";
+  juristicForm.branchType = "head";
+  juristicForm.branchNo = "";
+  juristicForm.branchName = "";
+  juristicForm.branchHouseNo = "";
+  juristicForm.branchRoad = "";
+  juristicForm.branchSubdistrict = "";
+  juristicForm.branchDistrict = "";
+  juristicForm.branchProvince = "";
+  juristicForm.branchZipCode = "";
   juristicForm.email = "";
   juristicForm.phone = "";
   juristicForm.systems = [];
@@ -2247,12 +2736,10 @@ watch(
   transition: all 0.2s;
 }
 .dialog-step-node--active {
-  border-color: rgb(var(--v-theme-primary));
   color: rgb(var(--v-theme-primary));
   background: rgba(var(--v-theme-primary), 0.08);
 }
 .dialog-step-node--done {
-  border-color: rgb(var(--v-theme-success));
   background: rgb(var(--v-theme-success));
   color: #fff;
 }

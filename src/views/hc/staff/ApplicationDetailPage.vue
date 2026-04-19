@@ -18,6 +18,15 @@
         </p>
       </div>
       <v-spacer />
+      <v-btn
+        variant="tonal"
+        color="info"
+        rounded="lg"
+        size="small"
+        prepend-icon="fas fa-file-pdf"
+      >
+        พิมพ์ PDF
+      </v-btn>
       <v-chip :color="statusColor(app.status)" variant="tonal">
         <v-icon :icon="statusIcon(app.status)" size="13" class="mr-1" />
         {{ statusLabel(app.status) }}
@@ -432,7 +441,7 @@
                 </v-card-text>
               </v-card>
 
-              <!-- รายละเอียดการส่งออกสินค้า -->
+              <!-- รายละเอียดการส่งออกสินค้า (พก.11.1) -->
               <v-card rounded="xl" elevation="0" class="section-card mb-4">
                 <div class="section-header px-4 py-3 d-flex align-center ga-2">
                   <v-icon
@@ -441,7 +450,7 @@
                     size="15"
                   />
                   <span class="text-subtitle-2 font-weight-bold"
-                    >รายละเอียดการส่งออกสินค้า</span
+                    >รายละเอียดการส่งออกสินค้า (พก.11.1)</span
                   >
                 </div>
                 <v-table density="compact" class="pa-2">
@@ -471,16 +480,35 @@
                         {{ d.weight.toLocaleString() }}
                       </td>
                       <td>
-                        <v-btn
-                          size="x-small"
-                          variant="tonal"
-                          color="hc-staff"
-                          rounded="lg"
-                          prepend-icon="fas fa-circle-info"
-                          @click="openExportDetail(d)"
-                        >
-                          รายละเอียด
-                        </v-btn>
+                        <div class="d-flex ga-1 justify-end">
+                          <v-tooltip text="ดูข้อมูล" location="top">
+                            <template #activator="{ props }">
+                              <v-btn
+                                v-bind="props"
+                                icon
+                                size="x-small"
+                                variant="text"
+                                color="hc-staff"
+                                @click="openExportDetail(d)"
+                              >
+                                <v-icon icon="fas fa-eye" size="14" />
+                              </v-btn>
+                            </template>
+                          </v-tooltip>
+                          <v-tooltip text="ดาวน์โหลด" location="top">
+                            <template #activator="{ props }">
+                              <v-btn
+                                v-bind="props"
+                                icon
+                                size="x-small"
+                                variant="text"
+                                color="hc-staff"
+                              >
+                                <v-icon icon="fas fa-download" size="14" />
+                              </v-btn>
+                            </template>
+                          </v-tooltip>
+                        </div>
                       </td>
                     </tr>
                   </tbody>
@@ -863,7 +891,7 @@
             </div>
             <div>
               <div class="text-subtitle-2 font-weight-bold">
-                รายละเอียดการส่งออกสินค้า
+                รายละเอียดการส่งออกสินค้า (พก.11.1)
               </div>
               <div class="text-caption text-medium-emphasis">
                 Export Details
@@ -1296,7 +1324,6 @@ const timelineSteps = computed(() => {
   ];
 });
 
-
 const appId = route.params.id;
 const app = ref(mockApps[appId] ?? mockApps["HC-001"]);
 
@@ -1402,6 +1429,7 @@ function eventLabel(type) {
 function statusColor(s) {
   return (
     {
+      submitted: "warning",
       pending: "warning",
       reviewing: "info",
       signing: "info",
@@ -1414,6 +1442,7 @@ function statusColor(s) {
 function statusIcon(s) {
   return (
     {
+      submitted: "fas fa-clock",
       pending: "fas fa-clock",
       reviewing: "fas fa-magnifying-glass",
       signing: "fas fa-pen-nib",
@@ -1426,6 +1455,7 @@ function statusIcon(s) {
 function statusLabel(s) {
   return (
     {
+      submitted: "รอตรวจ",
       pending: "รอตรวจ",
       reviewing: "อยู่ระหว่างตรวจ",
       signing: "รอลงนาม",

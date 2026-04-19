@@ -39,6 +39,12 @@ const routes = [
     meta: { title: "จัดการมอบอำนาจ" },
   },
   {
+    path: "/personal-account",
+    name: "PersonalAccount",
+    component: () => import("@/views/PersonalAccountPage.vue"),
+    meta: { title: "จัดการบัญชีส่วนตัว" },
+  },
+  {
     path: "/portal/user",
     name: "UserPortal",
     component: () => import("@/views/UserPortalPage.vue"),
@@ -796,6 +802,12 @@ const routes = [
         component: () => import("@/views/admin/MasterdataPage.vue"),
         meta: { title: "จัดการ Masterdata" },
       },
+      {
+        path: "el-masterdata",
+        name: "ELAdminMasterdata",
+        component: () => import("@/views/admin/ELMasterdataPage.vue"),
+        meta: { title: "จัดการ Masterdata" },
+      },
     ],
   },
 
@@ -953,6 +965,12 @@ const routes = [
         component: () =>
           import("@/views/export/user/ApplicationDetailPage.vue"),
         meta: { title: "ติดตามสถานะคำขอผู้ส่งออก" },
+      },
+      {
+        path: "applications/renewal",
+        name: "ExportUserRenewal",
+        component: () => import("@/views/export/user/RenewalPage.vue"),
+        meta: { title: "คำขอต่ออายุทะเบียน" },
       },
       {
         path: "applications/amendment",
@@ -1141,6 +1159,18 @@ const routes = [
         name: "HCStaffCertificateDetail",
         component: () => import("@/views/hc/staff/CertificateDetailPage.vue"),
         meta: { title: "รายละเอียดใบรับรอง" },
+      },
+      {
+        path: "reports",
+        name: "HCstaffReportList",
+        component: () => import("@/views/hc/staff/ReportListPage.vue"),
+        meta: { title: "รายงาน" },
+      },
+      {
+        path: "reports/:type",
+        name: "HCstaffReport",
+        component: () => import("@/views/hc/staff/ReportPage.vue"),
+        meta: { title: "รายงาน" },
       },
     ],
   },
@@ -1399,6 +1429,18 @@ const routes = [
         component: () =>
           import("@/views/hcex/staff/HistoryRegistryDetailPage.vue"),
         meta: { title: "รายละเอียดทะเบียนประวัติ" },
+      },
+      {
+        path: "reports",
+        name: "HCEXstaffReportList",
+        component: () => import("@/views/hcex/staff/ReportListPage.vue"),
+        meta: { title: "รายงาน" },
+      },
+      {
+        path: "reports/:type",
+        name: "HCEXstaffReport",
+        component: () => import("@/views/hcex/staff/ReportPage.vue"),
+        meta: { title: "รายงาน" },
       },
     ],
   },

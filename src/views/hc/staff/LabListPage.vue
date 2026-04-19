@@ -4,7 +4,7 @@
       <div>
         <h1 class="page-title mb-1">รายการรอตรวจ Lab</h1>
         <p class="text-body-2 text-medium-emphasis mb-0">
-          การออกหนังสือรับรองสุขอนามัยพืช สำหรับพืชควบคุมเฉพาะ
+          การออกใบรับรองสุขอนามัย สำหรับพืชควบคุมเฉพาะ
         </p>
       </div>
     </div>
@@ -324,6 +324,52 @@
               />
             </span>
           </template>
+          <template #header.plantType="{ column, isSorted, getSortIcon }">
+            <span class="d-inline-flex align-center ga-1">
+              <span>
+                <div
+                  class="text-body-2 font-weight-medium"
+                  style="line-height: 1.3"
+                >
+                  ชนิดพืช
+                </div>
+                <div
+                  class="text-caption text-medium-emphasis"
+                  style="line-height: 1.2"
+                >
+                  Plant Type
+                </div>
+              </span>
+              <v-icon
+                v-if="isSorted(column)"
+                :icon="getSortIcon(column)"
+                size="14"
+              />
+            </span>
+          </template>
+          <template #header.packingHouse="{ column, isSorted, getSortIcon }">
+            <span class="d-inline-flex align-center ga-1">
+              <span>
+                <div
+                  class="text-body-2 font-weight-medium"
+                  style="line-height: 1.3"
+                >
+                  โรงคัดบรรจุ
+                </div>
+                <div
+                  class="text-caption text-medium-emphasis"
+                  style="line-height: 1.2"
+                >
+                  Packing House
+                </div>
+              </span>
+              <v-icon
+                v-if="isSorted(column)"
+                :icon="getSortIcon(column)"
+                size="14"
+              />
+            </span>
+          </template>
           <template #header.sentDate="{ column, isSorted, getSortIcon }">
             <span class="d-inline-flex align-center ga-1">
               <span>
@@ -409,7 +455,7 @@
                 prepend-icon="fas fa-flask"
                 @click.stop="goToDetail(item.id)"
               >
-                บันทึกผล Lab
+                บันทึกผลทดสอบ
               </v-btn>
             </div>
           </template>
@@ -508,6 +554,8 @@ const headers = [
   { title: "ชื่อผู้ยื่นคำขอ", key: "applicantName", sortable: true },
   { title: "ประเภทใบรับรอง", key: "certType", sortable: true },
   { title: "ประเภทคำขอ", key: "type", sortable: true },
+  { title: "ชนิดพืช", key: "plantType", sortable: true },
+  { title: "โรงคัดบรรจุ", key: "packingHouse", sortable: true },
   { title: "วันที่ส่งตรวจ", key: "sentDate", sortable: true },
   { title: "สถานะผล Lab", key: "labStatus", sortable: true },
   { title: "", key: "actions", sortable: false, align: "end" },
@@ -522,6 +570,8 @@ const allItems = [
     applicantName: "สมชาย ใจดี",
     certType: "All",
     type: "new",
+    plantType: "มะม่วง",
+    packingHouse: "โรงคัดบรรจุ A1",
     sentDate: "25/03/2569",
     sentDateISO: "2026-03-25",
     labStatus: "pending",
@@ -534,6 +584,8 @@ const allItems = [
     applicantName: "มาลี รักดี",
     certType: "Some",
     type: "correction",
+    plantType: "ทุเรียน",
+    packingHouse: "โรงคัดบรรจุ B2",
     sentDate: "26/03/2569",
     sentDateISO: "2026-03-26",
     labStatus: "pending",
@@ -546,6 +598,8 @@ const allItems = [
     applicantName: "ประสิทธิ์ พานิช",
     certType: "All",
     type: "new",
+    plantType: "ลำไย",
+    packingHouse: "โรงคัดบรรจุ C3",
     sentDate: "20/03/2569",
     sentDateISO: "2026-03-20",
     labStatus: "pass",
@@ -558,6 +612,8 @@ const allItems = [
     applicantName: "วิไล สุขสม",
     certType: "Some",
     type: "new",
+    plantType: "มังคุด",
+    packingHouse: "โรงคัดบรรจุ D4",
     sentDate: "18/03/2569",
     sentDateISO: "2026-03-18",
     labStatus: "fail",

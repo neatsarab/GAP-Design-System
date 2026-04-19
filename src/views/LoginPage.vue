@@ -472,27 +472,33 @@ const staffFormRef = ref();
 const features = [
   {
     icon: "fas fa-seedling",
-    text: "ระบบการรับรองมาตรฐานการปฏิบัติทางการเกษตรที่ดีสำหรับพืช",
+    text: "ระบบการรับรองมาตรฐาน GAP (Good Agricultural Practices) พืช",
   },
-  { icon: "fas fa-leaf", text: "ระบบการรับรองมาตรฐานเกษตรอินทรีย์" },
+  {
+    icon: "fas fa-leaf",
+    text: "ระบบการรับรองมาตรฐาน ORG (Organic Agriculture) พืช",
+  },
   {
     icon: "fas fa-industry",
     text: "ระบบการขึ้นทะเบียนโรงงานผลิตสินค้าพืช (DOA)",
   },
   {
     icon: "fas fa-certificate",
-    text: "ระบบการขึ้นทะเบียนหน่วยรับรองโรงงานผลิตสินค้าพืช",
+    text: "ระบบการขึ้นทะเบียนหน่วยรับรองโรงงานผลิตสินค้าพืช (Certification Body : CB)",
   },
-  { icon: "fas fa-ship", text: "ระบบการจดทะเบียนผู้ส่งออกสินค้าพืช" },
+  { icon: "fas fa-ship", text: "ระบบจดทะเบียนผู้ส่งออก" },
   {
     icon: "fas fa-virus",
     text: "ระบบ Health Certificate ตามประกาศพืชควบคุมเฉพาะ",
   },
   {
     icon: "fas fa-file-medical",
-    text: "ระบบการขึ้นทะเบียนหน่วยรับรองโรงงานผลิตสินค้าพืช",
+    text: "ระบบ Health Certificate สินค้าเกษตรแปรรูปด้านพืช",
   },
-  { icon: "fas fa-warehouse", text: "ระบบบัญชีรายชื่อโรงคัดบรรจุสินค้าพืช" },
+  {
+    icon: "fas fa-warehouse",
+    text: "ระบบบัญชีรายชื่อโรงคัดบรรจุตามมาตรการควบคุมพิเศษ (Establishment List: EL)",
+  },
 ];
 
 const rules = {

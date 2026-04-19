@@ -1,186 +1,296 @@
 <template>
-    <div style="--v-theme-primary: var(--v-theme-org-user)">
-        <!-- ── Sidebar ── -->
-        <v-navigation-drawer v-model="drawer" :rail="rail" permanent color="surface" class="app-sidebar">
-            <!-- Brand: rail mode -->
-            <v-list v-if="rail" density="compact" nav class="px-2 py-2">
-                <v-list-item rounded="lg" class="mb-1">
-                    <template v-slot>
-                        <v-icon icon="fas fa-leaf" color="org-user" size="20" />
-                    </template>
-                </v-list-item>
-            </v-list>
+  <div style="--v-theme-primary: var(--v-theme-org-user)">
+    <!-- ── Sidebar ── -->
+    <v-navigation-drawer
+      v-model="drawer"
+      :rail="rail"
+      permanent
+      color="surface"
+      class="app-sidebar"
+    >
+      <!-- Brand: rail mode -->
+      <v-list v-if="rail" density="compact" nav class="px-2 py-2">
+        <v-list-item rounded="lg" class="mb-1">
+          <template v-slot>
+            <v-icon icon="fas fa-leaf" color="org-user" size="20" />
+          </template>
+        </v-list-item>
+      </v-list>
 
-            <!-- Brand: expanded mode -->
-            <v-list-item v-else nav class="py-4 px-4">
-                <template v-slot:prepend>
-                    <div class="logo-icon-box rounded-lg mr-3" style="
+      <!-- Brand: expanded mode -->
+      <v-list-item v-else nav class="py-4 px-4">
+        <template v-slot:prepend>
+          <div
+            class="logo-icon-box rounded-lg mr-3"
+            style="
               background: rgba(var(--v-theme-org-user), 0.12);
               border: 1px solid rgba(var(--v-theme-org-user), 0.2);
-            ">
-                        <v-icon icon="fas fa-leaf" color="org-user" size="20" />
-                    </div>
-                </template>
-                <v-list-item-title class="text-body-2 font-weight-bold"
-                    style="word-break: break-word; white-space: normal">ระบบการรับรองมาตรฐานเกษตรอินทรีย์</v-list-item-title>
-                <v-list-item-subtitle class="text-caption"
-                    style="color: rgb(var(--v-theme-org-user)); opacity: 0.85">สำหรับผู้ประกอบการ</v-list-item-subtitle>
-                <template v-slot:append>
-                    <v-btn icon="fas fa-chevron-left" variant="text" color="on-surface-variant" size="small"
-                        @click="toggleRail" />
-                </template>
-            </v-list-item>
+            "
+          >
+            <v-icon icon="fas fa-leaf" color="org-user" size="20" />
+          </div>
+        </template>
+        <v-list-item-title
+          class="text-body-2 font-weight-bold"
+          style="word-break: break-word; white-space: normal"
+          >ระบบการรับรองมาตรฐานเกษตรอินทรีย์ (Organic
+          Agriculture)</v-list-item-title
+        >
+        <v-list-item-subtitle
+          class="text-caption"
+          style="color: rgb(var(--v-theme-org-user)); opacity: 0.85"
+          >สำหรับผู้ประกอบการ</v-list-item-subtitle
+        >
+        <template v-slot:append>
+          <v-btn
+            icon="fas fa-chevron-left"
+            variant="text"
+            color="on-surface-variant"
+            size="small"
+            @click="toggleRail"
+          />
+        </template>
+      </v-list-item>
 
-            <!-- User Card -->
-            <div v-if="!rail" class="px-4 mb-2">
-                <div class="user-card rounded-lg pa-3 d-flex align-center ga-2" style="
+      <!-- User Card -->
+      <div v-if="!rail" class="px-4 mb-2">
+        <div
+          class="user-card rounded-lg pa-3 d-flex align-center ga-2"
+          style="
             background: rgba(var(--v-theme-org-user), 0.06);
             border: 1px solid rgba(var(--v-theme-org-user), 0.12);
-          ">
-                    <v-avatar color="org-user" size="32" variant="tonal">
-                        <v-icon :icon="sessionStore.entityIcon" size="16" color="org-user" />
-                    </v-avatar>
-                    <div class="flex-grow-1">
-                        <div class="text-body-2 font-weight-medium text-org-user"
-                            style="word-break: break-word; white-space: normal">
-                            {{ sessionStore.displayName }}
-                        </div>
-                        <div v-if="
-                            sessionStore.entityType === 'juristic' && sessionStore.taxId
-                        " class="text-caption text-org-user" style="opacity: 0.75; word-break: break-word; white-space: normal">
-                            เลขทะเบียนนิติบุคคล: {{ sessionStore.taxId }}
-                        </div>
-                    </div>
+          "
+        >
+          <v-avatar color="org-user" size="32" variant="tonal">
+            <v-icon
+              :icon="sessionStore.entityIcon"
+              size="16"
+              color="org-user"
+            />
+          </v-avatar>
+          <div class="flex-grow-1">
+            <div
+              class="text-body-2 font-weight-medium text-org-user"
+              style="word-break: break-word; white-space: normal"
+            >
+              {{ sessionStore.displayName }}
+            </div>
+            <div
+              v-if="
+                sessionStore.entityType === 'juristic' && sessionStore.taxId
+              "
+              class="text-caption text-org-user"
+              style="opacity: 0.75; word-break: break-word; white-space: normal"
+            >
+              เลขทะเบียนนิติบุคคล: {{ sessionStore.taxId }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <v-divider class="mx-3" />
+
+      <!-- Nav -->
+      <v-list density="compact" nav class="mt-1 px-2">
+        <template v-for="group in navGroups" :key="group.label">
+          <div v-if="!rail" class="sidebar-group-label text-medium-emphasis">
+            {{ group.label }}
+          </div>
+          <v-list-item
+            v-for="item in group.items"
+            :key="item.to"
+            :prepend-icon="item.icon"
+            :title="item.title"
+            :to="item.to"
+            active-color="org-user"
+            rounded="lg"
+            class="mb-1"
+          />
+          <v-divider v-if="group.divider" class="mx-2 my-2" />
+        </template>
+      </v-list>
+
+      <!-- Bottom: Logout -->
+      <template v-slot:append>
+        <v-divider />
+        <v-list density="compact" nav class="px-2 py-2">
+          <v-list-item
+            prepend-icon="fas fa-arrow-left"
+            title="กลับหน้า Portal"
+            rounded="lg"
+            @click="goToPortal"
+          />
+          <v-list-item
+            prepend-icon="fas fa-right-from-bracket"
+            title="ออกจากระบบ"
+            base-color="error"
+            rounded="lg"
+            @click="openLogoutDialog"
+          />
+        </v-list>
+      </template>
+    </v-navigation-drawer>
+
+    <!-- ── App Bar ── -->
+    <v-app-bar
+      flat
+      height="64"
+      class="app-bar"
+      :style="{ '--v-theme-primary': 'var(--v-theme-org-user)' }"
+    >
+      <v-btn
+        icon="fas fa-bars"
+        variant="text"
+        size="small"
+        class="ml-2"
+        @click="toggleRail"
+      />
+
+      <!-- Breadcrumb -->
+      <v-breadcrumbs
+        :items="breadcrumbs"
+        density="compact"
+        class="ml-1 d-none d-sm-flex"
+      >
+        <template #divider
+          ><v-icon icon="fas fa-chevron-right" size="10"
+        /></template>
+      </v-breadcrumbs>
+
+      <v-spacer />
+
+      <div class="d-flex align-center ga-1 mr-3">
+        <!-- Notifications -->
+        <v-btn variant="text" size="small" icon class="mr-1">
+          <v-badge color="error" content="1" floating>
+            <v-icon icon="fas fa-bell" size="20" color="org-user" />
+          </v-badge>
+        </v-btn>
+
+        <!-- Theme -->
+        <v-tooltip
+          :text="isDark ? 'Light Mode' : 'Dark Mode'"
+          location="bottom"
+        >
+          <template v-slot:activator="{ props }">
+            <v-btn
+              v-bind="props"
+              :icon="isDark ? 'fas fa-sun' : 'fas fa-moon'"
+              variant="text"
+              size="small"
+              @click="toggleTheme"
+            />
+          </template>
+        </v-tooltip>
+
+        <!-- User menu -->
+        <v-menu location="bottom end" :offset="8">
+          <template #activator="{ props }">
+            <v-chip
+              v-bind="props"
+              variant="outlined"
+              color="org-user"
+              class="user-chip mr-2 ml-1"
+              prepend-icon="fas fa-user"
+              append-icon="fas fa-chevron-down"
+              style="cursor: pointer"
+            >
+              {{ sessionStore.loginName }}
+            </v-chip>
+          </template>
+
+          <v-card min-width="200" elevation="8" rounded="xl" class="mt-1">
+            <v-card-text class="pb-2">
+              <div class="d-flex align-center ga-3 mb-3">
+                <div class="user-avatar-md">
+                  <v-icon icon="fas fa-user" size="20" />
                 </div>
-            </div>
-
-            <v-divider class="mx-3" />
-
-            <!-- Nav -->
-            <v-list density="compact" nav class="mt-1 px-2">
-                <template v-for="group in navGroups" :key="group.label">
-                    <div v-if="!rail" class="sidebar-group-label text-medium-emphasis">
-                        {{ group.label }}
-                    </div>
-                    <v-list-item v-for="item in group.items" :key="item.to" :prepend-icon="item.icon"
-                        :title="item.title" :to="item.to" active-color="org-user" rounded="lg" class="mb-1" />
-                    <v-divider v-if="group.divider" class="mx-2 my-2" />
-                </template>
+                <div>
+                  <div class="text-body-2 font-weight-bold">
+                    {{ sessionStore.displayName }}
+                  </div>
+                  <div class="text-caption text-medium-emphasis">
+                    {{ sessionStore.loginName }}
+                  </div>
+                </div>
+              </div>
+              <v-divider />
+            </v-card-text>
+            <v-list density="compact" nav class="pt-0 pb-2">
+              <v-list-item
+                prepend-icon="fas fa-arrow-left"
+                title="ย้อนกลับไปเลือกบัญชี"
+                subtitle="บุคคล / นิติบุคคล / กลุ่ม"
+                rounded="lg"
+                @click="goToSelectCompany"
+              />
+              <v-divider class="my-1" />
+              <v-list-item
+                prepend-icon="fas fa-right-from-bracket"
+                title="ออกจากระบบ"
+                rounded="lg"
+                base-color="error"
+                @click="openLogoutDialog"
+              />
             </v-list>
+          </v-card>
+        </v-menu>
+      </div>
+    </v-app-bar>
 
-            <!-- Bottom: Logout -->
-            <template v-slot:append>
-                <v-divider />
-                <v-list density="compact" nav class="px-2 py-2">
-                    <v-list-item prepend-icon="fas fa-arrow-left" title="กลับหน้า Portal" rounded="lg"
-                        @click="goToPortal" />
-                    <v-list-item prepend-icon="fas fa-right-from-bracket" title="ออกจากระบบ" base-color="error"
-                        rounded="lg" @click="openLogoutDialog" />
-                </v-list>
-            </template>
-        </v-navigation-drawer>
+    <!-- ── Logout Dialog ── -->
+    <v-dialog v-model="logoutDialog" max-width="360" persistent>
+      <v-card rounded="xl">
+        <v-btn
+          icon="fas fa-xmark"
+          variant="text"
+          size="small"
+          color="grey"
+          class="position-absolute top-0 right-0 ma-2"
+          @click="closeLogoutDialog"
+        />
+        <v-card-text class="pa-6 text-center">
+          <div class="logout-icon-ring mx-auto mb-4">
+            <v-icon icon="fas fa-right-from-bracket" size="28" color="error" />
+          </div>
+          <h3 class="text-h6 font-weight-bold mb-2">ออกจากระบบ</h3>
+          <p class="text-body-2 text-medium-emphasis mb-0">
+            คุณต้องการออกจากระบบใช่หรือไม่?
+          </p>
+        </v-card-text>
+        <v-card-actions class="px-5 pb-5">
+          <v-row no-gutters class="ga-2 w-100">
+            <v-col>
+              <v-btn
+                variant="tonal"
+                color="grey"
+                block
+                rounded="lg"
+                @click="closeLogoutDialog"
+                >ยกเลิก</v-btn
+              >
+            </v-col>
+            <v-col>
+              <v-btn color="error" block rounded="lg" @click="doLogout"
+                >ออกจากระบบ</v-btn
+              >
+            </v-col>
+          </v-row>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
 
-        <!-- ── App Bar ── -->
-        <v-app-bar flat height="64" class="app-bar" :style="{ '--v-theme-primary': 'var(--v-theme-org-user)' }">
-            <v-btn icon="fas fa-bars" variant="text" size="small" class="ml-2" @click="toggleRail" />
-
-            <!-- Breadcrumb -->
-            <v-breadcrumbs :items="breadcrumbs" density="compact" class="ml-1 d-none d-sm-flex">
-                <template #divider><v-icon icon="fas fa-chevron-right" size="10" /></template>
-            </v-breadcrumbs>
-
-            <v-spacer />
-
-            <div class="d-flex align-center ga-1 mr-3">
-                <!-- Notifications -->
-                <v-btn variant="text" size="small" icon class="mr-1">
-                    <v-badge color="error" content="1" floating>
-                        <v-icon icon="fas fa-bell" size="20" color="org-user" />
-                    </v-badge>
-                </v-btn>
-
-                <!-- Theme -->
-                <v-tooltip :text="isDark ? 'Light Mode' : 'Dark Mode'" location="bottom">
-                    <template v-slot:activator="{ props }">
-                        <v-btn v-bind="props" :icon="isDark ? 'fas fa-sun' : 'fas fa-moon'" variant="text" size="small"
-                            @click="toggleTheme" />
-                    </template>
-                </v-tooltip>
-
-                <!-- User menu -->
-                <v-menu location="bottom end" :offset="8">
-                    <template #activator="{ props }">
-                        <v-chip v-bind="props" variant="outlined" color="org-user" class="user-chip mr-2 ml-1"
-                            prepend-icon="fas fa-user" append-icon="fas fa-chevron-down" style="cursor: pointer">
-                            {{ sessionStore.loginName }}
-                        </v-chip>
-                    </template>
-
-                    <v-card min-width="200" elevation="8" rounded="xl" class="mt-1">
-                        <v-card-text class="pb-2">
-                            <div class="d-flex align-center ga-3 mb-3">
-                                <div class="user-avatar-md">
-                                    <v-icon icon="fas fa-user" size="20" />
-                                </div>
-                                <div>
-                                    <div class="text-body-2 font-weight-bold">
-                                        {{ sessionStore.displayName }}
-                                    </div>
-                                    <div class="text-caption text-medium-emphasis">
-                                        {{ sessionStore.loginName }}
-                                    </div>
-                                </div>
-                            </div>
-                            <v-divider />
-                        </v-card-text>
-                        <v-list density="compact" nav class="pt-0 pb-2">
-                            <v-list-item prepend-icon="fas fa-arrow-left" title="ย้อนกลับไปเลือกบัญชี"
-                                subtitle="บุคคล / นิติบุคคล / กลุ่ม" rounded="lg" @click="goToSelectCompany" />
-                            <v-divider class="my-1" />
-                            <v-list-item prepend-icon="fas fa-right-from-bracket" title="ออกจากระบบ" rounded="lg"
-                                base-color="error" @click="openLogoutDialog" />
-                        </v-list>
-                    </v-card>
-                </v-menu>
-            </div>
-        </v-app-bar>
-
-        <!-- ── Logout Dialog ── -->
-        <v-dialog v-model="logoutDialog" max-width="360" persistent>
-            <v-card rounded="xl">
-                <v-btn icon="fas fa-xmark" variant="text" size="small" color="grey"
-                    class="position-absolute top-0 right-0 ma-2" @click="closeLogoutDialog" />
-                <v-card-text class="pa-6 text-center">
-                    <div class="logout-icon-ring mx-auto mb-4">
-                        <v-icon icon="fas fa-right-from-bracket" size="28" color="error" />
-                    </div>
-                    <h3 class="text-h6 font-weight-bold mb-2">ออกจากระบบ</h3>
-                    <p class="text-body-2 text-medium-emphasis mb-0">
-                        คุณต้องการออกจากระบบใช่หรือไม่?
-                    </p>
-                </v-card-text>
-                <v-card-actions class="px-5 pb-5">
-                    <v-row no-gutters class="ga-2 w-100">
-                        <v-col>
-                            <v-btn variant="tonal" color="grey" block rounded="lg"
-                                @click="closeLogoutDialog">ยกเลิก</v-btn>
-                        </v-col>
-                        <v-col>
-                            <v-btn color="error" block rounded="lg" @click="doLogout">ออกจากระบบ</v-btn>
-                        </v-col>
-                    </v-row>
-                </v-card-actions>
-            </v-card>
-        </v-dialog>
-
-        <!-- ── Content ── -->
-        <v-main class="bg-background">
-            <v-container fluid class="pa-5 pa-md-7"
-                style="max-width: 1320px; --v-theme-primary: var(--v-theme-org-user)">
-                <router-view />
-            </v-container>
-        </v-main>
-    </div>
+    <!-- ── Content ── -->
+    <v-main class="bg-background">
+      <v-container
+        fluid
+        class="pa-5 pa-md-7"
+        style="max-width: 1320px; --v-theme-primary: var(--v-theme-org-user)"
+      >
+        <router-view />
+      </v-container>
+    </v-main>
+  </div>
 </template>
 
 <script setup>
@@ -192,7 +302,7 @@ import { useSessionStore } from "@/stores/session.store";
 const themeStore = useThemeStore();
 const isDark = computed(() => themeStore.isDark);
 function toggleTheme() {
-    themeStore.toggle();
+  themeStore.toggle();
 }
 
 const router = useRouter();
@@ -203,121 +313,124 @@ const logoutDialog = ref(false);
 const sessionStore = useSessionStore();
 
 function toggleRail() {
-    rail.value = !rail.value;
+  rail.value = !rail.value;
 }
 
 function goToSelectCompany() {
-    router.push({ name: "CompanySelection" });
+  router.push({ name: "CompanySelection" });
 }
 
 function openLogoutDialog() {
-    logoutDialog.value = true;
+  logoutDialog.value = true;
 }
 
 function closeLogoutDialog() {
-    logoutDialog.value = false;
+  logoutDialog.value = false;
 }
 
 function goToPortal() {
-    router.push({ name: "UserPortal" });
+  router.push({ name: "UserPortal" });
 }
 
 function doLogout() {
-    logoutDialog.value = false;
-    sessionStore.clearSession();
-    router.push({ name: "Login" });
+  logoutDialog.value = false;
+  sessionStore.clearSession();
+  router.push({ name: "Login" });
 }
 
 const breadcrumbs = computed(() => [
-    { title: "ระบบการรับรองมาตรฐานเกษตรอินทรีย์", to: "/org/user" },
-    { title: route.meta.title },
+  {
+    title: "ระบบการรับรองมาตรฐาน ORG (Organic Agriculture) พืช",
+    to: "/org/user",
+  },
+  { title: route.meta.title },
 ]);
 
 const navGroups = computed(() => {
-    if (sessionStore.isGroupMode) {
-        return [
-            {
-                label: "ภาพรวม",
-                divider: true,
-                items: [
-                    {
-                        title: "แดชบอร์ด",
-                        icon: "fas fa-gauge",
-                        to: "/org/user/dashboard",
-                    },
-                ],
-            },
-            {
-                label: "คำขอ ORG (กลุ่ม)",
-                divider: true,
-                items: [
-                    {
-                        title: "ยื่นคำขอแบบกลุ่ม",
-                        icon: "fas fa-people-group",
-                        to: "/org/user/applications/new",
-                    },
-                    {
-                        title: "รายการคำขอ",
-                        icon: "fas fa-file-lines",
-                        to: "/org/user/applications",
-                    },
-                ],
-            },
-            {
-                label: "ใบทะเบียน",
-                divider: false,
-                items: [
-                    {
-                        title: "ใบรับรองเกษตรอินทรีย์",
-                        icon: "fas fa-certificate",
-                        to: "/org/user/certificates",
-                    },
-                ],
-            },
-        ];
-    }
+  if (sessionStore.isGroupMode) {
     return [
-        {
-            label: "ภาพรวม",
-            divider: true,
-            items: [
-                { title: "แดชบอร์ด", icon: "fas fa-gauge", to: "/org/user/dashboard" },
-            ],
-        },
-        {
-            label: "การยื่นคำขอ",
-            divider: true,
-            items: [
-                {
-                    title: "ยื่นคำขอใหม่",
-                    icon: "fas fa-file-pen",
-                    to: "/org/user/applications/new",
-                },
-                {
-                    title: "รายการคำขอ",
-                    icon: "fas fa-file-lines",
-                    to: "/org/user/applications",
-                },
-            ],
-        },
-        {
-            label: "ใบรับรอง",
-            divider: false,
-            items: [
-                {
-                    title: "รายการใบรับรอง",
-                    icon: "fas fa-certificate",
-                    to: "/org/user/certificates",
-                },
-            ],
-        },
+      {
+        label: "ภาพรวม",
+        divider: true,
+        items: [
+          {
+            title: "แดชบอร์ด",
+            icon: "fas fa-gauge",
+            to: "/org/user/dashboard",
+          },
+        ],
+      },
+      {
+        label: "คำขอ ORG (กลุ่ม)",
+        divider: true,
+        items: [
+          {
+            title: "ยื่นคำขอแบบกลุ่ม",
+            icon: "fas fa-people-group",
+            to: "/org/user/applications/new",
+          },
+          {
+            title: "รายการคำขอ",
+            icon: "fas fa-file-lines",
+            to: "/org/user/applications",
+          },
+        ],
+      },
+      {
+        label: "ใบทะเบียน",
+        divider: false,
+        items: [
+          {
+            title: "ใบรับรองเกษตรอินทรีย์",
+            icon: "fas fa-certificate",
+            to: "/org/user/certificates",
+          },
+        ],
+      },
     ];
+  }
+  return [
+    {
+      label: "ภาพรวม",
+      divider: true,
+      items: [
+        { title: "แดชบอร์ด", icon: "fas fa-gauge", to: "/org/user/dashboard" },
+      ],
+    },
+    {
+      label: "การยื่นคำขอ",
+      divider: true,
+      items: [
+        {
+          title: "ยื่นคำขอใหม่",
+          icon: "fas fa-file-pen",
+          to: "/org/user/applications/new",
+        },
+        {
+          title: "รายการคำขอ",
+          icon: "fas fa-file-lines",
+          to: "/org/user/applications",
+        },
+      ],
+    },
+    {
+      label: "ใบรับรอง",
+      divider: false,
+      items: [
+        {
+          title: "รายการใบรับรอง",
+          icon: "fas fa-certificate",
+          to: "/org/user/certificates",
+        },
+      ],
+    },
+  ];
 });
 </script>
 
 <style scope>
 .user-avatar-md {
-    background: rgba(var(--v-theme-org-user), 0.15);
-    color: rgb(var(--v-theme-org-user));
+  background: rgba(var(--v-theme-org-user), 0.15);
+  color: rgb(var(--v-theme-org-user));
 }
 </style>
