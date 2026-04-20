@@ -432,7 +432,7 @@ const router = useRouter();
 const search = ref("");
 
 function goToApplicationDetail(id) {
-  router.push({ name: "ORGStaffGroupApplicationDetail", params: { id } });
+  router.push({ name: "ORGStaffApplicationDetail", params: { id } });
 }
 
 const filters = reactive({

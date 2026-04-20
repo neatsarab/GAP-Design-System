@@ -5,11 +5,11 @@
             <div>
                 <h1 class="page-title mb-0">
                     {{
-                        page === 'gmp-form' ? 'บันทึกการตรวจประเมิน GMP' :
-                            page === 'haccp-form' ? 'บันทึกการตรวจประเมิน HACCP' :
+                        page === 'gmp-form' ? 'ผลการตรวจประเมิน GHP' :
+                            page === 'haccp-form' ? 'ผลการตรวจประเมิน HACCP' :
                                 page === 'analysis-form' ? 'สร้างข้อมูลผลตรวจวิเคราะห์' :
                                     page === 'exam-form' ? 'ผลสอบการวัดความรู้การจำแนกศัตรูพืช' :
-                                        'รายการตรวจ GAP'
+                                        'ตรวจประเมินโรงคัดบรรจุ'
                     }}
                 </h1>
                 <p class="text-body-2 text-medium-emphasis mb-0">คำขอขึ้นทะเบียนโรงคัดบรรจุ (Establishment List)</p>
@@ -72,7 +72,7 @@
                             <v-row dense>
                                 <!-- รหัสรับรอง / วันที่ออก / วันหมดอายุ -->
                                 <v-col cols="12" md="4">
-                                    <div class="field-label mb-1">รหัสรับรองโรงคัดบรรจุ</div>
+                                    <div class="field-label mb-1">ทะเบียนโรงงานผลิตสินค้าพืช (DOA)</div>
                                     <v-text-field v-model="establishmentInfo.certCode" variant="outlined" rounded="lg"
                                         density="comfortable" hide-details />
                                 </v-col>
@@ -178,7 +178,8 @@
 
                     <!-- 2. รายการเอกสาร-->
                     <v-card rounded="xl" elevation="0" class="mb-5 section-card">
-                        <v-card-title class="pa-5 pb-0 section-title font-weight-bold">2. รายการเอกสาร</v-card-title>
+                        <v-card-title class="pa-5 pb-0 section-title font-weight-bold">2.
+                            เอกสารยื่นความประสงค์</v-card-title>
                         <v-card-text class="pa-5">
                             <!-- รายการเอกสารแสดงความประสงค์ (ส่วนบนสุดของฟอร์ม) -->
                             <div class="field-label mb-2 font-weight-bold">เอกสารประกอบคำขอขึ้นทะเบียน
@@ -280,8 +281,8 @@
 
                     <!-- 5. ข้อมูลใบรับรอง GMP -->
                     <v-card rounded="xl" elevation="0" class="mb-5 section-card">
-                        <v-card-title class="pa-5 pb-0 section-title font-weight-bold">5.ข้อมูลใบรับรอง GMP
-                            ของโรงคัดบรรจุ</v-card-title>
+                        <v-card-title
+                            class="pa-5 pb-0 section-title font-weight-bold">5.ข้อมูลขึ้นทะเบียนโรงคัดบรรจุ</v-card-title>
                         <v-card-text class="pa-5">
                             <v-data-table :headers="factoryHeadersDetail" :items="factories" density="compact"
                                 class="border rounded-lg custom-table" hide-default-footer>
@@ -334,33 +335,73 @@
                                     {{ tab }}
                                 </div>
                             </div>
-                            <!-- ปุ่มบันทึกข้อมูล (แสดงเฉพาะใน Tab GMP/HACCP และยังไม่ได้กด) -->
-                            <v-btn v-if="activeStep2Tab === 'GMP/HACCP' && !isStep2Saved" color="grey-lighten-2"
+                            <!-- ปุ่มบันทึกข้อมูล (แสดงเฉพาะใน Tab ผลตรวจประเมินระบบ และยังไม่ได้กด) -->
+                            <v-btn v-if="activeStep2Tab === 'ผลตรวจประเมินระบบ' && !isStep2Saved" color="grey-lighten-2"
                                 elevation="0" class="text-none border rounded-0" height="40" @click="handleStep2Save">
                                 <span class="text-black font-weight-medium">บันทึกข้อมูล</span>
                             </v-btn>
                         </div>
 
-                        <!-- ─── TAB: GMP/HACCP ─── -->
-                        <div v-if="activeStep2Tab === 'GMP/HACCP'">
-                            <div v-if="!isStep2Saved" class="table-container border">
-                                <v-table density="compact" class="custom-step2-table">
-                                    <thead class="bg-el-staff text-white">
+                        <!-- ─── TAB: ผลตรวจประเมินระบบ ─── -->
+                        <div v-if="activeStep2Tab === 'ผลตรวจประเมินระบบ'">
+                            <div v-if="!isStep2Saved" class="table-container">
+                                <v-table density="compact" class="custom-step2-table border rounded-lg">
+                                    <thead class="bg-el-staff">
                                         <tr>
-                                            <th class="text-center border-right" style="width: 50px;"><v-checkbox-btn
-                                                    color="white" density="compact" hide-details /></th>
-                                            <th v-for="n in 7" :key="n" class="text-center border-right text-none">
-                                                Column</th>
-                                            <th class="text-center">Action</th>
+                                            <th class="text-center border-right" style="width: 50px;">
+                                                <v-checkbox-btn :model-value="isAllSelected"
+                                                    :indeterminate="isIndeterminate" color="white" density="compact"
+                                                    hide-details @click="toggleSelectAll" />
+                                            </th>
+                                            <th class="text-center text-white border-right" style="width: 80px;">ลำดับ
+                                            </th>
+                                            <th class="text-center text-white border-right">ใบรับรองมาตรฐาน</th>
+                                            <th class="text-center text-white border-right">ประเภทคำขอ</th>
+                                            <th class="text-center text-white border-right">วันที่เริ่ม</th>
+                                            <th class="text-center text-white border-right">วันที่หมดอายุ</th>
+                                            <th class="text-center text-white border-right">สถานะ</th>
+                                            <th class="text-center text-white border-right">หมายเหตุ</th>
+                                            <th class="text-center text-white">Action</th>
                                         </tr>
                                     </thead>
-                                    <tbody class="bg-grey-lighten-3">
-                                        <tr v-for="i in 3" :key="i">
-                                            <td class="text-center border-right border-bottom"><v-checkbox-btn
-                                                    density="compact" hide-details /></td>
-                                            <td class="pa-4 border-right border-bottom text-center text-body-2">
-                                                รายการคำขอ</td>
-                                            <td v-for="n in 7" :key="n" class="border-right border-bottom"></td>
+                                    <tbody class="bg-white">
+                                        <tr v-for="(item, index) in certData" :key="item.id"
+                                            :class="{ 'bg-grey-lighten-4': index % 2 !== 0 }">
+                                            <td class="text-center border-right border-bottom">
+                                                <v-checkbox-btn v-model="selectedItems" :value="item.id"
+                                                    density="compact" hide-details />
+                                            </td>
+                                            <td class="text-center border-right border-bottom text-body-2">{{ index + 1
+                                                }}</td>
+                                            <td class="text-center border-right border-bottom text-body-2">{{
+                                                item.certNo }}</td>
+                                            <td class="text-center border-right border-bottom text-body-2">{{ item.type
+                                                }}</td>
+                                            <td class="text-center border-right border-bottom text-body-2">{{
+                                                item.startDate }}</td>
+                                            <td class="text-center border-right border-bottom text-body-2">{{
+                                                item.expireDate }}</td>
+                                            <td class="text-center border-right border-bottom">
+                                                <v-chip :color="getStatusColorTable(item.status)" size="small"
+                                                    variant="flat" class="px-4">
+                                                    {{ item.status }}
+                                                </v-chip>
+                                            </td>
+                                            <td class="text-center border-right border-bottom text-body-2">
+                                                {{ item.remark }}
+                                            </td>
+                                            <!-- <td class="text-center border-bottom pa-2">
+                                                <v-btn variant="text" size="small" color="error"
+                                                    class="font-weight-black text-h6" @click="viewDetail(item)">
+                                                    view
+                                                </v-btn>
+                                            </td> -->
+                                            <td class="text-center border-bottom pa-2">
+                                                <v-btn variant="text" size="small" color="el-staff" class="font-weight-black text-h6"
+                                                    @click="viewDetail(item)">
+                                                   <v-icon icon="fas fa-eye" size="20" />
+                                                </v-btn>
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </v-table>
@@ -479,7 +520,7 @@
                         <!-- ─── TAB: ผลสอบ ─── -->
                         <div v-if="activeStep2Tab === 'ผลสอบ'">
                             <h3 class="text-success font-weight-bold mb-2 text-body-1">
-                                ผลสอบการวัดความรู้การจำแนกศัตรูพืชของพนักงาน</h3>
+                                ผลการสอบความรู้ความสามารถในการจำแนกแมลงศัตรูพืช</h3>
                             <v-btn color="white" class="border elevation-0 rounded-0 text-none mb-4"
                                 @click="page = 'exam-form'">
                                 <v-icon icon="fas fa-plus-circle" color="success" class="mr-2" /> สร้างข้อมูลผลสอบ
@@ -559,10 +600,12 @@
                     <v-table class="border checklist-table mb-6" density="compact">
                         <thead>
                             <tr class="bg-grey-lighten-4">
-                                <th class="text-center border-right font-weight-bold" style="width: 50%">รายการลงตรวจ
+                                <th class="text-center border-right font-weight-bold" style="width: 50%">
+                                    รายการตรวจประเมิน
                                 </th>
                                 <!-- <th class="text-center border-right font-weight-bold" style="width: 15%">คะแนน</th> -->
                                 <th class="text-center font-weight-bold">ผลการประเมิน</th>
+                                <th class="text-center font-weight-bold">หมายเหตุ/หลักฐาน</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -574,6 +617,10 @@
                                         class="d-inline-flex"><v-radio label="ผ่าน" value="pass" color="success"
                                             class="mr-4" /><v-radio label="ไม่ผ่าน" value="fail"
                                             color="error" /></v-radio-group></td>
+                                <td class="text-center pa-2">
+                                    <v-textarea variant="outlined" rounded="lg" density="compact" hide-details rows="1"
+                                        auto-grow />
+                                </td>
                             </tr>
                             <tr class="bg-grey-lighten-5 font-weight-bold">
                                 <td class="text-center border-right"></td>
@@ -586,7 +633,7 @@
                         </tbody>
                     </v-table>
                     <div class="pa-6 border bg-grey-lighten-5 mb-8">
-                        <div class="d-flex align-center mb-4"><span class="font-weight-bold mr-6">ผลการประเมิน GMP
+                        <div class="d-flex align-center mb-4"><span class="font-weight-bold mr-6">ผลการประเมิน GHP
                                 :</span><v-radio-group inline hide-details><v-radio label="ผ่าน" value="pass"
                                     color="success" class="mr-6" /><v-radio label="ไม่ผ่าน" value="fail"
                                     color="error" /></v-radio-group></div>
@@ -609,7 +656,9 @@
                     <v-table class="border checklist-table mb-4" density="compact">
                         <thead>
                             <tr class="bg-grey-lighten-4">
-                                <th class="text-center border-right font-weight-bold" style="width: 60%">รายการตรวจ</th>
+                                <th class="text-center border-right font-weight-bold" style="width: 40%">
+                                    รายการตรวจประเมิน</th>
+                                <th class="text-center font-weight-bold" style="width: 30%">ผลการประเมิน</th>
                                 <th class="text-center font-weight-bold" style="width: 40%">หมายเหตุ / หลักฐาน</th>
                             </tr>
                         </thead>
@@ -617,20 +666,31 @@
                             <tr v-for="(item, idx) in haccpChecklistItems" :key="idx">
                                 <template v-if="item.hasSub">
                                     <td colspan="2"
-                                        class="pa-3 bg-grey-lighten-5 font-weight-bold text-subtitle-2 color-primary">
+                                        class="bg-grey-lighten-5 font-weight-bold text-subtitle-2 color-primary">
                                         {{ item.label }}
                                     </td>
                                 </template>
 
                                 <template v-else>
-                                    <td class="pa-3 border-right text-body-2 align-start">
-                                        <div :class="item.isSub ? 'ml-8' : 'font-weight-bold'">{{ item.label }}</div>
+                                    <td class="border-right text-body-2 align-start">
+                                        <div>{{ item.label }}</div>
                                     </td>
-                                    <td class="pa-1">
-                                        <v-textarea variant="outlined" rounded="0" density="compact" hide-details
-                                            rows="2" auto-grow bg-color="white" />
+                                    <td class="text-center"><v-radio-group inline hide-details
+                                            class="d-inline-flex"><v-radio label="ผ่าน" value="pass" color="success"
+                                                class="mr-4" /><v-radio label="ไม่ผ่าน" value="fail"
+                                                color="error" /></v-radio-group></td>
+                                    <td class="text-center pa-2">
+                                        <v-textarea variant="outlined" rounded="lg" density="compact" hide-details
+                                            rows="1" auto-grow />
                                     </td>
                                 </template>
+                            </tr>
+                            <tr class="">
+                                <td class="text-center border-right"></td>
+                                <td class="text-center"><v-btn variant="flat" color="success" size="small"
+                                        class="text-none font-weight-bold" @click="passAllGmp">ผ่านทั้งหมด</v-btn>
+                                </td>
+                                <td class="text-center "></td>
                             </tr>
                         </tbody>
                     </v-table>
@@ -675,8 +735,8 @@
                                 density="compact" hide-details /></v-col></v-row>
                     <v-row dense class="mb-6">
                         <v-col cols="12" md="6" class="d-flex align-center justify-content-start ml-n14">
-                            <span class="label-fixed">แปลงเกษตรกร:</span><v-select :items="['ผ่าน']"
-                                variant="outlined" rounded="0" density="compact" hide-details /></v-col>
+                            <span class="label-fixed">แปลงเกษตรกร:</span><v-select :items="['ผ่าน']" variant="outlined"
+                                rounded="0" density="compact" hide-details /></v-col>
                     </v-row>
                     <div v-for="section in analysisInputSections" :key="section.title" class="mb-8">
 
@@ -702,8 +762,8 @@
                                 <tr v-for="(row, idx) in analysisForm[section.key]" :key="idx">
                                     <td class="border-right text-center"><v-checkbox-btn density="compact"
                                             hide-details /></td>
-                                    <td class="pa-1 border-right"><v-select placeholder=""
-                                            variant="outlined" rounded="0" density="compact" hide-details /></td>
+                                    <td class="pa-1 border-right"><v-select placeholder="" variant="outlined"
+                                            rounded="0" density="compact" hide-details /></td>
                                     <td class="pa-1 border-right"><v-text-field variant="outlined" rounded="0"
                                             density="compact" hide-details /></td>
                                     <td class="pa-1 border-right"><v-select :items="['ผ่าน', 'ไม่ผ่าน']"
@@ -755,12 +815,11 @@
                     <h3 class="text-body-1 font-weight-bold mb-2">รายชื่อผู้สอบ</h3>
 
                     <!-- ตารางรายชื่อผู้สอบ -->
-                    <v-table density="compact" class="border custom-analysis-table mb-4" rounded="0">
+                    <v-table class=" mb-4">
                         <thead class="bg-grey-lighten-3">
                             <tr>
                                 <th style="width: 40px" class="border-right"><v-checkbox-btn density="compact"
                                         hide-details /></th>
-                                <th class="text-center border-right">คำนำหน้า</th>
                                 <th class="text-center border-right">ชื่อ</th>
                                 <th class="text-center border-right">นามสกุล</th>
                                 <th class="text-center border-right">ผลสอบ</th>
@@ -772,8 +831,6 @@
                             <tr v-for="(row, idx) in examForm.students" :key="idx">
                                 <td class="border-right text-center"><v-checkbox-btn density="compact" hide-details />
                                 </td>
-                                <td class="pa-1 border-right"><v-text-field variant="outlined" rounded="0"
-                                        density="compact" hide-details /></td>
                                 <td class="pa-1 border-right"><v-text-field variant="outlined" rounded="0"
                                         density="compact" hide-details /></td>
                                 <td class="pa-1 border-right"><v-text-field variant="outlined" rounded="0"
@@ -826,8 +883,7 @@
                         <v-btn variant="tonal" rounded="0" class="border px-8" color="">
                             <v-icon icon="fas fa-save" class="mr-2" color="grey-darken-3" />บันทึก
                         </v-btn>
-                        <v-btn variant="tonal" rounded="0" class="border px-8" color=""
-                            @click="page = 'main'">
+                        <v-btn variant="tonal" rounded="0" class="border px-8" color="" @click="page = 'main'">
                             <v-icon icon="fas fa-arrow-left" class="mr-2" color="success" />ย้อนกลับ
                         </v-btn>
                     </div>
@@ -843,10 +899,10 @@ import { ref, reactive, computed } from "vue";
 const page = ref('main');
 const currentStep = ref(0);
 const isStep2Saved = ref(false); // ควบคุมการเปลี่ยน Content ใน Tab GMP
-const activeStep2Tab = ref('GMP/HACCP');
+const activeStep2Tab = ref('ผลตรวจประเมินระบบ');
 
 const steps = [{ value: 0, title: "ข้อมูลคำขอ" }, { value: 1, title: "ผลตรวจประเมิน" }];
-const step2Tabs = ['GMP/HACCP', 'ผลตรวจวิเคราะห์', 'ผลสอบ'];
+const step2Tabs = ['ผลตรวจประเมินระบบ', 'ผลตรวจวิเคราะห์', 'ผลสอบ'];
 
 const docNumber = computed(() => {
     if (page.value === 'gmp-form') return 'GMP-20140502008';
@@ -856,34 +912,42 @@ const docNumber = computed(() => {
 
 const establishmentInfo = reactive({ appCode: 'EL-2569-00003', name: 'บริษัท ฟลอร่า แคปปิทอล จำกัด' });
 const gmpForm = reactive({ farmerName: 'นาง จันทร์จิรา เครือพลับ' });
-const gmpChecklist = ['สถานประกอบการ', 'เครื่องมือเครื่องจักรและอุปกรณ์การผลิต', 'การควบคุมกระบวนการผลิต', 'การบำรุงรักษาและการสุขาภิบาล', 'บุคลากรและการสุขาภิบาล', 'การเก็บรักษาการขนส่ง', 'การจัดทำบันทึก'];
+const gmpChecklist = ['สถานประกอบการ - การออกแบบสิ่งอำนวยความสะดวกและเครื่องมือ',
+    'การฝึกอบรมและความสามารถ',
+    'การบำรุงรักษา ทำความสะอาดและฆ่าเชื้อ และควบคุมสัตว์พาหะนำเชื้อ',
+    'สุขลักษณะส่วนบุคคล',
+    'การควบคุมการปฏิบัติงาน',
+    'ข้อมูลผลิตภัณฑ์และความตระหนักของผู้บริโภค',
+    'การขนส่ง',];
 const gmpData = reactive({ scores: {}, results: {}, overall: 'pass' });
 
 const analysisDashboardSections = [
     { title: 'ผลตรวจเชื้อจุลินทรีย์', colName: 'เชื้อ', data: [{ date: '27/04/2023', crop: 'กะเพรา', inspector: 'น.ส.วรัญญา ปานเกตุ', item: 'Salmonella', result: 'Not detected', status: 'ผ่าน' }] },
     { title: 'ผลตรวจสารตกค้าง', colName: 'สาร', data: [{ date: '27/04/2023', crop: 'กะเพรา', inspector: 'น.ส.วรัญญา ปานเกตุ', item: 'สารทั้งหมด', result: 'Not detected', status: 'ผ่าน' }] },
-    { title: 'ผลตรวจแมลง', colName: 'แมลง', data: [{ date: '27/04/2023', crop: 'กะเพรา', inspector: 'น.ส.วรัญญา ปานเกตุ', item: 'แมลงทั้งหมด', result: 'ไม่พบ', status: 'ผ่าน' }] }
+    { title: 'ผลตรวจแมลงศัตรูพืช', colName: 'แมลง', data: [{ date: '27/04/2023', crop: 'กะเพรา', inspector: 'น.ส.วรัญญา ปานเกตุ', item: 'แมลงทั้งหมด', result: 'ไม่พบ', status: 'ผ่าน' }] }
 ];
 
 const analysisForm = reactive({ microbe: [{}], chemical: [{}], insect: [{}] });
-const analysisInputSections = [{ title: 'ผลตรวจเชื้อจุลินทรีย์', colName: 'เชื้อ', key: 'microbe' }, { title: 'ผลตรวจสารตกค้าง', colName: 'สาร', key: 'chemical' }, { title: 'ผลตรวจแมลง', colName: 'แมลง', key: 'insect' }];
+const analysisInputSections = [{ title: 'ผลตรวจเชื้อจุลินทรีย์', colName: 'เชื้อจุลินทรีย์', key: 'microbe' }, { title: 'ผลตรวจสารตกค้าง', colName: 'สารตกค้าง', key: 'chemical' }, { title: 'ผลตรวจแมลง', colName: 'แมลงศัตรูพืช', key: 'insect' }];
 const examForm = reactive({ students: [{}] });
 
 const haccpChecklistItems = [
-    { label: '1. มีการกำหนดการตรวจเฝ้าระวังที่รวดเร็ว เหมาะสม ครบทุก CCP', isSub: false, hasSub: false },
-    { label: '2. พนักงานตรวจเฝ้าระวังมีความรู้ความเข้าใจ', isSub: false, hasSub: false },
-    { label: '3. มีการบันทึก การตรวจเฝ้าระวังจุดวิกฤตครบถ้วน', isSub: false, hasSub: false },
+    // --- ขั้นตอนการเตรียมการ ---
+    { label: '1. จัดตั้งทีมงาน HACCP และระบุขอบข่าย', isSub: false, hasSub: false },
+    { label: '2. อธิบายรายละเอียดผลิตภัณฑ์', isSub: false, hasSub: false },
+    { label: '3. ระบุเจตนาของการใช้และผู้ใช้', isSub: false, hasSub: false },
+    { label: '4. จัดทำแผนภูมิกระบวนการผลิต', isSub: false, hasSub: false },
+    { label: '5. การตรวจสอบยืนยันความถูกต้องของแผนภูมิกระบวนการผลิต ณ สถานที่ผลิต', isSub: false, hasSub: false },
 
-    { label: '4. กำหนดการปฏิบัติการแก้ไข (หลักการที่ 5)', isSub: false, hasSub: true }, // หัวข้อหลัก
-    { label: '4.1. มีการกำหนดการแก้ไขในแต่ละ CCP', isSub: true, hasSub: false },
-    { label: '4.2. มีการแก้ไขเมื่อเกิดการเบี่ยงเบนและมีบันทึก', isSub: true, hasSub: false },
-
-    { label: '5. กำหนดวิธีการทวนสอบ (หลักการที่ 6)', isSub: false, hasSub: true }, // หัวข้อหลัก
-    { label: '5.1. มีการทวนสอบ ระบบและแผน HACCP บันทึกและความถี่ในการทวนสอบเพียงพอ', isSub: true, hasSub: false },
-    { label: '5.2. มีการสุ่มตัวอย่างวิเคราะห์', isSub: true, hasSub: false },
-
-    { label: '6. การกำหนดวิธีการจัดทำเอกสารและการจัดเก็บบันทึกข้อมูล (หลักการที่ 7)', isSub: false, hasSub: true }, // หัวข้อหลัก
-    { label: '6.1. มีเอกสารและบันทึก เพียงพอ ถูกต้อง ครบถ้วน', isSub: true, hasSub: false },
+    // --- หลักการ HACCP 7 ประการ และข้อเพิ่มเติม ---
+    { label: '6. ระบุอันตรายทุกชนิดที่อาจเกิดขึ้น ดำเนินการวิเคราะห์อันตราย พิจารณามาตรการควบคุม', isSub: false, hasSub: false },
+    { label: '7. กำหนดจุดวิกฤตที่ต้องควบคุม', isSub: false, hasSub: false },
+    { label: '8. กำหนดค่าวิกฤตที่ผ่านการพิสูจน์ยืนยันความใช้ได้สำหรับแต่ละจุดวิกฤตที่ต้องควบคุม', isSub: false, hasSub: false },
+    { label: '9. กำหนดระบบการตรวจเฝ้าระวังสำหรับแต่ละจุดวิกฤตที่ต้องควบคุม', isSub: false, hasSub: false },
+    { label: '10. กำหนดการปฏิบัติการแก้ไข', isSub: false, hasSub: false },
+    { label: '11. การพิสูจน์ยืนยันความใช้ได้ของแผน HACCP และขั้นตอนการดำเนินการในการทวนสอบ', isSub: false, hasSub: false },
+    { label: '12. กำหนดการจัดทำเอกสารและการเก็บบันทึกข้อมูล', isSub: false, hasSub: false },
+    { label: '13. การฝึกอบรม', isSub: false, hasSub: false },
 ];
 
 const refGmpList = ['GMP-20140502002', 'GMP-20140502008', 'GMP-20140424032'];
@@ -961,7 +1025,8 @@ const resultHeadersDetail = [
     { title: 'ชื่อเกษตรกร', key: 'farmerName', align: 'start', width: '200px' },
     { title: 'รหัสใบรับรอง', key: 'certNo', align: 'start' },
     { title: 'รหัสแปลง', key: 'farmCode', align: 'center' },
-    { title: 'ผลตรวจเอกสาร', key: 'docResult', align: 'center' },
+    { title: 'ผลการตรวจแปลง', key: 'docResult', align: 'center' },
+    { title: 'ผลการตรวจโรงคัดบรรจุ', key: 'docResult', align: 'center' },
     { title: 'สถานะ', key: 'status', align: 'center' },
 ];
 
@@ -1020,6 +1085,56 @@ function submitApplication() {
 
 function viewResultDetail(item) {
     alert("ดูรายละเอียดผลการพิจารณา: " + item.cropName);
+}
+
+const certData = ref([
+    {
+        id: 101,
+        certNo: 'GMP 69/2567',
+        type: 'ต่ออายุ',
+        startDate: '12/01/2026',
+        expireDate: '11/01/2029',
+        status: 'อนุมัติ',
+        remark: '-'
+    },
+    {
+        id: 102,
+        certNo: 'HACCP 104/2567',
+        type: 'ขึ้นทะเบียนใหม่',
+        startDate: '01/02/2026',
+        expireDate: '31/01/2029',
+        status: 'รอตรวจ',
+        remark: 'แนบเอกสารเพิ่มเติม'
+    }
+]);
+
+// 2. ตัวแปรเก็บ ID ที่ถูกเลือก
+const selectedItems = ref([]);
+
+// 3. Logic สำหรับ Select All
+const isAllSelected = computed(() => {
+    return certData.value.length > 0 && selectedItems.value.length === certData.value.length;
+});
+
+const isIndeterminate = computed(() => {
+    return selectedItems.value.length > 0 && selectedItems.value.length < certData.value.length;
+});
+
+function toggleSelectAll() {
+    if (isAllSelected.value) {
+        selectedItems.value = [];
+    } else {
+        selectedItems.value = certData.value.map(item => item.id);
+    }
+}
+function getStatusColorTable(status) {
+    if (status === 'อนุมัติ') return 'success';
+    if (status === 'รอตรวจ') return 'warning';
+    return 'grey';
+}
+
+function viewDetail(item) {
+    console.log("Viewing:", item.certNo);
 }
 </script>
 

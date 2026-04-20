@@ -588,8 +588,8 @@ const cl02History = ref([
 // จัดการ Label ตามประเภทการแก้ไข
 const editLabel = computed(() => {
     const labels = {
-        farmer: 'ข้อมูลแปลงเกษตรกร',
-        farm: 'ข้อมูลแปลงเกษตร',
+        farmer: 'ข้อมูลโรงคัดบรรจุ',
+        farm: 'ข้อมูลโรงคัดบรรจุ',
         factory: 'ข้อมูลใบรับรองโรงคัดบรรจุ'
     };
     return labels[editType.value] || 'ข้อมูลรายละเอียด';

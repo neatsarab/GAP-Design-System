@@ -22,12 +22,12 @@
         <v-row dense align="center">
           <v-col cols="12" sm="6" md="6">
             <div class="field-label">
-              <div>เลขคำขอ</div>
-              <div class="field-label-en">Request No.</div>
+              <div>เลขใบรับรอง</div>
+              <div class="field-label-en">Certificate No.</div>
             </div>
             <v-text-field
               v-model="search"
-              placeholder="ค้นหาเลขคำขอ"
+              placeholder="ค้นหาเลขใบรับรอง"
               prepend-inner-icon="fas fa-search"
               variant="outlined"
               density="compact"
@@ -175,13 +175,13 @@
                 class="text-body-2 font-weight-medium"
                 style="line-height: 1.3"
               >
-                เลขคำขอ
+                เลขใบรับรอง
               </div>
               <div
                 class="text-caption text-medium-emphasis"
                 style="line-height: 1.2"
               >
-                Request No.
+                Certificate No.
               </div>
             </span>
             <v-icon

@@ -56,7 +56,7 @@
                         <template v-if="item.count" #append>
                             <v-chip size="x-small" color="error" variant="flat">{{
                                 item.count
-                            }}</v-chip>
+                                }}</v-chip>
                         </template>
                     </v-list-item>
                     <v-divider v-if="group.divider" class="mx-2 my-2" />
@@ -366,6 +366,33 @@ const navGroups = [
         ],
     },
     {
+        label: " แลกเปลี่ยนข้อมูล",
+        divider: true,
+        items: [
+            {
+                title: "ข้อมูลเกษตรกร (กสก.)",
+                icon: "fas fa-file-pen",
+                to: "/gap/staff/datatransfer/farmer-data-doae",
+            },
+            {
+                title: "ข้อมูลพื้นที่ทำการเกษตร (ส.ป.ก.)",
+                icon: "fas fa-file-lines",
+                to: "/gap/staff/datatransfer/farm-land-data-kps",
+            },
+            {
+                title: "ข้อมูลตรวจสอบมาตรฐาน (มกอช.)",
+                icon: "fas fa-file-pen",
+                to: "/gap/staff/datatransfer/standard-inspection-data",
+            },
+            {
+                title: "Bizportal",
+                icon: "fas fa-file-pen",
+                to: "/gap/staff/datatransfer/bizportal",
+            },
+
+        ],
+    },
+    {
         label: "ใบรับรอง",
         divider: false,
         items: [
@@ -373,6 +400,11 @@ const navGroups = [
                 title: "ลงนาม",
                 icon: "fas fa-certificate",
                 to: "/gap/staff/certificates",
+            },
+            {
+                title: "รายการใบทะเบียน",
+                icon: "fas fa-certificate",
+                to: "/gap/staff/registry",
             },
         ],
     },

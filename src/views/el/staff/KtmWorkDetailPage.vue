@@ -117,7 +117,8 @@
 
                 <!-- 2. ระบบจัดการโรงคัดบรรจุ -->
                 <v-card rounded="xl" elevation="0" class="mb-5 section-card border">
-                    <v-card-title class="pa-4 pb-0 text-el-staff font-weight-bold">ระบบจัดการโรงคัดบรรจุ</v-card-title>
+                    <v-card-title
+                        class="pa-4 pb-0 text-el-staff font-weight-bold">ระบบการจัดการโรงคัดบรรจุ</v-card-title>
                     <v-divider class="mx-4 mt-2" />
 
                     <v-card-text class="pa-5">
@@ -273,6 +274,10 @@
 
                     <!-- ส่วนบันทึกผลการตรวจ (Row ล่าง) -->
                     <v-row dense>
+                        <v-col cols="12" md="4">
+                            <v-checkbox v-model="tempData.isAssignToProvince" label="มอบหมายให้เจ้าหน้าที่ กตม."
+                                color="el-staff" hide-details density="comfortable" />
+                        </v-col>
                         <v-col cols="12" md="12">
                             <div class="d-flex align-center mb-4">
                                 <div class="field-label-fixed font-weight-bold">ผลการตรวจเอกสาร :</div>

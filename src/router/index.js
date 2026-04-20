@@ -135,6 +135,19 @@ const routes = [
                 component: () => import("@/views/gap/staff/NotificationPage.vue"),
                 meta: { title: "การแจ้งเตือน" },
             },
+            {
+                path: "registry",
+                name: "StaffRegistry",
+                component: () => import("@/views/gap/staff/RegistryPage.vue"),
+                meta: { title: "ทะเบียนผู้ส่งออก" },
+            },
+            {
+                path: "registry/:id/manage",
+                name: "StaffCertificateManage",
+                component: () =>
+                    import("@/views/gap/staff/CertificateManagePage.vue"),
+                meta: { title: "จัดการใบรับรอง" },
+            },
             //แบบกลุ่ม
             {
                 path: "group/applications/new",
@@ -208,6 +221,13 @@ const routes = [
                 name: "staffCropScopeResults",
                 component: () => import("@/views/gap/staff/report/CropScopeResultPage.vue"),
                 meta: { title: "ผลการดำเนินงานแยกตามขอบข่ายพืช" },
+            },
+            //ข้อมูล
+            {
+                path: "datatransfer/farmer-data-doae",
+                name: "staffDataTransferFarmerDataDOAE",
+                component: () => import("@/views/gap/staff/datatransfer/TransferFarmerDataDOAEPage.vue"),
+                meta: { title: "ข้อมูลเกษตรกร (กสก.)" },
             }
         ],
     },
@@ -472,6 +492,25 @@ const routes = [
                 component: () => import("@/views/org/staff/ResultsSaveCCDetailPage.vue"),
                 meta: { title: "รายละเอียดผลตรวจแปลง" },
             },
+            {
+                path: "registry",
+                name: "ORGStaffRegistry",
+                component: () => import("@/views/org/staff/RegistryPage.vue"),
+                meta: { title: "ทะเบียนผู้ส่งออก" },
+            },
+            {
+                path: "registrylist",
+                name: "ORGStaffRegistryList",
+                component: () => import("@/views/org/staff/RegistryListPage.vue"),
+                meta: { title: "ทะเบียนผู้ส่งออก" },
+            },
+            {
+                path: "registrylist/:id/manage",
+                name: "ORGStaffCertificateManage",
+                component: () =>
+                    import("@/views/org/staff/CertificateManagePage.vue"),
+                meta: { title: "จัดการใบรับรอง" },
+            },
             //แบบกลุ่ม
             {
                 path: "group/applications/new",
@@ -545,6 +584,13 @@ const routes = [
                 name: "ORGStaffSingleCertificate",
                 component: () => import("@/views/org/staff/report/SingleCertificatePage.vue"),
                 meta: { title: "ใบรับรองแปลงเดี่ยว" },
+            },
+            //ข้อมูล
+            {
+                path: "datatransfer/farmer-data-doae",
+                name: "ORGstaffDataTransferFarmerDataDOAE",
+                component: () => import("@/views/org/staff/datatransfer/TransferFarmerDataDOAEPage.vue"),
+                meta: { title: "ข้อมูลเกษตรกร (กสก.)" },
             }
         ],
     },
@@ -1519,6 +1565,32 @@ const routes = [
                 component: () => import("@/views/el/staff/BoardApplicationDetailPage.vue"),
                 meta: { title: "รายการคำขอขึ้นทะเบียน" },
             },
+            //data
+            {
+                path: "select-data",
+                name: "ELStaffSelectData",
+                component: () => import("@/views/el/staff/masterdata/SelectDataPage.vue"),
+                meta: { title: "เลือกข้อมูล" },
+            },
+            {
+                path: "select-data/:id",
+                name: "ELStaffActionData",
+                component: () => import("@/views/el/staff/masterdata/DataActionPage.vue"),
+                meta: { title: "จัดการข้อมูล" },
+            },
+            //report
+            {
+                path: "select-report",
+                name: "ELStaffSelectReport",
+                component: () => import("@/views/el/staff/report/SelectReportPage.vue"),
+                meta: { title: "เลือกรายงาน" },
+            },
+            {
+                path: "select-report/:id",
+                name: "ELStaffListReport",
+                component: () => import("@/views/el/staff/report/ReportListPage.vue"),
+                meta: { title: "รายการรายงาน" },
+            }
         ],
     },
 ];
