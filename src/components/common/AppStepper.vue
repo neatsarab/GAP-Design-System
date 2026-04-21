@@ -13,7 +13,7 @@
           >
             <v-icon
               v-if="step.complete && !step.error"
-              icon="fas fa-check"
+              icon="fas fa-check" 
               size="14"
             />
             <v-icon v-else-if="step.error" icon="fas fa-xmark" size="14" />

@@ -212,6 +212,18 @@ const navConfig = [
                 to: "/el/staff/board-applications", 
                 roles: [ROLES.SUPER_BOARD],
             },
+              { 
+                title: "ข้อมูลระบบ", 
+                icon: "fas fa-database", 
+                to: "/el/staff/select-data", 
+                roles: [ROLES.SUPER_BOARD],
+            },
+              { 
+                title: "รายงาน", 
+                icon: "fas fa-file-text", 
+                to: "/el/staff/select-report", 
+                roles: [ROLES.SUPER_BOARD],
+            },
             // { title: "พิจารณาผลการตรวจ", icon: "fas fa-gavel", to: "/el/staff/board/final", roles: [ROLES.SUPER_BOARD] },
         ],
     },

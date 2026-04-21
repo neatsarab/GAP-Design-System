@@ -499,7 +499,7 @@
                             <v-card-text class="pa-5">
                                 <!-- ผลการตรวจสอบ -->
                                 <div class="field-label mb-1">
-                                     <span class="text-subtitle-2 font-weight-bold">ผลการตรวจสอบ</span>
+                                    <span class="text-subtitle-2 font-weight-bold">ผลการตรวจสอบ</span>
                                 </div>
                                 <v-radio-group v-model="step1Review.result" color="doa-staff" inline>
                                     <v-radio value="pass" class="mr-6">
@@ -526,11 +526,30 @@
                                             </div>
                                         </template>
                                     </v-radio>
+                                    <v-radio value="assign">
+                                        <template #label>
+                                            <div class="d-flex align-center ga-2">
+                                                <v-icon icon="fas fa-circle-exclamation" color="warning" size="18" />
+                                                <span class="font-weight-medium">มอบหมายงาน</span>
+                                            </div>
+                                        </template>
+                                    </v-radio>
                                 </v-radio-group>
+
+                                <v-row v-if="step1Review.result === 'assign'" class="mt-n5 mb-4">
+                                    <v-col cols="12" md="6">
+                                        <div class="field-label mb-1 text-error text-caption">
+                                            กรุณาเลือกหน่วยงานที่จะมอบหมายงานให้</div>
+                                        <v-select v-model="step1Review.assignedDepartment"
+                                            :items="['สำนักวิจัยและพัฒนาการเกษตร เขตที่ 1', 'สำนักวิจัยและพัฒนาการเกษตร เขตที่ 2', 'กองพัฒนาระบบและรับรองมาตรฐานสินค้าพืช']"
+                                            placeholder="เลือกหน่วยงาน..." variant="outlined" rounded="lg"
+                                            density="compact" hide-details />
+                                    </v-col>
+                                </v-row>
 
                                 <!-- หมายเหตุ -->
                                 <div class="field-label mb-1">
-                                     <span class="text-subtitle-2 font-weight-bold">หมายเหตุ</span>
+                                    <span class="text-subtitle-2 font-weight-bold">หมายเหตุ</span>
                                 </div>
                                 <v-textarea v-model="step1Review.remark" variant="outlined" density="compact"
                                     rounded="lg" hide-details rows="4" placeholder="ระบุเหตุผลหรือข้อสังเกต..."
@@ -1682,11 +1701,11 @@ const application = {
 const step1Review = reactive({ result: "pass", remark: "", deadline: null });
 const deadlineMenu = ref(false);
 const deadlineBE = computed(() => {
-  if (!step1Review.deadline) return "";
-  const d = step1Review.deadline;
-  const dd = String(d.getDate()).padStart(2, "0");
-  const mm = String(d.getMonth() + 1).padStart(2, "0");
-  return `${dd}/${mm}/${d.getFullYear() + 543}`;
+    if (!step1Review.deadline) return "";
+    const d = step1Review.deadline;
+    const dd = String(d.getDate()).padStart(2, "0");
+    const mm = String(d.getMonth() + 1).padStart(2, "0");
+    return `${dd}/${mm}/${d.getFullYear() + 543}`;
 });
 onMounted(() => {
     initLeafletMap();

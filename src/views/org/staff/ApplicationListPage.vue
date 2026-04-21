@@ -31,8 +31,8 @@
           </v-col>
           <v-col cols="12" sm="6" md="6">
             <div class="field-label">
-              <div>ประเภททะเบียน</div>
-              <div class="field-label-en">Certificate Type</div>
+              <div>ที่มาของคำขอ</div>
+              <div class="field-label-en">Source</div>
             </div>
             <v-autocomplete
               v-model="filters.typecert"
@@ -202,7 +202,7 @@
             />
           </span>
         </template>
-        <template #header.companyName="{ column, isSorted, getSortIcon }">
+        <!-- <template #header.companyName="{ column, isSorted, getSortIcon }">
           <span class="d-inline-flex align-center ga-1">
             <span>
               <div
@@ -224,7 +224,7 @@
               size="14"
             />
           </span>
-        </template>
+        </template> -->
         <template #header.applicantName="{ column, isSorted, getSortIcon }">
           <span class="d-inline-flex align-center ga-1">
             <span>
@@ -255,13 +255,13 @@
                 class="text-body-2 font-weight-medium"
                 style="line-height: 1.3"
               >
-                ประเภททะเบียน
+                ที่มาของคำขอ
               </div>
               <div
                 class="text-caption text-medium-emphasis"
                 style="line-height: 1.2"
               >
-                Certificate Type
+                Source
               </div>
             </span>
             <v-icon
@@ -432,7 +432,7 @@ const router = useRouter();
 const search = ref("");
 
 function goToApplicationDetail(id) {
-  router.push({ name: "ORGStaffGroupApplicationDetail", params: { id } });
+  router.push({ name: "ORGStaffApplicationDetail", params: { id } });
 }
 
 const filters = reactive({
@@ -459,9 +459,9 @@ const statusOptions = [
 
 const headers = [
   { title: "เลขคำขอ", key: "requestNo", sortable: true, fixed: "true" },
-  { title: "ชื่อสถานประกอบการ", key: "companyName", sortable: true },
+//   { title: "ชื่อสถานประกอบการ", key: "companyName", sortable: true },
   { title: "ชื่อผู้ยื่นคำขอ", key: "applicantName", sortable: true },
-  { title: "ประเภททะเบียน", key: "typecert", sortable: true },
+  { title: "ที่มาของคำขอ", key: "typecert", sortable: true },
   { title: "ประเภทคำขอ", key: "type", sortable: true },
   { title: "วันที่ยื่น", key: "submittedDate", sortable: true },
   { title: "สถานะคำขอ", key: "status", sortable: true },
@@ -471,47 +471,47 @@ const headers = [
 const allItems = [
   {
     requestNo: "EXP-0001",
-    companyName: "บ.ไทย เอ็กซ์พอร์ต จก.",
+    // companyName: "บ.ไทย เอ็กซ์พอร์ต จก.",
     applicantName: "สมชาย ใจดี",
-    typecert: "คำขอหนังสือสำคัญแสดงการขึ้นทะเบียนเป็นผู้ส่งออกผักและผลไม้",
+    typecert: "BizPotal",
     type: "ขึ้นทะเบียน",
     submittedDate: "01/01/2569",
     status: "pending",
   },
   {
     requestNo: "EXP-0003",
-    companyName: "บ.สยาม เอ็กซ์พอร์ต จก.",
+    // companyName: "บ.สยาม เอ็กซ์พอร์ต จก.",
     applicantName: "มาลี รักดี",
     typecert:
-      "คำขอหนังสือสำคัญแสดงการจดทะเบียนเป็นผู้ส่งออกกล้วยสดไปประเทศญี่ปุ่น",
+      "กรมส่งเสริมการเกษตร",
     type: "ขึ้นทะเบียน",
     submittedDate: "10/03/2569",
     status: "reviewing",
   },
   {
     requestNo: "EXP-0004",
-    companyName: "บ.เอเชียแอกโกร จก.",
+    // companyName: "บ.เอเชียแอกโกร จก.",
     applicantName: "ประสิทธิ์ พานิช",
-    typecert: "คำร้องขึ้นทะเบียนเป็นผู้ส่งออกพืชควบคุม",
+    typecert: "BizPotal",
     type: "ต่ออายุ",
     submittedDate: "12/03/2569",
     status: "signing",
   },
   {
     requestNo: "EXP-0005",
-    companyName: "บ.กรีนฟาร์ม จก.",
+    // companyName: "บ.กรีนฟาร์ม จก.",
     applicantName: "วิไล สุขสม",
     typecert:
-      "คำขอหนังสือสำคัญแสดงการจดทะเบียนเป็นผู้ส่งออกกล้วยสดไปประเทศญี่ปุ่น",
+      "กรมส่งเสริมการเกษตร",
     type: "ขึ้นทะเบียน",
     submittedDate: "15/03/2569",
     status: "need_edit",
   },
   {
     requestNo: "EXP-0006",
-    companyName: "บ.ไทยแลนด์ ฟรุ๊ต จก.",
+    // companyName: "บ.ไทยแลนด์ ฟรุ๊ต จก.",
     applicantName: "ชัยวัฒน์ เกษตรกร",
-    typecert: "คำร้องขึ้นทะเบียนเป็นผู้ส่งออกพืชควบคุม",
+    typecert: "BizPotal",
     type: "ขึ้นทะเบียน",
     submittedDate: "20/03/2569",
     status: "pending",
@@ -519,36 +519,14 @@ const allItems = [
 ];
 
 const typecertOptions = [
-  {
-    label: "คำขอหนังสือสำคัญแสดงการขึ้นทะเบียนเป็นผู้ส่งออกผักและผลไม้",
-    value: "คำขอหนังสือสำคัญแสดงการขึ้นทะเบียนเป็นผู้ส่งออกผักและผลไม้",
-  },
-  {
-    label:
-      "คำขอหนังสือสำคัญแสดงการจดทะเบียนเป็นผู้ส่งออกกล้วยสดไปประเทศญี่ปุ่น",
-    value:
-      "คำขอหนังสือสำคัญแสดงการจดทะเบียนเป็นผู้ส่งออกกล้วยสดไปประเทศญี่ปุ่น",
-  },
-  {
-    label:
-      "คำขอหนังสือสำคัญแสดงการจดทะเบียนเป็นผู้ส่งผลทุเรียนสดออกไปนอกราชอาณาจักร",
-    value:
-      "คำขอหนังสือสำคัญแสดงการจดทะเบียนเป็นผู้ส่งผลทุเรียนสดออกไปนอกราชอาณาจักร",
-  },
-  {
-    label: "คำขอจดทะเบียนเป็นผู้ส่งออกสินค้าเกษตรไปนอกราชอาณาจักร",
-    value: "คำขอจดทะเบียนเป็นผู้ส่งออกสินค้าเกษตรไปนอกราชอาณาจักร",
-  },
-  {
-    label:
-      "คำขอหนังสือสำคัญการจดทะเบียนเป็นผู้ส่งออกลูกเดือย, เมล็ดแมงลัก และพริกแห้ง ไปนอกราชอาณาจักร",
-    value:
-      "คำขอหนังสือสำคัญการจดทะเบียนเป็นผู้ส่งออกลูกเดือย, เมล็ดแมงลัก และพริกแห้ง ไปนอกราชอาณาจักร",
-  },
-  {
-    label: "คำร้องขึ้นทะเบียนเป็นผู้ส่งออกพืชควบคุม",
-    value: "คำร้องขึ้นทะเบียนเป็นผู้ส่งออกพืชควบคุม",
-  },
+//   
+    { label: "BizPotal", value: "BizPotal" },
+    {
+        label:
+        "กรมส่งเสริมการเกษตร",
+        value:
+        "กรมส่งเสริมการเกษตร",
+    },
 ];
 
 const filteredItems = computed(() => {

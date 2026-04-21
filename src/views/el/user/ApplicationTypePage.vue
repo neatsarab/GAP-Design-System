@@ -58,7 +58,7 @@ function goToAppType(route) {
 const appTypes = [
     {
         route: "/el/user/applications/new/register",
-        title: "แบบคำขอขึ้นทะเบียนโรงคัดบรรจุสินค้าพืช",
+        title: "แบบคำขอขึ้นทะเบียนระบบบัญชีรายชื่อโรงคัดบรรจุตามมาตรการควบคุมพิเศษ (Establishment List: EL)",
         description: "ยื่นขอรับการรับรองใหม่สำหรับหน่วยรับรอง",
         icon: "fas fa-file-signature",
         iconColor: "blue-darken-2",

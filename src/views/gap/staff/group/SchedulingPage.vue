@@ -114,7 +114,7 @@
 
                         <v-divider />
                         <v-card-text class="pt-4">
-                            <div class="field-label mb-1">วันที่นัดหมา</div>
+                            <div class="field-label mb-1">วันที่นัดหมาย</div>
                             <v-text-field v-model="filters.dateProposeToCC" type="date" variant="outlined" rounded="lg"
                                 density="comfortable" readonly hide-details />
                         </v-card-text>

@@ -63,7 +63,8 @@
                 <template v-if="currentStep === 0">
 
                     <v-card rounded="xl" elevation="0" class="mb-5 section-card">
-                        <v-card-title class="pa-5 pb-0 section-title font-weight-bold">ยื่นความประสงค์</v-card-title>
+                        <v-card-title
+                            class="pa-5 pb-0 section-title font-weight-bold">1.เอกสารยื่นความประสงค์</v-card-title>
                         <v-card-text class="pa-5">
                             <v-table class="checklist-table border">
                                 <thead>
@@ -116,7 +117,7 @@
                         </v-card-text>
                     </v-card>
                     <!-- 1. ข้อมูลเกษตรกร -->
-                    <v-card rounded="xl" elevation="0" class="mb-5 section-card">
+                    <!-- <v-card rounded="xl" elevation="0" class="mb-5 section-card">
                         <v-card-title class="pa-5 pb-0 section-title font-weight-bold">1. ข้อมูลเกษตรกรที่ขอใบรับรอง
                             GAP</v-card-title>
                         <v-card-text class="pa-5">
@@ -128,7 +129,7 @@
                                         @click="goToEditPage(item, 'farmer')" /></template>
                             </v-data-table>
                         </v-card-text>
-                    </v-card>
+                    </v-card> -->
 
                     <!-- 2. ข้อมูลแปลงเกษตรกร -->
                     <v-card rounded="xl" elevation="0" class="mb-5 section-card">
@@ -338,7 +339,12 @@
                                                     rounded="lg" density="comfortable" hide-details
                                                     class="hint-placeholder" />
                                             </v-col>
-                                            <v-col cols="12" md="6"></v-col>
+                                            <v-col cols="12" md="6">
+                                                <div class="field-label mb-1">กลุ่มพืช <span class="req">*</span></div>
+                                                <v-autocomplete v-model="tempData.groupPant" :items="masterGroupPlants"
+                                                    item-title="name" variant="outlined" rounded="lg"
+                                                    density="comfortable" hide-details />
+                                            </v-col>
 
                                             <v-col cols="12" md="6">
                                                 <div class="field-label mb-1">รหัสใบรับรอง <span class="req">*</span>
@@ -424,14 +430,16 @@
                                                             <div class="field-label mb-1">ขนาดพื้นที่ปลูก (ไร่) <span
                                                                     class="req">*</span></div>
                                                             <v-text-field placeholder="ระบุจำนวนไร่" variant="outlined"
-                                                                rounded="lg" density="comfortable" hide-details />
+                                                                rounded="lg" density="comfortable" hide-details
+                                                                v-model="tempData.farmDetails[0].areaSize" />
                                                         </v-col>
                                                         <v-col cols="12" md="6">
                                                             <div class="field-label mb-1">ผลผลิต/พื้นที่ (กก./ไร่) <span
                                                                     class="req">*</span></div>
                                                             <v-text-field placeholder="ระบุผลผลิตต่อไร่"
                                                                 variant="outlined" rounded="lg" density="comfortable"
-                                                                hide-details />
+                                                                hide-details
+                                                                v-model="tempData.farmDetails[0].yieldPerRai" />
                                                         </v-col>
 
                                                         <v-col cols="12" md="6">
@@ -440,13 +448,14 @@
                                                             </div>
                                                             <v-text-field placeholder="ระบุผลผลิตต่อรอบ"
                                                                 variant="outlined" rounded="lg" density="comfortable"
-                                                                hide-details />
+                                                                hide-details
+                                                                v-model="tempData.farmDetails[0].yieldPerCycle" />
                                                         </v-col>
                                                         <v-col cols="12" md="6">
                                                             <div class="field-label mb-1">หมายเหตุ</div>
                                                             <v-text-field placeholder="ระบุหมายเหตุ (ถ้ามี)"
                                                                 variant="outlined" rounded="lg" density="comfortable"
-                                                                hide-details />
+                                                                hide-details v-model="tempData.farmDetails[0].remark" />
                                                         </v-col>
 
                                                         <!-- ที่ตั้งแปลง -->
@@ -455,54 +464,62 @@
                                                                     class="req">*</span></div>
                                                             <v-text-field placeholder="ระบุที่อยู่ตั้งแปลง"
                                                                 variant="outlined" rounded="lg" density="comfortable"
-                                                                hide-details />
+                                                                hide-details
+                                                                v-model="tempData.farmDetails[0].location" />
                                                         </v-col>
 
                                                         <!-- จังหวัด/อำเภอ/ตำบล -->
                                                         <v-col cols="12" md="4">
                                                             <div class="field-label mb-1">จังหวัด <span
                                                                     class="req">*</span></div>
-                                                            <v-select :items="[]" placeholder="เลือกจังหวัด"
-                                                                variant="outlined" rounded="lg" density="comfortable"
-                                                                hide-details />
+                                                            <v-select :items="['กรุงเทพมหานคร']"
+                                                                placeholder="เลือกจังหวัด" variant="outlined"
+                                                                rounded="lg" density="comfortable" hide-details
+                                                                v-model="tempData.farmDetails[0].province" />
                                                         </v-col>
                                                         <v-col cols="12" md="4">
                                                             <div class="field-label mb-1">อำเภอ/เขต <span
                                                                     class="req">*</span></div>
-                                                            <v-select :items="[]" placeholder="เลือกอำเภอ"
-                                                                variant="outlined" rounded="lg" density="comfortable"
-                                                                hide-details />
+                                                            <v-select :items="['คลองสาน', 'คลองสาม']"
+                                                                placeholder="เลือกอำเภอ" variant="outlined" rounded="lg"
+                                                                density="comfortable" hide-details
+                                                                v-model="tempData.farmDetails[0].district" />
                                                         </v-col>
                                                         <v-col cols="12" md="4">
                                                             <div class="field-label mb-1">ตำบล/แขวง <span
                                                                     class="req">*</span></div>
-                                                            <v-select :items="[]" placeholder="เลือกตำบล"
-                                                                variant="outlined" rounded="lg" density="comfortable"
-                                                                hide-details />
+                                                            <v-select :items="['คลองสาน', 'คลองสาม']"
+                                                                placeholder="เลือกตำบล" variant="outlined" rounded="lg"
+                                                                density="comfortable" hide-details
+                                                                v-model="tempData.farmDetails[0].subdistrict" />
                                                         </v-col>
 
                                                         <!-- พิกัด X, Y, Z -->
                                                         <v-col cols="12" md="4">
                                                             <div class="field-label mb-1">พิกัด X</div>
                                                             <v-text-field placeholder="0.0000" variant="outlined"
-                                                                rounded="lg" density="comfortable" hide-details />
+                                                                rounded="lg" density="comfortable" hide-details
+                                                                v-model="tempData.farmDetails[0].coordX" />
                                                         </v-col>
                                                         <v-col cols="12" md="4">
                                                             <div class="field-label mb-1">พิกัด Y</div>
                                                             <v-text-field placeholder="0.0000" variant="outlined"
-                                                                rounded="lg" density="comfortable" hide-details />
+                                                                rounded="lg" density="comfortable" hide-details
+                                                                v-model="tempData.farmDetails[0].coordY" />
                                                         </v-col>
                                                         <v-col cols="12" md="4">
                                                             <div class="field-label mb-1">พิกัด Z</div>
                                                             <v-text-field placeholder="0.0000" variant="outlined"
-                                                                rounded="lg" density="comfortable" hide-details />
+                                                                rounded="lg" density="comfortable" hide-details
+                                                                v-model="tempData.farmDetails[0].coordZ" />
                                                         </v-col>
 
                                                         <v-col cols="12" md="4">
                                                             <div class="field-label mb-1">รหัสไปรษณีย์</div>
                                                             <v-text-field placeholder="ระบุรหัสไปรษณีย์"
                                                                 variant="outlined" rounded="lg" density="comfortable"
-                                                                hide-details />
+                                                                hide-details
+                                                                v-model="tempData.farmDetails[0].postalCode" />
                                                         </v-col>
                                                     </v-row>
                                                 </v-card>
@@ -662,16 +679,116 @@
                                     </v-row>
                                 </v-card>
                             </v-col>
+
+                            <!-- ตารางประวัติ CL-02 -->
+                            <v-col cols="12" class="mt-n5">
+                                <v-card rounded="lg" elevation="0" class="overflow-hidden border pa-6">
+                                    <h3 class="text-el-user mb-4 font-weight-bold">ข้อมูลการตรวจแปลงเกษตรกร</h3>
+                                    <v-card-title class="pa-0  d-flex align-center bg-white">
+                                        <!-- <v-btn color="el-user" class="rounded-0 elevation-0 px-4 mb-3" height="48"
+                                                @click="page = 'cl02-form'">
+                                                <v-icon icon="fas fa-plus-circle" class="mr-2" /> สร้าง CL-02 ใหม่
+                                            </v-btn> -->
+                                    </v-card-title>
+                                    <v-table density="compact" class="cl02-history-table">
+                                        <thead class="bg-grey-lighten-3">
+                                            <tr>
+                                                <th class="text-center border-right">ประเภท</th>
+                                                <th class="text-center border-right">จำนวนครั้ง</th>
+                                                <th class="text-center border-right">ผลการตรวจ</th>
+                                                <th class="text-center border-right">ผู้ตรวจ</th>
+                                                <th class="text-center border-right">สถานะ</th>
+                                                <th class="text-center border-right">วันที่สร้างงาน</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr v-if="cl02History.length === 0">
+                                                <td colspan="7" class="text-center pa-10 text-medium-emphasis italic">
+                                                    ไม่มีข้อมูลการตรวจประเมิน</td>
+                                            </tr>
+                                            <tr v-for="item in cl02History" :key="item.id">
+                                                <td class="text-center border-right">{{ item.type }}</td>
+                                                <td class="text-center border-right">{{ item.count }}</td>
+                                                <td class="text-center border-right">{{ item.result }}</td>
+                                                <td class="text-center border-right">{{ item.inspector }}</td>
+                                                <td class="text-center border-right">{{ item.status }}</td>
+                                                <td class="text-center border-right">{{ item.date }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </v-table>
+                                </v-card>
+                            </v-col>
+
+                            <!-- ผลการพิจารณาโดย สวพ.เขต -->
+                            <v-col cols="12">
+                                <v-card rounded="lg" elevation="0" class="pa-6 border mb-8 mt-4">
+                                    <h3 class="text-el-user mb-4 font-weight-bold">กรณีขอยกเลิกแปลงเกษตรกร</h3>
+                                    <v-row dense>
+                                        <v-col cols="12" md="2"
+                                            class="text-md-right pt-2 font-weight-bold">เอกสารการขอยกเลิก
+                                            :</v-col>
+                                        <v-col cols="12" md="4">
+                                            <v-file-input v-model="tempData.attachments['edu_evidence']"
+                                                variant="outlined" rounded="lg" density="compact" hide-details
+                                                prepend-icon="" append-inner-icon="fas fa-paperclip" />
+                                        </v-col>
+                                        <v-col cols="12" md="2"
+                                            class="text-md-right pt-2 font-weight-bold"></v-col>
+                                        <v-col cols="12" md="4">
+                                            <v-btn variant="outlined" rounded="lg" class="px-8 border bg-grey-lighten-4 ml-10">
+                                                <v-icon icon="fas fa-ban" class="mr-2" color="el-user" />
+                                                ยกเลิกแปลงเกษตรกร
+                                            </v-btn>
+                                        </v-col>
+                                        <v-col cols="12" md="2"
+                                            class="text-md-right pt-2 font-weight-bold mt-2">หมายเหตุ
+                                            :</v-col>
+                                        <v-col cols="12" md="10" class="mt-2">
+                                            <v-textarea v-model="tempData.zoneRemark" variant="outlined" rounded="lg"
+                                                density="compact" rows="3" hide-details />
+                                        </v-col>
+
+                                        <v-col cols="12" md="2"
+                                            class="text-md-right pt-2 font-weight-bold mt-2">ผู้ทำการยกเลิก
+                                            :</v-col>
+                                        <v-col cols="12" md="4" class="mt-2">
+                                            <v-select v-model="tempData.zoneRecorder"
+                                                :items="['เจ้าหน้าที่ตรวจประเมิน']" variant="outlined" rounded="lg"
+                                                density="compact" hide-details />
+                                        </v-col>
+                                        <v-col cols="12" md="2"
+                                            class="text-md-right pt-2 font-weight-bold mt-2">วันที่ยกเลิก
+                                            :</v-col>
+                                        <v-col cols="12" md="4" class="mt-2">
+                                            <v-text-field v-model="tempData.zoneDate" type="date" variant="outlined"
+                                                rounded="lg" density="compact" hide-details />
+                                        </v-col>
+                                    </v-row>
+                                </v-card>
+                            </v-col>
                         </v-row>
                         <v-row v-else-if="editType === 'factory'">
                             <!-- ชนิดพืช (Master Data) -->
                             <v-col cols="12" md="6">
-                                <div class="field-label mb-1">ชนิดพืช <span class="req">*</span></div>
-                                <v-autocomplete v-model="tempData.cropName" :items="['มังคุด', 'ลำไย', 'ทุเรียน']"
-                                    placeholder="เลือกชนิดพืช (Master Data)" variant="outlined" rounded="lg"
+                                <div class="field-label mb-1">ทะเบียนโรงงานผลิตสินค้าพืช (DOA) <span
+                                        class="req">*</span></div>
+                                <v-text-field v-model="tempData.plantProduction"
+                                    placeholder="ทะเบียนโรงงานผลิตสินค้าพืช (DOA)" variant="outlined" rounded="lg"
                                     density="comfortable" hide-details />
                             </v-col>
                             <v-col cols="12" md="6"></v-col>
+                            <v-col cols="12" md="6">
+                                <div class="field-label mb-1">ชนิดพืช <span class="req">*</span></div>
+                                <v-autocomplete v-model="tempData.cropName" :items="['มังคุด', 'ลำไย', 'ทุเรียน']"
+                                    placeholder="เลือกชนิดพืช" variant="outlined" rounded="lg" density="comfortable"
+                                    hide-details />
+                            </v-col>
+                            <v-col cols="12" md="6">
+                                <div class="field-label mb-1">กลุ่มพืช <span class="req">*</span></div>
+                                <v-autocomplete v-model="tempData.groupPant" :items="masterGroupPlants"
+                                    item-title="name" variant="outlined" rounded="lg" density="comfortable" hide-details
+                                    placeholder="เลือกกลุ่มพืช" />
+                            </v-col>
 
                             <v-col cols="12">
                                 <v-table density="comfortable" class="border rounded-lg attachment-table">
@@ -692,52 +809,87 @@
                                             </td>
                                         </tr>
 
+                                        <!-- หัวข้อที่ 1: GMP และ HACCP -->
+                                        <tr class="bg-grey-lighten-4">
+                                            <td colspan="4" class="pa-3 font-weight-bold text-body-2">
+                                                1. สำเนาใบรับรองมาตรฐานสินค้าเกษตรและขอบข่ายผลิตภัณฑ์
+                                            </td>
+                                        </tr>
+
                                         <!-- ส่วนกรอกหมายเลข GMP -->
+                                        <tr class="bg-grey-lighten-5">
+                                            <td colspan="4" class="pa-3 font-weight-medium">
+                                                <span class="req">*</span> หัวข้อ: หลักการทั่วไปด้านสุขลักษณะอาหาร:
+                                                การปฏิบัติทางสุขลักษณะที่ดี (มกษ.9023)
+                                            </td>
+                                        </tr>
+
                                         <tr>
                                             <td class="pa-4">
-                                                <div class="field-label mb-2"><span class="req">*</span> หมายเลข GMP :
-                                                </div>
-                                                <v-text-field v-model="tempData.gmpNo" variant="outlined" rounded="lg"
-                                                    density="compact" class="mb-2" hide-details />
+                                                <v-row dense>
+                                                    <v-col cols="12">
+                                                        <div class="text-caption font-weight-bold">เลขที่ใบรับรอง
+                                                            (Certificate
+                                                            no.)</div>
+                                                        <v-text-field v-model="tempData.gmpNo" variant="outlined"
+                                                            rounded="lg" density="compact" hide-details />
+                                                    </v-col>
+                                                </v-row>
                                                 <v-row dense>
                                                     <v-col cols="6">
-                                                        <div class="text-caption font-weight-bold">วันที่ออกใบรับรอง:
+                                                        <div class="text-caption font-weight-bold">วันที่ออกใบรับรอง
                                                         </div>
                                                         <v-text-field v-model="tempData.gmpIssueDate" type="date"
                                                             variant="outlined" rounded="lg" density="compact"
                                                             hide-details />
                                                     </v-col>
                                                     <v-col cols="6">
-                                                        <div class="text-caption font-weight-bold">วันที่หมดอายุ:</div>
+                                                        <div class="text-caption font-weight-bold">วันที่หมดอายุ</div>
                                                         <v-text-field v-model="tempData.gmpExpireDate" type="date"
                                                             variant="outlined" rounded="lg" density="compact"
                                                             hide-details />
                                                     </v-col>
                                                 </v-row>
                                             </td>
-                                            <td class="pa-2 vertical-top">
+                                            <td class="pa-2 vertical-top ">
                                                 <v-file-input v-model="tempData.attachments['gmp_cert']"
                                                     variant="outlined" rounded="lg" density="compact" hide-details
-                                                    append-inner-icon="fas fa-paperclip" prepend-icon="" />
+                                                    append-inner-icon="fas fa-paperclip" prepend-icon=""
+                                                    class="mt-n11" />
                                             </td>
                                             <td class="pa-2 vertical-top">
                                                 <v-select v-model="tempData.attachmentCheckDoc['gmp_cert']"
-                                                    placeholder="ผลการตรวจเอกสาร..." variant="outlined" rounded="lg"
-                                                    density="compact" hide-details />
+                                                    :items="['ผ่าน', 'ไม่ผ่าน']" placeholder="ผลการตรวจ..."
+                                                    variant="outlined" rounded="lg" density="compact" hide-details
+                                                    class="mt-n11" />
                                             </td>
                                             <td class="pa-2 vertical-top">
                                                 <v-textarea v-model="tempData.attachmentRemarks['gmp_cert']"
-                                                    placeholder="ระบุหมายเหตุ..." variant="outlined" rounded="lg"
-                                                    density="compact" hide-details rows="1" auto-grow />
+                                                    placeholder="หมายเหตุ..." variant="outlined" rounded="lg"
+                                                    density="compact" hide-details rows="1" auto-grow class="mt-n11" />
                                             </td>
                                         </tr>
 
                                         <!-- ส่วนกรอกหมายเลข HACCP -->
+                                        <tr class="bg-grey-lighten-5">
+                                            <td colspan="4" class="pa-3 font-weight-medium border-top">
+                                                หัวข้อ:หัวข้อ:
+                                                ระบบการวิเคราะห์อันตรายและจุดวิกฤตที่ต้องควบคุมและแนวทางการนำไปใช้
+                                                (มกษ.9024)
+                                            </td>
+                                        </tr>
+
                                         <tr>
-                                            <td class="pa-4 border-top">
-                                                <div class="field-label mb-2">หมายเลข HACCP :</div>
-                                                <v-text-field v-model="tempData.haccpNo" variant="outlined" rounded="lg"
-                                                    density="compact" class="mb-2" hide-details />
+                                            <td class="pa-4">
+                                                <v-row dense>
+                                                    <v-col cols="12">
+                                                        <div class="text-caption font-weight-bold">เลขที่ใบรับรอง
+                                                            (Certificate
+                                                            no.)</div>
+                                                        <v-text-field v-model="tempData.haccpNo" variant="outlined"
+                                                            rounded="lg" density="compact" class="mb-2 " hide-details />
+                                                    </v-col>
+                                                </v-row>
                                                 <v-row dense>
                                                     <v-col cols="6">
                                                         <div class="text-caption font-weight-bold">วันที่ออกใบรับรอง:
@@ -754,44 +906,56 @@
                                                     </v-col>
                                                 </v-row>
                                             </td>
-                                            <td class="pa-2 vertical-top border-top">
+                                            <td class="pa-2 vertical-top">
                                                 <v-file-input v-model="tempData.attachments['haccp_cert']"
                                                     variant="outlined" rounded="lg" density="compact" hide-details
-                                                    append-inner-icon="fas fa-paperclip" prepend-icon="" />
+                                                    append-inner-icon="fas fa-paperclip" prepend-icon=""
+                                                    class="mt-n11" />
                                             </td>
                                             <td class="pa-2 vertical-top">
                                                 <v-select v-model="tempData.attachmentCheckDoc['haccp_cert']"
+                                                    :items="['ผ่าน', 'ไม่ผ่าน', 'รอการแก้ไข']"
                                                     placeholder="ผลการตรวจเอกสาร..." variant="outlined" rounded="lg"
-                                                    density="compact" hide-details />
+                                                    density="compact" hide-details class="mt-n11" />
                                             </td>
-                                            <td class="pa-2 vertical-top border-top">
+                                            <td class="pa-2 vertical-top">
                                                 <v-textarea v-model="tempData.attachmentRemarks['haccp_cert']"
                                                     placeholder="ระบุหมายเหตุ..." variant="outlined" rounded="lg"
-                                                    density="compact" hide-details rows="1" auto-grow />
+                                                    density="compact" hide-details rows="1" auto-grow class="mt-n11" />
                                             </td>
                                         </tr>
 
                                         <!-- รายการเอกสารข้อ 2-5 (วนลูปจาก List) -->
-                                        <tr v-for="(doc, idx) in factoryDocList" :key="idx">
-                                            <td class="pa-4">
-                                                <span class="text-body-2">{{ doc.label }}</span>
-                                            </td>
-                                            <td class="pa-2">
-                                                <v-file-input v-model="tempData.attachments[doc.key]" variant="outlined"
-                                                    rounded="lg" density="compact" hide-details
-                                                    append-inner-icon="fas fa-paperclip" prepend-icon="" />
-                                            </td>
-                                            <td class="pa-2 vertical-top">
-                                                <v-select v-model="tempData.attachmentCheckDoc[doc.key]"
-                                                    placeholder="ผลการตรวจเอกสาร..." variant="outlined" rounded="lg"
-                                                    density="compact" hide-details />
-                                            </td>
-                                            <td class="pa-2">
-                                                <v-textarea v-model="tempData.attachmentRemarks[doc.key]"
-                                                    placeholder="ระบุหมายเหตุ..." variant="outlined" rounded="lg"
-                                                    density="compact" hide-details rows="1" auto-grow />
-                                            </td>
-                                        </tr>
+                                        <template v-for="(doc, idx) in factoryDocList" :key="idx">
+
+                                            <tr v-if="doc.key === 'haccp_main_header'" class="bg-grey-lighten-5">
+                                                <td colspan="4" class="pa-4 text-body-2 border-top">
+                                                    {{ doc.label }}
+                                                </td>
+                                            </tr>
+
+                                            <tr v-else>
+                                                <td class="pa-4" :class="{ 'pl-8': doc.isSub }">
+                                                    <span class="text-body-2">{{ doc.label }}</span>
+                                                </td>
+                                                <td class="pa-2">
+                                                    <v-file-input v-model="tempData.attachments[doc.key]"
+                                                        variant="outlined" rounded="lg" density="compact" hide-details
+                                                        append-inner-icon="fas fa-paperclip" prepend-icon="" />
+                                                </td>
+                                                <td class="pa-2 vertical-top">
+                                                    <v-select v-model="tempData.attachmentCheckDoc[doc.key]"
+                                                        :items="['ผ่าน', 'ไม่ผ่าน']" placeholder="ผลการตรวจ..."
+                                                        variant="outlined" rounded="lg" density="compact"
+                                                        hide-details />
+                                                </td>
+                                                <td class="pa-2">
+                                                    <v-textarea v-model="tempData.attachmentRemarks[doc.key]"
+                                                        placeholder="ระบุหมายเหตุ..." variant="outlined" rounded="lg"
+                                                        density="compact" hide-details rows="1" auto-grow />
+                                                </td>
+                                            </tr>
+                                        </template>
                                     </tbody>
                                 </v-table>
                             </v-col>
@@ -864,11 +1028,37 @@ const factoryHeaders = [
 const tempData = reactive({
     id: null,
     farmerType: 'บุคคลธรรมดา',
+    certType: 'GAP',
+    name: '',
+    idNo: '',
+    addressNo: '',
+    province: '',
+    cropName: 'พืชตัวอย่าง',
+    certNo: '12345',
+    expireDate: ' 31/12/2014',
+    groupPant: '',
     attachments: {}, // ต้องมีอันนี้
     attachmentCheckDoc: {},
     attachmentRemarks: {}, // ต้องมีอันนี้
     plantingPlans: [{ selected: false, name: '', period: '' }], // สำหรับตารางแผน
-    farmDetails: [{ selected: false, areaSize: '', yieldPerArea: '', yieldPerCycle: '', location: '', coordX: '', coordY: '', coordZ: '' }] // สำหรับตารางแดง
+    farmDetails: [
+        {
+            selected: false,
+            areaSize: "10",
+            yieldPerRai: '1000',
+            yieldPerArea: '500',
+            yieldPerCycle: '5000',
+            location: 'หมู่บ้านเกษตรดี',
+            remark: 'หมายเหตุ',
+            province: 'กรุงเทพมหานคร',
+            district: 'คลองสาน',
+            subdistrict: 'คลองสาน',
+            coordX: '100.1234',
+            coordY: '13.5678',
+            coordZ: '15.0000',
+            postalCode: '10120'
+        }
+    ]
 });
 const masterFarmers = [{ name: "นายสมชาย เข็มกลัด", idNo: "1-1099-00123-45-6", addressNo: "10/1", province: "กรุงเทพฯ" }];
 const selectedMasterFarmer = ref(null);
@@ -877,24 +1067,42 @@ const selectedMasterFactory = ref(null);
 function goToCreatePage(type) {
     editType.value = type;
 
-    // ล้างค่าเก่าทั้งหมด
     Object.keys(tempData).forEach(key => {
-        if (key === 'attachments' || key === 'attachmentRemarks' || key === 'attachmentCheckDoc') {
-            tempData[key] = {}; // ล้างไฟล์แนบเป็น Object ว่าง
+        if (['attachments', 'attachmentRemarks', 'attachmentCheckDoc'].includes(key)) {
+            tempData[key] = {};
         } else if (key === 'plantingPlans') {
             tempData[key] = [{ selected: false, name: '', period: '' }];
         } else if (key === 'farmDetails') {
-            tempData[key] = [{ selected: false, areaSize: '', yieldPerArea: '', yieldPerCycle: '', location: '', coordX: '', coordY: '', coordZ: '' }];
+            tempData[key] = [{ selected: false }]; // เตรียมโครงสร้างไว้
         } else {
             tempData[key] = null;
         }
     });
 
-    // กำหนดค่า Default ตามประเภท
+    tempData.cropName = 'พืชตัวอย่าง';
+    tempData.certNo = '12345';
+    tempData.expireDate = '31/12/2014';
+
     if (type === 'farmer') {
-        tempData.farmerType = 'บุคคลธรรมดา';
+
     } else if (type === 'farm') {
         tempData.certType = 'GAP';
+        tempData.farmDetails = [{
+            selected: false,
+            areaSize: "10",
+            yieldPerRai: '1000',
+            yieldPerArea: '500',
+            yieldPerCycle: '5000',
+            location: 'หมู่บ้านเกษตรดี',
+            remark: 'หมายเหตุ',
+            province: 'กรุงเทพมหานคร',
+            district: 'คลองสาน',
+            subdistrict: 'คลองสาน',
+            coordX: '100.1234',
+            coordY: '13.5678',
+            coordZ: '15.0000',
+            postalCode: '10120'
+        }];
     }
 
     page.value = 'form';
@@ -952,6 +1160,7 @@ const masterFactories = [
     { id: 101, cropName: "มังคุด", gmpNo: "GMP-69001", haccpNo: "H-7701", status: "ปกติ" },
     { id: 102, cropName: "ลำไย", gmpNo: "GMP-69002", haccpNo: "H-7702", status: "ปกติ" }
 ];
+const masterGroupPlants = [{ name: "กลุ่มพืช 1" }, { name: "กลุ่มพืช 2" }];
 // --- ฟังก์ชันเพิ่มจาก Master ---
 function addFactoryFromMaster() {
     if (selectedMasterFactory.value) {
@@ -984,6 +1193,10 @@ const uploadSections = [
     { title: "เอกสารแปลงเกษตร", desc: "เอกสารเกี่ยวกับแปลงเกษตรและสัญญาเกษตรกร", files: ["แผนที่แปลง", "สำเนาใบรับรอง GAP"] },
     { title: "เอกสารความปลอดภัยอาหาร", desc: "เอกสารด้านความปลอดภัยและการตรวจสอบย้อนกลับ", files: ["ควบคุมสารตกค้าง", "ตรวจสอบย้อนกลับ"] },
 ];
+const cl02History = ref([
+    { id: 1, type: 'ตรวจขึ้นทะเบียนใหม่', count: 1, result: 'ผ่าน', inspector: 'นายสมชาย ตรวจดี', status: 'ปิดงาน', date: '2026-03-31' }
+]);
+
 
 function stepClass(v) { return currentStep.value > v ? "step-done" : currentStep.value === v ? "step-active" : "step-pending"; }
 function handleBackNavigation() { page.value === 'form' ? page.value = 'main' : currentStep.value > 0 ? currentStep.value-- : router.back(); }
@@ -1009,15 +1222,24 @@ const controlPlanList = [
     { key: 'pest_control', label: 'การกำจัดศัตรูพืช', required: true },
 ];
 const factoryDocList = [
-    { key: 'prod_plan', label: '2. แผนการผลิตพืช และกำลังการผลิตพืชต่อวัน/สัปดาห์/เดือน :' },
-    { key: 'vendor_list', label: '3. แผนการควบคุมกระบวนการผลิต (Approve Vendor List : AVL) :' },
-    { key: 'safety_plan', label: ' - แผนการควบคุมระบบความปลอดภัยของพืช (สารเคมี/จุลินทรีย์) :' },
-    { key: 'wash_process', label: ' - ขั้นตอนการล้าง และแบบฟอร์มการบันทึกการล้าง :' },
-    { key: 'recall_plan', label: ' - การชี้บ่งและการตรวจสอบย้อนกลับ (Mock recall) :' },
-    { key: 'haccp_team', label: '4. เอกสาร HACCP Team :' },
-    { key: 'haccp_flow', label: ' - ขั้นตอนการผลิต (Flow Chart) :' },
-    { key: 'haccp_plan', label: ' - HACCP Plan :' },
-    { key: 'other_docs', label: '5. เอกสารอื่นๆ :' },
+    { key: 'prod_plan', label: '2. แผนการผลิตพืช และกำลังการผลิตต่อวัน สัปดาห์ เดือน' },
+    { key: 'vendor_list', label: '3. หลักเกณฑ์การขึ้นทะเบียนและทะเบียนรายชื่อเกษตรกรหรือผู้ส่งมอบ (Approved Vendor List; AVL)' },
+    { key: 'control_system', label: '4. แผนการควบคุมระบบคุณภาพและความปลอดภัยของสินค้า ตั้งแต่การรับวัตถุดิบจนถึงผลิตภัณฑ์สุดท้าย โดยระบุกิจกรรม ความถี่ และแสดงเอกสารการทวนสอบระบบการควบคุมด้านเชื้อจุลินทรีย์ สารพิษตกค้าง และศัตรูพืช' },
+    { key: 'wash_study', label: '5. ขั้นตอนการปฏิบัติงานการล้าง และแบบฟอร์มบันทึก รวมถึงเอกสารการศึกษาการล้างเพื่อลดเชื้อจุลินทรีย์และการกำจัดศัตรูพืช' },
+
+    // --- หัวข้อใหญ่ข้อ 6 ---
+    { key: 'haccp_main_header', label: '6. เอกสารการวิเคราะห์อันตรายและจุดวิกฤตที่ต้องควบคุมระบบ ได้แก่' },
+
+    // --- รายการย่อย (ใส่ isSub: true เพื่อให้ย่อหน้าเข้า) ---
+    { key: 'haccp_team_member', label: '- คณะทำงาน (HACCP Team)', isSub: true },
+    { key: 'product_desc', label: '- รายละเอียดผลิตภัณฑ์ (Product Description)', isSub: true },
+    { key: 'flow_chart', label: '- ขั้นตอนการผลิต (Flow Chart)', isSub: true },
+    { key: 'haccp_plan_doc', label: '- แผนวิเคราะห์อันตรายและจุดวิกฤตที่ต้องควบคุม (HACCP Plan)', isSub: true },
+    { key: 'ccp_validation', label: '- การยืนยันความถูกต้องของค่าวิกฤต (CCP Validation)', isSub: true },
+    { key: 'haccp_verification', label: '- การทวนสอบระบบ HACCP (HACCP Verification)', isSub: true },
+
+    { key: 'traceability', label: '7. หลักฐานแสดงระบบการตรวจสอบย้อนกลับกระบวนการผลิต' },
+    { key: 'other_docs_final', label: '8. อื่นๆ' },
 ];
 const documentList = ref([
     {
@@ -1034,93 +1256,93 @@ const documentList = ref([
     }
 ])
 const app = {
-  requestNo: "EL-2569-00001",
-  status: "reviewing",
-  type: "register",
-  submittedDate: "15/01/2569",
-  updatedDate: "20/01/2569",
-  accreditationType: "GAP / ORG",
-  scopeCount: "3",
-  province: "กรุงเทพมหานคร",
-  accreditedBy: "NAC",
-  applicantName: "นายวิชัย รับรองดี",
-  idCard: "1-1001-00000-00-0",
-  position: "ผู้อำนวยการ",
-  phone: "02-345-6789",
-  email: "wichai@cbcert.co.th",
-  cbNameTh: "บริษัท ไทยเซิร์ทแล็บ จำกัด",
-  cbNameEn: "Thai CertLab Co., Ltd.",
-  jurRegNo: "0105560012345",
-  address: "999 อาคารเจริญนคร ชั้น 12 ถ.เจริญนคร เขตคลองสาน กรุงเทพฯ 10600",
-  officerNote:
-    "อยู่ระหว่างตรวจสอบหนังสือรับรองการรับรอง (Accreditation Certificate) จาก NAC",
-  scopes: [
-    "GAP พืช (มกษ. 9001)",
-    "เกษตรอินทรีย์ (มกษ. 9000)",
-    "GAP ข้าว (มกษ. 4403)",
-  ],
-  documents: [
-    {
-      name: "หนังสือรับรองบริษัท.pdf",
-      uploadedAt: "15/01/2569",
-      verified: true,
-    },
-    {
-      name: "ใบรับรอง Accreditation (NAC).pdf",
-      uploadedAt: "15/01/2569",
-      verified: false,
-    },
-    {
-      name: "คู่มือคุณภาพ (Quality Manual).pdf",
-      uploadedAt: "15/01/2569",
-      verified: true,
-    },
-    {
-      name: "รายชื่อผู้ตรวจประเมิน.pdf",
-      uploadedAt: "15/01/2569",
-      verified: true,
-    },
-    { name: "แผนผังองค์กร.pdf", uploadedAt: "15/01/2569", verified: true },
-  ],
+    requestNo: "EL-2569-00001",
+    status: "reviewing",
+    type: "register",
+    submittedDate: "15/01/2569",
+    updatedDate: "20/01/2569",
+    accreditationType: "GAP / ORG",
+    scopeCount: "3",
+    province: "กรุงเทพมหานคร",
+    accreditedBy: "NAC",
+    applicantName: "นายวิชัย รับรองดี",
+    idCard: "1-1001-00000-00-0",
+    position: "ผู้อำนวยการ",
+    phone: "02-345-6789",
+    email: "wichai@cbcert.co.th",
+    cbNameTh: "บริษัท ไทยเซิร์ทแล็บ จำกัด",
+    cbNameEn: "Thai CertLab Co., Ltd.",
+    jurRegNo: "0105560012345",
+    address: "999 อาคารเจริญนคร ชั้น 12 ถ.เจริญนคร เขตคลองสาน กรุงเทพฯ 10600",
+    officerNote:
+        "อยู่ระหว่างตรวจสอบหนังสือรับรองการรับรอง (Accreditation Certificate) จาก NAC",
+    scopes: [
+        "GAP พืช (มกษ. 9001)",
+        "เกษตรอินทรีย์ (มกษ. 9000)",
+        "GAP ข้าว (มกษ. 4403)",
+    ],
+    documents: [
+        {
+            name: "หนังสือรับรองบริษัท.pdf",
+            uploadedAt: "15/01/2569",
+            verified: true,
+        },
+        {
+            name: "ใบรับรอง Accreditation (NAC).pdf",
+            uploadedAt: "15/01/2569",
+            verified: false,
+        },
+        {
+            name: "คู่มือคุณภาพ (Quality Manual).pdf",
+            uploadedAt: "15/01/2569",
+            verified: true,
+        },
+        {
+            name: "รายชื่อผู้ตรวจประเมิน.pdf",
+            uploadedAt: "15/01/2569",
+            verified: true,
+        },
+        { name: "แผนผังองค์กร.pdf", uploadedAt: "15/01/2569", verified: true },
+    ],
 };
 function statusColor(s) {
-  const m = {
-    pending: "warning",
-    reviewing: "info",
-    assessment: "secondary",
-    approved: "success",
-    rejected: "error",
-  };
-  return m[s] ?? "grey";
+    const m = {
+        pending: "warning",
+        reviewing: "info",
+        assessment: "secondary",
+        approved: "success",
+        rejected: "error",
+    };
+    return m[s] ?? "grey";
 }
 function statusIcon(s) {
-  const m = {
-    pending: "fas fa-clock",
-    reviewing: "fas fa-magnifying-glass",
-    assessment: "fas fa-clipboard-check",
-    approved: "fas fa-circle-check",
-    rejected: "fas fa-circle-xmark",
-  };
-  return m[s] ?? "fas fa-circle";
+    const m = {
+        pending: "fas fa-clock",
+        reviewing: "fas fa-magnifying-glass",
+        assessment: "fas fa-clipboard-check",
+        approved: "fas fa-circle-check",
+        rejected: "fas fa-circle-xmark",
+    };
+    return m[s] ?? "fas fa-circle";
 }
 function statusLabel(s) {
-  const m = {
-    pending: "รอพิจารณา",
-    reviewing: "อยู่ระหว่างพิจารณา",
-    assessment: "อยู่ระหว่างประเมิน",
-    approved: "ผ่าน",
-    rejected: "ไม่ผ่าน",
-  };
-  return m[s] ?? s;
+    const m = {
+        pending: "รอพิจารณา",
+        reviewing: "อยู่ระหว่างพิจารณา",
+        assessment: "อยู่ระหว่างประเมิน",
+        approved: "ผ่าน",
+        rejected: "ไม่ผ่าน",
+    };
+    return m[s] ?? s;
 }
 function typeLabel(t) {
-  const m = {
-    register: "ขึ้นทะเบียนใหม่",
-    renew: "ต่ออายุ",
-    amendment: "เปลี่ยนแปลงขอบข่าย",
-    expand: "ขยายขอบข่าย",
-  };
-  return m[t] ?? t;
+    const m = {
+        register: "ขึ้นทะเบียนใหม่",
+        renew: "ต่ออายุ",
+        amendment: "เปลี่ยนแปลงขอบข่าย",
+        expand: "ขยายขอบข่าย",
+    };
+    return m[t] ?? t;
 }
 </script>
 

@@ -30,7 +30,7 @@
                                 <v-icon v-if="currentStep > step.value" icon="fas fa-check" size="14" color="white" />
                                 <span v-else class="text-caption font-weight-bold">{{
                                     step.value + 1
-                                }}</span>
+                                    }}</span>
                             </div>
                             <div class="text-caption text-center" :class="currentStep >= step.value
                                 ? 'text-org-staff font-weight-bold'
@@ -366,7 +366,7 @@
                             </v-card-text>
                         </v-card>
 
-                        <v-card rounded="xl" elevation="0" class="section-card">
+                       <v-card rounded="xl" elevation="0" class="section-card">
                             <v-card-text class="pa-5">
                                 <!-- ผลการตรวจสอบ -->
                                 <div class="field-label mb-1">
@@ -397,7 +397,26 @@
                                             </div>
                                         </template>
                                     </v-radio>
+                                    <v-radio value="assign">
+                                        <template #label>
+                                            <div class="d-flex align-center ga-2">
+                                                <v-icon icon="fas fa-circle-exclamation" color="warning" size="18" />
+                                                <span class="font-weight-medium">มอบหมายงาน</span>
+                                            </div>
+                                        </template>
+                                    </v-radio>
                                 </v-radio-group>
+
+                                <v-row v-if="step1Review.result === 'assign'" class="mt-n5 mb-4">
+                                    <v-col cols="12" md="6">
+                                        <div class="field-label mb-1 text-error text-caption">
+                                            กรุณาเลือกหน่วยงานที่จะมอบหมายงานให้</div>
+                                        <v-select v-model="step1Review.assignedDepartment"
+                                            :items="['สำนักวิจัยและพัฒนาการเกษตร เขตที่ 1', 'สำนักวิจัยและพัฒนาการเกษตร เขตที่ 2', 'กองพัฒนาระบบและรับรองมาตรฐานสินค้าพืช']"
+                                            placeholder="เลือกหน่วยงาน..." variant="outlined" rounded="lg"
+                                            density="compact" hide-details />
+                                    </v-col>
+                                </v-row>
 
                                 <!-- หมายเหตุ -->
                                 <div class="field-label mb-1">
@@ -1560,7 +1579,7 @@ const deadlineBE = computed(() => {
     return `${dd}/${mm}/${d.getFullYear() + 543}`;
 });
 onMounted(() => {
-    initLeafletMap();
+    // initLeafletMap();
 });
 </script>
 
