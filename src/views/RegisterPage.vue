@@ -170,6 +170,7 @@
             </div>
 
             <div
+              v-if="!isStaff"
               class="mode-card flex-1-1 rounded-xl pa-4 cursor-pointer"
               :class="{
                 'mode-card--active mode-card--foreign':
@@ -466,7 +467,7 @@
                 />
               </v-col>
               <!-- ── ที่อยู่: ThaiD readonly ── -->
-              <template v-if="registrationMode === 'thaid'">
+              <template v-if="registrationMode === 'thaid' && !isStaff">
                 <v-col cols="12" sm="6">
                   <div class="fl mt-3 mb-1">
                     บ้านเลขที่ / อาคาร <span class="req">*</span>
@@ -558,7 +559,7 @@
               </template>
 
               <!-- ── ที่อยู่: ระบุเอง ── -->
-              <template v-else>
+              <template v-else-if="!isStaff">
                 <!-- Toggle สำหรับ foreigner เท่านั้น -->
                 <v-col v-if="registrationMode === 'foreigner'" cols="12">
                   <div class="fl mt-3 mb-2">
@@ -566,8 +567,12 @@
                   </div>
                   <div class="addr-type-group">
                     <v-btn
-                      :color="foreignerAddressType === 'thai' ? 'primary' : undefined"
-                      :variant="foreignerAddressType === 'thai' ? 'tonal' : 'outlined'"
+                      :color="
+                        foreignerAddressType === 'thai' ? 'primary' : undefined
+                      "
+                      :variant="
+                        foreignerAddressType === 'thai' ? 'tonal' : 'outlined'
+                      "
                       size="small"
                       rounded="lg"
                       @click="foreignerAddressType = 'thai'"
@@ -576,8 +581,16 @@
                       ที่อยู่ในประเทศไทย
                     </v-btn>
                     <v-btn
-                      :color="foreignerAddressType === 'foreign' ? 'primary' : undefined"
-                      :variant="foreignerAddressType === 'foreign' ? 'tonal' : 'outlined'"
+                      :color="
+                        foreignerAddressType === 'foreign'
+                          ? 'primary'
+                          : undefined
+                      "
+                      :variant="
+                        foreignerAddressType === 'foreign'
+                          ? 'tonal'
+                          : 'outlined'
+                      "
                       size="small"
                       rounded="lg"
                       @click="foreignerAddressType = 'foreign'"
@@ -740,7 +753,37 @@
               ><!-- end v-else -->
             </v-row>
 
-            <template v-if="registrationMode !== 'thaid'">
+            <!-- ── ระบบที่ใช้งาน (เจ้าหน้าที่เท่านั้น) ── -->
+            <template v-if="isStaff">
+              <v-divider class="my-5" />
+              <div class="form-section-title mb-3">
+                <v-icon icon="fas fa-desktop" size="13" class="mr-1" />
+                ระบบที่ต้องการใช้งาน <span class="req">*</span>
+              </div>
+              <div class="text-caption text-medium-emphasis mb-3">
+                เลือกได้มากกว่า 1 ระบบ
+              </div>
+              <v-row dense>
+                <v-col
+                  v-for="sys in staffSystemOptions"
+                  :key="sys.value"
+                  cols="12"
+                  sm="12"
+                >
+                  <v-checkbox
+                    v-model="form.staffSystems"
+                    :value="sys.value"
+                    :label="sys.label"
+                    density="compact"
+                    hide-details
+                    color="info"
+                    class="mb-1"
+                  />
+                </v-col>
+              </v-row>
+            </template>
+
+            <template v-if="registrationMode !== 'thaid' && !isStaff">
               <v-divider class="my-5" />
 
               <!-- ── เอกสารประกอบ ── -->
@@ -900,7 +943,7 @@
                 <span class="confirm-label">เบอร์โทรศัพท์</span>
                 <span class="confirm-value">{{ form.phone }}</span>
               </div>
-              <div class="confirm-row">
+              <div v-if="!isStaff" class="confirm-row">
                 <span class="confirm-label">ที่อยู่</span>
                 <span class="confirm-value">
                   <template
@@ -929,6 +972,25 @@
                         .join(" ")
                     }}
                   </template>
+                </span>
+              </div>
+              <div
+                v-if="isStaff && form.staffSystems.length > 0"
+                class="confirm-row"
+              >
+                <span class="confirm-label">ระบบที่ใช้งาน</span>
+                <span class="confirm-value">
+                  <div class="d-flex flex-wrap ga-1 mt-1">
+                    <v-chip
+                      v-for="s in form.staffSystems"
+                      :key="s"
+                      size="x-small"
+                      color="info"
+                      variant="tonal"
+                    >
+                      {{ staffSystemOptions.find((o) => o.value === s)?.label }}
+                    </v-chip>
+                  </div>
                 </span>
               </div>
             </v-card-text>
@@ -1035,29 +1097,31 @@
           <p class="text-body-2 text-medium-emphasis mb-4">
             ระบบได้รับคำขอของคุณแล้ว เจ้าหน้าที่จะตรวจสอบข้อมูลและอนุมัติสิทธิ์
           </p>
-          <v-alert
-            color="info"
-            variant="tonal"
-            rounded="lg"
-            density="compact"
-            prepend-icon="fas fa-envelope"
-            class="text-left mb-3"
-          >
-            <span class="text-body-2"
-              >ระบบส่งอีเมลยืนยันไปที่ <strong>{{ form.email }}</strong></span
-            >
-          </v-alert>
+
           <v-alert
             color="warning"
             variant="tonal"
             rounded="lg"
             density="compact"
             prepend-icon="fas fa-clock"
-            class="text-left"
+            class="text-left mb-3"
           >
             <span class="text-body-2"
               >รอผลการอนุมัติภายใน <strong>3-5 วันทำการ</strong></span
             >
+          </v-alert>
+          <v-alert
+            color="info"
+            variant="tonal"
+            rounded="lg"
+            density="compact"
+            prepend-icon="fas fa-envelope"
+            class="text-left"
+          >
+            <span class="text-body-2"
+              >ระบบจะส่งอีเมลยืนยันและรหัสผ่านสำหรับการเข้าใช้งานไปที่
+              <strong>{{ form.email }}</strong>
+            </span>
           </v-alert>
         </v-card-text>
         <v-card-actions class="px-6 pb-6">
@@ -1072,11 +1136,14 @@
 
 <script setup>
 import { ref, computed, watch } from "vue";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 import { useThemeStore } from "@/stores/theme.store";
 
 const router = useRouter();
+const route = useRoute();
 const themeStore = useThemeStore();
+
+const isStaff = computed(() => route.query.role === "staff");
 
 const currentStep = ref(0);
 const loading = ref(false);
@@ -1089,6 +1156,28 @@ const registrationMode = ref(null);
 
 // foreigner address type: 'thai' | 'foreign'
 const foreignerAddressType = ref("thai");
+
+const staffSystemOptions = [
+  {
+    value: "gap",
+    label: "ระบบการรับรองมาตรฐาน GAP (Good Agricultural Practices) พืช",
+  },
+  { value: "org", label: "ระบบการรับรองมาตรฐาน ORG (Organic Agriculture) พืช" },
+  { value: "doa", label: "ระบบการขึ้นทะเบียนโรงงานผลิตสินค้าพืช (DOA)" },
+  {
+    value: "cb",
+    label:
+      "ระบบการขึ้นทะเบียนหน่วยรับรองโรงงานผลิตสินค้าพืช (Certification Body : CB",
+  },
+  { value: "export", label: "ระบบจดทะเบียนผู้ส่งออก" },
+  { value: "hc", label: "ระบบ Health Certificate ตามประกาศพืชควบคุมเฉพาะ" },
+  { value: "hcex", label: "ระบบ Health Certificate สินค้าเกษตรแปรรูปด้านพืช" },
+  {
+    value: "el",
+    label:
+      "ระบบบัญชีรายชื่อโรงคัดบรรจุตามมาตรการควบคุมพิเศษ (Establishment List: EL)",
+  },
+];
 
 watch(registrationMode, () => {
   foreignerAddressType.value = "thai";
@@ -1136,6 +1225,7 @@ const form = ref({
   country: "",
   foreignAddress: "",
   idDoc: null,
+  staffSystems: [],
   acceptTerms: false,
 });
 

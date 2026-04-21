@@ -307,9 +307,19 @@ const navGroups = computed(() => {
       divider: false,
       items: [
         {
+          title: "Staff Registration",
+          icon: "fas fa-user-tie",
+          to: "/admin/staff-registration",
+        },
+        {
+          title: "Role Management",
+          icon: "fas fa-user-tag",
+          to: "/admin/role-management",
+        },
+        {
           title: "User Management",
-          icon: "fas fa-users-gear",
-          to: "/admin/staff-management",
+          icon: "fas fa-user-gear",
+          to: "/admin/user-management",
         },
         {
           title: "Masterdata",

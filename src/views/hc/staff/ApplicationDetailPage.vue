@@ -1310,7 +1310,7 @@ const timelineSteps = computed(() => {
     return [
       { value: 0, title: "ตรวจคำขอ" },
       { value: 1, title: "ตรวจ Lab" },
-      { value: 2, title: "พิจารณ Lab" },
+      { value: 2, title: "พิจารณา Lab" },
       { value: 3, title: "พิจารณา" },
       { value: 4, title: "ลงนาม" },
       { value: 5, title: "ชำระเงิน" },

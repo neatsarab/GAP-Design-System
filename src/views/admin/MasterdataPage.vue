@@ -3,7 +3,7 @@
     <!-- Header -->
     <div class="d-flex align-center justify-space-between mb-4 flex-wrap ga-3">
       <div>
-        <h1 class="text-h6 font-weight-bold mb-1">จัดการ Masterdata</h1>
+        <h1 class="text-h6 font-weight-bold mb-1">Masterdata</h1>
         <p class="text-body-2 text-medium-emphasis mb-0">
           สำหรับระบบการรับรองมาตรฐาน GAP (Good Agricultural Practices) พืช
         </p>

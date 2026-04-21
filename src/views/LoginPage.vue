@@ -213,7 +213,7 @@
               </div>
               <v-text-field
                 v-model="username"
-                placeholder="อีเมล หรือ เลขบัตรประชาชน"
+                placeholder="เลขบัตรประชาชน"
                 prepend-inner-icon="fas fa-user"
                 variant="outlined"
                 density="compact"
@@ -313,7 +313,7 @@
               </div>
               <v-text-field
                 v-model="staffUsername"
-                placeholder="ชื่อผู้ใช้งานระบบราชการ"
+                placeholder="เลขบัตรประชาชน"
                 prepend-inner-icon="fas fa-user-shield"
                 variant="outlined"
                 density="compact"
@@ -384,7 +384,6 @@
                 ลงทะเบียนผู้ใช้งานใหม่
               </v-btn>
             </div>
-
           </template>
 
           <!-- Footer -->
@@ -414,7 +413,7 @@ function goToPortal() {
 }
 
 function goToRegister() {
-  router.push({ name: "Register" });
+  router.push({ name: "Register", query: { role: selectedRole.value } });
 }
 
 // ── Role selection ──
@@ -619,5 +618,4 @@ function doSsoLogin() {
 .lh-tight {
   line-height: 1.25;
 }
-
 </style>
