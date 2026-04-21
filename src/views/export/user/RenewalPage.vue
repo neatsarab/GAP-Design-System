@@ -61,7 +61,7 @@
     <template v-if="currentStep === 0">
       <v-row>
         <!-- Left -->
-        <v-col cols="12" md="8">
+        <v-col cols="12">
           <!-- ค้นหาทะเบียน -->
           <v-card rounded="xl" elevation="0" class="section-card mb-4">
             <div
@@ -189,123 +189,109 @@
               </div>
             </v-card-text>
           </v-card>
-        </v-col>
 
-        <!-- Right: Selected (sticky) -->
-        <v-col cols="12" md="4">
-          <div class="sticky-col">
-            <v-card rounded="xl" elevation="0" class="section-card">
+          <!-- ทะเบียนที่เลือก -->
+          <v-card
+            v-if="selected.length > 0"
+            rounded="xl"
+            elevation="0"
+            class="section-card mb-4"
+          >
+            <div
+              class="section-header px-4 py-3 border-b d-flex align-center ga-2"
+            >
+              <v-icon icon="fas fa-list-check" color="export-user" size="15" />
+              <span class="text-subtitle-2 font-weight-bold"
+                >ทะเบียนที่เลือก</span
+              >
+              <v-spacer />
+              <v-chip color="export-user" size="small" variant="tonal">
+                {{ selected.length }} รายการ
+              </v-chip>
+            </div>
+            <v-card-text class="pa-4">
               <div
-                class="section-header px-4 py-3 border-b d-flex align-center ga-2"
+                v-for="cert in selected"
+                :key="cert.certNo"
+                class="selected-item rounded-lg px-4 py-3 mb-2 d-flex align-center justify-space-between"
               >
-                <v-icon
-                  icon="fas fa-list-check"
-                  color="export-user"
-                  size="15"
-                />
-                <span class="text-subtitle-2 font-weight-bold"
-                  >ทะเบียนที่เลือก</span
-                >
-                <v-spacer />
-                <v-chip
-                  :color="selected.length > 0 ? 'export-user' : 'grey'"
-                  size="small"
-                  variant="tonal"
-                >
-                  {{ selected.length }} รายการ
-                </v-chip>
-              </div>
-              <v-card-text
-                class="pa-3"
-                style="max-height: 320px; overflow-y: auto"
-              >
-                <div v-if="selected.length === 0" class="text-center py-8">
-                  <v-icon
-                    icon="fas fa-rotate"
-                    color="grey"
-                    size="32"
-                    class="mb-3"
-                  />
-                  <div class="text-body-2 text-medium-emphasis">
-                    ยังไม่ได้เลือกทะเบียน
+                <div class="flex-grow-1 mr-3">
+                  <div class="d-flex align-center flex-wrap ga-2 mb-1">
+                    <span class="text-body-2 font-weight-bold text-export-user">{{
+                      cert.certNo
+                    }}</span>
+                    <v-chip
+                      :color="certStatusColor(cert.status)"
+                      size="x-small"
+                      variant="tonal"
+                    >
+                      {{ certStatusLabel(cert.status) }}
+                    </v-chip>
                   </div>
-                  <div class="text-caption text-medium-emphasis">
-                    ค้นหาและกด "เลือก" เพื่อเพิ่มรายการ
+                  <div
+                    class="text-caption text-medium-emphasis"
+                    style="line-height: 1.4"
+                  >
+                    {{ cert.typecert }}
+                  </div>
+                  <div class="text-caption text-medium-emphasis mt-1">
+                    <v-icon icon="fas fa-calendar" size="10" class="mr-1" />หมดอายุ:
+                    {{ cert.expireDate }}
                   </div>
                 </div>
-                <div
-                  v-for="cert in selected"
-                  :key="cert.certNo"
-                  class="selected-item rounded-lg pa-3 mb-2 d-flex align-start justify-space-between"
-                >
-                  <div class="flex-grow-1 pr-2">
-                    <div class="text-body-2 font-weight-bold text-export-user">
-                      {{ cert.certNo }}
-                    </div>
-                    <div
-                      class="text-caption text-medium-emphasis mt-1"
-                      style="line-height: 1.4"
-                    >
-                      {{ cert.typecert }}
-                    </div>
-                  </div>
+                <div class="d-flex align-center ga-1 flex-shrink-0">
                   <v-btn
                     icon
-                    size="x-small"
+                    size="small"
+                    variant="text"
+                    color="grey"
+                    @click="viewCert(cert)"
+                  >
+                    <v-icon icon="fas fa-eye" size="14" />
+                  </v-btn>
+                  <v-btn
+                    icon
+                    size="small"
                     variant="text"
                     color="error"
-                    class="flex-shrink-0"
                     @click="removeFromSelection(cert.certNo)"
                   >
-                    <v-icon icon="fas fa-xmark" size="13" />
+                    <v-icon icon="fas fa-xmark" size="14" />
                   </v-btn>
                 </div>
-              </v-card-text>
-              <v-divider />
-              <v-card-actions class="pa-4 d-flex flex-column ga-2">
-                <v-alert
-                  v-if="selected.length === 0"
-                  type="warning"
-                  variant="tonal"
-                  density="compact"
-                  rounded="lg"
-                  class="w-100 text-caption"
-                >
-                  กรุณาเลือกทะเบียนอย่างน้อย 1 รายการ
-                </v-alert>
-                <v-btn
-                  color="export-user"
-                  block
-                  variant="flat"
-                  rounded="lg"
-                  append-icon="fas fa-arrow-right"
-                  :disabled="selected.length === 0"
-                  @click="currentStep = 1"
-                >
-                  ถัดไป: แนบเอกสาร
-                </v-btn>
-                <v-btn
-                  variant="tonal"
-                  color="export-user"
-                  block
-                  rounded="lg"
-                  prepend-icon="fas fa-floppy-disk"
-                  @click="saveDraft"
-                >
-                  บันทึกแบบร่าง
-                </v-btn>
-                <v-btn
-                  variant="tonal"
-                  color="grey"
-                  block
-                  rounded="lg"
-                  prepend-icon="fas fa-xmark"
-                  @click="cancelRequest"
-                >
-                  ยกเลิก
-                </v-btn>
-              </v-card-actions>
-            </v-card>
+              </div>
+            </v-card-text>
+          </v-card>
+
+          <!-- Action Bar -->
+          <div class="d-flex justify-space-between align-center mt-2">
+            <div class="d-flex ga-2">
+              <v-btn
+                variant="tonal"
+                color="grey"
+                rounded="lg"
+                @click="cancelRequest"
+                >ยกเลิก</v-btn
+              >
+            </div>
+            <div class="d-flex ga-2">
+              <v-btn
+                variant="tonal"
+                color="export-user"
+                rounded="lg"
+                prepend-icon="fas fa-floppy-disk"
+                @click="saveDraft"
+                >บันทึกแบบร่าง</v-btn
+              >
+              <v-btn
+                color="export-user"
+                rounded="lg"
+                append-icon="fas fa-arrow-right"
+                :disabled="selected.length === 0"
+                @click="currentStep = 1"
+                >ถัดไป</v-btn
+              >
+            </div>
           </div>
         </v-col>
       </v-row>
@@ -314,8 +300,45 @@
     <!-- ─── STEP 2 ─── -->
     <template v-else-if="currentStep === 1">
       <v-row>
-        <!-- Left: File Upload -->
-        <v-col cols="12" md="8">
+        <v-col cols="12">
+          <!-- ทะเบียนที่เลือก -->
+          <v-card rounded="xl" elevation="0" class="section-card mb-4">
+            <div
+              class="section-header px-4 py-3 border-b d-flex align-center ga-2"
+            >
+              <v-icon icon="fas fa-list-check" color="export-user" size="15" />
+              <span class="text-subtitle-2 font-weight-bold">ทะเบียนที่ขอต่ออายุ</span>
+              <v-spacer />
+              <v-chip color="export-user" size="small" variant="tonal">
+                {{ selected.length }} รายการ
+              </v-chip>
+            </div>
+            <v-card-text class="pa-4">
+              <div class="d-flex flex-wrap ga-2">
+                <div
+                  v-for="cert in selected"
+                  :key="cert.certNo"
+                  class="summary-item rounded-lg px-3 py-2 d-flex align-center ga-2"
+                  style="min-width: 260px; flex: 1 1 260px"
+                >
+                  <v-icon icon="fas fa-certificate" color="export-user" size="13" class="flex-shrink-0" />
+                  <div class="overflow-hidden">
+                    <div class="text-body-2 font-weight-bold text-export-user text-truncate">
+                      {{ cert.certNo }}
+                    </div>
+                    <div class="text-caption text-medium-emphasis" style="line-height: 1.4">
+                      {{ cert.typecert }}
+                    </div>
+                    <div class="text-caption text-medium-emphasis mt-1">
+                      <v-icon icon="fas fa-calendar" size="9" class="mr-1" />หมดอายุ: {{ cert.expireDate }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </v-card-text>
+          </v-card>
+
+          <!-- เอกสารแนบ -->
           <v-card rounded="xl" elevation="0" class="section-card mb-4">
             <div
               class="section-header px-4 py-3 border-b d-flex align-center ga-2"
@@ -395,102 +418,42 @@
             </v-card-text>
           </v-card>
 
-          <!-- Navigation -->
-          <div class="d-flex">
-            <v-btn
-              variant="tonal"
-              color="grey"
-              rounded="lg"
-              prepend-icon="fas fa-arrow-left"
-              @click="currentStep = 0"
-              >ย้อนกลับ</v-btn
-            >
-          </div>
-        </v-col>
-
-        <!-- Right: Summary (sticky) -->
-        <v-col cols="12" md="4">
-          <div class="sticky-col">
-            <v-card rounded="xl" elevation="0" class="section-card">
-              <div
-                class="section-header px-4 py-3 border-b d-flex align-center ga-2"
+          <!-- Action Bar -->
+          <div class="d-flex justify-space-between align-center mt-2">
+            <div class="d-flex ga-2">
+              <v-btn
+                variant="tonal"
+                color="grey"
+                rounded="lg"
+                @click="cancelRequest"
+                >ยกเลิก</v-btn
               >
-                <v-icon
-                  icon="fas fa-clipboard-list"
-                  color="export-user"
-                  size="15"
-                />
-                <span class="text-subtitle-2 font-weight-bold">สรุปคำขอ</span>
-              </div>
-              <v-card-text class="pa-4">
-                <div class="text-caption text-medium-emphasis mb-1">
-                  ทะเบียนที่ขอต่ออายุ
-                </div>
-                <div
-                  v-for="cert in selected"
-                  :key="cert.certNo"
-                  class="summary-item rounded-lg px-3 py-2 mb-2"
-                >
-                  <div class="text-body-2 font-weight-bold text-export-user">
-                    {{ cert.certNo }}
-                  </div>
-                  <div
-                    class="text-caption text-medium-emphasis"
-                    style="line-height: 1.4"
-                  >
-                    {{ cert.typecert }}
-                  </div>
-                  <div class="text-caption text-medium-emphasis mt-1">
-                    <v-icon icon="fas fa-calendar" size="9" class="mr-1" />
-                    หมดอายุ: {{ cert.expireDate }}
-                  </div>
-                </div>
-                <v-divider class="my-3" />
-                <div class="d-flex align-center justify-space-between">
-                  <div class="text-caption text-medium-emphasis">เอกสารแนบ</div>
-                  <v-chip
-                    :color="attachedFiles.length > 0 ? 'success' : 'grey'"
-                    size="x-small"
-                    variant="tonal"
-                  >
-                    {{ attachedFiles.length }} ไฟล์
-                  </v-chip>
-                </div>
-              </v-card-text>
-              <v-divider />
-              <v-card-actions class="pa-4 d-flex flex-column ga-2">
-                <v-btn
-                  color="export-user"
-                  block
-                  variant="flat"
-                  rounded="lg"
-                  prepend-icon="fas fa-rotate"
-                  @click="openConfirm"
-                >
-                  ยื่นคำขอต่ออายุ
-                </v-btn>
-                <v-btn
-                  variant="tonal"
-                  color="export-user"
-                  block
-                  rounded="lg"
-                  prepend-icon="fas fa-floppy-disk"
-                  @click="saveDraft"
-                >
-                  บันทึกแบบร่าง
-                </v-btn>
-                <v-btn
-                  variant="tonal"
-                  color="grey"
-                  block
-                  rounded="lg"
-                  prepend-icon="fas fa-xmark"
-                  @click="cancelRequest"
-                >
-                  ยกเลิก
-                </v-btn>
-              </v-card-actions>
-            </v-card>
+              <v-btn
+                variant="tonal"
+                color="grey"
+                rounded="lg"
+                prepend-icon="fas fa-arrow-left"
+                @click="currentStep = 0"
+                >ย้อนกลับ</v-btn
+              >
+            </div>
+            <div class="d-flex ga-2">
+              <v-btn
+                variant="tonal"
+                color="export-user"
+                rounded="lg"
+                prepend-icon="fas fa-floppy-disk"
+                @click="saveDraft"
+                >บันทึกแบบร่าง</v-btn
+              >
+              <v-btn
+                color="export-user"
+                rounded="lg"
+                prepend-icon="fas fa-rotate"
+                @click="openConfirm"
+                >ยื่นคำขอต่ออายุ</v-btn
+              >
+            </div>
           </div>
         </v-col>
       </v-row>
@@ -878,18 +841,6 @@ function cancelRequest() {
   background: rgba(var(--v-theme-export-user), 0.04);
 }
 
-.step-circle {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(var(--v-border-color), 0.3);
-  color: rgb(var(--v-theme-on-surface));
-  transition: all 0.25s ease;
-}
-
 .step-done,
 .step-active {
   background: rgb(var(--v-theme-export-user)) !important;
@@ -900,20 +851,8 @@ function cancelRequest() {
   box-shadow: 0 0 0 4px rgba(var(--v-theme-export-user), 0.2) !important;
 }
 
-.step-line {
-  height: 2px;
-  background: rgba(var(--v-border-color), 0.4);
-  margin: 0 8px;
-  margin-bottom: 20px;
-  transition: background 0.25s ease;
-}
-
 .step-line--done {
   background: rgb(var(--v-theme-export-user)) !important;
-}
-
-.step-pending {
-  background: rgba(var(--v-border-color), 0.3);
 }
 
 .sticky-col {
