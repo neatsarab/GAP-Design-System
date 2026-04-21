@@ -217,9 +217,17 @@ const navConfig = [
     },
     {
         label: "ทะเบียน",
-        divider: false,
+        divider: true,
         items: [
             { title: "ทะเบียนโรงคัดบรรจุ", icon: "fas fa-address-book", to: "/el/staff/registry", roles: Object.values(ROLES) },
+        ],
+    },
+    {
+        label: "จัดการ",
+        divider: false,
+        items: [
+            { title: "คำขอลงทะเบียนใช้งาน", icon: "fas fa-file-circle-check", to: "/el/staff/access-requests", roles: Object.values(ROLES) },
+            { title: "Masterdata", icon: "fas fa-table-list", to: "/el/staff/masterdata", roles: Object.values(ROLES) },
         ],
     },
 ];

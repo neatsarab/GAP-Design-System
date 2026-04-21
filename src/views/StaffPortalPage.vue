@@ -405,6 +405,77 @@
             </v-card>
           </v-col>
         </v-row>
+
+        <!-- ── Admin Tools ────── -->
+        <div class="section-label mt-8 mb-4">
+          <div class="d-flex align-center ga-3">
+            <div class="section-label-dot" style="background: rgba(var(--v-theme-admin), 0.7)" />
+            <span class="text-body-1 font-weight-bold">เครื่องมือผู้ดูแลระบบ</span>
+            <v-chip size="x-small" color="admin" variant="tonal">Admin</v-chip>
+          </div>
+          <p class="text-caption text-medium-emphasis mt-1 ml-4">
+            สำหรับผู้ดูแลระบบและผู้มีสิทธิ์จัดการข้อมูล
+          </p>
+        </div>
+
+        <v-row>
+          <v-col cols="12" sm="6" md="4">
+            <v-card
+              class="sys-card sys-card--active h-100"
+              @click="$router.push('/admin/dashboard')"
+            >
+              <div class="sys-card-accent" style="background: rgb(var(--v-theme-admin))" />
+              <v-card-text class="pa-5 d-flex flex-column">
+                <div class="d-flex justify-space-between align-start mb-4">
+                  <div class="sys-icon-box" style="background: rgba(var(--v-theme-admin), 0.1)">
+                    <v-icon icon="fas fa-gauge" color="admin" size="24" />
+                  </div>
+                  <v-chip size="x-small" color="admin" variant="tonal" prepend-icon="fas fa-circle">
+                    พร้อมใช้งาน
+                  </v-chip>
+                </div>
+                <h3 class="text-body-1 font-weight-bold mb-2" style="min-height: 3em; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+                  ระบบบริหารจัดการ (Admin)
+                </h3>
+                <div class="d-flex flex-wrap ga-1 mb-4">
+                  <v-chip size="x-small" variant="tonal" color="admin">จัดการระบบ</v-chip>
+                  <v-chip size="x-small" variant="tonal" color="admin">ตรวจสอบ</v-chip>
+                </div>
+                <v-btn color="admin" variant="elevated" size="small" rounded="lg" block append-icon="fas fa-arrow-right" @click.stop="$router.push('/admin/dashboard')">
+                  เข้าใช้งาน
+                </v-btn>
+              </v-card-text>
+            </v-card>
+          </v-col>
+          <v-col cols="12" sm="6" md="4">
+            <v-card
+              class="sys-card sys-card--active h-100"
+              @click="goToSystem({ name: 'PortalAccessRequests' })"
+            >
+              <div class="sys-card-accent" style="background: rgb(var(--v-theme-admin))" />
+              <v-card-text class="pa-5 d-flex flex-column">
+                <div class="d-flex justify-space-between align-start mb-4">
+                  <div class="sys-icon-box" style="background: rgba(var(--v-theme-admin), 0.1)">
+                    <v-icon icon="fas fa-file-circle-check" color="admin" size="24" />
+                  </div>
+                  <v-chip size="x-small" color="admin" variant="tonal" prepend-icon="fas fa-circle">
+                    พร้อมใช้งาน
+                  </v-chip>
+                </div>
+                <h3 class="text-body-1 font-weight-bold mb-2" style="min-height: 3em; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+                  คำขอลงทะเบียนใช้งาน
+                </h3>
+                <div class="d-flex flex-wrap ga-1 mb-4">
+                  <v-chip size="x-small" variant="tonal" color="admin">อนุมัติสิทธิ์</v-chip>
+                  <v-chip size="x-small" variant="tonal" color="admin">จัดการผู้ใช้</v-chip>
+                </div>
+                <v-btn color="admin" variant="elevated" size="small" rounded="lg" block append-icon="fas fa-arrow-right" @click.stop="goToSystem({ name: 'PortalAccessRequests' })">
+                  เข้าใช้งาน
+                </v-btn>
+              </v-card-text>
+            </v-card>
+          </v-col>
+        </v-row>
       </div>
     </div>
 

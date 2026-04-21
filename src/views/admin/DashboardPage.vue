@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="mb-6">
-      <h1 class="page-title mb-1">Admin Dashboard</h1>
+      <h1 class="page-title mb-1">Dashboard</h1>
       <p class="text-body-2 text-medium-emphasis mb-0">
         ภาพรวมสถานะระบบทั้งหมด
       </p>

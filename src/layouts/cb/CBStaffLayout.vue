@@ -348,12 +348,28 @@ const navGroups = [
   },
   {
     label: "รายการใบทะเบียน",
-    divider: false,
+    divider: true,
     items: [
       {
         title: "รายการใบทะเบียน",
         icon: "fas fa-certificate",
         to: "/cb/staff/registration-data",
+      },
+    ],
+  },
+  {
+    label: "จัดการ",
+    divider: false,
+    items: [
+      {
+        title: "คำขอลงทะเบียนใช้งาน",
+        icon: "fas fa-file-circle-check",
+        to: "/cb/staff/access-requests",
+      },
+      {
+        title: "Masterdata",
+        icon: "fas fa-table-list",
+        to: "/cb/staff/masterdata",
       },
     ],
   },

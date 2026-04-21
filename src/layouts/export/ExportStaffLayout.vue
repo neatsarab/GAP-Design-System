@@ -357,6 +357,22 @@ const navGroups = [
       },
     ],
   },
+  {
+    label: "จัดการ",
+    divider: false,
+    items: [
+      {
+        title: "คำขอลงทะเบียนใช้งาน",
+        icon: "fas fa-file-circle-check",
+        to: "/export/staff/access-requests",
+      },
+      {
+        title: "Masterdata",
+        icon: "fas fa-table-list",
+        to: "/export/staff/masterdata",
+      },
+    ],
+  },
 ];
 </script>
 

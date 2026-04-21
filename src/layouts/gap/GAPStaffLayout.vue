@@ -367,12 +367,28 @@ const navGroups = [
     },
     {
         label: "ใบรับรอง",
-        divider: false,
+        divider: true,
         items: [
             {
                 title: "ลงนาม",
                 icon: "fas fa-certificate",
                 to: "/gap/staff/certificates",
+            },
+        ],
+    },
+    {
+        label: "จัดการ",
+        divider: false,
+        items: [
+            {
+                title: "คำขอลงทะเบียนใช้งาน",
+                icon: "fas fa-file-circle-check",
+                to: "/gap/staff/access-requests",
+            },
+            {
+                title: "Masterdata",
+                icon: "fas fa-table-list",
+                to: "/gap/staff/masterdata",
             },
         ],
     },

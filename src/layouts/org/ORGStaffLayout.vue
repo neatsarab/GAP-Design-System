@@ -435,12 +435,28 @@ const navGroups = [
   },
   {
     label: "ทะเบียน",
-    divider: false,
+    divider: true,
     items: [
       {
         title: "ลงนาม",
         icon: "fas fa-certificate",
         to: "/org/staff/registry",
+      },
+    ],
+  },
+  {
+    label: "จัดการ",
+    divider: false,
+    items: [
+      {
+        title: "คำขอลงทะเบียนใช้งาน",
+        icon: "fas fa-file-circle-check",
+        to: "/org/staff/access-requests",
+      },
+      {
+        title: "Masterdata",
+        icon: "fas fa-table-list",
+        to: "/org/staff/masterdata",
       },
     ],
   },

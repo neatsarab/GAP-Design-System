@@ -351,7 +351,7 @@ const navGroups = [
   },
   {
     label: "Master Data",
-    divider: false,
+    divider: true,
     items: [
       {
         title: "ขอบข่ายมาตรฐาน",
@@ -362,6 +362,22 @@ const navGroups = [
         title: "ผลิตภัณฑ์",
         icon: "fas fa-box-open",
         to: "/doa/staff/master/products",
+      },
+    ],
+  },
+  {
+    label: "จัดการ",
+    divider: false,
+    items: [
+      {
+        title: "คำขอลงทะเบียนใช้งาน",
+        icon: "fas fa-file-circle-check",
+        to: "/doa/staff/access-requests",
+      },
+      {
+        title: "Masterdata",
+        icon: "fas fa-table-list",
+        to: "/doa/staff/masterdata",
       },
     ],
   },

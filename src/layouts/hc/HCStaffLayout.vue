@@ -382,12 +382,28 @@ const navGroups = [
   },
   {
     label: "รายงาน",
-    divider: false,
+    divider: true,
     items: [
       {
         title: "รายงาน",
         icon: "fas fa-chart-bar",
         to: "/hc/staff/reports",
+      },
+    ],
+  },
+  {
+    label: "จัดการ",
+    divider: false,
+    items: [
+      {
+        title: "คำขอลงทะเบียนใช้งาน",
+        icon: "fas fa-file-circle-check",
+        to: "/hc/staff/access-requests",
+      },
+      {
+        title: "Masterdata",
+        icon: "fas fa-table-list",
+        to: "/hc/staff/masterdata",
       },
     ],
   },

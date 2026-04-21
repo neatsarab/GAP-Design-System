@@ -385,21 +385,6 @@
               </v-btn>
             </div>
 
-            <div class="admin-entry mt-3">
-              <v-divider class="mb-3" />
-              <div class="d-flex align-center justify-center ga-2">
-                <v-btn
-                  variant="text"
-                  size="small"
-                  color="medium-emphasis"
-                  class="pa-0 admin-link"
-                  prepend-icon="fas fa-user-gear"
-                  @click="goToAdminLogin"
-                >
-                  สำหรับผู้ดูแลระบบ (Admin)
-                </v-btn>
-              </div>
-            </div>
           </template>
 
           <!-- Footer -->
@@ -430,10 +415,6 @@ function goToPortal() {
 
 function goToRegister() {
   router.push({ name: "Register" });
-}
-
-function goToAdminLogin() {
-  router.push({ name: "AdminLogin" });
 }
 
 // ── Role selection ──
@@ -639,17 +620,4 @@ function doSsoLogin() {
   line-height: 1.25;
 }
 
-/* ─── Admin Entry ─── */
-.admin-entry {
-  text-align: center;
-}
-
-.admin-link {
-  font-size: 12px !important;
-  color: rgba(var(--v-theme-on-surface), 0.4) !important;
-  text-decoration: none !important;
-}
-.admin-link:hover {
-  color: rgba(var(--v-theme-on-surface), 0.7) !important;
-}
 </style>

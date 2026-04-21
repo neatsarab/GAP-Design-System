@@ -57,6 +57,18 @@ const routes = [
     meta: { title: "ระบบบริการออนไลน์ กรมวิชาการเกษตร (เจ้าหน้าที่)" },
   },
   {
+    path: "/portal",
+    component: () => import("@/layouts/access/AccessRequestsLayout.vue"),
+    children: [
+      {
+        path: "access-requests",
+        name: "PortalAccessRequests",
+        component: () => import("@/views/admin/AccessRequestsPage.vue"),
+        meta: { title: "คำขอลงทะเบียนใช้งาน" },
+      },
+    ],
+  },
+  {
     path: "/design-system",
     name: "DesignSystem",
     component: () => import("@/views/DesignSystemPage.vue"),
@@ -221,6 +233,18 @@ const routes = [
           title: "ผลการตรวจเยี่ยม Previsit",
           statusFilter: "previsit_completed",
         },
+      },
+      {
+        path: "access-requests",
+        name: "GAPStaffAccessRequests",
+        component: () => import("@/views/admin/AccessRequestsPage.vue"),
+        meta: { title: "คำขอลงทะเบียนใช้งาน" },
+      },
+      {
+        path: "masterdata",
+        name: "GAPStaffMasterdata",
+        component: () => import("@/views/admin/MasterdataPage.vue"),
+        meta: { title: "จัดการ Masterdata" },
       },
     ],
   },
@@ -577,6 +601,18 @@ const routes = [
           statusFilter: "previsit_completed",
         },
       },
+      {
+        path: "access-requests",
+        name: "ORGStaffAccessRequests",
+        component: () => import("@/views/admin/AccessRequestsPage.vue"),
+        meta: { title: "คำขอลงทะเบียนใช้งาน" },
+      },
+      {
+        path: "masterdata",
+        name: "ORGStaffMasterdata",
+        component: () => import("@/views/admin/MasterdataPage.vue"),
+        meta: { title: "จัดการ Masterdata" },
+      },
     ],
   },
 
@@ -714,6 +750,18 @@ const routes = [
         component: () =>
           import("@/views/doa/staff/master/MasterProductPage.vue"),
         meta: { title: "ผลิตภัณฑ์" },
+      },
+      {
+        path: "access-requests",
+        name: "DOAStaffAccessRequests",
+        component: () => import("@/views/admin/AccessRequestsPage.vue"),
+        meta: { title: "คำขอลงทะเบียนใช้งาน" },
+      },
+      {
+        path: "masterdata",
+        name: "DOAStaffMasterdata",
+        component: () => import("@/views/admin/MasterdataPage.vue"),
+        meta: { title: "จัดการ Masterdata" },
       },
     ],
   },
@@ -926,6 +974,18 @@ const routes = [
         component: () => import("@/views/cb/staff/CertificateManagePage.vue"),
         meta: { title: "จัดการใบทะเบียน" },
       },
+      {
+        path: "access-requests",
+        name: "CBStaffAccessRequests",
+        component: () => import("@/views/admin/AccessRequestsPage.vue"),
+        meta: { title: "คำขอลงทะเบียนใช้งาน" },
+      },
+      {
+        path: "masterdata",
+        name: "CBStaffMasterdata",
+        component: () => import("@/views/admin/MasterdataPage.vue"),
+        meta: { title: "จัดการ Masterdata" },
+      },
     ],
   },
 
@@ -1067,6 +1127,18 @@ const routes = [
         component: () => import("@/views/export/staff/SigningDetailPage.vue"),
         meta: { title: "ลงนามใบรับรอง" },
       },
+      {
+        path: "access-requests",
+        name: "ExportStaffAccessRequests",
+        component: () => import("@/views/admin/AccessRequestsPage.vue"),
+        meta: { title: "คำขอลงทะเบียนใช้งาน" },
+      },
+      {
+        path: "masterdata",
+        name: "ExportStaffMasterdata",
+        component: () => import("@/views/admin/MasterdataPage.vue"),
+        meta: { title: "จัดการ Masterdata" },
+      },
     ],
   },
 
@@ -1171,6 +1243,18 @@ const routes = [
         name: "HCstaffReport",
         component: () => import("@/views/hc/staff/ReportPage.vue"),
         meta: { title: "รายงาน" },
+      },
+      {
+        path: "access-requests",
+        name: "HCstaffAccessRequests",
+        component: () => import("@/views/admin/AccessRequestsPage.vue"),
+        meta: { title: "คำขอลงทะเบียนใช้งาน" },
+      },
+      {
+        path: "masterdata",
+        name: "HCstaffMasterdata",
+        component: () => import("@/views/admin/MasterdataPage.vue"),
+        meta: { title: "จัดการ Masterdata" },
       },
     ],
   },
@@ -1442,6 +1526,18 @@ const routes = [
         component: () => import("@/views/hcex/staff/ReportPage.vue"),
         meta: { title: "รายงาน" },
       },
+      {
+        path: "access-requests",
+        name: "HCEXstaffAccessRequests",
+        component: () => import("@/views/admin/AccessRequestsPage.vue"),
+        meta: { title: "คำขอลงทะเบียนใช้งาน" },
+      },
+      {
+        path: "masterdata",
+        name: "HCEXstaffMasterdata",
+        component: () => import("@/views/admin/MasterdataPage.vue"),
+        meta: { title: "จัดการ Masterdata" },
+      },
     ],
   },
 
@@ -1641,6 +1737,18 @@ const routes = [
         component: () =>
           import("@/views/el/staff/BoardApplicationDetailPage.vue"),
         meta: { title: "รายการคำขอขึ้นทะเบียน" },
+      },
+      {
+        path: "access-requests",
+        name: "ELStaffAccessRequests",
+        component: () => import("@/views/admin/AccessRequestsPage.vue"),
+        meta: { title: "คำขอลงทะเบียนใช้งาน" },
+      },
+      {
+        path: "masterdata",
+        name: "ELStaffMasterdata",
+        component: () => import("@/views/admin/ELMasterdataPage.vue"),
+        meta: { title: "จัดการ Masterdata" },
       },
     ],
   },
