@@ -338,30 +338,30 @@ const navGroups = [
         to: "/hcex/staff/lab-applications",
         count: 6,
       },
-      // {
-      //   title: "รายการรอตรวจ LAB",
-      //   icon: "fas fa-microscope",
-      //   to: "/hcex/staff/lab-waiting",
-      //   count: 3,
-      // },
+      {
+        title: "รายการรอตรวจ LAB",
+        icon: "fas fa-microscope",
+        to: "/hcex/staff/lab-waiting",
+        count: 3,
+      },
       {
         title: "รายการคำขอ",
         icon: "fas fa-file-lines",
         to: "/hcex/staff/applications",
         count: 11,
       },
-      // {
-      //   title: "รายการรอพิจารณา",
-      //   icon: "fas fa-clipboard-check",
-      //   to: "/hcex/staff/reviews",
-      //   count: 2,
-      // },
-      // {
-      //   title: "รายการรอลงนาม",
-      //   icon: "fas fa-pen-nib",
-      //   to: "/hcex/staff/signing",
-      //   count: 1,
-      // },
+      {
+        title: "รายการรอพิจารณา",
+        icon: "fas fa-clipboard-check",
+        to: "/hcex/staff/reviews",
+        count: 2,
+      },
+      {
+        title: "รายการรอลงนาม",
+        icon: "fas fa-pen-nib",
+        to: "/hcex/staff/signing",
+        count: 1,
+      },
     ],
   },
   {

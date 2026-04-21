@@ -9,7 +9,7 @@
         @click="router.back()"
       />
       <div>
-        <h1 class="page-title mb-0">บันทึกผล LAB</h1>
+        <h1 class="page-title mb-0">บันทึกผลทดสอบ</h1>
         <p class="text-body-2 text-medium-emphasis mb-0 mt-1">
           เลขคำขอ:
           <span class="text-hcex-staff font-weight-medium">{{
@@ -18,6 +18,15 @@
         </p>
       </div>
       <v-spacer />
+      <v-btn
+        variant="tonal"
+        color="info"
+        rounded="lg"
+        size="small"
+        prepend-icon="fas fa-file-pdf"
+      >
+        พิมพ์ PDF
+      </v-btn>
       <v-chip color="warning" variant="tonal">
         <v-icon icon="fas fa-clock" size="13" class="mr-1" />
         รอตรวจ
@@ -76,7 +85,7 @@
             >ข้อมูลคำขอ</v-tab
           >
           <v-tab value="record" prepend-icon="fas fa-microscope"
-            >บันทึกผล LAB</v-tab
+            >บันทึกผลทดสอบ</v-tab
           >
         </v-tabs>
 
@@ -292,7 +301,7 @@
             </v-card>
           </v-window-item>
 
-          <!-- Tab 2: บันทึกผล LAB -->
+          <!-- Tab 2: บันทึกผลทดสอบ -->
           <v-window-item value="record">
             <!-- ส่วนที่เจ้าหน้าที่ต้องบันทึก (editable) — อยู่บนสุด -->
             <v-card rounded="xl" elevation="0" class="section-card mb-4">

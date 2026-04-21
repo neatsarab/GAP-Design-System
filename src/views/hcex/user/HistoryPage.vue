@@ -83,7 +83,7 @@
         </div>
       </v-alert>
 
-      <!-- 1. ข้อมูลผู้ยื่นคำขอ -->
+      <!-- ข้อมูลผู้ยื่นคำขอ -->
       <v-card rounded="xl" elevation="0" class="mb-4">
         <div class="d-flex align-center ga-2 px-4 py-3 border-b">
           <v-icon icon="fas fa-user" color="hcex-user" size="15" />
@@ -129,7 +129,7 @@
         </v-card-text>
       </v-card>
 
-      <!-- 2. ข้อมูลสถานประกอบการ -->
+      <!-- ข้อมูลสถานประกอบการ -->
       <v-card rounded="xl" elevation="0" class="mb-4">
         <div class="d-flex align-center ga-2 px-4 py-3 border-b">
           <v-icon icon="fas fa-building" color="hcex-user" size="15" />
@@ -198,11 +198,13 @@
         </v-card-text>
       </v-card>
 
-      <!-- 3. หนังสือสำคัญ DOA -->
+      <!-- ทะเบียนโรงงานผลิตสินค้าเพื่อการส่งออกกับกรมวิชาการเกษตร -->
       <v-card rounded="xl" elevation="0" class="mb-4">
         <div class="d-flex align-center ga-2 px-4 py-3 border-b">
           <v-icon icon="fas fa-file-lines" color="hcex-user" size="15" />
-          <span class="text-subtitle-2 font-weight-bold">หนังสือสำคัญ DOA</span>
+          <span class="text-subtitle-2 font-weight-bold"
+            >ทะเบียนโรงงานผลิตสินค้าเพื่อการส่งออกกับกรมวิชาการเกษตร</span
+          >
         </div>
         <v-card-text class="pt-4">
           <v-row dense>
@@ -220,7 +222,7 @@
         </v-card-text>
       </v-card>
 
-      <!-- 4. ข้อมูลบริษัทผู้ผลิต -->
+      <!-- ข้อมูลบริษัทผู้ผลิต -->
       <v-card rounded="xl" elevation="0" class="mb-4">
         <div class="d-flex align-center ga-2 px-4 py-3 border-b">
           <v-icon icon="fas fa-industry" color="hcex-user" size="15" />
@@ -289,7 +291,7 @@
         </v-card-text>
       </v-card>
 
-      <!-- 6. ข้อมูลตัวแทนผู้ประสานงานผลิต -->
+      <!-- ข้อมูลตัวแทนผู้ประสานงานผลิต -->
       <v-card rounded="xl" elevation="0" class="mb-4">
         <div class="d-flex align-center ga-2 px-4 py-3 border-b">
           <v-icon icon="fas fa-user-tie" color="hcex-user" size="15" />
@@ -329,7 +331,7 @@
         </v-card-text>
       </v-card>
 
-      <!-- 5. มาตรฐานการผลิต -->
+      <!-- มาตรฐานการผลิต -->
       <v-card rounded="xl" elevation="0" class="mb-4">
         <div class="d-flex align-center ga-2 px-4 py-3 border-b">
           <v-icon icon="fas fa-award" color="hcex-user" size="15" />
@@ -337,7 +339,7 @@
         </div>
         <v-card-text class="pt-4">
           <!-- GMP -->
-          <div class="info-section-label mb-2">4.1 มาตรฐาน GMP</div>
+          <div class="info-section-label mb-2">มาตรฐาน GMP</div>
           <v-row dense class="mb-3">
             <v-col cols="12" sm="4">
               <div class="info-label">หน่วยงานที่รับรอง</div>
@@ -353,7 +355,7 @@
             </v-col>
           </v-row>
           <!-- HACCP -->
-          <div class="info-section-label mb-2">4.2 มาตรฐาน HACCP</div>
+          <div class="info-section-label mb-2">มาตรฐาน HACCP</div>
           <v-row dense class="mb-3">
             <v-col cols="12" sm="4">
               <div class="info-label">หน่วยงานที่รับรอง</div>
@@ -371,7 +373,7 @@
             </v-col>
           </v-row>
           <!-- Extra standards -->
-          <div class="info-section-label mb-2">4.3 มาตรฐานเพิ่มเติม</div>
+          <div class="info-section-label mb-2">มาตรฐานเพิ่มเติม</div>
           <template v-if="history.standards.extra.length > 0">
             <v-table density="compact" class="rounded-lg border">
               <thead>
@@ -398,7 +400,7 @@
         </v-card-text>
       </v-card>
 
-      <!-- 7. รายละเอียดสินค้า -->
+      <!-- รายละเอียดสินค้า -->
       <v-card rounded="xl" elevation="0">
         <div
           class="d-flex align-center justify-space-between px-4 py-3 border-b"
@@ -525,7 +527,7 @@ const history = ref({
   submittedDate: "10 ม.ค. 2568",
   status: "approved",
 
-  // 1. ผู้ยื่นคำขอ (from SSO)
+  // ผู้ยื่นคำขอ (from SSO)
   applicant: {
     contactName: "นายสมชาย ใจดี",
     contactPosition: "ผู้จัดการโรงงาน",
@@ -535,7 +537,7 @@ const history = ref({
     contactEmail: "somchai.j@example.co.th",
   },
 
-  // 2. ข้อมูลสถานประกอบการ (from DBD)
+  // ข้อมูลสถานประกอบการ (from DBD)
   company: {
     companyNameTh: "บริษัท ไทยเฟรช เอ็กซ์พอร์ต จำกัด",
     companyNameEn: "THAI FRESH EXPORT CO., LTD.",
@@ -551,13 +553,13 @@ const history = ref({
     email: "info@thaifreshexport.co.th",
   },
 
-  // 3. หนังสือสำคัญ DOA
+  // ทะเบียนโรงงานผลิตสินค้าเพื่อการส่งออกกับกรมวิชาการเกษตร
   doa: {
     regNo: "DOA-2568-12345",
     expiryDate: "31/12/2570",
   },
 
-  // 4. ข้อมูลบริษัทผู้ผลิต (from DOA)
+  // ข้อมูลบริษัทผู้ผลิต (from DOA)
   factory: {
     nameTh: "บริษัท สยามเฟรชฟู้ด จำกัด",
     nameEn: "SIAM FRESH FOOD CO., LTD.",
@@ -573,7 +575,7 @@ const history = ref({
     email: "factory@siamfresh.com",
   },
 
-  // 5. มาตรฐานการผลิต
+  // มาตรฐานการผลิต
   standards: {
     gmp: {
       certBody: "กรมวิชาการเกษตร",
@@ -595,7 +597,7 @@ const history = ref({
     ],
   },
 
-  // 6. ตัวแทนผู้ประสานงานผลิต
+  // ตัวแทนผู้ประสานงานผลิต
   producerContact: {
     name: "นางสาวมาลี รักษ์ดี",
     position: "ผู้ประสานงานฝ่ายผลิต",
@@ -604,7 +606,7 @@ const history = ref({
     email: "malee.r@siamfresh.com",
   },
 
-  // 7. รายละเอียดสินค้า
+  // รายละเอียดสินค้า
   products: [
     {
       productName: "มะม่วงแปรรูป",

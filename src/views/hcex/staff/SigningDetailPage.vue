@@ -18,6 +18,15 @@
         </p>
       </div>
       <v-spacer />
+      <v-btn
+        variant="tonal"
+        color="info"
+        rounded="lg"
+        size="small"
+        prepend-icon="fas fa-file-pdf"
+      >
+        พิมพ์ PDF
+      </v-btn>
       <v-chip :color="statusColor(application.status)" variant="tonal">
         <v-icon :icon="statusIcon(application.status)" size="13" class="mr-1" />
         {{ statusLabel(application.status) }}
